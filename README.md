@@ -15,7 +15,7 @@ Then start the development server:
 
 ```
 npm start
-````
+```
 
 The app will automatically launch in a browser. Code changes are picked
 up automatically and reloaded to the browser.
