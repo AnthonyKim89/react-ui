@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import Widget from './Widget';
 
 class WidgetContainer extends Component {
   render() {
     return (
       <div>
-        widgets
+        <Widget />
       </div>
     );
   }

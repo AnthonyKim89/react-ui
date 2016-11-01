@@ -2,7 +2,7 @@
 @import "./fonts.css";
 
 body {
-  background-color: #354849;
+  background-color: rgb(51, 51, 51);
   font-family: orgonlightregular;
   padding-top: 51px;
 }

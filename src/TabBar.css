@@ -3,7 +3,7 @@
   width: 100%;
   height: 60px;
   padding-left: 0;
-  background-color: #333;
+  background-color: rgb(78, 74, 73);
 }
 .TabBar a {
   display: block;
