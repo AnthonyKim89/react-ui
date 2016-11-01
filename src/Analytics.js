@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class AnalyticsPage extends Component {
+class Analytics extends Component {
   render() {
     return (
       <h1>Analytics</h1>
@@ -8,4 +8,4 @@ class AnalyticsPage extends Component {
   }
 }
 
-export default AnalyticsPage;
+export default Analytics;

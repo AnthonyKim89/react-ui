@@ -1,5 +1,6 @@
 /* Colors & fonts should really be extracted to a Bootstrap theme */
 nav.MainNav {
+  margin: 0;
   background-color: #233736;
   border-color: #677575;
   font-size: 16px;
@@ -10,7 +11,7 @@ nav.MainNav .navbar-brand {
   left: 10px;
   width: 150px;
   text-indent: -2000px;
-  background-image: url(./corva-logo.png);
+  background-image: url(./images/corva-logo.png);
   background-repeat: no-repeat;
   background-position: center center;
 }

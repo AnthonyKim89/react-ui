@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { IndexLink } from 'react-router';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
-import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 
 import './MainNav.css';
 
@@ -15,9 +15,9 @@ class NavBar extends Component {
           </Navbar.Brand>
         </Navbar.Header>
         <Nav>
-          <IndexLinkContainer to="/">
+          <LinkContainer to="/dashboards">
             <NavItem>Dashboards</NavItem>
-          </IndexLinkContainer>
+          </LinkContainer>
           <LinkContainer to="/wells">
             <NavItem>Wells</NavItem>
           </LinkContainer>

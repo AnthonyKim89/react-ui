@@ -1,0 +1,42 @@
+.TabBar {
+  list-style-type: none;
+  width: 100%;
+  height: 60px;
+  padding-left: 0;
+  background-color: #333;
+}
+.TabBar a {
+  display: block;
+  float: left;
+  width: 70px;
+  height: 60px;
+  text-indent: -9999px;
+  transition: background-color 0.2s linear;
+}
+.TabBar a.active, .TabBar a:hover {
+  background-color: #58c9c2;
+}
+.TabBar li.overview a {
+  background-image: url('./images/icon-overview.png');
+}
+.TabBar li.tandd a {
+  background-image: url('./images/icon-torque.png');
+}
+.TabBar li.stability a {
+  background-image: url('./images/icon-wellbore.png');
+}
+.TabBar li.hydraulics a {
+  background-image: url('./images/icon-cleaning.png');
+}
+.TabBar li.bit a {
+  background-image: url('./images/icon-vibration.png');
+}
+.TabBar li.motor a {
+  background-image: url('./images/icon-motor.png');
+}
+.TabBar li.losses a {
+  background-image: url('./images/icon-loss.png');
+}
+.TabBar li.raw a {
+  background-image: url('./images/icon-trace.png');
+}
