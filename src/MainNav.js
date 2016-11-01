@@ -3,23 +3,25 @@ import { IndexLink } from 'react-router';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap';
 
+import './MainNav.css';
+
 class NavBar extends Component {
   render() {
     return (
-      <Navbar fixedTop>
+      <Navbar fixedTop className="MainNav">
         <Navbar.Header>
           <Navbar.Brand>
-            <IndexLink to="/" activeClassName="active">Dashboards</IndexLink>
+            <IndexLink to="/">Corva</IndexLink>
           </Navbar.Brand>
         </Navbar.Header>
         <Nav>
-          <IndexLinkContainer to="/" activeClassName="active">
+          <IndexLinkContainer to="/">
             <NavItem>Dashboards</NavItem>
           </IndexLinkContainer>
-          <LinkContainer to="/wells" activeClassName="active">
+          <LinkContainer to="/wells">
             <NavItem>Wells</NavItem>
           </LinkContainer>
-          <LinkContainer to="/analytics" activeClassName="active">
+          <LinkContainer to="/analytics">
             <NavItem>Analytics</NavItem>
           </LinkContainer>
         </Nav>
