@@ -1,0 +1,69 @@
+@font-face {
+  font-family: 'gothamboldregular';
+  src: url('./fonts/Gotham/gothambold-webfont.eot');
+  src: url('./fonts/Gotham/gothambold-webfont.eot?#iefix') format('embedded-opentype'),
+  url('./fonts/Gotham/gothambold-webfont.woff') format('woff'),
+  url('./fonts/Gotham/gothambold-webfont.ttf') format('truetype'),
+  url('./fonts/Gotham/gothambold-webfont.svg#gothamboldregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+
+@font-face {
+  font-family: 'gothambookregular';
+  src: url('./fonts/Gotham/gothambook-webfont.eot');
+  src: url('./fonts/Gotham/gothambook-webfont.eot?#iefix') format('embedded-opentype'),
+  url('./fonts/Gotham/gothambook-webfont.woff') format('woff'),
+  url('./fonts/Gotham/gothambook-webfont.ttf') format('truetype'),
+  url('./fonts/Gotham/gothambook-webfont.svg#gothambookregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+
+@font-face {
+  font-family: 'gothammediumregular';
+  src: url('./fonts/Gotham/gothammedium-webfont.eot');
+  src: url('./fonts/Gotham/gothammedium-webfont.eot?#iefix') format('embedded-opentype'),
+  url('./fonts/Gotham/gothammedium-webfont.woff') format('woff'),
+  url('./fonts/Gotham/gothammedium-webfont.ttf') format('truetype'),
+  url('./fonts/Gotham/gothammedium-webfont.svg#gothammediumregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'gothamlightregular';
+  src: url('./fonts/Gotham/gothamlight-webfont.eot');
+  src: url('./fonts/Gotham/gothamlight-webfont.eot?#iefix') format('embedded-opentype'),
+  url('./fonts/Gotham/gothamlight-webfont.woff') format('woff'),
+  url('./fonts/Gotham/gothamlight-webfont.ttf') format('truetype'),
+  url('./fonts/Gotham/gothamlight-webfont.svg#gothamlightregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'orgonboldregular';
+  src: url('./fonts/Orgon/Orgon-Bold.eot');
+  src: url('./fonts/Orgon/Orgon-Bold.eot?#iefix') format('embedded-opentype'),
+  url('./fonts/Orgon/Orgon-Bold.woff') format('woff'),
+  url('./fonts/Orgon/Orgon-Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'orgonlightregular';
+  src: url('./fonts/Orgon/Orgon-Light.eot');
+  src: url('./fonts/Orgon/Orgon-Light.eot?#iefix') format('embedded-opentype'),
+  url('./fonts/Orgon/Orgon-Light.woff') format('woff'),
+  url('./fonts/Orgon/Orgon-Light.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
