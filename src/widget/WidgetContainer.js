@@ -6,6 +6,8 @@ class WidgetContainer extends Component {
     return (
       <div>
         <Widget />
+        <Widget />
+        <Widget />
       </div>
     );
   }
