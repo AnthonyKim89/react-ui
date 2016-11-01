@@ -1,3 +1,27 @@
+# Prerequisites
+
+* A recent Node.js (5, 6, 7, or newer)
+* The [Yarn](https://yarnpkg.com/) package manager: `npm install -g yarn`
+
+# Running locally
+
+First install project dependencies:
+
+```
+yarn
+```
+
+Then start the development server:
+
+```
+npm start
+````
+
+The app will automatically launch in a browser. Code changes are picked
+up automatically and reloaded to the browser.
+
+# Generated Documentation from Create React App
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
