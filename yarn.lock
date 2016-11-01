@@ -4309,6 +4309,10 @@ react-bootstrap:
     uncontrollable "^4.0.1"
     warning "^3.0.0"
 
+react-classset:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/react-classset/-/react-classset-0.0.2.tgz#adc62798acba8c0b2290506c190ea092a59c1f53"
+
 react-dev-utils@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-0.3.0.tgz#4a0527062a757579cb316fa254681aecca09d038"
