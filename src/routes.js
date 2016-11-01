@@ -3,7 +3,7 @@ import { Route, IndexRedirect, IndexRoute } from 'react-router';
 
 import App from './App';
 import Dashboard from './Dashboard';
-import WidgetContainer from './WidgetContainer';
+import WidgetContainer from './widget/WidgetContainer';
 import Analytics from './Analytics';
 
 const tabRoutes = [
