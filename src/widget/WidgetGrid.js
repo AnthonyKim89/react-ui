@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import WidgetContainer from './WidgetContainer';
 
-import TorqueAndDragBroomstickWidget from './torque-and-drag-broomstick';
+import torqueAndDragBroomstick from './torqueAndDragBroomstick';
 
 import './WidgetGrid.css';
 
@@ -12,7 +12,7 @@ class WidgetGrid extends Component {
     return (
       <div className="WidgetGrid">
         <WidgetContainer>
-          <TorqueAndDragBroomstickWidget jobId={1029} time={time} />
+          <torqueAndDragBroomstick.Widget jobId={1029} time={time} />
         </WidgetContainer>
         <WidgetContainer />
         <WidgetContainer />

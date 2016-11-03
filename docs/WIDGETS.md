@@ -4,32 +4,181 @@
 
 Several widgets are shown on the screen simultaneously, laid out in a *widget grid*. The user may customize the number, order, and positions of widgets in the grid. This means widgets must be designed to accomodate flexible sizing. The user may also display individual widgets in full-screen mode.
 
-## Widget Structure
+## Simple Widgets
 
-Every widget consists of at least one React component. This component and its supporting files should reside in its on subfolder under `src/widget`.
+Every widget consists of at least one React component. Add this component and its supporting files to its own subfolder under `src/widget`.
 
 * `src`
 ** `widget`
-*** `torque-and-drag-broomstrick`
+*** `myWidget`
 **** `index.js`
-**** `TorqueAndDragBroomstickWidget.css`
-**** `TorqueAndDragBroomstickWidget.js`
+**** `MyWidget.css`
+**** `MyWidget.js`
 
-Export the component from the `index.js` file in the subfolder, so that the widget can be easily imported to the grid:
+Export the widget's main component from the `index.js` file in the default export, so that the widget can be easily imported to the grid:
 
-`src/widget/torque-and-drag-broomstick/index.js`
+`src/widget/myWidget/index.js`
 ```
-import TorqueAndDragBroomstickWidget from './TorqueAndDragBroomstickWidget';
+import MyWidget from './MyWidget';
 
-export default TorqueAndDragBroomstickWidget;
+export default {Widget: MyWidget};
 ```
 
-## Input Props
+The main React component is the widget's "public API". The widget may have any number of subcomponents, helper functions, and other internal code, but all of that is an internal concern of the widget.
+
+## Widget Main Component Input Props
 
 Every widget may expect to get the following input props:
 
 * `jobId` - `number`
 * `time` - `moment` - the selected time
+
+## Redux Widgets
+
+When a widget has nontrivial logic inside it, it is recommended to use Redux to implement that logic and the associated state management.
+
+The widget architecture allows making any widget its own "mini Redux application", with its own state, reducer function, and actions. This Redux architecture is an adaptation of Jack Hsu's excellent [Rules For Structuring Redux Applications](http://jaysoo.ca/2016/02/28/organizing-redux-application/). (This is recommended reading.)
+
+To make a Redux-enabled widget, first set up its actions and action types:
+
+`src/widget/myWidget/actions.js`
+```
+export const INCREMENT = 'myWidget/INCREMENT';
+function increment() {
+  return {type: t.INCREMENT};
+}
+
+export const DECREMENT = 'myWidget/DECREMENT';
+function decrement( {
+  return {type: t.DECREMENT};
+}
+```
+
+Note that action type strings must be prefixed as they need to be unique in the whole application.
+
+Then you can create the widget's reducer function:
+
+`src/widget/myWidget/reducer.js`
+```
+import { Map } from 'immutable';
+import * as t from './actions';
+
+const initialState = Map({count: 0});
+
+export default function(state = initialState, action) {
+  switch (action.type) {
+    case t.INCREMENT:
+      return state.update('count', c => c + 1);
+    case t.DECREMENT:
+      return state.update('count', c => c - 1);
+    default:
+      return state;
+  }
+};
+````
+
+This reducer must then be integrated in the application's root reducer. We need a unique "namespace" for the widget inside the global application state structure. For this purpose, create a `constants.js` file that contains a "name" for the widget. It'll be used in side the app state:
+
+`src/widget/myWidget/constants.js`
+```
+export const NAME = 'myWidget';
+```
+
+Export the name in the widget's public API (`index.js`), and also export the reducer function:
+
+`src/widget/myWidget/constants.js`
+```
+import MyWidget from './MyWidget';
+import * as constants from './constants';
+import reducer from './reducer';
+
+export default {
+  Widget: MyWidget,
+  constants,
+  reducer
+};
+```
+
+This is now something we can mount on to the root reducer:
+
+`src/rootReducer.js`
+```
+import { combineReducers } from 'redux';
+
+import myWidget from './widget/myWidget';
+
+export default combineReducers({
+  [myWidget.constants.NAME]: myWidget.reducer
+});
+```
+
+At this point the reducer (along with its state) is integrated to the application's Redux store. It may be integrated into the widget component with the `connect` function of `react-redux`. But before we do that, it is recommended to add an additional `selectors.js` file, which contains *selectors* that pick out parts of the state that the component is interested in. This way the component does not need to know too much about the state shape:
+
+`src/widget/myWidget/selectors.js`
+```
+import { flow } from 'lodash';
+import { NAME } from './constants';
+
+const getWidgetState = state => state[NAME];
+
+export const getCount = flow(getWidgetState, s => s.get('count'));
+```
+
+Now we can connect the state to the component. We can not only bind selectors as component input props, but also dispatch actions that will be handled by the reducer:
+
+`src/widget/myWidget/MyWidget.js`
+```
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { increment, decrement } from './actions';
+import { getCount } from './selectors';
+
+import './MyWidget.css'
+
+class myWidget extends Component {
+
+  render() {
+    return (
+      <div className="my-widget">
+        <button onClick={this.props.dispatch(decrement())}>-</button>
+        {this.props.count}
+        <button onClick={this.props.dispatch(increment())}>+</button>
+      </div>
+    );
+  }
+
+}
+
+export default connect(
+  createStructuredSelector({
+    count: getCount
+  })
+)(MyWidget);
+```
+
+## API Access
+
+Widgets that need to load data from the server may do so using the server access functions in `src/api.js`. New data access functions may be added there as needed.
+
+Very simple widgets may call the API functions directly from the component (e.g. from its `componentDidMount` lifecycle hook), but for nontrivial components it is recommended that this is done through the Redux widget architecture as described above.
+
+1. Make API calls from action creators. The project contains the [redux-thunk](https://github.com/gaearon/redux-thunk) middleware that makes this easy to do.
+2. Track the loading state as well as the response data in the application store. Bind the state and date to components using the selector mechanism described above.
+
+See the `torqueAndDragBroomstick` widget for a concrete example on how this style of API access can be done.
+
+## CSS & Bootstrap Components
+
+TBD
+
+## Shared Components
+
+TBD
+
+## Unit Tests
+
+TBD
 
 ## Understanding The Widget's Surrounding Context
 
@@ -42,11 +191,3 @@ Each widget is parented by a `WidgetContainer` component. That component provide
 *** `SomeOtherWidget`
 ** `WidgetContainer`
 *** `ThirdWidget`
-
-## CSS & Bootstrap Components
-
-## Shared Components
-
-## API Access
-
-## Unit Tests
