@@ -15,6 +15,9 @@ nav.MainNav .navbar-brand {
   background-repeat: no-repeat;
   background-position: center center;
 }
+nav.MainNav .navbar-nav {
+  margin-left: 100px;
+}
 nav.MainNav .navbar-nav li > a {
   color: white;
 }

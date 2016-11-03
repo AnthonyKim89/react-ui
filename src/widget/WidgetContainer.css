@@ -1,4 +1,4 @@
-.Widget {
+.WidgetContainer {
   display: inline-block;
   margin: 5px;
   padding: 10px;
@@ -10,7 +10,7 @@
   background-color: rgb(32, 31, 31);
 }
 
-.Widget.maximized {
+.WidgetContainer.maximized {
   position: fixed;
   top: 10px;
   left: 10px;
@@ -20,7 +20,7 @@
   box-shadow: 0px 0px 18px 3px rgba(0,0,0,0.75);
 }
 
-.Widget h4 {
+.WidgetContainer h3 {
   margin: 0;
   color:rgb(200, 200, 200);
 }
