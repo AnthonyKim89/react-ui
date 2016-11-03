@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { load } from './actions';
-import { isLoading } from './selectors';
+import { isLoading, getData } from './selectors';
 import momentPropTypes from 'react-moment-proptypes';
 
 import './TorqueAndDragBroomstickWidget.css'
@@ -18,6 +18,7 @@ class TorqueAndDragBroomstickWidget extends Component {
       <div className="torque-and-drag-broomstick">
         <h3>Broomstick</h3>
         {this.props.isLoading && <p>Loading</p>}
+        <div>{JSON.stringify(this.props.data)}</div>
       </div>
     );
   }
@@ -31,6 +32,7 @@ TorqueAndDragBroomstickWidget.propTypes = {
 
 export default connect(
   createStructuredSelector({
-    isLoading
+    isLoading,
+    data: getData
   })
 )(TorqueAndDragBroomstickWidget);
