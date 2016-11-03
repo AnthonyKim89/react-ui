@@ -20,6 +20,9 @@ npm start
 The app will automatically launch in a browser. Code changes are picked
 up automatically and reloaded to the browser.
 
+API data requests are proxied to `http://localhost:3000`, so you will need to have corva-web
+running and you must be logged into it from the browser(s) you're developing with.
+
 # Generated Documentation from Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
