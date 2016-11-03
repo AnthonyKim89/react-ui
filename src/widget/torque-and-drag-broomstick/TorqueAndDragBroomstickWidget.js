@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import momentPropTypes from 'react-moment-proptypes';
 
 import './TorqueAndDragBroomstickWidget.css'
 import { getTorque } from '../../api';
@@ -7,8 +8,8 @@ class TorqueAndDragBroomstickWidget extends Component {
 
   componentDidMount() {
     getTorque({
-      jobId: 1029,
-      date: '1470237390',
+      jobId: this.props.jobId,
+      date: this.props.time,
       zoom: 120,
       uuid: 2,
       interval: 60,
@@ -27,5 +28,10 @@ class TorqueAndDragBroomstickWidget extends Component {
   }
 
 }
+
+TorqueAndDragBroomstickWidget.propTypes = {
+  jobId: PropTypes.number.isRequired,
+  time: momentPropTypes.momentObj.isRequired
+};
 
 export default TorqueAndDragBroomstickWidget;

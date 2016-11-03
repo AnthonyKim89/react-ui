@@ -24,6 +24,13 @@ import TorqueAndDragBroomstickWidget from './TorqueAndDragBroomstickWidget';
 export default TorqueAndDragBroomstickWidget;
 ```
 
+## Input Props
+
+Every widget may expect to get the following input props:
+
+* `jobId` - `number`
+* `time` - `moment` - the selected time
+
 ## Understanding The Widget's Surrounding Context
 
 Each widget is parented by a `WidgetContainer` component. That component provides the widget its input props as well as the UI box that's common to all widgets. `WidgetContainer`s in turn are laid out in a `WidgetGrid` component:
