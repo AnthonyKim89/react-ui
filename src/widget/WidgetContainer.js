@@ -1,28 +1,22 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import classSet from 'react-classset';
 
 import './WidgetContainer.css';
 
 class WidgetContainer extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {maximized: false};
-  }
-
   render() {
     return (
-      <div className={classSet({WidgetContainer: true, maximized: this.state.maximized})}>
+      <div className={classSet({WidgetContainer: true, maximized: this.props.maximized})}>
         {this.props.children}
-        <button onClick={() => this.toggleMaximized()}>Maximize/minimize</button>
+        {this.props.maximized ?
+          <Link to={{query: {maximize: undefined}}}>Restore</Link> :
+          <Link to={{query: {maximize: this.props.id}}}>Max</Link>}
       </div>
     );
   }
   
-  toggleMaximized() {
-    this.setState(({maximized: !this.state.maximized}));
-  }
-
 }
 
 export default WidgetContainer;
