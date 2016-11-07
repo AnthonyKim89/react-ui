@@ -3355,6 +3355,10 @@ lodash.isarray@^3.0.0:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/lodash.isarray/-/lodash.isarray-3.0.4.tgz#79e4eb88c36a8122af86f844aa9bcd851b5fbb55"
 
+lodash.isequal@^4.0.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.4.0.tgz#6295768e98e14dc15ce8d362ef6340db82852031"
+
 lodash.keys@^3.0.0:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/lodash.keys/-/lodash.keys-3.1.2.tgz#4dbc0472b156be50a0b286855d1bd0b0c656098a"
@@ -4337,6 +4341,20 @@ react-dom@^15.3.2:
   version "15.3.2"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.3.2.tgz#c46b0aa5380d7b838e7a59c4a7beff2ed315531f"
 
+react-draggable@^2.1.0, react-draggable@^2.1.1:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/react-draggable/-/react-draggable-2.2.2.tgz#80932da5ad81795bdfd141e846d7a9309680e270"
+  dependencies:
+    classnames "^2.2.5"
+
+react-grid-layout:
+  version "0.13.9"
+  resolved "https://registry.yarnpkg.com/react-grid-layout/-/react-grid-layout-0.13.9.tgz#5ba29cdc0e6422362f46d9a49047ebb24e0e293e"
+  dependencies:
+    lodash.isequal "^4.0.0"
+    react-draggable "^2.1.1"
+    react-resizable "^1.4.0"
+
 react-moment-proptypes:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-moment-proptypes/-/react-moment-proptypes-1.2.0.tgz#bfb2c6531ce3c491827b67643e8a4a22c6a787cb"
@@ -4366,6 +4384,12 @@ react-redux:
     invariant "^2.0.0"
     lodash "^4.2.0"
     loose-envify "^1.1.0"
+
+react-resizable@^1.4.0:
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/react-resizable/-/react-resizable-1.4.5.tgz#b0f00244959bad9b003de5bf8f7d14dee5b6c2d3"
+  dependencies:
+    react-draggable "^2.1.0"
 
 react-router:
   version "3.0.0"

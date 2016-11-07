@@ -1,7 +1,3 @@
-.WidgetGrid {
-  display: flex;
-  padding: 0 5px;
-}
-.WidgetGrid .WidgetContainer {
-  flex: 1;
+.WidgetGrid .react-grid-item {
+  overflow: hidden;
 }
