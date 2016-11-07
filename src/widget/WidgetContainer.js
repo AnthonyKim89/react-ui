@@ -9,10 +9,10 @@ class WidgetContainer extends Component {
   render() {
     return (
       <div className={classSet({WidgetContainer: true, maximized: this.props.maximized})}>
-        {this.props.children}
         {this.props.maximized ?
           <Link to={{query: {maximize: undefined}}}>Restore</Link> :
-          <Link to={{query: {maximize: this.props.id}}}>Max</Link>}
+          <Link to={{query: {maximize: this.props.id}}}>Full screen</Link>}
+        {this.props.children}
       </div>
     );
   }

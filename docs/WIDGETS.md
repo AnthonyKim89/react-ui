@@ -2,7 +2,7 @@
 
 *Widgets* in this application are self-contained UI elements provide the user a specific piece of information and functionality. Examples: "Torque And Drag Broomstick", "Wellbore Stability".
 
-Several widgets are shown on the screen simultaneously, laid out in a *widget grid*. The user may customize the number, order, and positions of widgets in the grid. This means widgets must be designed to accomodate flexible sizing. The user may also display individual widgets in full-screen mode.
+Several widgets are shown on the screen simultaneously, laid out in a *widget grid* (implemented using [react-grid-layout](https://www.npmjs.com/package/react-grid-layout)). The user may customize the number, order, and positions of widgets in the grid. This means widgets must be designed to accomodate flexible sizing. The user may also display individual widgets in full-screen mode.
 
 ## Simple Widgets
 
@@ -31,6 +31,7 @@ Every widget may expect to get the following input props:
 
 * `jobId` - `number`
 * `time` - `moment` - the selected time
+* `size` - {`Size.SMALL`, `Size.MEDIUM`, `Size.LARGE`, `Size.XLARGE`} - the size the widget is currently occupying in the grid. Can be used for responsive rendering.
 
 ## Redux Widgets
 
