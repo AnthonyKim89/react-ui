@@ -14,7 +14,17 @@ On the other hand, we want to retain the flexibility to change the way data is v
 
 ## Endpoints
 
+On `corva-web` the code for the endpoints are / should be under `app/controllers/api/v1`, in small focused controllers and views.
+
 ### Torque And Drag Broomstick Charts
+
+#### Request
+
+   GET /api/jobs/{jobId}/torque_and_drag_broomstick_chart
+
+Query parameters
+
+* `date` - the date/time as a Unix timestamp (seconds since epoch)
 
 #### Response
 

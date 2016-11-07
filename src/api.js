@@ -8,9 +8,8 @@ async function get(path, queryParams) {
   return fromJS(await response.json());
 }
 
-export async function getTorque({jobId, date, zoom, uuid, interval, step}) {
-  const queryParams = {date: date.unix(), zoom, uuid, interval, step, torque: 1};
-  const data = await get(`/jobs/${jobId}/drill_view`, queryParams);
-  //return data.get('torque');
-  return fromJS(require('./tnd_placeholder.json'));
+export async function getTorque({jobId, date}) {
+  const queryParams = {date: date.unix()};
+  const data = await get(`/api/jobs/${jobId}/torque_and_drag_broomstick_chart`, queryParams);
+  return fromJS(data);
 }
