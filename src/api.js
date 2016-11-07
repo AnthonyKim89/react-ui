@@ -11,5 +11,6 @@ async function get(path, queryParams) {
 export async function getTorque({jobId, date, zoom, uuid, interval, step}) {
   const queryParams = {date: date.unix(), zoom, uuid, interval, step, torque: 1};
   const data = await get(`/jobs/${jobId}/drill_view`, queryParams);
-  return data.get('torque');
+  //return data.get('torque');
+  return fromJS(require('./tnd_placeholder.json'));
 }

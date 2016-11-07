@@ -6,6 +6,8 @@
     "react-scripts": "0.7.0"
   },
   "dependencies": {
+    "amcharts3": "amcharts/amcharts3",
+    "amcharts3-react": "amcharts/amcharts3-react",
     "bootstrap": "3",
     "immutable": "^3.8.1",
     "lodash": "^4.16.6",

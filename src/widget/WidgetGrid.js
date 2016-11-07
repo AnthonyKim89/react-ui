@@ -21,7 +21,8 @@ class WidgetGrid extends Component {
     this.state = {
       widgets: List([{
         id: '1',
-        gridConfig: {x: 0, y: 0, w: 3, h: 12},
+        title: 'Broomstick',
+        gridConfig: {x: 0, y: 0, w: 3, h: 14},
         WidgetComponent: torqueAndDragBroomstick.Widget
       }, {
         id: '2',
@@ -64,9 +65,9 @@ class WidgetGrid extends Component {
     const maximizedId = this.getMaximizedWidgetId();
     return this.state.widgets
       .filter(widget => widget.id !== maximizedId)
-      .map(({id, gridConfig, WidgetComponent}) => {
+      .map(({id, title, gridConfig, WidgetComponent}) => {
         return <div key={id} data-grid={gridConfig}>
-          <WidgetContainer id={id}>
+          <WidgetContainer id={id} title={title}>
             {WidgetComponent &&
               <WidgetComponent {...widgetProps}
                                size={this.getWidgetSize(gridConfig)} />}
@@ -78,10 +79,10 @@ class WidgetGrid extends Component {
   renderMaximizedWidget(widgetProps) {
     const id = this.getMaximizedWidgetId();
     if (id) {
-      const {Widget} = this.state.widgets.find(w => w.id === id);
+      const {WidgetComponent, title} = this.state.widgets.find(w => w.id === id);
       return <div className="MaximizedWidget">
-        <WidgetContainer id={id} maximized={true}>
-          {Widget && <Widget {...widgetProps} size={Size.XLARGE} />}
+        <WidgetContainer id={id} title={title} maximized={true}>
+          {WidgetComponent && <WidgetComponent {...widgetProps} size={Size.XLARGE} />}
         </WidgetContainer>;
       </div>
     } else {

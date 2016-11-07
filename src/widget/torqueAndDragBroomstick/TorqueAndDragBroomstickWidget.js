@@ -1,9 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import momentPropTypes from 'react-moment-proptypes';
+
 import { load } from './actions';
 import { isLoading, getData } from './selectors';
-import momentPropTypes from 'react-moment-proptypes';
+import Chart from '../../common/Chart';
 
 import './TorqueAndDragBroomstickWidget.css'
 
@@ -15,10 +17,13 @@ class TorqueAndDragBroomstickWidget extends Component {
 
   render() {
     return (
-      <div className="torque-and-drag-broomstick">
-        <h3>Broomstick</h3>
-        {this.props.isLoading && <p>Loading</p>}
-        <div>{JSON.stringify(this.props.data)}</div>
+      <div className="torqueAndDragBroomstick">
+        {this.props.isLoading ?
+            <p>Loading</p> :
+            <Chart
+              xField="load"
+              yField="depth"
+              data={this.props.data} />}
       </div>
     );
   }

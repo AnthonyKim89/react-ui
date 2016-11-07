@@ -1,0 +1,54 @@
+{
+  "depth_unit": "ft",
+  "load_unit": "klbf",
+  "series": [
+    {
+      "title": "Predicted Slackoff (0.25)",
+      "type": "predicted",
+      "measurement": "slackoff",
+      "data": [
+        {"depth": 0, "load": 0},
+        {"depth": 2000, "load": 80},
+        {"depth": 2300, "load": 100},
+        {"depth": 2400, "load": 105.5},
+        {"depth": 8000, "load": 180},
+        {"depth": 8500, "load": 170},
+        {"depth": 10000, "load": 150},
+        {"depth": 13000, "load": 120},
+        {"depth": 19000, "load": 30}
+      ]
+    },
+    {
+      "title": "Predicted Pick-Up (0.25)",
+      "type": "predicted",
+      "measurement": "pickup",
+      "data": [
+        {"depth": 0, "load": 0},
+        {"depth": 2000, "load": 85},
+        {"depth": 2300, "load": 98},
+        {"depth": 2400, "load": 110.5},
+        {"depth": 8000, "load": 185},
+        {"depth": 8500, "load": 190},
+        {"depth": 10000, "load": 200},
+        {"depth": 13000, "load": 220},
+        {"depth": 19000, "load": 300}
+      ]
+    },
+    {
+      "title": "Slackoff",
+      "type": "actual",
+      "measurement": "slackoff",
+      "data": [
+        {"depth": 0, "load": 10},
+        {"depth": 1800, "load": 70},
+        {"depth": 2300, "load": 105},
+        {"depth": 2400, "load": 100.5},
+        {"depth": 8000, "load": 195},
+        {"depth": 8500, "load": 170},
+        {"depth": 10000, "load": 202},
+        {"depth": 13000, "load": 225},
+        {"depth": 19000, "load": 303}
+      ]
+    }
+  ]
+}
