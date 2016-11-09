@@ -31,14 +31,26 @@ class Chart extends Component {
         },
         title: {text: null},
         credits: {enabled: false},
-        legend: {itemStyle: {color: '#fff'}},
+        legend: {
+          itemStyle: {color: '#fff'},
+          enabled: this.props.isLegendVisible
+        },
         series: this.getSeries()
       }
     }
   }
 
+  componentWillReceiveProps(props) {
+    this.setState(state => {
+      state.chartConfig.legend.enabled = props.isLegendVisible;
+      state.chartConfig.xAxis.labels.enabled = props.isAxisLabelsVisible;
+      state.chartConfig.yAxis.labels.enabled = props.isAxisLabelsVisible;
+    });
+  }
+
   render() {
-    return <ReactHighcharts config={this.state.chartConfig}
+    return <ReactHighcharts ref="chart"
+                            config={this.state.chartConfig}
                             domProps={{style: {height: '100%'}}} />;
   }
 

@@ -6,6 +6,7 @@ import momentPropTypes from 'react-moment-proptypes';
 import { load } from './actions';
 import { isLoading, getData } from './selectors';
 import Chart from '../../common/Chart';
+import { Size } from '../constants';
 
 import './TorqueAndDragBroomstickWidget.css'
 
@@ -23,16 +24,27 @@ class TorqueAndDragBroomstickWidget extends Component {
             <Chart
               xField="depth"
               yField="load"
-              data={this.props.data} />}
+              data={this.props.data}
+              isLegendVisible={this.isLegendVisible()}
+              isAxisLabelsVisible={this.isAxisLabelsVisible()} />}
       </div>
     );
+  }
+
+  isLegendVisible() {
+    return this.props.size !== Size.SMALL
+  }
+
+  isAxisLabelsVisible() {
+    return this.props.size !== Size.SMALL
   }
 
 }
 
 TorqueAndDragBroomstickWidget.propTypes = {
   jobId: PropTypes.number.isRequired,
-  time: momentPropTypes.momentObj.isRequired
+  time: momentPropTypes.momentObj.isRequired,
+  size: PropTypes.string.isRequired
 };
 
 export default connect(
