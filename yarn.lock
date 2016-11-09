@@ -62,16 +62,6 @@ alphanum-sort@^1.0.1, alphanum-sort@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
 
-amcharts/amcharts3:
-  name amcharts3
-  version "3.20.17"
-  resolved "https://codeload.github.com/amcharts/amcharts3/tar.gz/cf94f84ef723d5acc3daf26b0d14b8f84fb0749e"
-
-amcharts/amcharts3-react:
-  name amcharts3-react
-  version "1.1.3"
-  resolved "https://codeload.github.com/amcharts/amcharts3-react/tar.gz/f4216ee87b51879e8ca0d8456b3649c9bb7fa23c"
-
 amdefine@>=0.0.4:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.0.tgz#fd17474700cb5cc9c2b709f0be9d23ce3c198c33"
@@ -2429,6 +2419,10 @@ header-case@^1.0.0:
     no-case "^2.2.0"
     upper-case "^1.1.3"
 
+highcharts@^5.0.0:
+  version v5.0.2
+  resolved "https://registry.yarnpkg.com/highcharts/-/highcharts-5.0.2.tgz#1bf6cebc3f3b80de5487ad9fdb4a60b6e5ce4759"
+
 history@^3.0.0:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/history/-/history-3.2.1.tgz#71c7497f4e6090363d19a6713bb52a1bfcdd99aa"
@@ -4364,6 +4358,12 @@ react-grid-layout:
     lodash.isequal "^4.0.0"
     react-draggable "^2.1.1"
     react-resizable "^1.4.0"
+
+react-highcharts:
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/react-highcharts/-/react-highcharts-11.0.0.tgz#3664a65acf1166acb997dab5e7e5c6691ba306e8"
+  dependencies:
+    highcharts "^5.0.0"
 
 react-moment-proptypes:
   version "1.2.0"

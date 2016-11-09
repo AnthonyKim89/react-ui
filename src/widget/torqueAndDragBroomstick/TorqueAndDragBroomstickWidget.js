@@ -21,8 +21,8 @@ class TorqueAndDragBroomstickWidget extends Component {
         {this.props.isLoading ?
             <p>Loading</p> :
             <Chart
-              xField="load"
-              yField="depth"
+              xField="depth"
+              yField="load"
               data={this.props.data} />}
       </div>
     );

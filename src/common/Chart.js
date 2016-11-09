@@ -1,51 +1,62 @@
 import React, {Component} from 'react';
-import AmCharts from "amcharts3-react";
-import "amcharts3/amcharts/xy.js";
+import ReactHighcharts from 'react-highcharts';
 
 class Chart extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      chartConfig: {
+        chart: {
+          type: 'line',
+          inverted: true,
+          backgroundColor: null,
+          plotBackgroundColor: 'rgb(42, 46, 46)'
+        },
+        xAxis: {
+          gridLineWidth: 1,
+          gridLineColor: 'rgb(47, 51, 51)',
+          lineWidth: 3,
+          labels: {
+            style: {color: '#fff'}
+          }
+        },
+        yAxis: {
+          title: {text: null},
+          gridLineWidth: 1,
+          gridLineColor: 'rgb(47, 51, 51)',
+          labels: {
+            style: {color: '#fff'}
+          }
+        },
+        title: {text: null},
+        credits: {enabled: false},
+        legend: {itemStyle: {color: '#fff'}},
+        series: this.getSeries()
+      }
+    }
+  }
+
   render() {
-    const config = {
-      type: 'xy',
-      graphs: this.getGraphs(),
-      valueAxes: [{
-        position: 'left',
-        reversed: true,
-        gridColor: '#888',
-        axisColor: '#888'
-      }, {
-        position: 'bottom',
-        gridColor: '#888',
-        axisColor: '#888'
-      }],
-      dataProvider: this.getDataProvider(),
-      color: '#fff'
-    };
-    return <AmCharts {...config} />;
+    return <ReactHighcharts config={this.state.chartConfig}
+                            domProps={{style: {height: '100%'}}} />;
   }
 
-  getGraphs() {
-    return this.props.data.get('series').map(series => ({
-      title: series.get('title'),
-      xField: this.getSeriesXField(series),
-      yField: this.props.yField,
-      lineThickness: series.get('seriesType') === 'line' ? 2 : 0,
-      bullet: series.get('seriesType') === 'bullet' ? 'round' : null
-    })).toJS();
-  }
-
-  getDataProvider() {
-    return this.props.data.get('series').reduce((allData, series) => {
-      const seriesXField = this.getSeriesXField(series);
-      return allData.concat(series.get('data').map(point => ({
-        [seriesXField]: point.get(this.props.xField),
-        [this.props.yField]: point.get(this.props.yField)
-      })).toJS());
-    }, []);
-  }
-  
-  getSeriesXField(series) {
-    return `${this.props.xField}-${series.get('type')}-${series.get('measurement')}`;
+  getSeries() {
+    return this.props.data.get('series').map(series => {
+      const type = series.get('seriesType');
+      return {
+        name: series.get('title'),
+        type,
+        data: series.get('data').map(point => ([
+          point.get(this.props.xField),
+          point.get(this.props.yField)
+        ])).toJS(),
+        dashStyle: 'ShortDash',
+        lineWidth: type === 'line' ? 3 : 0,
+        animation: false
+      }
+    }).toJS();
   }
 
 }

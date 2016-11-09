@@ -5,7 +5,7 @@ const initialState = Map({isLoading: true, data: Map()});
 
 function constructGraphSeries(series) {
   return series.merge({
-    seriesType: series.get('type') === 'actual' ? 'bullet' : 'line'
+    seriesType: series.get('type') === 'actual' ? 'scatter' : 'line'
   });
 }
 
