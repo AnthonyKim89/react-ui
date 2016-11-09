@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import TabBar from './TabBar';
 
+import './Dashboard.css';
+
 class Dashboard extends Component {
   render() {
     return (
       <div className="Dashboard" >
-        <TabBar page={this.props.route.path} />
         {this.props.children}
+        <TabBar page={this.props.route.path} />
       </div>
     );
   }
