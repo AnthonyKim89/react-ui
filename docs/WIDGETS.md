@@ -1,5 +1,36 @@
 # Widget Authoring Guide
 
+## Concepts
+
+The system supports several **Widget Types**, each one with their own functionality and visual representation. Each Widget Type has: 
+* A *name* (e.g. “Broomstick”) - used in titles and lists
+* A *category* (e.g. “Torque & Drag”) - used in titles. Also used as a criteria for where widgets of this type can be added.
+
+A user can create a **Widget** by choosing a Widget Type and placing it into a **Widget Grid**. Each Widget has:
+* A *WidgetType* - that determines what the widget is
+* A *position* and *size* within the grid
+* A number of *settings*
+	* The *rig* that data is pulled from
+	* A *refresh rate* that determines how often the widget updates its data
+	* Other arbitrary settings depending on the widget type (e.g. chart colors)
+
+A Widget Grid is a collection of these Widgets, all displayed on the screen at the same time. Widget Grids are owned by either:
+
+* A **Dashboard**
+* A **Well Page**
+
+A **Dashboard** represents a page with a widget grid that is not tied to any specific rig but instead has a collection of widget that may pull data from different rigs. Each Dashboard has:
+* A *Widget Grid* that defines its contents
+* A *Name*  - used in titles and lists
+* An *Owner* - the user who owns the dashboard
+
+A **Well Page** represents a page with a widget grid that is tied to a specific rig. All widgets on the page pull data from the same rig. Each Well Page has:
+* A *Widget Grid* that defines its contents
+* A *Category* (e.g. “Torque & Drag”) that defines the category of widgets the page holds. May be null/undefined, which means it is an “Overview” page for which any type of widgets may be included.
+* An *Owner* - the user who owns the page
+
+## Implementation
+
 *Widgets* in this application are self-contained UI elements provide the user a specific piece of information and functionality. Examples: "Torque And Drag Broomstick", "Wellbore Stability".
 
 Several widgets are shown on the screen simultaneously, laid out in a *widget grid* (implemented using [react-grid-layout](https://www.npmjs.com/package/react-grid-layout)). The user may customize the number, order, and positions of widgets in the grid. This means widgets must be designed to accomodate flexible sizing. The user may also display individual widgets in full-screen mode.
@@ -182,3 +213,4 @@ Each widget is parented by a `WidgetContainer` component. That component provide
     * `SomeOtherWidget`
   * `WidgetContainer`
     * `ThirdWidget`
+T
