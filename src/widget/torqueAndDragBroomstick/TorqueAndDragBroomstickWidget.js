@@ -18,7 +18,7 @@ class TorqueAndDragBroomstickWidget extends Component {
 
   render() {
     return (
-      <div className="torqueAndDragBroomstick">
+      <div className="c-torque-and-drag-broomstick">
         {this.props.isLoading ?
             <p>Loading</p> :
             <Chart

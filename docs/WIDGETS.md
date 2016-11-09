@@ -163,10 +163,6 @@ Very simple widgets may call the API functions directly from the component (e.g.
 
 See the `torqueAndDragBroomstick` widget for a concrete example on how this style of API access can be done.
 
-## CSS & Bootstrap Components
-
-TBD
-
 ## Shared Components
 
 TBD

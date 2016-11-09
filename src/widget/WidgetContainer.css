@@ -1,4 +1,4 @@
-.WidgetContainer {
+.c-widget-container {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
@@ -6,7 +6,7 @@
   background-color: rgb(32, 31, 31);
 }
 
-.WidgetContainer.maximized {
+.c-widget-container--maximized {
   position: fixed;
   top: 10px;
   left: 10px;
@@ -18,17 +18,17 @@
   box-shadow: 0px 0px 18px 3px rgba(0,0,0,0.75);
 }
 
-.WidgetContainer h3 {
+.c-widget-container__title {
   margin: 0;
   color:rgb(200, 200, 200);
   cursor: move;
 }
 
-.WidgetContainer .sizeLink {
+.c-widget-container__size-link {
   float: right;
 }
 
-.WidgetContainer .widgetContent {
+.c-widget-container__content {
   position: absolute;
   left: 10px;
   right: 10px;

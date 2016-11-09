@@ -49,7 +49,7 @@ class WidgetGrid extends Component {
   render() {
     const widgetProps = {jobId: 1029, time: moment('2016-08-03')};
     return (
-      <div className="WidgetGrid">
+      <div className="c-widget-grid">
         <GridLayout breakpoints={{large: 1024, medium: 512, small: 0}}
                     cols={{large: 8, medium: 4, small: 1}}
                     rowHeight={30}

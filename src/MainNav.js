@@ -8,7 +8,7 @@ import './MainNav.css';
 class NavBar extends Component {
   render() {
     return (
-      <Navbar fixedTop className="MainNav">
+      <Navbar fixedTop className="c-main-nav">
         <Navbar.Header>
           <Navbar.Brand>
             <IndexLink to="/">Corva</IndexLink>

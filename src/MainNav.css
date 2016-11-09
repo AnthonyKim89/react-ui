@@ -1,12 +1,12 @@
 /* Colors & fonts should really be extracted to a Bootstrap theme */
-nav.MainNav {
+nav.c-main-nav {
   margin: 0;
   background-color: #233736;
   border-color: #677575;
   font-size: 16px;
 }
 
-nav.MainNav .navbar-brand {
+nav.c-main-nav .navbar-brand {
   position: fixed;
   left: 10px;
   width: 150px;
@@ -15,20 +15,20 @@ nav.MainNav .navbar-brand {
   background-repeat: no-repeat;
   background-position: center center;
 }
-nav.MainNav .navbar-nav {
+nav.c-main-nav .navbar-nav {
   margin-left: 100px;
 }
-nav.MainNav .navbar-nav li > a {
+nav.c-main-nav .navbar-nav li > a {
   color: white;
 }
-nav.MainNav .navbar-nav li > a:hover {
+nav.c-main-nav .navbar-nav li > a:hover {
   background: transparent;
   color: #57c9c2;
 }
-nav.MainNav .navbar-nav li > a:active {
+nav.c-main-nav .navbar-nav li > a:active {
   background: transparent;
 }
-nav.MainNav .navbar-nav li.active > a, nav.MainNav .navbar-nav li.active > a:focus {
+nav.c-main-nav .navbar-nav li.active > a, nav.MainNav .navbar-nav li.active > a:focus {
   background: transparent;
   color: #57c9c2;
   font-family: orgonboldregular;
