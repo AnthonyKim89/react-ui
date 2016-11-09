@@ -10,6 +10,6 @@ async function get(path, queryParams) {
 
 export async function getTorque({jobId, date}) {
   const queryParams = {date: date.unix()};
-  const data = await get(`/api/jobs/${jobId}/torque_and_drag_broomstick_chart`, queryParams);
+  const data = await get(`/api/jobs/${jobId}/torque_and_drag/broomstick_chart`, queryParams);
   return fromJS(data);
 }
