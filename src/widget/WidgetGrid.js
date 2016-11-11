@@ -47,7 +47,7 @@ class WidgetGrid extends Component {
   }
 
   render() {
-    const widgetProps = {jobId: 1029, time: moment('2016-08-03')};
+    const widgetProps = {jobId: 1016, time: moment('2016-08-31')};
     return (
       <div className="c-widget-grid">
         <GridLayout breakpoints={{large: 1024, medium: 512, small: 0}}

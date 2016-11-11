@@ -11,12 +11,16 @@ class Chart extends Component {
           type: 'line',
           inverted: true,
           backgroundColor: null,
+          zoomType: 'xy',
+          panning: true,
+          panKey: 'shift',
           plotBackgroundColor: 'rgb(42, 46, 46)'
         },
         xAxis: {
           gridLineWidth: 1,
           gridLineColor: 'rgb(47, 51, 51)',
-          lineWidth: 3,
+          lineWidth: 0,
+          tickWidth: 0,
           labels: {
             style: {color: '#fff'}
           }
@@ -32,6 +36,9 @@ class Chart extends Component {
         title: {text: null},
         credits: {enabled: false},
         legend: {
+          align: 'right',
+          verticalAlign: 'middle',
+          layout: 'vertical',
           itemStyle: {color: '#fff'},
           enabled: this.props.isLegendVisible
         },
@@ -54,6 +61,7 @@ class Chart extends Component {
                             domProps={{style: {height: '100%'}}} />;
   }
 
+
   getSeries() {
     return this.props.data.get('series').map(series => {
       const type = series.get('seriesType');
@@ -64,11 +72,26 @@ class Chart extends Component {
           point.get(this.props.xField),
           point.get(this.props.yField)
         ])).toJS(),
-        dashStyle: 'ShortDash',
+        dashStyle: 'ShortDot',
+        color: this.getSeriesColor(series.get('type')),
+        marker: {
+          enabled: false, radius: 2
+        },
         lineWidth: type === 'line' ? 3 : 0,
         animation: false
       }
     }).toJS();
+  }
+
+  getSeriesColor(series_type) {
+    switch(series_type) {
+      case 'rotating':
+        return '#f7e47a';
+      case 'pickup':
+        return '#78905f';
+      case 'slackoff':
+        return '#5f7f90';
+    }
   }
 
 }

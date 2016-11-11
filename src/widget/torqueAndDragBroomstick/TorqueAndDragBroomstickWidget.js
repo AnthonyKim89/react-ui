@@ -22,8 +22,8 @@ class TorqueAndDragBroomstickWidget extends Component {
         {this.props.isLoading ?
             <p>Loading</p> :
             <Chart
-              xField="depth"
-              yField="load"
+              xField="measured_depth"
+              yField="hookload"
               data={this.props.data}
               isLegendVisible={this.isLegendVisible()}
               isAxisLabelsVisible={this.isAxisLabelsVisible()} />}
@@ -32,7 +32,7 @@ class TorqueAndDragBroomstickWidget extends Component {
   }
 
   isLegendVisible() {
-    return this.props.size !== Size.SMALL
+    return this.props.size == Size.XLARGE || this.props.size == Size.LARGE
   }
 
   isAxisLabelsVisible() {
