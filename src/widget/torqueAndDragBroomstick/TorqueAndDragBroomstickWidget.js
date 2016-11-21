@@ -14,7 +14,7 @@ import './TorqueAndDragBroomstickWidget.css'
 class TorqueAndDragBroomstickWidget extends Component {
 
   componentDidMount() {
-    this.props.dispatch(load(this.props.jobId, this.props.time));
+    this.props.dispatch(load(this.props.wellId, this.props.time));
   }
 
   render() {
@@ -63,7 +63,7 @@ class TorqueAndDragBroomstickWidget extends Component {
 }
 
 TorqueAndDragBroomstickWidget.propTypes = {
-  jobId: PropTypes.number.isRequired,
+  wellId: PropTypes.number.isRequired,
   time: momentPropTypes.momentObj.isRequired,
   size: PropTypes.string.isRequired
 };

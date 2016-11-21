@@ -10,11 +10,11 @@ function finishLoad(data) {
   return {type: FINISH_LOAD, data};
 }
 
-export function load(jobId, date) {
+export function load(wellId, date) {
   return async dispatch => {
     dispatch(startLoad());
     const data = await getTorque({
-      jobId,
+      wellId,
       date,
       zoom: 120,
       uuid: 2,

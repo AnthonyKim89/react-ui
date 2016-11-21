@@ -20,7 +20,7 @@ On `corva-web` the code for the endpoints are / should be under `app/controllers
 
 #### Request
 
-   GET /api/jobs/{jobId}/torque_and_drag_broomstick_chart
+   GET /api/jobs/{wellId}/torque_and_drag/broomstick_chart
 
 Query parameters
 
@@ -34,12 +34,12 @@ Query parameters
       "series": [
         {
           "title": "e.g. Predicted Slackoff (0.25)",
-          "type": "predicted" | "actual",
-          "measurement": "slackoff" | "rotating" | "pickup",
+          "calculation": "predicted" | "actual",
+          "type": "slackoff" | "rotating" | "pickup",
           "data": [
-            {"depth": 2000, "load": 100},
-            {"depth": 2300, "load": 120},
-            {"depth": 2400, "load": 132.5}
+            {"measured_depth": 2000, "hookload": 100},
+            {"measured_depth": 2300, "hookload": 120},
+            {"measured_depth": 2400, "hookload": 132.5}
           ]
         }
       ]

@@ -12,7 +12,7 @@ A user can create a **Widget** by choosing a Widget Type and placing it into a *
 * A *WidgetType* - that determines what the widget is
 * A *position* and *size* within the grid
 * A number of *settings*
-	* The *rig* that data is pulled from
+	* The *well* that data is pulled from
 	* A *refresh rate* that determines how often the widget updates its data
 	* Other arbitrary settings depending on the widget type (e.g. chart colors)
 
@@ -21,17 +21,19 @@ A Widget Grid is a collection of these Widgets, all displayed on the screen at t
 * A **Dashboard**
 * A **Well Page**
 
-A **Dashboard** represents a page with a widget grid that is not tied to any specific rig but instead has a collection of widget that may pull data from different rigs. Each Dashboard has:
+A **Dashboard** represents a page with a widget grid that is not tied to any specific rig but instead has a collection of widgets that may pull data from different rigs. When a user pins a widget to a dashboard, they choose a Rig to pull data from. Data will then be fetched from the *active well* of that rig.
+
+Each Dashboard <has:></has:>
 
 * A *Widget Grid* that defines its contents
 * A *Name*  - used in titles and lists
 * An *Owner* - the user who owns the dashboard
 
-A **Well Page** represents a page with a widget grid that is tied to a specific rig. All widgets on the page pull data from the same rig. Each Well Page has:
+A **Well Page** represents a page with a widget grid that is tied to a specific well. All widgets on the page pull data from the same well. Each Well Page has:
 
-* A *Widget Grid* that defines its contents
+* A *Widget Grid* that defines its contents.
 * A *Category* (e.g. “Torque & Drag”) that defines the category of widgets the page holds. May be null/undefined, which means it is an “Overview” page for which any type of widgets may be included.
-* An *Owner* - the user who owns the page
+* An *Owner* - the user who owns the page.
 
 ## Implementation
 
@@ -64,7 +66,7 @@ The main React component is the widget's "public API". The widget may have any n
 
 Every widget may expect to get the following input props:
 
-* `jobId` - `number`
+* `wellId` - `number`
 * `time` - `moment` - the selected time
 * `size` - {`Size.SMALL`, `Size.MEDIUM`, `Size.LARGE`, `Size.XLARGE`} - the size the widget is currently occupying in the grid. Can be used for responsive rendering.
 
