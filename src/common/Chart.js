@@ -90,6 +90,7 @@ class Chart extends Component {
       case 'pickup':
         return '#78905f';
       case 'slackoff':
+      default:
         return '#5f7f90';
     }
   }

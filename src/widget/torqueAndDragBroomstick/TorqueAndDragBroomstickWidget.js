@@ -32,7 +32,7 @@ class TorqueAndDragBroomstickWidget extends Component {
   }
 
   isLegendVisible() {
-    return this.props.size == Size.XLARGE || this.props.size == Size.LARGE
+    return this.props.size === Size.XLARGE || this.props.size === Size.LARGE
   }
 
   isAxisLabelsVisible() {
