@@ -6,6 +6,7 @@ import momentPropTypes from 'react-moment-proptypes';
 import { load } from './actions';
 import { isLoading, getData } from './selectors';
 import Chart from '../../common/Chart';
+import ChartSeries from '../../common/ChartSeries';
 import { Size } from '../constants';
 
 import './TorqueAndDragBroomstickWidget.css'
@@ -24,11 +25,31 @@ class TorqueAndDragBroomstickWidget extends Component {
             <Chart
               xField="measured_depth"
               yField="hookload"
-              data={this.props.data}
               isLegendVisible={this.isLegendVisible()}
-              isAxisLabelsVisible={this.isAxisLabelsVisible()} />}
+              isAxisLabelsVisible={this.isAxisLabelsVisible()} >
+              {this.props.data.get('series').map((series, idx) => (
+                <ChartSeries
+                  key={idx}
+                  type={series.get('renderType')}
+                  title={series.get('title')}
+                  data={series.get('data')}
+                  color={this.getSeriesColor(series.get('type'))} />
+              )).toJS()}
+            </Chart>}
       </div>
     );
+  }
+
+  getSeriesColor(seriesType) {
+    switch(seriesType) {
+      case 'rotating':
+        return '#f7e47a';
+      case 'pickup':
+        return '#78905f';
+      case 'slackoff':
+      default:
+        return '#5f7f90';
+    }
   }
 
   isLegendVisible() {

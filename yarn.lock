@@ -4365,6 +4365,10 @@ react-highcharts:
   dependencies:
     highcharts "^5.0.0"
 
+react-immutable-proptypes:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-immutable-proptypes/-/react-immutable-proptypes-2.1.0.tgz#023d6f39bb15c97c071e9e60d00d136eac5fa0b4"
+
 react-moment-proptypes:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-moment-proptypes/-/react-moment-proptypes-1.2.0.tgz#bfb2c6531ce3c491827b67643e8a4a22c6a787cb"

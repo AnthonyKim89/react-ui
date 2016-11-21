@@ -63,36 +63,24 @@ class Chart extends Component {
 
 
   getSeries() {
-    return this.props.data.get('series').map(series => {
-      const type = series.get('seriesType');
+    return this.props.children.map(series => {
+      const {type, title, data, color} = series.props;
       return {
-        name: series.get('title'),
+        name: title,
         type,
-        data: series.get('data').map(point => ([
+        data: data.map(point => ([
           point.get(this.props.xField),
           point.get(this.props.yField)
         ])).toJS(),
         dashStyle: 'ShortDot',
-        color: this.getSeriesColor(series.get('type')),
+        color,
         marker: {
-          enabled: false, radius: 2
+          enabled: type === 'scatter', radius: 4
         },
         lineWidth: type === 'line' ? 3 : 0,
         animation: false
       }
-    }).toJS();
-  }
-
-  getSeriesColor(series_type) {
-    switch(series_type) {
-      case 'rotating':
-        return '#f7e47a';
-      case 'pickup':
-        return '#78905f';
-      case 'slackoff':
-      default:
-        return '#5f7f90';
-    }
+    });
   }
 
 }
