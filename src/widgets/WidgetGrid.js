@@ -22,26 +22,13 @@ class WidgetGrid extends Component {
       widgets: List([{
         id: '1',
         title: 'Broomstick',
-        gridConfig: {x: 0, y: 0, w: 3, h: 14},
+        gridConfig: {x: 0, y: 0, w: 4, h: 14},
         WidgetComponent: torqueAndDragBroomstick.Widget
       }, {
         id: '2',
-        gridConfig: {x: 3, y: 0, w: 2, h: 4}
-      }, {
-        id: '3',
-        gridConfig: {x: 3, y: 4, w: 2, h: 4}
-      }, {
-        id: '4',
-        gridConfig: {x: 3, y: 8, w: 2, h: 4} 
-      }, {
-        id: '5',
-        gridConfig: {x: 5, y: 0, w: 3, h: 5}
-      }, {
-        id: '6',
-        gridConfig: {x: 5, y: 5, w: 1, h: 7}
-      }, {
-        id: '7',
-        gridConfig: {x: 6, y: 5, w: 2, h: 7} 
+        title: 'Broomstick',
+        gridConfig: {x: 5, y: 0, w: 4, h: 14},
+        WidgetComponent: torqueAndDragBroomstick.Widget
       }])
     };
   }

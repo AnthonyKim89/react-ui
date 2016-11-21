@@ -74,6 +74,15 @@ Adds capability for a user to change the settings of a widget that they have pre
 
 ![](mockups/widget_settings.PNG)
 
+## Dashboard Management
+
+Adds capability for users to to manage multiple dashboards.
+
+* UI support for multiple dashboards in navigation.
+* Create a dashboard.
+* Delete a dashboard.
+* Rename a dashboard.
+
 ## Widget Loading States
 
 Most widgets will need to load data. While data is loading, some loading/progress indication needs to be shown to the user. Add a capability for doing this in a consistent way across widget types, so this does not needs to be implemented for every widget.

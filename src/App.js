@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import MainNav from './MainNav';
+import { start } from './widgets/actions';
 
 class App extends Component {
+
+  componentDidMount() {
+    this.props.dispatch(start());
+  }
+
   render() {
     return (
       <div>
@@ -10,6 +18,10 @@ class App extends Component {
       </div>
     );
   }
+
 }
 
-export default App;
+export default connect(
+  createStructuredSelector({
+  })
+)(App);

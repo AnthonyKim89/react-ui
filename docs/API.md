@@ -16,6 +16,43 @@ On the other hand, we want to retain the flexibility to change the way data is v
 
 On `corva-web` the code for the endpoints are / should be under `app/controllers/api/v1`, in small focused controllers and views.
 
+### Widget Grids
+
+#### List
+
+Returns a list of all the widget grids (Dashboards and Well Pages) that the user has access to.
+
+#### Request
+
+   GET /api/widget_sets/{userId}
+
+#### Response
+
+    [
+      {
+        "id": 1234,
+        "type": "dashboard",
+        "name": "My Dashboard",
+        "widgets": [{
+          "id": 5678,
+          "type": "torque_and_drag/broomstick",
+          "coordinates": {"x": 0, "y": 0, "w": 3, "h": 5},
+          "settings": {"rig_id": 7890, "other": "settings"}
+        }]
+      },
+      {
+        "id": 5678,
+        "type": "well_page",
+        "category": "torque_and_drag",
+        "widgets": [{
+          "id": 9012,
+          "type": "torque_and_drag/broomstick",
+          "coordinates": {"x": 0, "y": 0, "w": 3, "h": 5},
+          "settings": {"some": "settings"}
+        }]
+      }
+    ]
+
 ### Torque And Drag Broomstick Charts
 
 #### Request

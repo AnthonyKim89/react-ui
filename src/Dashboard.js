@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import TabBar from './TabBar';
-
-import './Dashboard.css';
+import WidgetGrid from './widgets/WidgetGrid';
 
 class Dashboard extends Component {
   render() {
     return (
       <div className="c-dashboard" >
-        {this.props.children}
-        <TabBar page={this.props.route.path} />
+        <WidgetGrid {...this.props} />
       </div>
     );
   }
