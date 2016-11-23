@@ -5,7 +5,7 @@ import { List } from 'immutable';
 
 import WidgetContainer from './WidgetContainer';
 import torqueAndDragBroomstick from './torqueAndDragBroomstick';
-import { Size } from './constants';
+import { Size, GRID_BREAKPOINTS, GRID_COLUMN_SIZES, GRID_ROW_HEIGHT } from './constants';
 
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -37,9 +37,9 @@ class WidgetGrid extends Component {
     const widgetProps = {wellId: 1016, time: moment('2016-08-31')};
     return (
       <div className="c-widget-grid">
-        <GridLayout breakpoints={{large: 1024, medium: 512, small: 0}}
-                    cols={{large: 8, medium: 4, small: 1}}
-                    rowHeight={30}
+        <GridLayout breakpoints={GRID_BREAKPOINTS}
+                    cols={GRID_COLUMN_SIZES}
+                    rowHeight={GRID_ROW_HEIGHT}
                     onResizeStop={(...args) => this.onResizeStop(...args)}>
           {this.renderGridWidgets(widgetProps)}
         </GridLayout>
