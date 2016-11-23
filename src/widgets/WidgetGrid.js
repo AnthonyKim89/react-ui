@@ -25,7 +25,8 @@ class WidgetGrid extends Component {
         <GridLayout breakpoints={GRID_BREAKPOINTS}
                     cols={GRID_COLUMN_SIZES}
                     rowHeight={GRID_ROW_HEIGHT}
-                    onResizeStop={(...args) => this.onResizeStop(...args)}>
+                    onResizeStop={(...args) => this.onResizeStop(...args)}
+                    onDragStop={(...args) => this.onDragStop(...args)}>
           {this.renderGridWidgets(widgetProps)}
         </GridLayout>
         {this.renderMaximizedWidget(widgetProps)}
@@ -89,23 +90,21 @@ class WidgetGrid extends Component {
     return id && parseInt(id, 10);
   }
 
-  onResizeStop(layout, oldItem, {i, w, h}) {
-    this.setState(state => {
-      const widgetIndex = state.widgets.findIndex(w => w.id === i);
-      const widget = state.widgets.get(widgetIndex);
-      const gridConfig = {...widget.gridConfig, w, h};
-      return {
-        widgets: state.widgets.set(widgetIndex, {...widget, gridConfig})
-      }
-    });
+  onResizeStop(layout, oldItem, {i, x, y, w, h}) {
+    this.props.onWidgetMove(parseInt(i, 10), {x, y, w, h});
+  }
+
+  onDragStop(layout, oldItem, {i, x, y, w, h}) {
+    this.props.onWidgetMove(parseInt(i, 10), {x, y, w, h});
   }
 
 }
 
 WidgetGrid.propTypes = {
-  widgets: ImmutablePropTypes.list.isRequired,
+  widgets: ImmutablePropTypes.seq.isRequired,
+  onWidgetMove: PropTypes.func.isRequired,
   wellId: PropTypes.number,
-  location: PropTypes.object
+  location: PropTypes.object,
 };
 
 export default WidgetGrid;

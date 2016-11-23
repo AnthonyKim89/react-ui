@@ -31,7 +31,7 @@ class WellTabBar extends Component {
 
 WellTabBar.propTypes = {
   wellId: PropTypes.number.isRequired,
-  wellPages: ImmutablePropTypes.list.isRequired,
+  wellPages: ImmutablePropTypes.seq.isRequired,
   currentWellPage: ImmutablePropTypes.map
 };
 

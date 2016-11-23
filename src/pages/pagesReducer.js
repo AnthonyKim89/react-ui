@@ -1,12 +1,25 @@
-import { List, Map } from 'immutable';
+import { Map } from 'immutable';
 import * as t from './actions';
 
 const initialState = Map({
   isLoading: true,
   currentUser: null,
-  dashboards: List(),
-  wellPages: List()
+  widgetSets: Map()
 });
+
+function widgetsById(widgets) {
+  return widgets.reduce(
+    (res, w) => res.set(w.get('id'), w),
+    Map()
+  );
+}
+
+function widgetSetsById(widgetSets) {
+  return widgetSets.reduce(
+    (res, w) => res.set(w.get('id'), w.update('widgets', widgetsById)),
+    Map()
+  );
+}
 
 export default function(state = initialState, action) {
   switch (action.type) {
@@ -19,9 +32,14 @@ export default function(state = initialState, action) {
       return state.merge({
         isLoading: false,
         currentUser: user,
-        dashboards: widgetSets.filter(ws => ws.get('type') === 'dashboard'),
-        wellPages: widgetSets.filter(ws => ws.get('type') === 'well_page')
+        widgetSets: widgetSetsById(widgetSets)
       });
+    case t.MOVE_WIDGET:
+      const {widgetSet, id, coordinates} = action;
+      return state.setIn(
+        ['widgetSets', widgetSet.get('id'), 'widgets', id, 'coordinates'],
+        Map(coordinates)
+      );
     default:
       return state;
   }

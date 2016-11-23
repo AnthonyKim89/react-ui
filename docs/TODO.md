@@ -1,21 +1,6 @@
 This list is assumed to be in priority order. Next work items will be taken from
 the top of the list unless agreed otherwise.
 
-## Dashboard and Widget API (read)
-
-Adds capability for dashboards, well pages, and their contents to be populated dynamically based on user settings in serverside database.
-
-* Specify the API.
-* Read the list of dashboards and their contents from the API.
-* Populate the dashboard based on information received from the API.
-
-## Dashboard and Widget API (write / update)
-
-Adds capability for users to change their dashboard and well page layouts and
-have them persisted to their settings in the serverside database.
-
-* Writing updates to API when the user resizes or reorganizes a dashboard.
-
 ## Well Page Timeline Bar
 
 Adds capability for users to adjust the time displayed in widgets placed

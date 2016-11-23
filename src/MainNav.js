@@ -46,7 +46,7 @@ class MainNav extends Component {
 }
 
 MainNav.propTypes = {
-    dashboards: ImmutablePropTypes.list.isRequired
+    dashboards: ImmutablePropTypes.seq.isRequired
 }
 
 export default MainNav;

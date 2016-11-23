@@ -3,14 +3,28 @@ import { NAME } from './constants';
 
 const stateSelector = state => state[NAME];
 
+export const currentUser = createSelector(
+  stateSelector,
+  state => state.get('currentUser')
+);
+
+export const allWidgetSets = createSelector(
+  stateSelector,
+  state => state.get('widgetSets')
+);
+
 export const dashboards = createSelector(
   stateSelector,
-  state => state.get('dashboards')
+  state => state.get('widgetSets')
+    .valueSeq()
+    .filter(w => w.get('type') === 'dashboard')
 );
 
 export const wellPages = createSelector(
   stateSelector,
-  state => state.get('wellPages')
+  state => state.get('widgetSets')
+    .valueSeq()
+    .filter(w => w.get('type') === 'well_page')
 );
 
 export const currentDashboard = createSelector(

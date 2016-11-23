@@ -5,6 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import WellTabBar from './WellTabBar';
 import WidgetGrid from './widgets/WidgetGrid';
 import { wellPages, currentWellPage } from './pages/selectors';
+import { moveWidget } from './pages/actions';
 
 import './WellPage.css';
 
@@ -14,7 +15,8 @@ class WellPage extends Component {
     return (
       <div className="c-well-page" >
         {this.props.currentWellPage &&
-          <WidgetGrid widgets={this.props.currentWellPage.get('widgets')}
+          <WidgetGrid widgets={this.props.currentWellPage.get('widgets').valueSeq()}
+                      onWidgetMove={(...a) => this.onWidgetMove(...a)}
                       wellId={wellId}
                       location={this.props.location} />}
         <WellTabBar wellId={wellId}
@@ -23,11 +25,17 @@ class WellPage extends Component {
       </div>
     );
   }
+
+  onWidgetMove(id, newCoordinates) {
+    this.props.moveWidget(this.props.currentWellPage, id, newCoordinates);
+  }
+
 }
 
 export default connect(
   createStructuredSelector({
     wellPages,
     currentWellPage
-  })
+  }),
+  {moveWidget}
 )(WellPage);

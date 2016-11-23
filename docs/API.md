@@ -32,11 +32,13 @@ Returns information about the currently signed-in user.
       "id": 1234
     }
 
-### Widget Grids
+### Widgets And Widget Sets
 
 #### List
 
-Returns a list of all the widget grids (Dashboards and Well Pages) that the user has access to.
+Returns a list of all the widget sets (Dashboards and Well Pages) that the user has access to.
+The response should contain all the contents of the widgets as well, so that the frontend
+navigation can be fully populated based on it.
 
 ##### Request
 
@@ -68,6 +70,31 @@ Returns a list of all the widget grids (Dashboards and Well Pages) that the user
         }]
       }
     ]
+
+
+#### Update Widget
+
+Updates the settings, coordinates, or type of an existing widget
+
+##### Request
+
+   PUT /api/users/{userId}/widget_sets/{widgetSetId}/widgets/{widgetId}
+
+   {
+     "id": 5678,
+     "type": "torque_and_drag/broomstick",
+     "coordinates": {"x": 0, "y": 0, "w": 3, "h": 5},
+     "settings": {"rig_id": 7890, "other": "settings"}
+   }
+
+##### Response
+
+   {
+     "id": 5678,
+     "type": "torque_and_drag/broomstick",
+     "coordinates": {"x": 0, "y": 0, "w": 3, "h": 5},
+     "settings": {"rig_id": 7890, "other": "settings"}
+   }
 
 ### Torque And Drag Broomstick Charts
 

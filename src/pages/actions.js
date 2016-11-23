@@ -1,6 +1,6 @@
-import { getCurrentUser, getWidgetSets } from '../api';
+import { getCurrentUser, getWidgetSets, updateWidget } from '../api';
 import { push } from 'react-router-redux'
-import { dashboards } from './selectors';
+import { dashboards, currentUser, allWidgetSets } from './selectors';
 
 export const START_LOAD = 'START_LOAD';
 function startLoad() {
@@ -25,5 +25,16 @@ export function start() {
     const user = await getCurrentUser();
     const widgetSets = await getWidgetSets(user.get('id'));
     dispatch(finishLoad({user, widgetSets}));
+  };
+}
+
+
+export const MOVE_WIDGET = 'MOVE_WIDGET';
+export function moveWidget(widgetSet, id, coordinates) {
+  return (dispatch, getState) => {
+    dispatch({type: MOVE_WIDGET, widgetSet, id, coordinates});
+    const user = currentUser(getState());
+    const widget = allWidgetSets(getState()).getIn([widgetSet.get('id'), 'widgets', id]);
+    updateWidget(user.get('id'), widgetSet.get('id'), widget);
   };
 }
