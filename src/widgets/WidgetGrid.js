@@ -16,7 +16,7 @@ const GridLayout = WidthProvider(Responsive);
 class WidgetGrid extends Component {
 
   render() {
-    const widgetProps = {wellId: 1016, time: moment('2016-08-31')};
+    const widgetProps = {time: moment('2016-08-31')};
     return (
       <div className="c-widget-grid">
         <GridLayout breakpoints={GRID_BREAKPOINTS}
@@ -57,13 +57,14 @@ class WidgetGrid extends Component {
     const type = widget.get('type');
     const id = widget.get('id');
     const coordinates = widget.get('coordinates');
+    const settings = widget.get('settings');
     const {constants, Widget} = widgetRegistry.get(type);
     return <WidgetContainer id={id}
                             title={constants.TITLE}
                             maximized={maximized}
                             location={this.props.location}>
       {Widget &&
-        <Widget {...widgetProps}
+        <Widget {...widgetProps} {...settings.toJS()}
           size={this.getWidgetSize(coordinates, maximized)} />}
     </WidgetContainer>
   }
