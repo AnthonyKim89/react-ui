@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import moment from 'moment';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -16,7 +16,11 @@ const GridLayout = WidthProvider(Responsive);
 class WidgetGrid extends Component {
 
   render() {
-    const widgetProps = {time: moment('2016-08-31')};
+    const widgetProps = {
+      time: moment('2016-08-31'),
+      wellId: this.props.wellId // For well pages, id is given
+    };
+    console.log(widgetProps);
     return (
       <div className="c-widget-grid">
         <GridLayout breakpoints={GRID_BREAKPOINTS}
@@ -63,9 +67,9 @@ class WidgetGrid extends Component {
                             title={constants.TITLE}
                             maximized={maximized}
                             location={this.props.location}>
-      {Widget &&
-        <Widget {...widgetProps} {...settings.toJS()}
-          size={this.getWidgetSize(coordinates, maximized)} />}
+      <Widget {...widgetProps}
+              {...settings.toJS()}
+              size={this.getWidgetSize(coordinates, maximized)} />
     </WidgetContainer>
   }
 
@@ -100,7 +104,9 @@ class WidgetGrid extends Component {
 }
 
 WidgetGrid.propTypes = {
-  widgets: ImmutablePropTypes.list.isRequired
+  widgets: ImmutablePropTypes.list.isRequired,
+  wellId: PropTypes.number,
+  location: PropTypes.object
 };
 
 export default WidgetGrid;

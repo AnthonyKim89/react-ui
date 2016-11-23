@@ -8,6 +8,8 @@ import './MainNav.css';
 
 class MainNav extends Component {
   render() {
+    // Used until we have rig/well listing implemented
+    const placeholderWellId = 1016;
     return (
       <Navbar fixedTop className="c-main-nav">
         <Navbar.Header>
@@ -20,7 +22,7 @@ class MainNav extends Component {
             <LinkContainer to={this.getPathToFirstDashboard()}>
               <NavItem>Dashboards</NavItem>
             </LinkContainer>}
-          <LinkContainer to="/wells">
+          <LinkContainer to={`/wells/${placeholderWellId}/overview`}>
             <NavItem>Wells</NavItem>
           </LinkContainer>
         </Nav>

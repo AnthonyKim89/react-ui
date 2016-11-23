@@ -12,7 +12,10 @@ function finishLoad(data) {
   return (dispatch, getState) => {
     dispatch({type: FINISH_LOAD, data});
     const dashboard = dashboards(getState()).first();
-    dispatch(push(`/dashboards/${dashboard.get('id')}`));
+    const currentPath = getState().routing.locationBeforeTransitions.pathname;
+    if (currentPath === '/') {
+      dispatch(push(`/dashboards/${dashboard.get('id')}`));
+    }
   };
 }
 
