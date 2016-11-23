@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+
 import MainNav from './MainNav';
+
 import { start } from './pages/actions';
+import { dashboards } from './pages/selectors';
 
 class App extends Component {
 
@@ -13,7 +16,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <MainNav />
+        <MainNav dashboards={this.props.dashboards} />
         {this.props.children}
       </div>
     );
@@ -23,5 +26,6 @@ class App extends Component {
 
 export default connect(
   createStructuredSelector({
+    dashboards
   })
 )(App);

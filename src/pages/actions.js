@@ -1,5 +1,6 @@
 import { getWidgetSets } from '../api';
 import { push } from 'react-router-redux'
+import { dashboards } from './selectors';
 
 export const START_LOAD = 'START_LOAD';
 function startLoad() {
@@ -10,7 +11,7 @@ export const FINISH_LOAD = 'FINISH_LOAD';
 function finishLoad(data) {
   return (dispatch, getState) => {
     dispatch({type: FINISH_LOAD, data});
-    const dashboard = getState().widgets.get('dashboards').first();
+    const dashboard = dashboards(getState()).first();
     dispatch(push(`/dashboards/${dashboard.get('id')}`));
   };
 }

@@ -6,6 +6,6 @@ import pages from './pages';
 
 export default combineReducers({
   routing: routerReducer,
-  pages: pages.reducer,
+  [pages.constants.NAME]: pages.reducer,
   [torqueAndDragBroomstick.constants.NAME]: torqueAndDragBroomstick.reducer
 });
