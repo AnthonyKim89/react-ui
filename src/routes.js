@@ -5,7 +5,6 @@ import App from './App';
 import Dashboard from './Dashboard';
 import WellPage from './WellPage';
 import WidgetGrid from './widgets/WidgetGrid';
-import Analytics from './Analytics';
 
 
 export const routes =
@@ -22,5 +21,4 @@ export const routes =
       <Route path="losses" key="losses" component={WidgetGrid} />,
       <Route path="raw" key="raw" component={WidgetGrid} />,
     </Route>
-    <Route path="analytics" component={Analytics}/>
   </Route>;

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import MainNav from './MainNav';
-import { start } from './widgets/actions';
+import { start } from './pages/actions';
 
 class App extends Component {
 

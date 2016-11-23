@@ -21,9 +21,6 @@ class NavBar extends Component {
           <LinkContainer to="/wells">
             <NavItem>Wells</NavItem>
           </LinkContainer>
-          <LinkContainer to="/analytics">
-            <NavItem>Analytics</NavItem>
-          </LinkContainer>
         </Nav>
       </Navbar>
     );
