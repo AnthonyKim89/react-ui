@@ -1,6 +1,15 @@
-import { flow } from 'lodash';
+import { createSelector } from 'reselect'
 import { NAME } from './constants';
 
-const getState = state => state[NAME];
+const stateSelector = state => state[NAME];
 
-export const dashboards = flow(getState, s => s.get('dashboards'));
+export const dashboards = createSelector(
+  stateSelector,
+  state => state.get('dashboards')
+);
+
+export const dashboard = createSelector(
+  dashboards,
+  (_, props) => parseInt(props.params.dashboardId, 10),
+  (dashboards, dashboardId) => dashboards.find(db => db.get('id') === dashboardId)
+);

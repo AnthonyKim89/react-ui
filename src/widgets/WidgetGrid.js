@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import moment from 'moment';
-import { List } from 'immutable';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import WidgetContainer from './WidgetContainer';
-import torqueAndDragBroomstick from './torqueAndDragBroomstick';
 import { Size, GRID_BREAKPOINTS, GRID_COLUMN_SIZES, GRID_ROW_HEIGHT } from './constants';
+import widgetRegistry from './widgetRegistry';
 
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -14,24 +14,6 @@ import './WidgetGrid.css';
 const GridLayout = WidthProvider(Responsive);
 
 class WidgetGrid extends Component {
-
-  constructor(props) {
-    super(props);
-    // This data will later come from an API
-    this.state = {
-      widgets: List([{
-        id: '1',
-        title: 'Broomstick',
-        gridConfig: {x: 0, y: 0, w: 4, h: 14},
-        WidgetComponent: torqueAndDragBroomstick.Widget
-      }, {
-        id: '2',
-        title: 'Broomstick',
-        gridConfig: {x: 5, y: 0, w: 4, h: 14},
-        WidgetComponent: torqueAndDragBroomstick.Widget
-      }])
-    };
-  }
 
   render() {
     const widgetProps = {wellId: 1016, time: moment('2016-08-31')};
@@ -50,15 +32,13 @@ class WidgetGrid extends Component {
 
   renderGridWidgets(widgetProps) {
     const maximizedId = this.getMaximizedWidgetId();
-    return this.state.widgets
-      .filter(widget => widget.id !== maximizedId)
-      .map(({id, title, gridConfig, WidgetComponent}) => {
-        return <div key={id} data-grid={gridConfig}>
-          <WidgetContainer id={id} title={title}>
-            {WidgetComponent &&
-              <WidgetComponent {...widgetProps}
-                               size={this.getWidgetSize(gridConfig)} />}
-          </WidgetContainer>
+    return this.props.widgets
+      .filter(widget => widget.get('id') !== maximizedId)
+      .map(widget => {
+        const id = widget.get('id');
+        const coordinates = widget.get('coordinates');
+        return <div key={id} data-grid={coordinates.toJS()}>
+          {this.renderWidget(widget, widgetProps)}
         </div>
       });
   }
@@ -66,21 +46,34 @@ class WidgetGrid extends Component {
   renderMaximizedWidget(widgetProps) {
     const id = this.getMaximizedWidgetId();
     if (id) {
-      const {WidgetComponent, title} = this.state.widgets.find(w => w.id === id);
-      return <div className="MaximizedWidget">
-        <WidgetContainer id={id} title={title} maximized={true}>
-          {WidgetComponent && <WidgetComponent {...widgetProps} size={Size.XLARGE} />}
-        </WidgetContainer>;
-      </div>
+      const widget = this.props.widgets.find(w => w.get('id') === id);
+      return this.renderWidget(widget, widgetProps, true);
     } else {
       return null;
     }
   }
 
-  getWidgetSize(gridConfig) {
-    if (gridConfig.w >= 5) {
+  renderWidget(widget, widgetProps, maximized = false) {
+    const type = widget.get('type');
+    const id = widget.get('id');
+    const coordinates = widget.get('coordinates');
+    const {constants, Widget} = widgetRegistry.get(type);
+    return <WidgetContainer id={id}
+                            title={constants.TITLE}
+                            maximized={maximized}
+                            location={this.props.location}>
+      {Widget &&
+        <Widget {...widgetProps}
+          size={this.getWidgetSize(coordinates, maximized)} />}
+    </WidgetContainer>
+  }
+
+  getWidgetSize(gridConfig, maximized) {
+    if (maximized) {
+      return Size.XLARGE;
+    } else if (gridConfig.get('w') >= 5) {
       return Size.LARGE;
-    } else if (gridConfig.w >= 3) {
+    } else if (gridConfig.get('w') >= 3) {
       return Size.MEDIUM;
     } else {
       return Size.SMALL;
@@ -88,7 +81,8 @@ class WidgetGrid extends Component {
   }
 
   getMaximizedWidgetId() {
-    return this.props.location.query.maximize;
+    const id = this.props.location.query.maximize;
+    return id && parseInt(id, 10);
   }
 
   onResizeStop(layout, oldItem, {i, w, h}) {
@@ -103,5 +97,9 @@ class WidgetGrid extends Component {
   }
 
 }
+
+WidgetGrid.propTypes = {
+  widgets: ImmutablePropTypes.list.isRequired
+};
 
 export default WidgetGrid;
