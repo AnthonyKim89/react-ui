@@ -142,16 +142,28 @@ Adds the capability for Corva to track what users are doing in the system.
 * Specify and implement tracking for the interactions we want to track.
   * E.g. on top of basic navigation tracking, track interaction with widgets.
 
+## Raw Traces
+
+Shows the raw values, supports zoom, scroll, and customization.
+This is also where we need a socket to stream in live data.
+Considered to be a component so a subset of the traces can be embedded in other views.
+
+![](mockups/traces.png)
+
+![](mockups/mobile_warning_scrolled.PNG)
+
 ## Dashboard Sharing
 
 Adds the capability for users to search with other users the dashboard they have made.
 
 **Needs further specification**
 
-## Messages
+## Messages / Chat
 
 **Needs further specification**
  
+http://josephndungu.com/tutorials/gmail-like-chat-application-in-ruby-on-rails
+
 ## Third-Party Widget Integration
 
 Adds the capability for Corva customers to integrate widgets of their own making into dashboards.
