@@ -3,6 +3,7 @@ import * as t from './actions';
 
 const initialState = Map({
   isLoading: true,
+  currentUser: null,
   dashboards: List(),
   wellPages: List()
 });
@@ -14,10 +15,12 @@ export default function(state = initialState, action) {
         isLoading: true
       });
     case t.FINISH_LOAD:
+      const {user, widgetSets} = action.data;
       return state.merge({
         isLoading: false,
-        dashboards: action.data.filter(ws => ws.get('type') === 'dashboard'),
-        wellPages: action.data.filter(ws => ws.get('type') === 'well_page')
+        currentUser: user,
+        dashboards: widgetSets.filter(ws => ws.get('type') === 'dashboard'),
+        wellPages: widgetSets.filter(ws => ws.get('type') === 'well_page')
       });
     default:
       return state;

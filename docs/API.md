@@ -16,17 +16,33 @@ On the other hand, we want to retain the flexibility to change the way data is v
 
 On `corva-web` the code for the endpoints are / should be under `app/controllers/api/v1`, in small focused controllers and views.
 
+### Users
+
+#### Current User
+
+Returns information about the currently signed-in user.
+
+##### Request
+
+   GET /api/users/current
+
+##### Response
+
+    {
+      "id": 1234
+    }
+
 ### Widget Grids
 
 #### List
 
 Returns a list of all the widget grids (Dashboards and Well Pages) that the user has access to.
 
-#### Request
+##### Request
 
-   GET /api/widget_sets/{userId}
+   GET /api/users/{userId}/widget_sets/
 
-#### Response
+##### Response
 
     [
       {

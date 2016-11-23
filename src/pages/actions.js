@@ -1,4 +1,4 @@
-import { getWidgetSets } from '../api';
+import { getCurrentUser, getWidgetSets } from '../api';
 import { push } from 'react-router-redux'
 import { dashboards } from './selectors';
 
@@ -22,6 +22,8 @@ function finishLoad(data) {
 export function start() {
   return async dispatch => {
     dispatch(startLoad());
-    dispatch(finishLoad(await getWidgetSets(1))); // TODO: Need userId here.
+    const user = await getCurrentUser();
+    const widgetSets = await getWidgetSets(user.get('id'));
+    dispatch(finishLoad({user, widgetSets}));
   };
 }

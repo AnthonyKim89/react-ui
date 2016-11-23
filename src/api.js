@@ -9,8 +9,13 @@ async function get(path, queryParams = {}) {
   return fromJS(await response.json());
 }
 
+
+export async function getCurrentUser() {
+  return fromJS(await get(`/api/users/current`));
+}
+
 export async function getWidgetSets(userId) {
-  const data = await get(`/api/widget_sets/${userId}`);
+  const data = await get(`/api/users/${userId}/widget_sets`);
   return fromJS(data);
 }
 
