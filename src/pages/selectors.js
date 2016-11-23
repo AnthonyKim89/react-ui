@@ -13,13 +13,13 @@ export const wellPages = createSelector(
   state => state.get('wellPages')
 );
 
-export const dashboard = createSelector(
+export const currentDashboard = createSelector(
   dashboards,
   (_, props) => parseInt(props.params.dashboardId, 10),
   (dashboards, dashboardId) => dashboards.find(db => db.get('id') === dashboardId)
 );
 
-export const wellPage = createSelector(
+export const currentWellPage = createSelector(
   wellPages,
   (_, props) => props.params.category,
   (wellPages, category) => wellPages.find(p => p.get('category') === category)

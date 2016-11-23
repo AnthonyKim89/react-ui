@@ -20,7 +20,6 @@ class WidgetGrid extends Component {
       time: moment('2016-08-31'),
       wellId: this.props.wellId // For well pages, id is given
     };
-    console.log(widgetProps);
     return (
       <div className="c-widget-grid">
         <GridLayout breakpoints={GRID_BREAKPOINTS}
