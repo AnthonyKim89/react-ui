@@ -97,6 +97,8 @@ needing significant CSS styling every time.
 * Evaluate existing themes to see if there is one that can be used as basis.
 * Based on evaluation, either adapt an existing theme or create one from scratch.
 
+Use IBM Bluemix as an inspiration.
+
 ## Rig Listings
 
 Adds the capability for users to list rigs, wells, and drilling programs, and to navigate to them.
