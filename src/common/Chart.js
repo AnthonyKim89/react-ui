@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import ReactHighcharts from 'react-highcharts';
 
 class Chart extends Component {
@@ -63,7 +63,7 @@ class Chart extends Component {
 
 
   getSeries() {
-    return this.props.children.map(series => {
+    return React.Children.toArray(this.props.children).map(series => {
       const {type, title, data, color} = series.props;
       return {
         name: title,
@@ -84,5 +84,10 @@ class Chart extends Component {
   }
 
 }
+
+Chart.propTypes = {
+  isLegendVisible: PropTypes.bool,
+  isAxisLabelsVisible: PropTypes.bool
+};
 
 export default Chart;

@@ -17,8 +17,14 @@ Then start the development server:
 npm start
 ```
 
+In another terminal, also start the automated unit test runner:
+
+```
+npm test
+```
+
 The app will automatically launch in a browser. Code changes are picked
-up automatically and reloaded to the browser.
+up automatically and reloaded to the browser. Unit tests will also automatically run whenever the code changes. 
 
 API data requests are proxied to `http://localhost:3000`, so you will need to have corva-web
 running and you must be logged into it from the browser(s) you're developing with.
