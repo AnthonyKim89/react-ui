@@ -2,8 +2,8 @@ import React from 'react';
 import { Route } from 'react-router';
 
 import App from './App';
-import Dashboard from './Dashboard';
-import WellPage from './WellPage';
+import Dashboard from './pages/Dashboard';
+import WellPage from './pages/WellPage';
 
 export const routes =
   <Route path="/" component={App}>

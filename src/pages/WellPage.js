@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import WellTabBar from './WellTabBar';
-import WidgetGrid from './widgets/WidgetGrid';
-import { wellPages, currentWellPage } from './pages/selectors';
-import { moveWidget } from './pages/actions';
+import WidgetGrid from '../widgets/WidgetGrid';
+
+import { wellPages, currentWellPage } from './selectors';
+import { moveWidget } from './actions';
 
 import './WellPage.css';
 
