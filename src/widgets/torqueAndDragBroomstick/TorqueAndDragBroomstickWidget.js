@@ -17,6 +17,12 @@ class TorqueAndDragBroomstickWidget extends Component {
     this.props.dispatch(load(this.props.wellId, this.props.time));
   }
 
+  componentWillReceiveProps(newProps) {
+    if (!newProps.time.isSame(this.props.time)) {
+      this.props.dispatch(load(this.props.wellId, newProps.time));
+    }
+  }
+
   render() {
     return (
       <div className="c-torque-and-drag-broomstick">

@@ -6,3 +6,15 @@ body {
   font-family: orgonlightregular;
   padding-top: 51px;
 }
+
+.u-inline-block {
+  display: inline-block;
+}
+
+.u-pull-right {
+    float: right;
+}
+
+.u-half-opacity {
+  opacity: 50%;
+}

@@ -1,4 +1,4 @@
-import { getCurrentUser, getWidgetSets, updateWidget } from '../api';
+import { getCurrentUser, getWidgetSets, updateWidget, getWellTimeline } from '../api';
 import { push } from 'react-router-redux'
 import { dashboards, currentUser, allWidgetSets } from './selectors';
 
@@ -37,4 +37,17 @@ export function moveWidget(widgetSet, id, coordinates) {
     const widget = allWidgetSets(getState()).getIn([widgetSet.get('id'), 'widgets', id]);
     updateWidget(user.get('id'), widgetSet.get('id'), widget);
   };
+}
+
+export const LOAD_WELL_TIMELINE = 'LOAD_WELL_TIMELINE';
+export function loadWellTimeline(wellId) {
+  return async dispatch => {
+    const timeline = await getWellTimeline(wellId);
+    dispatch({type: LOAD_WELL_TIMELINE, wellId, timeline});
+  };
+}
+
+export const SET_DRILL_TIME = 'SET_DRILL_TIME';
+export function setDrillTime(wellId, time) {
+  return {type: SET_DRILL_TIME, wellId, time};
 }

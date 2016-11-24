@@ -39,6 +39,11 @@ export async function updateWidget(userId, widgetSetId, widget) {
   );
 }
 
+export async function getWellTimeline(wellId) {
+  const data = await get(`/api/jobs/${wellId}/drill_view/timeline_slider`);
+  return fromJS(data);
+}
+
 export async function getTorque({wellId, date}) {
   const queryParams = {date: date.unix()};
   const data = await get(`/api/jobs/${wellId}/torque_and_drag/broomstick_chart`, queryParams);

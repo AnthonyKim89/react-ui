@@ -17,7 +17,7 @@ class WidgetGrid extends Component {
 
   render() {
     const widgetProps = {
-      time: moment('2016-08-31'),
+      time: this.props.wellDrillTime || moment('2016-08-31'),
       wellId: this.props.wellId // For well pages, id is given
     };
     return (
@@ -104,6 +104,7 @@ WidgetGrid.propTypes = {
   widgets: ImmutablePropTypes.seq.isRequired,
   onWidgetMove: PropTypes.func.isRequired,
   wellId: PropTypes.number,
+  wellDrillTime: PropTypes.object,
   location: PropTypes.object,
 };
 

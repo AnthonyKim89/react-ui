@@ -105,6 +105,12 @@ Adds the capability for users to list rigs, wells, and drilling programs, and to
 
 **Needs further specification**
 
+## Depth vs. Time Chart for Well Timeline
+
+In addition to the basic well page timeline already implemented, the mockup contains a "depth vs time" chart displayed above it:
+
+![](mockups/timeline.png)
+
 ## Well Alerts Bar
 
 Adds the capability for users to see alerts on the well pages.
