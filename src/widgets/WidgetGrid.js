@@ -65,6 +65,7 @@ class WidgetGrid extends Component {
     const {constants, Widget} = widgetRegistry.get(type);
     return <WidgetContainer id={id}
                             title={constants.TITLE}
+                            subtitle={constants.SUBTITLE}
                             maximized={maximized}
                             location={this.props.location}>
       <Widget {...widgetProps}

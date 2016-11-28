@@ -4,7 +4,8 @@
 
 The system supports several **Widget Types**, each one with their own functionality and visual representation. Each Widget Type has: 
 
-* A *name* (e.g. “Broomstick”) - used in titles and lists
+* A *title* (e.g. “Trend Broomstick”) - used in titles and lists.
+* An optional *subtitle* (e.g. "Visual trend identification for hole problems or poor cleaning") - used in titles.
 * A *category* (e.g. “Torque & Drag”) - used in titles. Also used as a criteria for where widgets of this type can be added.
 
 A user can create a **Widget** by choosing a Widget Type and placing it into a **Widget Set**. Each Widget has:

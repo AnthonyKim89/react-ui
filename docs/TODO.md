@@ -99,6 +99,8 @@ needing significant CSS styling every time.
 
 Use IBM Bluemix as an inspiration.
 
+![](mockups/well_tad.PNG)
+
 ## Rig Listings
 
 Adds the capability for users to list rigs, wells, and drilling programs, and to navigate to them.

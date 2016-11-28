@@ -9,7 +9,8 @@ class WidgetContainer extends Component {
   render() {
     const classes = {
       'c-widget-container': true,
-      'c-widget-container--maximized': this.props.maximized
+      'c-widget-container--maximized': this.props.maximized,
+      'c-widget-container--with-subtitle': this.props.subtitle
     };
     return (
       <div className={classSet(classes)}>
@@ -22,7 +23,9 @@ class WidgetContainer extends Component {
                 to={{pathname: this.props.location.pathname, query: {maximize: this.props.id}}}>
             Full screen
           </Link>}
-        <h3 className="c-widget-container__title">{this.props.title}</h3>
+        <h4 className="c-widget-container__title">{this.props.title}</h4>
+        {this.props.subtitle &&
+          <h5 className="c-widget-container__subtitle">{this.props.subtitle}</h5>}
         <div className="c-widget-container__content">
           {this.props.children}
         </div>
@@ -35,6 +38,7 @@ class WidgetContainer extends Component {
 WidgetContainer.propTypes = {
   id: PropTypes.number.isRequired,
   title: PropTypes.string,
+  subtitle: PropTypes.string,
   location: PropTypes.object.isRequired,
   maximized: PropTypes.bool
 };
