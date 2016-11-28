@@ -18,7 +18,7 @@ class WellTabBar extends Component {
     const category = page.get('category');
     const name = page.get('name');
     return <li key={category} className={`c-well-tab-bar__${category}-tab`}>
-      <Link to={this.getPath(category)} activeClassName="is-active">
+      <Link to={this.getLocation(category)} activeClassName="is-active">
         {name}
       </Link>
     </li>;
@@ -29,8 +29,11 @@ class WellTabBar extends Component {
     return <li className="c-well-tab-bar__current-tab-name">{title}</li>
   }
 
-  getPath(category) {
-    return `/wells/${this.props.wellId}/${category}`;
+  getLocation(category) {
+    return {
+      pathname: `/wells/${this.props.wellId}/${category}`,
+      query: {drillTime: this.props.wellDrillTime.toJSON()}
+    };
   }
 
 }
@@ -38,7 +41,8 @@ class WellTabBar extends Component {
 WellTabBar.propTypes = {
   wellId: PropTypes.number.isRequired,
   wellPages: ImmutablePropTypes.seq.isRequired,
-  currentWellPage: ImmutablePropTypes.map
+  currentWellPage: ImmutablePropTypes.map,
+  wellDrillTime: PropTypes.object
 };
 
 export default WellTabBar;

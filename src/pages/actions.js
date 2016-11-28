@@ -40,10 +40,10 @@ export function moveWidget(widgetSet, id, coordinates) {
 }
 
 export const LOAD_WELL_TIMELINE = 'LOAD_WELL_TIMELINE';
-export function loadWellTimeline(wellId) {
+export function loadWellTimeline(wellId, drillTime) {
   return async dispatch => {
     const timeline = await getWellTimeline(wellId);
-    dispatch({type: LOAD_WELL_TIMELINE, wellId, timeline});
+    dispatch({type: LOAD_WELL_TIMELINE, wellId, drillTime, timeline});
   };
 }
 

@@ -47,10 +47,14 @@ function calculateTimelineActivity(timeline) {
   }
 }
 
-function setCurrentTimeFromLastTooltipDepth(timeline) {
-  const lastTooltipDepth = timeline.get('tooltipDepthData').last();
-  const time = lastTooltipDepth ? moment(lastTooltipDepth.get('entry_at')) : null;
-  return timeline.set('currentTime', time);
+function setCurrentTimelineTime(timeline, givenTime) {
+  if (givenTime) {
+    return timeline.set('currentTime', givenTime);
+  } else {
+    const lastTooltipDepth = timeline.get('tooltipDepthData').last();
+    const time = lastTooltipDepth ? moment(lastTooltipDepth.get('entry_at')) : null;
+    return timeline.set('currentTime', time);
+  }
 }
 
 export default function(state = initialState, action) {
@@ -69,7 +73,7 @@ export default function(state = initialState, action) {
     case t.LOAD_WELL_TIMELINE:
       return state.setIn(
         ['wellTimelines', action.wellId],
-        calculateTimelineActivity(setCurrentTimeFromLastTooltipDepth(action.timeline))
+        calculateTimelineActivity(setCurrentTimelineTime(action.timeline, action.drillTime))
       );
     case t.SET_DRILL_TIME:
       return state.setIn(
