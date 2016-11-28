@@ -6,6 +6,8 @@ The project includes the [Boostrap](http://getbootstrap.com/) framework (version
 
 The [React Bootstrap](https://react-bootstrap.github.io/) library is also included, which means there are React components available for most Bootstrap widgets. Using them is advisable whenever appropriate.
 
+For iconography, the [font-awesome](http://fontawesome.io/) toolkit is available. It will be automatically applied to elements with the appropriate `fa` CSS classes attached.
+
 Note: We do not yet have our own Bootstrap theme, but one should be created sooner or later to minimize the need for ad-hoc overriding of Bootstrap styles.
 
 ## File Organization
