@@ -68,7 +68,7 @@ class WellTimelineStatusBar extends Component {
   }
 
   renderStatus() {
-    if (!this.props.lastWitsRecord || !this.props.lastWitsRecord.has('status')) {
+    if (!this.props.lastWitsRecord || !this.props.lastWitsRecord.get('status')) {
       return null;
     }
     return (
