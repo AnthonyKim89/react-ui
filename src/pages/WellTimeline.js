@@ -14,7 +14,9 @@ class WellTimeline extends Component {
           tooltipDepthData={this.props.timeline.get('tooltipDepthData')}
           activity={this.props.timeline.get('activity')}
           onChangeDrillTime={this.props.onChangeDrillTime} />
-        <WellTimelineStatusBar />
+        <WellTimelineStatusBar
+          jobData={this.props.timeline.get('jobData')}
+          lastWitsRecord={this.props.timeline.get('lastWitsRecord')} />
       </div>
     );
   }
