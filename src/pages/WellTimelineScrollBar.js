@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Slider from 'rc-slider'
-import { padStart } from 'lodash';
+import { padStart } from 'lodash';
 import moment from 'moment';
 
 import 'rc-slider/assets/index.css'
@@ -12,29 +12,45 @@ const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Se
 
 class WellTimelineScrollBar extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {value: this.findValue()};
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (!newProps.drillTime.isSame(this.props.drillTime)) {
+      this.setState({value: this.findValue(newProps.drillTime)});
+    }
+  }
+
   render() {
     return (
       <div className="c-well-timeline-scroll-bar">
-        <div className="c-well-timeline-scroll-bar__arrow">
-          <div className="c-well-timeline-scroll-bar__arrow-left"></div>
-        </div>
+        <button className="c-well-timeline-scroll-bar__arrow"
+                disabled={!this.isPossibleToJumpToPrevious()}
+                onClick={() => this.jumpToPrevious()}>
+          <span className="c-well-timeline-scroll-bar__arrow-left"></span>
+        </button>
         <div className="c-well-timeline-scroll-bar__bar">
           {this.props.activity.map((item, index) =>
             this.renderActivityItem(item, index))}
           <div className="c-well-timeline-scroll-bar__slider">
             <Slider 
-              min={1} 
-              max={this.props.tooltipDepthData.size}
-              defaultValue={this.findNearestValue()}
-              onAfterChange={i => this.changeDrillTime(i)}
+              min={0} 
+              max={this.props.tooltipDepthData.size - 1}
+              value={this.state.value}
+              onChange={i => this.setState({value: i})}
+              onAfterChange={i => this.changeDrillTime()}
               tipFormatter={i => this.formatItem(i)}
               tipTransitionName="rc-slider-tooltip-zoom-down"
             />
           </div>
         </div>
-        <div className="c-well-timeline-scroll-bar__arrow">
-          <div className="c-well-timeline-scroll-bar__arrow-right"></div>
-        </div>
+        <button className="c-well-timeline-scroll-bar__arrow"
+                disabled={!this.isPossibleToJumpToNext()}
+                onClick={() => this.jumpToNext()}>
+          <span className="c-well-timeline-scroll-bar__arrow-right"></span>
+        </button>
       </div>
     );
   }
@@ -71,21 +87,39 @@ class WellTimelineScrollBar extends Component {
     return `${month} ${date} ${hour}:${min}:${sec}`;
   }
 
-  findNearestValue() {
-    const nearestEntry = this.props.tooltipDepthData
-      .findEntry(e => this.props.drillTime.isSameOrBefore(moment(e.get("entry_at"))));
-    if (nearestEntry) {
-      return nearestEntry[0];
+  findValue(drillTime = this.props.drillTime) {
+    const entry = this.props.tooltipDepthData
+      .findEntry(e => drillTime.isSame(moment(e.get("entry_at"))));
+    if (entry) {
+      return entry[0];
     } else {
       return this.props.tooltipDepthData.size - 1;
     }
   }
 
-  changeDrillTime(idx) {
-    const item = this.props.tooltipDepthData.get(idx - 1)
+  changeDrillTime(idx = this.state.value) {
+    const item = this.props.tooltipDepthData.get(idx)
     if (item) {
       this.props.onChangeDrillTime(moment(item.get("entry_at")));
     }
+  }
+
+  isPossibleToJumpToPrevious() {
+    const current = this.findValue();
+    return current > 0;
+  }
+
+  isPossibleToJumpToNext() {
+    const current = this.findValue();
+    return current < this.props.tooltipDepthData.size - 1;
+  }
+  
+  jumpToPrevious() {
+    this.changeDrillTime(this.findValue() - 1);
+  }
+
+  jumpToNext() {
+    this.changeDrillTime(this.findValue() + 1);
   }
 
 
