@@ -60,7 +60,10 @@
 }
 
 .c-well-timeline-status-bar__timeline-toggle {
-  cursor: pointer;
   line-height: 42px;
   font-size: 16px;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
 }

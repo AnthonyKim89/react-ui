@@ -83,12 +83,16 @@ class WellTimelineStatusBar extends Component {
 
   renderTimelineToggle() {
     return (
-      <div className="u-inline-block c-well-timeline-status-bar__timeline-toggle">
+      <button className="u-inline-block c-well-timeline-status-bar__timeline-toggle"
+              onClick={() => this.props.onToggleDrillScrollBar(!this.props.scrollBarVisible)}>
         <span className="c-well-timeline-status-bar__title">
           Drilling Timeline
         </span>
-        <i className="fa fa-chevron-up"></i>
-      </div>
+        {this.renderSpace('md')}
+        {this.props.scrollBarVisible ?
+          <i className="fa fa-chevron-down"></i> :
+          <i className="fa fa-chevron-up"></i>}
+      </button>
     );
   }
 
@@ -116,7 +120,7 @@ class WellTimelineStatusBar extends Component {
   renderSpace(size, otherClass = '') {
     const classes = `
       c-well-timeline-status-bar__space
-      c-well-timeline-status-bar__space-${size}
+      c-well-timeline-status-bar__space--${size}
       ${otherClass}
     `;
     return (
@@ -130,7 +134,8 @@ WellTimelineStatusBar.propTypes = {
   dataLoaded: React.PropTypes.bool,
   jobData: ImmutablePropTypes.map.isRequired,
   lastWitsRecord: ImmutablePropTypes.map,
-  onToggleTimelineSlider: React.PropTypes.func
+  scrollBarVisible: React.PropTypes.bool,
+  onToggleDrillScrollBar: React.PropTypes.func.isRequired
 }
 
 export default WellTimelineStatusBar

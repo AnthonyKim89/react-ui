@@ -75,6 +75,11 @@ export default function(state = initialState, action) {
         ['wellTimelines', action.wellId],
         calculateTimelineActivity(setCurrentTimelineTime(action.timeline, action.drillTime))
       );
+    case t.TOGGLE_DRILL_SCROLL_BAR:
+      return state.setIn(
+        ['wellTimelines', action.wellId, 'scrollBarVisible'],
+        action.visible
+      );
     case t.SET_DRILL_TIME:
       return state.setIn(
         ['wellTimelines', action.wellId, 'currentTime'],

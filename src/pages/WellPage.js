@@ -8,7 +8,7 @@ import WellTimeline from './WellTimeline';
 import WidgetGrid from '../widgets/WidgetGrid';
 
 import { wellPages, currentWellPage, currentWellTimeline } from './selectors';
-import { moveWidget, loadWellTimeline, setDrillTime } from './actions';
+import { moveWidget, loadWellTimeline, setDrillTime, toggleDrillScrollBar } from './actions';
 
 import './WellPage.css';
 
@@ -48,7 +48,8 @@ class WellPage extends Component {
                     wellDrillTime={drillTime} />
         {this.props.currentWellTimeline &&
           <WellTimeline timeline={this.props.currentWellTimeline}
-                        onChangeDrillTime={t => this.onSetDrillTime(t)} />}
+                        onChangeDrillTime={(...args) => this.onSetDrillTime(...args)}
+                        onToggleDrillScrollBar={(...args) => this.onToggleDrillScrollBar(...args)} />}
       </div>
     );
   }
@@ -61,6 +62,10 @@ class WellPage extends Component {
     this.props.router.push(`${this.props.location.pathname}?drillTime=${time.toJSON()}`);
   }
 
+  onToggleDrillScrollBar(visible) {
+    this.props.toggleDrillScrollBar(parseInt(this.props.params.wellId, 10), visible);
+  }
+
 }
 
 export default connect(
@@ -69,5 +74,5 @@ export default connect(
     currentWellPage,
     currentWellTimeline
   }),
-  {moveWidget, loadWellTimeline, setDrillTime}
+  {moveWidget, loadWellTimeline, setDrillTime, toggleDrillScrollBar}
 )(WellPage);

@@ -10,14 +10,17 @@ class WellTimeline extends Component {
   render() {
     return (
       <div className="c-well-timeline">
-        <WellTimelineScrollBar
-          drillTime={this.props.timeline.get('currentTime')}
-          tooltipDepthData={this.props.timeline.get('tooltipDepthData')}
-          activity={this.props.timeline.get('activity')}
-          onChangeDrillTime={this.props.onChangeDrillTime} />
+        {this.props.timeline.get('scrollBarVisible') && 
+          <WellTimelineScrollBar
+            drillTime={this.props.timeline.get('currentTime')}
+            tooltipDepthData={this.props.timeline.get('tooltipDepthData')}
+            activity={this.props.timeline.get('activity')}
+            onChangeDrillTime={this.props.onChangeDrillTime} />}
         <WellTimelineStatusBar
           jobData={this.props.timeline.get('jobData')}
-          lastWitsRecord={this.props.timeline.get('lastWitsRecord')} />
+          lastWitsRecord={this.props.timeline.get('lastWitsRecord')}
+          scrollBarVisible={this.props.timeline.get('scrollBarVisible')}
+          onToggleDrillScrollBar={this.props.onToggleDrillScrollBar} />
       </div>
     );
   }
@@ -25,6 +28,7 @@ class WellTimeline extends Component {
 
 WellTimeline.propTypes = {
   timeline: ImmutablePropTypes.map.isRequired,
+  onToggleDrillScrollBar: PropTypes.func.isRequired,
   onChangeDrillTime: PropTypes.func.isRequired
 };
 
