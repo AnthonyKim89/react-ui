@@ -16,12 +16,12 @@ class WidgetContainer extends Component {
       <div className={classSet(classes)}>
         {this.props.maximized ?
           <Link className="c-widget-container__size-link"
-                to={{pathname: this.props.location.pathname, query: {maximize: undefined}}}>
-            Restore
+                to={{pathname: this.props.location.pathname, query: {maximize: undefined}}}
+                title="Restore">
           </Link> :
           <Link className="c-widget-container__size-link"
-                to={{pathname: this.props.location.pathname, query: {maximize: this.props.id}}}>
-            Full screen
+                to={{pathname: this.props.location.pathname, query: {maximize: this.props.id}}}
+                title="Full screen">
           </Link>}
         <h4 className="c-widget-container__title">{this.props.title}</h4>
         {this.props.subtitle &&
