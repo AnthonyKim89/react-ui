@@ -29,7 +29,7 @@ function calculateTimelineActivity(timeline) {
   const outOfHoleData = timeline.get('outOfHoleData');
   if (!outOfHoleData.isEmpty()) {
     const firstDate = moment(jobData.get('start_date')).unix() || 0;
-    const lastDate = moment(jobData.get('end_date')).unix() || 0;
+    const lastDate = moment(jobData.get('last_date')).unix() || 0;
     const activity = outOfHoleData.map((item, index) => {
       const itemEndTime = moment(item.get('end_time')).unix();
       const itemStartTime = moment(item.get('start_time')).unix();
