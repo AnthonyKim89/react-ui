@@ -1,16 +1,11 @@
 This list is assumed to be in priority order. Next work items will be taken from
 the top of the list unless agreed otherwise.
 
-## Well Page Timeline Bar
+## Implement Authentication / Login page
 
-Adds capability for users to adjust the time displayed in widgets placed
-on well pages.
+Implement a login page for the application, as well as the authentication checks. Assume the `corva-web` cookie-based authentication system. (The cookie isn't actually accessible in JavaScript, nor should it be, but we can show the login page when the Rails app is redirecting to login.)
 
-* Take and adapt the existing implementation in the corva-web develop branch
-  if possible.
-* If this proves impossible, probably needs a bespoke component.
-
-![](mockups/timeline.png)
+![](mockups/signin.PNG)
 
 ## Building For Deployment
 
@@ -18,18 +13,6 @@ Adds capability for the project to be built to production so that it can be depl
 
 * Modify frontend build configuration so that paths etc. are compatible.
 * Integrate deployment with `corva-web` deployment process.
-
-## Interoperation With corva-web Pages
-
-Adds capability for the new frontend to seamlessly interoperate with the navigation structure of the existing `corva-web`.
-
-* Modify `corva-web` layouts and views to use the new frontend.
-* Modify `corva-web` routing configuration to support the new frontend navigation (HTML5 pushState).
-* Support old-style well pages.
-* Support old-style user settings pages.
-* Support old-style static pages.
-
-![](mockups/config.png)
 
 ## Adding A Widget
 
