@@ -25,6 +25,7 @@ class WellTimelineScrollBar extends Component {
             <Slider 
               min={1} 
               max={this.props.tooltipDepthData.size}
+              defaultValue={this.findNearestValue()}
               onAfterChange={i => this.changeDrillTime(i)}
               tipFormatter={i => this.formatItem(i)}
               tipTransitionName="rc-slider-tooltip-zoom-down"
@@ -68,6 +69,16 @@ class WellTimelineScrollBar extends Component {
     const min = padStart(dateObj.getMinutes(), 2, '0');
     const sec = padStart(dateObj.getSeconds(), 2, '0');
     return `${month} ${date} ${hour}:${min}:${sec}`;
+  }
+
+  findNearestValue() {
+    const nearestEntry = this.props.tooltipDepthData
+      .findEntry(e => this.props.drillTime.isSameOrBefore(moment(e.get("entry_at"))));
+    if (nearestEntry) {
+      return nearestEntry[0];
+    } else {
+      return this.props.tooltipDepthData.size - 1;
+    }
   }
 
   changeDrillTime(idx) {

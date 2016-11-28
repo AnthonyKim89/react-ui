@@ -11,6 +11,7 @@ class WellTimeline extends Component {
     return (
       <div className="c-well-timeline">
         <WellTimelineScrollBar
+          drillTime={this.props.timeline.get('currentTime')}
           tooltipDepthData={this.props.timeline.get('tooltipDepthData')}
           activity={this.props.timeline.get('activity')}
           onChangeDrillTime={this.props.onChangeDrillTime} />
