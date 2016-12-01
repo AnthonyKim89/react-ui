@@ -1,12 +1,23 @@
 import { stringify as queryString } from 'query-string';
 import { fromJS } from 'immutable';
 
+class APIException {
+  constructor(status, statusText) {
+    this.status = status;
+    this.statusText = statusText;
+  }
+}
+
 async function request(path, config = {}) {
   config = Object.assign({
     credentials: 'same-origin' // This will include cookies in the request, for authentication.
   }, config);
   const response = await fetch(path, config);
-  return fromJS(await response.json());
+  if (response.ok) {
+    return fromJS(await response.json());
+  } else {
+    throw new APIException(response.status, response.statusText);
+  }
 }
 
 async function get(path, queryParams = {}) {
