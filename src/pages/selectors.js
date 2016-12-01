@@ -3,11 +3,6 @@ import { NAME } from './constants';
 
 const stateSelector = state => state[NAME];
 
-export const currentUser = createSelector(
-  stateSelector,
-  state => state.get('currentUser')
-);
-
 export const allWidgetSets = createSelector(
   stateSelector,
   state => state.get('widgetSets')

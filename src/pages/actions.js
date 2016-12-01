@@ -1,6 +1,7 @@
-import { getCurrentUser, getWidgetSets, updateWidget, getWellTimeline } from '../api';
+import { getWidgetSets, updateWidget, getWellTimeline } from '../api';
 import { push } from 'react-router-redux'
-import { dashboards, currentUser, allWidgetSets } from './selectors';
+import { dashboards, allWidgetSets } from './selectors';
+import login from '../login';
 
 export const START_LOAD = 'START_LOAD';
 function startLoad() {
@@ -8,9 +9,9 @@ function startLoad() {
 }
 
 export const FINISH_LOAD = 'FINISH_LOAD';
-function finishLoad(data) {
+function finishLoad(widgetSets) {
   return (dispatch, getState) => {
-    dispatch({type: FINISH_LOAD, data});
+    dispatch({type: FINISH_LOAD, widgetSets});
     const dashboard = dashboards(getState()).first();
     const currentPath = getState().routing.locationBeforeTransitions.pathname;
     if (currentPath === '/') {
@@ -20,11 +21,11 @@ function finishLoad(data) {
 }
 
 export function start() {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     dispatch(startLoad());
-    const user = await getCurrentUser();
+    const user = login.selectors.getCurrentUser(getState());
     const widgetSets = await getWidgetSets(user.get('id'));
-    dispatch(finishLoad({user, widgetSets}));
+    dispatch(finishLoad(widgetSets));
   };
 }
 
@@ -33,7 +34,7 @@ export const MOVE_WIDGET = 'MOVE_WIDGET';
 export function moveWidget(widgetSet, id, coordinates) {
   return (dispatch, getState) => {
     dispatch({type: MOVE_WIDGET, widgetSet, id, coordinates});
-    const user = currentUser(getState());
+    const user = login.selectors.currentUser(getState());
     const widget = allWidgetSets(getState()).getIn([widgetSet.get('id'), 'widgets', id]);
     updateWidget(user.get('id'), widgetSet.get('id'), widget);
   };

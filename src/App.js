@@ -4,13 +4,13 @@ import { createStructuredSelector } from 'reselect';
 
 import MainNav from './MainNav';
 
-import { start } from './pages/actions';
-import { dashboards } from './pages/selectors';
+import login from './login';
+import pages from './pages';
 
 class App extends Component {
 
   componentDidMount() {
-    this.props.dispatch(start());
+    this.props.dispatch(login.actions.loginCheck());
   }
 
   render() {
@@ -26,6 +26,6 @@ class App extends Component {
 
 export default connect(
   createStructuredSelector({
-    dashboards
+    dashboards: pages.selectors.dashboards
   })
 )(App);

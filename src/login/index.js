@@ -6,6 +6,6 @@ import * as selectors from './selectors';
 export default {
   constants,
   actions,
-  selectors,
-  reducer
+  reducer,
+  selectors
 };

@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import pagesReducer from './pagesReducer';
+import pagesReducer from './reducer';
 import * as actions from './actions';
 
 it('initializes to empty pages', () => {

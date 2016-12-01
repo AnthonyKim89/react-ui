@@ -5,7 +5,6 @@ import * as t from './actions';
 
 const initialState = Map({
   isLoading: true,
-  currentUser: null,
   widgetSets: Map(),
   wellTimelines: Map()
 });
@@ -64,11 +63,9 @@ export default function(state = initialState, action) {
         isLoading: true
       });
     case t.FINISH_LOAD:
-      const {user, widgetSets} = action.data;
       return state.merge({
         isLoading: false,
-        currentUser: user,
-        widgetSets: widgetSetsById(widgetSets)
+        widgetSets: widgetSetsById(action.widgetSets)
       });
     case t.LOAD_WELL_TIMELINE:
       return state.setIn(
