@@ -1,8 +1,10 @@
 import { isEmpty } from 'lodash';
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import { logIn } from '../actions';
+import { loginFailure } from '../selectors';
 
 import './Login.css';
 
@@ -17,6 +19,8 @@ class Login extends Component {
     return <div className="c-login">
       <h1 className="c-login__brand">Corva</h1>
       <div className="c-login__divider"><span>Sign In with Email</span></div>
+      {this.props.loginFailure &&
+        <div className="c-login__failure">Invalid email and/or password</div>}
       <form className="c-login__form"
             onSubmit={e => this.doLogin(e)}>
         <input type="email"
@@ -60,6 +64,8 @@ class Login extends Component {
 }
 
 export default connect(
-  () => ({}),
+  createStructuredSelector({
+    loginFailure
+  }),
   {logIn}
 )(Login);

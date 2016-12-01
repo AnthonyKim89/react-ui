@@ -10,6 +10,13 @@
   background-position: center center;
 }
 
+.c-login__failure {
+  margin: 0 0 1em 0;
+  padding: 1em;
+  background: salmon;
+  border: 1px solid red;
+}
+
 .c-login input, .c-login button {
   display: block;
   width: 100%;

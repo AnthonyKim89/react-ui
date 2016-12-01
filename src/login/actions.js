@@ -17,7 +17,7 @@ export function logIn(email, password) {
       dispatch(pages.actions.start());
     } catch (e) {
       if (e.isAuthenticationProblem()) {
-        dispatch(push('/login'));
+        dispatch(loginFailed());
       } else {
         throw e;
       }
