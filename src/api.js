@@ -2,10 +2,16 @@ import { stringify as queryString } from 'query-string';
 import { fromJS } from 'immutable';
 
 class APIException {
+  
   constructor(status, statusText) {
     this.status = status;
     this.statusText = statusText;
   }
+
+  isAuthenticationProblem() {
+    return this.status === 401;
+  }
+  
 }
 
 async function request(path, config = {}) {

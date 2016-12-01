@@ -1,3 +1,4 @@
+import { push } from 'react-router-redux';
 import { getCurrentUser } from '../api';
 import pages from '../pages';
 
@@ -9,8 +10,16 @@ function loggedIn(user) {
 
 export function loginCheck() {
   return async dispatch => {
-    const user = await getCurrentUser();
-    dispatch(loggedIn(user));
-    dispatch(pages.actions.start());
+    try {
+      const user = await getCurrentUser();
+      dispatch(loggedIn(user));
+      dispatch(pages.actions.start());
+    } catch (e) {
+      if (e.isAuthenticationProblem()) {
+        dispatch(push('/login'));
+      } else {
+        throw e;
+      }
+    }
   };
 }

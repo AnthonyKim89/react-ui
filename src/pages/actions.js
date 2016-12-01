@@ -23,7 +23,7 @@ function finishLoad(widgetSets) {
 export function start() {
   return async (dispatch, getState) => {
     dispatch(startLoad());
-    const user = login.selectors.getCurrentUser(getState());
+    const user = login.selectors.currentUser(getState());
     const widgetSets = await getWidgetSets(user.get('id'));
     dispatch(finishLoad(widgetSets));
   };

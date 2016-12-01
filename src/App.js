@@ -16,7 +16,8 @@ class App extends Component {
   render() {
     return (
       <div>
-        <MainNav dashboards={this.props.dashboards} />
+        {this.props.currentUser &&
+          <MainNav dashboards={this.props.dashboards} />}
         {this.props.children}
       </div>
     );
@@ -26,6 +27,7 @@ class App extends Component {
 
 export default connect(
   createStructuredSelector({
+    currentUser: login.selectors.currentUser,
     dashboards: pages.selectors.dashboards
   })
 )(App);
