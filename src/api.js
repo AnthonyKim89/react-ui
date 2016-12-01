@@ -31,6 +31,12 @@ async function request(path, config = {}) {
   }
 }
 
+function isJson(response) {
+  const contentType = response.headers.get("content-type");
+  return contentType && contentType.indexOf("application/json") !== -1;
+}
+
+
 async function get(path, queryParams = {}) {
   const qry = queryString(queryParams);
   return await request(`${path}${qry ? '?' : ''}${qry}`);
@@ -52,8 +58,20 @@ async function put(path, content) {
   });
 }
 
+async function del(path) {
+  return await request(path, {
+    method: 'DELETE',
+    headers: JSON_HEADERS
+  });
+}
+
+
 export async function logIn(email, password) {
   return fromJS(await post('/sessions', {session: {email, password}}));
+}
+
+export async function logOut() {
+  return await del('/signout');
 }
 
 export async function getCurrentUser() {

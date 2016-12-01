@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { IndexLink } from 'react-router';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -7,6 +7,12 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import './MainNav.css';
 
 class MainNav extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {profileDropdownOpen: false};
+  }
+
   render() {
     // Used until we have rig/well listing implemented
     const placeholderWellId = 1016;
@@ -30,6 +36,17 @@ class MainNav extends Component {
           <div className="c-main-nav__current-user">
             {this.props.currentUser.getIn(['company', 'name'])}
           </div>}
+        {this.props.currentUser &&
+          <button className="c-main-nav__profile-dropdown-button"
+                  onClick={() => this.toggleProfileDropdown()}>
+            P
+          </button>}
+        {this.state.profileDropdownOpen &&
+          <ul className="c-main-nav__profile-dropdown">
+            <li>
+              <button onClick={() => this.logOut()}>Sign Out</button>
+            </li>
+          </ul>}
       </Navbar>
     );
   }
@@ -47,11 +64,21 @@ class MainNav extends Component {
     }
   }
 
+  toggleProfileDropdown() {
+    this.setState({profileDropdownOpen: !this.state.profileDropdownOpen});
+  }
+
+  logOut() {
+    this.toggleProfileDropdown();
+    this.props.logOut();
+  }
+  
 }
 
 MainNav.propTypes = {
     dashboards: ImmutablePropTypes.seq.isRequired,
-    currentUser: ImmutablePropTypes.map
+    currentUser: ImmutablePropTypes.map,
+    logOut: PropTypes.func.isRequired,
 }
 
 export default MainNav;

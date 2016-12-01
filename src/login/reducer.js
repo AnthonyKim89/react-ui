@@ -13,6 +13,10 @@ export default function loginReducer(state = initialState, action) {
         currentUser: action.user,
         loginFailure: false
       });
+    case actions.LOGGED_OUT:
+      return state.merge({
+        currentUser: null
+      });
     case actions.LOGIN_FAILED:
       return state.merge({
         loginFailure: true

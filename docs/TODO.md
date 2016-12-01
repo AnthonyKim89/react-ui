@@ -1,12 +1,6 @@
 This list is assumed to be in priority order. Next work items will be taken from
 the top of the list unless agreed otherwise.
 
-## Implement Authentication / Login page
-
-Implement a login page for the application, as well as the authentication checks. Assume the `corva-web` cookie-based authentication system. (The cookie isn't actually accessible in JavaScript, nor should it be, but we can show the login page when the Rails app is redirecting to login.)
-
-![](mockups/signin.PNG)
-
 ## Building For Deployment
 
 Adds capability for the project to be built to production so that it can be deployed as part of `corva-web`.
