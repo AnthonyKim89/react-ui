@@ -11,8 +11,13 @@ class APIException {
   isAuthenticationProblem() {
     return this.status === 401;
   }
-  
+
 }
+
+const JSON_HEADERS = {
+  'Content-Type': 'application/json',
+  Accept: 'application/json'
+};
 
 async function request(path, config = {}) {
   config = Object.assign({
@@ -31,17 +36,28 @@ async function get(path, queryParams = {}) {
   return await request(`${path}${qry ? '?' : ''}${qry}`);
 }
 
-async function put(path, content) {
+async function post(path, content) {
   return await request(path, {
-    method: 'put',
-    headers: {'Content-Type': 'application/json'},
+    method: 'POST',
+    headers: JSON_HEADERS,
     body: JSON.stringify(content)
   });
 }
 
+async function put(path, content) {
+  return await request(path, {
+    method: 'PUT',
+    headers: JSON_HEADERS,
+    body: JSON.stringify(content)
+  });
+}
+
+export async function logIn(email, password) {
+  return fromJS(await post('/sessions', {session: {email, password}}));
+}
 
 export async function getCurrentUser() {
-  return fromJS(await get(`/api/users/current`));
+  return fromJS(await get('/api/users/current'));
 }
 
 export async function getWidgetSets(userId) {
