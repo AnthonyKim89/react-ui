@@ -33,3 +33,10 @@ nav.c-main-nav .navbar-nav li.active > a, nav.MainNav .navbar-nav li.active > a:
   color: #57c9c2;
   font-family: orgonboldregular;
 }
+
+.c-main-nav__current-user {
+  float: right;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  color: white;
+}

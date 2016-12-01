@@ -26,6 +26,10 @@ class MainNav extends Component {
             <NavItem>Wells</NavItem>
           </LinkContainer>
         </Nav>
+        {this.props.currentUser &&
+          <div className="c-main-nav__current-user">
+            {this.props.currentUser.getIn(['company', 'name'])}
+          </div>}
       </Navbar>
     );
   }
@@ -46,7 +50,8 @@ class MainNav extends Component {
 }
 
 MainNav.propTypes = {
-    dashboards: ImmutablePropTypes.seq.isRequired
+    dashboards: ImmutablePropTypes.seq.isRequired,
+    currentUser: ImmutablePropTypes.map
 }
 
 export default MainNav;

@@ -17,7 +17,8 @@ class App extends Component {
     return (
       <div>
         {this.props.currentUser &&
-          <MainNav dashboards={this.props.dashboards} />}
+          <MainNav currentUser={this.props.currentUser}
+                   dashboards={this.props.dashboards} />}
         {this.props.children}
       </div>
     );
