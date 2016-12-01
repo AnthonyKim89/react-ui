@@ -60,7 +60,7 @@
   background-color: transparent;
 }
 .c-well-timeline-scroll-bar__slider .rc-slider-handle {
-  background: #58c9c2 url('../images/slider-handle.png');
+  background: #58c9c2 url('../../images/slider-handle.png');
   width: 21px;
   height: 55px;
   margin-top: -9px;

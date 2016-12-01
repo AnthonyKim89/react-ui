@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import WidgetGrid from '../widgets/WidgetGrid';
+import WidgetGrid from '../../widgets/components/WidgetGrid';
 
-import { currentDashboard } from './selectors';
-import { moveWidget } from './actions';
+import { currentDashboard } from '../selectors';
+import { moveWidget } from '../actions';
 
 class Dashboard extends Component {
   render() {

@@ -28,10 +28,10 @@
   float: right;
   width: 40px;
   height: 40px;
-  background: url(../images/fullscreen_up_icon.png) 50% 50% no-repeat;
+  background: url(../../images/fullscreen_up_icon.png) 50% 50% no-repeat;
 }
 .c-widget-container__size-link:hover {
-  background-image: url(../images/fullscreen_hover_icon.png)
+  background-image: url(../../images/fullscreen_hover_icon.png)
 }
 
 .c-widget-container__content {

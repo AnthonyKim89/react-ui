@@ -4,8 +4,8 @@ import moment from 'moment';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import WidgetContainer from './WidgetContainer';
-import { Size, GRID_BREAKPOINTS, GRID_COLUMN_SIZES, GRID_ROW_HEIGHT } from './constants';
-import widgetRegistry from './widgetRegistry';
+import { Size, GRID_BREAKPOINTS, GRID_COLUMN_SIZES, GRID_ROW_HEIGHT } from '../constants';
+import widgetRegistry from '../widgetRegistry';
 
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';

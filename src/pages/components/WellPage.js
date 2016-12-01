@@ -5,10 +5,10 @@ import moment from 'moment';
 
 import WellTabBar from './WellTabBar';
 import WellTimeline from './WellTimeline';
-import WidgetGrid from '../widgets/WidgetGrid';
+import WidgetGrid from '../../widgets/components/WidgetGrid';
 
-import { wellPages, currentWellPage, currentWellTimeline } from './selectors';
-import { moveWidget, loadWellTimeline, setDrillTime, toggleDrillScrollBar } from './actions';
+import { wellPages, currentWellPage, currentWellTimeline } from '../selectors';
+import { moveWidget, loadWellTimeline, setDrillTime, toggleDrillScrollBar } from '../actions';
 
 import './WellPage.css';
 

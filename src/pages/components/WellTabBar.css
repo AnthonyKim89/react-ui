@@ -20,28 +20,28 @@
   background-color: #58c9c2;
 }
 .c-well-tab-bar .c-well-tab-bar__overview-tab a {
-  background-image: url('../images/icon-overview.png');
+  background-image: url('../../images/icon-overview.png');
 }
 .c-well-tab-bar .c-well-tab-bar__torqueAndDrag-tab a {
-  background-image: url('../images/icon-torque.png');
+  background-image: url('../../images/icon-torque.png');
 }
 .c-well-tab-bar .c-well-tab-bar__stability-tab a {
-  background-image: url('../images/icon-wellbore.png');
+  background-image: url('../../images/icon-wellbore.png');
 }
 .c-well-tab-bar .c-well-tab-bar__hydraulics-tab a {
-  background-image: url('../images/icon-cleaning.png');
+  background-image: url('../../images/icon-cleaning.png');
 }
 .c-well-tab-bar .c-well-tab-bar__bit-tab a {
-  background-image: url('../images/icon-vibration.png');
+  background-image: url('../../images/icon-vibration.png');
 }
 .c-well-tab-bar .c-well-tab-bar__motor-tab a {
-  background-image: url('../images/icon-motor.png');
+  background-image: url('../../images/icon-motor.png');
 }
 .c-well-tab-bar .c-well-tab-bar__losses-tab a {
-  background-image: url('../images/icon-loss.png');
+  background-image: url('../../images/icon-loss.png');
 }
 .c-well-tab-bar .c-well-tab-bar__raw-tab a {
-  background-image: url('../images/icon-trace.png');
+  background-image: url('../../images/icon-trace.png');
 }
 
 .c-well-tab-bar__current-tab-name {
