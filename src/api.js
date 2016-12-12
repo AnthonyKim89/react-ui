@@ -31,12 +31,6 @@ async function request(path, config = {}) {
   }
 }
 
-function isJson(response) {
-  const contentType = response.headers.get("content-type");
-  return contentType && contentType.indexOf("application/json") !== -1;
-}
-
-
 async function get(path, queryParams = {}) {
   const qry = queryString(queryParams);
   return await request(`${path}${qry ? '?' : ''}${qry}`);
