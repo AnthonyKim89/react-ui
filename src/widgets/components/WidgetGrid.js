@@ -3,6 +3,7 @@ import { Responsive, WidthProvider } from 'react-grid-layout';
 import Modal from 'react-modal';
 import moment from 'moment';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { Button } from 'react-bootstrap';
 
 import WidgetContainer from './WidgetContainer';
 import AddWidgetDialog from './AddWidgetDialog';
@@ -50,15 +51,16 @@ class WidgetGrid extends Component {
           {this.renderGridWidgets(widgetProps)}
         </GridLayout>
         {this.renderMaximizedWidget(widgetProps)}
-        <button onClick={() => this.openAddWidgetDialog()}>Add Widget</button>
+        <Button onClick={() => this.openAddWidgetDialog()}>Add Widget</Button>
         <Modal
           isOpen={this.state.addWidgetDialogOpen}
           onRequestClose={() => this.closeAddWidgetDialog()}
           style={addWidgetModalStyles}
-          contentLabel="Example Modal">
+          contentLabel="Add Widget to Dashboard">
           <AddWidgetDialog
             widgetTypes={widgetRegistry}
-            onWidgetAdd={type => this.addWidget(type)} />
+            onWidgetAdd={type => this.addWidget(type)}
+            onClose={() => this.closeAddWidgetDialog()} />
         </Modal>
       </div>
     );

@@ -1,3 +1,7 @@
+.c-add-widget-dialog__cancel-button {
+  float: right;
+}
+
 .c-add-widget-dialog__widget-type-list {
   padding-left: 0;
 }
