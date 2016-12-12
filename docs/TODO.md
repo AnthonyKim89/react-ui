@@ -1,13 +1,6 @@
 This list is assumed to be in priority order. Next work items will be taken from
 the top of the list unless agreed otherwise.
 
-## Building For Deployment
-
-Adds capability for the project to be built to production so that it can be deployed as part of `corva-web`.
-
-* Modify frontend build configuration so that paths etc. are compatible.
-* Integrate deployment with `corva-web` deployment process.
-
 ## Adding A Widget
 
 Adds capability for a user to add widgets to Dashboards and Well pages.
@@ -26,6 +19,10 @@ Adds capability for a user to remove a widget from their Dashboard or Well page.
 
 * Persisting the removal to the Dashboards API.
 
+## JWT Authentication
+
+Work out a plan and preliminary implementation for a JSON Web Token based authentication. This is to not have the frontend app reliant on the Rails session cookie, making it easier to authenticate with other services in the future.
+
 ## Widget Settings
 
 Adds capability for a user to change the settings of a widget that they have previously added.
@@ -35,6 +32,13 @@ Adds capability for a user to change the settings of a widget that they have pre
 * Persisting the addition to the Dashboards API.
 
 ![](mockups/widget_settings.PNG)
+
+## Building For Deployment
+
+Adds capability for the project to be built to production so that it can be deployed as part of `corva-web`.
+
+* Modify frontend build configuration so that paths etc. are compatible.
+* Integrate deployment with `corva-web` deployment process.
 
 ## Dashboard Management
 
