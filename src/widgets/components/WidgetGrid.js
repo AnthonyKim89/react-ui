@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
+import Modal from 'react-modal';
 import moment from 'moment';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
@@ -13,7 +14,25 @@ import './WidgetGrid.css';
 
 const GridLayout = WidthProvider(Responsive);
 
+const addWidgetModalStyles = {
+  content: {
+    top: '20%',
+    left: '20%',
+    right: '20%',
+    bottom: '20%',
+    borderRadius: 0
+  },
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.6)'
+  }
+};
+
 class WidgetGrid extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {addWidgetDialogOpen: false};
+  }
 
   render() {
     const widgetProps = {
@@ -30,6 +49,14 @@ class WidgetGrid extends Component {
           {this.renderGridWidgets(widgetProps)}
         </GridLayout>
         {this.renderMaximizedWidget(widgetProps)}
+        <button onClick={() => this.openAddWidgetDialog()}>Add Widget</button>
+        <Modal
+          isOpen={this.state.addWidgetDialogOpen}
+          onRequestClose={() => this.closeAddWidgetDialog()}
+          style={addWidgetModalStyles}
+          contentLabel="Example Modal">
+          <h2>Add Widget to Dashboard</h2>
+        </Modal>
       </div>
     );
   }
@@ -97,6 +124,14 @@ class WidgetGrid extends Component {
 
   onDragStop(layout, oldItem, {i, x, y, w, h}) {
     this.props.onWidgetMove(parseInt(i, 10), {x, y, w, h});
+  }
+
+  openAddWidgetDialog() {
+    this.setState(() => ({addWidgetDialogOpen: true}));
+  }
+
+  closeAddWidgetDialog() {
+    this.setState(() => ({addWidgetDialogOpen: false}));
   }
 
 }

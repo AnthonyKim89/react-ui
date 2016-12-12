@@ -22,6 +22,7 @@ class Dashboard extends Component {
   onWidgetMove(id, newCoordinates) {
     this.props.moveWidget(this.props.currentDashboard, id, newCoordinates);
   }
+
 }
 
 export default connect(
