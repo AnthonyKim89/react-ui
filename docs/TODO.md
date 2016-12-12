@@ -1,6 +1,10 @@
 This list is assumed to be in priority order. Next work items will be taken from
 the top of the list unless agreed otherwise.
 
+## Update to Terminology: Widgets should be Apps
+
+This should be reflected in code, documentation, and APIs.
+
 ## Adding A Widget
 
 Adds capability for a user to add widgets to Dashboards and Well pages.

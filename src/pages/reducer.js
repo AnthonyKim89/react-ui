@@ -56,6 +56,18 @@ function setCurrentTimelineTime(timeline, givenTime) {
   }
 }
 
+function createWidget(widgetType, forWidgetSet) {
+  const y = forWidgetSet.get('widgets').isEmpty() ?
+    0 :
+    forWidgetSet.get('widgets').map(w => w.getIn(['coordinates', 'y'])).max() + 1;
+  const x = 0;
+  return Map({
+    type: `${widgetType.constants.CATEGORY}/${widgetType.constants.NAME}`,
+    coordinates: Object.assign({}, widgetType.constants.INITIAL_SIZE, {x, y}),
+    settings: Map({wellId: 1016})
+  });
+}
+
 export default function(state = initialState, action) {
   switch (action.type) {
     case t.START_LOAD:
@@ -83,11 +95,22 @@ export default function(state = initialState, action) {
         action.time
       );
     case t.MOVE_WIDGET:
-      const {widgetSet, id, coordinates} = action;
       return state.setIn(
-        ['widgetSets', widgetSet.get('id'), 'widgets', id, 'coordinates'],
-        Map(coordinates)
+        ['widgetSets', action.widgetSet.get('id'), 'widgets', action.id, 'coordinates'],
+        Map(action.coordinates)
       );
+    case t.ADD_NEW_WIDGET:
+      return state.setIn(
+        ['widgetSets', action.widgetSet.get('id'), 'newWidget'],
+        createWidget(action.widgetType, state.getIn(['widgetSets', action.widgetSet.get('id')]))
+      );
+    case t.PERSIST_NEW_WIDGET:
+      return state
+        .setIn(
+          ['widgetSets', action.widgetSet.get('id'), 'widgets', action.widget.get('id')],
+          action.widget
+        )
+        .deleteIn(['widgetSets', action.widgetSet.get('id'), 'newWidget']);
     default:
       return state;
   }

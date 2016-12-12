@@ -56,7 +56,9 @@ class WidgetGrid extends Component {
           onRequestClose={() => this.closeAddWidgetDialog()}
           style={addWidgetModalStyles}
           contentLabel="Example Modal">
-          <AddWidgetDialog />
+          <AddWidgetDialog
+            widgetTypes={widgetRegistry}
+            onWidgetAdd={type => this.addWidget(type)} />
         </Modal>
       </div>
     );
@@ -135,11 +137,17 @@ class WidgetGrid extends Component {
     this.setState(() => ({addWidgetDialogOpen: false}));
   }
 
+  addWidget(widgetType) {
+    this.closeAddWidgetDialog();
+    this.props.onWidgetAdd(widgetType);
+  }
+
 }
 
 WidgetGrid.propTypes = {
   widgets: ImmutablePropTypes.seq.isRequired,
   onWidgetMove: PropTypes.func.isRequired,
+  onWidgetAdd: PropTypes.func.isRequired,
   wellId: PropTypes.number,
   wellDrillTime: PropTypes.object,
   location: PropTypes.object,

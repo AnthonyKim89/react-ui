@@ -77,6 +77,13 @@ export async function getWidgetSets(userId) {
   return fromJS(data);
 }
 
+export async function createWidget(userId, widgetSetId, widget) {
+  return await post(
+    `/api/users/${userId}/widget_sets/${widgetSetId}/widgets`,
+    widget.toJS()
+  );
+}
+
 export async function updateWidget(userId, widgetSetId, widget) {
   return await put(
     `/api/users/${userId}/widget_sets/${widgetSetId}/widgets/${widget.get('id')}`,

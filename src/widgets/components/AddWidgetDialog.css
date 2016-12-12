@@ -1,0 +1,22 @@
+.c-add-widget-dialog__widget-type-list {
+  padding-left: 0;
+}
+
+.c-add-widget-dialog__widget-type-list-item {
+  list-style-type: none;
+  border-bottom: 1px solid #ccc;
+}
+
+.c-add-widget-dialog__add-widget-button {
+  display: block;
+  width: 100%;
+  padding: .8em .2em;
+  appearance: none;
+  outline: none;
+  border: 0;
+  background: none;
+  text-align: left;
+}
+.c-add-widget-dialog__add-widget-button:hover {
+  background-color: #eee;
+}
