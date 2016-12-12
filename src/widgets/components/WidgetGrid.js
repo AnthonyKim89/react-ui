@@ -5,6 +5,7 @@ import moment from 'moment';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import WidgetContainer from './WidgetContainer';
+import AddWidgetDialog from './AddWidgetDialog';
 import { Size, GRID_BREAKPOINTS, GRID_COLUMN_SIZES, GRID_ROW_HEIGHT } from '../constants';
 import widgetRegistry from '../widgetRegistry';
 
@@ -55,7 +56,7 @@ class WidgetGrid extends Component {
           onRequestClose={() => this.closeAddWidgetDialog()}
           style={addWidgetModalStyles}
           contentLabel="Example Modal">
-          <h2>Add Widget to Dashboard</h2>
+          <AddWidgetDialog />
         </Modal>
       </div>
     );
