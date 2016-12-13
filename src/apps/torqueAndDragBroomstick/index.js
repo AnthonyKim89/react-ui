@@ -1,9 +1,9 @@
-import TorqueAndDragBroomstickWidget from './TorqueAndDragBroomstickWidget';
+import TorqueAndDragBroomstickApp from './TorqueAndDragBroomstickApp';
 import * as constants from './constants';
 import reducer from './reducer';
 
 export default {
-  Widget: TorqueAndDragBroomstickWidget,
+  AppComponent: TorqueAndDragBroomstickApp,
   constants,
   reducer
 };

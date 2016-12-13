@@ -9,9 +9,9 @@ import Chart from '../../common/Chart';
 import ChartSeries from '../../common/ChartSeries';
 import { Size } from '../constants';
 
-import './TorqueAndDragBroomstickWidget.css'
+import './TorqueAndDragBroomstickApp.css'
 
-class TorqueAndDragBroomstickWidget extends Component {
+class TorqueAndDragBroomstickApp extends Component {
 
   componentDidMount() {
     this.props.dispatch(load(this.props.wellId, this.props.time));
@@ -68,7 +68,7 @@ class TorqueAndDragBroomstickWidget extends Component {
 
 }
 
-TorqueAndDragBroomstickWidget.propTypes = {
+TorqueAndDragBroomstickApp.propTypes = {
   wellId: PropTypes.number.isRequired,
   time: momentPropTypes.momentObj.isRequired,
   size: PropTypes.string.isRequired
@@ -79,4 +79,4 @@ export default connect(
     isLoading,
     data: getData
   })
-)(TorqueAndDragBroomstickWidget);
+)(TorqueAndDragBroomstickApp);

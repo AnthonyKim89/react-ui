@@ -1,25 +1,21 @@
 This list is assumed to be in priority order. Next work items will be taken from
 the top of the list unless agreed otherwise.
 
-## Update to Terminology: Widgets should be Apps
+## Adding An App
 
-This should be reflected in code, documentation, and APIs.
+Adds capability for a user to add apps to Dashboards and Well pages.
 
-## Adding A Widget
-
-Adds capability for a user to add widgets to Dashboards and Well pages.
-
-* Listing available widget types.
-* Adjusting the Widget settings. (Rig, other common and widget-specific settings)
+* Listing available app types.
+* Adjusting the App settings. (Rig, other common and app-specific settings)
 * Persisting the addition to the Dashboards API.
 
 ![](mockups/add_widget_list.PNG)
 
 ![](mockups/add_widget.PNG)
 
-## Removing A Widget
+## Removing An App
 
-Adds capability for a user to remove a widget from their Dashboard or Well page.
+Adds capability for a user to remove a app from their Dashboard or Well page.
 
 * Persisting the removal to the Dashboards API.
 
@@ -27,12 +23,12 @@ Adds capability for a user to remove a widget from their Dashboard or Well page.
 
 Work out a plan and preliminary implementation for a JSON Web Token based authentication. This is to not have the frontend app reliant on the Rails session cookie, making it easier to authenticate with other services in the future.
 
-## Widget Settings
+## App Settings
 
-Adds capability for a user to change the settings of a widget that they have previously added.
+Adds capability for a user to change the settings of a app that they have previously added.
 
-* Should use the same settings feature as already implemented in "Adding A Widget".
-* Adjusting the Widget settings. (Rig, other common and widget-specific settings)
+* Should use the same settings feature as already implemented in "Adding An App".
+* Adjusting the App settings. (Rig, other common and app-specific settings)
 * Persisting the addition to the Dashboards API.
 
 ![](mockups/widget_settings.PNG)
@@ -53,30 +49,30 @@ Adds capability for users to to manage multiple dashboards.
 * Delete a dashboard.
 * Rename a dashboard.
 
-## Widget Loading States
+## App Loading States
 
-Most widgets will need to load data. While data is loading, some loading/progress indication needs to be shown to the user. Add a capability for doing this in a consistent way across widget types, so this does not needs to be implemented for every widget.
+Most apps will need to load data. While data is loading, some loading/progress indication needs to be shown to the user. Add a capability for doing this in a consistent way across app types, so this does not needs to be implemented for every app.
 
-* Loading indication support in the widget API.
+* Loading indication support in the app API.
 * UI design and implementation for the loading state.
 
-## Full-Screen Widgets
+## Full-Screen Apps
 
-Adds a capability for users to expand any widget to full-screen mode.
+Adds a capability for users to expand any app to full-screen mode.
 
-* Must also be linkable, i.e. a URL that points directly to a full-screen widget. Supports opening a widget to another browser tab/window.
+* Must also be linkable, i.e. a URL that points directly to a full-screen app. Supports opening a app to another browser tab/window.
 
 ![](mockups/fullscreen.png)
 
 ## Fully-Featured T&D Broomstick
 
-Extend the simplistic T&D Broomstick widget to contain all the features that it will have.
+Extend the simplistic T&D Broomstick app to contain all the features that it will have.
 
 **Needs further specification**
 
 ## Bootstrap Theme
 
-Adds capability for using Bootstrap (react-bootstrap) components in widgets without
+Adds capability for using Bootstrap (react-bootstrap) components in apps without
 needing significant CSS styling every time.
 
 * Evaluate existing themes to see if there is one that can be used as basis.
@@ -120,7 +116,7 @@ Adds the capability for Corva to track what users are doing in the system.
 
 * Evaluate tracking service options (Google Analytics, others.)
 * Specify and implement tracking for the interactions we want to track.
-  * E.g. on top of basic navigation tracking, track interaction with widgets.
+  * E.g. on top of basic navigation tracking, track interaction with apps.
 
 ## Raw Traces
 
@@ -144,17 +140,17 @@ Adds the capability for users to search with other users the dashboard they have
  
 http://josephndungu.com/tutorials/gmail-like-chat-application-in-ruby-on-rails
 
-## Third-Party Widget Integration
+## Third-Party App Integration
 
-Adds the capability for Corva customers to integrate widgets of their own making into dashboards.
+Adds the capability for Corva customers to integrate apps of their own making into dashboards.
 
-* Options include light-weight iframe integration of arbitrary HTML content, and deeper integration of actual JavaScript widgets that conform to a specific JavaScript API. Different options have different tradeoffs.
+* Options include light-weight iframe integration of arbitrary HTML content, and deeper integration of actual JavaScript apps that conform to a specific JavaScript API. Different options have different tradeoffs.
 
 **Needs further specification**
 
 ## Native Mobile App Integration
 
-Adds the capability for widgets to be displayed in WebViews inside native mobile applications.
+Adds the capability for apps to be displayed in WebViews inside native mobile applications.
 
 **Needs further specification**
 

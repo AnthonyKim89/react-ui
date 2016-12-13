@@ -5,10 +5,10 @@ import moment from 'moment';
 
 import WellTabBar from './WellTabBar';
 import WellTimeline from './WellTimeline';
-import WidgetGrid from '../../widgets/components/WidgetGrid';
+import AppGrid from '../../apps/components/AppGrid';
 
 import { wellPages, currentWellPage, currentWellTimeline } from '../selectors';
-import { moveWidget, loadWellTimeline, setDrillTime, toggleDrillScrollBar } from '../actions';
+import { moveApp, loadWellTimeline, setDrillTime, toggleDrillScrollBar } from '../actions';
 
 import './WellPage.css';
 
@@ -37,11 +37,11 @@ class WellPage extends Component {
     return (
       <div className="c-well-page" >
         {this.props.currentWellPage &&
-          <WidgetGrid widgets={this.props.currentWellPage.get('widgets').valueSeq()}
-                      onWidgetMove={(...a) => this.onWidgetMove(...a)}
-                      wellId={wellId}
-                      wellDrillTime={drillTime}
-                      location={this.props.location} />}
+          <AppGrid apps={this.props.currentWellPage.get('apps').valueSeq()}
+                   onAppMove={(...a) => this.onAppMove(...a)}
+                    wellId={wellId}
+                    wellDrillTime={drillTime}
+                    location={this.props.location} />}
         <WellTabBar wellId={wellId}
                     wellPages={this.props.wellPages}
                     currentWellPage={this.props.currentWellPage}
@@ -54,8 +54,8 @@ class WellPage extends Component {
     );
   }
 
-  onWidgetMove(id, newCoordinates) {
-    this.props.moveWidget(this.props.currentWellPage, id, newCoordinates);
+  onAppMove(id, newCoordinates) {
+    this.props.moveApp(this.props.currentWellPage, id, newCoordinates);
   }
 
   onSetDrillTime(time) {
@@ -74,5 +74,5 @@ export default connect(
     currentWellPage,
     currentWellTimeline
   }),
-  {moveWidget, loadWellTimeline, setDrillTime, toggleDrillScrollBar}
+  {moveApp, loadWellTimeline, setDrillTime, toggleDrillScrollBar}
 )(WellPage);

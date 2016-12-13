@@ -1,22 +1,22 @@
-.c-add-widget-dialog__cancel-button {
+.c-add-app-dialog__cancel-button {
   float: right;
 }
 
-.c-add-widget-dialog__widget-type-list {
+.c-add-app-dialog__app-type-list {
   padding-left: 0;
 }
 
-.c-add-widget-dialog__widget-type-list-item {
+.c-add-app-dialog__app-type-list-item {
   list-style-type: none;
   border-bottom: 1px solid #ccc;
 }
 
-.c-add-widget-dialog__widget-type-list-item.is-widget-type {
+.c-add-app-dialog__app-type-list-item.is-app-type {
   margin-left: 30px;
 }
 
 
-.c-add-widget-dialog__widget-type-list-button {
+.c-add-app-dialog__app-type-list-button {
   display: block;
   width: 100%;
   padding: .8em .2em;
@@ -26,6 +26,6 @@
   background: none;
   text-align: left;
 }
-.c-add-widget-dialog__widget-type-list-button:hover {
+.c-add-app-dialog__app-type-list-button:hover {
   background-color: #eee;
 }

@@ -7,15 +7,15 @@ it('initializes to empty pages', () => {
   expect(initialState.get('isLoading')).toBe(true);
 });
 
-it('maps widget sets and widgets by id when loaded', () => {
+it('maps app sets and apps by id when loaded', () => {
   const resultData = {
     user: fromJS({id: 42}),
-    widgetSets: fromJS([{
+    appSets: fromJS([{
       id: 'ws1',
-      widgets: [{id: 'w1'}, {id: 'w2'}]
+      apps: [{id: 'w1'}, {id: 'w2'}]
     }, {
       id: 'ws2',
-      widgets: [{id: 'w3'}, {id: 'w4'}]
+      apps: [{id: 'w3'}, {id: 'w4'}]
     }])
   };
   const state = pagesReducer(
@@ -23,14 +23,14 @@ it('maps widget sets and widgets by id when loaded', () => {
     {type: actions.FINISH_LOAD, data: resultData}
   );
 
-  expect(state.get('widgetSets').toJS()).toEqual({
+  expect(state.get('appSets').toJS()).toEqual({
     ws1: {
       id: 'ws1',
-      widgets: {w1: {id: 'w1'}, w2: {id: 'w2'}}
+      apps: {w1: {id: 'w1'}, w2: {id: 'w2'}}
     },
     ws2: {
       id: 'ws2',
-      widgets: {w3: {id: 'w3'}, w4: {id: 'w4'}}
+      apps: {w3: {id: 'w3'}, w4: {id: 'w4'}}
     }
   });
 });

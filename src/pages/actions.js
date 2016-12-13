@@ -1,6 +1,6 @@
 import * as api from '../api';
 import { push } from 'react-router-redux'
-import { dashboards, allWidgetSets } from './selectors';
+import { dashboards, allAppSets } from './selectors';
 import login from '../login';
 
 export const START_LOAD = 'START_LOAD';
@@ -9,9 +9,9 @@ function startLoad() {
 }
 
 export const FINISH_LOAD = 'FINISH_LOAD';
-function finishLoad(widgetSets) {
+function finishLoad(appSets) {
   return (dispatch, getState) => {
-    dispatch({type: FINISH_LOAD, widgetSets});
+    dispatch({type: FINISH_LOAD, appSets});
     const dashboard = dashboards(getState()).first();
     const currentPath = getState().routing.locationBeforeTransitions.pathname;
     if (currentPath === '/') {
@@ -24,31 +24,31 @@ export function start() {
   return async (dispatch, getState) => {
     dispatch(startLoad());
     const user = login.selectors.currentUser(getState());
-    const widgetSets = await api.getWidgetSets(user.get('id'));
-    dispatch(finishLoad(widgetSets));
+    const appSets = await api.getAppSets(user.get('id'));
+    dispatch(finishLoad(appSets));
   };
 }
 
 
-export const MOVE_WIDGET = 'MOVE_WIDGET';
-export function moveWidget(widgetSet, id, coordinates) {
+export const MOVE_APP = 'MOVE_APP';
+export function moveApp(appSet, id, coordinates) {
   return (dispatch, getState) => {
-    dispatch({type: MOVE_WIDGET, widgetSet, id, coordinates});
+    dispatch({type: MOVE_APP, appSet, id, coordinates});
     const user = login.selectors.currentUser(getState());
-    const widget = allWidgetSets(getState()).getIn([widgetSet.get('id'), 'widgets', id]);
-    api.updateWidget(user.get('id'), widgetSet.get('id'), widget);
+    const app = allAppSets(getState()).getIn([appSet.get('id'), 'apps', id]);
+    api.updateApp(user.get('id'), appSet.get('id'), app);
   };
 }
 
-export const ADD_NEW_WIDGET = 'ADD_NEW_WIDGET';
-export const PERSIST_NEW_WIDGET = 'PERSIST_NEW_WIDGET';
-export function addWidget(widgetSet, widgetType) {
+export const ADD_NEW_APP = 'ADD_NEW_APP';
+export const PERSIST_NEW_APP = 'PERSIST_NEW_APP';
+export function addApp(appSet, appType) {
   return async (dispatch, getState) => {
-    dispatch({type: ADD_NEW_WIDGET, widgetSet, widgetType});
+    dispatch({type: ADD_NEW_APP, appSet, appType});
     const user = login.selectors.currentUser(getState());
-    const newWidget = allWidgetSets(getState()).getIn([widgetSet.get('id'), 'newWidget']);
-    const persistedWidget = await api.createWidget(user.get('id'), widgetSet.get('id'), newWidget);
-    dispatch({type: PERSIST_NEW_WIDGET, widgetSet, widget: persistedWidget});
+    const newApp = allAppSets(getState()).getIn([appSet.get('id'), 'newApp']);
+    const persistedApp = await api.createApp(user.get('id'), appSet.get('id'), newApp);
+    dispatch({type: PERSIST_NEW_APP, appSet, app: persistedApp});
   };
 }
 

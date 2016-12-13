@@ -5,20 +5,20 @@ import * as t from './actions';
 
 const initialState = Map({
   isLoading: true,
-  widgetSets: Map(),
+  appSets: Map(),
   wellTimelines: Map()
 });
 
-function widgetsById(widgets) {
-  return widgets.reduce(
+function appsById(apps) {
+  return apps.reduce(
     (res, w) => res.set(w.get('id'), w),
     Map()
   );
 }
 
-function widgetSetsById(widgetSets) {
-  return widgetSets.reduce(
-    (res, w) => res.set(w.get('id'), w.update('widgets', widgetsById)),
+function appSetsById(appSets) {
+  return appSets.reduce(
+    (res, w) => res.set(w.get('id'), w.update('apps', appsById)),
     Map()
   );
 }
@@ -56,15 +56,15 @@ function setCurrentTimelineTime(timeline, givenTime) {
   }
 }
 
-function createWidget(widgetType, forWidgetSet) {
-  const y = forWidgetSet.get('widgets').isEmpty() ?
+function createApp(appType, forAppSet) {
+  const y = forAppSet.get('apps').isEmpty() ?
     0 :
-    forWidgetSet.get('widgets').map(w => w.getIn(['coordinates', 'y'])).max() + 1;
+    forAppSet.get('apps').map(w => w.getIn(['coordinates', 'y'])).max() + 1;
   const x = 0;
   return Map({
-    category: widgetType.constants.CATEGORY,
-    name: widgetType.constants.NAME,
-    coordinates: Object.assign({}, widgetType.constants.INITIAL_SIZE, {x, y}),
+    category: appType.constants.CATEGORY,
+    name: appType.constants.NAME,
+    coordinates: Object.assign({}, appType.constants.INITIAL_SIZE, {x, y}),
     settings: Map({wellId: 1016})
   });
 }
@@ -78,7 +78,7 @@ export default function(state = initialState, action) {
     case t.FINISH_LOAD:
       return state.merge({
         isLoading: false,
-        widgetSets: widgetSetsById(action.widgetSets)
+        appSets: appSetsById(action.appSets)
       });
     case t.LOAD_WELL_TIMELINE:
       return state.setIn(
@@ -95,23 +95,23 @@ export default function(state = initialState, action) {
         ['wellTimelines', action.wellId, 'currentTime'],
         action.time
       );
-    case t.MOVE_WIDGET:
+    case t.MOVE_APP:
       return state.setIn(
-        ['widgetSets', action.widgetSet.get('id'), 'widgets', action.id, 'coordinates'],
+        ['appSets', action.appSet.get('id'), 'apps', action.id, 'coordinates'],
         Map(action.coordinates)
       );
-    case t.ADD_NEW_WIDGET:
+    case t.ADD_NEW_APP:
       return state.setIn(
-        ['widgetSets', action.widgetSet.get('id'), 'newWidget'],
-        createWidget(action.widgetType, state.getIn(['widgetSets', action.widgetSet.get('id')]))
+        ['appSets', action.appSet.get('id'), 'newApp'],
+        createApp(action.appType, state.getIn(['appSets', action.appSet.get('id')]))
       );
-    case t.PERSIST_NEW_WIDGET:
+    case t.PERSIST_NEW_APP:
       return state
         .setIn(
-          ['widgetSets', action.widgetSet.get('id'), 'widgets', action.widget.get('id')],
-          action.widget
+          ['appSets', action.appSet.get('id'), 'apps', action.app.get('id')],
+          action.app
         )
-        .deleteIn(['widgetSets', action.widgetSet.get('id'), 'newWidget']);
+        .deleteIn(['appSets', action.appSet.get('id'), 'newApp']);
     default:
       return state;
   }

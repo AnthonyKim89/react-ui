@@ -72,22 +72,22 @@ export async function getCurrentUser() {
   return fromJS(await get('/api/users/current'));
 }
 
-export async function getWidgetSets(userId) {
-  const data = await get(`/api/users/${userId}/widget_sets`);
+export async function getAppSets(userId) {
+  const data = await get(`/api/users/${userId}/app_sets`);
   return fromJS(data);
 }
 
-export async function createWidget(userId, widgetSetId, widget) {
+export async function createApp(userId, appSetId, app) {
   return await post(
-    `/api/users/${userId}/widget_sets/${widgetSetId}/widgets`,
-    widget.toJS()
+    `/api/users/${userId}/app_sets/${appSetId}/apps`,
+    app.toJS()
   );
 }
 
-export async function updateWidget(userId, widgetSetId, widget) {
+export async function updateApp(userId, appSetId, app) {
   return await put(
-    `/api/users/${userId}/widget_sets/${widgetSetId}/widgets/${widget.get('id')}`,
-    widget.toJS()
+    `/api/users/${userId}/app_sets/${appSetId}/apps/${app.get('id')}`,
+    app.toJS()
   );
 }
 

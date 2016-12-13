@@ -3,21 +3,21 @@ import { NAME } from './constants';
 
 const stateSelector = state => state[NAME];
 
-export const allWidgetSets = createSelector(
+export const allAppSets = createSelector(
   stateSelector,
-  state => state.get('widgetSets')
+  state => state.get('appSets')
 );
 
 export const dashboards = createSelector(
   stateSelector,
-  state => state.get('widgetSets')
+  state => state.get('appSets')
     .valueSeq()
     .filter(w => w.get('type') === 'dashboard')
 );
 
 export const wellPages = createSelector(
   stateSelector,
-  state => state.get('widgetSets')
+  state => state.get('appSets')
     .valueSeq()
     .filter(w => w.get('type') === 'well_page')
 );

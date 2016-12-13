@@ -3,7 +3,7 @@ import { routerReducer } from 'react-router-redux'
 
 import login from './login';
 import pages from './pages';
-import torqueAndDragBroomstick from './widgets/torqueAndDragBroomstick';
+import torqueAndDragBroomstick from './apps/torqueAndDragBroomstick';
 
 export default combineReducers({
   routing: routerReducer,

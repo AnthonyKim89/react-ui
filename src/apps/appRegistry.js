@@ -4,7 +4,7 @@ import torqueAndDragBroomstick from './torqueAndDragBroomstick';
 export default Map({
   torqueAndDrag: Map({
     title: 'Torque & Drag',
-    widgetTypes: Map({
+    appTypes: Map({
       broomstick: torqueAndDragBroomstick
     })
   })

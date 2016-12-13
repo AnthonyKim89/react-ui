@@ -24,6 +24,6 @@ export const GRID_COLUMN_SIZES = {
 };
 
 // How many pixels high each "row" is in the grid.
-// Widget heights are measured in rows. For height 5, height in pixels
+// App heights are measured in rows. For height 5, height in pixels
 // is 5 * GRID_ROW_HEIGHT. 
 export const GRID_ROW_HEIGHT = 30;

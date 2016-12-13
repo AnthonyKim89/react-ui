@@ -3,9 +3,9 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Set } from 'immutable';
 import { Button } from 'react-bootstrap';
 
-import './AddWidgetDialog.css';
+import './AddAppDialog.css';
 
-class AddWidgetDialog extends Component {
+class AddAppDialog extends Component {
 
   constructor(props) {
     super(props);
@@ -13,21 +13,21 @@ class AddWidgetDialog extends Component {
   }
 
   render() {
-    return <div className="c-add-widget-dialog">
-      <Button className="c-add-widget-dialog__cancel-button"
+    return <div className="c-add-app-dialog">
+      <Button className="c-add-app-dialog__cancel-button"
               onClick={this.props.onClose}>
         Cancel
       </Button>
       <h3>
-        Add Widget to Dashboard
+        Add App to Dashboard
       </h3>
-      <ul className="c-add-widget-dialog__widget-type-list">
-        {this.props.widgetTypes.valueSeq().map(category => {
+      <ul className="c-add-app-dialog__app-type-list">
+        {this.props.appTypes.valueSeq().map(category => {
           const categoryItem = this.renderCategoryListItem(category);
-          const widgetTypes = category.get('widgetTypes').valueSeq();
+          const appTypes = category.get('appTypes').valueSeq();
           if (this.state.expandedCategories.has(category)) {
             return [categoryItem]
-              .concat(widgetTypes.map(t => this.renderWidgetTypeListItem(t)));
+              .concat(appTypes.map(t => this.renderAppTypeListItem(t)));
           } else {
             return categoryItem;
           }
@@ -38,20 +38,20 @@ class AddWidgetDialog extends Component {
 
   renderCategoryListItem(category) {
     return <li key={category.get('title')}
-        className="c-add-widget-dialog__widget-type-list-item is-category">
-      <button className="c-add-widget-dialog__widget-type-list-button"
+        className="c-add-app-dialog__app-type-list-item is-category">
+      <button className="c-add-app-dialog__app-type-list-button"
               onClick={() => this.toggleCategory(category)}>
         {category.get('title')}
       </button>
     </li>
   }
 
-  renderWidgetTypeListItem(widgetType) {
-    return <li key={widgetType.constants.NAME}
-        className="c-add-widget-dialog__widget-type-list-item is-widget-type">
-      <button className="c-add-widget-dialog__widget-type-list-button"
-              onClick={() => this.props.onWidgetAdd(widgetType)}>
-        {widgetType.constants.TITLE}
+  renderAppTypeListItem(appType) {
+    return <li key={appType.constants.NAME}
+        className="c-add-app-dialog__app-type-list-item is-app-type">
+      <button className="c-add-app-dialog__app-type-list-button"
+              onClick={() => this.props.onAppAdd(appType)}>
+        {appType.constants.TITLE}
       </button>
     </li>;
   }
@@ -66,10 +66,10 @@ class AddWidgetDialog extends Component {
 
 }
 
-AddWidgetDialog.propTypes = {
-  widgetTypes: ImmutablePropTypes.map.isRequired,
-  onWidgetAdd: PropTypes.func.isRequired,
+AddAppDialog.propTypes = {
+  appTypes: ImmutablePropTypes.map.isRequired,
+  onAppAdd: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired
 };
 
-export default AddWidgetDialog;
+export default AddAppDialog;

@@ -2,30 +2,30 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import WidgetGrid from '../../widgets/components/WidgetGrid';
+import AppGrid from '../../apps/components/AppGrid';
 
 import { currentDashboard } from '../selectors';
-import { moveWidget, addWidget } from '../actions';
+import { moveApp, addApp } from '../actions';
 
 class Dashboard extends Component {
   render() {
     return (
       <div className="c-dashboard" >
         {this.props.currentDashboard &&
-          <WidgetGrid widgets={this.props.currentDashboard.get('widgets').valueSeq()}
-                      onWidgetMove={(...a) => this.onWidgetMove(...a)}
-                      onWidgetAdd={(...a) => this.onWidgetAdd(...a)}
-                      location={this.props.location} />}
+          <AppGrid apps={this.props.currentDashboard.get('apps').valueSeq()}
+                   onAppMove={(...a) => this.onAppMove(...a)}
+                   onAppAdd={(...a) => this.onAppAdd(...a)}
+                   location={this.props.location} />}
       </div>
     );
   }
 
-  onWidgetMove(id, newCoordinates) {
-    this.props.moveWidget(this.props.currentDashboard, id, newCoordinates);
+  onAppMove(id, newCoordinates) {
+    this.props.moveApp(this.props.currentDashboard, id, newCoordinates);
   }
 
-  onWidgetAdd(widgetType) {
-    this.props.addWidget(this.props.currentDashboard, widgetType);
+  onAppAdd(appType) {
+    this.props.addApp(this.props.currentDashboard, appType);
   }
 
 }
@@ -34,5 +34,5 @@ export default connect(
   createStructuredSelector({
     currentDashboard
   }),
-  {moveWidget, addWidget}
+  {moveApp, addApp}
 )(Dashboard);
