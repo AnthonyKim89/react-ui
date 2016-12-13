@@ -3,7 +3,7 @@ import { Responsive, WidthProvider } from 'react-grid-layout';
 import Modal from 'react-modal';
 import moment from 'moment';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Button } from 'react-bootstrap';
+import { Button, Glyphicon } from 'react-bootstrap';
 
 import WidgetContainer from './WidgetContainer';
 import AddWidgetDialog from './AddWidgetDialog';
@@ -51,7 +51,9 @@ class WidgetGrid extends Component {
           {this.renderGridWidgets(widgetProps)}
         </GridLayout>
         {this.renderMaximizedWidget(widgetProps)}
-        <Button onClick={() => this.openAddWidgetDialog()}>Add Widget</Button>
+        <Button onClick={() => this.openAddWidgetDialog()} className="c-widget-grid__add-widget">
+          <Glyphicon glyph="plus" /> Add Widget
+        </Button>
         <Modal
           isOpen={this.state.addWidgetDialogOpen}
           onRequestClose={() => this.closeAddWidgetDialog()}

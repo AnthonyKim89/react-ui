@@ -1,3 +1,8 @@
 .c-widget-grid .react-grid-item {
   overflow: hidden;
 }
+
+.c-widget-grid__add-widget {
+  float: right;
+  margin: 10px;
+}
