@@ -1,12 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Button, Glyphicon } from 'react-bootstrap';
+import { Button, Col, ControlLabel, Form, FormControl, FormGroup, Glyphicon } from 'react-bootstrap';
 
 import AppIcon from './AppIcon';
 
 import './AddAppDialog.css';
 
 class AddAppDialog extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {category: 'all'};
+  }
 
   render() {
     return <div className="c-add-app-dialog">
@@ -15,24 +20,60 @@ class AddAppDialog extends Component {
           Add New App
           <div className="c-add-app-dialog__subtitle">Add a new app to the dashboard</div>
         </h4>
+        <Form horizontal className="c-add-app-dialog__controls"> 
+          <FormGroup controlId="formControlsSelect">
+            <Col componentClass={ControlLabel} sm={1}>
+              Category
+            </Col>
+            <Col sm={2}>
+              <FormControl componentClass="select"
+                           onChange={e => this.setState({category: e.target.value})}>
+                <option value="all">All</option>
+                {this.props.appTypes.valueSeq().map(cat =>
+                  <option key={cat.get('title')}>{cat.get('title')}</option>)}
+              </FormControl>
+            </Col>
+            <Col componentClass={ControlLabel} sm={1}>
+              Filter
+            </Col>
+            <Col sm={4}>
+              <FormControl
+                componentClass="input"
+                type="text"
+                placeholder="Enter Text..."
+                onChange={e => this.setState({filter: e.target.value})}
+              />
+            </Col>
+          </FormGroup>
+        </Form>
         <Button bsStyle="link" onClick={this.props.onClose}><Glyphicon glyph="remove" /></Button>
       </div>
-      {this.props.appTypes.valueSeq().map(cat => this.renderCategory(cat))}
+      {this.getCategories().map(cat => this.renderCategory(cat))}
     </div>;
   }
 
+  getCategories() {
+    return this.props.appTypes
+      .valueSeq()
+      .filter(cat => this.state.category === 'all' || this.state.category === cat.get('title'));
+  }
+
   renderCategory(category) {
-    const appTypes = category.get('appTypes').valueSeq();
-    return <div key={category.get('title')}
-                className="c-add-app-dialog__category">
-      <h3 className="c-add-app-dialog__category-title">
-        {category.get('title')}
-        <div className="c-add-app-dialog__category-subtitle">{category.get('subtitle')}</div>
-      </h3>
-      <ul className="c-add-app-dialog__app-type-list">
-        {appTypes.map(appType => this.renderAppType(appType))}
-      </ul>
-    </div>;
+    const appTypes = category.get('appTypes')
+      .valueSeq()
+      .filter(appType => this.isAppTypeIncludedInFilter(appType));
+    if (!appTypes.isEmpty()) {
+      return <div key={category.get('title')}
+                  className="c-add-app-dialog__category">
+        <h3 className="c-add-app-dialog__category-title">
+          {category.get('title')}
+          <div className="c-add-app-dialog__category-subtitle">{category.get('subtitle')}</div>
+        </h3>
+        <ul className="c-add-app-dialog__app-type-list">
+          {appTypes.map(appType => this.renderAppType(appType))}
+        </ul>
+      </div>;
+    }
   }
   
   renderAppType(appType) {
@@ -44,6 +85,11 @@ class AddAppDialog extends Component {
         {appType.constants.TITLE}
       </div>
     </li>;
+  }
+
+  isAppTypeIncludedInFilter(appType) {
+    const filter = (this.state.filter || '').toLowerCase();
+    return appType.constants.TITLE.toLowerCase().indexOf(filter) >= 0;
   }
 
 }

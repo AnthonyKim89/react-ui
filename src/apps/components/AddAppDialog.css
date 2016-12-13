@@ -12,10 +12,14 @@
   font-weight: normal;
 }
 
+.c-add-app-dialog__controls {
+  flex: 1;
+}
 
 .c-add-app-dialog__category {
   display: flex;
   margin: 30px 0;
+  border-bottom: 1px solid white;
 }
 .c-add-app-dialog__category-title {
   margin: 0;
@@ -27,10 +31,11 @@
 
 .c-add-app-dialog__app-type-list {
   padding-left: 0;
+  display: flex;
 }
 
 .c-add-app-dialog__app-type-list-item {
   list-style-type: none;
-  margin: 0 0 50px 50px;
+  margin: 0 0 20px 50px;
   text-align: center;
 }
