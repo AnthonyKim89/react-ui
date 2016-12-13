@@ -18,14 +18,15 @@ const GridLayout = WidthProvider(Responsive);
 
 const addAppModalStyles = {
   content: {
-    top: '20%',
-    left: '20%',
-    right: '20%',
-    bottom: '20%',
-    borderRadius: 0
-  },
-  overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.6)'
+    top: '50px',
+    left: '0',
+    right: '0',
+    bottom: '0',
+    borderRadius: 0,
+    backgroundColor: 'rgb(51, 51, 51)',
+    color: 'white',
+    border: '0',
+    padding: '20px'
   }
 };
 

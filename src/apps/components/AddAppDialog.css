@@ -1,5 +1,28 @@
-.c-add-app-dialog__cancel-button {
-  float: right;
+.c-add-app-dialog__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.c-add-app-dialog__title {
+  font-weight: bold;
+}
+.c-add-app-dialog__subtitle {
+  margin: 8px 0;
+  font-size: 1.2rem;
+  font-weight: normal;
+}
+
+
+.c-add-app-dialog__category {
+  display: flex;
+  margin: 30px 0;
+}
+.c-add-app-dialog__category-title {
+  margin: 0;
+}
+.c-add-app-dialog__category-subtitle {
+  margin: 8px 0;
+  font-size: 1.2rem;
 }
 
 .c-add-app-dialog__app-type-list {
@@ -8,24 +31,6 @@
 
 .c-add-app-dialog__app-type-list-item {
   list-style-type: none;
-  border-bottom: 1px solid #ccc;
-}
-
-.c-add-app-dialog__app-type-list-item.is-app-type {
-  margin-left: 30px;
-}
-
-
-.c-add-app-dialog__app-type-list-button {
-  display: block;
-  width: 100%;
-  padding: .8em .2em;
-  appearance: none;
-  outline: none;
-  border: 0;
-  background: none;
-  text-align: left;
-}
-.c-add-app-dialog__app-type-list-button:hover {
-  background-color: #eee;
+  margin: 0 0 50px 50px;
+  text-align: center;
 }

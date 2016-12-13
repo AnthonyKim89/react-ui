@@ -1,0 +1,16 @@
+.c-app-icon {
+  width: 130px;
+  cursor: pointer;
+}
+.c-app-icon__pentagon {
+  fill: white;
+  stroke: rgb(0, 169, 207);
+  stroke-width: 4;
+}
+.c-app-icon__pentagon:hover {
+  fill: #ddd;
+}
+.c-app-icon__icon {
+  fill: rgb(0, 169, 207);
+  pointer-events: none;
+}

@@ -1,67 +1,49 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Set } from 'immutable';
-import { Button } from 'react-bootstrap';
+import { Button, Glyphicon } from 'react-bootstrap';
+
+import AppIcon from './AppIcon';
 
 import './AddAppDialog.css';
 
 class AddAppDialog extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {expandedCategories: Set()}
-  }
-
   render() {
     return <div className="c-add-app-dialog">
-      <Button className="c-add-app-dialog__cancel-button"
-              onClick={this.props.onClose}>
-        Cancel
-      </Button>
-      <h3>
-        Add App to Dashboard
-      </h3>
-      <ul className="c-add-app-dialog__app-type-list">
-        {this.props.appTypes.valueSeq().map(category => {
-          const categoryItem = this.renderCategoryListItem(category);
-          const appTypes = category.get('appTypes').valueSeq();
-          if (this.state.expandedCategories.has(category)) {
-            return [categoryItem]
-              .concat(appTypes.map(t => this.renderAppTypeListItem(t)));
-          } else {
-            return categoryItem;
-          }
-        })}
-      </ul>
+      <div className="c-add-app-dialog__header">
+        <h4 className="c-add-app-dialog__title">
+          Add New App
+          <div className="c-add-app-dialog__subtitle">Add a new app to the dashboard</div>
+        </h4>
+        <Button bsStyle="link" onClick={this.props.onClose}><Glyphicon glyph="remove" /></Button>
+      </div>
+      {this.props.appTypes.valueSeq().map(cat => this.renderCategory(cat))}
     </div>;
   }
 
-  renderCategoryListItem(category) {
-    return <li key={category.get('title')}
-        className="c-add-app-dialog__app-type-list-item is-category">
-      <button className="c-add-app-dialog__app-type-list-button"
-              onClick={() => this.toggleCategory(category)}>
+  renderCategory(category) {
+    const appTypes = category.get('appTypes').valueSeq();
+    return <div key={category.get('title')}
+                className="c-add-app-dialog__category">
+      <h3 className="c-add-app-dialog__category-title">
         {category.get('title')}
-      </button>
-    </li>
+        <div className="c-add-app-dialog__category-subtitle">{category.get('subtitle')}</div>
+      </h3>
+      <ul className="c-add-app-dialog__app-type-list">
+        {appTypes.map(appType => this.renderAppType(appType))}
+      </ul>
+    </div>;
   }
-
-  renderAppTypeListItem(appType) {
+  
+  renderAppType(appType) {
     return <li key={appType.constants.NAME}
-        className="c-add-app-dialog__app-type-list-item is-app-type">
-      <button className="c-add-app-dialog__app-type-list-button"
-              onClick={() => this.props.onAppAdd(appType)}>
+               className="c-add-app-dialog__app-type-list-item">
+      <AppIcon onClick={() => this.props.onAppAdd(appType)}>
+      </AppIcon>
+      <div className="c-add-app-dialog__app-type-title">
         {appType.constants.TITLE}
-      </button>
+      </div>
     </li>;
-  }
-
-  toggleCategory(category) {
-    this.setState(state => ({
-      expandedCategories: state.expandedCategories.has(category) ? 
-        state.expandedCategories.delete(category) :
-        state.expandedCategories.add(category)
-    }));
   }
 
 }
