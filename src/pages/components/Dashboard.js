@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import AppGrid from '../../apps/components/AppGrid';
 
 import { currentDashboard } from '../selectors';
-import { moveApp, addApp } from '../actions';
+import { moveApp, addApp, removeApp } from '../actions';
 
 class Dashboard extends Component {
   render() {
@@ -15,6 +15,7 @@ class Dashboard extends Component {
           <AppGrid apps={this.props.currentDashboard.get('apps').valueSeq()}
                    onAppMove={(...a) => this.onAppMove(...a)}
                    onAppAdd={(...a) => this.onAppAdd(...a)}
+                   onAppRemove={(...a) => this.onAppRemove(...a)}
                    location={this.props.location} />}
       </div>
     );
@@ -28,11 +29,15 @@ class Dashboard extends Component {
     this.props.addApp(this.props.currentDashboard, appType);
   }
 
+  onAppRemove(id) {
+    this.props.removeApp(this.props.currentDashboard, id);
+  }
+
 }
 
 export default connect(
   createStructuredSelector({
     currentDashboard
   }),
-  {moveApp, addApp}
+  {moveApp, addApp, removeApp}
 )(Dashboard);

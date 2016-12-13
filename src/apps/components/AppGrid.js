@@ -103,7 +103,8 @@ class AppGrid extends Component {
                          title={constants.TITLE}
                          subtitle={constants.SUBTITLE}
                          maximized={maximized}
-                         location={this.props.location}>
+                         location={this.props.location}
+                         onAppRemove={() => this.props.onAppRemove(id)}>
       <AppComponent {...appProps}
                     {...settings.toJS()}
                     size={this.getAppSize(coordinates, maximized)} />
@@ -154,6 +155,7 @@ AppGrid.propTypes = {
   apps: ImmutablePropTypes.seq.isRequired,
   onAppMove: PropTypes.func.isRequired,
   onAppAdd: PropTypes.func.isRequired,
+  onAppRemove: PropTypes.func.isRequired,
   wellId: PropTypes.number,
   wellDrillTime: PropTypes.object,
   location: PropTypes.object,

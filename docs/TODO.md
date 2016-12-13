@@ -13,12 +13,6 @@ Adds capability for a user to add apps to Dashboards and Well pages.
 
 ![](mockups/add_widget.PNG)
 
-## Removing An App
-
-Adds capability for a user to remove a app from their Dashboard or Well page.
-
-* Persisting the removal to the Dashboards API.
-
 ## JWT Authentication
 
 Work out a plan and preliminary implementation for a JSON Web Token based authentication. This is to not have the frontend app reliant on the Rails session cookie, making it easier to authenticate with other services in the future.

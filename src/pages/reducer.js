@@ -112,6 +112,8 @@ export default function(state = initialState, action) {
           action.app
         )
         .deleteIn(['appSets', action.appSet.get('id'), 'newApp']);
+    case t.REMOVE_APP:
+      return state.deleteIn(['appSets', action.appSet.get('id'), 'apps', action.id]);
     default:
       return state;
   }

@@ -52,6 +52,16 @@ export function addApp(appSet, appType) {
   };
 }
 
+export const REMOVE_APP = 'REMOVE_APP';
+export function removeApp(appSet, id) {
+  return async (dispatch, getState) => {
+    const user = login.selectors.currentUser(getState());
+    await api.deleteApp(user.get('id'), appSet.get('id'), id);
+    dispatch({type: REMOVE_APP, appSet, id});
+  };
+}
+
+
 export const LOAD_WELL_TIMELINE = 'LOAD_WELL_TIMELINE';
 export function loadWellTimeline(wellId, drillTime) {
   return async dispatch => {
