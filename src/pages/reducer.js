@@ -62,7 +62,8 @@ function createWidget(widgetType, forWidgetSet) {
     forWidgetSet.get('widgets').map(w => w.getIn(['coordinates', 'y'])).max() + 1;
   const x = 0;
   return Map({
-    type: `${widgetType.constants.CATEGORY}/${widgetType.constants.NAME}`,
+    category: widgetType.constants.CATEGORY,
+    name: widgetType.constants.NAME,
     coordinates: Object.assign({}, widgetType.constants.INITIAL_SIZE, {x, y}),
     settings: Map({wellId: 1016})
   });

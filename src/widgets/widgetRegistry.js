@@ -2,5 +2,10 @@ import { Map } from 'immutable';
 import torqueAndDragBroomstick from './torqueAndDragBroomstick';
 
 export default Map({
-  'torqueAndDrag/broomstick': torqueAndDragBroomstick
+  torqueAndDrag: Map({
+    title: 'Torque & Drag',
+    widgetTypes: Map({
+      broomstick: torqueAndDragBroomstick
+    })
+  })
 });

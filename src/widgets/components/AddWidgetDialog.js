@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { Set } from 'immutable';
 import { Button } from 'react-bootstrap';
 
 import './AddWidgetDialog.css';
@@ -8,7 +9,7 @@ class AddWidgetDialog extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {expandedCategories: {}}
+    this.state = {expandedCategories: Set()}
   }
 
   render() {
@@ -21,10 +22,12 @@ class AddWidgetDialog extends Component {
         Add Widget to Dashboard
       </h3>
       <ul className="c-add-widget-dialog__widget-type-list">
-        {this.getWidgetTypesByCategory().map(([category, types]) => {
+        {this.props.widgetTypes.valueSeq().map(category => {
           const categoryItem = this.renderCategoryListItem(category);
-          if (this.state.expandedCategories[category]) {
-            return [categoryItem].concat(types.map(t => this.renderWidgetTypeListItem(t)));
+          const widgetTypes = category.get('widgetTypes').valueSeq();
+          if (this.state.expandedCategories.has(category)) {
+            return [categoryItem]
+              .concat(widgetTypes.map(t => this.renderWidgetTypeListItem(t)));
           } else {
             return categoryItem;
           }
@@ -34,11 +37,11 @@ class AddWidgetDialog extends Component {
   }
 
   renderCategoryListItem(category) {
-    return <li key={category}
+    return <li key={category.get('title')}
         className="c-add-widget-dialog__widget-type-list-item is-category">
       <button className="c-add-widget-dialog__widget-type-list-button"
               onClick={() => this.toggleCategory(category)}>
-        {category}
+        {category.get('title')}
       </button>
     </li>
   }
@@ -53,16 +56,11 @@ class AddWidgetDialog extends Component {
     </li>;
   }
 
-  getWidgetTypesByCategory() {
-    return this.props.widgetTypes
-      .valueSeq()
-      .groupBy(widgetType => widgetType.constants.CATEGORY_TITLE)
-      .entrySeq();
-  }
-
   toggleCategory(category) {
     this.setState(state => ({
-      expandedCategories: {...state.expandedCategories, [category]: !state.expandedCategories[category]}
+      expandedCategories: state.expandedCategories.has(category) ? 
+        state.expandedCategories.delete(category) :
+        state.expandedCategories.add(category)
     }));
   }
 

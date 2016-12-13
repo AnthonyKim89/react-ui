@@ -92,11 +92,12 @@ class WidgetGrid extends Component {
   }
 
   renderWidget(widget, widgetProps, maximized = false) {
-    const type = widget.get('type');
+    const category = widget.get('category');
+    const name = widget.get('name');
     const id = widget.get('id');
     const coordinates = widget.get('coordinates');
     const settings = widget.get('settings');
-    const {constants, Widget} = widgetRegistry.get(type);
+    const {constants, Widget} = widgetRegistry.getIn([category, 'widgetTypes', name]);
     return <WidgetContainer id={id}
                             title={constants.TITLE}
                             subtitle={constants.SUBTITLE}
