@@ -1,17 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { IndexLink } from 'react-router';
-import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import { MenuItem, Navbar, Nav, NavItem, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import './MainNav.css';
 
 class MainNav extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {profileDropdownOpen: false};
-  }
 
   render() {
     // Used until we have rig/well listing implemented
@@ -22,31 +17,29 @@ class MainNav extends Component {
           <Navbar.Brand>
             <IndexLink to={this.getPathToFirstDashboard()}>Corva</IndexLink>
           </Navbar.Brand>
+          <Navbar.Toggle />
         </Navbar.Header>
-        <Nav>
-          {this.hasDashboards() && 
-            <LinkContainer to={this.getPathToFirstDashboard()}>
-              <NavItem>Dashboards</NavItem>
-            </LinkContainer>}
-          <LinkContainer to={`/wells/${placeholderWellId}/overview`}>
-            <NavItem>Wells</NavItem>
-          </LinkContainer>
-        </Nav>
-        {this.props.currentUser &&
-          <div className="c-main-nav__current-user">
-            {this.props.currentUser.getIn(['company', 'name'])}
-          </div>}
-        {this.props.currentUser &&
-          <button className="c-main-nav__profile-dropdown-button"
-                  onClick={() => this.toggleProfileDropdown()}>
-            P
-          </button>}
-        {this.state.profileDropdownOpen &&
-          <ul className="c-main-nav__profile-dropdown">
-            <li>
-              <button onClick={() => this.logOut()}>Sign Out</button>
-            </li>
-          </ul>}
+        <Navbar.Collapse>
+          <Nav>
+            {this.hasDashboards() && 
+              <LinkContainer to={this.getPathToFirstDashboard()}>
+                <NavItem>Dashboards</NavItem>
+              </LinkContainer>}
+            <LinkContainer to={`/wells/${placeholderWellId}/overview`}>
+              <NavItem>Wells</NavItem>
+            </LinkContainer>
+          </Nav>
+          <Nav pullRight>
+            {this.props.currentUser &&
+              <NavItem className="c-main-nav__current-user">
+                {this.props.currentUser.getIn(['company', 'name'])}
+              </NavItem>}
+            {this.props.currentUser &&
+              <NavDropdown className="c-main-nav__profile-dropdown-button" title="P">
+                 <MenuItem onClick={() => this.logOut()}>Sign Out</MenuItem>
+              </NavDropdown>}
+          </Nav>
+        </Navbar.Collapse>
       </Navbar>
     );
   }
@@ -64,12 +57,7 @@ class MainNav extends Component {
     }
   }
 
-  toggleProfileDropdown() {
-    this.setState({profileDropdownOpen: !this.state.profileDropdownOpen});
-  }
-
   logOut() {
-    this.toggleProfileDropdown();
     this.props.logOut();
   }
   

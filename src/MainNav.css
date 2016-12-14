@@ -7,8 +7,6 @@ nav.c-main-nav {
 }
 
 nav.c-main-nav .navbar-brand {
-  position: fixed;
-  left: 10px;
   width: 150px;
   text-indent: -2000px;
   background-image: url(./images/corva-logo.png);
@@ -18,70 +16,29 @@ nav.c-main-nav .navbar-brand {
 nav.c-main-nav .navbar-nav {
   margin-left: 100px;
 }
-nav.c-main-nav .navbar-nav li > a {
+nav.c-main-nav .navbar-nav > li > a {
   color: white;
 }
-nav.c-main-nav .navbar-nav li > a:hover {
+nav.c-main-nav .navbar-nav > li > a:hover {
   background: transparent;
   color: #57c9c2;
 }
-nav.c-main-nav .navbar-nav li > a:active {
+nav.c-main-nav .navbar-nav > li > a:active {
   background: transparent;
 }
-nav.c-main-nav .navbar-nav li.active > a, nav.MainNav .navbar-nav li.active > a:focus {
+nav.c-main-nav .navbar-nav > li.active > a, nav.MainNav .navbar-nav li.active > a:focus {
   background: transparent;
   color: #57c9c2;
   font-family: orgonboldregular;
 }
 
 .c-main-nav__current-user {
-  float: right;
-  padding-top: 15px;
-  padding-bottom: 15px;
   color: white;
 }
 
 .c-main-nav__profile-dropdown-button {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 52px;
-  height: 52px;
-  line-height: 52px;
   font-size: 20px;
-
-  border: 0;
-  outline: none;
-
-  text-align: center;
-
   font-family: orgonboldregular;
-
   color: white;
   background: #5c6b6a;
-}
-
-.c-main-nav__profile-dropdown {
-  position: fixed;
-  top: 53px;
-  right: 0;
-  min-width: 200px;
-  padding-left: 0;
-
-  background-color: white;
-}
-.c-main-nav__profile-dropdown li {
-  list-style-type: none;
-}
-.c-main-nav__profile-dropdown button {
-  display: block;
-  box-sizing: border-box;
-
-  width: 100%;
-  padding: 1em;
-  border: 0;
-
-  background: none;
-  appearance: none;
-  font-family: orgonboldregular;
 }
