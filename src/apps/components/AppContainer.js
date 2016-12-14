@@ -8,20 +8,6 @@ import AppSettingsDialog from './AppSettingsDialog';
 
 import './AppContainer.css';
 
-const appSettingsModalStyles = {
-  content: {
-    top: '20%',
-    left: '30%',
-    right: '30%',
-    bottom: '20%',
-    borderRadius: 0,
-    padding: '20px'
-  },
-  overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.6)'
-  }
-};
-
 class AppContainer extends Component {
 
   constructor(props) {
@@ -59,7 +45,8 @@ class AppContainer extends Component {
         <Modal
           isOpen={this.state.settingsDialogOpen}
           onRequestClose={() => this.closeSettingsDialog()}
-          style={appSettingsModalStyles}
+          className='c-add-app-dialog'
+          overlayClassName='c-add-app-dialog__overlay'
           contentLabel="App Settings">
           <AppSettingsDialog
             title={this.props.appType.constants.TITLE}

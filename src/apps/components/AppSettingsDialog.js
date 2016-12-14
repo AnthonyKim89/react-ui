@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Button, Glyphicon } from 'react-bootstrap';
+import { Button, Glyphicon, Col, Row } from 'react-bootstrap';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import './AppSettingsDialog.css';
@@ -23,22 +23,25 @@ class AppSettingsDialog extends Component {
         {this.props.subtitle &&
           <h5 className="c-app-settings__subtitle">{this.props.subtitle}</h5>}
       </header>
-      <div className="c-app-settings__columns">
-        <div className="c-app-settings__column c-app-settings__column--left">
-          {this.props.settingsEditors.map(({name, title, Editor}) =>
-            <div className="c-app-settings__editor" key={name}>
-              <h5>{title}</h5>
-              <Editor
-                value={this.state.settings.get(name)}
-                onChange={v => this.setState({settings: this.state.settings.set(name, v)})} />
+      <div>
+          <Col md={6}>
+            {this.props.settingsEditors.map(({name, title, Editor}) =>
+              <div className="c-app-settings__editor" key={name}>
+                <h5>{title}</h5>
+                <Editor
+                  value={this.state.settings.get(name)}
+                  onChange={v => this.setState({settings: this.state.settings.set(name, v)})} />
+              </div>
+            )}
+          </Col>
+          <Col md={6}>
+            <div className="c-app-settings__editor">
+              <h5>Remove app</h5>
+              <Button onClick={this.props.onAppRemove} bsStyle="warning" block>
+                <Glyphicon glyph="remove" /> Remove App
+              </Button>
             </div>
-          )}
-        </div>
-        <div className="c-app-settings__column c-app-settings__column--right">
-          <Button onClick={this.props.onAppRemove} bsStyle="warning" block>
-            <Glyphicon glyph="remove" /> Remove App
-          </Button>
-        </div>
+          </Col>
       </div>
     </div>
   }

@@ -35,7 +35,7 @@ class MainNav extends Component {
                 {this.props.currentUser.getIn(['company', 'name'])}
               </NavItem>}
             {this.props.currentUser &&
-              <NavDropdown className="c-main-nav__profile-dropdown-button" title="P">
+              <NavDropdown className="c-main-nav__profile-dropdown-button" title="P" id="profileMenu">
                  <MenuItem onClick={() => this.logOut()}>Sign Out</MenuItem>
               </NavDropdown>}
           </Nav>
