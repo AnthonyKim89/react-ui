@@ -38,7 +38,7 @@ class AppGrid extends Component {
   }
 
   render() {
-    const appProps = {
+    const commonAppProps = {
       time: this.props.wellDrillTime || moment('2016-08-31'),
       wellId: this.props.wellId // For well pages, id is given
     };
@@ -49,9 +49,9 @@ class AppGrid extends Component {
                     rowHeight={GRID_ROW_HEIGHT}
                     onResizeStop={(...args) => this.onResizeStop(...args)}
                     onDragStop={(...args) => this.onDragStop(...args)}>
-          {this.renderGridApps(appProps)}
+          {this.renderGridApps(commonAppProps)}
         </GridLayout>
-        {this.renderMaximizedApp(appProps)}
+        {this.renderMaximizedApp(commonAppProps)}
         <Button onClick={() => this.openAddAppDialog()} className="c-app-grid__add-app">
           <Glyphicon glyph="plus" /> Add App
         </Button>
@@ -69,7 +69,7 @@ class AppGrid extends Component {
     );
   }
 
-  renderGridApps(appProps) {
+  renderGridApps(commonAppProps) {
     const maximizedId = this.getMaximizedAppId();
     return this.props.apps
       .filter(app => app.get('id') !== maximizedId)
@@ -77,22 +77,22 @@ class AppGrid extends Component {
         const id = app.get('id');
         const coordinates = app.get('coordinates');
         return <div key={id} data-grid={coordinates.toJS()}>
-          {this.renderApp(app, appProps)}
+          {this.renderApp(app, commonAppProps)}
         </div>
       });
   }
 
-  renderMaximizedApp(appProps) {
+  renderMaximizedApp(commonAppProps) {
     const id = this.getMaximizedAppId();
     if (id) {
       const app = this.props.apps.find(a => a.get('id') === id);
-      return this.renderApp(app, appProps, true);
+      return this.renderApp(app, commonAppProps, true);
     } else {
       return null;
     }
   }
 
-  renderApp(app, appProps, maximized = false) {
+  renderApp(app, commonAppProps, maximized = false) {
     const category = app.get('category');
     const name = app.get('name');
     const id = app.get('id');
@@ -108,7 +108,7 @@ class AppGrid extends Component {
                          onAppRemove={() => this.props.onAppRemove(id)}
                          onAppSettingsUpdate={(settings) => this.props.onAppSettingsUpdate(id, settings)}>
       <appType.AppComponent
-        {...appProps}
+        {...commonAppProps}
         {...settings.toJS()}
         size={this.getAppSize(coordinates, maximized)} />
     </AppContainer>

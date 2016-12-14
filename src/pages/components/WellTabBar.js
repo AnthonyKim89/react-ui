@@ -32,7 +32,7 @@ class WellTabBar extends Component {
   getLocation(category) {
     return {
       pathname: `/wells/${this.props.wellId}/${category}`,
-      query: {drillTime: this.props.wellDrillTime.toJSON()}
+      query: {drillTime: this.props.wellDrillTime && this.props.wellDrillTime.toJSON()}
     };
   }
 

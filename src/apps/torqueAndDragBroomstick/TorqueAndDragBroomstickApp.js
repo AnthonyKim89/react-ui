@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import momentPropTypes from 'react-moment-proptypes';
 
-import { load } from './actions';
+import { load, loadForRig } from './actions';
 import { isLoading, getData } from './selectors';
 import Chart from '../../common/Chart';
 import ChartSeries from '../../common/ChartSeries';
@@ -14,12 +14,22 @@ import './TorqueAndDragBroomstickApp.css'
 class TorqueAndDragBroomstickApp extends Component {
 
   componentDidMount() {
-    this.props.dispatch(load(this.props.wellId, this.props.time));
+    this.load();
   }
 
   componentWillReceiveProps(newProps) {
-    if (!newProps.time.isSame(this.props.time)) {
-      this.props.dispatch(load(this.props.wellId, newProps.time));
+    if (!newProps.time.isSame(this.props.time) || 
+        newProps.wellId !== this.props.wellId ||
+        newProps.rigId !== this.props.rigId) {
+      this.load();
+    }
+  }
+
+  load() {
+    if (this.props.wellId) {
+      this.props.load(this.props.wellId, this.props.time);
+    } else {
+      this.props.loadForRig(this.props.rigId, this.props.time);
     }
   }
 
@@ -69,7 +79,8 @@ class TorqueAndDragBroomstickApp extends Component {
 }
 
 TorqueAndDragBroomstickApp.propTypes = {
-  wellId: PropTypes.number.isRequired,
+  wellId: PropTypes.number,
+  rigId: PropTypes.number,
   time: momentPropTypes.momentObj.isRequired,
   size: PropTypes.string.isRequired
 };
@@ -78,5 +89,6 @@ export default connect(
   createStructuredSelector({
     isLoading,
     data: getData
-  })
+  }),
+  { load, loadForRig }
 )(TorqueAndDragBroomstickApp);

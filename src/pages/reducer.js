@@ -51,7 +51,7 @@ function setCurrentTimelineTime(timeline, givenTime) {
     return timeline.set('currentTime', givenTime);
   } else {
     const lastTooltipDepth = timeline.get('tooltipDepthData').last();
-    const time = lastTooltipDepth ? moment(lastTooltipDepth.get('entry_at')) : null;
+    const time = lastTooltipDepth ? moment(lastTooltipDepth.get('entry_at')) : moment();
     return timeline.set('currentTime', time);
   }
 }

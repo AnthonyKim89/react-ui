@@ -9,7 +9,7 @@ import WellTimeline from './WellTimeline';
 import AppGrid from '../../apps/components/AppGrid';
 
 import { wellPages, currentWellPage, currentWellTimeline } from '../selectors';
-import { moveApp, addApp, removeApp, loadWellTimeline, setDrillTime, toggleDrillScrollBar } from '../actions';
+import { moveApp, updateAppSettings, addApp, removeApp, loadWellTimeline, setDrillTime, toggleDrillScrollBar } from '../actions';
 
 import './WellPage.css';
 
@@ -40,6 +40,7 @@ class WellPage extends Component {
         {this.props.currentWellPage &&
           <AppGrid apps={this.props.currentWellPage.get('apps').valueSeq()}
                    onAppMove={(...a) => this.onAppMove(...a)}
+                   onAppSettingsUpdate={(...a) => this.onAppSettingsUpdate(...a)}
                    onAppAdd={(...a) => this.onAppAdd(...a)}
                    onAppRemove={(...a) => this.onAppRemove(...a)}
                    wellId={wellId}
@@ -59,6 +60,10 @@ class WellPage extends Component {
 
   onAppMove(id, newCoordinates) {
     this.props.moveApp(this.props.currentWellPage, id, newCoordinates);
+  }
+
+  onAppSettingsUpdate(id, newSettings) {
+    this.props.updateAppSettings(this.props.currentWellPage, id, newSettings);
   }
 
   onSetDrillTime(time) {
@@ -86,5 +91,5 @@ export default connect(
     currentWellPage,
     currentWellTimeline
   }),
-  {moveApp, addApp, removeApp, loadWellTimeline, setDrillTime, toggleDrillScrollBar}
+  {moveApp, updateAppSettings, addApp, removeApp, loadWellTimeline, setDrillTime, toggleDrillScrollBar}
 )(WellPage);

@@ -100,6 +100,12 @@ export async function getRigs() {
   return fromJS(data);
 }
 
+export async function getRig(id) {
+  const data = await get(`/api/rigs/${id}`);
+  return fromJS(data);
+}
+
+
 export async function getWellTimeline(wellId) {
   const data = await get(`/api/jobs/${wellId}/drill_view/timeline_slider`);
   return fromJS(data);
