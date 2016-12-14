@@ -32,7 +32,7 @@ class AppContainer extends Component {
     const classes = {
       'c-app-container': true,
       'c-app-container--maximized': this.props.maximized,
-      'c-app-container--with-subtitle': this.props.subtitle
+      'c-app-container--with-subtitle': this.props.appType.constants.SUBTITLE
     };
     return (
       <div className={classSet(classes)}>
@@ -48,10 +48,10 @@ class AppContainer extends Component {
         <button className="c-app-container__action c-app-container__action--settings"
                 title="Settings"
                 onClick={() => this.openSettingsDialog()}>
-        </button> :
-        <h4 className="c-app-container__title">{this.props.title}</h4>
-        {this.props.subtitle &&
-          <h5 className="c-app-container__subtitle">{this.props.subtitle}</h5>}
+        </button>
+        <h4 className="c-app-container__title">{this.props.appType.constants.TITLE}</h4>
+        {this.props.appType.constants.SUBTITLE &&
+          <h5 className="c-app-container__subtitle">{this.props.appType.constants.SUBTITLE}</h5>}
         <div className="c-app-container__content">
           {this.props.children}
         </div>
@@ -60,7 +60,10 @@ class AppContainer extends Component {
           onRequestClose={() => this.closeSettingsDialog()}
           style={appSettingsModalStyles}
           contentLabel="App Settings">
-          <AppSettingsDialog onAppRemove={this.props.onAppRemove} />
+          <AppSettingsDialog
+            appType={this.props.appType}
+            onDone={() => this.closeSettingsDialog()}
+            onAppRemove={this.props.onAppRemove} />
         </Modal>
       </div>
     );
@@ -78,8 +81,7 @@ class AppContainer extends Component {
 
 AppContainer.propTypes = {
   id: PropTypes.number.isRequired,
-  title: PropTypes.string,
-  subtitle: PropTypes.string,
+  appType: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   maximized: PropTypes.bool,
   onAppRemove: PropTypes.func.isRequired

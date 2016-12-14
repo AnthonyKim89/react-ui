@@ -98,16 +98,16 @@ class AppGrid extends Component {
     const id = app.get('id');
     const coordinates = app.get('coordinates');
     const settings = app.get('settings');
-    const {constants, AppComponent} = appRegistry.getIn([category, 'appTypes', name]);
+    const appType = appRegistry.getIn([category, 'appTypes', name]);
     return <AppContainer id={id}
-                         title={constants.TITLE}
-                         subtitle={constants.SUBTITLE}
+                         appType={appType}
                          maximized={maximized}
                          location={this.props.location}
                          onAppRemove={() => this.props.onAppRemove(id)}>
-      <AppComponent {...appProps}
-                    {...settings.toJS()}
-                    size={this.getAppSize(coordinates, maximized)} />
+      <appType.AppComponent
+        {...appProps}
+        {...settings.toJS()}
+        size={this.getAppSize(coordinates, maximized)} />
     </AppContainer>
   }
 
