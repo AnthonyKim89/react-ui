@@ -40,6 +40,16 @@ export function moveApp(appSet, id, coordinates) {
   };
 }
 
+export const UPDATE_APP_SETTINGS = 'UPDATE_APP_SETTINGS';
+export function updateAppSettings(appSet, id, settings) {
+  return (dispatch, getState) => {
+    dispatch({type: UPDATE_APP_SETTINGS, appSet, id, settings});
+    const user = login.selectors.currentUser(getState());
+    const app = allAppSets(getState()).getIn([appSet.get('id'), 'apps', id]);
+    api.updateApp(user.get('id'), appSet.get('id'), app);
+  };
+}
+
 export const ADD_NEW_APP = 'ADD_NEW_APP';
 export const PERSIST_NEW_APP = 'PERSIST_NEW_APP';
 export function addApp(appSet, appType, appSettings) {

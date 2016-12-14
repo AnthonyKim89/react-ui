@@ -4,9 +4,18 @@ import { createStructuredSelector } from 'reselect';
 import { Map } from 'immutable';
 
 import AppGrid from '../../apps/components/AppGrid';
+import DashboardAppRigSettingEditor from './DashboardAppRigSettingEditor';
 
 import { currentDashboard } from '../selectors';
-import { moveApp, addApp, removeApp } from '../actions';
+import { moveApp, updateAppSettings, addApp, removeApp } from '../actions';
+
+const DASHBOARD_COMMON_SETTINGS_EDITORS = [
+  {
+    name: 'rigId',
+    title: 'Active Rig',
+    Editor: DashboardAppRigSettingEditor
+  }
+];
 
 class Dashboard extends Component {
   render() {
@@ -14,7 +23,9 @@ class Dashboard extends Component {
       <div className="c-dashboard" >
         {this.props.currentDashboard &&
           <AppGrid apps={this.props.currentDashboard.get('apps').valueSeq()}
+                   commonSettingsEditors={DASHBOARD_COMMON_SETTINGS_EDITORS}
                    onAppMove={(...a) => this.onAppMove(...a)}
+                   onAppSettingsUpdate={(...a) => this.onAppSettingsUpdate(...a)}
                    onAppAdd={(...a) => this.onAppAdd(...a)}
                    onAppRemove={(...a) => this.onAppRemove(...a)}
                    location={this.props.location} />}
@@ -24,6 +35,10 @@ class Dashboard extends Component {
 
   onAppMove(id, newCoordinates) {
     this.props.moveApp(this.props.currentDashboard, id, newCoordinates);
+  }
+
+  onAppSettingsUpdate(id, newSettings) {
+    this.props.updateAppSettings(this.props.currentDashboard, id, newSettings);
   }
 
   onAppAdd(appType) {
@@ -40,5 +55,5 @@ export default connect(
   createStructuredSelector({
     currentDashboard
   }),
-  {moveApp, addApp, removeApp}
+  {moveApp, updateAppSettings, addApp, removeApp}
 )(Dashboard);

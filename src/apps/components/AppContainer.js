@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import classSet from 'react-classset';
 import Modal from 'react-modal';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import AppSettingsDialog from './AppSettingsDialog';
 
@@ -61,12 +62,20 @@ class AppContainer extends Component {
           style={appSettingsModalStyles}
           contentLabel="App Settings">
           <AppSettingsDialog
-            appType={this.props.appType}
-            onDone={() => this.closeSettingsDialog()}
+            title={this.props.appType.constants.TITLE}
+            subtitle={this.props.appType.constants.SUBTITLE}
+            settingsEditors={this.getSettingsEditors()}
+            currentSettings={this.props.appSettings}
+            onDone={newSettings => this.onSettingsSave(newSettings)}
             onAppRemove={this.props.onAppRemove} />
         </Modal>
       </div>
     );
+  }
+
+  getSettingsEditors() {
+    const common = this.props.commonSettingsEditors || [];
+    return common;
   }
 
   openSettingsDialog() {
@@ -77,6 +86,11 @@ class AppContainer extends Component {
     this.setState({settingsDialogOpen: false});
   }
   
+  onSettingsSave(newSettings) {
+    this.closeSettingsDialog();
+    this.props.onAppSettingsUpdate(newSettings);
+  }
+
 }
 
 AppContainer.propTypes = {
@@ -84,7 +98,10 @@ AppContainer.propTypes = {
   appType: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   maximized: PropTypes.bool,
-  onAppRemove: PropTypes.func.isRequired
+  appSettings: ImmutablePropTypes.map.isRequired,
+  commonSettingsEditors: PropTypes.array,
+  onAppRemove: PropTypes.func.isRequired,
+  onAppSettingsUpdate: PropTypes.func.isRequired
 };
 
 export default AppContainer;

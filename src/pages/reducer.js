@@ -100,6 +100,11 @@ export default function(state = initialState, action) {
         ['appSets', action.appSet.get('id'), 'apps', action.id, 'coordinates'],
         Map(action.coordinates)
       );
+    case t.UPDATE_APP_SETTINGS:
+      return state.setIn(
+        ['appSets', action.appSet.get('id'), 'apps', action.id, 'settings'],
+        action.settings
+      );
     case t.ADD_NEW_APP:
       return state.setIn(
         ['appSets', action.appSet.get('id'), 'newApp'],

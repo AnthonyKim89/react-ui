@@ -102,8 +102,11 @@ class AppGrid extends Component {
     return <AppContainer id={id}
                          appType={appType}
                          maximized={maximized}
+                         appSettings={settings}
+                         commonSettingsEditors={this.props.commonSettingsEditors}
                          location={this.props.location}
-                         onAppRemove={() => this.props.onAppRemove(id)}>
+                         onAppRemove={() => this.props.onAppRemove(id)}
+                         onAppSettingsUpdate={(settings) => this.props.onAppSettingsUpdate(id, settings)}>
       <appType.AppComponent
         {...appProps}
         {...settings.toJS()}
@@ -153,11 +156,13 @@ class AppGrid extends Component {
 
 AppGrid.propTypes = {
   apps: ImmutablePropTypes.seq.isRequired,
-  onAppMove: PropTypes.func.isRequired,
-  onAppAdd: PropTypes.func.isRequired,
-  onAppRemove: PropTypes.func.isRequired,
+  commonSettingsEditors: PropTypes.array,
   wellId: PropTypes.number,
   wellDrillTime: PropTypes.object,
+  onAppMove: PropTypes.func.isRequired,
+  onAppSettingsUpdate: PropTypes.func.isRequired,
+  onAppAdd: PropTypes.func.isRequired,
+  onAppRemove: PropTypes.func.isRequired,
   location: PropTypes.object,
 };
 

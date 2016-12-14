@@ -95,6 +95,11 @@ export async function deleteApp(userId, appSetId, appId) {
   return await del(`/api/users/${userId}/app_sets/${appSetId}/apps/${appId}`);
 }
 
+export async function getRigs() {
+  const data = await get(`/api/rigs`);
+  return fromJS(data);
+}
+
 export async function getWellTimeline(wellId) {
   const data = await get(`/api/jobs/${wellId}/drill_view/timeline_slider`);
   return fromJS(data);
