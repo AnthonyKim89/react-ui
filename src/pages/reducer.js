@@ -56,7 +56,7 @@ function setCurrentTimelineTime(timeline, givenTime) {
   }
 }
 
-function createApp(appType, forAppSet) {
+function createApp(appType, settings, forAppSet) {
   const y = forAppSet.get('apps').isEmpty() ?
     0 :
     forAppSet.get('apps').map(w => w.getIn(['coordinates', 'y'])).max() + 1;
@@ -65,7 +65,7 @@ function createApp(appType, forAppSet) {
     category: appType.constants.CATEGORY,
     name: appType.constants.NAME,
     coordinates: Object.assign({}, appType.constants.INITIAL_SIZE, {x, y}),
-    settings: Map({wellId: 1016})
+    settings
   });
 }
 
@@ -103,7 +103,7 @@ export default function(state = initialState, action) {
     case t.ADD_NEW_APP:
       return state.setIn(
         ['appSets', action.appSet.get('id'), 'newApp'],
-        createApp(action.appType, state.getIn(['appSets', action.appSet.get('id')]))
+        createApp(action.appType, action.settings, state.getIn(['appSets', action.appSet.get('id')]))
       );
     case t.PERSIST_NEW_APP:
       return state

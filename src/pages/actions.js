@@ -42,9 +42,9 @@ export function moveApp(appSet, id, coordinates) {
 
 export const ADD_NEW_APP = 'ADD_NEW_APP';
 export const PERSIST_NEW_APP = 'PERSIST_NEW_APP';
-export function addApp(appSet, appType) {
+export function addApp(appSet, appType, appSettings) {
   return async (dispatch, getState) => {
-    dispatch({type: ADD_NEW_APP, appSet, appType});
+    dispatch({type: ADD_NEW_APP, appSet, appType, settings: appSettings});
     const user = login.selectors.currentUser(getState());
     const newApp = allAppSets(getState()).getIn([appSet.get('id'), 'newApp']);
     const persistedApp = await api.createApp(user.get('id'), appSet.get('id'), newApp);

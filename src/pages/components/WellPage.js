@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import moment from 'moment';
+import { Map } from 'immutable';
 
 import WellTabBar from './WellTabBar';
 import WellTimeline from './WellTimeline';
 import AppGrid from '../../apps/components/AppGrid';
 
 import { wellPages, currentWellPage, currentWellTimeline } from '../selectors';
-import { moveApp, loadWellTimeline, setDrillTime, toggleDrillScrollBar } from '../actions';
+import { moveApp, addApp, removeApp, loadWellTimeline, setDrillTime, toggleDrillScrollBar } from '../actions';
 
 import './WellPage.css';
 
@@ -39,9 +40,11 @@ class WellPage extends Component {
         {this.props.currentWellPage &&
           <AppGrid apps={this.props.currentWellPage.get('apps').valueSeq()}
                    onAppMove={(...a) => this.onAppMove(...a)}
-                    wellId={wellId}
-                    wellDrillTime={drillTime}
-                    location={this.props.location} />}
+                   onAppAdd={(...a) => this.onAppAdd(...a)}
+                   onAppRemove={(...a) => this.onAppRemove(...a)}
+                   wellId={wellId}
+                   wellDrillTime={drillTime}
+                   location={this.props.location} />}
         <WellTabBar wellId={wellId}
                     wellPages={this.props.wellPages}
                     currentWellPage={this.props.currentWellPage}
@@ -66,6 +69,15 @@ class WellPage extends Component {
     this.props.toggleDrillScrollBar(parseInt(this.props.params.wellId, 10), visible);
   }
 
+  onAppAdd(appType) {
+    this.props.addApp(this.props.currentWellPage, appType, Map());
+  }
+
+  onAppRemove(id) {
+    this.props.removeApp(this.props.currentWellPage, id);
+  }
+
+
 }
 
 export default connect(
@@ -74,5 +86,5 @@ export default connect(
     currentWellPage,
     currentWellTimeline
   }),
-  {moveApp, loadWellTimeline, setDrillTime, toggleDrillScrollBar}
+  {moveApp, addApp, removeApp, loadWellTimeline, setDrillTime, toggleDrillScrollBar}
 )(WellPage);

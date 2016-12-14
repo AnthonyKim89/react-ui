@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { Map } from 'immutable';
 
 import AppGrid from '../../apps/components/AppGrid';
 
@@ -26,7 +27,7 @@ class Dashboard extends Component {
   }
 
   onAppAdd(appType) {
-    this.props.addApp(this.props.currentDashboard, appType);
+    this.props.addApp(this.props.currentDashboard, appType, Map({wellId: 1016}));
   }
 
   onAppRemove(id) {
