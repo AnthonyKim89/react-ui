@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Button, Glyphicon, Col, Row } from 'react-bootstrap';
+import { Button, Glyphicon, Col } from 'react-bootstrap';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import './AppSettingsDialog.css';
