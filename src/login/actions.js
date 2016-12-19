@@ -21,7 +21,8 @@ export const LOG_IN = 'login/LOG_IN';
 export function logIn(email, password) {
   return async dispatch => {
     try {
-      const user = await api.logIn(email, password);
+      await api.logIn(email, password);
+      const user = await api.getCurrentUser();
       dispatch(loggedIn(user));
       dispatch(push('/'));
       dispatch(pages.actions.start());

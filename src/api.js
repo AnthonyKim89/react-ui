@@ -1,6 +1,8 @@
 import { stringify as queryString } from 'query-string';
 import { fromJS } from 'immutable';
 
+const JWT_STORAGE_KEY = 'jwt';
+
 class APIException {
   
   constructor(status, statusText) {
@@ -20,9 +22,15 @@ const JSON_HEADERS = {
 };
 
 async function request(path, config = {}) {
-  config = Object.assign({
-    credentials: 'same-origin' // This will include cookies in the request, for authentication.
-  }, config);
+  const jwt = localStorage.getItem(JWT_STORAGE_KEY);
+  if (jwt) {
+    const headers = config.headers || {};
+    config = Object.assign({}, config, {
+      headers: Object.assign({}, headers, {
+        Authorization: `Bearer ${jwt}`
+      })
+    });
+  }
   const response = await fetch(path, config);
   if (response.ok) {
     return fromJS(await response.json());
@@ -61,15 +69,20 @@ async function del(path) {
 
 
 export async function logIn(email, password) {
-  return fromJS(await post('/sessions', {session: {email, password}}));
+  const response = fromJS(await post('/user_token', {
+    auth: {email, password}
+  }));
+  localStorage.setItem(JWT_STORAGE_KEY, response.get('jwt'));
+  return response;
 }
 
 export async function logOut() {
-  return await del('/signout');
+  localStorage.removeItem(JWT_STORAGE_KEY);
+  return await new Promise(r => r(true));
 }
 
 export async function getCurrentUser() {
-  return fromJS(await get('/session'));
+  return fromJS(await get('/users/current'));
 }
 
 export async function getAppSets(userId) {
