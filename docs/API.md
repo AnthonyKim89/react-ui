@@ -24,7 +24,7 @@ Returns information about the currently signed-in user.
 
 ##### Request
 
-   GET /api/users/current
+   GET /users/current
 
 ##### Response
 
@@ -42,7 +42,7 @@ navigation can be fully populated based on it.
 
 ##### Request
 
-   GET /api/users/{userId}/app_sets/
+   GET /users/{userId}/app_sets/
 
 ##### Response
 
@@ -79,7 +79,7 @@ Create an app with settings, coordinates, and type
 
 ##### Request
 
-   POST /api/users/{userId}/app_sets/{appSetId}/apps
+   POST /users/{userId}/app_sets/{appSetId}/apps
 
    {
      "category": "torque_and_drag",
@@ -104,7 +104,7 @@ Updates the settings, coordinates, or type of an existing app
 
 ##### Request
 
-   PUT /api/users/{userId}/app_sets/{appSetId}/apps/{appId}
+   PUT /users/{userId}/app_sets/{appSetId}/apps/{appId}
 
    {
      "id": 5678,
@@ -128,7 +128,7 @@ Updates the settings, coordinates, or type of an existing app
 
 #### Request
 
-   GET /api/jobs/{wellId}/torque_and_drag/broomstick_chart
+   GET /jobs/{wellId}/torque_and_drag/broomstick_chart
 
 Query parameters
 
