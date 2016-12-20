@@ -82,50 +82,50 @@ export async function logOut() {
 }
 
 export async function getCurrentUser() {
-  return fromJS(await get('/users/current'));
+  return fromJS(await get('/v1/users/current'));
 }
 
 export async function getAppSets(userId) {
-  const data = await get(`/users/${userId}/app_sets`);
+  const data = await get(`/v1/users/${userId}/app_sets`);
   return fromJS(data);
 }
 
 export async function createApp(userId, appSetId, app) {
   return await post(
-    `/users/${userId}/app_sets/${appSetId}/apps`,
+    `/v1/users/${userId}/app_sets/${appSetId}/apps`,
     app.toJS()
   );
 }
 
 export async function updateApp(userId, appSetId, app) {
   return await put(
-    `/users/${userId}/app_sets/${appSetId}/apps/${app.get('id')}`,
+    `/v1/users/${userId}/app_sets/${appSetId}/apps/${app.get('id')}`,
     app.toJS()
   );
 }
 
 export async function deleteApp(userId, appSetId, appId) {
-  return await del(`/users/${userId}/app_sets/${appSetId}/apps/${appId}`);
+  return await del(`/v1/users/${userId}/app_sets/${appSetId}/apps/${appId}`);
 }
 
 export async function getRigs() {
-  const data = await get(`/rigs`);
+  const data = await get(`/v1/rigs`);
   return fromJS(data);
 }
 
 export async function getRig(id) {
-  const data = await get(`/rigs/${id}`);
+  const data = await get(`/v1/rigs/${id}`);
   return fromJS(data);
 }
 
 
 export async function getWellTimeline(wellId) {
-  const data = await get(`/jobs/${wellId}/drill_view_timeline_slider`);
+  const data = await get(`/v1/jobs/${wellId}/drill_view_timeline_slider`);
   return fromJS(data);
 }
 
 export async function getTorque({wellId, date}) {
   const queryParams = {date: date.unix()};
-  const data = await get(`/jobs/${wellId}/broomstick_chart`, queryParams);
+  const data = await get(`/v1/jobs/${wellId}/broomstick_chart`, queryParams);
   return fromJS(data);
 }

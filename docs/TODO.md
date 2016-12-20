@@ -13,10 +13,6 @@ Adds capability for a user to add apps to Dashboards and Well pages.
 
 ![](mockups/add_widget.PNG)
 
-## JWT Authentication
-
-Work out a plan and preliminary implementation for a JSON Web Token based authentication. This is to not have the frontend app reliant on the Rails session cookie, making it easier to authenticate with other services in the future.
-
 ## App Settings
 
 Adds capability for a user to change the settings of a app that they have previously added.
@@ -81,6 +77,10 @@ Use IBM Bluemix as an inspiration.
 Adds the capability for users to list rigs, wells, and drilling programs, and to navigate to them.
 
 **Needs further specification**
+
+## Synchronized Mouseover on charts
+
+Support a UX feature where a use can mouseover on data points in graphs, and data points from the same time are also higlighted on other graphs.
 
 ## Depth vs. Time Chart for Well Timeline
 
