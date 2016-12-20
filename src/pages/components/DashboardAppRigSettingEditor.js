@@ -4,6 +4,8 @@ import { List } from 'immutable';
 
 import * as api from '../../api';
 
+const RIG_ASSET_TYPE = 'rig';
+
 class DashboardAppRigSettingEditor extends Component {
   
   constructor(props) {
@@ -12,7 +14,7 @@ class DashboardAppRigSettingEditor extends Component {
   }
 
   async componentDidMount() {
-    const rigs = await api.getRigs();
+    const rigs = await api.getAssets(RIG_ASSET_TYPE);
     this.setState({rigs});
   }
 

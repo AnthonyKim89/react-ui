@@ -108,13 +108,13 @@ export async function deleteApp(userId, appSetId, appId) {
   return await del(`/v1/users/${userId}/app_sets/${appSetId}/apps/${appId}`);
 }
 
-export async function getRigs() {
-  const data = await get(`/v1/rigs`);
+export async function getAssets(type) {
+  const data = await get(`/v1/assets?type=${type}`);
   return fromJS(data);
 }
 
-export async function getRig(id) {
-  const data = await get(`/v1/rigs/${id}`);
+export async function getAsset(id) {
+  const data = await get(`/v1/assets/${id}`);
   return fromJS(data);
 }
 

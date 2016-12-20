@@ -28,7 +28,7 @@ export function load(wellId, date) {
 export function loadForRig(rigId, date) {
   return async dispatch => {
     dispatch(startLoad());
-    const rig = await api.getRig(rigId);
+    const rig = await api.getAsset(rigId);
     if (rig.get('current_job')) {
       const wellId = rig.getIn(['current_job', 'id']);
       const data = await api.getTorque({wellId, date, ...TORQUE_OPTIONS});
