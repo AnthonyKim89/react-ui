@@ -26,7 +26,7 @@ npm test
 The app will automatically launch in a browser. Code changes are picked
 up automatically and reloaded to the browser. Unit tests will also automatically run whenever the code changes. 
 
-API data requests are proxied to `http://localhost:3000`, so you will need to have corva-web
+API data requests are proxied to `http://localhost:3000`, so you will need to have corva-api
 running.
 
 # Generated Documentation from Create React App
