@@ -1,6 +1,10 @@
 This list is assumed to be in priority order. Next work items will be taken from
 the top of the list unless agreed otherwise.
 
+## Real-Time Data
+
+Support the new generic data architecture for apps, and real time updates for it through a WebSocket service.
+
 ## Adding An App
 
 Adds capability for a user to add apps to Dashboards and Well pages.
