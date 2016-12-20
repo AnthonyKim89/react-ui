@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { routes } from './routes';
 
 import rootReducer from './rootReducer';
+import { connect as connectToSubscriptions } from './subscriptions';
 
 import './index.css';
 
@@ -23,3 +24,6 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
+
+
+connectToSubscriptions();
