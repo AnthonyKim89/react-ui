@@ -9,6 +9,7 @@ import { routes } from './routes';
 
 import rootReducer from './rootReducer';
 import { connect as connectToSubscriptions } from './subscriptions';
+import { receiveAppData } from './pages/actions';
 
 import './index.css';
 
@@ -26,4 +27,6 @@ ReactDOM.render(
 );
 
 
-connectToSubscriptions();
+connectToSubscriptions(
+  (appInstanceId, data) => store.dispatch(receiveAppData(appInstanceId, data))
+);

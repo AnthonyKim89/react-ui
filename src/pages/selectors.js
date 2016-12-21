@@ -45,3 +45,7 @@ export const currentWellTimeline = createSelector(
   (timelines, wellId) => timelines.get(wellId)
 );
 
+export const appData = createSelector(
+  stateSelector,
+  state => state.get('appData')
+);

@@ -40,6 +40,9 @@ The difference between **rig** and **well**: A rig drills a well. On a well page
 app
 Several apps are shown on the screen simultaneously, laid out in an *app grid* (implemented using [react-grid-layout](https://www.npmjs.com/package/react-grid-layout)). The user may customize the number, order, and positions of apps in the grid. This means apps must be designed to accomodate flexible sizing. The user may also display individual apps in full-screen mode.
 
+Every app is automatically subscribed to receive data from `corva-subscriptions` when it is mounted on the screen. This means that apps do not need to do anything to receive their data, they will just be given it as an input property, which also automatically updates whenever new data is received. Apps can, however, make additional API
+requests if they have a need for custom API access. See below for more information.
+
 ## Simple Apps
 
 Every app consists of at least one React component. Add this component and its supporting files to its own subfolder under `src/apps`.
@@ -65,9 +68,36 @@ The main React component is the app's "public API". The app may have any number 
 
 Every app may expect to get the following input props:
 
-* `wellId` - `number`
+* `assetId` - `number`
+* `data` - An app-specific Immutable.js data structure of the latest data from the app's subscription.
 * `time` - `moment` - the selected time
 * `size` - {`Size.SMALL`, `Size.MEDIUM`, `Size.LARGE`, `Size.XLARGE`} - the size the app is currently occupying in the grid. Can be used for responsive rendering.
+
+
+## Understanding The App's Surrounding Context
+
+Each app is parented by a `AppContainer` component. That component is responsible for initiating and destroying the app's real-time subscription when the app is mounted or umounted or when its properties change so that it needs to subscribe to a different real-time feed. `AppContainer` also provides the surrounding UI that's common to all apps. 
+
+`AppContainer`s in turn are laid out in a `AppGrid` component, which handles the visual positioning of apps on the screen, and the repositioning and resizing of apps.
+
+Both `AppContainer` and `AppGrid` are presentational components that don't connect to the Redux store directly. Instead everything is given to them as input props. The connection to Redux happens one layer above, in a `Dashboard` or `WellPage` component. These components act as the "smart components" that connect apps and grids to Redux.
+
+* `Dashboard`
+  * `AppGrid`
+    * `AppContainer`
+      * `SomeApp`
+    * `AppContainer`
+      * `SomeOtherApp`
+    * `AppContainer`
+      * `ThirdApp`
+* `WellPage`
+  * `AppGrid`
+    * `AppContainer`
+      * `SomeApp`
+    * `AppContainer`
+      * `SomeOtherApp`
+    * `AppContainer`
+      * `ThirdApp`
 
 ## Redux Apps
 
@@ -197,8 +227,6 @@ Very simple apps may call the API functions directly from the component (e.g. fr
 1. Make API calls from action creators. The project contains the [redux-thunk](https://github.com/gaearon/redux-thunk) middleware that makes this easy to do.
 2. Track the loading state as well as the response data in the application store. Bind the state and date to components using the selector mechanism described above.
 
-See the `torqueAndDragBroomstick` app for a concrete example on how this style of API access can be done.
-
 ## Shared Components
 
 TBD
@@ -206,16 +234,3 @@ TBD
 ## Unit Tests
 
 TBD
-
-## Understanding The App's Surrounding Context
-
-Each app is parented by a `AppContainer` component. That component provides the app its input props as well as the UI box that's common to all apps. `AppContainer`s in turn are laid out in a `AppGrid` component:
-
-* `AppGrid`
-  * `AppContainer`
-    * `SomeApp`
-  * `AppContainer`
-    * `SomeOtherApp`
-  * `AppContainer`
-    * `ThirdApp`
-T

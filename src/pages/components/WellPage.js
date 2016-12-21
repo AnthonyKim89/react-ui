@@ -8,8 +8,18 @@ import WellTabBar from './WellTabBar';
 import WellTimeline from './WellTimeline';
 import AppGrid from '../../apps/components/AppGrid';
 
-import { wellPages, currentWellPage, currentWellTimeline } from '../selectors';
-import { moveApp, updateAppSettings, addApp, removeApp, loadWellTimeline, setDrillTime, toggleDrillScrollBar } from '../actions';
+import { wellPages, appData, currentWellPage, currentWellTimeline } from '../selectors';
+import {
+  subscribeApp,
+  unsubscribeApp,
+  moveApp,
+  updateAppSettings,
+  addApp,
+  removeApp,
+  loadWellTimeline,
+  setDrillTime,
+  toggleDrillScrollBar
+} from '../actions';
 
 import './WellPage.css';
 
@@ -39,11 +49,14 @@ class WellPage extends Component {
       <div className="c-well-page" >
         {this.props.currentWellPage &&
           <AppGrid apps={this.props.currentWellPage.get('apps').valueSeq()}
+                   appData={this.props.appData}
+                   onAppSubscribe={(...a) => this.props.subscribeApp(...a)}
+                   onAppUnsubscribe={(...a) => this.props.unsubscribeApp(...a)}
                    onAppMove={(...a) => this.onAppMove(...a)}
                    onAppSettingsUpdate={(...a) => this.onAppSettingsUpdate(...a)}
                    onAppAdd={(...a) => this.onAppAdd(...a)}
                    onAppRemove={(...a) => this.onAppRemove(...a)}
-                   wellId={wellId}
+                   assetId={wellId}
                    wellDrillTime={drillTime}
                    location={this.props.location} />}
         <WellTabBar wellId={wellId}
@@ -88,8 +101,19 @@ class WellPage extends Component {
 export default connect(
   createStructuredSelector({
     wellPages,
+    appData,
     currentWellPage,
     currentWellTimeline
   }),
-  {moveApp, updateAppSettings, addApp, removeApp, loadWellTimeline, setDrillTime, toggleDrillScrollBar}
+  {
+    subscribeApp,
+    unsubscribeApp,
+    moveApp,
+    updateAppSettings,
+    addApp,
+    removeApp,
+    loadWellTimeline,
+    setDrillTime,
+    toggleDrillScrollBar
+  }
 )(WellPage);

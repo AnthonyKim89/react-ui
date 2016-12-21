@@ -1,10 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 import momentPropTypes from 'react-moment-proptypes';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
-import { load, loadForRig } from './actions';
-import { isLoading, getData } from './selectors';
 import Chart from '../../common/Chart';
 import ChartSeries from '../../common/ChartSeries';
 import { Size } from '../constants';
@@ -13,56 +10,65 @@ import './TorqueAndDragBroomstickApp.css'
 
 class TorqueAndDragBroomstickApp extends Component {
 
-  componentDidMount() {
-    this.load();
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (!newProps.time.isSame(this.props.time) || 
-        newProps.wellId !== this.props.wellId ||
-        newProps.rigId !== this.props.rigId) {
-      this.load();
-    }
-  }
-
-  load() {
-    if (this.props.wellId) {
-      this.props.load(this.props.wellId, this.props.time);
-    } else {
-      this.props.loadForRig(this.props.rigId, this.props.time);
-    }
-  }
-
   render() {
     return (
       <div className="c-torque-and-drag-broomstick">
-        {this.props.isLoading ?
-            <p>Loading</p> :
+        {this.props.data ?
             <Chart
               xField="measured_depth"
               yField="hookload"
               isLegendVisible={this.isLegendVisible()}
               isAxisLabelsVisible={this.isAxisLabelsVisible()} >
-              {this.props.data.get('series').map((series, idx) => (
+              {this.getSeries().map(({renderType, title, type, data}, idx) => (
                 <ChartSeries
                   key={idx}
-                  type={series.get('renderType')}
-                  title={series.get('title')}
-                  data={series.get('data')}
-                  color={this.getSeriesColor(series.get('type'))} />
+                  type={renderType}
+                  title={title}
+                  data={data}
+                  color={this.getSeriesColor(type)} />
               )).toJS()}
-            </Chart>}
+            </Chart> :
+            <p>Loading</p>}
       </div>
     );
   }
 
+  getSeries() {
+    return this.getPredictedCurveSeries()
+      .concat(this.getActualSeries());
+  }
+
+  getPredictedCurveSeries() {
+    return this.props.data.getIn(['data', 'curves'])
+      .entrySeq()
+      .flatMap(([curveType, curves]) =>
+        curves.map(curve => ({
+          renderType: 'line',
+          title: `${curveType} ${curve.get('casing_friction_factor')} ${curve.get('openhole_friction_factor')}`,
+          type: curveType,
+          data: curve.get('points')
+        }))
+      );
+  }
+
+  getActualSeries() {
+    return this.props.data.getIn(['data', 'actual'])
+      .entrySeq()
+      .map(([curveType, points]) => ({
+        renderType: 'scatter',
+        title: curveType,
+        type: curveType,
+        data: points
+      }));
+  }
+
   getSeriesColor(seriesType) {
     switch(seriesType) {
-      case 'rotating':
+      case 'rotary_off_bottom':
         return '#f7e47a';
-      case 'pickup':
+      case 'pick_up':
         return '#78905f';
-      case 'slackoff':
+      case 'slack_off':
       default:
         return '#5f7f90';
     }
@@ -79,16 +85,9 @@ class TorqueAndDragBroomstickApp extends Component {
 }
 
 TorqueAndDragBroomstickApp.propTypes = {
-  wellId: PropTypes.number,
-  rigId: PropTypes.number,
+  data: ImmutablePropTypes.map,
   time: momentPropTypes.momentObj.isRequired,
   size: PropTypes.string.isRequired
 };
 
-export default connect(
-  createStructuredSelector({
-    isLoading,
-    data: getData
-  }),
-  { load, loadForRig }
-)(TorqueAndDragBroomstickApp);
+export default TorqueAndDragBroomstickApp;

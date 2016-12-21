@@ -1,20 +1,19 @@
 import io from 'socket.io-client';
-import uuid from 'uuid/v1';
+import { fromJS } from 'immutable';
 
 let socket;
 
-export const connect = () => {
+export const connect = (onReceiveData) => {
   socket = io(`${location.protocol}//${location.hostname}:3002`);
+  socket.on('data', evt => onReceiveData(evt.appInstanceId, fromJS(evt.data)));
 };
 
-export const subscribe = (appId, assetId) => {
+export const subscribe = (appInstanceId, appKey, assetId) => {
   if (!socket) { throw new Error('Not connected'); }
-  const subscriptionId = uuid();
-  socket.emit('subscribe', {appId, assetId, subscriptionId});
-  return subscriptionId; 
+  socket.emit('subscribe', {appInstanceId, appKey, assetId});
 };
 
-export const unsubscribe = (subscriptionId) => {
+export const unsubscribe = (appInstanceId) => {
   if (!socket) { throw new Error('Not connected'); }
-  socket.emit('unsubscribe', {subscriptionId}); 
+  socket.emit('unsubscribe', {appInstanceId}); 
 };

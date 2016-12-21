@@ -6,7 +6,8 @@ import * as t from './actions';
 const initialState = Map({
   isLoading: true,
   appSets: Map(),
-  wellTimelines: Map()
+  wellTimelines: Map(),
+  appData: Map()
 });
 
 function appsById(apps) {
@@ -80,6 +81,10 @@ export default function(state = initialState, action) {
         isLoading: false,
         appSets: appSetsById(action.appSets)
       });
+    case t.RECEIVE_APP_DATA:
+      return state.setIn(['appData', action.appInstanceId], action.data);
+    case t.UNSUBSCRIBE_APP:
+      return state.removeIn(['appData', action.appInstanceId]);
     case t.LOAD_WELL_TIMELINE:
       return state.setIn(
         ['wellTimelines', action.wellId],

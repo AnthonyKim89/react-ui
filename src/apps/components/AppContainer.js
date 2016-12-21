@@ -15,6 +15,21 @@ class AppContainer extends Component {
     this.state = {settingsDialogOpen: false};
   }
 
+  componentWillMount() {
+    this.props.onAppSubscribe(this.props.id, this.getAppKey(), this.props.assetId);
+  }
+
+  componentWillUnmount() {
+    this.props.onAppUnsubscribe(this.props.id);
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.assetId !== this.props.assetId) {
+      this.props.onAppUnsubscribe(this.props.id, this.getAppKey(), this.props.assetId);
+      this.props.onAppSubscribe(this.props.id);
+    }
+  }
+
   render() {
     const classes = {
       'c-app-container': true,
@@ -78,15 +93,22 @@ class AppContainer extends Component {
     this.props.onAppSettingsUpdate(newSettings);
   }
 
+  getAppKey() {
+    return `${this.props.appType.constants.CATEGORY}/${this.props.appType.constants.NAME}`;
+  }
+
 }
 
 AppContainer.propTypes = {
   id: PropTypes.number.isRequired,
+  assetId: PropTypes.number.isRequired,
   appType: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   maximized: PropTypes.bool,
   appSettings: ImmutablePropTypes.map.isRequired,
   commonSettingsEditors: PropTypes.array,
+  onAppSubscribe: PropTypes.func.isRequired,
+  onAppUnsubscribe: PropTypes.func.isRequired,
   onAppRemove: PropTypes.func.isRequired,
   onAppSettingsUpdate: PropTypes.func.isRequired
 };

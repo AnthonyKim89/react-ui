@@ -6,12 +6,19 @@ import { Map } from 'immutable';
 import AppGrid from '../../apps/components/AppGrid';
 import DashboardAppRigSettingEditor from './DashboardAppRigSettingEditor';
 
-import { currentDashboard } from '../selectors';
-import { moveApp, updateAppSettings, addApp, removeApp } from '../actions';
+import { currentDashboard, appData } from '../selectors';
+import {
+  subscribeApp,
+  unsubscribeApp,
+  moveApp,
+  updateAppSettings,
+  addApp,
+  removeApp
+} from '../actions';
 
 const DASHBOARD_COMMON_SETTINGS_EDITORS = [
   {
-    name: 'rigId',
+    name: 'assetId',
     title: 'Active Rig',
     Editor: DashboardAppRigSettingEditor
   }
@@ -23,7 +30,10 @@ class Dashboard extends Component {
       <div className="c-dashboard" >
         {this.props.currentDashboard &&
           <AppGrid apps={this.props.currentDashboard.get('apps').valueSeq()}
+                   appData={this.props.appData}
                    commonSettingsEditors={DASHBOARD_COMMON_SETTINGS_EDITORS}
+                   onAppSubscribe={(...a) => this.props.subscribeApp(...a)}
+                   onAppUnsubscribe={(...a) => this.props.unsubscribeApp(...a)}
                    onAppMove={(...a) => this.onAppMove(...a)}
                    onAppSettingsUpdate={(...a) => this.onAppSettingsUpdate(...a)}
                    onAppAdd={(...a) => this.onAppAdd(...a)}
@@ -53,7 +63,8 @@ class Dashboard extends Component {
 
 export default connect(
   createStructuredSelector({
-    currentDashboard
+    currentDashboard,
+    appData
   }),
-  {moveApp, updateAppSettings, addApp, removeApp}
+  {subscribeApp, unsubscribeApp, moveApp, updateAppSettings, addApp, removeApp}
 )(Dashboard);

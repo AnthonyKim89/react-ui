@@ -2,6 +2,7 @@ import * as api from '../api';
 import { push } from 'react-router-redux'
 import { dashboards, allAppSets } from './selectors';
 import login from '../login';
+import { subscribe, unsubscribe } from '../subscriptions';
 
 export const START_LOAD = 'START_LOAD';
 function startLoad() {
@@ -29,6 +30,22 @@ export function start() {
   };
 }
 
+export const SUBSCRIBE_APP = 'SUBSCRIBE_APP';
+export function subscribeApp(appInstanceId, appKey, assetId) {
+  subscribe(appInstanceId, appKey, assetId);
+  return {type: SUBSCRIBE_APP, appInstanceId, appKey, assetId};
+}
+
+export const UNSUBSCRIBE_APP = 'UNSUBSCRIBE_APP';
+export function unsubscribeApp(appInstanceId) {
+  unsubscribe(appInstanceId);
+  return {type: UNSUBSCRIBE_APP, appInstanceId};
+}
+
+export const RECEIVE_APP_DATA = 'RECEIVE_APP_DATA';
+export function receiveAppData(appInstanceId, data) {
+  return {type: RECEIVE_APP_DATA, appInstanceId, data};
+}
 
 export const MOVE_APP = 'MOVE_APP';
 export function moveApp(appSet, id, coordinates) {

@@ -40,7 +40,7 @@ class AppGrid extends Component {
   render() {
     const commonAppProps = {
       time: this.props.wellDrillTime || moment('2016-08-31'),
-      wellId: this.props.wellId // For well pages, id is given
+      assetId: this.props.assetId // For asset pages, id is given as a common property
     };
     return (
       <div className="c-app-grid">
@@ -99,15 +99,21 @@ class AppGrid extends Component {
     const coordinates = app.get('coordinates');
     const settings = app.get('settings');
     const appType = appRegistry.getIn([category, 'appTypes', name]);
+    const assetId = settings.get('assetId') || this.props.assetId;
+    const appData = this.props.appData.get(id);
     return <AppContainer id={id}
                          appType={appType}
+                         assetId={assetId}
                          maximized={maximized}
                          appSettings={settings}
                          commonSettingsEditors={this.props.commonSettingsEditors}
                          location={this.props.location}
+                         onAppSubscribe={(...args) => this.props.onAppSubscribe(...args)}
+                         onAppUnsubscribe={(...args) => this.props.onAppUnsubscribe(...args)}
                          onAppRemove={() => this.props.onAppRemove(id)}
                          onAppSettingsUpdate={(settings) => this.props.onAppSettingsUpdate(id, settings)}>
       <appType.AppComponent
+        data={appData}
         {...commonAppProps}
         {...settings.toJS()}
         size={this.getAppSize(coordinates, maximized)} />
@@ -156,9 +162,12 @@ class AppGrid extends Component {
 
 AppGrid.propTypes = {
   apps: ImmutablePropTypes.seq.isRequired,
+  appData: ImmutablePropTypes.map.isRequired,
   commonSettingsEditors: PropTypes.array,
-  wellId: PropTypes.number,
+  assetId: PropTypes.number,
   wellDrillTime: PropTypes.object,
+  onAppSubscribe: PropTypes.func.isRequired,
+  onAppUnsubscribe: PropTypes.func.isRequired,
   onAppMove: PropTypes.func.isRequired,
   onAppSettingsUpdate: PropTypes.func.isRequired,
   onAppAdd: PropTypes.func.isRequired,

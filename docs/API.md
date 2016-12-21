@@ -123,32 +123,3 @@ Updates the settings, coordinates, or type of an existing app
      "coordinates": {"x": 0, "y": 0, "w": 3, "h": 5},
      "settings": {"rig_id": 7890, "other": "settings"}
    }
-
-### Torque And Drag Broomstick Charts
-
-#### Request
-
-   GET /jobs/{wellId}/torque_and_drag/broomstick_chart
-
-Query parameters
-
-* `date` - the date/time as a Unix timestamp (seconds since epoch)
-
-#### Response
-
-    {
-      "depth_unit": "e.g. ft",
-      "load_unit": "e.g. klbf",
-      "series": [
-        {
-          "title": "e.g. Predicted Slackoff (0.25)",
-          "calculation": "predicted" | "actual",
-          "type": "slackoff" | "rotating" | "pickup",
-          "data": [
-            {"measured_depth": 2000, "hookload": 100},
-            {"measured_depth": 2300, "hookload": 120},
-            {"measured_depth": 2400, "hookload": 132.5}
-          ]
-        }
-      ]
-    }
