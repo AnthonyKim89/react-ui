@@ -52,6 +52,7 @@ class Chart extends Component {
       state.chartConfig.legend.enabled = props.isLegendVisible;
       state.chartConfig.xAxis.labels.enabled = props.isAxisLabelsVisible;
       state.chartConfig.yAxis.labels.enabled = props.isAxisLabelsVisible;
+      state.chartConfig.series = this.getSeries();
     });
   }
 
