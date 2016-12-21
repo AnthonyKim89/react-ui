@@ -1,5 +1,6 @@
-import * as api from '../api';
 import { push } from 'react-router-redux'
+import * as api from '../api';
+import * as subscriptions from '../subscriptions';
 import { dashboards, allAppSets } from './selectors';
 import login from '../login';
 import { subscribe, unsubscribe } from '../subscriptions';
@@ -24,6 +25,7 @@ function finishLoad(appSets) {
 export function start() {
   return async (dispatch, getState) => {
     dispatch(startLoad());
+    subscriptions.connect((...a) => dispatch(receiveAppData(...a)));
     const user = login.selectors.currentUser(getState());
     const appSets = await api.getAppSets(user.get('id'));
     dispatch(finishLoad(appSets));

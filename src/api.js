@@ -1,7 +1,7 @@
 import { stringify as queryString } from 'query-string';
 import { fromJS } from 'immutable';
 
-const JWT_STORAGE_KEY = 'jwt';
+import * as auth from './auth';
 
 class APIException {
   
@@ -22,12 +22,12 @@ const JSON_HEADERS = {
 };
 
 function attachAuthorizationHeader(requestConfig) {
-  const jwt = localStorage.getItem(JWT_STORAGE_KEY);
-  if (jwt) {
+  const token = auth.getToken();
+  if (token) {
     const headers = requestConfig.headers || {};
     requestConfig = Object.assign({}, requestConfig, {
       headers: Object.assign({}, headers, {
-        Authorization: `Bearer ${jwt}`
+        Authorization: `Bearer ${token}`
       })
     });
   }
@@ -76,12 +76,12 @@ export async function logIn(email, password) {
   const response = fromJS(await post('/user_token', {
     auth: {email, password}
   }));
-  localStorage.setItem(JWT_STORAGE_KEY, response.get('jwt'));
+  auth.setToken(response.get('jwt'));
   return response;
 }
 
 export async function logOut() {
-  localStorage.removeItem(JWT_STORAGE_KEY);
+  auth.removeToken();
   return await new Promise(r => r(true));
 }
 

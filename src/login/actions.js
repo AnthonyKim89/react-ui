@@ -1,5 +1,6 @@
 import { push } from 'react-router-redux';
 import * as api from '../api';
+import * as subscriptions from '../subscriptions';
 import pages from '../pages';
 
 export const LOGGED_IN = 'login/LOGGED_IN';
@@ -42,6 +43,7 @@ export function logOut() {
     await api.logOut();
     dispatch(loggedOut());
     dispatch(push('/login'));
+    subscriptions.disconnect();
   };
 }
 

@@ -8,8 +8,6 @@ import { Provider } from 'react-redux';
 import { routes } from './routes';
 
 import rootReducer from './rootReducer';
-import { connect as connectToSubscriptions } from './subscriptions';
-import { receiveAppData } from './pages/actions';
 
 import './index.css';
 
@@ -24,9 +22,4 @@ ReactDOM.render(
     <Router history={history} routes={routes} />
   </Provider>,
   document.getElementById('root')
-);
-
-
-connectToSubscriptions(
-  (appInstanceId, data) => store.dispatch(receiveAppData(appInstanceId, data))
 );
