@@ -127,9 +127,3 @@ export async function getWellTimeline(wellId) {
   const data = await get(`/v1/jobs/${wellId}/drill_view_timeline_slider`);
   return fromJS(data);
 }
-
-export async function getTorque({wellId, date}) {
-  const queryParams = {date: date.unix()};
-  const data = await get(`/v1/jobs/${wellId}/broomstick_chart`, queryParams);
-  return fromJS(data);
-}
