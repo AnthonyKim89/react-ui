@@ -21,17 +21,21 @@ const JSON_HEADERS = {
   Accept: 'application/json'
 };
 
-async function request(path, config = {}) {
+function attachAuthorizationHeader(requestConfig) {
   const jwt = localStorage.getItem(JWT_STORAGE_KEY);
   if (jwt) {
-    const headers = config.headers || {};
-    config = Object.assign({}, config, {
+    const headers = requestConfig.headers || {};
+    requestConfig = Object.assign({}, requestConfig, {
       headers: Object.assign({}, headers, {
         Authorization: `Bearer ${jwt}`
       })
     });
   }
-  const response = await fetch(path, config);
+  return requestConfig;
+}
+
+async function request(path, config = {}) {
+  const response = await fetch(path, attachAuthorizationHeader(config));
   if (response.ok) {
     return fromJS(await response.json());
   } else {
