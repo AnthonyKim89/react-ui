@@ -12,7 +12,7 @@ class MainNav extends Component {
     // Used until we have rig/well listing implemented
     const placeholderWellId = 1016;
     return (
-      <Navbar fixedTop className="c-main-nav">
+      <Navbar fixedTop fluid className="c-main-nav">
         <Navbar.Header>
           <Navbar.Brand>
             <IndexLink to={this.getPathToFirstDashboard()}>Corva</IndexLink>
