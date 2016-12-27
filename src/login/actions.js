@@ -1,6 +1,8 @@
 import { push } from 'react-router-redux';
+import queryString from 'query-string';
 import * as api from '../api';
 import * as subscriptions from '../subscriptions';
+import * as auth from '../auth';
 import pages from '../pages';
 
 export const LOGGED_IN = 'login/LOGGED_IN';
@@ -26,7 +28,7 @@ export function logIn(email, password) {
       const user = await api.getCurrentUser();
       dispatch(loggedIn(user));
       dispatch(push('/'));
-      dispatch(pages.actions.start());
+      dispatch(pages.actions.start(false));
     } catch (e) {
       if (e.isAuthenticationProblem()) {
         dispatch(loginFailed());
@@ -50,9 +52,13 @@ export function logOut() {
 export function loginCheck() {
   return async dispatch => {
     try {
+      const qry = queryString.parse(location.search);
+      if (qry.jwt) {
+        auth.setToken(qry.jwt);
+      }
       const user = await api.getCurrentUser();
       dispatch(loggedIn(user));
-      dispatch(pages.actions.start());
+      dispatch(pages.actions.start(qry.native));
     } catch (e) {
       if (e.isAuthenticationProblem()) {
         dispatch(push('/login'));

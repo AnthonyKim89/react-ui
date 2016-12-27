@@ -1,3 +1,6 @@
 .c-well-page {
   padding-top: 60px;
 }
+.c-app--native .c-well-page {
+  padding-top: 0;
+}

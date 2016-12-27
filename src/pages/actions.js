@@ -6,8 +6,8 @@ import login from '../login';
 import { subscribe, unsubscribe } from '../subscriptions';
 
 export const START_LOAD = 'START_LOAD';
-function startLoad() {
-  return {type: START_LOAD};
+function startLoad(isNative) {
+  return {type: START_LOAD, isNative};
 }
 
 export const FINISH_LOAD = 'FINISH_LOAD';
@@ -22,9 +22,9 @@ function finishLoad(appSets) {
   };
 }
 
-export function start() {
+export function start(isNative) {
   return async (dispatch, getState) => {
-    dispatch(startLoad());
+    dispatch(startLoad(isNative));
     subscriptions.connect((...a) => dispatch(receiveAppData(...a)));
     const user = login.selectors.currentUser(getState());
     const appSets = await api.getAppSets(user.get('id'));

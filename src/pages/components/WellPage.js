@@ -8,7 +8,13 @@ import WellTabBar from './WellTabBar';
 import WellTimeline from './WellTimeline';
 import AppGrid from '../../apps/components/AppGrid';
 
-import { wellPages, appData, currentWellPage, currentWellTimeline } from '../selectors';
+import {
+  isNative,
+  wellPages,
+  appData,
+  currentWellPage,
+  currentWellTimeline
+} from '../selectors';
 import {
   subscribeApp,
   unsubscribeApp,
@@ -59,10 +65,11 @@ class WellPage extends Component {
                    assetId={wellId}
                    wellDrillTime={drillTime}
                    location={this.props.location} />}
-        <WellTabBar wellId={wellId}
-                    wellPages={this.props.wellPages}
-                    currentWellPage={this.props.currentWellPage}
-                    wellDrillTime={drillTime} />
+        {!this.props.isNative &&
+          <WellTabBar wellId={wellId}
+                      wellPages={this.props.wellPages}
+                      currentWellPage={this.props.currentWellPage}
+                      wellDrillTime={drillTime} />}
         {this.props.currentWellTimeline &&
           <WellTimeline timeline={this.props.currentWellTimeline}
                         onChangeDrillTime={(...args) => this.onSetDrillTime(...args)}
@@ -100,6 +107,7 @@ class WellPage extends Component {
 
 export default connect(
   createStructuredSelector({
+    isNative,
     wellPages,
     appData,
     currentWellPage,

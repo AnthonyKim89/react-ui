@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import classSet from 'react-classset';
 
 import MainNav from './MainNav';
 
 import login from './login';
 import pages from './pages';
+
+import './App.css';
 
 class App extends Component {
 
@@ -14,9 +17,13 @@ class App extends Component {
   }
 
   render() {
+    const classes = {
+      'c-app': true,
+      'c-app--native': this.props.isNative
+    };
     return (
-      <div>
-        {this.props.currentUser &&
+      <div className={classSet(classes)}>
+        {this.props.currentUser && !this.props.isNative &&
           <MainNav currentUser={this.props.currentUser}
                    dashboards={this.props.dashboards}
                    logOut={this.props.logOut} />}
@@ -30,6 +37,7 @@ class App extends Component {
 export default connect(
   createStructuredSelector({
     currentUser: login.selectors.currentUser,
+    isNative: pages.selectors.isNative,
     dashboards: pages.selectors.dashboards
   }),
   {

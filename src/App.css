@@ -1,0 +1,6 @@
+.c-app {
+  margin-top: 51px;
+}
+.c-app.c-app--native {
+  margin-top: 0;
+}

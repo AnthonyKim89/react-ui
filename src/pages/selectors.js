@@ -15,6 +15,11 @@ export const dashboards = createSelector(
     .filter(w => w.get('type') === 'dashboard')
 );
 
+export const isNative = createSelector(
+  stateSelector,
+  state => state.get('isNative')
+);
+
 export const wellPages = createSelector(
   stateSelector,
   state => state.get('appSets')

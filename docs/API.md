@@ -14,8 +14,21 @@ On the other hand, we want to retain the flexibility to change the way data is v
 
 ## Endpoints
 
-On `corva-web` the code for the endpoints are / should be under `app/controllers/api/v1`, in small focused controllers and views.
+On `corva-api` the code for the endpoints are / should be under `app/controllers/v1`, in small focused controllers and views.
 
+### Authentication
+
+#### Login
+
+##### Request
+
+    POST /user_token
+    {"auth": {"email": "user@user.com", "password": "abcd"}}
+
+##### Response
+
+    {"jwt": "abcd"}
+    
 ### Users
 
 #### Current User

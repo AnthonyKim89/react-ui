@@ -4,6 +4,7 @@ import moment from 'moment';
 import * as t from './actions';
 
 const initialState = Map({
+  isNative: false,
   isLoading: true,
   appSets: Map(),
   wellTimelines: Map(),
@@ -74,7 +75,8 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case t.START_LOAD:
       return state.merge({
-        isLoading: true
+        isLoading: true,
+        isNative: action.isNative
       });
     case t.FINISH_LOAD:
       return state.merge({
