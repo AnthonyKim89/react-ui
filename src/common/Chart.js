@@ -1,68 +1,63 @@
 import React, {Component, PropTypes} from 'react';
-import ReactHighcharts from 'react-highcharts';
+import Highcharts from 'highcharts';
 import { differenceBy, intersectionBy, values } from 'lodash';
 import { Size } from './constants';
 
 class Chart extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      chartConfig: {
-        chart: {
-          type: 'line',
-          inverted: true,
-          backgroundColor: null,
-          zoomType: 'xy',
-          panning: true,
-          panKey: 'shift',
-          plotBackgroundColor: 'rgb(42, 46, 46)'
-        },
-        xAxis: {
-          gridLineWidth: 1,
-          gridLineColor: 'rgb(47, 51, 51)',
-          lineWidth: 0,
-          tickWidth: 0,
-          labels: {
-            visible: this.isAxisLabelsVisible(this.props),
-            style: {color: '#fff'}
-          }
-        },
-        yAxis: {
-          title: {text: null},
-          gridLineWidth: 1,
-          gridLineColor: 'rgb(47, 51, 51)',
-          labels: {
-            visible: this.isAxisLabelsVisible(this.props),
-            style: {color: '#fff'}
-          }
-        },
-        title: {text: null},
-        credits: {enabled: false},
-        legend: {
-          align: 'right',
-          verticalAlign: 'middle',
-          layout: 'vertical',
-          itemStyle: {color: '#fff'},
-          enabled: true
-        },
-        series: this.getSeries(this.props)
-      }
-    }
-  }
-
   render() {
     return (
-      <ReactHighcharts
-        config={this.state.chartConfig}
-        isPureConfig={true}
-        domProps={{style: {height: '100%'}}}
-        ref={chart => this.chart = chart} />
+      <div style={{height: '100%'}}
+           ref={container => this.container = container} />
     );
   }
 
+  componentDidMount() {
+    const chart = Highcharts.chart(this.container, {
+      chart: {
+        type: 'line',
+        inverted: true,
+        backgroundColor: null,
+        zoomType: 'xy',
+        panning: true,
+        panKey: 'shift',
+        plotBackgroundColor: 'rgb(42, 46, 46)'
+      },
+      xAxis: {
+        gridLineWidth: 1,
+        gridLineColor: 'rgb(47, 51, 51)',
+        lineWidth: 0,
+        tickWidth: 0,
+        labels: {
+          visible: this.isAxisLabelsVisible(this.props),
+          style: {color: '#fff'}
+        }
+      },
+      yAxis: {
+        title: {text: null},
+        gridLineWidth: 1,
+        gridLineColor: 'rgb(47, 51, 51)',
+        labels: {
+          visible: this.isAxisLabelsVisible(this.props),
+          style: {color: '#fff'}
+        }
+      },
+      title: {text: null},
+      credits: {enabled: false},
+      legend: {
+        align: 'right',
+        verticalAlign: 'middle',
+        layout: 'vertical',
+        itemStyle: {color: '#fff'},
+        enabled: true
+      },
+      series: this.getSeries(this.props)
+    });
+    this.setState({chart});
+  }
+
   componentWillReceiveProps(newProps) {
-    const chart = this.chart.getChart();
+    const chart = this.state.chart;
     let redraw = false, reflow = false;
     if (newProps.size !== this.props.size) {
       const legendVisible = this.isLegendVisible(newProps);
@@ -80,12 +75,13 @@ class Chart extends Component {
     } else if (newProps.widthCols !== this.props.widthCols) {
       reflow = true;
     }
-    redraw = this.diffPatchSeries(chart, newProps) || redraw;
+    redraw = this.diffPatchSeries(newProps) || redraw;
     if (reflow) { chart.reflow(); }
     if (redraw) { chart.redraw(false); }
   }
 
-  diffPatchSeries(chart, newProps) {
+  diffPatchSeries(newProps) {
+    const chart = this.state.chart;
     const oldSeries = this.getSeries(this.props);
     const newSeries = this.getSeries(newProps);
     const addedSeries = differenceBy(newSeries, oldSeries, s => s.id);
