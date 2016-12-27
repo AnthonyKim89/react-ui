@@ -4,7 +4,6 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import Chart from '../../common/Chart';
 import ChartSeries from '../../common/ChartSeries';
-import { Size } from '../constants';
 
 import './TorqueAndDragBroomstickApp.css'
 
@@ -14,21 +13,22 @@ class TorqueAndDragBroomstickApp extends Component {
     return (
       <div className="c-torque-and-drag-broomstick">
         {this.props.data ?
-            <Chart
-              xField="measured_depth"
-              yField="hookload"
-              isLegendVisible={this.isLegendVisible()}
-              isAxisLabelsVisible={this.isAxisLabelsVisible()} >
-              {this.getSeries().map(({renderType, title, type, data}, idx) => (
-                <ChartSeries
-                  key={idx}
-                  type={renderType}
-                  title={title}
-                  data={data}
-                  color={this.getSeriesColor(type)} />
-              )).toJS()}
-            </Chart> :
-            <p>Loading</p>}
+          <Chart
+            xField="measured_depth"
+            yField="hookload"
+            size={this.props.size}
+            widthCols={this.props.widthCols}>
+            {this.getSeries().map(({renderType, title, type, data}, idx) => (
+              <ChartSeries
+                key={title}
+                id={title}
+                type={renderType}
+                title={title}
+                data={data}
+                color={this.getSeriesColor(type)} />
+            )).toJS()}
+          </Chart> :
+          <p>Loading</p>}
       </div>
     );
   }
@@ -74,20 +74,13 @@ class TorqueAndDragBroomstickApp extends Component {
     }
   }
 
-  isLegendVisible() {
-    return this.props.size === Size.XLARGE || this.props.size === Size.LARGE
-  }
-
-  isAxisLabelsVisible() {
-    return this.props.size !== Size.SMALL
-  }
-
 }
 
 TorqueAndDragBroomstickApp.propTypes = {
   data: ImmutablePropTypes.map,
   time: momentPropTypes.momentObj.isRequired,
-  size: PropTypes.string.isRequired
+  size: PropTypes.string.isRequired,
+  widthCols: PropTypes.number.isRequired
 };
 
 export default TorqueAndDragBroomstickApp;

@@ -7,7 +7,8 @@ import { Button, Glyphicon } from 'react-bootstrap';
 
 import AppContainer from './AppContainer';
 import AddAppDialog from './AddAppDialog';
-import { Size, GRID_BREAKPOINTS, GRID_COLUMN_SIZES, GRID_ROW_HEIGHT } from '../constants';
+import { GRID_BREAKPOINTS, GRID_COLUMN_SIZES, GRID_ROW_HEIGHT } from '../constants';
+import common from '../../common';
 import appRegistry from '../appRegistry';
 
 import 'react-grid-layout/css/styles.css';
@@ -116,19 +117,20 @@ class AppGrid extends Component {
         data={appData}
         {...commonAppProps}
         {...settings.toJS()}
-        size={this.getAppSize(coordinates, maximized)} />
+        size={this.getAppSize(coordinates, maximized)}
+        widthCols={coordinates.get('w')} />
     </AppContainer>
   }
 
   getAppSize(gridConfig, maximized) {
     if (maximized) {
-      return Size.XLARGE;
+      return common.constants.Size.XLARGE;
     } else if (gridConfig.get('w') >= 5) {
-      return Size.LARGE;
+      return common.constants.Size.LARGE;
     } else if (gridConfig.get('w') >= 3) {
-      return Size.MEDIUM;
+      return common.constants.Size.MEDIUM;
     } else {
-      return Size.SMALL;
+      return common.constants.Size.SMALL;
     }
   }
 

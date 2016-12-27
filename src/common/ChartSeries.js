@@ -5,6 +5,7 @@ class ChartSeries extends Component {
 }
 
 ChartSeries.propTypes = {
+  id: PropTypes.string.isRequired,
   type: PropTypes.oneOf(['line', 'scatter']).isRequired,
   data: ImmutablePropTypes.list.isRequired,
   title: PropTypes.string,

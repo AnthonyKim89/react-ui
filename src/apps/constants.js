@@ -1,10 +1,3 @@
-export const Size = {
-  SMALL: 'SMALL',
-  MEDIUM: 'MEDIUM',
-  LARGE: 'LARGE',
-  XLARGE: 'XLARGE'
-};
-
 // On grid constants, see https://www.npmjs.com/package/react-grid-layout
 
 // Screen width breakpoints in pixels. The names are arbitrary but match those
