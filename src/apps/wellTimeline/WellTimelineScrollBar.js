@@ -18,7 +18,7 @@ class WellTimelineScrollBar extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (!newProps.drillTime.isSame(this.props.drillTime)) {
+    if (newProps.drillTime && !moment(newProps.drillTime).isSame(this.props.drillTime)) {
       this.setState({value: this.findValue(newProps.drillTime)});
     }
   }
@@ -88,8 +88,9 @@ class WellTimelineScrollBar extends Component {
   }
 
   findValue(drillTime = this.props.drillTime) {
+    const momentToFind = drillTime && moment(drillTime);
     const entry = this.props.tooltipDepthData
-      .findEntry(e => drillTime.isSame(moment(e.get("entry_at"))));
+      .findEntry(e => momentToFind && momentToFind.isSame(moment(e.get("entry_at"))));
     if (entry) {
       return entry[0];
     } else {

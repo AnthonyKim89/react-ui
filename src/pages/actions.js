@@ -90,15 +90,6 @@ export function removeApp(appSet, id) {
   };
 }
 
-
-export const LOAD_WELL_TIMELINE = 'LOAD_WELL_TIMELINE';
-export function loadWellTimeline(wellId, drillTime) {
-  return async dispatch => {
-    const timeline = await api.getWellTimeline(wellId);
-    dispatch({type: LOAD_WELL_TIMELINE, wellId, drillTime, timeline});
-  };
-}
-
 export const SET_PAGE_PARAMS = 'SET_PAGE_PARAMS';
 export function setPageParams(assetId, params) {
   return {type: SET_PAGE_PARAMS, assetId, params};

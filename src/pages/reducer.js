@@ -1,5 +1,4 @@
-import { List, Map } from 'immutable';
-import moment from 'moment';
+import { Map } from 'immutable';
 
 import * as t from './actions';
 
@@ -7,7 +6,6 @@ const initialState = Map({
   isNative: false,
   isLoading: true,
   appSets: Map(),
-  wellTimelines: Map(),
   pageParams: Map(),
   appData: Map()
 });
@@ -24,39 +22,6 @@ function appSetsById(appSets) {
     (res, w) => res.set(w.get('id'), w.update('apps', appsById)),
     Map()
   );
-}
-
-function calculateTimelineActivity(timeline) {
-  const jobData = timeline.get('jobData');
-  const outOfHoleData = timeline.get('outOfHoleData');
-  if (!outOfHoleData.isEmpty()) {
-    const firstDate = moment(jobData.get('start_date')).unix() || 0;
-    const lastDate = moment(jobData.get('last_date')).unix() || 0;
-    const activity = outOfHoleData.map((item, index) => {
-      const itemEndTime = moment(item.get('end_time')).unix();
-      const itemStartTime = moment(item.get('start_time')).unix();
-      let relativeDuration = (itemEndTime - itemStartTime) / (lastDate - firstDate) * 100;
-      let relativeStart  = (itemStartTime - firstDate) / (lastDate - firstDate) * 100;
-      return Map({
-        activity: item.get('activity'),
-        relativeStart,
-        relativeDuration
-      });
-    });
-    return timeline.set('activity', activity);
-  } else {
-    return timeline.set('activity', List());
-  }
-}
-
-function setCurrentTimelineTime(timeline, givenTime) {
-  if (givenTime) {
-    return timeline.set('currentTime', givenTime);
-  } else {
-    const lastTooltipDepth = timeline.get('tooltipDepthData').last();
-    const time = lastTooltipDepth ? moment(lastTooltipDepth.get('entry_at')) : moment();
-    return timeline.set('currentTime', time);
-  }
 }
 
 function createApp(appType, settings, forAppSet) {
@@ -88,11 +53,6 @@ export default function(state = initialState, action) {
       return state.setIn(['appData', action.appInstanceId], action.data);
     case t.UNSUBSCRIBE_APP:
       return state.removeIn(['appData', action.appInstanceId]);
-    case t.LOAD_WELL_TIMELINE:
-      return state.setIn(
-        ['wellTimelines', action.wellId],
-        calculateTimelineActivity(setCurrentTimelineTime(action.timeline, action.drillTime))
-      );
     case t.SET_PAGE_PARAMS:
       return state.updateIn(
         ['pageParams', action.assetId],

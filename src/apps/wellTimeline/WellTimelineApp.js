@@ -1,8 +1,10 @@
 import React, {Component, PropTypes} from 'react'
-import ImmutablePropTypes from 'react-immutable-proptypes';
+import moment from 'moment';
+import { List } from 'immutable';
 
 import WellTimelineStatusBar from './WellTimelineStatusBar'
 import WellTimelineScrollBar from './WellTimelineScrollBar'
+import * as api from '../../api';
 
 import './WellTimelineApp.css'
 
@@ -10,23 +12,55 @@ class WellTimeline extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {scrollBarVisible: false};
+    this.state = {
+      scrollBarVisible: false
+    };
+  }
+
+  async componentDidMount() {
+    const timeline = await api.getWellTimeline(this.props.assetId);
+    const jobData = timeline.get('jobData');
+    const outOfHoleData = timeline.get('outOfHoleData');
+    if (!outOfHoleData.isEmpty()) {
+      const firstDate = moment(jobData.get('start_date')).unix() || 0;
+      const lastDate = moment(jobData.get('last_date')).unix() || 0;
+      const activity = outOfHoleData.map((item, index) => {
+        const itemEndTime = moment(item.get('end_time')).unix();
+        const itemStartTime = moment(item.get('start_time')).unix();
+        let relativeDuration = (itemEndTime - itemStartTime) / (lastDate - firstDate) * 100;
+        let relativeStart  = (itemStartTime - firstDate) / (lastDate - firstDate) * 100;
+        return Map({
+          activity: item.get('activity'),
+          relativeStart,
+          relativeDuration
+        });
+      });
+      this.setState({timeline, activity});
+    } else {
+      this.setState({timeline, activity: List()});
+    }
+    if (!this.props.drillTime) {
+      const lastTooltipDepth = timeline.get('tooltipDepthData').last();
+      const time = lastTooltipDepth ? moment(lastTooltipDepth.get('entry_at')) : moment();
+      this.updateParams(time);
+    }
   }
 
   render() {
     return (
       <div className="c-well-timeline">
-        {this.state.scrollBarVisible && 
+        {this.state.timeline && this.state.scrollBarVisible && 
           <WellTimelineScrollBar
-            drillTime={this.props.timeline.get('currentTime')}
-            tooltipDepthData={this.props.timeline.get('tooltipDepthData')}
-            activity={this.props.timeline.get('activity')}
+            drillTime={this.props.drillTime}
+            tooltipDepthData={this.state.timeline.get('tooltipDepthData')}
+            activity={this.state.activity}
             onChangeDrillTime={t => this.updateParams(t)} />}
-        <WellTimelineStatusBar
-          jobData={this.props.timeline.get('jobData')}
-          lastWitsRecord={this.props.timeline.get('lastWitsRecord')}
-          scrollBarVisible={this.state.scrollBarVisible}
-          onToggleDrillScrollBar={() => this.toggleScrollBar()} />
+        {this.state.timeline && 
+          <WellTimelineStatusBar
+            jobData={this.state.timeline.get('jobData')}
+            lastWitsRecord={this.state.timeline.get('lastWitsRecord')}
+            scrollBarVisible={this.state.scrollBarVisible}
+            onToggleDrillScrollBar={() => this.toggleScrollBar()} />}
       </div>
     );
   }
@@ -41,7 +75,8 @@ class WellTimeline extends Component {
 }
 
 WellTimeline.propTypes = {
-  timeline: ImmutablePropTypes.map.isRequired,
+  assetId: PropTypes.number.isRequired,
+  drillTime: PropTypes.string,
   onUpdateParams: PropTypes.func.isRequired
 };
 

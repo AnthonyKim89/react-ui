@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import moment from 'moment';
 import { Map } from 'immutable';
 import { isEqual } from 'lodash';
 import { stringify as queryString } from 'query-string';
@@ -15,8 +14,7 @@ import {
   assetPageTabs,
   appData,
   currentAssetPageTab,
-  currentPageParams,
-  currentWellTimeline
+  currentPageParams
 } from '../selectors';
 import {
   subscribeApp,
@@ -25,7 +23,6 @@ import {
   updateAppSettings,
   addApp,
   removeApp,
-  loadWellTimeline,
   setPageParams
 } from '../actions';
 
@@ -34,20 +31,20 @@ import './AssetPage.css';
 class AssetPage extends Component {
 
   componentDidMount() {
-    const drillTimeParam = this.props.location.query.drillTime;
-    this.props.loadWellTimeline(
-      parseInt(this.props.params.assetId, 10),
-      drillTimeParam ? moment(drillTimeParam) : null
-    );
+    this.setPageParamsFromLocation(this.props);
   }
 
   componentWillReceiveProps(newProps) {
     if (!this.props.location || !isEqual(newProps.location.query, this.props.location.query)) {
-      this.props.setPageParams(
-        parseInt(newProps.params.assetId, 10),
-        newProps.location.query
-      );
+      this.setPageParamsFromLocation(newProps);
     }
+  }
+
+  setPageParamsFromLocation(props) {
+    this.props.setPageParams(
+      parseInt(props.params.assetId, 10),
+      props.location.query
+    );
   }
 
   render() {
@@ -71,10 +68,10 @@ class AssetPage extends Component {
                        assetPageTabs={this.props.assetPageTabs}
                        currentAssetPageTab={this.props.currentAssetPageTab}
                        pageParams={this.props.currentPageParams} />}
-        {this.props.currentWellTimeline &&
-          <wellTimeline.AppComponent
-            timeline={this.props.currentWellTimeline}
-            onUpdateParams={(...args) => this.onPageParamsUpdate(...args)} />}
+        <wellTimeline.AppComponent
+          assetId={assetId}
+          {...(this.props.currentPageParams && this.props.currentPageParams.toJS())}
+          onUpdateParams={(...args) => this.onPageParamsUpdate(...args)} />
       </div>
     );
   }
@@ -113,8 +110,7 @@ export default connect(
     assetPageTabs,
     appData,
     currentAssetPageTab,
-    currentPageParams,
-    currentWellTimeline
+    currentPageParams
   }),
   {
     subscribeApp,
@@ -123,7 +119,6 @@ export default connect(
     updateAppSettings,
     addApp,
     removeApp,
-    loadWellTimeline,
     setPageParams
   }
 )(AssetPage);
