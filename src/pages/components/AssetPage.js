@@ -6,13 +6,14 @@ import { isEqual } from 'lodash';
 import { stringify as queryString } from 'query-string';
 
 import AssetTabBar from './AssetTabBar';
-import wellTimeline from '../../apps/wellTimeline';
 import AppGrid from '../../apps/components/AppGrid';
+import * as appRegistry from '../../apps/appRegistry';
 
 import {
   isNative,
   assetPageTabs,
   appData,
+  currentAsset,
   currentAssetPageTab,
   currentPageParams
 } from '../selectors';
@@ -23,7 +24,8 @@ import {
   updateAppSettings,
   addApp,
   removeApp,
-  setPageParams
+  setPageParams,
+  loadAsset
 } from '../actions';
 
 import './AssetPage.css';
@@ -31,6 +33,7 @@ import './AssetPage.css';
 class AssetPage extends Component {
 
   componentDidMount() {
+    this.props.loadAsset(parseInt(this.props.params.assetId, 10));
     this.setPageParamsFromLocation(this.props);
   }
 
@@ -68,12 +71,22 @@ class AssetPage extends Component {
                        assetPageTabs={this.props.assetPageTabs}
                        currentAssetPageTab={this.props.currentAssetPageTab}
                        pageParams={this.props.currentPageParams} />}
-        <wellTimeline.AppComponent
+        {this.renderControlApps(assetId)}
+      </div>
+    );
+  }
+
+  renderControlApps(assetId) {
+    if (this.props.currentAsset) {
+      const apps = appRegistry.controlApps.get(this.props.currentAsset.get('type'));
+      return apps.map(({constants, AppComponent}) => 
+        <AppComponent
+          key={constants.NAME}
           assetId={assetId}
           {...(this.props.currentPageParams && this.props.currentPageParams.toJS())}
           onUpdateParams={(...args) => this.onPageParamsUpdate(...args)} />
-      </div>
-    );
+      );
+    }
   }
 
   onAppMove(id, newCoordinates) {
@@ -109,6 +122,7 @@ export default connect(
     isNative,
     assetPageTabs,
     appData,
+    currentAsset,
     currentAssetPageTab,
     currentPageParams
   }),
@@ -119,6 +133,7 @@ export default connect(
     updateAppSettings,
     addApp,
     removeApp,
-    setPageParams
+    setPageParams,
+    loadAsset
   }
 )(AssetPage);

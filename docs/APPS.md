@@ -2,14 +2,23 @@
 
 ## Concepts
 
-The system supports several **App Types**, each one with their own functionality and visual representation. Each App Type has: 
+### UI Apps and Control Apps
+
+There are two kinds of Apps supported by the system:
+
+* Most apps will be **UI Apps**, that are used to display (potentially real-time) data. These are apps that are displayed on Dashboards and Asset Pages, and that users are able to add, remove, and configure from their own UI.
+* Some apps are **Control Apps**, that are used to control the contents of other apps. An example of this is a time period selector / timeline component. Control apps cannot be added or removed by users, and are instead automatically attached to Asset Pages, based on the current asset type.
+
+### UI App Types, App Sets, and Apps
+
+For UI Apps, the system supports several **App Types**, each one with their own functionality and visual representation. Each App Type has: 
 
 * A *category* (e.g. "torqueAndDrag") to which the app type belongs.
 * A *name* (e.g. "torqueAndDragBroomstick") that uniquely identifies the app within its category. 
 * A *title* (e.g. “Trend Broomstick”) - used in titles and lists.
 * An optional *subtitle* (e.g. "Visual trend identification for hole problems or poor cleaning") - used in titles.
 
-A user can create a **App** by choosing a App Type and placing it into a **App Set**. Each App has:
+A user can create a **App** by choosing a App Type and placing it into an **App Set**. Each App has:
 
 * An *AppType* - that determines what the app is
 * A *position* and *size* within the set
@@ -20,7 +29,7 @@ A user can create a **App** by choosing a App Type and placing it into a **App S
 
 An App Set is a collection of these Apps, all displayed on the screen at the same time. An App Set is either a **Dashboard** (a set of apps showing data collected from multiple rigs) or a  **Asset Page Tab** (a set of apps from a specific category showing data from a single asset).
 
-A **Dashboard App Set** represents a page with an app set that is not tied to any specific rig but instead has a collection of apps that may pull data from different rigs. When a user adds an app to a dashboard, they choose a Rig to pull data from. Data will then be fetched from the *active well* of that rig.
+A **Dashboard App Set** represents a page with an app set that is not itself tied to any specific asset but instead has a collection of apps that may pull data from different assets. When a user adds an app to a dashboard, they choose an asset to pull data from.
 
 Each Dashboard <has:></has:>
 
@@ -36,7 +45,10 @@ An **Asset Page Tab App Set** represents a page with an app set that is tied to 
 
 *Apps* in this application are self-contained UI elements provide the user a specific piece of information and functionality. Examples: "Torque And Drag Broomstick", "Wellbore Stability".
 app
-Several apps are shown on the screen simultaneously, laid out in an *app grid* (implemented using [react-grid-layout](https://www.npmjs.com/package/react-grid-layout)). The user may customize the number, order, and positions of apps in the grid. This means apps must be designed to accomodate flexible sizing. The user may also display individual apps in full-screen mode.
+
+Several apps are shown on the screen simultaneously. UI Apps are laid out in an *app grid* (implemented using [react-grid-layout](https://www.npmjs.com/package/react-grid-layout)). The user may customize the number, order, and positions of apps in the grid. This means apps must be designed to accomodate flexible sizing. The user may also display individual apps in full-screen mode. 
+
+Control apps are not laid out in a grid, but are expected to handle their own visual representation using CSS. A typical control app uses fixed positioning to pin itself in the browser viewport.
 
 Every app is automatically subscribed to receive data from `corva-subscriptions` when it is mounted on the screen. This means that apps do not need to do anything to receive their data, they will just be given it as an input property, which also automatically updates whenever new data is received. Apps can, however, make additional API
 requests if they have a need for custom API access. See below for more information.
@@ -62,19 +74,29 @@ Export the app's main component from the `index.js` file in the default export, 
 
 The main React component is the app's "public API". The app may have any number of subcomponents, helper functions, and other internal code, but all of that is an internal concern of the app.
 
-## App Main Component Input Props
+Every app, both UI and control, is registered in to `appRegistry.js`. It is from this registry that the rest of the application finds the apps.
 
-Every app may expect to get the following input props:
+## App Props
+
+Every UI app may expect to get the following input props:
 
 * `assetId` - `number`
 * `data` - An app-specific Immutable.js data structure of the latest data from the app's subscription.
-* `time` - `moment` - the selected time
 * `size` - {`Size.SMALL`, `Size.MEDIUM`, `Size.LARGE`, `Size.XLARGE`} - the size the app is currently occupying in the grid. Can be used for responsive rendering.
+* `widthCols` - number - the current number of columns the app is occuping in the widget grid. Apps *should* use `size` for their responsive rendering istead of `widthCols`, but `widthCols` can be useful to react to resizing using `componentWillReceiveProps`.
+* Additionally, UI apps will receive as props all parameters from the location query string. These are typically populated from control apps.
 
+Every control app may expect to get the following input props:
 
-## Understanding The App's Surrounding Context
+* `assetId` - `number`
+* `onUpdateParams` - `function` - a callback prop that the control app is given when it wants to update the page parameters. The callback takes one arguments, which is an object of parameter keys and values.
+* Additionally, control apps will receive as props all parameters from the location query string. These are typically populated from control apps. This means any params that the control app sets using `onUpdateParams` are reflected back to it as props.
 
-Each app is parented by a `AppContainer` component. That component is responsible for initiating and destroying the app's real-time subscription when the app is mounted or umounted or when its properties change so that it needs to subscribe to a different real-time feed. `AppContainer` also provides the surrounding UI that's common to all apps. 
+For example, if a control app calls `onUpdateParams({time: '2016-12-31'})`, a query parameter `?time=2016-12-31` will appear for the current page URL. (This means all parameters set by control apps are bookmarkable and linkable.) The parameter is then fed to all UI and control apps on the page - they will all receive a `time` prop whose value is `2016-12-31`. 
+
+## Understanding A UI App's Surrounding Context
+
+Each UI app is parented by a `AppContainer` component. That component is responsible for initiating and destroying the app's real-time subscription when the app is mounted or umounted or when its properties change so that it needs to subscribe to a different real-time feed. `AppContainer` also provides the surrounding UI that's common to all apps. 
 
 `AppContainer`s in turn are laid out in a `AppGrid` component, which handles the visual positioning of apps on the screen, and the repositioning and resizing of apps.
 

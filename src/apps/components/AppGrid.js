@@ -8,7 +8,7 @@ import AppContainer from './AppContainer';
 import AddAppDialog from './AddAppDialog';
 import { GRID_BREAKPOINTS, GRID_COLUMN_SIZES, GRID_ROW_HEIGHT } from '../constants';
 import common from '../../common';
-import appRegistry from '../appRegistry';
+import * as appRegistry from '../appRegistry';
 
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -60,7 +60,7 @@ class AppGrid extends Component {
           style={addAppModalStyles}
           contentLabel="Add App to Dashboard">
           <AddAppDialog
-            appTypes={appRegistry}
+            appTypes={appRegistry.uiApps}
             onAppAdd={type => this.addApp(type)}
             onClose={() => this.closeAddAppDialog()} />
         </Modal>
@@ -97,7 +97,7 @@ class AppGrid extends Component {
     const id = app.get('id');
     const coordinates = app.get('coordinates');
     const settings = app.get('settings');
-    const appType = appRegistry.getIn([category, 'appTypes', name]);
+    const appType = appRegistry.uiApps.getIn([category, 'appTypes', name]);
     const assetId = settings.get('assetId') || this.props.assetId;
     const appData = this.props.appData.get(id);
     return <AppContainer id={id}

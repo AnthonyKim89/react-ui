@@ -37,6 +37,11 @@ export const pageParams = createSelector(
   state => state.get('pageParams')
 );
 
+export const assets = createSelector(
+  stateSelector,
+  state => state.get('assets')
+);
+
 export const currentDashboard = createSelector(
   dashboards,
   (_, props) => parseInt(props.params.dashboardId, 10),
@@ -60,6 +65,13 @@ export const currentPageParams = createSelector(
   (_, props) => parseInt(props.params.assetId, 10),
   (allParams, assetId) => allParams.get(assetId)
 );
+
+export const currentAsset = createSelector(
+  assets,
+  (_, props) => parseInt(props.params.assetId, 10),
+  (assets, assetId) => assets.get(assetId)
+);
+
 
 
 export const appData = createSelector(

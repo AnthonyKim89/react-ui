@@ -1,7 +1,7 @@
 import { push } from 'react-router-redux'
 import * as api from '../api';
 import * as subscriptions from '../subscriptions';
-import { dashboards, allAppSets } from './selectors';
+import { dashboards, allAppSets, assets } from './selectors';
 import login from '../login';
 import { subscribe, unsubscribe } from '../subscriptions';
 
@@ -93,4 +93,14 @@ export function removeApp(appSet, id) {
 export const SET_PAGE_PARAMS = 'SET_PAGE_PARAMS';
 export function setPageParams(assetId, params) {
   return {type: SET_PAGE_PARAMS, assetId, params};
+}
+
+export const LOAD_ASSET = 'LOAD_ASSET';
+export function loadAsset(assetId) {
+  return async (dispatch, getState) => {
+    if (!assets(getState()).has(assetId)) {
+      const asset = await api.getAsset(assetId);
+      dispatch({type: LOAD_ASSET, asset});
+    }
+  }
 }

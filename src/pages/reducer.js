@@ -7,6 +7,7 @@ const initialState = Map({
   isLoading: true,
   appSets: Map(),
   pageParams: Map(),
+  assets: Map(),
   appData: Map()
 });
 
@@ -83,6 +84,8 @@ export default function(state = initialState, action) {
         .deleteIn(['appSets', action.appSet.get('id'), 'newApp']);
     case t.REMOVE_APP:
       return state.deleteIn(['appSets', action.appSet.get('id'), 'apps', action.id]);
+    case t.LOAD_ASSET:
+      return state.setIn(['assets', action.asset.get('id')], action.asset);
     default:
       return state;
   }
