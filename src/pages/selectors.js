@@ -20,11 +20,11 @@ export const isNative = createSelector(
   state => state.get('isNative')
 );
 
-export const wellPages = createSelector(
+export const assetPageTabs = createSelector(
   stateSelector,
   state => state.get('appSets')
     .valueSeq()
-    .filter(w => w.get('type') === 'well_page')
+    .filter(w => w.get('type') === 'asset_page_tab')
 );
 
 export const wellTimelines = createSelector(
@@ -38,16 +38,16 @@ export const currentDashboard = createSelector(
   (dashboards, dashboardId) => dashboards.find(db => db.get('id') === dashboardId)
 );
 
-export const currentWellPage = createSelector(
-  wellPages,
+export const currentAssetPageTab = createSelector(
+  assetPageTabs,
   (_, props) => props.params.category,
-  (wellPages, category) => wellPages.find(p => p.get('category') === category)
+  (assetPageTabs, category) => assetPageTabs.find(p => p.get('category') === category)
 );
 
 export const currentWellTimeline = createSelector(
   wellTimelines,
-  (_, props) => parseInt(props.params.wellId, 10),
-  (timelines, wellId) => timelines.get(wellId)
+  (_, props) => parseInt(props.params.assetId, 10),
+  (timelines, assetId) => timelines.get(assetId)
 );
 
 export const appData = createSelector(

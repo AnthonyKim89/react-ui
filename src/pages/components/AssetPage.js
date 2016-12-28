@@ -4,15 +4,15 @@ import { createStructuredSelector } from 'reselect';
 import moment from 'moment';
 import { Map } from 'immutable';
 
-import WellTabBar from './WellTabBar';
+import AssetTabBar from './AssetTabBar';
 import WellTimeline from './WellTimeline';
 import AppGrid from '../../apps/components/AppGrid';
 
 import {
   isNative,
-  wellPages,
+  assetPageTabs,
   appData,
-  currentWellPage,
+  currentAssetPageTab,
   currentWellTimeline
 } from '../selectors';
 import {
@@ -27,14 +27,14 @@ import {
   toggleDrillScrollBar
 } from '../actions';
 
-import './WellPage.css';
+import './AssetPage.css';
 
-class WellPage extends Component {
+class AssetPage extends Component {
 
   componentDidMount() {
     const drillTimeParam = this.props.location.query.drillTime;
     this.props.loadWellTimeline(
-      parseInt(this.props.params.wellId, 10),
+      parseInt(this.props.params.assetId, 10),
       drillTimeParam ? moment(drillTimeParam) : null
     );
   }
@@ -42,19 +42,19 @@ class WellPage extends Component {
   componentWillReceiveProps(newProps) {
     if (!this.props.location || newProps.location.query.drillTime !== this.props.location.query.drillTime) {
       this.props.setDrillTime(
-        parseInt(newProps.params.wellId, 10),
+        parseInt(newProps.params.assetId, 10),
         moment(newProps.location.query.drillTime)
       );
     }
   }
 
   render() {
-    const wellId = parseInt(this.props.params.wellId, 10);
+    const assetId = parseInt(this.props.params.assetId, 10);
     const drillTime = this.props.currentWellTimeline && this.props.currentWellTimeline.get('currentTime');
     return (
-      <div className="c-well-page" >
-        {this.props.currentWellPage &&
-          <AppGrid apps={this.props.currentWellPage.get('apps').valueSeq()}
+      <div className="c-asset-page" >
+        {this.props.currentAssetPageTab &&
+          <AppGrid apps={this.props.currentAssetPageTab.get('apps').valueSeq()}
                    appData={this.props.appData}
                    onAppSubscribe={(...a) => this.props.subscribeApp(...a)}
                    onAppUnsubscribe={(...a) => this.props.unsubscribeApp(...a)}
@@ -62,14 +62,14 @@ class WellPage extends Component {
                    onAppSettingsUpdate={(...a) => this.onAppSettingsUpdate(...a)}
                    onAppAdd={(...a) => this.onAppAdd(...a)}
                    onAppRemove={(...a) => this.onAppRemove(...a)}
-                   assetId={wellId}
+                   assetId={assetId}
                    wellDrillTime={drillTime}
                    location={this.props.location} />}
         {!this.props.isNative &&
-          <WellTabBar wellId={wellId}
-                      wellPages={this.props.wellPages}
-                      currentWellPage={this.props.currentWellPage}
-                      wellDrillTime={drillTime} />}
+          <AssetTabBar assetId={assetId}
+                       assetPageTabs={this.props.assetPageTabs}
+                       currentAssetPageTab={this.props.currentAssetPageTab}
+                       wellDrillTime={drillTime} />}
         {this.props.currentWellTimeline &&
           <WellTimeline timeline={this.props.currentWellTimeline}
                         onChangeDrillTime={(...args) => this.onSetDrillTime(...args)}
@@ -79,11 +79,11 @@ class WellPage extends Component {
   }
 
   onAppMove(id, newCoordinates) {
-    this.props.moveApp(this.props.currentWellPage, id, newCoordinates);
+    this.props.moveApp(this.props.currentAssetPageTab, id, newCoordinates);
   }
 
   onAppSettingsUpdate(id, newSettings) {
-    this.props.updateAppSettings(this.props.currentWellPage, id, newSettings);
+    this.props.updateAppSettings(this.props.currentAssetPageTab, id, newSettings);
   }
 
   onSetDrillTime(time) {
@@ -91,15 +91,15 @@ class WellPage extends Component {
   }
 
   onToggleDrillScrollBar(visible) {
-    this.props.toggleDrillScrollBar(parseInt(this.props.params.wellId, 10), visible);
+    this.props.toggleDrillScrollBar(parseInt(this.props.params.assetId, 10), visible);
   }
 
   onAppAdd(appType) {
-    this.props.addApp(this.props.currentWellPage, appType, Map());
+    this.props.addApp(this.props.currentAssetPageTab, appType, Map());
   }
 
   onAppRemove(id) {
-    this.props.removeApp(this.props.currentWellPage, id);
+    this.props.removeApp(this.props.currentAssetPageTab, id);
   }
 
 
@@ -108,9 +108,9 @@ class WellPage extends Component {
 export default connect(
   createStructuredSelector({
     isNative,
-    wellPages,
+    assetPageTabs,
     appData,
-    currentWellPage,
+    currentAssetPageTab,
     currentWellTimeline
   }),
   {
@@ -124,4 +124,4 @@ export default connect(
     setDrillTime,
     toggleDrillScrollBar
   }
-)(WellPage);
+)(AssetPage);

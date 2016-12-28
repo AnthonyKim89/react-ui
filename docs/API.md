@@ -28,7 +28,7 @@ On `corva-api` the code for the endpoints are / should be under `app/controllers
 ##### Response
 
     {"jwt": "abcd"}
-    
+
 ### Users
 
 #### Current User
@@ -49,7 +49,7 @@ Returns information about the currently signed-in user.
 
 #### List
 
-Returns a list of all the app sets (Dashboards and Well Pages) that the user has access to.
+Returns a list of all the app sets (Dashboards and Asset Page Tabs) that the user has access to.
 The response should contain all the contents of the apps as well, so that the frontend
 navigation can be fully populated based on it.
 
@@ -74,7 +74,7 @@ navigation can be fully populated based on it.
       },
       {
         "id": 5678,
-        "type": "well_page",
+        "type": "asset_page_tab",
         "category": "torque_and_drag",
         "apps": [{
           "id": 9012,

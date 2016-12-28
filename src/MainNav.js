@@ -25,7 +25,7 @@ class MainNav extends Component {
               <LinkContainer to={this.getPathToFirstDashboard()}>
                 <NavItem>Dashboards</NavItem>
               </LinkContainer>}
-            <LinkContainer to={`/wells/${placeholderWellId}/overview`}>
+            <LinkContainer to={`/assets/${placeholderWellId}/overview`}>
               <NavItem>Wells</NavItem>
             </LinkContainer>
           </Nav>

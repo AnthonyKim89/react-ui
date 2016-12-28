@@ -14,11 +14,11 @@ A user can create a **App** by choosing a App Type and placing it into a **App S
 * An *AppType* - that determines what the app is
 * A *position* and *size* within the set
 * A number of *settings*
-	* The *well* that data is pulled from
+	* The *asset* that data is pulled from
 	* A *refresh rate* that determines how often the app updates its data
 	* Other arbitrary settings depending on the app type (e.g. chart colors)
 
-An App Set is a collection of these Apps, all displayed on the screen at the same time. An App Set is either a **Dashboard** (a set of apps showing data collected from multiple rigs) or a  **Well Page** (a set of apps showing data from a single well).
+An App Set is a collection of these Apps, all displayed on the screen at the same time. An App Set is either a **Dashboard** (a set of apps showing data collected from multiple rigs) or a  **Asset Page Tab** (a set of apps from a specific category showing data from a single asset).
 
 A **Dashboard App Set** represents a page with an app set that is not tied to any specific rig but instead has a collection of apps that may pull data from different rigs. When a user adds an app to a dashboard, they choose a Rig to pull data from. Data will then be fetched from the *active well* of that rig.
 
@@ -27,12 +27,10 @@ Each Dashboard <has:></has:>
 * A *Name*  - used in titles and lists
 * An *Owner* - the user who owns the dashboard
 
-A **Well Page App Set** represents a page with an app set that is tied to a specific well. All apps on the page pull data from the same well. Each Well Page has:
+An **Asset Page Tab App Set** represents a page with an app set that is tied to a specific asset. All apps on the page pull data from the same asset. Each Asset Page Tab has:
 
 * A *Category* (e.g. “Torque & Drag”) that defines the category of apps the page holds. May be null/undefined, which means it is an “Overview” page for which any type of apps may be included.
 * An *Owner* - the user who owns the page.
-
-The difference between **rig** and **well**: A rig drills a well. On a well page, the default apps are tied to that well. On the dashboard, apps are tied to a rig which means it shows the active well. The active well will change automatically
 
 ## Implementation
 
@@ -80,7 +78,7 @@ Each app is parented by a `AppContainer` component. That component is responsibl
 
 `AppContainer`s in turn are laid out in a `AppGrid` component, which handles the visual positioning of apps on the screen, and the repositioning and resizing of apps.
 
-Both `AppContainer` and `AppGrid` are presentational components that don't connect to the Redux store directly. Instead everything is given to them as input props. The connection to Redux happens one layer above, in a `Dashboard` or `WellPage` component. These components act as the "smart components" that connect apps and grids to Redux.
+Both `AppContainer` and `AppGrid` are presentational components that don't connect to the Redux store directly. Instead everything is given to them as input props. The connection to Redux happens one layer above, in a `Dashboard` or `AssetPage` component. These components act as the "smart components" that connect apps and grids to Redux.
 
 * `Dashboard`
   * `AppGrid`
@@ -90,7 +88,7 @@ Both `AppContainer` and `AppGrid` are presentational components that don't conne
       * `SomeOtherApp`
     * `AppContainer`
       * `ThirdApp`
-* `WellPage`
+* `AssetPage`
   * `AppGrid`
     * `AppContainer`
       * `SomeApp`

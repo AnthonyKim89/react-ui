@@ -20,7 +20,7 @@ To build the necessary navigation UI, the native apps will require access to the
 
 * `GET /users/{userId}/app_sets/` - access to all the Dashboards as well as Asset Pages available to the current user. The *App Set* objects returned by this endpoint will all have one of two types:
    * `dashboard` - A Dashboard. Should be included in the app's navigation structure.
-   * `asset_page` - A tab in an Asset Page. Should be included in the tab structure of asset pages. The category of the page will be in the `category` field.
+   * `asset_page_tab` - A tab in an Asset Page. Should be included in the tab structure of asset pages. The category of the page will be in the `category` field.
 * `GET /assets` - access to Assets (e.g. wells) that the user has access to. Should be included in the app's navigation structure.
 
 **Note:** We may divide the "App Set" concept to separate Dashboard and Asset Page objects. A discussion about how this should be modeled in `corva-api` is ongoing.
