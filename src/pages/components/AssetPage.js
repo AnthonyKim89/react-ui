@@ -23,8 +23,7 @@ import {
   addApp,
   removeApp,
   loadWellTimeline,
-  setDrillTime,
-  toggleDrillScrollBar
+  setDrillTime
 } from '../actions';
 
 import './AssetPage.css';
@@ -73,8 +72,7 @@ class AssetPage extends Component {
         {this.props.currentWellTimeline &&
           <wellTimeline.AppComponent
             timeline={this.props.currentWellTimeline}
-            onChangeDrillTime={(...args) => this.onSetDrillTime(...args)}
-            onToggleDrillScrollBar={(...args) => this.onToggleDrillScrollBar(...args)} />}
+            onChangeDrillTime={(...args) => this.onSetDrillTime(...args)} />}
       </div>
     );
   }
@@ -89,10 +87,6 @@ class AssetPage extends Component {
 
   onSetDrillTime(time) {
     this.props.router.push(`${this.props.location.pathname}?drillTime=${time.toJSON()}`);
-  }
-
-  onToggleDrillScrollBar(visible) {
-    this.props.toggleDrillScrollBar(parseInt(this.props.params.assetId, 10), visible);
   }
 
   onAppAdd(appType) {
@@ -122,7 +116,6 @@ export default connect(
     addApp,
     removeApp,
     loadWellTimeline,
-    setDrillTime,
-    toggleDrillScrollBar
+    setDrillTime
   }
 )(AssetPage);

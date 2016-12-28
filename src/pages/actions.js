@@ -99,11 +99,6 @@ export function loadWellTimeline(wellId, drillTime) {
   };
 }
 
-export const TOGGLE_DRILL_SCROLL_BAR = 'TOGGLE_DRILL_SCROLL_BAR';
-export function toggleDrillScrollBar(wellId, visible) {
-  return {type: TOGGLE_DRILL_SCROLL_BAR, wellId, visible};
-}
-
 export const SET_DRILL_TIME = 'SET_DRILL_TIME';
 export function setDrillTime(wellId, time) {
   return {type: SET_DRILL_TIME, wellId, time};

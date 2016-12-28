@@ -7,10 +7,16 @@ import WellTimelineScrollBar from './WellTimelineScrollBar'
 import './WellTimelineApp.css'
 
 class WellTimeline extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {scrollBarVisible: false};
+  }
+
   render() {
     return (
       <div className="c-well-timeline">
-        {this.props.timeline.get('scrollBarVisible') && 
+        {this.state.scrollBarVisible && 
           <WellTimelineScrollBar
             drillTime={this.props.timeline.get('currentTime')}
             tooltipDepthData={this.props.timeline.get('tooltipDepthData')}
@@ -19,16 +25,19 @@ class WellTimeline extends Component {
         <WellTimelineStatusBar
           jobData={this.props.timeline.get('jobData')}
           lastWitsRecord={this.props.timeline.get('lastWitsRecord')}
-          scrollBarVisible={this.props.timeline.get('scrollBarVisible')}
-          onToggleDrillScrollBar={this.props.onToggleDrillScrollBar} />
+          scrollBarVisible={this.state.scrollBarVisible}
+          onToggleDrillScrollBar={() => this.toggleScrollBar()} />
       </div>
     );
+  }
+
+  toggleScrollBar() {
+    this.setState(s => ({scrollBarVisible: !s.scrollBarVisible}));
   }
 }
 
 WellTimeline.propTypes = {
   timeline: ImmutablePropTypes.map.isRequired,
-  onToggleDrillScrollBar: PropTypes.func.isRequired,
   onChangeDrillTime: PropTypes.func.isRequired
 };
 
