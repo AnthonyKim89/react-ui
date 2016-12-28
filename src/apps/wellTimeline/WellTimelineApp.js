@@ -4,7 +4,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import WellTimelineStatusBar from './WellTimelineStatusBar'
 import WellTimelineScrollBar from './WellTimelineScrollBar'
 
-import './WellTimeline.css'
+import './WellTimelineApp.css'
 
 class WellTimeline extends Component {
   render() {

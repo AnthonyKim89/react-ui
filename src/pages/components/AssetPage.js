@@ -5,7 +5,7 @@ import moment from 'moment';
 import { Map } from 'immutable';
 
 import AssetTabBar from './AssetTabBar';
-import WellTimeline from './WellTimeline';
+import wellTimeline from '../../apps/wellTimeline';
 import AppGrid from '../../apps/components/AppGrid';
 
 import {
@@ -71,9 +71,10 @@ class AssetPage extends Component {
                        currentAssetPageTab={this.props.currentAssetPageTab}
                        wellDrillTime={drillTime} />}
         {this.props.currentWellTimeline &&
-          <WellTimeline timeline={this.props.currentWellTimeline}
-                        onChangeDrillTime={(...args) => this.onSetDrillTime(...args)}
-                        onToggleDrillScrollBar={(...args) => this.onToggleDrillScrollBar(...args)} />}
+          <wellTimeline.AppComponent
+            timeline={this.props.currentWellTimeline}
+            onChangeDrillTime={(...args) => this.onSetDrillTime(...args)}
+            onToggleDrillScrollBar={(...args) => this.onToggleDrillScrollBar(...args)} />}
       </div>
     );
   }
