@@ -21,7 +21,7 @@ class WellTimeline extends Component {
             drillTime={this.props.timeline.get('currentTime')}
             tooltipDepthData={this.props.timeline.get('tooltipDepthData')}
             activity={this.props.timeline.get('activity')}
-            onChangeDrillTime={this.props.onChangeDrillTime} />}
+            onChangeDrillTime={t => this.updateParams(t)} />}
         <WellTimelineStatusBar
           jobData={this.props.timeline.get('jobData')}
           lastWitsRecord={this.props.timeline.get('lastWitsRecord')}
@@ -34,11 +34,15 @@ class WellTimeline extends Component {
   toggleScrollBar() {
     this.setState(s => ({scrollBarVisible: !s.scrollBarVisible}));
   }
+
+  updateParams(drillTime) {
+    this.props.onUpdateParams({drillTime: drillTime.toISOString()});
+  }
 }
 
 WellTimeline.propTypes = {
   timeline: ImmutablePropTypes.map.isRequired,
-  onChangeDrillTime: PropTypes.func.isRequired
+  onUpdateParams: PropTypes.func.isRequired
 };
 
 export default WellTimeline;

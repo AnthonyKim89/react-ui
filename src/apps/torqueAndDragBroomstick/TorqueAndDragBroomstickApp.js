@@ -78,7 +78,7 @@ class TorqueAndDragBroomstickApp extends Component {
 
 TorqueAndDragBroomstickApp.propTypes = {
   data: ImmutablePropTypes.map,
-  time: momentPropTypes.momentObj.isRequired,
+  time: momentPropTypes.momentObj,
   size: PropTypes.string.isRequired,
   widthCols: PropTypes.number.isRequired
 };

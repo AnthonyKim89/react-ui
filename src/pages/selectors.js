@@ -32,6 +32,11 @@ export const wellTimelines = createSelector(
   state => state.get('wellTimelines')
 );
 
+export const pageParams = createSelector(
+  stateSelector,
+  state => state.get('pageParams')
+);
+
 export const currentDashboard = createSelector(
   dashboards,
   (_, props) => parseInt(props.params.dashboardId, 10),
@@ -49,6 +54,13 @@ export const currentWellTimeline = createSelector(
   (_, props) => parseInt(props.params.assetId, 10),
   (timelines, assetId) => timelines.get(assetId)
 );
+
+export const currentPageParams = createSelector(
+  pageParams,
+  (_, props) => parseInt(props.params.assetId, 10),
+  (allParams, assetId) => allParams.get(assetId)
+);
+
 
 export const appData = createSelector(
   stateSelector,

@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import moment from 'moment';
 import { Map } from 'immutable';
+import { isEqual } from 'lodash';
+import { stringify as queryString } from 'query-string';
 
 import AssetTabBar from './AssetTabBar';
 import wellTimeline from '../../apps/wellTimeline';
@@ -13,6 +15,7 @@ import {
   assetPageTabs,
   appData,
   currentAssetPageTab,
+  currentPageParams,
   currentWellTimeline
 } from '../selectors';
 import {
@@ -23,7 +26,7 @@ import {
   addApp,
   removeApp,
   loadWellTimeline,
-  setDrillTime
+  setPageParams
 } from '../actions';
 
 import './AssetPage.css';
@@ -39,17 +42,16 @@ class AssetPage extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (!this.props.location || newProps.location.query.drillTime !== this.props.location.query.drillTime) {
-      this.props.setDrillTime(
+    if (!this.props.location || !isEqual(newProps.location.query, this.props.location.query)) {
+      this.props.setPageParams(
         parseInt(newProps.params.assetId, 10),
-        moment(newProps.location.query.drillTime)
+        newProps.location.query
       );
     }
   }
 
   render() {
     const assetId = parseInt(this.props.params.assetId, 10);
-    const drillTime = this.props.currentWellTimeline && this.props.currentWellTimeline.get('currentTime');
     return (
       <div className="c-asset-page" >
         {this.props.currentAssetPageTab &&
@@ -62,17 +64,17 @@ class AssetPage extends Component {
                    onAppAdd={(...a) => this.onAppAdd(...a)}
                    onAppRemove={(...a) => this.onAppRemove(...a)}
                    assetId={assetId}
-                   wellDrillTime={drillTime}
+                   pageParams={this.props.currentPageParams}
                    location={this.props.location} />}
         {!this.props.isNative &&
           <AssetTabBar assetId={assetId}
                        assetPageTabs={this.props.assetPageTabs}
                        currentAssetPageTab={this.props.currentAssetPageTab}
-                       wellDrillTime={drillTime} />}
+                       pageParams={this.props.currentPageParams} />}
         {this.props.currentWellTimeline &&
           <wellTimeline.AppComponent
             timeline={this.props.currentWellTimeline}
-            onChangeDrillTime={(...args) => this.onSetDrillTime(...args)} />}
+            onUpdateParams={(...args) => this.onPageParamsUpdate(...args)} />}
       </div>
     );
   }
@@ -85,16 +87,21 @@ class AssetPage extends Component {
     this.props.updateAppSettings(this.props.currentAssetPageTab, id, newSettings);
   }
 
-  onSetDrillTime(time) {
-    this.props.router.push(`${this.props.location.pathname}?drillTime=${time.toJSON()}`);
-  }
-
   onAppAdd(appType) {
     this.props.addApp(this.props.currentAssetPageTab, appType, Map());
   }
 
   onAppRemove(id) {
     this.props.removeApp(this.props.currentAssetPageTab, id);
+  }
+
+  onPageParamsUpdate(newParams) {
+    const allNewParams = Object.assign(
+      {},
+      this.props.pageParams && this.props.pageParams.toJS(),
+      newParams
+    );
+    this.props.router.push(`${this.props.location.pathname}?${queryString(allNewParams)}`);
   }
 
 
@@ -106,6 +113,7 @@ export default connect(
     assetPageTabs,
     appData,
     currentAssetPageTab,
+    currentPageParams,
     currentWellTimeline
   }),
   {
@@ -116,6 +124,6 @@ export default connect(
     addApp,
     removeApp,
     loadWellTimeline,
-    setDrillTime
+    setPageParams
   }
 )(AssetPage);

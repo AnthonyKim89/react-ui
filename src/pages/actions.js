@@ -99,7 +99,7 @@ export function loadWellTimeline(wellId, drillTime) {
   };
 }
 
-export const SET_DRILL_TIME = 'SET_DRILL_TIME';
-export function setDrillTime(wellId, time) {
-  return {type: SET_DRILL_TIME, wellId, time};
+export const SET_PAGE_PARAMS = 'SET_PAGE_PARAMS';
+export function setPageParams(assetId, params) {
+  return {type: SET_PAGE_PARAMS, assetId, params};
 }

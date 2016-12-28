@@ -33,7 +33,7 @@ class AssetTabBar extends Component {
   getLocation(category) {
     return {
       pathname: `/assets/${this.props.assetId}/${category}`,
-      query: {drillTime: this.props.wellDrillTime && this.props.wellDrillTime.toJSON()}
+      query: this.props.pageParams && this.props.pageParams.toJS()
     };
   }
 
@@ -43,7 +43,7 @@ AssetTabBar.propTypes = {
   assetId: PropTypes.number.isRequired,
   assetPageTabs: ImmutablePropTypes.seq.isRequired,
   currentAssetPageTab: ImmutablePropTypes.map,
-  wellDrillTime: PropTypes.object
+  pageParams: ImmutablePropTypes.map
 };
 
 export default AssetTabBar;

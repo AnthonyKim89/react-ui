@@ -8,6 +8,7 @@ const initialState = Map({
   isLoading: true,
   appSets: Map(),
   wellTimelines: Map(),
+  pageParams: Map(),
   appData: Map()
 });
 
@@ -92,10 +93,11 @@ export default function(state = initialState, action) {
         ['wellTimelines', action.wellId],
         calculateTimelineActivity(setCurrentTimelineTime(action.timeline, action.drillTime))
       );
-    case t.SET_DRILL_TIME:
-      return state.setIn(
-        ['wellTimelines', action.wellId, 'currentTime'],
-        action.time
+    case t.SET_PAGE_PARAMS:
+      return state.updateIn(
+        ['pageParams', action.assetId],
+        Map(),
+        params => params.merge(action.params)
       );
     case t.MOVE_APP:
       return state.setIn(

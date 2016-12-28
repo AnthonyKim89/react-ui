@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import Modal from 'react-modal';
-import moment from 'moment';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Button, Glyphicon } from 'react-bootstrap';
 
@@ -39,10 +38,9 @@ class AppGrid extends Component {
   }
 
   render() {
-    const commonAppProps = {
-      time: this.props.wellDrillTime || moment('2016-08-31'),
+    const commonAppProps = Object.assign({
       assetId: this.props.assetId // For asset pages, id is given as a common property
-    };
+    }, this.props.pageParams && this.props.pageParams.toJS());
     return (
       <div className="c-app-grid">
         <GridLayout breakpoints={GRID_BREAKPOINTS}
@@ -167,7 +165,7 @@ AppGrid.propTypes = {
   appData: ImmutablePropTypes.map.isRequired,
   commonSettingsEditors: PropTypes.array,
   assetId: PropTypes.number,
-  wellDrillTime: PropTypes.object,
+  pageParams: ImmutablePropTypes.map,
   onAppSubscribe: PropTypes.func.isRequired,
   onAppUnsubscribe: PropTypes.func.isRequired,
   onAppMove: PropTypes.func.isRequired,
