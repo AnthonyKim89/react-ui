@@ -23,6 +23,11 @@ class Chart extends Component {
         panKey: 'shift',
         plotBackgroundColor: 'rgb(42, 46, 46)'
       },
+      plotOptions: {
+        series: {
+          turboThreshold: 5000
+        }
+      },
       xAxis: {
         gridLineWidth: 1,
         gridLineColor: 'rgb(47, 51, 51)',
@@ -96,15 +101,15 @@ class Chart extends Component {
       chart.addSeries(series, false);
       redraw = true;
     }
-    for (const series of retainedSeries) {
-      const chartSeries = chart.get(series.id);
-      const addedPoints = differenceBy(series.data, chartSeries.data, p => p.id);
-      const removedPoints = differenceBy(chartSeries.data, series.data, p => p.id);
+    for (const newVersion of retainedSeries) {
+      const oldVersion = chart.get(newVersion.id);
+      const addedPoints = differenceBy(newVersion.data, oldVersion.data, p => p.id);
+      const removedPoints = differenceBy(oldVersion.data, newVersion.data, p => p.id);
       for (const point of removedPoints) {
         point.remove(false);
       }
       for (const point of addedPoints) {
-        chartSeries.addPoint(point, false);
+        oldVersion.addPoint(point, false);
       }
       redraw = redraw || addedPoints.length || removedPoints.length;
     }
@@ -126,7 +131,8 @@ class Chart extends Component {
         dashStyle: 'ShortDot',
         color,
         marker: {
-          enabled: type === 'scatter', radius: 4
+          enabled: type === 'scatter',
+          radius: 4
         },
         lineWidth: type === 'line' ? 3 : 0,
         animation: false,
