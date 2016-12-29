@@ -163,7 +163,7 @@ class AppGrid extends Component {
 AppGrid.propTypes = {
   apps: ImmutablePropTypes.seq.isRequired,
   appData: ImmutablePropTypes.map.isRequired,
-  commonSettingsEditors: PropTypes.array,
+  commonSettingsEditors: ImmutablePropTypes.list,
   assetId: PropTypes.number,
   pageParams: ImmutablePropTypes.map,
   onAppSubscribe: PropTypes.func.isRequired,

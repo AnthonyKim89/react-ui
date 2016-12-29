@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { Map } from 'immutable';
+import { List, Map } from 'immutable';
 
 import AppGrid from '../../apps/components/AppGrid';
 import DashboardAppAssetSettingEditor from './DashboardAppAssetSettingEditor';
@@ -16,13 +16,13 @@ import {
   removeApp
 } from '../actions';
 
-const DASHBOARD_COMMON_SETTINGS_EDITORS = [
+const DASHBOARD_COMMON_SETTINGS_EDITORS = List([
   {
     name: 'assetId',
     title: 'Active Asset',
     Editor: DashboardAppAssetSettingEditor
   }
-];
+]);
 
 class Dashboard extends Component {
   render() {

@@ -55,7 +55,7 @@ class AppSettingsDialog extends Component {
 
 AppSettingsDialog.propTypes = {
   appType: PropTypes.object.isRequired,
-  settingsEditors: PropTypes.array.isRequired,
+  settingsEditors: ImmutablePropTypes.list.isRequired,
   currentSettings: ImmutablePropTypes.map.isRequired,
   onDone: PropTypes.func.isRequired,
   onAppRemove: PropTypes.func.isRequired,

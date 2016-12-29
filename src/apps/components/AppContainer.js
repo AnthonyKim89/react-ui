@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import classSet from 'react-classset';
 import Modal from 'react-modal';
+import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import AppSettingsDialog from './AppSettingsDialog';
@@ -75,7 +76,7 @@ class AppContainer extends Component {
   }
 
   getSettingsEditors() {
-    const common = this.props.commonSettingsEditors || [];
+    const common = this.props.commonSettingsEditors || List();
     return common;
   }
 
@@ -105,7 +106,7 @@ AppContainer.propTypes = {
   location: PropTypes.object.isRequired,
   maximized: PropTypes.bool,
   appSettings: ImmutablePropTypes.map.isRequired,
-  commonSettingsEditors: PropTypes.array,
+  commonSettingsEditors: ImmutablePropTypes.list,
   onAppSubscribe: PropTypes.func.isRequired,
   onAppUnsubscribe: PropTypes.func.isRequired,
   onAppRemove: PropTypes.func.isRequired,
