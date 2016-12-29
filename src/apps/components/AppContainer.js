@@ -15,7 +15,7 @@ class AppContainer extends Component {
     this.state = {settingsDialogOpen: false};
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.onAppSubscribe(this.props.id, this.getAppKey(), this.props.assetId);
   }
 
