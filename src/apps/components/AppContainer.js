@@ -17,7 +17,9 @@ class AppContainer extends Component {
   }
 
   componentDidMount() {
-    this.props.onAppSubscribe(this.props.id, this.getAppKey(), this.props.assetId);
+    if (this.props.asset) {
+      this.props.onAppSubscribe(this.props.id, this.getAppKey(), this.props.asset.get('id'));
+    }
   }
 
   componentWillUnmount() {
@@ -25,8 +27,10 @@ class AppContainer extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.assetId !== this.props.assetId) {
-      this.props.onAppUnsubscribe(this.props.id, this.getAppKey(), this.props.assetId);
+    if (newProps.asset && newProps.asset !== this.props.asset) {
+      if (this.props.asset) {
+        this.props.onAppUnsubscribe(this.props.id, this.getAppKey(), this.props.asset.get('id'));
+      }
       this.props.onAppSubscribe(this.props.id);
     }
   }
@@ -101,7 +105,7 @@ class AppContainer extends Component {
 
 AppContainer.propTypes = {
   id: PropTypes.number.isRequired,
-  assetId: PropTypes.number.isRequired,
+  asset: ImmutablePropTypes.map,
   appType: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   maximized: PropTypes.bool,

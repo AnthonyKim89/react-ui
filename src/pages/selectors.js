@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import { List, Map } from 'immutable';
 import { NAME } from './constants';
 
 const stateSelector = state => state[NAME];
@@ -27,11 +28,6 @@ export const assetPageTabs = createSelector(
     .filter(w => w.get('type') === 'asset_page_tab')
 );
 
-export const wellTimelines = createSelector(
-  stateSelector,
-  state => state.get('wellTimelines')
-);
-
 export const pageParams = createSelector(
   stateSelector,
   state => state.get('pageParams')
@@ -54,12 +50,6 @@ export const currentAssetPageTab = createSelector(
   (assetPageTabs, category) => assetPageTabs.find(p => p.get('category') === category)
 );
 
-export const currentWellTimeline = createSelector(
-  wellTimelines,
-  (_, props) => parseInt(props.params.assetId, 10),
-  (timelines, assetId) => timelines.get(assetId)
-);
-
 export const currentPageParams = createSelector(
   pageParams,
   (_, props) => parseInt(props.params.assetId, 10),
@@ -72,9 +62,17 @@ export const currentAsset = createSelector(
   (assets, assetId) => assets.get(assetId)
 );
 
-
-
 export const appData = createSelector(
   stateSelector,
   state => state.get('appData')
+);
+
+export const dashboardAppAssets = createSelector(
+  assets,
+  currentDashboard,
+  (allAssets, dashboard = Map()) => Map(
+    dashboard
+      .get('apps', List())
+      .map(app => allAssets.get(app.getIn(['settings', 'assetId'])))
+  )
 );

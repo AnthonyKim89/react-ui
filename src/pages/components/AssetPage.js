@@ -57,13 +57,13 @@ class AssetPage extends Component {
         {this.props.currentAssetPageTab &&
           <AppGrid apps={this.props.currentAssetPageTab.get('apps').valueSeq()}
                    appData={this.props.appData}
+                   appAssets={this.getAppAssets()}
                    onAppSubscribe={(...a) => this.props.subscribeApp(...a)}
                    onAppUnsubscribe={(...a) => this.props.unsubscribeApp(...a)}
                    onAppMove={(...a) => this.onAppMove(...a)}
                    onAppSettingsUpdate={(...a) => this.onAppSettingsUpdate(...a)}
                    onAppAdd={(...a) => this.onAppAdd(...a)}
                    onAppRemove={(...a) => this.onAppRemove(...a)}
-                   assetId={assetId}
                    pageParams={this.props.currentPageParams}
                    location={this.props.location} />}
         {!this.props.isNative &&
@@ -86,6 +86,14 @@ class AssetPage extends Component {
           {...(this.props.currentPageParams && this.props.currentPageParams.toJS())}
           onUpdateParams={(...args) => this.onPageParamsUpdate(...args)} />
       );
+    }
+  }
+
+  getAppAssets() {
+    if (this.props.currentAssetPageTab) {
+      return Map(this.props.currentAssetPageTab.get('apps').map(() => this.props.currentAsset));
+    } else {
+      return Map();
     }
   }
 

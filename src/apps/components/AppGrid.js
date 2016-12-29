@@ -38,9 +38,7 @@ class AppGrid extends Component {
   }
 
   render() {
-    const commonAppProps = Object.assign({
-      assetId: this.props.assetId // For asset pages, id is given as a common property
-    }, this.props.pageParams && this.props.pageParams.toJS());
+    const commonAppProps = this.props.pageParams ? this.props.pageParams.toJS() : {};
     return (
       <div className="c-app-grid">
         <GridLayout breakpoints={GRID_BREAKPOINTS}
@@ -98,11 +96,10 @@ class AppGrid extends Component {
     const coordinates = app.get('coordinates');
     const settings = app.get('settings');
     const appType = appRegistry.uiApps.getIn([category, 'appTypes', name]);
-    const assetId = settings.get('assetId') || this.props.assetId;
     const appData = this.props.appData.get(id);
     return <AppContainer id={id}
                          appType={appType}
-                         assetId={assetId}
+                         asset={this.props.appAssets.get(id)}
                          maximized={maximized}
                          appSettings={settings}
                          commonSettingsEditors={this.props.commonSettingsEditors}
@@ -163,8 +160,8 @@ class AppGrid extends Component {
 AppGrid.propTypes = {
   apps: ImmutablePropTypes.seq.isRequired,
   appData: ImmutablePropTypes.map.isRequired,
+  appAssets: ImmutablePropTypes.map.isRequired,
   commonSettingsEditors: ImmutablePropTypes.list,
-  assetId: PropTypes.number,
   pageParams: ImmutablePropTypes.map,
   onAppSubscribe: PropTypes.func.isRequired,
   onAppUnsubscribe: PropTypes.func.isRequired,
