@@ -18,23 +18,33 @@ class AppContainer extends Component {
 
   componentDidMount() {
     if (this.props.asset) {
-      this.props.onAppSubscribe(this.props.id, this.getAppKey(), this.props.asset.get('id'));
+      this.subscribe(this.props);
     }
   }
 
   componentWillUnmount() {
-    this.props.onAppUnsubscribe(this.props.id);
+    this.unsubscribe(this.props);
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.asset && newProps.asset !== this.props.asset) {
+    if (!newProps.asset || !newProps.asset.equals(this.props.asset)) {
       if (this.props.asset) {
-        this.props.onAppUnsubscribe(this.props.id, this.getAppKey(), this.props.asset.get('id'));
+        this.unsubscribe(this.props);
       }
-      this.props.onAppSubscribe(this.props.id);
+      if (newProps.asset) {
+        this.subscribe(newProps);
+      }
     }
   }
 
+  subscribe(props) {
+    props.onAppSubscribe(props.id, this.getAppKey(), props.asset.get('id'));
+  }
+
+  unsubscribe(props) {
+    props.onAppUnsubscribe(props.id);
+  }
+  
   render() {
     const classes = {
       'c-app-container': true,

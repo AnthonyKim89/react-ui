@@ -1,4 +1,5 @@
 import { push } from 'react-router-redux'
+import { List } from 'immutable';
 import * as api from '../api';
 import * as subscriptions from '../subscriptions';
 import { dashboards, allAppSets, assets } from './selectors';
@@ -95,12 +96,29 @@ export function setPageParams(assetId, params) {
   return {type: SET_PAGE_PARAMS, assetId, params};
 }
 
-export const LOAD_ASSET = 'LOAD_ASSET';
+export const LOAD_ASSETS = 'LOAD_ASSETS';
 export function loadAsset(assetId) {
   return async (dispatch, getState) => {
     if (!assets(getState()).has(assetId)) {
-      const asset = await api.getAsset(assetId);
-      dispatch({type: LOAD_ASSET, asset});
+      let assets = List().push(await api.getAsset(assetId));
+      while (isResolvableAsset(assets.last())) {
+        const parent = assets.last();
+        const child = await api.getActiveChildAsset(parent.get('id'));
+        assets = assets
+          .butLast()
+          .push(parent.set('activeChildId', child.get('id')))
+          .push(child);
+      }
+      dispatch({type: LOAD_ASSETS, assets});
     }
   }
+}
+
+/*
+ * Check if an asset should be "resolved" to another active asset.
+ * Currently we just check if it's a rig (which has an active well)
+ * but a more generic solution would be preferable.
+ */
+function isResolvableAsset(asset) {
+  return asset.get('type') === 'rig';
 }

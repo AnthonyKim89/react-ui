@@ -38,6 +38,13 @@ function createApp(appType, settings, forAppSet) {
   });
 }
 
+function addAssets(assets, newAssets) {
+  return newAssets.reduce(
+    (result, asset) => result.set(asset.get('id'), asset),
+    assets
+  );
+}
+
 export default function(state = initialState, action) {
   switch (action.type) {
     case t.START_LOAD:
@@ -84,8 +91,8 @@ export default function(state = initialState, action) {
         .deleteIn(['appSets', action.appSet.get('id'), 'newApp']);
     case t.REMOVE_APP:
       return state.deleteIn(['appSets', action.appSet.get('id'), 'apps', action.id]);
-    case t.LOAD_ASSET:
-      return state.setIn(['assets', action.asset.get('id')], action.asset);
+    case t.LOAD_ASSETS:
+      return state.update('assets', assets => addAssets(assets, action.assets));
     default:
       return state;
   }

@@ -73,6 +73,12 @@ export const dashboardAppAssets = createSelector(
   (allAssets, dashboard = Map()) => Map(
     dashboard
       .get('apps', List())
-      .map(app => allAssets.get(app.getIn(['settings', 'assetId'])))
+      .map(app => {
+        let asset = allAssets.get(app.getIn(['settings', 'assetId']));
+        while (asset && asset.has('activeChildId')) {
+          asset = allAssets.get(asset.get('activeChildId'));
+        }
+        return asset;
+      })
   )
 );

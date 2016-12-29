@@ -45,6 +45,64 @@ Returns information about the currently signed-in user.
       "id": 1234
     }
 
+### Assets
+
+Returns information about assets (rigs, wells, programs...)
+
+#### List
+
+##### Request
+
+   GET /assets
+
+   GET /assets?type[]=rig&type[]=well
+
+##### Response
+
+   [
+     {
+       "id": 1,
+       "name: "A Rig",
+       "type: "rig"
+     },
+     {
+       "id": 2,
+       "name": "A Well",
+       "type": "well"
+     }
+   ]
+
+#### Show
+
+##### Request
+
+    GET /assets/1
+
+##### Response
+
+    {
+      "id": 1,
+      "name: "A Rig",
+      "type: "rig"
+    }
+
+##### Show Active Child
+
+For assets that have children, one of which should be considered the "active" one, return
+that child. Used for the active wells of rigs.
+
+##### Request
+
+    GET /assets/1/active_child
+
+##### Response
+
+    {
+      "id": 2,
+      "name: "A Well",
+      "type: "well"
+    }
+
 ### Apps And App Sets
 
 #### List

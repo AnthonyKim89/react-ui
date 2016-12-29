@@ -123,6 +123,11 @@ export async function getAsset(id) {
   return fromJS(data);
 }
 
+export async function getActiveChildAsset(id) {
+  const data = await get(`/v1/assets/${id}/active_child`);
+  return fromJS(data);
+}
+
 
 export async function getWellTimeline(wellId) {
   const data = await get(`/v1/jobs/${wellId}/drill_view_timeline_slider`);

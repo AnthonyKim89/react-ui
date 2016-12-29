@@ -10,7 +10,7 @@ class MainNav extends Component {
 
   render() {
     // Used until we have rig/well listing implemented
-    const placeholderWellId = 1016;
+    const placeholderWellId = 101;
     return (
       <Navbar fixedTop fluid className="c-main-nav">
         <Navbar.Header>
