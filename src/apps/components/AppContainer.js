@@ -64,8 +64,7 @@ class AppContainer extends Component {
           overlayClassName='c-add-app-dialog__overlay'
           contentLabel="App Settings">
           <AppSettingsDialog
-            title={this.props.appType.constants.TITLE}
-            subtitle={this.props.appType.constants.SUBTITLE}
+            appType={this.props.appType}
             settingsEditors={this.getSettingsEditors()}
             currentSettings={this.props.appSettings}
             onDone={newSettings => this.onSettingsSave(newSettings)}

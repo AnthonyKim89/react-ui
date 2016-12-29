@@ -18,10 +18,10 @@ class AppSettingsDialog extends Component {
           Save
         </Button>
         <h4 className="c-app-settings__title">
-          {this.props.title} Settings
+          {this.props.appType.constants.TITLE} Settings
         </h4>
-        {this.props.subtitle &&
-          <h5 className="c-app-settings__subtitle">{this.props.subtitle}</h5>}
+        {this.props.appType.constants.SUBTITLE &&
+          <h5 className="c-app-settings__subtitle">{this.props.appType.constants.SUBTITLE}</h5>}
       </header>
       <div>
           <Col md={6}>
@@ -30,7 +30,8 @@ class AppSettingsDialog extends Component {
                 <h5>{title}</h5>
                 <Editor
                   value={this.state.settings.get(name)}
-                  onChange={v => this.setState({settings: this.state.settings.set(name, v)})} />
+                  onChange={v => this.setState({settings: this.state.settings.set(name, v)})}
+                  appType={this.props.appType} />
               </div>
             )}
           </Col>
@@ -53,8 +54,7 @@ class AppSettingsDialog extends Component {
 }
 
 AppSettingsDialog.propTypes = {
-  title: PropTypes.string.isRequired,
-  subtitle: PropTypes.string,
+  appType: PropTypes.object.isRequired,
   settingsEditors: PropTypes.array.isRequired,
   currentSettings: ImmutablePropTypes.map.isRequired,
   onDone: PropTypes.func.isRequired,

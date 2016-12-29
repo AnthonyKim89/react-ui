@@ -4,7 +4,7 @@ import { createStructuredSelector } from 'reselect';
 import { Map } from 'immutable';
 
 import AppGrid from '../../apps/components/AppGrid';
-import DashboardAppRigSettingEditor from './DashboardAppRigSettingEditor';
+import DashboardAppAssetSettingEditor from './DashboardAppAssetSettingEditor';
 
 import { currentDashboard, appData } from '../selectors';
 import {
@@ -19,8 +19,8 @@ import {
 const DASHBOARD_COMMON_SETTINGS_EDITORS = [
   {
     name: 'assetId',
-    title: 'Active Rig',
-    Editor: DashboardAppRigSettingEditor
+    title: 'Active Asset',
+    Editor: DashboardAppAssetSettingEditor
   }
 ];
 

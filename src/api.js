@@ -112,8 +112,9 @@ export async function deleteApp(userId, appSetId, appId) {
   return await del(`/v1/users/${userId}/app_sets/${appSetId}/apps/${appId}`);
 }
 
-export async function getAssets(type) {
-  const data = await get(`/v1/assets?type=${type}`);
+export async function getAssets(types = []) {
+  const typeQuery = types.map(t => `types[]=${t}`).join('&');
+  const data = await get(`/v1/assets?${typeQuery}`);
   return fromJS(data);
 }
 
