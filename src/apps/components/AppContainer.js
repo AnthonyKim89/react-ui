@@ -66,9 +66,9 @@ class AppContainer extends Component {
                 title="Settings"
                 onClick={() => this.openSettingsDialog()}>
         </button>
-        <h4 className="c-app-container__title">{this.props.appType.constants.TITLE}</h4>
-        {this.props.appType.constants.SUBTITLE &&
-          <h5 className="c-app-container__subtitle">{this.props.appType.constants.SUBTITLE}</h5>}
+        <h4 className="c-app-container__title">{this.props.appType.constants.METADATA.title}</h4>
+        {this.props.appType.constants.METADATA.subtitle &&
+          <h5 className="c-app-container__subtitle">{this.props.appType.constants.METADATA.subtitle}</h5>}
         <div className="c-app-container__content">
           {this.props.children}
         </div>

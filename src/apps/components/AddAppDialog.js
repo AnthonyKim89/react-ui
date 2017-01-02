@@ -82,14 +82,19 @@ class AddAppDialog extends Component {
       <AppIcon onClick={() => this.props.onAppAdd(appType)}>
       </AppIcon>
       <div className="c-add-app-dialog__app-type-title">
-        {appType.constants.TITLE}
+        {appType.constants.METADATA.title}
       </div>
+      <a className="c-add-app-dialog__app-type-developer-link"
+         href={appType.constants.METADATA.developer.url}
+         target="_blank">
+        {appType.constants.METADATA.developer.name}
+      </a>
     </li>;
   }
 
   isAppTypeIncludedInFilter(appType) {
     const filter = (this.state.filter || '').toLowerCase();
-    return appType.constants.TITLE.toLowerCase().indexOf(filter) >= 0;
+    return appType.constants.METADATA.title.toLowerCase().indexOf(filter) >= 0;
   }
 
 }
