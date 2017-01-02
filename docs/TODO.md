@@ -88,6 +88,15 @@ Use IBM Bluemix as an inspiration.
 
 ![](mockups/well_tad.PNG)
 
+## UI Motion
+
+Many UI interactions could use some animated transitions for a smoother experience:
+
+* Opening dialogs, like add app, app settings.
+* Navigating between pages and tabs.
+* Opening and closing hover menus.
+* Filtering lists / search results
+
 ## Synchronized Mouseover on charts
 
 Support a UX feature where a use can mouseover on data points in graphs, and data points from the same time are also higlighted on other graphs.
