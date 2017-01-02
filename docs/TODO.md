@@ -23,6 +23,12 @@ Adds capability for a user to change the settings of a app that they have previo
 
 ![](mockups/widget_settings.PNG)
 
+## Requesting Historical Data
+
+On asset pages with control components such as the Well Timeline, sometimes we're not showing real-time data. In these cases, apps should get historical data with a regular HTTP call instead of subscribing to `corva-subscriptions`.
+
+Come up with a generic way of doing this, so that it works with all apps and different kinds of "control apps" in the same way.
+
 ## Building For Deployment
 
 Adds capability for the project to be built to production so that it can be deployed as part of `corva-web`.
@@ -46,6 +52,11 @@ Most apps will need to load data. While data is loading, some loading/progress i
 * Loading indication support in the app API.
 * UI design and implementation for the loading state.
 
+* When the whole app is loading - Should we do no loader here and instead rely on the page loader?
+* When the current page is loading - I think singe centered spinner within page view - maybe like the last one on http://tobiasahlin.com/spinkit/  - as in creating the dashboard
+* When the data for an individual app is loading - I think this is a general loading state for every app. Can this happen from our framework? It should be a loader maybe similar to above or different.
+
+
 ## Full-Screen Apps
 
 Adds a capability for users to expand any app to full-screen mode.
@@ -59,6 +70,14 @@ Adds a capability for users to expand any app to full-screen mode.
 Extend the simplistic T&D Broomstick app to contain all the features that it will have.
 
 **Needs further specification**
+
+## Fully-Featured Well Timeline with Real Data
+
+Ryan:
+
+> We will need a method to gather the data for the well timeline. Since we are moving to Cassandra, I think we will create a summary cache that suits our timeline. For example, if we collect in 1 second increments, the summary will aggregate for every 1 minute, 5 min, 1 hour, etc
+ActivityGroupItem = "Drilling" or "Tripping In" - it's an larger value of activity states. We will put this in the WitsRecord in the future so everything is in 1 record. We need a query method to get this 
+data. TBD.
 
 ## Bootstrap Theme
 
