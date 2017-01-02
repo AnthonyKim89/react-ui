@@ -62,10 +62,9 @@ export default function(state = initialState, action) {
     case t.UNSUBSCRIBE_APP:
       return state.removeIn(['appData', action.appInstanceId]);
     case t.SET_PAGE_PARAMS:
-      return state.updateIn(
+      return state.setIn(
         ['pageParams', action.assetId],
-        Map(),
-        params => params.merge(action.params)
+        Map(action.params)
       );
     case t.MOVE_APP:
       return state.setIn(
