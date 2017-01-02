@@ -14,7 +14,7 @@ class AddAppDialog extends Component {
   }
 
   render() {
-    return <div>
+    return <div className="c-add-app-dialog">
       <div className="c-add-app-dialog__header">
         <h4 className="c-add-app-dialog__title">
           Add New App

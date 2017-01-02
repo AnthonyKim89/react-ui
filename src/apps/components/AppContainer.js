@@ -75,8 +75,8 @@ class AppContainer extends Component {
         <Modal
           isOpen={this.state.settingsDialogOpen}
           onRequestClose={() => this.closeSettingsDialog()}
-          className='c-add-app-dialog'
-          overlayClassName='c-add-app-dialog__overlay'
+          className='c-app-settings-dialog'
+          overlayClassName='c-app-settings-dialog__overlay'
           contentLabel="App Settings">
           <AppSettingsDialog
             appType={this.props.appType}

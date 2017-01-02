@@ -1,3 +1,28 @@
+.c-app-settings-dialog {
+  position: absolute;
+  top: 20%;
+  left: 30%;
+  right: 30%;
+  bottom: 20%;
+  border-radius: 0;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background: #fff;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  outline: none;
+  z-index: 4001;
+}
+
+@media(max-width: 768px) {
+  .c-app-settings-dialog {
+    left: 10px;
+    right: 10px;
+    top: 60px;
+    bottom: 10px;
+  }
+}
+  
 .c-app-settings {
   height: 100%;
   display: flex;
@@ -31,4 +56,14 @@
 }
 .c-app-settings__column--right {
   padding-left: 10px;
+}
+
+.c-app-settings-dialog__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 4000;
 }
