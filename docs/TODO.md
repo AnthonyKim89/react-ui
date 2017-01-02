@@ -13,16 +13,6 @@ Adds capability for a user to add apps to Dashboards and Well pages.
 
 ![](mockups/add_widget.PNG)
 
-## App Settings
-
-Adds capability for a user to change the settings of a app that they have previously added.
-
-* Should use the same settings feature as already implemented in "Adding An App".
-* Adjusting the App settings. (Rig, other common and app-specific settings)
-* Persisting the addition to the Dashboards API.
-
-![](mockups/widget_settings.PNG)
-
 ## Requesting Historical Data
 
 On asset pages with control components such as the Well Timeline, sometimes we're not showing real-time data. In these cases, apps should get historical data with a regular HTTP call instead of subscribing to `corva-subscriptions`.
@@ -56,6 +46,13 @@ Most apps will need to load data. While data is loading, some loading/progress i
 * When the current page is loading - I think singe centered spinner within page view - maybe like the last one on http://tobiasahlin.com/spinkit/  - as in creating the dashboard
 * When the data for an individual app is loading - I think this is a general loading state for every app. Can this happen from our framework? It should be a loader maybe similar to above or different.
 
+## Asset Listings & Navigation
+
+Adds the capability for users to list rigs, wells, and drilling programs, and to navigate to them.
+
+![](mockups/wells.png)
+
+![](mockups/wells_menu.png)
 
 ## Full-Screen Apps
 
@@ -90,12 +87,6 @@ needing significant CSS styling every time.
 Use IBM Bluemix as an inspiration.
 
 ![](mockups/well_tad.PNG)
-
-## Rig Listings
-
-Adds the capability for users to list rigs, wells, and drilling programs, and to navigate to them.
-
-**Needs further specification**
 
 ## Synchronized Mouseover on charts
 
