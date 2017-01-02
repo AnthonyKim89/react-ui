@@ -5,6 +5,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import {DEFAULT_GRAPH_COLORS} from './constants';
 import Chart from '../../common/Chart';
 import ChartSeries from '../../common/ChartSeries';
+import LoadingIndicator from '../../common/LoadingIndicator';
 
 import './TorqueAndDragBroomstickApp.css'
 
@@ -29,7 +30,7 @@ class TorqueAndDragBroomstickApp extends Component {
                 color={this.getSeriesColor(type)} />
             )).toJS()}
           </Chart> :
-          <p>Loading</p>}
+          <LoadingIndicator />}
       </div>
     );
   }

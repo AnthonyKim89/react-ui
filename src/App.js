@@ -4,6 +4,7 @@ import { createStructuredSelector } from 'reselect';
 import classSet from 'react-classset';
 
 import MainNav from './MainNav';
+import LoadingIndicator from './common/LoadingIndicator';
 
 import login from './login';
 import pages from './pages';
@@ -25,9 +26,12 @@ class App extends Component {
       <div className={classSet(classes)}>
         {this.props.currentUser && !this.props.isNative &&
           <MainNav currentUser={this.props.currentUser}
-                   dashboards={this.props.dashboards}
-                   logOut={this.props.logOut} />}
-        {this.props.children}
+                  dashboards={this.props.dashboards}
+                  logOut={this.props.logOut} />}
+        {this.props.isLoading ?
+          <LoadingIndicator /> :
+          this.props.children
+        }
       </div>
     );
   }
@@ -38,6 +42,7 @@ export default connect(
   createStructuredSelector({
     currentUser: login.selectors.currentUser,
     isNative: pages.selectors.isNative,
+    isLoading: pages.selectors.isLoading,
     dashboards: pages.selectors.dashboards
   }),
   {
