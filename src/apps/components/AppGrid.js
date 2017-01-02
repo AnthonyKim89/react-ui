@@ -111,7 +111,7 @@ class AppGrid extends Component {
       <appType.AppComponent
         data={appData}
         {...commonAppProps}
-        {...settings.toJS()}
+        {...settings.toObject()}
         size={this.getAppSize(coordinates, maximized)}
         widthCols={coordinates.get('w')} />
     </AppContainer>

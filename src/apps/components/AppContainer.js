@@ -90,8 +90,9 @@ class AppContainer extends Component {
   }
 
   getSettingsEditors() {
+    const forAppType = this.props.appType.settingsEditors || List();
     const common = this.props.commonSettingsEditors || List();
-    return common;
+    return forAppType.concat(common);
   }
 
   openSettingsDialog() {

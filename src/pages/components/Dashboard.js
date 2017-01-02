@@ -18,11 +18,11 @@ import {
 } from '../actions';
 
 const DASHBOARD_COMMON_SETTINGS_EDITORS = List([
-  {
+  Map({
     name: 'assetId',
     title: 'Active Asset',
     Editor: DashboardAppAssetSettingEditor
-  }
+  })
 ]);
 
 class Dashboard extends Component {

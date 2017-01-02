@@ -25,15 +25,18 @@ class AppSettingsDialog extends Component {
       </header>
       <div>
           <Col md={6}>
-            {this.props.settingsEditors.map(({name, title, Editor}) =>
-              <div className="c-app-settings__editor" key={name}>
+            {this.props.settingsEditors.map(editor => {
+              const name = editor.get('name');
+              const title = editor.get('title');
+              const Editor = editor.get('Editor');
+              return <div className="c-app-settings__editor" key={name}>
                 <h5>{title}</h5>
                 <Editor
-                  value={this.state.settings.get(name)}
+                  currentValue={this.state.settings.get(name)}
                   onChange={v => this.setState({settings: this.state.settings.set(name, v)})}
                   appType={this.props.appType} />
-              </div>
-            )}
+              </div>;
+            })}
           </Col>
           <Col md={6}>
             <div className="c-app-settings__editor">

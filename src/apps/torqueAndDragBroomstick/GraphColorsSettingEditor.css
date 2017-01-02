@@ -1,0 +1,11 @@
+.c-graph-colors-setting-editor__color {
+  margin-bottom: 10px;
+}
+.c-graph-colors-setting-editor__header {
+  cursor: pointer;
+}
+.c-graph-colors-setting-editor__color-box {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+}

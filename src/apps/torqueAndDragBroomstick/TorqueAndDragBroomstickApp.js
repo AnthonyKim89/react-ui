@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import momentPropTypes from 'react-moment-proptypes';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
+import {DEFAULT_GRAPH_COLORS} from './constants';
 import Chart from '../../common/Chart';
 import ChartSeries from '../../common/ChartSeries';
 
@@ -63,14 +64,10 @@ class TorqueAndDragBroomstickApp extends Component {
   }
 
   getSeriesColor(seriesType) {
-    switch(seriesType) {
-      case 'rotary_off_bottom':
-        return '#f7e47a';
-      case 'pick_up':
-        return '#78905f';
-      case 'slack_off':
-      default:
-        return '#5f7f90';
+    if (this.props.graphColors && this.props.graphColors.has(seriesType)) {
+      return this.props.graphColors.get(seriesType);
+    } else {
+      return DEFAULT_GRAPH_COLORS[seriesType];
     }
   }
 
@@ -79,6 +76,7 @@ class TorqueAndDragBroomstickApp extends Component {
 TorqueAndDragBroomstickApp.propTypes = {
   data: ImmutablePropTypes.map,
   time: momentPropTypes.momentObj,
+  graphColors: ImmutablePropTypes.map,
   size: PropTypes.string.isRequired,
   widthCols: PropTypes.number.isRequired
 };

@@ -84,6 +84,7 @@ Every UI app may expect to get the following input props:
 * `data` - An app-specific Immutable.js data structure of the latest data from the app's subscription.
 * `size` - {`Size.SMALL`, `Size.MEDIUM`, `Size.LARGE`, `Size.XLARGE`} - the size the app is currently occupying in the grid. Can be used for responsive rendering.
 * `widthCols` - number - the current number of columns the app is occuping in the widget grid. Apps *should* use `size` for their responsive rendering istead of `widthCols`, but `widthCols` can be useful to react to resizing using `componentWillReceiveProps`.
+* The current values of any *app settings* supported by the app will be received as props as well. (See below).
 * Additionally, UI apps will receive as props all parameters from the location query string. These are typically populated from control apps.
 
 Every control app may expect to get the following input props:
@@ -93,6 +94,37 @@ Every control app may expect to get the following input props:
 * Additionally, control apps will receive as props all parameters from the location query string. These are typically populated from control apps. This means any params that the control app sets using `onUpdateParams` are reflected back to it as props.
 
 For example, if a control app calls `onUpdateParams({time: '2016-12-31'})`, a query parameter `?time=2016-12-31` will appear for the current page URL. (This means all parameters set by control apps are bookmarkable and linkable.) The parameter is then fed to all UI and control apps on the page - they will all receive a `time` prop whose value is `2016-12-31`. 
+
+## UI App Settings
+
+For any app instances on Dashboards or Asset Page Tabs, the user may configure *settings* by opening a settings dialog. The dialog will contain some common settings (such as the active asset on Dashboard apps), byt app types may also specify their own settings editors for app-specific configurations. An example of this is the graph colors in the T&D Broomstick app.
+
+To add one or more setting editors for an app type, add an array for them into the app type's `index.js`. The value should be an Immutable List of the setting editors supported by the app type:
+
+`src/apps/myApp/index.js`
+
+    export default {
+      AppComponent: MyApp,
+      settingsEditors: List([
+        Map({
+          name: 'graphColors',
+          title: 'Graph Colors',
+          Editor: GraphColorsSettingEditor
+        })
+      ]),
+      constants
+    };
+
+Each entry in the list should be an Immutable Map with three keys:
+
+* `name` - The name of the setting property. This will match the property name passed to the main app component.
+* `title` - The human-readable name of the setting. This will be used as a heading in the settings dialog.
+* `Editor` - A React component that allows the user to modify the setting value. This will be rendered into the settings dialog. The component will receive three input props:
+   * `currentValue` - The current setting value. May be `undefined` if the user hasn't chosen anything yet.
+   * `onChange` - A callback that the component should invoke when the user changes the value. Called with one argument, which is the new setting value.
+   * `appType` - The app type object (formed from the values of `index.js` of the current app type). This may be useful for settings editors that are shared by multiple app types but may still need to behave differently for different app types.
+
+For any setting editors configured this way, once the user has chosen settings for them, they will be received as input props by the main app component.
 
 ## Understanding A UI App's Surrounding Context
 

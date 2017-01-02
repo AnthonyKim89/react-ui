@@ -103,6 +103,7 @@ class Chart extends Component {
     }
     for (const newVersion of retainedSeries) {
       const oldVersion = chart.get(newVersion.id);
+      oldVersion.update({color: newVersion.color});
       const addedPoints = differenceBy(newVersion.data, oldVersion.data, p => p.id);
       const removedPoints = differenceBy(oldVersion.data, newVersion.data, p => p.id);
       for (const point of removedPoints) {
