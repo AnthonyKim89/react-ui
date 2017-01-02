@@ -14,6 +14,9 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import './AppGrid.css';
 
+// Elements matching this selector won't be used by react-grid-layout to trigger drag events
+const NON_DRAGGABLE_ELEMENT_SELECTOR = 'button, a';
+
 const GridLayout = WidthProvider(Responsive);
 
 const addAppModalStyles = {
@@ -45,7 +48,8 @@ class AppGrid extends Component {
                     cols={GRID_COLUMN_SIZES}
                     rowHeight={GRID_ROW_HEIGHT}
                     onResizeStop={(...args) => this.onResizeStop(...args)}
-                    onDragStop={(...args) => this.onDragStop(...args)}>
+                    onDragStop={(...args) => this.onDragStop(...args)}
+                    draggableCancel={NON_DRAGGABLE_ELEMENT_SELECTOR}>
           {this.renderGridApps(commonAppProps)}
         </GridLayout>
         {this.renderMaximizedApp(commonAppProps)}
