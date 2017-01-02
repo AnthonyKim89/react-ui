@@ -1,40 +1,40 @@
-.c-add-app-dialog__header {
+.c-add-app-dialog-listing__header {
   display: flex;
   justify-content: space-between;
 }
 
-.c-add-app-dialog__title {
+.c-add-app-dialog-listing__title {
   font-weight: bold;
 }
-.c-add-app-dialog__subtitle {
+.c-add-app-dialog-listing__subtitle {
   margin: 8px 0;
   font-size: 1.2rem;
   font-weight: normal;
 }
 
-.c-add-app-dialog__controls {
+.c-add-app-dialog-listing__controls {
   flex: 1;
 }
 
-.c-add-app-dialog__category {
+.c-add-app-dialog-listing__category {
   display: flex;
   margin: 30px 0;
   border-bottom: 1px solid white;
 }
-.c-add-app-dialog__category-title {
+.c-add-app-dialog-listing__category-title {
   margin: 0;
 }
-.c-add-app-dialog__category-subtitle {
+.c-add-app-dialog-listing__category-subtitle {
   margin: 8px 0;
   font-size: 1.2rem;
 }
 
-.c-add-app-dialog__app-type-list {
+.c-add-app-dialog-listing__app-type-list {
   padding-left: 0;
   display: flex;
 }
 
-.c-add-app-dialog__app-type-list-item {
+.c-add-app-dialog-listing__app-type-list-item {
   list-style-type: none;
   margin: 0 0 20px 50px;
   text-align: center;

@@ -5,7 +5,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Button, Glyphicon } from 'react-bootstrap';
 
 import AppContainer from './AppContainer';
-import AddAppDialog from './AddAppDialog';
+import AddAppDialog from './addApp/AddAppDialog';
 import { GRID_BREAKPOINTS, GRID_COLUMN_SIZES, GRID_ROW_HEIGHT } from '../constants';
 import common from '../../common';
 import * as appRegistry from '../appRegistry';
