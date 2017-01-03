@@ -1,18 +1,6 @@
 This list is assumed to be in priority order. Next work items will be taken from
 the top of the list unless agreed otherwise.
 
-## Adding An App
-
-Adds capability for a user to add apps to Dashboards and Well pages.
-
-* Listing available app types.
-* Adjusting the App settings. (Rig, other common and app-specific settings)
-* Persisting the addition to the Dashboards API.
-
-![](mockups/add_widget_list.PNG)
-
-![](mockups/add_widget.PNG)
-
 ## Requesting Historical Data
 
 On asset pages with control components such as the Well Timeline, sometimes we're not showing real-time data. In these cases, apps should get historical data with a regular HTTP call instead of subscribing to `corva-subscriptions`.

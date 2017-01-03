@@ -4,7 +4,7 @@ import * as t from './actions';
 
 const initialState = Map({
   isNative: false,
-  isLoading: true,
+  isLoading: false,
   appSets: Map(),
   pageParams: Map(),
   assets: Map(),

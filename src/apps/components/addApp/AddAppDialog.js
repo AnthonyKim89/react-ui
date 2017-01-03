@@ -20,6 +20,7 @@ class AddAppDialog extends Component {
         <AddAppDialogDetails 
           appType={this.state.selectedAppType}
           appTypeCategory={this.getSelectedAppTypeCategory()}
+          commonSettingsEditors={this.props.commonSettingsEditors}
           onAppAdd={this.props.onAppAdd} /> :
         <AddAppDialogListing
           appTypes={this.props.appTypes}
@@ -39,6 +40,7 @@ class AddAppDialog extends Component {
 
 AddAppDialog.propTypes = {
   appTypes: ImmutablePropTypes.map.isRequired,
+  commonSettingsEditors: ImmutablePropTypes.list,
   onAppAdd: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired
 };

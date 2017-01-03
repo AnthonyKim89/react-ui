@@ -23,6 +23,7 @@ class DashboardAppAssetSettingEditor extends Component {
         placeholder="Select"
         value={this.props.value}
         onChange={e => this.onChange(e)}>
+        <option value={undefined}></option>
         {this.state.assets.map(asset =>
           <option value={asset.get('id')} key={asset.get('id')}>
             {asset.get('name')}

@@ -21,6 +21,7 @@ const DASHBOARD_COMMON_SETTINGS_EDITORS = List([
   Map({
     name: 'assetId',
     title: 'Active Asset',
+    required: true,
     Editor: DashboardAppAssetSettingEditor
   })
 ]);
@@ -75,8 +76,8 @@ class Dashboard extends Component {
     this.props.updateAppSettings(this.props.currentDashboard, id, newSettings);
   }
 
-  onAppAdd(appType) {
-    this.props.addApp(this.props.currentDashboard, appType, Map({wellId: 1016}));
+  onAppAdd(appType, appSettings) {
+    this.props.addApp(this.props.currentDashboard, appType, appSettings);
   }
 
   onAppRemove(id) {

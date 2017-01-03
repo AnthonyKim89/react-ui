@@ -63,7 +63,8 @@ class AppGrid extends Component {
           contentLabel="Add App to Dashboard">
           <AddAppDialog
             appTypes={appRegistry.uiApps}
-            onAppAdd={type => this.addApp(type)}
+            commonSettingsEditors={this.props.commonSettingsEditors}
+            onAppAdd={(type, settings) => this.addApp(type, settings)}
             onClose={() => this.closeAddAppDialog()} />
         </Modal>
       </div>
@@ -154,9 +155,9 @@ class AppGrid extends Component {
     this.setState(() => ({addAppDialogOpen: false}));
   }
 
-  addApp(appType) {
+  addApp(appType, appSettings) {
     this.closeAddAppDialog();
-    this.props.onAppAdd(appType);
+    this.props.onAppAdd(appType, appSettings);
   }
 
 }

@@ -105,8 +105,8 @@ class AssetPage extends Component {
     this.props.updateAppSettings(this.props.currentAssetPageTab, id, newSettings);
   }
 
-  onAppAdd(appType) {
-    this.props.addApp(this.props.currentAssetPageTab, appType, Map());
+  onAppAdd(appType, appSettings) {
+    this.props.addApp(this.props.currentAssetPageTab, appType, appSettings);
   }
 
   onAppRemove(id) {

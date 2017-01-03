@@ -10,6 +10,7 @@ export default {
     Map({
       name: 'graphColors',
       title: 'Graph Colors',
+      required: false,
       Editor: GraphColorsSettingEditor
     })
   ]),

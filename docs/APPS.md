@@ -109,6 +109,7 @@ To add one or more setting editors for an app type, add an array for them into t
         Map({
           name: 'graphColors',
           title: 'Graph Colors',
+          required: false,
           Editor: GraphColorsSettingEditor
         })
       ]),
@@ -119,6 +120,7 @@ Each entry in the list should be an Immutable Map with three keys:
 
 * `name` - The name of the setting property. This will match the property name passed to the main app component.
 * `title` - The human-readable name of the setting. This will be used as a heading in the settings dialog.
+* `required` - Whether this setting is required by the app to function or not. For settings that are required, the user will be asked to provide a value when they add the app to their dashboard.
 * `Editor` - A React component that allows the user to modify the setting value. This will be rendered into the settings dialog. The component will receive three input props:
    * `currentValue` - The current setting value. May be `undefined` if the user hasn't chosen anything yet.
    * `onChange` - A callback that the component should invoke when the user changes the value. Called with one argument, which is the new setting value.

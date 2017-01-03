@@ -13,3 +13,7 @@
 .c-add-app-dialog-details__metadata th, .c-add-app-dialog-details__metadata td {
   padding: .5rem 4rem .5rem 0;
 }
+
+.c-add-app-dialog-details__setting {
+  padding: 0 0 2rem 0;
+}
