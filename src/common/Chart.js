@@ -103,7 +103,7 @@ class Chart extends Component {
     }
     for (const newVersion of retainedSeries) {
       const oldVersion = chart.get(newVersion.id);
-      oldVersion.update({color: newVersion.color});
+      const colorChange = oldVersion.options.color !== newVersion.color;
       const addedPoints = differenceBy(newVersion.data, oldVersion.data, p => p.id);
       const removedPoints = differenceBy(oldVersion.data, newVersion.data, p => p.id);
       for (const point of removedPoints) {
@@ -112,7 +112,10 @@ class Chart extends Component {
       for (const point of addedPoints) {
         oldVersion.addPoint(point, false);
       }
-      redraw = redraw || addedPoints.length || removedPoints.length;
+      if (colorChange) {
+        oldVersion.update({color: newVersion.color}, false);
+      }
+      redraw = redraw || addedPoints.length || removedPoints.length || colorChange;
     }
     return redraw;
   }
