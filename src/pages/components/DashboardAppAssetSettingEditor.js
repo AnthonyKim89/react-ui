@@ -8,12 +8,13 @@ class DashboardAppAssetSettingEditor extends Component {
   
   constructor(props) {
     super(props);
-    this.state = {assets: List()};
+    this.state = {assets: List(), loading: false};
   }
 
   async componentDidMount() {
+    this.setState({loading: true});
     const assets = await api.getAssets(this.props.appType.constants.SUPPORTED_ASSET_TYPES);
-    this.setState({assets});
+    this.setState({assets, loading: false});
   }
 
   render() {
@@ -22,8 +23,11 @@ class DashboardAppAssetSettingEditor extends Component {
         componentClass="select"
         placeholder="Select"
         value={this.props.value}
+        disabled={this.state.loading}
         onChange={e => this.onChange(e)}>
-        <option value={undefined}></option>
+        <option value={undefined}>
+          {this.state.loading && 'Loading...'}
+        </option>
         {this.state.assets.map(asset =>
           <option value={asset.get('id')} key={asset.get('id')}>
             {asset.get('name')}

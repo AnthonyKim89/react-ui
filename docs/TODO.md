@@ -23,17 +23,6 @@ Adds capability for users to to manage multiple dashboards.
 * Delete a dashboard.
 * Rename a dashboard.
 
-## App Loading States
-
-Most apps will need to load data. While data is loading, some loading/progress indication needs to be shown to the user. Add a capability for doing this in a consistent way across app types, so this does not needs to be implemented for every app.
-
-* Loading indication support in the app API.
-* UI design and implementation for the loading state.
-
-* When the whole app is loading - Should we do no loader here and instead rely on the page loader?
-* When the current page is loading - I think singe centered spinner within page view - maybe like the last one on http://tobiasahlin.com/spinkit/  - as in creating the dashboard
-* When the data for an individual app is loading - I think this is a general loading state for every app. Can this happen from our framework? It should be a loader maybe similar to above or different.
-
 ## Asset Listings & Navigation
 
 Adds the capability for users to list rigs, wells, and drilling programs, and to navigate to them.
