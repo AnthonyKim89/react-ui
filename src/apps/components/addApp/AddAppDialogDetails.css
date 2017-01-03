@@ -1,0 +1,15 @@
+.c-add-app-dialog-details__breadcrumbs-divider {
+  margin: 0 10px;
+}
+.c-add-app-dialog-details__breadcrumbs-app-type {
+  font-family: orgonboldregular;
+}
+
+.c-add-app-dialog-details__section {
+  padding: 2rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.33);
+}
+
+.c-add-app-dialog-details__metadata th, .c-add-app-dialog-details__metadata td {
+  padding: .5rem 4rem .5rem 0;
+}

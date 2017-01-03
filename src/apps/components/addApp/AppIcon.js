@@ -1,11 +1,14 @@
 import React, { Component, PropTypes } from 'react';
+import classSet from 'react-classset';
+import { noop } from 'lodash';
 
 import './AppIcon.css';
 
 class AppIcon extends Component {
 
   render() {
-    return <svg className="c-app-icon" viewBox="0 0 100 85" onClick={this.props.onClick}>
+    const classes = {'c-app-icon': true, 'c-app-icon--is-clickable': !!this.props.onClick};
+    return <svg className={classSet(classes)} viewBox="0 0 100 85" onClick={this.props.onClick || noop}>
       <polygon className="c-app-icon__pentagon"
                points="25,2 75,2 98,41 75,83 25,83 2,41">
       </polygon>
@@ -19,7 +22,7 @@ class AppIcon extends Component {
 }
 
 AppIcon.propTypes = {
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func
 };
 
 export default AppIcon;

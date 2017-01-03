@@ -1,5 +1,7 @@
 .c-app-icon {
   width: 130px;
+}
+.c-app-icon--is-clickable {
   cursor: pointer;
 }
 .c-app-icon__pentagon {
@@ -7,7 +9,7 @@
   stroke: rgb(0, 169, 207);
   stroke-width: 4;
 }
-.c-app-icon__pentagon:hover {
+.c-app-icon--is-clickable .c-app-icon__pentagon:hover {
   fill: #ddd;
 }
 .c-app-icon__icon {
