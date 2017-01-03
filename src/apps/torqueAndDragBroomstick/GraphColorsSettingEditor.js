@@ -16,33 +16,21 @@ class GraphColorsSettingEditor extends Component {
 
   render() {
     return <div className="c-graph-colors-setting-editor">
-      <div className="c-graph-colors-setting-editor__color">
-        <div className="c-graph-colors-setting-editor__header"
-             onClick={() => this.expandOrCollapse('pick_up')}>
-          {this.renderCurrentColorIndicator('pick_up')} Pickup
-        </div>
-        {this.state.expandedPicker === 'pick_up' &&
-          <CompactPicker color={this.getCurrentColor('pick_up')}
-                         onChange={clr => this.setCurrentColor('pick_up', clr.hex)} />}
+      {this.renderColor('pick_up', 'Pickup')}
+      {this.renderColor('slack_off', 'Slackoff')}
+      {this.renderColor('rotary_off_bottom', 'Rotating')}
+    </div>;
+  }
+
+  renderColor(type, label) {
+    return <div className="c-graph-colors-setting-editor__color">
+      <div className="c-graph-colors-setting-editor__header"
+            onClick={() => this.expandOrCollapse(type)}>
+        {this.renderCurrentColorIndicator(type)} {label}
       </div>
-      <div  className="c-graph-colors-setting-editor__color"> 
-        <div className="c-graph-colors-setting-editor__header"
-             onClick={() => this.expandOrCollapse('slack_off')}>
-          {this.renderCurrentColorIndicator('slack_off')} Slackoff
-        </div>
-        {this.state.expandedPicker === 'slack_off' &&
-          <CompactPicker color={this.getCurrentColor('slack_off')}
-                         onChange={clr => this.setCurrentColor('slack_off', clr.hex)} />}
-      </div>
-      <div className="c-graph-colors-setting-editor__color">
-        <div className="c-graph-colors-setting-editor__header"
-             onClick={() => this.expandOrCollapse('rotary_off_bottom')}>
-          {this.renderCurrentColorIndicator('rotary_off_bottom')} Rotating
-        </div>
-        {this.state.expandedPicker === 'rotary_off_bottom' &&
-          <CompactPicker color={this.getCurrentColor('rotary_off_bottom')}
-                         onChange={clr => this.setCurrentColor('rotary_off_bottom', clr.hex)} />}
-      </div>
+      {this.state.expandedPicker === type &&
+        <CompactPicker color={this.getCurrentColor(type)}
+                        onChange={clr => this.setCurrentColor(type, clr.hex)} />}
     </div>;
   }
 
