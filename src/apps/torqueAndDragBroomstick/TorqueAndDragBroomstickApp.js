@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import momentPropTypes from 'react-moment-proptypes';
+import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-import {DEFAULT_GRAPH_COLORS} from './constants';
+import { SUPPORTED_CHART_SERIES } from './constants';
 import Chart from '../../common/Chart';
 import ChartSeries from '../../common/ChartSeries';
 import LoadingIndicator from '../../common/LoadingIndicator';
@@ -10,6 +10,11 @@ import LoadingIndicator from '../../common/LoadingIndicator';
 import './TorqueAndDragBroomstickApp.css'
 
 class TorqueAndDragBroomstickApp extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {series: List()};
+  }
 
   render() {
     return (
@@ -46,7 +51,7 @@ class TorqueAndDragBroomstickApp extends Component {
       .flatMap(([curveType, curves]) =>
         curves.map(curve => ({
           renderType: 'line',
-          title: `${curveType} ${curve.get('casing_friction_factor')} ${curve.get('openhole_friction_factor')}`,
+          title: `${SUPPORTED_CHART_SERIES[curveType].label} ${curve.get('casing_friction_factor')} ${curve.get('openhole_friction_factor')}`,
           type: curveType,
           data: curve.get('points')
         }))
@@ -58,7 +63,7 @@ class TorqueAndDragBroomstickApp extends Component {
       .entrySeq()
       .map(([curveType, points]) => ({
         renderType: 'scatter',
-        title: curveType,
+        title: SUPPORTED_CHART_SERIES[curveType].label,
         type: curveType,
         data: points
       }));
@@ -68,7 +73,7 @@ class TorqueAndDragBroomstickApp extends Component {
     if (this.props.graphColors && this.props.graphColors.has(seriesType)) {
       return this.props.graphColors.get(seriesType);
     } else {
-      return DEFAULT_GRAPH_COLORS[seriesType];
+      return SUPPORTED_CHART_SERIES[seriesType].defaultColor;
     }
   }
 
@@ -76,7 +81,6 @@ class TorqueAndDragBroomstickApp extends Component {
 
 TorqueAndDragBroomstickApp.propTypes = {
   data: ImmutablePropTypes.map,
-  time: momentPropTypes.momentObj,
   graphColors: ImmutablePropTypes.map,
   size: PropTypes.string.isRequired,
   widthCols: PropTypes.number.isRequired

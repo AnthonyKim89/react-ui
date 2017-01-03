@@ -34,7 +34,7 @@ class Chart extends Component {
         lineWidth: 0,
         tickWidth: 0,
         labels: {
-          visible: this.isAxisLabelsVisible(this.props),
+          enabled: this.isAxisLabelsVisible(this.props),
           style: {color: '#fff'}
         }
       },
@@ -43,7 +43,7 @@ class Chart extends Component {
         gridLineWidth: 1,
         gridLineColor: 'rgb(47, 51, 51)',
         labels: {
-          visible: this.isAxisLabelsVisible(this.props),
+          enabled: this.isAxisLabelsVisible(this.props),
           style: {color: '#fff'}
         }
       },
@@ -71,10 +71,10 @@ class Chart extends Component {
       }
       chart.xAxis[0].update({
         labels: {enabled: this.isAxisLabelsVisible(newProps)}
-      });
+      }, false);
       chart.yAxis[0].update({
         labels: {enabled: this.isAxisLabelsVisible(newProps)}
-      });
+      }, false);
       reflow = true;
       redraw = true;
     } else if (newProps.widthCols !== this.props.widthCols) {
@@ -130,7 +130,7 @@ class Chart extends Component {
         data: data.map(point => ({
           id: `${id}-${point.get(props.xField)}-${point.get(props.yField)}`,
           x: point.get(props.xField),
-          y: point.get(props.yField)
+          y: props.yField ? point.get(props.yField) : null
         })).toJS(),
         dashStyle: 'ShortDot',
         color,
@@ -157,7 +157,9 @@ class Chart extends Component {
 
 Chart.propTypes = {
   size: PropTypes.oneOf(values(Size)).isRequired,
-  widthCols: PropTypes.number.isRequired
+  widthCols: PropTypes.number.isRequired,
+  xField: PropTypes.string,
+  yField: PropTypes.string
 };
 
 export default Chart;

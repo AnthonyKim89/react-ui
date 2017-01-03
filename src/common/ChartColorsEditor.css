@@ -1,0 +1,11 @@
+.c-chart-colors-editor__color {
+  margin-bottom: 10px;
+}
+.c-chart-colors-editor__header {
+  cursor: pointer;
+}
+.c-chart-colors-editor__color-box {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+}

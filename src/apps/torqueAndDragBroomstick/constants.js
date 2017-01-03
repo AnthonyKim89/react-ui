@@ -9,8 +9,8 @@ export const METADATA = {
 };
 export const SUPPORTED_ASSET_TYPES = ['rig'];
 export const INITIAL_SIZE = {w: 5, h: 15};
-export const DEFAULT_GRAPH_COLORS = {
-  rotary_off_bottom: '#f7e47a',
-  pick_up: '#78905f',
-  slack_off: '#5f7f90'
+export const SUPPORTED_CHART_SERIES = {
+  rotary_off_bottom: {label: 'Rotating', defaultColor: '#f7e47a'},
+  pick_up: {label: 'Pickup', defaultColor: '#78905f'},
+  slack_off: {label: 'Slackoff', defaultColor: '#5f7f90'}
 };
