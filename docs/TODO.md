@@ -14,15 +14,6 @@ Adds capability for the project to be built to production so that it can be depl
 * Modify frontend build configuration so that paths etc. are compatible.
 * Integrate deployment with `corva-web` deployment process.
 
-## Dashboard Management
-
-Adds capability for users to to manage multiple dashboards.
-
-* UI support for multiple dashboards in navigation.
-* Create a dashboard.
-* Delete a dashboard.
-* Rename a dashboard.
-
 ## Asset Listings & Navigation
 
 Adds the capability for users to list rigs, wells, and drilling programs, and to navigate to them.
@@ -30,6 +21,7 @@ Adds the capability for users to list rigs, wells, and drilling programs, and to
 ![](mockups/wells.png)
 
 ![](mockups/wells_menu.png)
+
 
 ## Full-Screen Apps
 
@@ -52,6 +44,15 @@ Ryan:
 > We will need a method to gather the data for the well timeline. Since we are moving to Cassandra, I think we will create a summary cache that suits our timeline. For example, if we collect in 1 second increments, the summary will aggregate for every 1 minute, 5 min, 1 hour, etc
 ActivityGroupItem = "Drilling" or "Tripping In" - it's an larger value of activity states. We will put this in the WitsRecord in the future so everything is in 1 record. We need a query method to get this 
 data. TBD.
+
+## Dashboard Management
+
+Adds capability for users to to manage multiple dashboards.
+
+* UI support for multiple dashboards in navigation.
+* Create a dashboard.
+* Delete a dashboard.
+* Rename a dashboard.
 
 ## Bootstrap Theme
 
