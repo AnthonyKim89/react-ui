@@ -8,6 +8,7 @@ ChartSeries.propTypes = {
   id: PropTypes.string.isRequired,
   type: PropTypes.oneOf(['line', 'scatter']).isRequired,
   data: ImmutablePropTypes.list.isRequired,
+  yField: PropTypes.string,
   title: PropTypes.string,
   color: PropTypes.string
 };

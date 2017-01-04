@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import { SUPPORTED_CHART_SERIES } from './constants';
@@ -16,7 +15,7 @@ class StressApp extends Component {
       <div className="c-stress">
         {this.props.data ?
           <Chart
-            yField="value"
+            xField="measured_depth"
             size={this.props.size}
             widthCols={this.props.widthCols}>
             {this.getSeries().map(({renderType, title, field, data}, idx) => (
@@ -26,6 +25,7 @@ class StressApp extends Component {
                 id={field}
                 title={SUPPORTED_CHART_SERIES[field].label}
                 data={data}
+                yField={field}
                 color={this.getSeriesColor(field)} />
             ))}
           </Chart> :
@@ -45,7 +45,6 @@ class StressApp extends Component {
       title: field,
       field,
       data: this.props.data.getIn(['data', 'points'])
-              .map(point => Map({value: point.get(field)}))
     };
   }
 

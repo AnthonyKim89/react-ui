@@ -122,15 +122,15 @@ class Chart extends Component {
 
   getSeries(props) {
     return React.Children.toArray(props.children).map(series => {
-      const {type, title, data, color, id} = series.props;
+      const {type, title, data, color, id, yField} = series.props;
       return {
         id,
         name: title,
         type,
         data: data.map(point => ({
-          id: `${id}-${point.get(props.xField)}-${point.get(props.yField)}`,
+          id: `${id}-${point.get(props.xField)}-${point.get(yField)}`,
           x: point.get(props.xField),
-          y: props.yField ? point.get(props.yField) : null
+          y: yField ? point.get(yField) : null
         })).toJS(),
         dashStyle: 'ShortDot',
         color,
@@ -158,8 +158,7 @@ class Chart extends Component {
 Chart.propTypes = {
   size: PropTypes.oneOf(values(Size)).isRequired,
   widthCols: PropTypes.number.isRequired,
-  xField: PropTypes.string,
-  yField: PropTypes.string
+  xField: PropTypes.string
 };
 
 export default Chart;

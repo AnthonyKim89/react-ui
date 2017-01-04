@@ -22,7 +22,6 @@ class TorqueAndDragBroomstickApp extends Component {
         {this.props.data ?
           <Chart
             xField="measured_depth"
-            yField="hookload"
             size={this.props.size}
             widthCols={this.props.widthCols}>
             {this.getSeries().map(({renderType, title, type, data}, idx) => (
@@ -32,6 +31,7 @@ class TorqueAndDragBroomstickApp extends Component {
                 type={renderType}
                 title={title}
                 data={data}
+                yField="hookload"
                 color={this.getSeriesColor(type)} />
             )).toJS()}
           </Chart> :
