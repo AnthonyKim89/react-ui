@@ -8,10 +8,12 @@ import { Provider } from 'react-redux';
 import { routes } from './routes';
 
 import rootReducer from './rootReducer';
+import authMiddleware from './login/authMiddleware';
 
 import './index.css';
 
 const store = createStore(rootReducer, applyMiddleware(
+  authMiddleware,
   thunk,
   routerMiddleware(browserHistory)
 ));

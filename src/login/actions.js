@@ -30,7 +30,7 @@ export function logIn(email, password) {
       dispatch(push('/'));
       dispatch(pages.actions.start(false));
     } catch (e) {
-      if (e.isAuthenticationProblem()) {
+      if (e.status === 404) {
         dispatch(loginFailed());
       } else {
         throw e;
@@ -51,20 +51,12 @@ export function logOut() {
 
 export function loginCheck() {
   return async dispatch => {
-    try {
-      const qry = queryString.parse(location.search);
-      if (qry.jwt) {
-        auth.setToken(qry.jwt);
-      }
-      const user = await api.getCurrentUser();
-      dispatch(loggedIn(user));
-      dispatch(pages.actions.start(qry.native));
-    } catch (e) {
-      if (e.isAuthenticationProblem()) {
-        dispatch(push('/login'));
-      } else {
-        throw e;
-      }
+    const qry = queryString.parse(location.search);
+    if (qry.jwt) {
+      auth.setToken(qry.jwt);
     }
+    const user = await api.getCurrentUser();
+    dispatch(loggedIn(user));
+    dispatch(pages.actions.start(qry.native));
   };
 }
