@@ -8,6 +8,7 @@ const initialState = Map({
   appSets: Map(),
   pageParams: Map(),
   assets: Map(),
+  appSubscriptions: Map(),
   appData: Map()
 });
 
@@ -57,10 +58,17 @@ export default function(state = initialState, action) {
         isLoading: false,
         appSets: appSetsById(action.appSets)
       });
-    case t.RECEIVE_APP_DATA:
-      return state.setIn(['appData', action.appInstanceId], action.data);
+    case t.SUBSCRIBE_APP:
+      return state.setIn(['appSubscriptions', action.appInstanceId], action.assetId);
     case t.UNSUBSCRIBE_APP:
-      return state.removeIn(['appData', action.appInstanceId]);
+      return state.removeIn(['appSubscriptions', action.appInstanceId])
+                  .removeIn(['appData', action.appInstanceId]);
+    case t.RECEIVE_APP_DATA:
+      if (state.getIn(['appSubscriptions', action.appInstanceId]) === action.assetId) {
+        return state.setIn(['appData', action.appInstanceId], action.data);
+      } else {
+        return state;
+      }
     case t.SET_PAGE_PARAMS:
       return state.setIn(
         ['pageParams', action.assetId],

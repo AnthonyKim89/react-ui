@@ -18,8 +18,8 @@ class WellTimelineScrollBar extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.drillTime && !moment(newProps.drillTime).isSame(this.props.drillTime)) {
-      this.setState({value: this.findValue(newProps.drillTime)});
+    if (newProps.time && !moment(newProps.time).isSame(this.props.time)) {
+      this.setState({value: this.findValue(newProps.time)});
     }
   }
 
@@ -40,7 +40,7 @@ class WellTimelineScrollBar extends Component {
               max={this.props.tooltipDepthData.size - 1}
               value={this.state.value}
               onChange={i => this.setState({value: i})}
-              onAfterChange={i => this.changeDrillTime()}
+              onAfterChange={i => this.changeTime()}
               tipFormatter={i => this.formatItem(i)}
               tipTransitionName="rc-slider-tooltip-zoom-down"
             />
@@ -87,8 +87,8 @@ class WellTimelineScrollBar extends Component {
     return `${month} ${date} ${hour}:${min}:${sec}`;
   }
 
-  findValue(drillTime = this.props.drillTime) {
-    const momentToFind = drillTime && moment(drillTime);
+  findValue(time = this.props.time) {
+    const momentToFind = time && moment(time);
     const entry = this.props.tooltipDepthData
       .findEntry(e => momentToFind && momentToFind.isSame(moment(e.get("entry_at"))));
     if (entry) {
@@ -98,10 +98,10 @@ class WellTimelineScrollBar extends Component {
     }
   }
 
-  changeDrillTime(idx = this.state.value) {
+  changeTime(idx = this.state.value) {
     const item = this.props.tooltipDepthData.get(idx)
     if (item) {
-      this.props.onChangeDrillTime(moment(item.get("entry_at")));
+      this.props.onChangeTime(moment(item.get("entry_at")));
     }
   }
 
@@ -116,11 +116,11 @@ class WellTimelineScrollBar extends Component {
   }
   
   jumpToPrevious() {
-    this.changeDrillTime(this.findValue() - 1);
+    this.changeTime(this.findValue() - 1);
   }
 
   jumpToNext() {
-    this.changeDrillTime(this.findValue() + 1);
+    this.changeTime(this.findValue() + 1);
   }
 
 
@@ -129,7 +129,7 @@ class WellTimelineScrollBar extends Component {
 WellTimelineScrollBar.propTypes = {
   tooltipDepthData: ImmutablePropTypes.list.isRequired,
   activity: ImmutablePropTypes.list.isRequired,
-  onChangeDrillTime: PropTypes.func.isRequired
+  onChangeTime: PropTypes.func.isRequired
 };
 
 export default WellTimelineScrollBar;

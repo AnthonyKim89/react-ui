@@ -39,7 +39,7 @@ class WellTimeline extends Component {
     } else {
       this.setState({timeline, activity: List()});
     }
-    if (!this.props.drillTime) {
+    if (!this.props.time) {
       const lastTooltipDepth = timeline.get('tooltipDepthData').last();
       const time = lastTooltipDepth ? moment(lastTooltipDepth.get('entry_at')) : moment();
       this.updateParams(time);
@@ -51,10 +51,10 @@ class WellTimeline extends Component {
       <div className="c-well-timeline">
         {this.state.timeline && this.state.scrollBarVisible && 
           <WellTimelineScrollBar
-            drillTime={this.props.drillTime}
+            time={this.props.time}
             tooltipDepthData={this.state.timeline.get('tooltipDepthData')}
             activity={this.state.activity}
-            onChangeDrillTime={t => this.updateParams(t)} />}
+            onChangeTime={t => this.updateParams(t)} />}
         {this.state.timeline && 
           <WellTimelineStatusBar
             jobData={this.state.timeline.get('jobData')}
@@ -69,14 +69,14 @@ class WellTimeline extends Component {
     this.setState(s => ({scrollBarVisible: !s.scrollBarVisible}));
   }
 
-  updateParams(drillTime) {
-    this.props.onUpdateParams({drillTime: drillTime.toISOString()});
+  updateParams(time) {
+    this.props.onUpdateParams({time: time.toISOString()});
   }
 }
 
 WellTimeline.propTypes = {
   assetId: PropTypes.number.isRequired,
-  drillTime: PropTypes.string,
+  time: PropTypes.string,
   onUpdateParams: PropTypes.func.isRequired
 };
 

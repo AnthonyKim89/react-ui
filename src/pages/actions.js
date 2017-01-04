@@ -35,8 +35,12 @@ export function start(isNative) {
 
 export const SUBSCRIBE_APP = 'SUBSCRIBE_APP';
 export function subscribeApp(appInstanceId, appKey, assetId) {
-  subscribe(appInstanceId, appKey, assetId);
-  return {type: SUBSCRIBE_APP, appInstanceId, appKey, assetId};
+  return async dispatch => {
+    subscribe(appInstanceId, appKey, assetId);
+    dispatch({type: SUBSCRIBE_APP, appInstanceId, appKey, assetId});
+    const initialData = await api.getAppResults(appKey, assetId);
+    dispatch(receiveAppData(appInstanceId, assetId, initialData));
+  };
 }
 
 export const UNSUBSCRIBE_APP = 'UNSUBSCRIBE_APP';
@@ -46,8 +50,8 @@ export function unsubscribeApp(appInstanceId) {
 }
 
 export const RECEIVE_APP_DATA = 'RECEIVE_APP_DATA';
-export function receiveAppData(appInstanceId, data) {
-  return {type: RECEIVE_APP_DATA, appInstanceId, data};
+export function receiveAppData(appInstanceId, assetId, data) {
+  return {type: RECEIVE_APP_DATA, appInstanceId, assetId, data};
 }
 
 export const MOVE_APP = 'MOVE_APP';

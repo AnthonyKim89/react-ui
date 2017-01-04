@@ -10,7 +10,7 @@ export const connect = (onReceiveData) => {
   socket.on('connect', () => {
     socket.emit('authenticate', {token: auth.getToken()})
   });
-  socket.on('data', evt => onReceiveData(evt.appInstanceId, fromJS(evt.data)));
+  socket.on('data', evt => onReceiveData(evt.appInstanceId, evt.assetId, fromJS(evt.data)));
 };
 
 export const disconnect = () => {

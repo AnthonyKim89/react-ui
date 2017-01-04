@@ -128,6 +128,11 @@ export async function getActiveChildAsset(id) {
   return fromJS(data);
 }
 
+export async function getAppResults(appKey, assetId) {
+  const data = await get(`/v1/apps/${appKey}/results/${assetId}`);
+  return fromJS(data);
+}
+
 
 export async function getWellTimeline(wellId) {
   const data = await get(`/v1/jobs/${wellId}/drill_view_timeline_slider`);
