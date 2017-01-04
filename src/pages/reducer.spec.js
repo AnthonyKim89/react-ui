@@ -2,25 +2,22 @@ import { fromJS } from 'immutable';
 import pagesReducer from './reducer';
 import * as actions from './actions';
 
-it('initializes to empty pages', () => {
+it('initializes to empty pages and not loading', () => {
   const initialState = pagesReducer(undefined, actions.START_LOAD);
-  expect(initialState.get('isLoading')).toBe(true);
+  expect(initialState.get('isLoading')).toBe(false);
 });
 
 it('maps app sets and apps by id when loaded', () => {
-  const resultData = {
-    user: fromJS({id: 42}),
-    appSets: fromJS([{
-      id: 'ws1',
-      apps: [{id: 'w1'}, {id: 'w2'}]
-    }, {
-      id: 'ws2',
-      apps: [{id: 'w3'}, {id: 'w4'}]
-    }])
-  };
+  const resultData = fromJS([{
+    id: 'ws1',
+    apps: [{id: 'w1'}, {id: 'w2'}]
+  }, {
+    id: 'ws2',
+    apps: [{id: 'w3'}, {id: 'w4'}]
+  }]);
   const state = pagesReducer(
     fromJS({isLoading: true}),
-    {type: actions.FINISH_LOAD, data: resultData}
+    {type: actions.FINISH_LOAD, appSets: resultData}
   );
 
   expect(state.get('appSets').toJS()).toEqual({
