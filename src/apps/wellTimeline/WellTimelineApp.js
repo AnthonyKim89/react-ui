@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
-import moment from 'moment';
+import format from 'date-fns/format'
+import parse from 'date-fns/parse'
 import { List } from 'immutable';
 
 import WellTimelineStatusBar from './WellTimelineStatusBar'
@@ -8,7 +9,7 @@ import * as api from '../../api';
 
 import './WellTimelineApp.css'
 
-class WellTimeline extends Component {
+class WellTimelineApp extends Component {
 
   constructor(props) {
     super(props);
@@ -18,15 +19,16 @@ class WellTimeline extends Component {
   }
 
   async componentDidMount() {
+    this._mounted = true;
     const timeline = await api.getWellTimeline(this.props.assetId);
     const jobData = timeline.get('jobData');
     const outOfHoleData = timeline.get('outOfHoleData');
     if (!outOfHoleData.isEmpty()) {
-      const firstDate = moment(jobData.get('start_date')).unix() || 0;
-      const lastDate = moment(jobData.get('last_date')).unix() || 0;
+      const firstDate = parse(jobData.get('start_date')).getTime();
+      const lastDate = parse(jobData.get('last_date')).getTime();
       const activity = outOfHoleData.map((item, index) => {
-        const itemEndTime = moment(item.get('end_time')).unix();
-        const itemStartTime = moment(item.get('start_time')).unix();
+        const itemEndTime = parse(item.get('end_time')).getTime();
+        const itemStartTime = parse(item.get('start_time')).getTime();
         let relativeDuration = (itemEndTime - itemStartTime) / (lastDate - firstDate) * 100;
         let relativeStart  = (itemStartTime - firstDate) / (lastDate - firstDate) * 100;
         return Map({
@@ -35,17 +37,21 @@ class WellTimeline extends Component {
           relativeDuration
         });
       });
-      this.setState({timeline, activity});
+      if (this._mounted) this.setState({timeline, activity});
     } else {
-      this.setState({timeline, activity: List()});
+      if (this._mounted) this.setState({timeline, activity: List()});
     }
     if (!this.props.time) {
       const lastTooltipDepth = timeline.get('tooltipDepthData').last();
-      const time = lastTooltipDepth ? moment(lastTooltipDepth.get('entry_at')) : moment();
+      const time = lastTooltipDepth ? parse(lastTooltipDepth.get('entry_at')) : new Date();
       this.updateParams(time);
     }
   }
 
+  componentWillUnmount() {
+    this._mounted = false;
+  }
+  
   render() {
     return (
       <div className="c-well-timeline">
@@ -70,14 +76,14 @@ class WellTimeline extends Component {
   }
 
   updateParams(time) {
-    this.props.onUpdateParams({time: time.toISOString()});
+    this.props.onUpdateParams({time: format(time)});
   }
 }
 
-WellTimeline.propTypes = {
+WellTimelineApp.propTypes = {
   assetId: PropTypes.number.isRequired,
   time: PropTypes.string,
   onUpdateParams: PropTypes.func.isRequired
 };
 
-export default WellTimeline;
+export default WellTimelineApp;

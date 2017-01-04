@@ -1,14 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Slider from 'rc-slider'
-import { padStart } from 'lodash';
-import moment from 'moment';
+import format from 'date-fns/format'
+import isEqual from 'date-fns/is_equal'
+import parse from 'date-fns/parse'
 
 import 'rc-slider/assets/index.css'
 
 import './WellTimelineScrollBar.css'
-
-const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 class WellTimelineScrollBar extends Component {
 
@@ -18,7 +17,7 @@ class WellTimelineScrollBar extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.time && !moment(newProps.time).isSame(this.props.time)) {
+    if (newProps.time && !isEqual(parse(newProps.time), parse(this.props.time))) {
       this.setState({value: this.findValue(newProps.time)});
     }
   }
@@ -67,7 +66,7 @@ class WellTimelineScrollBar extends Component {
   }
 
   formatItem(idx) {
-    const item = this.props.tooltipDepthData.get(idx - 1)
+    const item = this.props.tooltipDepthData.get(idx)
     if (item) {
       const entryAt = item.get('entry_at');
       const bitDepth = item.get('bit_depth');
@@ -78,19 +77,14 @@ class WellTimelineScrollBar extends Component {
   }
 
   formatDate(time) {
-    const dateObj = new Date(time);
-    const month = MONTH_NAMES[dateObj.getMonth()];
-    const date = padStart(dateObj.getDate(), 2, '0');
-    const hour = padStart(dateObj.getHours(), 2, '0');
-    const min = padStart(dateObj.getMinutes(), 2, '0');
-    const sec = padStart(dateObj.getSeconds(), 2, '0');
-    return `${month} ${date} ${hour}:${min}:${sec}`;
+    const date = parse(time);
+    return format(date, 'MMM DD HH:mm:ss');
   }
 
   findValue(time = this.props.time) {
-    const momentToFind = time && moment(time);
+    const dateToFind = time && parse(time);
     const entry = this.props.tooltipDepthData
-      .findEntry(e => momentToFind && momentToFind.isSame(moment(e.get("entry_at"))));
+      .findEntry(e => dateToFind && isEqual(dateToFind, parse(e.get("entry_at"))));
     if (entry) {
       return entry[0];
     } else {
@@ -101,7 +95,7 @@ class WellTimelineScrollBar extends Component {
   changeTime(idx = this.state.value) {
     const item = this.props.tooltipDepthData.get(idx)
     if (item) {
-      this.props.onChangeTime(moment(item.get("entry_at")));
+      this.props.onChangeTime(parse(item.get("entry_at")));
     }
   }
 
@@ -127,6 +121,7 @@ class WellTimelineScrollBar extends Component {
 }
 
 WellTimelineScrollBar.propTypes = {
+  time: PropTypes.string,
   tooltipDepthData: ImmutablePropTypes.list.isRequired,
   activity: ImmutablePropTypes.list.isRequired,
   onChangeTime: PropTypes.func.isRequired
