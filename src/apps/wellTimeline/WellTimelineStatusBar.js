@@ -29,7 +29,7 @@ class WellTimelineStatusBar extends Component {
     return (
       <div className="u-inline-block c-well-timeline-status-bar__stats-box">
         <span className="c-well-timeline-status-bar__title">
-          Live Mode
+          {this.props.isLive && 'Live Mode'}
         </span>
       </div>
     );
@@ -131,10 +131,10 @@ class WellTimelineStatusBar extends Component {
 }
 
 WellTimelineStatusBar.propTypes = {
-  dataLoaded: React.PropTypes.bool,
+  isLive: React.PropTypes.bool,
   jobData: ImmutablePropTypes.map.isRequired,
   lastWitsRecord: ImmutablePropTypes.map,
-  scrollBarVisible: React.PropTypes.bool,
+  isScrollBarVisible: React.PropTypes.bool,
   onToggleDrillScrollBar: React.PropTypes.func.isRequired
 }
 

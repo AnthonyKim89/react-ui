@@ -3,6 +3,7 @@ import { Responsive, WidthProvider } from 'react-grid-layout';
 import Modal from 'react-modal';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Button, Glyphicon } from 'react-bootstrap';
+import { Map } from 'immutable';
 
 import AppContainer from './AppContainer';
 import AddAppDialog from './addApp/AddAppDialog';
@@ -41,7 +42,6 @@ class AppGrid extends Component {
   }
 
   render() {
-    const commonAppProps = this.props.pageParams ? this.props.pageParams.toJS() : {};
     return (
       <div className="c-app-grid">
         <GridLayout breakpoints={GRID_BREAKPOINTS}
@@ -50,9 +50,9 @@ class AppGrid extends Component {
                     onResizeStop={(...args) => this.onResizeStop(...args)}
                     onDragStop={(...args) => this.onDragStop(...args)}
                     draggableCancel={NON_DRAGGABLE_ELEMENT_SELECTOR}>
-          {this.renderGridApps(commonAppProps)}
+          {this.renderGridApps()}
         </GridLayout>
-        {this.renderMaximizedApp(commonAppProps)}
+        {this.renderMaximizedApp()}
         <Button onClick={() => this.openAddAppDialog()} className="c-app-grid__add-app">
           <Glyphicon glyph="plus" /> Add App
         </Button>
@@ -71,7 +71,7 @@ class AppGrid extends Component {
     );
   }
 
-  renderGridApps(commonAppProps) {
+  renderGridApps() {
     const maximizedId = this.getMaximizedAppId();
     return this.props.apps
       .filter(app => app.get('id') !== maximizedId)
@@ -79,22 +79,22 @@ class AppGrid extends Component {
         const id = app.get('id');
         const coordinates = app.get('coordinates');
         return <div key={id} data-grid={coordinates.toJS()}>
-          {this.renderApp(app, commonAppProps)}
+          {this.renderApp(app)}
         </div>
       });
   }
 
-  renderMaximizedApp(commonAppProps) {
+  renderMaximizedApp() {
     const id = this.getMaximizedAppId();
     if (id) {
       const app = this.props.apps.find(a => a.get('id') === id);
-      return this.renderApp(app, commonAppProps, true);
+      return this.renderApp(app, true);
     } else {
       return null;
     }
   }
 
-  renderApp(app, commonAppProps, maximized = false) {
+  renderApp(app, maximized = false) {
     const category = app.get('category');
     const name = app.get('name');
     const id = app.get('id');
@@ -107,6 +107,7 @@ class AppGrid extends Component {
                          asset={this.props.appAssets.get(id)}
                          maximized={maximized}
                          appSettings={settings}
+                         pageParams={this.getPageParams()}
                          commonSettingsEditors={this.props.commonSettingsEditors}
                          location={this.props.location}
                          onAppSubscribe={(...args) => this.props.onAppSubscribe(...args)}
@@ -115,11 +116,15 @@ class AppGrid extends Component {
                          onAppSettingsUpdate={(settings) => this.props.onAppSettingsUpdate(id, settings)}>
       <appType.AppComponent
         data={appData}
-        {...commonAppProps}
+        {...this.getPageParams().toJS()}
         {...settings.toObject()}
         size={this.getAppSize(coordinates, maximized)}
         widthCols={coordinates.get('w')} />
     </AppContainer>
+  }
+
+  getPageParams() {
+    return this.props.pageParams || Map();
   }
 
   getAppSize(gridConfig, maximized) {

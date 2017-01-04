@@ -93,9 +93,14 @@ class WellTimelineScrollBar extends Component {
   }
 
   changeTime(idx = this.state.value) {
-    const item = this.props.tooltipDepthData.get(idx)
-    if (item) {
-      this.props.onChangeTime(parse(item.get("entry_at")));
+    if (idx === this.props.tooltipDepthData.size - 1) {
+      // Last value means we go live
+      this.props.onChangeTime(null);
+    } else {
+      const item = this.props.tooltipDepthData.get(idx)
+      if (item) {
+        this.props.onChangeTime(parse(item.get("entry_at")));
+      }
     }
   }
 

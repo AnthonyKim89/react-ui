@@ -44,14 +44,12 @@ An **Asset Page Tab App Set** represents a page with an app set that is tied to 
 ## Implementation
 
 *Apps* in this application are self-contained UI elements provide the user a specific piece of information and functionality. Examples: "Torque And Drag Broomstick", "Wellbore Stability".
-app
 
 Several apps are shown on the screen simultaneously. UI Apps are laid out in an *app grid* (implemented using [react-grid-layout](https://www.npmjs.com/package/react-grid-layout)). The user may customize the number, order, and positions of apps in the grid. This means apps must be designed to accomodate flexible sizing. The user may also display individual apps in full-screen mode. 
 
 Control apps are not laid out in a grid, but are expected to handle their own visual representation using CSS. A typical control app uses fixed positioning to pin itself in the browser viewport.
 
-Every app is automatically subscribed to receive data from `corva-subscriptions` when it is mounted on the screen. This means that apps do not need to do anything to receive their data, they will just be given it as an input property, which also automatically updates whenever new data is received. Apps can, however, make additional API
-requests if they have a need for custom API access. See below for more information.
+Every app is automatically subscribed to receive data when it is mounted on the screen. This means that apps do not need to do anything to receive their data, they will just be given it as an input property (`data`). When the page is configured to receive real-time data from `corva-subscriptions`, this property will also automatically receive new data whenever it is produced. Apps can, however, also make additional API requests if they have a need for custom API access. See below for more information.
 
 ## Simple Apps
 
@@ -90,10 +88,12 @@ Every UI app may expect to get the following input props:
 Every control app may expect to get the following input props:
 
 * `assetId` - `number`
-* `onUpdateParams` - `function` - a callback prop that the control app is given when it wants to update the page parameters. The callback takes one arguments, which is an object of parameter keys and values.
+* `onUpdateParams` - `function` - a callback prop that the control app is given when it wants to update the page parameters. The callback takes one arguments, which is an object of parameter keys and values. When a control app wants to remove a parameter, it should include it in the object with a `null` value.
 * Additionally, control apps will receive as props all parameters from the location query string. These are typically populated from control apps. This means any params that the control app sets using `onUpdateParams` are reflected back to it as props.
 
-For example, if a control app calls `onUpdateParams({time: '2016-12-31'})`, a query parameter `?time=2016-12-31` will appear for the current page URL. (This means all parameters set by control apps are bookmarkable and linkable.) The parameter is then fed to all UI and control apps on the page - they will all receive a `time` prop whose value is `2016-12-31`. 
+For example, if a control app calls `onUpdateParams({time: '2016-12-31'})`, a query parameter `?time=2016-12-31` will appear for the current page URL. (This means all parameters set by control apps are bookmarkable and linkable.) The parameter is then fed to all UI and control apps on the page - they will all receive a `time` prop whose value is `2016-12-31`.
+
+**Note:** The `time` parameter is also a special case, since when it is present, UI apps will *not* be subscribed to real-time data. Instead, the data is assumed to be historical, non-realtime data, which is just fetched from `corva-api`. This allows a control app to switch all the UI apps on the screen between historical and live data: When you want historical data, set the `time` parameter with a ISO-8601 timestamp. When you want real-time data, don't set the `time` parameter (or re-set it to `null`).
 
 ## UI App Settings
 

@@ -194,3 +194,20 @@ Updates the settings, coordinates, or type of an existing app
      "coordinates": {"x": 0, "y": 0, "w": 3, "h": 5},
      "settings": {"rig_id": 7890, "other": "settings"}
    }
+
+
+### App Results
+
+Returns result data for applications to display (e.g.. the broomstick chart data for the T&D broomstick)
+
+#### Show
+
+##### Request
+
+   GET /apps/:appTypeCategory/:appTypeName/results/:assetId
+
+   GET /apps/:appTypeCategory/:appTypeName/results/:assetId?time=2017-01-01T00:00:00
+
+##### Response
+
+The response contents are application-specific.

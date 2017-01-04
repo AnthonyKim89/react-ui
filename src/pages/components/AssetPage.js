@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { Map } from 'immutable';
-import { isEqual } from 'lodash';
+import { isEqual, isNull, omitBy } from 'lodash';
 import { stringify as queryString } from 'query-string';
 
 import AssetTabBar from './AssetTabBar';
@@ -119,7 +119,8 @@ class AssetPage extends Component {
       this.props.pageParams && this.props.pageParams.toJS(),
       newParams
     );
-    this.props.router.push(`${this.props.location.pathname}?${queryString(allNewParams)}`);
+    const nonNullParams = omitBy(allNewParams, isNull);
+    this.props.router.push(`${this.props.location.pathname}?${queryString(nonNullParams)}`);
   }
 
 

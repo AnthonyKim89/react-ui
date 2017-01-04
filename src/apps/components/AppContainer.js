@@ -27,7 +27,9 @@ class AppContainer extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (!newProps.asset || !newProps.asset.equals(this.props.asset)) {
+    if (!newProps.asset ||
+        !newProps.asset.equals(this.props.asset) ||
+        !newProps.pageParams.equals(this.props.pageParams)) {
       if (this.props.asset) {
         this.unsubscribe(this.props);
       }
@@ -38,7 +40,8 @@ class AppContainer extends Component {
   }
 
   subscribe(props) {
-    props.onAppSubscribe(props.id, this.getAppKey(), props.asset.get('id'));
+    props.onAppSubscribe(
+      props.id, this.getAppKey(), props.asset.get('id'), props.pageParams);
   }
 
   unsubscribe(props) {
@@ -121,6 +124,7 @@ AppContainer.propTypes = {
   location: PropTypes.object.isRequired,
   maximized: PropTypes.bool,
   appSettings: ImmutablePropTypes.map.isRequired,
+  pageParams: ImmutablePropTypes.map.isRequired,
   commonSettingsEditors: ImmutablePropTypes.list,
   onAppSubscribe: PropTypes.func.isRequired,
   onAppUnsubscribe: PropTypes.func.isRequired,

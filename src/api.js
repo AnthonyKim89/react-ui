@@ -1,5 +1,5 @@
 import { stringify as queryString } from 'query-string';
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 
 import * as auth from './auth';
 
@@ -128,8 +128,9 @@ export async function getActiveChildAsset(id) {
   return fromJS(data);
 }
 
-export async function getAppResults(appKey, assetId) {
-  const data = await get(`/v1/apps/${appKey}/results/${assetId}`);
+export async function getAppResults(appKey, assetId, params = Map()) {
+  const qry = queryString(params.toJS());
+  const data = await get(`/v1/apps/${appKey}/results/${assetId}?${qry}`);
   return fromJS(data);
 }
 

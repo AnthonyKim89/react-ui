@@ -1,12 +1,6 @@
 This list is assumed to be in priority order. Next work items will be taken from
 the top of the list unless agreed otherwise.
 
-## Requesting Historical Data
-
-On asset pages with control components such as the Well Timeline, sometimes we're not showing real-time data. In these cases, apps should get historical data with a regular HTTP call instead of subscribing to `corva-subscriptions`.
-
-Come up with a generic way of doing this, so that it works with all apps and different kinds of "control apps" in the same way.
-
 ## Building For Deployment
 
 Adds capability for the project to be built to production so that it can be deployed as part of `corva-web`.
@@ -150,3 +144,18 @@ Adds the capability for apps to be displayed in WebViews inside native mobile ap
 ![](mockups/mobile_warning.PNG)
 
 ![](mockups/mobile_warning_scrolled.PNG)
+
+
+
+* Well timeline (Frontend, API/data tasks)
+* Asset list/search views and asset navigation menus.
+* Well Alerts
+* Analytics Apps
+* Engagement Tracking
+* Dashboard sharing features
+* Third-party app development support features (developing, uploading).
+
+
+1. What is included in frontend "User Model"?
+2. What is included in frontend "Overview Apps"?
+3. Are "Hydraulics", "Efficiency", "Circulation", "Mud Motor", and "Directional" all app categories like "Torque and Drag"? 

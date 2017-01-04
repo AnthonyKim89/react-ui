@@ -41,17 +41,12 @@ class WellTimelineApp extends Component {
     } else {
       if (this._mounted) this.setState({timeline, activity: List()});
     }
-    if (!this.props.time) {
-      const lastTooltipDepth = timeline.get('tooltipDepthData').last();
-      const time = lastTooltipDepth ? parse(lastTooltipDepth.get('entry_at')) : new Date();
-      this.updateParams(time);
-    }
   }
 
   componentWillUnmount() {
     this._mounted = false;
   }
-  
+
   render() {
     return (
       <div className="c-well-timeline">
@@ -63,9 +58,10 @@ class WellTimelineApp extends Component {
             onChangeTime={t => this.updateParams(t)} />}
         {this.state.timeline && 
           <WellTimelineStatusBar
+            isLive={!this.props.time}
             jobData={this.state.timeline.get('jobData')}
             lastWitsRecord={this.state.timeline.get('lastWitsRecord')}
-            scrollBarVisible={this.state.scrollBarVisible}
+            isScrollBarVisible={this.state.scrollBarVisible}
             onToggleDrillScrollBar={() => this.toggleScrollBar()} />}
       </div>
     );
@@ -76,7 +72,7 @@ class WellTimelineApp extends Component {
   }
 
   updateParams(time) {
-    this.props.onUpdateParams({time: format(time)});
+    this.props.onUpdateParams({time: time && format(time)});
   }
 }
 

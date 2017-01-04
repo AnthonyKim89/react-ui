@@ -34,12 +34,15 @@ export function start(isNative) {
 }
 
 export const SUBSCRIBE_APP = 'SUBSCRIBE_APP';
-export function subscribeApp(appInstanceId, appKey, assetId) {
+export function subscribeApp(appInstanceId, appKey, assetId, params) {
   return async dispatch => {
-    subscribe(appInstanceId, appKey, assetId);
-    dispatch({type: SUBSCRIBE_APP, appInstanceId, appKey, assetId});
-    const initialData = await api.getAppResults(appKey, assetId);
-    dispatch(receiveAppData(appInstanceId, assetId, initialData));
+    // Only subscribe to live data if we're not asked for a historical time point
+    if (!params.get('time')) {
+      subscribe(appInstanceId, appKey, assetId, params);
+    }
+    dispatch({type: SUBSCRIBE_APP, appInstanceId, appKey, assetId, params});
+    const initialData = await api.getAppResults(appKey, assetId, params);
+    dispatch(receiveAppData(appInstanceId, assetId, params, initialData));
   };
 }
 
@@ -50,8 +53,8 @@ export function unsubscribeApp(appInstanceId) {
 }
 
 export const RECEIVE_APP_DATA = 'RECEIVE_APP_DATA';
-export function receiveAppData(appInstanceId, assetId, data) {
-  return {type: RECEIVE_APP_DATA, appInstanceId, assetId, data};
+export function receiveAppData(appInstanceId, assetId, params, data) {
+  return {type: RECEIVE_APP_DATA, appInstanceId, assetId, params, data};
 }
 
 export const MOVE_APP = 'MOVE_APP';
