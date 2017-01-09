@@ -62,13 +62,17 @@ Returns information about assets (rigs, wells, programs...)
    [
      {
        "id": 1,
-       "name: "A Rig",
-       "type: "rig"
+       "name": "A Rig",
+       "type": "rig",
+       "status": "drilling",
+       "date": "2017-01-01T00:00:00"
      },
      {
        "id": 2,
        "name": "A Well",
-       "type": "well"
+       "type": "well",
+       "status": "drilling",
+       "date": "2017-01-01T00:00:00"
      }
    ]
 
