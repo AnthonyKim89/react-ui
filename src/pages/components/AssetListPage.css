@@ -1,0 +1,10 @@
+.c-asset-list-page {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding-top: 60px;
+}
+
+
+.c-asset-list-page__asset-link, .c-asset-list-page__asset-link:hover {
+  color: white;
+}

@@ -43,6 +43,12 @@ export const assets = createSelector(
   state => state.get('assets')
 );
 
+export const assetList = createSelector(
+  assets,
+  (_, props) => props.params.assetType,
+  (assets, assetType) => assets.valueSeq().filter(a => a.get('type') === assetType)
+);
+
 export const currentDashboard = createSelector(
   dashboards,
   (_, props) => parseInt(props.params.dashboardId, 10),

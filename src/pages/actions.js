@@ -104,9 +104,11 @@ export function setPageParams(assetId, params) {
 }
 
 export const LOAD_ASSETS = 'LOAD_ASSETS';
+
 export function loadAsset(assetId) {
   return async (dispatch, getState) => {
-    if (!assets(getState()).has(assetId)) {
+    const loadedAsset = assets(getState()).get(assetId);
+    if (!loadedAsset || (isResolvableAsset(loadedAsset) && !isResolvedAsset(loadedAsset))) {
       let assets = List().push(await api.getAsset(assetId));
       while (isResolvableAsset(assets.last())) {
         const parent = assets.last();
@@ -121,6 +123,13 @@ export function loadAsset(assetId) {
   }
 }
 
+export function listAssets(assetType) {
+  return async (dispatch, getState) => {
+    const assets = await api.getAssets([assetType]);
+    dispatch({type: LOAD_ASSETS, assets});
+  }
+}
+
 /*
  * Check if an asset should be "resolved" to another active asset.
  * Currently we just check if it's a rig (which has an active well)
@@ -128,4 +137,7 @@ export function loadAsset(assetId) {
  */
 function isResolvableAsset(asset) {
   return asset.get('type') === 'rig';
+}
+function isResolvedAsset(asset) {
+  return asset.has('activeChildId');
 }
