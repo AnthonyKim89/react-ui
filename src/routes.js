@@ -1,14 +1,20 @@
 import React from 'react';
-import { Route } from 'react-router';
+import { IndexRedirect, Route } from 'react-router';
 
 import App from './App';
 import Login from './login/components/Login';
+import pages from './pages';
 import Dashboard from './pages/components/Dashboard';
+import AssetListPage from './pages/components/AssetListPage';
 import AssetPage from './pages/components/AssetPage';
 
 export const routes =
   <Route path="/" component={App}>
-    <Route path="login" component={Login} />
+    <Route name="login" path="login" component={Login} />
     <Route path="dashboards/:dashboardId" component={Dashboard} />
-    <Route path="assets/:assetId/:category" component={AssetPage} />
+    <Route path="assets">
+      <IndexRedirect to={pages.constants.ASSET_TYPES.keySeq().first()} />
+      <Route path=":assetType" component={AssetListPage} />
+      <Route path=":assetId/:category" component={AssetPage} />
+    </Route>
   </Route>;

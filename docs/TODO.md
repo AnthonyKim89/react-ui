@@ -1,13 +1,6 @@
 This list is assumed to be in priority order. Next work items will be taken from
 the top of the list unless agreed otherwise.
 
-## Building For Deployment
-
-Adds capability for the project to be built to production so that it can be deployed as part of `corva-web`.
-
-* Modify frontend build configuration so that paths etc. are compatible.
-* Integrate deployment with `corva-web` deployment process.
-
 ## Asset Listings & Navigation
 
 Adds the capability for users to list rigs, wells, and drilling programs, and to navigate to them.
@@ -16,6 +9,13 @@ Adds the capability for users to list rigs, wells, and drilling programs, and to
 
 ![](mockups/wells_menu.png)
 
+
+## Building For Deployment
+
+Adds capability for the project to be built to production so that it can be deployed as part of `corva-web`.
+
+* Modify frontend build configuration so that paths etc. are compatible.
+* Integrate deployment with `corva-web` deployment process.
 
 ## Full-Screen Apps
 
@@ -145,17 +145,3 @@ Adds the capability for apps to be displayed in WebViews inside native mobile ap
 
 ![](mockups/mobile_warning_scrolled.PNG)
 
-
-
-* Well timeline (Frontend, API/data tasks)
-* Asset list/search views and asset navigation menus.
-* Well Alerts
-* Analytics Apps
-* Engagement Tracking
-* Dashboard sharing features
-* Third-party app development support features (developing, uploading).
-
-
-1. What is included in frontend "User Model"?
-2. What is included in frontend "Overview Apps"?
-3. Are "Hydraulics", "Efficiency", "Circulation", "Mud Motor", and "Directional" all app categories like "Torque and Drag"? 

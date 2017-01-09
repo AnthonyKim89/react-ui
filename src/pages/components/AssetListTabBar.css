@@ -1,0 +1,32 @@
+.c-asset-list-tab-bar {
+  position: fixed;
+  top: 50px;
+  left: 0;
+  right: 0;
+  height: 60px;
+  padding-left: 0;
+  list-style-type: none;
+  background-color: rgb(78, 74, 73);
+}
+.c-asset-list-tab-bar a {
+  display: block;
+  float: left;
+  width: 100px;
+  height: 60px;
+  line-height: 60px;
+  font-size: 16px;
+  text-align: center;
+  color: white;
+  transition: background-color 0.2s linear;
+}
+.c-asset-list-tab-bar a, .c-asset-list-tab-bar a:hover, .c-asset-list-tab-bar a.is-active, .c-asset-list-tab-bar a:visited {
+  text-decoration: none;
+}
+.c-asset-list-tab-bar a:hover {
+  background: transparent;
+  color: #57c9c2;
+}
+.c-asset-list-tab-bar a.is-active {
+  background-color: #58c9c2;
+  color: white;
+}

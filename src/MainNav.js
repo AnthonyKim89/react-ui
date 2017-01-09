@@ -9,8 +9,6 @@ import './MainNav.css';
 class MainNav extends Component {
 
   render() {
-    // Used until we have rig/well listing implemented
-    const placeholderWellId = 101;
     return (
       <Navbar fixedTop fluid className="c-main-nav">
         <Navbar.Header>
@@ -25,8 +23,8 @@ class MainNav extends Component {
               <LinkContainer to={this.getPathToFirstDashboard()}>
                 <NavItem>Dashboards</NavItem>
               </LinkContainer>}
-            <LinkContainer to={`/assets/${placeholderWellId}/overview`}>
-              <NavItem>Wells</NavItem>
+            <LinkContainer to="/assets">
+              <NavItem>Assets</NavItem>
             </LinkContainer>
           </Nav>
           <Nav pullRight>

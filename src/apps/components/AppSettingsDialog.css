@@ -7,7 +7,8 @@
   border-radius: 0;
   padding: 20px;
   border: 1px solid #ccc;
-  background: #fff;
+  background: white;
+  color: black;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   outline: none;
