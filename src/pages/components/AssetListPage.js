@@ -50,9 +50,24 @@ class AssetListPage extends Component {
               <Table className="c-asset-list-page__table">
                 <thead>
                   <tr>
-                    <th>Name</th>
-                    <th>Status</th>
-                    <th>Date</th>
+                    <th>
+                      <Link to={this.makeSortLink('name')} className="c-asset-list-page__sort-link">
+                        Name
+                        {this.renderSortIcon('name')}
+                      </Link>
+                    </th>
+                    <th>
+                      <Link to={this.makeSortLink('status')} className="c-asset-list-page__sort-link">
+                        Status
+                        {this.renderSortIcon('status')}
+                      </Link>
+                    </th>
+                    <th>
+                      <Link to={this.makeSortLink('date')} className="c-asset-list-page__sort-link">
+                        Date
+                        {this.renderSortIcon('date')}
+                      </Link>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -75,6 +90,27 @@ class AssetListPage extends Component {
     </div>;
   }
 
+  makeSortLink(sortField) {
+    const {sortField: currentField, sortOrder: currentOrder} = this.props.location.query;
+    const isThisField = sortField === currentField || (sortField === 'name' && !currentField);
+    const isAscending = currentOrder === 'asc' || !currentOrder;
+    const sortOrder = (isThisField && isAscending ? 'desc' : 'asc');
+    return {
+      pathname: `/assets/${this.props.params.assetType}`,
+      query: {...this.props.location.query, sortField, sortOrder}
+    }
+  }
+
+  renderSortIcon(sortField) {
+    const {sortField: currentField, sortOrder: currentOrder} = this.props.location.query;
+    if (sortField === currentField || (sortField === 'name' && !currentField)) {
+      return <Glyphicon glyph={currentOrder === 'desc' ? 'menu-up' : 'menu-down'}
+                        className="c-asset-list-page__sort-icon" />
+    } else {
+      return null;
+    }
+  }
+
   formatDate(date) {
     if (date) {
       return formatDate(date, 'MM/DD/YYYY');
@@ -86,7 +122,7 @@ class AssetListPage extends Component {
   onSearchChange(search) {
     this.props.router.push({
       pathname: `/assets/${this.props.params.assetType}`,
-      query: {search}
+      query: {...this.props.location.query, search}
     });
   }
 

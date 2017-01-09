@@ -48,10 +48,23 @@ export const assetList = createSelector(
   assets,
   (_, props) => props.params.assetType,
   (_, props) => trim(props.location.query.search || '').toLowerCase(),
-  (assets, assetType, search) => assets
+  (_, props) => props.location.query.sortField || 'name',
+  (_, props) => props.location.query.sortOrder === 'desc',
+  (assets, assetType, search, sortField, reverseSort) => assets
     .valueSeq()
     .filter(a => a.get('type') === assetType)
     .filter(a => isEmpty(search) || a.get('name').toLowerCase().indexOf(search) >= 0)
+    .sortBy(
+      a => a.get(sortField),
+      (a, b) => {
+        if (a === b) {
+          return 0;
+        } else if (a < b) {
+          return reverseSort ? 1 : -1;
+        } else if (a > b) {
+          return reverseSort ? -1 : 1;
+        }
+      })
 );
 
 export const currentDashboard = createSelector(
