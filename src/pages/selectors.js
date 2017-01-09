@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import { List, Map } from 'immutable';
+import { isEmpty, trim } from 'lodash';
 import { NAME } from './constants';
 
 const stateSelector = state => state[NAME];
@@ -46,7 +47,11 @@ export const assets = createSelector(
 export const assetList = createSelector(
   assets,
   (_, props) => props.params.assetType,
-  (assets, assetType) => assets.valueSeq().filter(a => a.get('type') === assetType)
+  (_, props) => trim(props.location.query.search || '').toLowerCase(),
+  (assets, assetType, search) => assets
+    .valueSeq()
+    .filter(a => a.get('type') === assetType)
+    .filter(a => isEmpty(search) || a.get('name').toLowerCase().indexOf(search) >= 0)
 );
 
 export const currentDashboard = createSelector(

@@ -1,10 +1,23 @@
 .c-asset-list-page {
-  max-width: 1024px;
-  margin: 0 auto;
   padding-top: 60px;
 }
 
+.c-asset-list-page__search {
+  margin: 2rem 0;
+}
 
+.c-asset-list-page__no-assets {
+  margin: 2rem 0;
+  text-align: center;
+  font-style: italic;
+}
+
+.c-asset-list-page__table th {
+  font-weight: normal;
+}
+.c-asset-list-page__table td {
+  font-size: 1.2em;
+}
 .c-asset-list-page__asset-link, .c-asset-list-page__asset-link:hover {
   color: white;
 }
