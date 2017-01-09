@@ -10,7 +10,7 @@ The API uses standard [JSON Web Token](https://jwt.io/) authentication. Upon a s
 
 ## API Access
 
-Once the native app user is logged in and a JWT token has been obtained, the native app may make any API requests to `corva-api` on the user's behalf. The APIs are documented in `API.md` and implemented in `API.md`.
+Once the native app user is logged in and a JWT token has been obtained, the native app may make any API requests to `corva-api` on the user's behalf. The APIs are documented in `API.md` and implemented in `corva-api`.
 
 ## Navigation
 
