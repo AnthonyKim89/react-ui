@@ -19,7 +19,7 @@ nav.c-main-nav .navbar-nav {
 nav.c-main-nav .navbar-nav > li > a {
   color: white;
 }
-nav.c-main-nav .navbar-nav > li > a:hover {
+nav.c-main-nav .navbar-nav > li > a:hover, nav.c-main-nav .navbar-nav > li > a:focus {
   background: transparent;
   color: #57c9c2;
 }

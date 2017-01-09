@@ -23,9 +23,18 @@ class MainNav extends Component {
               <LinkContainer to={this.getPathToFirstDashboard()}>
                 <NavItem>Dashboards</NavItem>
               </LinkContainer>}
-            <LinkContainer to="/assets">
-              <NavItem>Assets</NavItem>
-            </LinkContainer>
+            <NavDropdown title="Assets" id="assetsMenu">
+              <LinkContainer to="/assets/well">
+                <MenuItem>
+                  All Wells
+                </MenuItem>
+              </LinkContainer>
+              <LinkContainer to="/assets/rig">
+                <MenuItem>
+                  All Rigs
+                </MenuItem>
+              </LinkContainer>
+            </NavDropdown>
           </Nav>
           <Nav pullRight>
             {this.props.currentUser &&
