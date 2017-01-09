@@ -2,16 +2,6 @@
 
 This frontend project fetches all data from APIs provided by the `corva-web` project. All data is in JSON format.
 
-## General Guidelines
-
-As far as practical, there should be one API endpoint for each different app supported by the frontend. That endpoint should server whatever the app needs and optimally would not have any extra data or parameters on top of that.
-
-This is not a 100% hard requirement though: Some apps may need to make more than one API call to get what they need. Some APIs may be called for several apps.
-
-Since the frontend will be run on many different kinds of devices and not all of them will be high-end, we should strive to *minimize the amount of data processing done client-side*. This means that the server should, as much as possible, return data in a format that's conveniently usable in the frontend without heavy processing. For example, chart data should be provided in data series that can be shown in charts with any numeric parsing and conversions already done. 
-
-On the other hand, we want to retain the flexibility to change the way data is visualized on the frontend without requiring extensive API changes. For this reason the API should be defined in terms of the data content only, and not concern itself with UI implementation details (e.g. chart types, colors)
-
 ## Endpoints
 
 On `corva-api` the code for the endpoints are / should be under `app/controllers/v1`, in small focused controllers and views.
