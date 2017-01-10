@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
+import assets from '../../assets';
+
 import './WellTimelineStatusBar.css'
 
 class WellTimelineStatusBar extends Component {
@@ -19,8 +21,6 @@ class WellTimelineStatusBar extends Component {
         {this.renderTimelineToggle()}
         {this.renderSpace('md', 'u-pull-right')}
         {this.renderWellName()}
-        {this.renderSpace('md', 'u-pull-right')}
-        {this.renderRigNameAndStatus()}
       </div>
     )
   }
@@ -67,20 +67,6 @@ class WellTimelineStatusBar extends Component {
     );
   }
 
-  renderStatus() {
-    if (!this.props.lastWitsRecord || !this.props.lastWitsRecord.get('status')) {
-      return null;
-    }
-    return (
-      <div className="u-inline-block c-well-timeline-status-bar__stats-boxx">
-        <div className="c-well-timeline-status-bar__string_mark"></div>
-        <span className="c-well-timeline-status-bar__value">
-          {this.props.lastWitsRecord.get('status')}
-        </span>
-      </div>
-    );
-  }
-
   renderTimelineToggle() {
     return (
       <button className="u-inline-block c-well-timeline-status-bar__timeline-toggle"
@@ -100,19 +86,18 @@ class WellTimelineStatusBar extends Component {
     return (
       <div className="u-inline-block c-well-timeline-status-bar__stats-box u-pull-right">
         <span className="c-well-timeline-status-bar__title">
-          {this.props.jobData.get('well_name')}
+          {this.props.asset.get('name')}
+          {this.props.asset.get('parent') &&
+            <span> ({this.props.asset.getIn(['parent', 'name'])})</span>}
         </span>
       </div>
     );
   }
 
-  renderRigNameAndStatus() {
+  renderStatus() {
     return (
-      <div className="u-inline-block c-well-timeline-status-bar__stats-box u-pull-right">
-        <div className="c-well-timeline-status-bar__status_mark"></div>
-        <span className="c-well-timeline-status-bar__value">
-          {this.props.jobData.get('rig_name')}
-        </span>
+      <div className="u-inline-block c-well-timeline-status-bar__stats-box">
+        <assets.components.AssetStatus asset={this.props.asset} />
       </div>
     );
   }
@@ -132,7 +117,7 @@ class WellTimelineStatusBar extends Component {
 
 WellTimelineStatusBar.propTypes = {
   isLive: React.PropTypes.bool,
-  jobData: ImmutablePropTypes.map.isRequired,
+  asset: ImmutablePropTypes.map.isRequired,
   lastWitsRecord: ImmutablePropTypes.map,
   isScrollBarVisible: React.PropTypes.bool,
   onToggleDrillScrollBar: React.PropTypes.func.isRequired

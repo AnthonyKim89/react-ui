@@ -87,7 +87,7 @@ Every UI app may expect to get the following input props:
 
 Every control app may expect to get the following input props:
 
-* `assetId` - `number`
+* `asset` - An Immutable Map representing the asset that is being shown.
 * `onUpdateParams` - `function` - a callback prop that the control app is given when it wants to update the page parameters. The callback takes one arguments, which is an object of parameter keys and values. When a control app wants to remove a parameter, it should include it in the object with a `null` value.
 * Additionally, control apps will receive as props all parameters from the location query string. These are typically populated from control apps. This means any params that the control app sets using `onUpdateParams` are reflected back to it as props.
 

@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import format from 'date-fns/format'
 import parse from 'date-fns/parse'
 import { List } from 'immutable';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import WellTimelineStatusBar from './WellTimelineStatusBar'
 import WellTimelineScrollBar from './WellTimelineScrollBar'
@@ -20,7 +21,7 @@ class WellTimelineApp extends Component {
 
   async componentDidMount() {
     this._mounted = true;
-    const timeline = await api.getWellTimeline(this.props.assetId);
+    const timeline = await api.getWellTimeline(this.props.asset.get('id'));
     const jobData = timeline.get('jobData');
     const outOfHoleData = timeline.get('outOfHoleData');
     if (!outOfHoleData.isEmpty()) {
@@ -59,7 +60,7 @@ class WellTimelineApp extends Component {
         {this.state.timeline && 
           <WellTimelineStatusBar
             isLive={!this.props.time}
-            jobData={this.state.timeline.get('jobData')}
+            asset={this.props.asset}
             lastWitsRecord={this.state.timeline.get('lastWitsRecord')}
             isScrollBarVisible={this.state.scrollBarVisible}
             onToggleDrillScrollBar={() => this.toggleScrollBar()} />}
@@ -77,7 +78,7 @@ class WellTimelineApp extends Component {
 }
 
 WellTimelineApp.propTypes = {
-  assetId: PropTypes.string.isRequired,
+  asset: ImmutablePropTypes.map.isRequired,
   time: PropTypes.string,
   onUpdateParams: PropTypes.func.isRequired
 };

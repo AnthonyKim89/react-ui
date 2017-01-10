@@ -80,7 +80,7 @@ class AssetPage extends Component {
       return apps.map(({constants, AppComponent}) => 
         <AppComponent
           key={constants.NAME}
-          assetId={assetId}
+          asset={this.props.currentAsset}
           {...(this.props.currentPageParams && this.props.currentPageParams.toJS())}
           onUpdateParams={(...args) => this.onPageParamsUpdate(...args)} />
       );

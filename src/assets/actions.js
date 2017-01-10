@@ -10,10 +10,15 @@ export const LOAD_ASSETS = 'LOAD_ASSETS';
 export function loadAsset(assetId) {
   return async (dispatch, getState) => {
     const loadedAsset = assets(getState()).get(assetId);
-    // For any asset that should be resolved to its active child and hasn't yet, do the resolving now.
+    // Load the ancestry of the asset, and also for any asset that should be resolved to its
+    // active child and hasn't yet, do the resolving now.
     // This is done recursively as long as we see resolvable assets.
     if (!loadedAsset || (isResolvableAsset(loadedAsset) && !isResolvedAsset(loadedAsset))) {
       let assets = List().push(await api.getAsset(assetId));
+      while (assets.first().get('parent_id')) {
+        const parent = await api.getAsset(assets.first().get('parent_id'));
+        assets = assets.unshift(parent);
+      }
       while (isResolvableAsset(assets.last()) && !isResolvedAsset(assets.last())) {
         const parent = assets.last();
         const child = await api.getActiveChildAsset(parent.get('id'));
