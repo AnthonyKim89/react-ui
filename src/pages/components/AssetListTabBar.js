@@ -9,10 +9,10 @@ class AssetListTabBar extends Component {
 
   render() {
     return <ul className="c-asset-list-tab-bar">
-      {ASSET_TYPES.entrySeq().map(([type, label]) =>
-        <li key={type}>
-          <Link to={`/assets/${type}`} activeClassName="is-active">
-            {label}
+      {ASSET_TYPES.entrySeq().map(([typeCode, assetType]) =>
+        <li key={typeCode}>
+          <Link to={`/assets/${typeCode}`} activeClassName="is-active">
+            {assetType.get('labelPlural')}
           </Link>
         </li>)}
     </ul>;

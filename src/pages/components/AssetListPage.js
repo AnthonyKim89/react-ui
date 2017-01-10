@@ -45,7 +45,7 @@ class AssetListPage extends Component {
         </Row>
         <Row>
           <Col sm={12}>
-            {this.props.assetList.isEmpty() ?
+            {this.props.assetList.get('assets').isEmpty() ?
               <div className="c-asset-list-page__no-assets">No matching assets</div> :
               <Table className="c-asset-list-page__table">
                 <thead>
@@ -56,6 +56,14 @@ class AssetListPage extends Component {
                         {this.renderSortIcon('name')}
                       </Link>
                     </th>
+                    {this.props.assetList.get('parentTypes').entrySeq().map(([typeCode, assetType]) => (
+                      <th key={typeCode}>
+                        <Link to={this.makeSortLink(typeCode)} className="c-asset-list-page__sort-link">
+                          {assetType.get('labelSingular')}
+                          {this.renderSortIcon(typeCode)}
+                        </Link>
+                      </th>
+                    ))}
                     <th>
                       <Link to={this.makeSortLink('status')} className="c-asset-list-page__sort-link">
                         Status
@@ -71,13 +79,18 @@ class AssetListPage extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {this.props.assetList.map(asset => (
+                  {this.props.assetList.get('assets').map(asset => (
                     <tr key={asset.get('id')}>
                       <td>
                         <Link to={`/assets/${asset.get('id')}/overview`} className="c-asset-list-page__asset-link">
                           {asset.get('name')}
                         </Link>
                       </td>
+                      {this.props.assetList.get('parentTypes').keySeq().map(typeCode => (
+                        <td key={asset.get('id') + typeCode}>
+                          {asset.getIn(['parents', typeCode, 'name'])}
+                        </td>
+                      ))}
                       <td>{asset.get('status')}</td>
                       <td>{this.formatDate(asset.get('date'))}</td>
                     </tr>

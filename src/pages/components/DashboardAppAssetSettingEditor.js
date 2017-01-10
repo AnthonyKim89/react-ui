@@ -22,7 +22,7 @@ class DashboardAppAssetSettingEditor extends Component {
       <FormControl
         componentClass="select"
         placeholder="Select"
-        value={this.props.value}
+        value={this.props.currentValue}
         disabled={this.state.loading}
         onChange={e => this.onChange(e)}>
         <option value={undefined}>
@@ -38,15 +38,14 @@ class DashboardAppAssetSettingEditor extends Component {
   }
 
   onChange(event) {
-    const val = parseInt(event.target.value, 10);
-    this.props.onChange(val);
+    this.props.onChange(event.target.value);
   }
 
 }
 
 DashboardAppAssetSettingEditor.propTypes = {
   appType: PropTypes.object.isRequired,
-  currentValue: PropTypes.number,
+  currentValue: PropTypes.string,
   onChange: PropTypes.func.isRequired
 };
 

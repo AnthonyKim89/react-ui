@@ -33,7 +33,7 @@ import './AssetPage.css';
 class AssetPage extends Component {
 
   componentDidMount() {
-    this.props.loadAsset(parseInt(this.props.params.assetId, 10));
+    this.props.loadAsset(this.props.params.assetId);
     this.setPageParamsFromLocation(this.props);
   }
 
@@ -45,13 +45,12 @@ class AssetPage extends Component {
 
   setPageParamsFromLocation(props) {
     this.props.setPageParams(
-      parseInt(props.params.assetId, 10),
+      props.params.assetId,
       props.location.query
     );
   }
 
   render() {
-    const assetId = parseInt(this.props.params.assetId, 10);
     return (
       <div className="c-asset-page" >
         {this.props.currentAssetPageTab &&
@@ -67,11 +66,11 @@ class AssetPage extends Component {
                    pageParams={this.props.currentPageParams}
                    location={this.props.location} />}
         {!this.props.isNative &&
-          <AssetTabBar assetId={assetId}
+          <AssetTabBar assetId={this.props.params.assetId}
                        assetPageTabs={this.props.assetPageTabs}
                        currentAssetPageTab={this.props.currentAssetPageTab}
                        pageParams={this.props.currentPageParams} />}
-        {this.renderControlApps(assetId)}
+        {this.renderControlApps(this.props.params.assetId)}
       </div>
     );
   }

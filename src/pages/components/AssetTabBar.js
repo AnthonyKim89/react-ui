@@ -40,7 +40,7 @@ class AssetTabBar extends Component {
 }
 
 AssetTabBar.propTypes = {
-  assetId: PropTypes.number.isRequired,
+  assetId: PropTypes.string.isRequired,
   assetPageTabs: ImmutablePropTypes.seq.isRequired,
   currentAssetPageTab: ImmutablePropTypes.map,
   pageParams: ImmutablePropTypes.map

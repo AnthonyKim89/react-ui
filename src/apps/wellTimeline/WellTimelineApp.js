@@ -77,7 +77,7 @@ class WellTimelineApp extends Component {
 }
 
 WellTimelineApp.propTypes = {
-  assetId: PropTypes.number.isRequired,
+  assetId: PropTypes.string.isRequired,
   time: PropTypes.string,
   onUpdateParams: PropTypes.func.isRequired
 };

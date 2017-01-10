@@ -1,7 +1,10 @@
 import { push } from 'react-router-redux'
 import { List } from 'immutable';
+import { last } from 'lodash';
+
 import * as api from '../api';
 import * as subscriptions from '../subscriptions';
+import { ASSET_TYPES } from './constants';
 import { dashboards, allAppSets, assets } from './selectors';
 import login from '../login';
 import { subscribe, unsubscribe } from '../subscriptions';
@@ -125,7 +128,13 @@ export function loadAsset(assetId) {
 
 export function listAssets(assetType) {
   return async (dispatch, getState) => {
-    const assets = await api.getAssets([assetType]);
+    // Load all parent assets as well, by checking the ancestor asset types of this asset type
+    // and loading assets of all those types.
+    const assetTypesToResolve = [assetType];
+    while (ASSET_TYPES.get(last(assetTypesToResolve)).has('parent_type')) {
+      assetTypesToResolve.push(ASSET_TYPES.getIn([last(assetTypesToResolve), 'parent_type']));
+    }
+    const assets = await api.getAssets(assetTypesToResolve);
     dispatch({type: LOAD_ASSETS, assets});
   }
 }
