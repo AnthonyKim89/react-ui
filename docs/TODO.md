@@ -89,12 +89,6 @@ Adds the capability for users to see alerts on the well pages.
 
 **Needs further specification**
 
-## Search
-
-Adds the capability for users to search for rigs and wells.
-
-**Needs further specification**
-
 ## Engagement Tracking
 
 Adds the capability for Corva to track what users are doing in the system.
@@ -132,16 +126,4 @@ Adds the capability for Corva customers to integrate apps of their own making in
 * Options include light-weight iframe integration of arbitrary HTML content, and deeper integration of actual JavaScript apps that conform to a specific JavaScript API. Different options have different tradeoffs.
 
 **Needs further specification**
-
-## Native Mobile App Integration
-
-Adds the capability for apps to be displayed in WebViews inside native mobile applications.
-
-**Needs further specification**
-
-![](mockups/TAD_mobile.PNG)
-
-![](mockups/mobile_warning.PNG)
-
-![](mockups/mobile_warning_scrolled.PNG)
 

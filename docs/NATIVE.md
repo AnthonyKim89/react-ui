@@ -2,6 +2,13 @@
 
 Both `corva-api` and `corva-web-frontend` are designed to accommodate web-native-hybrid mobile app usage. Native mobile applications may authenticate to `corva-api` and make API calls to it, but they may also pull in content from `corva-web-frontend` into WebView components. This document describes how.
 
+
+![](mockups/TAD_mobile.PNG)
+
+![](mockups/mobile_warning.PNG)
+
+![](mockups/mobile_warning_scrolled.PNG)
+
 ## Authentication From Mobile Apps
 
 Native apps are expected to implement their own login  functionality, perusing the authentication endpoint of `corva-api`, documented in `API.md`. 
