@@ -13,7 +13,6 @@ import {
   isNative,
   assetPageTabs,
   appData,
-  currentAsset,
   currentAssetPageTab,
   currentPageParams
 } from '../selectors';
@@ -25,8 +24,8 @@ import {
   addApp,
   removeApp,
   setPageParams,
-  loadAsset
 } from '../actions';
+import assets from '../../assets';
 
 import './AssetPage.css';
 
@@ -130,9 +129,9 @@ export default connect(
     isNative,
     assetPageTabs,
     appData,
-    currentAsset,
     currentAssetPageTab,
-    currentPageParams
+    currentPageParams,
+    currentAsset: assets.selectors.currentAsset,
   }),
   {
     subscribeApp,
@@ -142,6 +141,6 @@ export default connect(
     addApp,
     removeApp,
     setPageParams,
-    loadAsset
+    loadAsset: assets.actions.loadAsset
   }
 )(AssetPage);

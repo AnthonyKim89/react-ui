@@ -14,8 +14,8 @@ import {
   updateAppSettings,
   addApp,
   removeApp,
-  loadAsset
 } from '../actions';
+import assets from '../../assets';
 
 const DASHBOARD_COMMON_SETTINGS_EDITORS = List([
   Map({
@@ -99,6 +99,6 @@ export default connect(
     updateAppSettings,
     addApp,
     removeApp,
-    loadAsset
+    loadAsset: assets.actions.loadAsset
   }
 )(Dashboard);

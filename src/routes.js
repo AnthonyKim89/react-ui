@@ -3,7 +3,7 @@ import { IndexRedirect, Route } from 'react-router';
 
 import App from './App';
 import Login from './login/components/Login';
-import pages from './pages';
+import assets from './assets';
 import Dashboard from './pages/components/Dashboard';
 import AssetListPage from './pages/components/AssetListPage';
 import AssetPage from './pages/components/AssetPage';
@@ -13,7 +13,7 @@ export const routes =
     <Route name="login" path="login" component={Login} />
     <Route path="dashboards/:dashboardId" component={Dashboard} />
     <Route path="assets">
-      <IndexRedirect to={pages.constants.ASSET_TYPES.keySeq().first()} />
+      <IndexRedirect to={assets.constants.ASSET_TYPES.keySeq().first()} />
       <Route path=":assetType" component={AssetListPage} />
       <Route path=":assetId/:category" component={AssetPage} />
     </Route>

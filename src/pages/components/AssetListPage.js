@@ -6,8 +6,7 @@ import { Link } from 'react-router';
 import { format as formatDate } from 'date-fns';
 
 import AssetListTabBar from './AssetListTabBar';
-import { listAssets } from '../actions';
-import { assetList } from '../selectors';
+import assets from '../../assets';
 
 import './AssetListPage.css';
 
@@ -143,9 +142,9 @@ class AssetListPage extends Component {
 
 export default connect(
   createStructuredSelector({
-    assetList
+    assetList: assets.selectors.assetList
   }),
   {
-    listAssets
+    listAssets: assets.actions.listAssets
   }
 )(AssetListPage);

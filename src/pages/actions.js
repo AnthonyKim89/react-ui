@@ -1,11 +1,8 @@
 import { push } from 'react-router-redux'
-import { List } from 'immutable';
-import { last } from 'lodash';
 
 import * as api from '../api';
 import * as subscriptions from '../subscriptions';
-import { ASSET_TYPES } from './constants';
-import { dashboards, allAppSets, assets } from './selectors';
+import { dashboards, allAppSets } from './selectors';
 import login from '../login';
 import { subscribe, unsubscribe } from '../subscriptions';
 
@@ -104,49 +101,4 @@ export function removeApp(appSet, id) {
 export const SET_PAGE_PARAMS = 'SET_PAGE_PARAMS';
 export function setPageParams(assetId, params) {
   return {type: SET_PAGE_PARAMS, assetId, params};
-}
-
-export const LOAD_ASSETS = 'LOAD_ASSETS';
-
-export function loadAsset(assetId) {
-  return async (dispatch, getState) => {
-    const loadedAsset = assets(getState()).get(assetId);
-    if (!loadedAsset || (isResolvableAsset(loadedAsset) && !isResolvedAsset(loadedAsset))) {
-      let assets = List().push(await api.getAsset(assetId));
-      while (isResolvableAsset(assets.last())) {
-        const parent = assets.last();
-        const child = await api.getActiveChildAsset(parent.get('id'));
-        assets = assets
-          .butLast()
-          .push(parent.set('activeChildId', child.get('id')))
-          .push(child);
-      }
-      dispatch({type: LOAD_ASSETS, assets});
-    }
-  }
-}
-
-export function listAssets(assetType) {
-  return async (dispatch, getState) => {
-    // Load all parent assets as well, by checking the ancestor asset types of this asset type
-    // and loading assets of all those types.
-    const assetTypesToResolve = [assetType];
-    while (ASSET_TYPES.get(last(assetTypesToResolve)).has('parent_type')) {
-      assetTypesToResolve.push(ASSET_TYPES.getIn([last(assetTypesToResolve), 'parent_type']));
-    }
-    const assets = await api.getAssets(assetTypesToResolve);
-    dispatch({type: LOAD_ASSETS, assets});
-  }
-}
-
-/*
- * Check if an asset should be "resolved" to another active asset.
- * Currently we just check if it's a rig (which has an active well)
- * but a more generic solution would be preferable.
- */
-function isResolvableAsset(asset) {
-  return asset.get('type') === 'rig';
-}
-function isResolvedAsset(asset) {
-  return asset.has('activeChildId');
 }

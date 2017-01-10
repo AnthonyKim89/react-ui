@@ -7,7 +7,6 @@ const initialState = Map({
   isLoading: false,
   appSets: Map(),
   pageParams: Map(),
-  assets: Map(),
   appSubscriptions: Map(),
   appData: Map()
 });
@@ -37,13 +36,6 @@ function createApp(appType, settings, forAppSet) {
     coordinates: Object.assign({}, appType.constants.INITIAL_SIZE, {x, y}),
     settings
   });
-}
-
-function addAssets(assets, newAssets) {
-  return newAssets.reduce(
-    (result, asset) => result.set(asset.get('id'), asset),
-    assets
-  );
 }
 
 export default function(state = initialState, action) {
@@ -104,8 +96,6 @@ export default function(state = initialState, action) {
         .deleteIn(['appSets', action.appSet.get('id'), 'newApp']);
     case t.REMOVE_APP:
       return state.deleteIn(['appSets', action.appSet.get('id'), 'apps', action.id]);
-    case t.LOAD_ASSETS:
-      return state.update('assets', assets => addAssets(assets, action.assets));
     default:
       return state;
   }
