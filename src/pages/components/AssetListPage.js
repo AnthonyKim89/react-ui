@@ -93,7 +93,7 @@ class AssetListPage extends Component {
                           {asset.getIn(['parents', typeCode, 'name'])}
                         </td>
                       ))}
-                      <td>{asset.get('status')}</td>
+                      <td><assets.components.AssetStatus asset={asset} /></td>
                       <td>{this.formatDate(asset.get('date'))}</td>
                     </tr>
                   ))}
