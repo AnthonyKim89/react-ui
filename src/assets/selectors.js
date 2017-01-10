@@ -5,6 +5,9 @@ import { NAME, ASSET_TYPES } from './constants';
 
 export const assets = state => state[NAME];
 
+// A list of assets, filtered and sorted according to the params prop.
+// The items in the list will, on top of regular asset properties, have a parents 
+// key of their parent assets.
 export const assetList = createSelector(
   assets,
   (_, props) => props.params.assetType,
@@ -27,6 +30,9 @@ export const assetList = createSelector(
   
 );
 
+// The asset currently shown on the page, based on the params prop, usually coming from a route.
+// If the asset is a a resolvable asset, resolves it to its active descendant (e.g. rig->well).
+// May return undefined/null if the asset or its active descendants have not been loaded.
 export const currentAsset = createSelector(
   assets,
   (_, props) => props.params.assetId,
@@ -38,6 +44,18 @@ export const currentAsset = createSelector(
       return asset;
     }
   }
+);
+
+// "Recent" assets to show e.g. in the navigation. Right now just takes a 
+// few rigs, since we don't currently have a way to know what's "recent" for the user.
+export const recentAssets = createSelector(
+  assets,
+  allAssets => allAssets
+    .valueSeq()
+    .filter(a => a.get('type') === 'rig')
+    .toList()
+    .take(7)
+    .sortBy(a => a.get('name'))
 );
 
 export function isResolvableAsset(asset) {

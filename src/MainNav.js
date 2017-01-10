@@ -26,14 +26,22 @@ class MainNav extends Component {
             <NavDropdown title="Assets" id="assetsMenu">
               <LinkContainer to="/assets/well">
                 <MenuItem>
+                  <span className="c-main-nav__all-assets-icon"></span>
                   All Wells
                 </MenuItem>
               </LinkContainer>
               <LinkContainer to="/assets/rig">
                 <MenuItem>
+                  <span className="c-main-nav__all-assets-icon"></span>
                   All Rigs
                 </MenuItem>
               </LinkContainer>
+              {this.props.recentAssets && this.props.recentAssets.map(asset => 
+                <LinkContainer key={asset.get('id')} to={`/assets/${asset.get('id')}/overview`}>
+                  <MenuItem>
+                    {asset.get('name')}
+                  </MenuItem>
+                </LinkContainer>)}
             </NavDropdown>
           </Nav>
           <Nav pullRight>
@@ -72,6 +80,7 @@ class MainNav extends Component {
 
 MainNav.propTypes = {
     dashboards: ImmutablePropTypes.seq.isRequired,
+    recentAssets: ImmutablePropTypes.list.isRequired,
     currentUser: ImmutablePropTypes.map,
     logOut: PropTypes.func.isRequired,
 }

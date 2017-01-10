@@ -42,3 +42,14 @@ nav.c-main-nav .navbar-nav > li.active > a, nav.MainNav .navbar-nav li.active > 
   color: white;
   background: #5c6b6a;
 }
+
+.c-main-nav__all-assets-icon {
+  display: inline-block;
+  width: 15px;
+  height: 18px;
+  margin-right: 10px;
+  background-image: url('./images/icon-all-assets.png');
+  background-size: contain;
+  background-position: 0 bottom;
+  background-repeat: no-repeat;
+}

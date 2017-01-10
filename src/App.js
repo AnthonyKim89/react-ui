@@ -8,6 +8,7 @@ import LoadingIndicator from './common/LoadingIndicator';
 
 import login from './login';
 import pages from './pages';
+import assets from './assets';
 
 import './App.css';
 
@@ -26,8 +27,9 @@ class App extends Component {
       <div className={classSet(classes)}>
         {this.props.currentUser && !this.props.isNative &&
           <MainNav currentUser={this.props.currentUser}
-                  dashboards={this.props.dashboards}
-                  logOut={this.props.logOut} />}
+                   dashboards={this.props.dashboards}
+                   recentAssets={this.props.recentAssets}
+                   logOut={this.props.logOut} />}
         {this.props.isLoading ?
           <LoadingIndicator /> :
           this.props.children
@@ -43,7 +45,8 @@ export default connect(
     currentUser: login.selectors.currentUser,
     isNative: pages.selectors.isNative,
     isLoading: pages.selectors.isLoading,
-    dashboards: pages.selectors.dashboards
+    dashboards: pages.selectors.dashboards,
+    recentAssets: assets.selectors.recentAssets
   }),
   {
     loginCheck: login.actions.loginCheck,
