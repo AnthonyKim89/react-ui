@@ -9,6 +9,28 @@ Adds the capability for users to list rigs, wells, and drilling programs, and to
 
 ![](mockups/wells_menu.png)
 
+## Raw Traces
+
+Shows the raw values, supports zoom, scroll, and customization.
+This is also where we need a socket to stream in live data.
+Considered to be a component so a subset of the traces can be embedded in other views.
+
+![](mockups/traces.png)
+
+![](mockups/mobile_warning_scrolled.PNG)
+
+## Synchronized Mouseover on charts
+
+Support a UX feature where a use can mouseover on data points in graphs, and data points from the same time are also higlighted on other graphs.
+
+## Dashboard Management
+
+Adds capability for users to to manage multiple dashboards.
+
+* UI support for multiple dashboards in navigation.
+* Create a dashboard.
+* Delete a dashboard.
+* Rename a dashboard.
 
 ## Building For Deployment
 
@@ -39,15 +61,6 @@ Ryan:
 ActivityGroupItem = "Drilling" or "Tripping In" - it's an larger value of activity states. We will put this in the WitsRecord in the future so everything is in 1 record. We need a query method to get this 
 data. TBD.
 
-## Dashboard Management
-
-Adds capability for users to to manage multiple dashboards.
-
-* UI support for multiple dashboards in navigation.
-* Create a dashboard.
-* Delete a dashboard.
-* Rename a dashboard.
-
 ## Bootstrap Theme
 
 Adds capability for using Bootstrap (react-bootstrap) components in apps without
@@ -68,10 +81,6 @@ Many UI interactions could use some animated transitions for a smoother experien
 * Navigating between pages and tabs.
 * Opening and closing hover menus.
 * Filtering lists / search results
-
-## Synchronized Mouseover on charts
-
-Support a UX feature where a use can mouseover on data points in graphs, and data points from the same time are also higlighted on other graphs.
 
 ## Depth vs. Time Chart for Well Timeline
 
@@ -97,15 +106,6 @@ Adds the capability for Corva to track what users are doing in the system.
 * Specify and implement tracking for the interactions we want to track.
   * E.g. on top of basic navigation tracking, track interaction with apps.
 
-## Raw Traces
-
-Shows the raw values, supports zoom, scroll, and customization.
-This is also where we need a socket to stream in live data.
-Considered to be a component so a subset of the traces can be embedded in other views.
-
-![](mockups/traces.png)
-
-![](mockups/mobile_warning_scrolled.PNG)
 
 ## Dashboard Sharing
 
