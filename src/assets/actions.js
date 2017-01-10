@@ -3,22 +3,30 @@ import { last } from 'lodash';
 
 import * as api from '../api';
 import { ASSET_TYPES } from './constants';
-import { assets } from './selectors';
+import { assets, isResolvableAsset, isResolvedAsset } from './selectors';
 
 export const LOAD_ASSETS = 'LOAD_ASSETS';
 
 export function loadAsset(assetId) {
   return async (dispatch, getState) => {
     const loadedAsset = assets(getState()).get(assetId);
+    // For any asset that should be resolved to its active child and hasn't yet, do the resolving now.
+    // This is done recursively as long as we see resolvable assets.
     if (!loadedAsset || (isResolvableAsset(loadedAsset) && !isResolvedAsset(loadedAsset))) {
       let assets = List().push(await api.getAsset(assetId));
-      while (isResolvableAsset(assets.last())) {
+      while (isResolvableAsset(assets.last()) && !isResolvedAsset(assets.last())) {
         const parent = assets.last();
         const child = await api.getActiveChildAsset(parent.get('id'));
-        assets = assets
-          .butLast()
-          .push(parent.set('activeChildId', child.get('id')))
-          .push(child);
+        if (child) {
+          assets = assets
+            .butLast()
+            .push(parent.set('activeChildId', child.get('id')))
+            .push(child);
+        } else {
+          assets = assets
+            .butLast()
+            .push(parent.set('activeChildId', null));
+        }
       }
       dispatch({type: LOAD_ASSETS, assets});
     }
@@ -36,16 +44,4 @@ export function listAssets(assetType) {
     const assets = await api.getAssets(assetTypesToResolve);
     dispatch({type: LOAD_ASSETS, assets});
   }
-}
-
-/*
- * Check if an asset should be "resolved" to another active asset.
- * Currently we just check if it's a rig (which has an active well)
- * but a more generic solution would be preferable.
- */
-function isResolvableAsset(asset) {
-  return asset.get('type') === 'rig';
-}
-function isResolvedAsset(asset) {
-  return asset.has('activeChildId');
 }

@@ -30,8 +30,26 @@ export const assetList = createSelector(
 export const currentAsset = createSelector(
   assets,
   (_, props) => props.params.assetId,
-  (assets, assetId) => assets.get(assetId)
+  (assets, assetId) => {
+    let asset = assets.get(assetId);
+    while (asset && isResolvableAsset(asset)) {
+      if (isResolvedAsset(asset)) {
+        asset = assets.get(asset.get('activeChildId'));
+      } else {
+        return null;
+      }
+    }
+    return asset;
+  }
 );
+
+export function isResolvableAsset(asset) {
+  return ASSET_TYPES.get(asset.get('type')).get('isResolvedToActiveChild');
+}
+
+export function isResolvedAsset(asset) {
+  return asset.has('activeChildId');
+}
 
 function collectParentAssetTypes(assetTypeCode) {
   let parentTypes = Map();
@@ -48,7 +66,9 @@ function collectParentAssets(allAssets, asset) {
   let nextParent = asset;
   while (nextParent && nextParent.has('parent_id')) {
     nextParent = allAssets.get(nextParent.get('parent_id'));
-    parents = parents.set(nextParent.get('type'), nextParent);
+    if (nextParent) {
+      parents = parents.set(nextParent.get('type'), nextParent);
+    }
   }
   return parents;
 }

@@ -81,9 +81,12 @@ class AssetListPage extends Component {
                   {this.props.assetList.get('assets').map(asset => (
                     <tr key={asset.get('id')}>
                       <td>
-                        <Link to={`/assets/${asset.get('id')}/overview`} className="c-asset-list-page__asset-link">
-                          {asset.get('name')}
-                        </Link>
+                        {this.isAssetTypeLinkable() ?
+                          <Link to={`/assets/${asset.get('id')}/overview`}           
+                                className="c-asset-list-page__asset-link">
+                            {asset.get('name')}
+                          </Link> :
+                          asset.get('name')}
                       </td>
                       {this.props.assetList.get('parentTypes').keySeq().map(typeCode => (
                         <td key={asset.get('id') + typeCode}>
@@ -121,6 +124,10 @@ class AssetListPage extends Component {
     } else {
       return null;
     }
+  }
+
+  isAssetTypeLinkable() {
+    return assets.constants.ASSET_TYPES.getIn([this.props.params.assetType, 'hasAssetPage']);
   }
 
   formatDate(date) {
