@@ -4,7 +4,7 @@ import { fromJS, Map } from 'immutable';
 import * as auth from './auth';
 
 class APIException {
-  
+
   constructor(status, statusText) {
     this.status = status;
     this.statusText = statusText;
@@ -73,7 +73,7 @@ async function del(path) {
 
 
 export async function logIn(email, password) {
-  const response = fromJS(await post('/user_token', {
+  const response = fromJS(await post('/v1/user_token', {
     auth: {email, password}
   }));
   auth.setToken(response.get('jwt'));
