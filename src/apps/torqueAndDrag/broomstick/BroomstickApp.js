@@ -3,13 +3,13 @@ import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import { SUPPORTED_CHART_SERIES } from './constants';
-import Chart from '../../common/Chart';
-import ChartSeries from '../../common/ChartSeries';
-import LoadingIndicator from '../../common/LoadingIndicator';
+import Chart from '../../../common/Chart';
+import ChartSeries from '../../../common/ChartSeries';
+import LoadingIndicator from '../../../common/LoadingIndicator';
 
-import './TorqueAndDragBroomstickApp.css'
+import './BroomstickApp.css'
 
-class TorqueAndDragBroomstickApp extends Component {
+class BroomstickApp extends Component {
 
   constructor(props) {
     super(props);
@@ -18,7 +18,7 @@ class TorqueAndDragBroomstickApp extends Component {
 
   render() {
     return (
-      <div className="c-torque-and-drag-broomstick">
+      <div className="c-tnd-broomstick">
         {this.props.data ?
           <Chart
             xField="measured_depth"
@@ -79,11 +79,11 @@ class TorqueAndDragBroomstickApp extends Component {
 
 }
 
-TorqueAndDragBroomstickApp.propTypes = {
+BroomstickApp.propTypes = {
   data: ImmutablePropTypes.map,
   graphColors: ImmutablePropTypes.map,
   size: PropTypes.string.isRequired,
   widthCols: PropTypes.number.isRequired
 };
 
-export default TorqueAndDragBroomstickApp;
+export default BroomstickApp;

@@ -2,10 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import { Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-import ChartColorsEditor from '../../common/ChartColorsEditor';
+import ChartColorsEditor from '../../../common/ChartColorsEditor';
 import { SUPPORTED_CHART_SERIES } from './constants';
 
-class TnDChartColorsSettingEditor extends Component {
+class StressChartColorsSettingEditor extends Component {
 
   render() {
     return (
@@ -18,9 +18,9 @@ class TnDChartColorsSettingEditor extends Component {
 
 }
 
-TnDChartColorsSettingEditor.propTypes = {
+StressChartColorsSettingEditor.propTypes = {
   currentValue: ImmutablePropTypes.map,
   onChange: PropTypes.func.isRequired
 };
 
-export default TnDChartColorsSettingEditor;
+export default StressChartColorsSettingEditor;

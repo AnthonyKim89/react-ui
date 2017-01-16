@@ -2,10 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import { Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-import ChartColorsEditor from '../../common/ChartColorsEditor';
+import ChartColorsEditor from '../../../common/ChartColorsEditor';
 import { SUPPORTED_CHART_SERIES } from './constants';
 
-class AxialLoadChartColorsSettingEditor extends Component {
+class BroomstickChartColorsSettingEditor extends Component {
 
   render() {
     return (
@@ -18,9 +18,9 @@ class AxialLoadChartColorsSettingEditor extends Component {
 
 }
 
-AxialLoadChartColorsSettingEditor.propTypes = {
+BroomstickChartColorsSettingEditor.propTypes = {
   currentValue: ImmutablePropTypes.map,
   onChange: PropTypes.func.isRequired
 };
 
-export default AxialLoadChartColorsSettingEditor;
+export default BroomstickChartColorsSettingEditor;

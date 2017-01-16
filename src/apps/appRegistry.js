@@ -1,7 +1,7 @@
 import { List, Map } from 'immutable';
-import torqueAndDragBroomstick from './torqueAndDragBroomstick';
-import axialLoad from './axialLoad';
-import stress from './stress';
+import broomstick from './torqueAndDrag/broomstick';
+import axialLoad from './torqueAndDrag/axialLoad';
+import stress from './torqueAndDrag/stress';
 import wellTimeline from './wellTimeline';
 
 // Apps that can be displayed on dashboard / asset pages, keyed by app type
@@ -10,9 +10,9 @@ export const uiApps = Map({
     title: 'Torque & Drag',
     subtitle: 'Downhole torque and drag',
     appTypes: Map({
-      broomstick: torqueAndDragBroomstick,
-      axialLoad: axialLoad,
-      stress: stress
+      broomstick,
+      axialLoad,
+      stress
     })
   }),
 });

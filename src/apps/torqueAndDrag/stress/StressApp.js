@@ -2,9 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import { SUPPORTED_CHART_SERIES } from './constants';
-import Chart from '../../common/Chart';
-import ChartSeries from '../../common/ChartSeries';
-import LoadingIndicator from '../../common/LoadingIndicator';
+import Chart from '../../../common/Chart';
+import ChartSeries from '../../../common/ChartSeries';
+import LoadingIndicator from '../../../common/LoadingIndicator';
 
 import './StressApp.css'
 
@@ -12,7 +12,7 @@ class StressApp extends Component {
 
   render() {
     return (
-      <div className="c-stress">
+      <div className="c-tnd-stress">
         {this.props.data ?
           <Chart
             xField="measured_depth"

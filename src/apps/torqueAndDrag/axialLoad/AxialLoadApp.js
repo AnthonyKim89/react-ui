@@ -2,9 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import { SUPPORTED_CHART_SERIES } from './constants';
-import Chart from '../../common/Chart';
-import ChartSeries from '../../common/ChartSeries';
-import LoadingIndicator from '../../common/LoadingIndicator';
+import Chart from '../../../common/Chart';
+import ChartSeries from '../../../common/ChartSeries';
+import LoadingIndicator from '../../../common/LoadingIndicator';
 
 import './AxialLoadApp.css'
 
@@ -12,7 +12,7 @@ class AxialLoadApp extends Component {
 
   render() {
     return (
-      <div className="c-axial-load">
+      <div className="c-tnd-axial-load">
         {this.props.data ?
           <Chart
             xField="measured_depth"
