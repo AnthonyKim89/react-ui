@@ -17,7 +17,6 @@
 }
 
 .c-add-app-dialog-listing__category {
-  display: flex;
   margin: 30px 0;
   border-bottom: 1px solid white;
 }

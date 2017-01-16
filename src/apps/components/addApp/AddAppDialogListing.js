@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Col, ControlLabel, Form, FormControl, FormGroup } from 'react-bootstrap';
+import { Col, ControlLabel, Form, Grid, FormControl, FormGroup, Row } from 'react-bootstrap';
 
 import AppIcon from './AppIcon';
 
@@ -47,7 +47,9 @@ class AddAppDialogListing extends Component {
           </FormGroup>
         </Form>
       </div>
-      {this.getCategories().map(cat => this.renderCategory(cat))}
+      <Grid fluid>
+        {this.getCategories().map(cat => this.renderCategory(cat))}
+      </Grid>
     </div>;
   }
 
@@ -62,21 +64,22 @@ class AddAppDialogListing extends Component {
       .valueSeq()
       .filter(appType => this.isAppTypeIncludedInFilter(appType));
     if (!appTypes.isEmpty()) {
-      return <div key={category.get('title')}
+      return <Row key={category.get('title')}
                   className="c-add-app-dialog-listing__category">
-        <h3 className="c-add-app-dialog-listing__category-title">
-          {category.get('title')}
+        
+        <Col sm={2} className="c-add-app-dialog-listing__category-title">
+          <h3>{category.get('title')}</h3>
           <div className="c-add-app-dialog-listing__category-subtitle">{category.get('subtitle')}</div>
-        </h3>
-        <ul className="c-add-app-dialog-listing__app-type-list">
+        </Col>
+        <Col sm={10} className="c-add-app-dialog-listing__app-type-list">
           {appTypes.map(appType => this.renderAppType(appType))}
-        </ul>
-      </div>;
+        </Col>
+      </Row>;
     }
   }
   
   renderAppType(appType) {
-    return <li key={appType.constants.NAME}
+    return <div key={appType.constants.NAME}
                className="c-add-app-dialog-listing__app-type-list-item">
       <AppIcon onClick={() => this.props.onSelectType(appType)}>
       </AppIcon>
@@ -88,7 +91,7 @@ class AddAppDialogListing extends Component {
          target="_blank">
         {appType.constants.METADATA.developer.name}
       </a>
-    </li>;
+    </div>;
   }
 
   isAppTypeIncludedInFilter(appType) {
