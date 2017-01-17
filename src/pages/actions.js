@@ -34,27 +34,33 @@ export function start(isNative) {
 }
 
 export const SUBSCRIBE_APP = 'SUBSCRIBE_APP';
-export function subscribeApp(appInstanceId, appKey, assetId, params) {
+export function subscribeApp(appInstanceId, subscriptionKeys, assetId, params) {
   return async dispatch => {
     // Only subscribe to live data if we're not asked for a historical time point
     if (!params.get('time')) {
-      subscribe(appInstanceId, appKey, assetId, params);
+      for (const subscriptionKey of subscriptionKeys) {
+        subscribe(appInstanceId, subscriptionKey, assetId, params);
+      }
     }
-    dispatch({type: SUBSCRIBE_APP, appInstanceId, appKey, assetId, params});
-    const initialData = await api.getAppResults(appKey, assetId, params);
-    dispatch(receiveAppData(appInstanceId, assetId, params, initialData));
+    for (const subscriptionKey of subscriptionKeys) {
+      dispatch({type: SUBSCRIBE_APP, appInstanceId, subscriptionKey, assetId, params});
+      const initialData = await api.getAppResults(subscriptionKey, assetId, params);
+      dispatch(receiveAppData(appInstanceId, subscriptionKey, assetId, params, initialData));
+    }
   };
 }
 
 export const UNSUBSCRIBE_APP = 'UNSUBSCRIBE_APP';
-export function unsubscribeApp(appInstanceId) {
-  unsubscribe(appInstanceId);
-  return {type: UNSUBSCRIBE_APP, appInstanceId};
+export function unsubscribeApp(appInstanceId, subscriptionKeys) {
+  for (const subscriptionKey of subscriptionKeys) {
+    unsubscribe(appInstanceId, subscriptionKey);
+  }
+  return {type: UNSUBSCRIBE_APP, appInstanceId, subscriptionKeys};
 }
 
 export const RECEIVE_APP_DATA = 'RECEIVE_APP_DATA';
-export function receiveAppData(appInstanceId, assetId, params, data) {
-  return {type: RECEIVE_APP_DATA, appInstanceId, assetId, params, data};
+export function receiveAppData(appInstanceId, subscriptionKey, assetId, params, data) {
+  return {type: RECEIVE_APP_DATA, appInstanceId, subscriptionKey, assetId, params, data};
 }
 
 export const MOVE_APP = 'MOVE_APP';

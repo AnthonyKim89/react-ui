@@ -10,7 +10,7 @@ export const connect = (onReceiveData) => {
   socket.on('connect', () => {
     socket.emit('authenticate', {token: auth.getToken()})
   });
-  socket.on('data',evt => onReceiveData(evt.appInstanceId, evt.assetId, fromJS(evt.params), fromJS(evt.data)));
+  socket.on('data',evt => onReceiveData(evt.appInstanceId, evt.appKey, evt.assetId, fromJS(evt.params), fromJS(evt.data)));
 };
 
 export const disconnect = () => {
@@ -25,7 +25,7 @@ export const subscribe = (appInstanceId, appKey, assetId, params) => {
   socket.emit('subscribe', {appInstanceId, appKey, assetId, params: params.toJS()});
 };
 
-export const unsubscribe = (appInstanceId) => {
+export const unsubscribe = (appInstanceId, appKey) => {
   if (!socket) { throw new Error('Not connected'); }
-  socket.emit('unsubscribe', {appInstanceId}); 
+  socket.emit('unsubscribe', {appInstanceId, appKey}); 
 };

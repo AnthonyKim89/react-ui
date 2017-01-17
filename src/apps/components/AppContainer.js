@@ -41,11 +41,11 @@ class AppContainer extends Component {
 
   subscribe(props) {
     props.onAppSubscribe(
-      props.id, this.getAppKey(), props.asset.get('id'), props.pageParams);
+      props.id, this.getSubscriptionKeys(), props.asset.get('id'), props.pageParams);
   }
 
   unsubscribe(props) {
-    props.onAppUnsubscribe(props.id);
+    props.onAppUnsubscribe(props.id, this.getSubscriptionKeys());
   }
   
   render() {
@@ -111,8 +111,8 @@ class AppContainer extends Component {
     this.props.onAppSettingsUpdate(newSettings);
   }
 
-  getAppKey() {
-    return `${this.props.appType.constants.CATEGORY}/${this.props.appType.constants.NAME}`;
+  getSubscriptionKeys() {
+    return this.props.appType.constants.SUBSCRIPTIONS;
   }
 
 }

@@ -1,5 +1,6 @@
 export const CATEGORY = 'torqueAndDrag';
 export const NAME = 'stress';
+export const SUBSCRIPTIONS = ['torqueAndDrag/stress'];
 export const METADATA = {
   title: 'Stress',
   subtitle: '',

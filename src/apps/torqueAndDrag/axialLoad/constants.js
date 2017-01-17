@@ -1,5 +1,6 @@
 export const CATEGORY = 'torqueAndDrag';
 export const NAME = 'axialLoad';
+export const SUBSCRIPTIONS = ['torqueAndDrag/axialLoad'];
 export const METADATA = {
   title: 'Axial Load',
   subtitle: '',

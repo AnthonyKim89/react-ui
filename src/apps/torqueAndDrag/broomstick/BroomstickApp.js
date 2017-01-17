@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-import { SUPPORTED_CHART_SERIES } from './constants';
+import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
 import Chart from '../../../common/Chart';
 import ChartSeries from '../../../common/ChartSeries';
 import LoadingIndicator from '../../../common/LoadingIndicator';
@@ -19,7 +19,7 @@ class BroomstickApp extends Component {
   render() {
     return (
       <div className="c-tnd-broomstick">
-        {this.props.data ?
+        {this.getData() ?
           <Chart
             xField="measured_depth"
             size={this.props.size}
@@ -40,13 +40,17 @@ class BroomstickApp extends Component {
     );
   }
 
+  getData() {
+    return this.props.data && this.props.data.get(SUBSCRIPTIONS[0]);
+  }
+
   getSeries() {
     return this.getPredictedCurveSeries()
       .concat(this.getActualSeries());
   }
 
   getPredictedCurveSeries() {
-    return this.props.data.getIn(['data', 'curves'])
+    return this.getData().getIn(['data', 'curves'])
       .entrySeq()
       .flatMap(([curveType, curves]) =>
         curves.map(curve => ({
@@ -59,7 +63,7 @@ class BroomstickApp extends Component {
   }
 
   getActualSeries() {
-    return this.props.data.getIn(['data', 'actual'])
+    return this.getData().getIn(['data', 'actual'])
       .entrySeq()
       .map(([curveType, points]) => ({
         renderType: 'scatter',

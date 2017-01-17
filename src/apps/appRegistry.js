@@ -1,7 +1,11 @@
 import { List, Map } from 'immutable';
+
 import broomstick from './torqueAndDrag/broomstick';
 import axialLoad from './torqueAndDrag/axialLoad';
 import stress from './torqueAndDrag/stress';
+
+import singleTrace from './trace/singleTrace';
+
 import wellTimeline from './wellTimeline';
 
 // Apps that can be displayed on dashboard / asset pages, keyed by app type
@@ -15,6 +19,13 @@ export const uiApps = Map({
       stress
     })
   }),
+  trace: Map({
+    title: 'Trace',
+    subtitle: '',
+    appTypes: Map({
+      singleTrace
+    })
+  })
 });
 
 // Apps that are used as control UIs on asset pages, keyed by asset type

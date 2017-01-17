@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-import { SUPPORTED_CHART_SERIES } from './constants';
+import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
 import Chart from '../../../common/Chart';
 import ChartSeries from '../../../common/ChartSeries';
 import LoadingIndicator from '../../../common/LoadingIndicator';
@@ -13,7 +13,7 @@ class AxialLoadApp extends Component {
   render() {
     return (
       <div className="c-tnd-axial-load">
-        {this.props.data ?
+        {this.props.data && this.props.data.get(SUBSCRIPTIONS[0]) ?
           <Chart
             xField="measured_depth"
             size={this.props.size}
@@ -44,7 +44,7 @@ class AxialLoadApp extends Component {
       renderType: 'line',
       title: field,
       field,
-      data: this.props.data.getIn(['data', 'points'])
+      data: this.props.data.getIn([SUBSCRIPTIONS[0], 'data', 'points'])
     };
   }
 
