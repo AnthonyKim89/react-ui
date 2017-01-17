@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { find } from 'lodash';
+import numeral from 'numeral';
 
 import { SUPPORTED_TRACES } from './constants';
 
@@ -42,7 +43,7 @@ class SingleTraceApp extends Component {
 
   getLatestTrace() {
     return this.props.data && this.props.data.has('wits/raw') ?
-      this.props.data.getIn(['wits/raw', this.props.trace]) :
+      numeral(this.props.data.getIn(['wits/raw', this.props.trace])).format('0.0a') :
       null;
   }
 

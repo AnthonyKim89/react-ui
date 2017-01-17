@@ -13,6 +13,7 @@
     "highcharts": "^5.0.6",
     "immutable": "^3.8.1",
     "lodash": "^4.17.4",
+    "numeral": "^2.0.4",
     "query-string": "^4.2.3",
     "rc-slider": "^5.4.3",
     "react": "^15.4.2",
