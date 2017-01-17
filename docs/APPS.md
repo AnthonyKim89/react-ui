@@ -99,22 +99,18 @@ For example, if a control app calls `onUpdateParams({time: '2016-12-31'})`, a qu
 
 For any app instances on Dashboards or Asset Page Tabs, the user may configure *settings* by opening a settings dialog. The dialog will contain some common settings (such as the active asset on Dashboard apps), byt app types may also specify their own settings editors for app-specific configurations. An example of this is the graph colors in the T&D Broomstick app.
 
-To add one or more setting editors for an app type, add an array for them into the app type's `index.js`. The value should be an Immutable List of the setting editors supported by the app type:
+To add one or more setting editors for an app type, add an array for them into a  file called `settings.js` in the app directory. The file should have a default export, an Immutable List of the setting editors supported by the app type:
 
-`src/apps/myApp/index.js`
+`src/apps/myApp/settings.js`
 
-    export default {
-      AppComponent: MyApp,
-      settingsEditors: List([
-        Map({
-          name: 'graphColors',
-          title: 'Graph Colors',
-          required: false,
-          Editor: GraphColorsSettingEditor
-        })
-      ]),
-      constants
-    };
+    export default List([
+      Map({
+        name: 'graphColors',
+        title: 'Graph Colors',
+        required: false,
+        Editor: GraphColorsSettingEditor
+      })
+    ]);
 
 Each entry in the list should be an Immutable Map with three keys:
 
@@ -126,7 +122,16 @@ Each entry in the list should be an Immutable Map with three keys:
    * `onChange` - A callback that the component should invoke when the user changes the value. Called with one argument, which is the new setting value.
    * `appType` - The app type object (formed from the values of `index.js` of the current app type). This may be useful for settings editors that are shared by multiple app types but may still need to behave differently for different app types.
 
-For any setting editors configured this way, once the user has chosen settings for them, they will be received as input props by the main app component.
+Then export the settings form the app's `index.js`:
+
+
+    import MyApp from './MyApp';
+    import settings from './settings';
+
+    export default {AppComponent: MyApp, settings};
+
+For any settings configured this way, once the user has chosen settings for them, they will be received as input props by the main app component.
+
 
 ## Understanding A UI App's Surrounding Context
 

@@ -1,18 +1,9 @@
-import { List, Map } from 'immutable';
-
 import StressApp from './StressApp';
-import StressChartColorsSettingEditor from './StressChartColorsSettingEditor';
+import settings from './settings';
 import * as constants from './constants';
 
 export default {
   AppComponent: StressApp,
-  settingsEditors: List([
-    Map({
-      name: 'graphColors',
-      title: 'Graph Colors',
-      required: false,
-      Editor: StressChartColorsSettingEditor
-    })
-  ]),
+  settings,
   constants
 };

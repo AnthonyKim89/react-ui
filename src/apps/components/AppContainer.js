@@ -94,7 +94,7 @@ class AppContainer extends Component {
 
   getSettingsEditors() {
     const common = this.props.commonSettingsEditors || List();
-    const forAppType = this.props.appType.settingsEditors || List();
+    const forAppType = this.props.appType.settings || List();
     return common.concat(forAppType);
   }
 
