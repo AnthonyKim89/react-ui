@@ -32,13 +32,6 @@ Adds capability for users to to manage multiple dashboards.
 * Delete a dashboard.
 * Rename a dashboard.
 
-## Building For Deployment
-
-Adds capability for the project to be built to production so that it can be deployed as part of `corva-web`.
-
-* Modify frontend build configuration so that paths etc. are compatible.
-* Integrate deployment with `corva-web` deployment process.
-
 ## Full-Screen Apps
 
 Adds a capability for users to expand any app to full-screen mode.

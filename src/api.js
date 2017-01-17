@@ -16,6 +16,8 @@ class APIException {
 
 }
 
+const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+
 const JSON_HEADERS = {
   'Content-Type': 'application/json',
   Accept: 'application/json'
@@ -35,7 +37,7 @@ function attachAuthorizationHeader(requestConfig) {
 }
 
 async function request(path, config = {}) {
-  const response = await fetch(path, attachAuthorizationHeader(config));
+  const response = await fetch(`${BASE_URL}${path}`, attachAuthorizationHeader(config));
   if (response.ok) {
     return fromJS(await response.json());
   } else {

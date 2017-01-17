@@ -28,6 +28,16 @@ npm test
 The app will automatically launch in a browser. Code changes are picked
 up automatically and reloaded to the browser. Unit tests will also automatically run whenever the code changes. 
 
+# Deploying
+
+To produce the built application, run `npm run build` and point the environment variable `REACT_APP_API_URL` to the instance of `corva-api` that should be used for this build:
+
+```
+REACT_APP_API_URL=http://staging-api.corva.ai npm run build
+```
+
+After this, the application files to be deployed will be under the `build` directory. These can be transferred to an S3 bucket or an HTTP server.
+
 
 # Generated Documentation from Create React App
 
