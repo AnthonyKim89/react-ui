@@ -1,6 +1,7 @@
 import { List, Map } from 'immutable';
 
-import SingleTraceGraphColorSettingEditor from './SingleTraceGraphColorSettingEditor';
+import { chartColorsEditorForDefinitions } from '../../../common/ChartColorsEditor';
+import { SUPPORTED_CHART_SERIES } from './constants';
 import TraceSettingEditor from './TraceSettingEditor';
 import TraceTimePeriodSettingEditor from './TraceTimePeriodSettingEditor';
 
@@ -15,7 +16,7 @@ export default List([
     name: 'graphColors',
     title: 'Graph Color',
     required: false,
-    Editor: SingleTraceGraphColorSettingEditor
+    Editor: chartColorsEditorForDefinitions(SUPPORTED_CHART_SERIES)
   }),
   Map({
     name: 'timePeriod',

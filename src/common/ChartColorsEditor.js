@@ -47,8 +47,8 @@ class ChartColorsEditor extends Component {
   }
 
   getCurrentColor(type) {
-    if (this.props.currentColors && this.props.currentColors.get(type)) {
-      return this.props.currentColors.get(type);
+    if (this.props.currentValue && this.props.currentValue.get(type)) {
+      return this.props.currentValue.get(type);
     } else {
       return this.props.colorDefinitions.get(type).defaultColor;
     }
@@ -64,8 +64,16 @@ class ChartColorsEditor extends Component {
 
 ChartColorsEditor.propTypes = {
   colorDefinitions: ImmutablePropTypes.map.isRequired,
-  currentColors: ImmutablePropTypes.map,
+  currentValue: ImmutablePropTypes.map,
   onChange: PropTypes.func.isRequired
 };
 
 export default ChartColorsEditor;
+
+// A Higher-Order Component that allows setting up an editor component
+// for certain color definitions
+export const chartColorsEditorForDefinitions =
+  colorDefinitions => props => 
+    <ChartColorsEditor
+      {...props}
+      colorDefinitions={Map(colorDefinitions)} />;

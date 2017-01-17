@@ -41,7 +41,11 @@ class AppContainer extends Component {
 
   subscribe(props) {
     props.onAppSubscribe(
-      props.id, this.getSubscriptionKeys(), props.asset.get('id'), props.pageParams);
+      props.id,
+      this.getSubscriptionKeys(),
+      props.asset.get('id'),
+      props.pageParams
+    );
   }
 
   unsubscribe(props) {
