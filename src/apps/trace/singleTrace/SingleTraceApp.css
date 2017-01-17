@@ -5,3 +5,9 @@
   width: 100%;
   height: 100%;
 }
+
+.c-trace-single__latest__value {
+  font-family: orgonboldregular;
+  font-size: 6rem;
+  padding-right: 20px;
+}
