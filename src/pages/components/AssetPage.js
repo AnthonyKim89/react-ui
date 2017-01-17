@@ -32,7 +32,7 @@ import './AssetPage.css';
 class AssetPage extends Component {
 
   componentDidMount() {
-    this.props.loadAsset(this.props.params.assetId);
+    this.props.loadAsset(this.getAssetId());
     this.setPageParamsFromLocation(this.props);
   }
 
@@ -44,7 +44,7 @@ class AssetPage extends Component {
 
   setPageParamsFromLocation(props) {
     this.props.setPageParams(
-      props.params.assetId,
+      this.getAssetId(),
       props.location.query
     );
   }
@@ -65,18 +65,18 @@ class AssetPage extends Component {
                    pageParams={this.props.currentPageParams}
                    location={this.props.location} />}
         {!this.props.isNative &&
-          <AssetTabBar assetId={this.props.params.assetId}
+          <AssetTabBar assetId={this.getAssetId()}
                        assetPageTabs={this.props.assetPageTabs}
                        currentAssetPageTab={this.props.currentAssetPageTab}
                        pageParams={this.props.currentPageParams} />}
-        {this.renderControlApps(this.props.params.assetId)}
+        {this.renderControlApps()}
       </div>
     );
   }
 
-  renderControlApps(assetId) {
+  renderControlApps() {
     if (this.props.currentAsset) {
-      const apps = appRegistry.controlApps.get(this.props.currentAsset.get('type'));
+      const apps = appRegistry.controlApps.get(this.props.currentAsset.get('asset_type'));
       return apps.map(({constants, AppComponent}) => 
         <AppComponent
           key={constants.NAME}
@@ -93,6 +93,10 @@ class AssetPage extends Component {
     } else {
       return Map();
     }
+  }
+  
+  getAssetId() {
+    return parseInt(this.props.params.assetId, 10);
   }
 
   onAppMove(id, newCoordinates) {

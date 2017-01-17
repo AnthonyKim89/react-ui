@@ -38,14 +38,15 @@ class DashboardAppAssetSettingEditor extends Component {
   }
 
   onChange(event) {
-    this.props.onChange(event.target.value);
+    const id = event.target.value && parseInt(event.target.value, 10);
+    this.props.onChange(id);
   }
 
 }
 
 DashboardAppAssetSettingEditor.propTypes = {
   appType: PropTypes.object.isRequired,
-  currentValue: PropTypes.string,
+  currentValue: PropTypes.number,
   onChange: PropTypes.func.isRequired
 };
 

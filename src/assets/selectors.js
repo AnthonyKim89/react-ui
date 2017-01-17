@@ -18,7 +18,7 @@ export const assetList = createSelector(
     const parentTypes = collectParentAssetTypes(assetTypeCode);
     const assets = allAssets
       .valueSeq()
-      .filter(a => a.get('type') === assetTypeCode)
+      .filter(a => a.get('asset_type') === assetTypeCode)
       .filter(a => isEmpty(search) || a.get('name').toLowerCase().indexOf(search) >= 0)
       .map(a => a.set('parents', collectParentAssets(allAssets, a)))
       .sortBy(
@@ -35,11 +35,11 @@ export const assetList = createSelector(
 // May return undefined/null if the asset or its active descendants have not been loaded.
 export const currentAsset = createSelector(
   assets,
-  (_, props) => props.params.assetId,
+  (_, props) => parseInt(props.params.assetId, 10),
   (allAssets, assetId) => {
     const asset = getActiveDescendant(allAssets, assetId);
-    if (asset && asset.get('parent_id')) {
-      return asset.set('parent', allAssets.get(asset.get('parent_id')));
+    if (asset && asset.get('parent_asset_id')) {
+      return asset.set('parent', allAssets.get(asset.get('parent_asset_id')));
     } else {
       return asset;
     }
@@ -52,14 +52,14 @@ export const recentAssets = createSelector(
   assets,
   allAssets => allAssets
     .valueSeq()
-    .filter(a => a.get('type') === 'rig')
+    .filter(a => a.get('asset_type') === 'rig')
     .toList()
     .take(7)
     .sortBy(a => a.get('name'))
 );
 
 export function isResolvableAsset(asset) {
-  return ASSET_TYPES.get(asset.get('type')).get('isResolvedToActiveChild');
+  return ASSET_TYPES.get(asset.get('asset_type')).get('isResolvedToActiveChild');
 }
 
 export function isResolvedAsset(asset) {
@@ -91,10 +91,10 @@ function collectParentAssetTypes(assetTypeCode) {
 function collectParentAssets(allAssets, asset) {
   let parents = Map();
   let nextParent = asset;
-  while (nextParent && nextParent.has('parent_id')) {
-    nextParent = allAssets.get(nextParent.get('parent_id'));
+  while (nextParent && nextParent.has('parent_asset_id')) {
+    nextParent = allAssets.get(nextParent.get('parent_asset_id'));
     if (nextParent) {
-      parents = parents.set(nextParent.get('type'), nextParent);
+      parents = parents.set(nextParent.get('asset_type'), nextParent);
     }
   }
   return parents;

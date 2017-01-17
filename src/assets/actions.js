@@ -15,8 +15,8 @@ export function loadAsset(assetId) {
     // This is done recursively as long as we see resolvable assets.
     if (!loadedAsset || (isResolvableAsset(loadedAsset) && !isResolvedAsset(loadedAsset))) {
       let assets = List().push(await api.getAsset(assetId));
-      while (assets.first().get('parent_id')) {
-        const parent = await api.getAsset(assets.first().get('parent_id'));
+      while (assets.first().get('parent_asset_id')) {
+        const parent = await api.getAsset(assets.first().get('parent_asset_id'));
         assets = assets.unshift(parent);
       }
       while (isResolvableAsset(assets.last()) && !isResolvedAsset(assets.last())) {
