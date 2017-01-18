@@ -2,7 +2,7 @@ export const CATEGORY = 'trace';
 export const NAME = 'singleTrace';
 export const SUBSCRIPTIONS = ['wits/raw', 'wits/summary30Seconds'];
 export const METADATA = {
-  title: 'Single Trace',
+  settingsTitle: 'Single Trace',
   subtitle: '',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',

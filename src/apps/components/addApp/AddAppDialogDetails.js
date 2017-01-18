@@ -30,7 +30,7 @@ class AddAppDialogDetails extends Component {
       <Glyphicon glyph="chevron-right" className="c-add-app-dialog-details__breadcrumbs-divider" />
       <span>{this.props.appTypeCategory}</span>
       <Glyphicon glyph="chevron-right" className="c-add-app-dialog-details__breadcrumbs-divider" />
-      <span className="c-add-app-dialog-details__breadcrumbs-app-type">{this.props.appType.constants.METADATA.title}</span>
+      <span className="c-add-app-dialog-details__breadcrumbs-app-type">{this.props.appType.constants.METADATA.settingsTitle}</span>
     </h4>;
   }
 

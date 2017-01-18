@@ -16,7 +16,7 @@ class Chart extends Component {
     const chart = Highcharts.chart(this.container, {
       chart: {
         type: 'line',
-        inverted: true,
+        inverted: !this.props.horizontal,
         backgroundColor: null,
         zoomType: 'xy',
         panning: true,
@@ -35,8 +35,11 @@ class Chart extends Component {
         tickWidth: 0,
         labels: {
           enabled: this.isAxisLabelsVisible(this.props),
-          style: {color: '#fff'}
-        }
+          autoRotation: false,
+          style: {color: '#fff'},
+          formatter: this.getXAxisLabelFormatter()
+        },
+        opposite: this.props.xAxisOpposite,
       },
       yAxis: {
         title: {text: null},
@@ -45,7 +48,8 @@ class Chart extends Component {
         labels: {
           enabled: this.isAxisLabelsVisible(this.props),
           style: {color: '#fff'}
-        }
+        },
+        opposite: this.props.yAxisOpposite
       },
       title: {text: null},
       credits: {enabled: false},
@@ -145,6 +149,11 @@ class Chart extends Component {
     });
   }
 
+  getXAxisLabelFormatter() {
+    const formatter =this.props.xAxisLabelFormatter;
+    return formatter && function() { return formatter(this.value, this.isFirst, this.isLast) }
+  }
+
   isLegendVisible(props) {
     return props.size === Size.XLARGE || props.size === Size.LARGE;
   }
@@ -158,7 +167,11 @@ class Chart extends Component {
 Chart.propTypes = {
   size: PropTypes.oneOf(values(Size)).isRequired,
   widthCols: PropTypes.number.isRequired,
-  xField: PropTypes.string
+  xField: PropTypes.string,
+  horizontal: PropTypes.bool,
+  xAxisOpposite: PropTypes.bool,
+  yAxisOpposite: PropTypes.bool,
+  xAxisLabelformatter: PropTypes.func,
 };
 
 export default Chart;

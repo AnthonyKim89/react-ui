@@ -3,6 +3,7 @@ export const NAME = 'broomstick';
 export const SUBSCRIPTIONS = ['torqueAndDrag/broomstick'];
 export const METADATA = {
   title: 'Trend Broomstick',
+  settingsTitle: 'Trend Broomstick',
   subtitle: 'Visual trend identification for hole problems or poor cleaning',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',

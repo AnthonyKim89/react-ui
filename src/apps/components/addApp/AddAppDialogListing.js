@@ -84,7 +84,7 @@ class AddAppDialogListing extends Component {
       <AppIcon onClick={() => this.props.onSelectType(appType)}>
       </AppIcon>
       <div className="c-add-app-dialog-listing__app-type-title">
-        {appType.constants.METADATA.title}
+        {appType.constants.METADATA.settingsTitle}
       </div>
       <a className="c-add-app-dialog-listing__app-type-developer-link"
          href={appType.constants.METADATA.developer.url}
@@ -96,7 +96,7 @@ class AddAppDialogListing extends Component {
 
   isAppTypeIncludedInFilter(appType) {
     const filter = (this.state.filter || '').toLowerCase();
-    return appType.constants.METADATA.title.toLowerCase().indexOf(filter) >= 0;
+    return appType.constants.METADATA.settingsTitle.toLowerCase().indexOf(filter) >= 0;
   }
 
 }

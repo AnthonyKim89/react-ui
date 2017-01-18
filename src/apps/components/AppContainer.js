@@ -67,7 +67,8 @@ class AppContainer extends Component {
     const classes = {
       'c-app-container': true,
       'c-app-container--maximized': this.props.maximized,
-      'c-app-container--with-subtitle': this.props.appType.constants.SUBTITLE
+      'c-app-container--with-title': this.props.appType.constants.METADATA.title,
+      'c-app-container--with-subtitle': this.props.appType.constants.METADATA.subtitle
     };
     return (
       <div className={classSet(classes)}>

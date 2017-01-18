@@ -3,6 +3,7 @@ export const NAME = 'stress';
 export const SUBSCRIPTIONS = ['torqueAndDrag/stress'];
 export const METADATA = {
   title: 'Stress',
+  settingsTitle: 'Stress',
   subtitle: '',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',

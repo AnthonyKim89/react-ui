@@ -18,7 +18,7 @@ class AppSettingsDialog extends Component {
           Save
         </Button>
         <h4 className="c-app-settings__title">
-          {this.props.appType.constants.METADATA.title} Settings
+          {this.props.appType.constants.METADATA.settingsTitle} Settings
         </h4>
         {this.props.appType.constants.METADATA.subtitle &&
           <h5 className="c-app-settings__subtitle">{this.props.appType.constants.METADATA.subtitle}</h5>}

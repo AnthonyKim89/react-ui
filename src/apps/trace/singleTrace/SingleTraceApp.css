@@ -6,6 +6,18 @@
   height: 100%;
 }
 
+.c-trace-single__latest {
+  width: 225px;
+}
+
+.c-trace-single__graph {
+  position: absolute;
+  left: 225px;
+  right: 0;
+  bottom: 0;
+  top: 0;
+}
+
 .c-trace-single__latest__value {
   font-family: orgonboldregular;
   font-size: 6rem;

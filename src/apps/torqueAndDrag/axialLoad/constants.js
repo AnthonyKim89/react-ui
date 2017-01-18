@@ -3,6 +3,7 @@ export const NAME = 'axialLoad';
 export const SUBSCRIPTIONS = ['torqueAndDrag/axialLoad'];
 export const METADATA = {
   title: 'Axial Load',
+  settingsTitle: 'Axial Load',
   subtitle: '',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',

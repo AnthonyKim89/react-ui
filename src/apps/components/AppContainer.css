@@ -48,10 +48,13 @@
   position: absolute;
   left: 10px;
   right: 10px;
-  top: 30px;
+  top: 0;
   bottom: 10px;
 }
 
+.c-app-container--with-title .c-app-container__content {
+  top: 30px;
+}
 .c-app-container--with-subtitle .c-app-container__content {
   top: 50px;
 }
