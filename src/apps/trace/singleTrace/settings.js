@@ -1,7 +1,7 @@
 import { List, Map } from 'immutable';
 
 import { chartColorsEditorForDefinitions } from '../../../common/ChartColorsEditor';
-import { SUPPORTED_CHART_SERIES } from './constants';
+import { SUPPORTED_CHART_SERIES, DEFAULT_TIME_PERIOD } from './constants';
 import TraceSettingEditor from './TraceSettingEditor';
 import TraceTimePeriodSettingEditor from './TraceTimePeriodSettingEditor';
 
@@ -19,9 +19,11 @@ export default List([
     Editor: chartColorsEditorForDefinitions(SUPPORTED_CHART_SERIES)
   }),
   Map({
-    name: 'timePeriod',
+    name: 'timePeriodHours',
     title: 'Time Period',
     required: false,
-    Editor: TraceTimePeriodSettingEditor
+    default: DEFAULT_TIME_PERIOD,
+    Editor: TraceTimePeriodSettingEditor,
+    includeInSubscriptionParams: true
   })
 ]);

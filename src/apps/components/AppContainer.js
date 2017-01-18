@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import classSet from 'react-classset';
 import Modal from 'react-modal';
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import AppSettingsDialog from './AppSettingsDialog';
@@ -27,9 +27,7 @@ class AppContainer extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (!newProps.asset ||
-        !newProps.asset.equals(this.props.asset) ||
-        !newProps.pageParams.equals(this.props.pageParams)) {
+    if (this.isSubscriptionChanged(newProps)) {
       if (this.props.asset) {
         this.unsubscribe(this.props);
       }
@@ -44,12 +42,25 @@ class AppContainer extends Component {
       props.id,
       this.getSubscriptionKeys(),
       props.asset.get('id'),
-      props.pageParams
+      this.getSubscriptionParams(props)
     );
   }
 
   unsubscribe(props) {
     props.onAppUnsubscribe(props.id, this.getSubscriptionKeys());
+  }
+
+  isSubscriptionChanged(newProps) {
+    return !newProps.asset ||
+           !newProps.asset.equals(this.props.asset) ||
+           !this.getSubscriptionParams(newProps).equals(this.getSubscriptionParams(this.props))
+  }
+
+  getSubscriptionParams(props) {
+    const paramsFromSettings = props.appType.settings
+      .filter(s => s.get('includeInSubscriptionParams'))
+      .map(s => [s.get('name'), props.appSettings.get(s.get('name')) || s.get('default')]);
+    return props.pageParams.merge(paramsFromSettings);
   }
   
   render() {

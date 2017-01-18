@@ -38,7 +38,7 @@ class SingleTraceApp extends Component {
   }
 
   getTrace() {
-    return find(SUPPORTED_TRACES, {trace: this.props.trace});
+    return find(SUPPORTED_TRACES, {trace: this.props.trace}) || {};
   }
 
   getLatestTrace() {
