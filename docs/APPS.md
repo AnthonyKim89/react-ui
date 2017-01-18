@@ -58,6 +58,7 @@ Every app consists of at least one React component. Add this component and its s
 * `src`
   * `apps`
     * `myApp`
+      * `constants.js`
       * `index.js`
       * `MyApp.css`
       * `MyApp.js`
@@ -67,10 +68,31 @@ Export the app's main component from the `index.js` file in the default export, 
 `src/apps/myApp/index.js`
 
     import MyApp from './MyApp';
+    import constants from './constants';
 
-    export default {AppComponent: MyApp};
+    export default {AppComponent: MyApp, constants};
 
 The main React component is the app's "public API". The app may have any number of subcomponents, helper functions, and other internal code, but all of that is an internal concern of the app.
+
+In the `constants.js` file, define at least the following minimum set of constants:
+
+`src/apps/myApp/constants.js`
+
+    export const CATEGORY = 'torqueAndDrag'; // App category
+    export const NAME = 'stress'; // App identifier (not displayed to the user)
+    export const SUBSCRIPTIONS = ['torqueAndDrag/stress']; // The data subscriptions that should be made for the app
+    export const METADATA = { // App metadata, to be shown to the user
+      title: 'Stress',
+      settingsTitle: 'Stress',
+      subtitle: '',
+      developer: {name: 'Corva', url: 'http://www.corva.ai/'},
+      version: 'v2.1',
+      publishedAt: '2016-07-01T00:00:00'
+    };
+    export const SUPPORTED_ASSET_TYPES = ['rig']; // Which asset types does the app support?
+    export const INITIAL_SIZE = {w: 2, h: 10}; // When first added to a Dashboard, what size in the grid should the app be?
+
+In `constants.js` you may of course also define any constant values that the app uses internally.
 
 Every app, both UI and control, is registered in to `appRegistry.js`. It is from this registry that the rest of the application finds the apps.
 
@@ -79,7 +101,7 @@ Every app, both UI and control, is registered in to `appRegistry.js`. It is from
 Every UI app may expect to get the following input props:
 
 * `assetId` - `number`
-* `data` - An app-specific Immutable.js data structure of the latest data from the app's subscription.
+* `data` - An Immutable.js Map of the latest data from the app's subscriptions. There will be a key in the Map for each of the subscriptions that the app makes, as defined in the app's `constants.js` (as soons as data has been received - it will be `undefined` before that!)
 * `size` - {`Size.SMALL`, `Size.MEDIUM`, `Size.LARGE`, `Size.XLARGE`} - the size the app is currently occupying in the grid. Can be used for responsive rendering.
 * `widthCols` - number - the current number of columns the app is occuping in the widget grid. Apps *should* use `size` for their responsive rendering istead of `widthCols`, but `widthCols` can be useful to react to resizing using `componentWillReceiveProps`.
 * The current values of any *app settings* supported by the app will be received as props as well. (See below).
