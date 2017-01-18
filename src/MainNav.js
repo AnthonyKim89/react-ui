@@ -79,10 +79,10 @@ class MainNav extends Component {
 }
 
 MainNav.propTypes = {
-    dashboards: ImmutablePropTypes.seq.isRequired,
-    recentAssets: ImmutablePropTypes.list.isRequired,
-    currentUser: ImmutablePropTypes.map,
-    logOut: PropTypes.func.isRequired,
+  dashboards: ImmutablePropTypes.seq.isRequired,
+  recentAssets: ImmutablePropTypes.list.isRequired,
+  currentUser: ImmutablePropTypes.map,
+  logOut: PropTypes.func.isRequired,
 }
 
 export default MainNav;

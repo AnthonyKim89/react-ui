@@ -12,13 +12,10 @@ import * as appRegistry from '../../apps/appRegistry';
 import {
   isNative,
   assetPageTabs,
-  appData,
   currentAssetPageTab,
   currentPageParams
 } from '../selectors';
 import {
-  subscribeApp,
-  unsubscribeApp,
   moveApp,
   updateAppSettings,
   addApp,
@@ -26,6 +23,7 @@ import {
   setPageParams,
 } from '../actions';
 import assets from '../../assets';
+import subscriptions from '../../subscriptions';
 
 import './AssetPage.css';
 
@@ -132,19 +130,19 @@ export default connect(
   createStructuredSelector({
     isNative,
     assetPageTabs,
-    appData,
     currentAssetPageTab,
     currentPageParams,
     currentAsset: assets.selectors.currentAsset,
+    appData: subscriptions.selectors.appData
   }),
   {
-    subscribeApp,
-    unsubscribeApp,
     moveApp,
     updateAppSettings,
     addApp,
     removeApp,
     setPageParams,
-    loadAsset: assets.actions.loadAsset
+    loadAsset: assets.actions.loadAsset,
+    subscribeApp: subscriptions.selectors.subscribeApp,
+    unsubscribeApp: subscriptions.selectors.unsubscribeApp,
   }
 )(AssetPage);

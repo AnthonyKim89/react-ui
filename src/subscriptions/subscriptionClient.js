@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 import { fromJS } from 'immutable';
 
-import * as auth from './auth';
+import * as auth from '../auth';
 
 let socket;
 

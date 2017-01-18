@@ -1,10 +1,9 @@
 import { push } from 'react-router-redux'
 
 import * as api from '../api';
-import * as subscriptions from '../subscriptions';
 import { dashboards, allAppSets } from './selectors';
 import login from '../login';
-import { subscribe, unsubscribe } from '../subscriptions';
+import subscriptions from '../subscriptions';
 
 export const START_LOAD = 'START_LOAD';
 function startLoad(isNative) {
@@ -26,41 +25,11 @@ function finishLoad(appSets) {
 export function start(isNative) {
   return async (dispatch, getState) => {
     dispatch(startLoad(isNative));
-    subscriptions.connect((...a) => dispatch(receiveAppData(...a)));
+    dispatch(subscriptions.actions.connect());
     const user = login.selectors.currentUser(getState());
     const appSets = await api.getAppSets(user.get('id'));
     dispatch(finishLoad(appSets));
   };
-}
-
-export const SUBSCRIBE_APP = 'SUBSCRIBE_APP';
-export function subscribeApp(appInstanceId, subscriptionKeys, assetId, params) {
-  return async dispatch => {
-    // Only subscribe to live data if we're not asked for a historical time point
-    if (!params.get('time')) {
-      for (const subscriptionKey of subscriptionKeys) {
-        subscribe(appInstanceId, subscriptionKey, assetId, params);
-      }
-    }
-    for (const subscriptionKey of subscriptionKeys) {
-      dispatch({type: SUBSCRIBE_APP, appInstanceId, subscriptionKey, assetId, params});
-      const initialData = await api.getAppResults(subscriptionKey, assetId, params);
-      dispatch(receiveAppData(appInstanceId, subscriptionKey, assetId, params, initialData));
-    }
-  };
-}
-
-export const UNSUBSCRIBE_APP = 'UNSUBSCRIBE_APP';
-export function unsubscribeApp(appInstanceId, subscriptionKeys) {
-  for (const subscriptionKey of subscriptionKeys) {
-    unsubscribe(appInstanceId, subscriptionKey);
-  }
-  return {type: UNSUBSCRIBE_APP, appInstanceId, subscriptionKeys};
-}
-
-export const RECEIVE_APP_DATA = 'RECEIVE_APP_DATA';
-export function receiveAppData(appInstanceId, subscriptionKey, assetId, params, data) {
-  return {type: RECEIVE_APP_DATA, appInstanceId, subscriptionKey, assetId, params, data};
 }
 
 export const MOVE_APP = 'MOVE_APP';

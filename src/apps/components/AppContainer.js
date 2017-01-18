@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import classSet from 'react-classset';
 import Modal from 'react-modal';
-import { List, Map } from 'immutable';
+import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import AppSettingsDialog from './AppSettingsDialog';

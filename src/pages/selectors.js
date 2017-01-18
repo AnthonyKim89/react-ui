@@ -58,11 +58,6 @@ export const currentPageParams = createSelector(
   (allParams, assetId) => allParams.get(assetId)
 );
 
-export const appData = createSelector(
-  stateSelector,
-  state => state.get('appData')
-);
-
 export const dashboardAppAssets = createSelector(
   assets.selectors.assets,
   currentDashboard,

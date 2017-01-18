@@ -1,9 +1,9 @@
 import { push } from 'react-router-redux';
 import queryString from 'query-string';
 import * as api from '../api';
-import * as subscriptions from '../subscriptions';
 import * as auth from '../auth';
 import pages from '../pages';
+import subscriptions from '../subscriptions';
 
 export const LOGGED_IN = 'login/LOGGED_IN';
 function loggedIn(user) {
@@ -45,7 +45,7 @@ export function logOut() {
     await api.logOut();
     dispatch(loggedOut());
     dispatch(push('/login'));
-    subscriptions.disconnect();
+    subscriptions.actions.disconnect();
   };
 }
 

@@ -6,16 +6,15 @@ import { List, Map } from 'immutable';
 import AppGrid from '../../apps/components/AppGrid';
 import DashboardAppAssetSettingEditor from './DashboardAppAssetSettingEditor';
 
-import { currentDashboard, appData, dashboardAppAssets } from '../selectors';
+import { currentDashboard, dashboardAppAssets } from '../selectors';
 import {
-  subscribeApp,
-  unsubscribeApp,
   moveApp,
   updateAppSettings,
   addApp,
   removeApp,
 } from '../actions';
 import assets from '../../assets';
+import subscriptions from '../../subscriptions';
 
 const DASHBOARD_COMMON_SETTINGS_EDITORS = List([
   Map({
@@ -89,16 +88,16 @@ class Dashboard extends Component {
 export default connect(
   createStructuredSelector({
     currentDashboard,
-    appData,
-    dashboardAppAssets
+    dashboardAppAssets,
+    appData: subscriptions.selectors.appData
   }),
   {
-    subscribeApp,
-    unsubscribeApp,
     moveApp,
     updateAppSettings,
     addApp,
     removeApp,
-    loadAsset: assets.actions.loadAsset
+    loadAsset: assets.actions.loadAsset,
+    subscribeApp: subscriptions.actions.subscribeApp,
+    unsubscribeApp: subscriptions.actions.unsubscribeApp
   }
 )(Dashboard);
