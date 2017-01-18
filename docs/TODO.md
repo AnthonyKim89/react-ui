@@ -1,14 +1,6 @@
 This list is assumed to be in priority order. Next work items will be taken from
 the top of the list unless agreed otherwise.
 
-## Asset Listings & Navigation
-
-Adds the capability for users to list rigs, wells, and drilling programs, and to navigate to them.
-
-![](mockups/wells.png)
-
-![](mockups/wells_menu.png)
-
 ## Raw Traces
 
 Shows the raw values, supports zoom, scroll, and customization.
@@ -22,6 +14,10 @@ Considered to be a component so a subset of the traces can be embedded in other 
 ## Synchronized Mouseover on charts
 
 Support a UX feature where a use can mouseover on data points in graphs, and data points from the same time are also higlighted on other graphs.
+
+## Placement of new apps
+
+When a new app is added, it currently always goes on the first empty row. Should be more clever about this, to fit on existing rows if there's room.
 
 ## Dashboard Management
 

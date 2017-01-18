@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import classSet from 'react-classset';
 import Modal from 'react-modal';
+import { Glyphicon } from 'react-bootstrap';
 import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
@@ -72,24 +73,27 @@ class AppContainer extends Component {
     };
     return (
       <div className={classSet(classes)}>
-        {this.props.maximized ?
-          <Link className="c-app-container__action c-app-container__action--size"
-                to={{pathname: this.props.location.pathname, query: {maximize: undefined}}}
-                title="Restore">
-          </Link> :
-          <Link className="c-app-container__action c-app-container__action--size"
-                to={{pathname: this.props.location.pathname, query: {maximize: this.props.id}}}
-                title="Full screen">
-          </Link>}
-        <button className="c-app-container__action c-app-container__action--settings"
-                title="Settings"
-                onClick={() => this.openSettingsDialog()}>
-        </button>
         <h4 className="c-app-container__title">{this.props.appType.constants.METADATA.title}</h4>
         {this.props.appType.constants.METADATA.subtitle &&
           <h5 className="c-app-container__subtitle">{this.props.appType.constants.METADATA.subtitle}</h5>}
         <div className="c-app-container__content">
           {this.props.children}
+        </div>
+        <div className="c-app-container__actions">
+          {this.props.maximized ?
+            <Link className="c-app-container__action"
+                  to={{pathname: this.props.location.pathname, query: {maximize: undefined}}}
+                  title="Restore">
+              <Glyphicon glyph="remove"/>
+            </Link> :
+            <Link className="c-app-container__action c-app-container__action--maximize"
+                  to={{pathname: this.props.location.pathname, query: {maximize: this.props.id}}}
+                  title="Full screen">
+            </Link>}
+          <button className="c-app-container__action c-app-container__action--settings"
+                  title="Settings"
+                  onClick={() => this.openSettingsDialog()}>
+          </button>
         </div>
         <Modal
           isOpen={this.state.settingsDialogOpen}
