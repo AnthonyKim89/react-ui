@@ -8,9 +8,21 @@ import TraceTimePeriodSettingEditor from '../TraceTimePeriodSettingEditor';
 
 export default List([
   Map({
-    name: 'trace',
-    title: 'Trace',
-    required: true,
+    name: 'trace1',
+    title: 'Trace 1',
+    required: false,
+    Editor: TraceSettingEditor
+  }),
+  Map({
+    name: 'trace2',
+    title: 'Trace 2',
+    required: false,
+    Editor: TraceSettingEditor
+  }),
+  Map({
+    name: 'trace3',
+    title: 'Trace 3',
+    required: false,
     Editor: TraceSettingEditor
   }),
   Map({

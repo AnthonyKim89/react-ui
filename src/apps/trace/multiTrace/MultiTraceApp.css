@@ -1,0 +1,95 @@
+.c-trace-multi {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.c-trace-multi__latest {
+  height: 50px;
+  position: relative;
+  margin: 5px;
+  border-bottom: 1px solid #354849;
+}
+
+.c-trace-multi__latest__trace {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 50px;
+  width: 50%;
+}
+.c-trace-multi__latest__trace-name {
+  font-family: orgonBoldRegular;
+}
+.c-trace-multi__latest__value {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  height: 50px;
+  right: 0;
+  padding-right: 30px;
+
+  font-size: 3.5rem;
+  text-align: right;
+}
+
+.c-trace-multi__latest__color-indicator {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 50px;
+}
+.c-trace-multi__latest__color-indicator-inner {
+  border-left: 20px solid transparent;
+  border-right: 20px solid green;
+  border-bottom: 15px solid transparent;
+  height: 0;
+  width: 0;
+  position: absolute;
+  right: 0px;
+  z-index: 2;
+}
+.c-trace-multi__latest__color-indicator-outer {
+  border-left: 22px solid transparent;
+  border-right: 22px solid transparent;
+  border-bottom: 22px solid transparent;
+  height: 0;
+  width: 0;
+  position: absolute;
+  right: 0px;
+  z-index: 1
+}
+
+.c-trace-multi__graph {
+  position: absolute;
+  top: 170px;
+  bottom: 90px;
+  left: 0;
+  right: 0;
+}
+
+.c-trace-multi__ranges {
+  position: absolute;
+  bottom: 0;
+  height: 90px;
+  left: 0;
+  right: 0;
+}
+
+.c-trace-multi__range {
+  height: 30px;
+  padding-top: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+}
+.c-trace-multi__range-label {
+  text-align: center;
+}
+.c-trace-multi__range-min {
+  float: left;
+}
+.c-trace-multi__range-max {
+  float: right;
+}

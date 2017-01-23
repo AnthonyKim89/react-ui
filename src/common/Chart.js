@@ -13,6 +13,7 @@ class Chart extends Component {
   }
 
   componentDidMount() {
+    const series = this.getSeries(this.props);
     const chart = Highcharts.chart(this.container, {
       chart: {
         type: 'line',
@@ -41,16 +42,7 @@ class Chart extends Component {
         },
         opposite: this.props.xAxisOpposite,
       },
-      yAxis: {
-        title: {text: null},
-        gridLineWidth: 1,
-        gridLineColor: 'rgb(47, 51, 51)',
-        labels: {
-          enabled: this.isAxisLabelsVisible(this.props),
-          style: {color: '#fff'}
-        },
-        opposite: this.props.yAxisOpposite
-      },
+      yAxis: this.getYAxes(series, this.props),
       title: {text: null},
       credits: {enabled: false},
       legend: {
@@ -60,7 +52,7 @@ class Chart extends Component {
         itemStyle: {color: '#fff'},
         enabled: true
       },
-      series: this.getSeries(this.props)
+      series
     });
     this.setState({chart});
   }
@@ -99,9 +91,15 @@ class Chart extends Component {
     let redraw = false;
     for (const series of removedSeries) {
       chart.get(series.id).remove(false);
+      if (newProps.multiAxis) {
+        chart.get(`${series.id}-axis`).remove(false);
+      }
       redraw = true;
     }
     for (const series of addedSeries) {
+      if (newProps.multiAxis) {
+        chart.addAxis(this.getYAxis(series, newProps), false);
+      }
       chart.addSeries(series, false);
       redraw = true;
     }
@@ -125,8 +123,8 @@ class Chart extends Component {
   }
 
   getSeries(props) {
-    return React.Children.toArray(props.children).map(series => {
-      const {type, title, data, color, id, yField} = series.props;
+    return this.getSeriesArray(props).map(series => {
+      const {type, title, data, color, id, yField, minValue, maxValue} = series.props;
       return {
         id,
         name: title,
@@ -136,6 +134,7 @@ class Chart extends Component {
           x: point.get(props.xField),
           y: yField ? point.get(yField) : null
         })).toJS(),
+        yAxis: this.props.multiAxis ? `${id}-axis` : 0,
         dashStyle: 'ShortDot',
         color,
         marker: {
@@ -144,13 +143,44 @@ class Chart extends Component {
         },
         lineWidth: type === 'line' ? 3 : 0,
         animation: false,
-        showInLegend: this.isLegendVisible(props)
+        showInLegend: this.isLegendVisible(props),
+        minValue,
+        maxValue
       }
     });
   }
 
+  getYAxes(allSeries, props) {
+    if (props.multiAxis) {
+      return allSeries.map(s => this.getYAxis(s, props));
+    } else if (allSeries.length) {
+      return [this.getYAxis(allSeries[0], props)];
+    } else {
+      return [];
+    }
+  }
+
+  getYAxis(series, props) {
+    return {
+      id: `${series.id}-axis`,
+      title: {text: null},
+      gridLineWidth: 1,
+      gridLineColor: 'rgb(47, 51, 51)',
+      labels: {
+        enabled: this.isAxisLabelsVisible(props),
+        style: {color: '#fff'}
+      },
+      opposite: props.yAxisOpposite,
+      min: series.minValue || null,
+      max: series.maxValue || null
+    };
+  }
+  getSeriesArray(props = this.props) {
+    return React.Children.toArray(props.children)
+  }
+
   getXAxisLabelFormatter() {
-    const formatter =this.props.xAxisLabelFormatter;
+    const formatter = this.props.xAxisLabelFormatter;
     return formatter && function() { return formatter(this.value, this.isFirst, this.isLast) }
   }
 
@@ -171,6 +201,7 @@ Chart.propTypes = {
   horizontal: PropTypes.bool,
   xAxisOpposite: PropTypes.bool,
   yAxisOpposite: PropTypes.bool,
+  multiAxis: PropTypes.bool,
   xAxisLabelformatter: PropTypes.func,
 };
 

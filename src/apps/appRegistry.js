@@ -5,6 +5,7 @@ import axialLoad from './torqueAndDrag/axialLoad';
 import stress from './torqueAndDrag/stress';
 
 import singleTrace from './trace/singleTrace';
+import multiTrace from './trace/multiTrace';
 
 import wellTimeline from './wellTimeline';
 
@@ -23,7 +24,8 @@ export const uiApps = Map({
     title: 'Trace',
     subtitle: '',
     appTypes: Map({
-      singleTrace
+      singleTrace,
+      multiTrace
     })
   })
 });

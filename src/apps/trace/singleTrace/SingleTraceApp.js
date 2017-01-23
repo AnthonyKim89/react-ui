@@ -5,7 +5,8 @@ import { List } from 'immutable';
 import numeral from 'numeral';
 import { parse as parseTime, distanceInWordsToNow } from 'date-fns';
 
-import { SUPPORTED_TRACES, SUPPORTED_CHART_SERIES } from './constants';
+import { SUPPORTED_CHART_SERIES } from './constants';
+import { SUPPORTED_TRACES } from '../constants';
 
 import Chart from '../../../common/Chart';
 import ChartSeries from '../../../common/ChartSeries';
