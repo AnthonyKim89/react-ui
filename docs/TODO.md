@@ -11,6 +11,10 @@ Considered to be a component so a subset of the traces can be embedded in other 
 
 ![](mockups/mobile_warning_scrolled.PNG)
 
+## MS Edge Support
+
+Make sure Edge is fully supported. Currently we have hitting at least one Edge bug: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/8546263/
+
 ## Synchronized Mouseover on charts
 
 Support a UX feature where a use can mouseover on data points in graphs, and data points from the same time are also higlighted on other graphs.
