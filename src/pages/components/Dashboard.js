@@ -6,7 +6,7 @@ import { List, Map } from 'immutable';
 import AppGrid from '../../apps/components/AppGrid';
 import DashboardAppAssetSettingEditor from './DashboardAppAssetSettingEditor';
 
-import { currentDashboard, dashboardAppAssets } from '../selectors';
+import { currentDashboard, dashboardAppAssets, isNative } from '../selectors';
 import {
   moveApp,
   updateAppSettings,
@@ -59,7 +59,8 @@ class Dashboard extends Component {
                    onAppSettingsUpdate={(...a) => this.onAppSettingsUpdate(...a)}
                    onAppAdd={(...a) => this.onAppAdd(...a)}
                    onAppRemove={(...a) => this.onAppRemove(...a)}
-                   location={this.props.location} />}
+                   location={this.props.location}
+                   isNative={this.props.isNative} />}
       </div>
     );
   }
@@ -89,7 +90,8 @@ export default connect(
   createStructuredSelector({
     currentDashboard,
     dashboardAppAssets,
-    appData: subscriptions.selectors.appData
+    appData: subscriptions.selectors.appData,
+    isNative
   }),
   {
     moveApp,

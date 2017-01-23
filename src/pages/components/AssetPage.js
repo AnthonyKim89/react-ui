@@ -61,7 +61,8 @@ class AssetPage extends Component {
                    onAppAdd={(...a) => this.onAppAdd(...a)}
                    onAppRemove={(...a) => this.onAppRemove(...a)}
                    pageParams={this.props.currentPageParams}
-                   location={this.props.location} />}
+                   location={this.props.location}
+                   isNative={this.props.isNative} />}
         {!this.props.isNative &&
           <AssetTabBar assetId={this.getAssetId()}
                        assetPageTabs={this.props.assetPageTabs}
@@ -142,7 +143,7 @@ export default connect(
     removeApp,
     setPageParams,
     loadAsset: assets.actions.loadAsset,
-    subscribeApp: subscriptions.selectors.subscribeApp,
-    unsubscribeApp: subscriptions.selectors.unsubscribeApp,
+    subscribeApp: subscriptions.actions.subscribeApp,
+    unsubscribeApp: subscriptions.actions.unsubscribeApp,
   }
 )(AssetPage);

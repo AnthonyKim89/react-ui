@@ -21,9 +21,10 @@
 .c-app-container__title, .c-app-container__subtitle {
   margin: 0;
   color:rgb(200, 200, 200);
+}
+.c-app-container--editable .c-app-container__title, .c-app-container--editable .c-app-container__subtitle {
   cursor: move;
 }
-
 .c-app-container__content {
   position: absolute;
   left: 10px;

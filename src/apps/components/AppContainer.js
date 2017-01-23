@@ -69,7 +69,8 @@ class AppContainer extends Component {
       'c-app-container': true,
       'c-app-container--maximized': this.props.maximized,
       'c-app-container--with-title': this.props.appType.constants.METADATA.title,
-      'c-app-container--with-subtitle': this.props.appType.constants.METADATA.subtitle
+      'c-app-container--with-subtitle': this.props.appType.constants.METADATA.subtitle,
+      'c-app-container--movable': !this.props.isNative
     };
     return (
       <div className={classSet(classes)}>
@@ -90,10 +91,11 @@ class AppContainer extends Component {
                   to={{pathname: this.props.location.pathname, query: {maximize: this.props.id}}}
                   title="Full screen">
             </Link>}
-          <button className="c-app-container__action c-app-container__action--settings"
-                  title="Settings"
-                  onClick={() => this.openSettingsDialog()}>
-          </button>
+          {(!this.props.isNative || this.props.maximized) &&
+            <button className="c-app-container__action c-app-container__action--settings"
+                    title="Settings"
+                    onClick={() => this.openSettingsDialog()}>
+            </button>}
         </div>
         <Modal
           isOpen={this.state.settingsDialogOpen}
@@ -142,6 +144,7 @@ AppContainer.propTypes = {
   asset: ImmutablePropTypes.map,
   appType: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
+  isNative: PropTypes.bool.isRequired,
   maximized: PropTypes.bool,
   appSettings: ImmutablePropTypes.map.isRequired,
   pageParams: ImmutablePropTypes.map.isRequired,

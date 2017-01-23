@@ -53,20 +53,22 @@ class AppGrid extends Component {
           {this.renderGridApps()}
         </GridLayout>
         {this.renderMaximizedApp()}
-        <Button onClick={() => this.openAddAppDialog()} className="c-app-grid__add-app">
-          <Glyphicon glyph="plus" /> Add App
-        </Button>
-        <Modal
-          isOpen={this.state.addAppDialogOpen}
-          onRequestClose={() => this.closeAddAppDialog()}
-          style={addAppModalStyles}
-          contentLabel="Add App to Dashboard">
-          <AddAppDialog
-            appTypes={appRegistry.uiApps}
-            commonSettingsEditors={this.props.commonSettingsEditors}
-            onAppAdd={(type, settings) => this.addApp(type, settings)}
-            onClose={() => this.closeAddAppDialog()} />
-        </Modal>
+        {!this.props.isNative &&
+          <Button onClick={() => this.openAddAppDialog()} className="c-app-grid__add-app">
+            <Glyphicon glyph="plus" /> Add App
+          </Button>}
+        {!this.props.isNative &&
+          <Modal
+            isOpen={this.state.addAppDialogOpen}
+            onRequestClose={() => this.closeAddAppDialog()}
+            style={addAppModalStyles}
+            contentLabel="Add App to Dashboard">
+            <AddAppDialog
+              appTypes={appRegistry.uiApps}
+              commonSettingsEditors={this.props.commonSettingsEditors}
+              onAppAdd={(type, settings) => this.addApp(type, settings)}
+              onClose={() => this.closeAddAppDialog()} />
+          </Modal>}
       </div>
     );
   }
@@ -105,6 +107,7 @@ class AppGrid extends Component {
     return <AppContainer id={id}
                          appType={appType}
                          asset={this.props.appAssets.get(id)}
+                         isNative={this.props.isNative}
                          maximized={maximized}
                          appSettings={settings}
                          pageParams={this.getPageParams()}
@@ -180,6 +183,7 @@ AppGrid.propTypes = {
   onAppAdd: PropTypes.func.isRequired,
   onAppRemove: PropTypes.func.isRequired,
   location: PropTypes.object,
+  isNative: PropTypes.bool.isRequired
 };
 
 export default AppGrid;

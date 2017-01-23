@@ -41,7 +41,7 @@ export default function(state = initialState, action) {
     case t.START_LOAD:
       return state.merge({
         isLoading: true,
-        isNative: action.isNative
+        isNative: action.isNative || false
       });
     case t.FINISH_LOAD:
       return state.merge({

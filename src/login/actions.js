@@ -57,6 +57,6 @@ export function loginCheck() {
     }
     const user = await api.getCurrentUser();
     dispatch(loggedIn(user));
-    dispatch(pages.actions.start(qry.native));
+    dispatch(pages.actions.start(!!qry.native));
   };
 }
