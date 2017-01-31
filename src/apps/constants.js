@@ -11,8 +11,8 @@ export const GRID_BREAKPOINTS = {
 // How wide the grid is, in columns, for each of the supported screen sizes.
 // The pixel sizes of columns are dynamic, based on current screen width.
 export const GRID_COLUMN_SIZES = {
-  large: 8,
-  medium: 4,
+  large: 12,
+  medium: 8,
   small: 1
 };
 

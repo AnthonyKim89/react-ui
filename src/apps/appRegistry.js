@@ -1,8 +1,12 @@
 import { List, Map } from 'immutable';
 
-import broomstick from './torqueAndDrag/broomstick';
-import axialLoad from './torqueAndDrag/axialLoad';
-import stress from './torqueAndDrag/stress';
+import tndOverview from './torqueAndDrag/overview';
+import tndBroomstick from './torqueAndDrag/broomstick';
+import tndAxialLoad from './torqueAndDrag/axialLoad';
+import tndDownholeTransfer from './torqueAndDrag/downholeTransfer';
+import tndFrictionFactor from './torqueAndDrag/frictionFactor';
+import tndStress from './torqueAndDrag/stress';
+import tndTorque from './torqueAndDrag/torque';
 
 import singleTrace from './trace/singleTrace';
 import multiTrace from './trace/multiTrace';
@@ -15,9 +19,13 @@ export const uiApps = Map({
     title: 'Torque & Drag',
     subtitle: 'Downhole torque and drag',
     appTypes: Map({
-      broomstick,
-      axialLoad,
-      stress
+      overview: tndOverview,
+      broomstick: tndBroomstick,
+      axialLoad: tndAxialLoad,
+      downholeTransfer: tndDownholeTransfer,
+      frictionFactor: tndFrictionFactor,
+      stress: tndStress,
+      torque: tndTorque
     })
   }),
   trace: Map({
