@@ -6,6 +6,7 @@ import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
 import Chart from '../../../common/Chart';
 import ChartSeries from '../../../common/ChartSeries';
 import LoadingIndicator from '../../../common/LoadingIndicator';
+import subscriptions from '../../../subscriptions';
 
 import './BroomstickApp.css'
 
@@ -41,7 +42,7 @@ class BroomstickApp extends Component {
   }
 
   getData() {
-    return this.props.data && this.props.data.get(SUBSCRIPTIONS[0]);
+    return subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS);
   }
 
   getSeries() {

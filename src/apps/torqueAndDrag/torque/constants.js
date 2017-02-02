@@ -1,6 +1,8 @@
 export const CATEGORY = 'torqueAndDrag';
 export const NAME = 'torque';
-export const SUBSCRIPTIONS = ['torqueAndDrag/torque'];
+export const SUBSCRIPTIONS = [
+  {appKey: 'corva.torque_and_drag.torque', collection: 'results'}
+];
 export const METADATA = {
   title: 'Torque Trend',
   settingsTitle: 'Torque Trend',

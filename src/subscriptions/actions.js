@@ -16,27 +16,27 @@ export function subscribeApp(appInstanceId, subscriptionKeys, assetId, params) {
   return async dispatch => {
     // Only subscribe to live data if we're not asked for a historical time point
     if (!params.get('time')) {
-      for (const subscriptionKey of subscriptionKeys) {
-        client.subscribe(appInstanceId, subscriptionKey, assetId, params);
+      for (const {appKey, collection} of subscriptionKeys) {
+        client.subscribe(appInstanceId, appKey, collection, assetId, params);
       }
     }
-    for (const subscriptionKey of subscriptionKeys) {
-      dispatch({type: SUBSCRIBE_APP, appInstanceId, subscriptionKey, assetId, params});
-      const initialData = await api.getAppResults(subscriptionKey, assetId, params);
-      dispatch(receiveAppData(appInstanceId, subscriptionKey, assetId, params, initialData));
+    for (const {appKey, collection} of subscriptionKeys) {
+      dispatch({type: SUBSCRIBE_APP, appInstanceId, appKey, collection, assetId, params});
+      const initialData = await api.getAppResults(appKey, collection, assetId, params);
+      dispatch(receiveAppData(appInstanceId, appKey, collection, assetId, params, initialData));
     }
   };
 }
 
 export const UNSUBSCRIBE_APP = 'UNSUBSCRIBE_APP';
 export function unsubscribeApp(appInstanceId, subscriptionKeys) {
-  for (const subscriptionKey of subscriptionKeys) {
-    client.unsubscribe(appInstanceId, subscriptionKey);
+  for (const {appKey, collection} of subscriptionKeys) {
+    client.unsubscribe(appInstanceId, appKey, collection);
   }
   return {type: UNSUBSCRIBE_APP, appInstanceId, subscriptionKeys};
 }
 
 export const RECEIVE_APP_DATA = 'RECEIVE_APP_DATA';
-export function receiveAppData(appInstanceId, subscriptionKey, assetId, params, data) {
-  return {type: RECEIVE_APP_DATA, appInstanceId, subscriptionKey, assetId, params, data};
+export function receiveAppData(appInstanceId, appKey, collection, assetId, params, data) {
+  return {type: RECEIVE_APP_DATA, appInstanceId, appKey, collection, assetId, params, data};
 }

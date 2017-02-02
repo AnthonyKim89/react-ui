@@ -8,7 +8,8 @@ it('stores information about subscriptions by app instance id and subscription k
     {
       type: actions.SUBSCRIBE_APP,
       appInstanceId: 'instanceId',
-      subscriptionKey: 'sub',
+      appKey: 'corva.torque_and_drag.overview',
+      collection: 'results',
       assetId: 'asset',
       params: {}
     }
@@ -16,9 +17,11 @@ it('stores information about subscriptions by app instance id and subscription k
 
   expect(state.get('appSubscriptions').toJS()).toEqual({
     instanceId: {
-      sub: {
-        assetId: 'asset',
-        params: {}
+      'corva.torque_and_drag.overview': {
+        results: {
+          assetId: 'asset',
+          params: {}
+        }
       }
     }
   });
@@ -29,30 +32,35 @@ it('unsubscribes all given subscription keys but not others', () => {
     fromJS({
       appSubscriptions: {
         instance1: {
-          sub1: {},
-          sub2: {},
-          sub3: {}
+          'corva.torque_and_drag.overview': {results: {}},
+          'corva.torque_and_drag.torque': {results: {}},
+          'corva.torque_and_drag.drag': {results: {}}
         },
         instance2: {
-          sub1: {},
-          sub2: {}
+          'corva.torque_and_drag.overview': {results: {}},
+          'corva.torque_and_drag.torque': {results: {}}
         }
       }
     }),
     {
       type: actions.UNSUBSCRIBE_APP,
       appInstanceId: 'instance1',
-      subscriptionKeys: ['sub1', 'sub2']
+      subscriptionKeys: [
+        {appKey: 'corva.torque_and_drag.overview', collection: 'results'},
+        {appKey: 'corva.torque_and_drag.torque', collection: 'results'}
+      ]
     }
   );
 
   expect(state.get('appSubscriptions').toJS()).toEqual({
     instance1: {
-      sub3: {}
+      'corva.torque_and_drag.overview': {},
+      'corva.torque_and_drag.torque': {},
+      'corva.torque_and_drag.drag': {results: {}}
     },
     instance2: {
-      sub1: {},
-      sub2: {}
+      'corva.torque_and_drag.overview': {results: {}},
+      'corva.torque_and_drag.torque': {results: {}}
     }
   });
 });
@@ -63,9 +71,11 @@ it('stores app subscription data by app key and subscription id', () => {
     fromJS({
       appSubscriptions: {
         instanceId: {
-          sub: {
-            assetId: 'asset',
-            params: {}
+          'corva.torque_and_drag.overview': {
+            results: {
+              assetId: 'asset',
+              params: {}
+            }
           }
         }
       }
@@ -73,7 +83,8 @@ it('stores app subscription data by app key and subscription id', () => {
     {
       type: actions.RECEIVE_APP_DATA,
       appInstanceId: 'instanceId',
-      subscriptionKey: 'sub',
+      appKey: 'corva.torque_and_drag.overview',
+      collection: 'results',
       assetId: 'asset',
       params: fromJS({}),
       data: {some: 'data'}
@@ -82,7 +93,7 @@ it('stores app subscription data by app key and subscription id', () => {
 
   expect(state.get('appData').toJS()).toEqual({
     instanceId: {
-      sub: {some: 'data'}
+      'corva.torque_and_drag.overview': {results: {some: 'data'}}
     }
   });
 });

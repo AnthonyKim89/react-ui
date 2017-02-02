@@ -130,10 +130,10 @@ export async function getActiveChildAsset(id) {
   return fromJS(data);
 }
 
-export async function getAppResults(appKey, assetId, params = Map()) {
-  const qry = queryString(params.toJS());
-  const data = await get(`/v1/apps/${appKey}/results/${assetId}?${qry}`);
-  return fromJS(data);
+export async function getAppResults(appKey, collection, assetId, params = Map()) {
+  const qry = queryString(params.merge({asset_id: assetId}).toJS());
+  const data = await get(`/v1/app_storage/${appKey}/${collection}?${qry}`);
+  return fromJS(data).first();
 }
 
 

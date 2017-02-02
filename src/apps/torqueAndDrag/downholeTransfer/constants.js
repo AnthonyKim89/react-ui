@@ -1,6 +1,8 @@
 export const CATEGORY = 'torqueAndDrag';
 export const NAME = 'downholeTransfer';
-export const SUBSCRIPTIONS = ['torqueAndDrag/downholeTransfer'];
+export const SUBSCRIPTIONS = [
+  {appKey: 'corva.torque_and_drag.downhole_transfer', collection: 'results'}
+];
 export const METADATA = {
   title: 'Downhole Transfer',
   settingsTitle: 'Downhole Transfer',

@@ -4,6 +4,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import { SUBSCRIPTIONS } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
+import subscriptions from '../../../subscriptions';
 
 import './DownholeTransferApp.css'
 
@@ -79,7 +80,7 @@ class DownholeTransferApp extends Component {
   }
 
   getSubscriptionData() {
-    return this.props.data && this.props.data.get(SUBSCRIPTIONS[0]);
+    return subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS);
   }
 
 }

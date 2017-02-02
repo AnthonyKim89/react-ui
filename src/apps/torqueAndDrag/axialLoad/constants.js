@@ -1,6 +1,8 @@
 export const CATEGORY = 'torqueAndDrag';
 export const NAME = 'axialLoad';
-export const SUBSCRIPTIONS = ['torqueAndDrag/axialLoad'];
+export const SUBSCRIPTIONS = [
+  {appKey: 'corva.torque_and_drag.axial_load', collection: 'results'}
+];
 export const METADATA = {
   title: 'Axial Load',
   settingsTitle: 'Axial Load',

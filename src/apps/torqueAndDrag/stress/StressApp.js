@@ -5,6 +5,7 @@ import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
 import Chart from '../../../common/Chart';
 import ChartSeries from '../../../common/ChartSeries';
 import LoadingIndicator from '../../../common/LoadingIndicator';
+import subscriptions from '../../../subscriptions';
 
 import './StressApp.css'
 
@@ -13,7 +14,7 @@ class StressApp extends Component {
   render() {
     return (
       <div className="c-tnd-stress">
-        {this.props.data && this.props.data.get(SUBSCRIPTIONS[0]) ?
+        {subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS) ?
           <Chart
             xField="measured_depth"
             size={this.props.size}
@@ -44,7 +45,7 @@ class StressApp extends Component {
       renderType: 'line',
       title: field,
       field,
-      data: this.props.data.getIn([SUBSCRIPTIONS[0], 'data', 'points'])
+      data: subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'points'])
     };
   }
 

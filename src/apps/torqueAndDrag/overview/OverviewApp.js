@@ -5,6 +5,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { SUBSCRIPTIONS } from './constants';
 import Gauge from '../../../common/Gauge';
 import LoadingIndicator from '../../../common/LoadingIndicator';
+import subscriptions from '../../../subscriptions';
 
 import './OverviewApp.css'
 
@@ -13,7 +14,7 @@ class OverviewApp extends Component {
   render() {
     return (
       <div className="c-tnd-overview">
-        {this.props.data && this.props.data.get(SUBSCRIPTIONS[0]) ?
+        {subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS) ?
           <Grid fluid>
             <Row>
               <Col md={6} xs={12}  className="c-tnd-overview__gauge">
@@ -48,11 +49,11 @@ class OverviewApp extends Component {
   }
 
   getWeightTransferGaugeValue() {
-    return this.getGaugeValue(this.props.data.getIn([SUBSCRIPTIONS[0], 'data', 'weight_transfer']));
+    return this.getGaugeValue(subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'weight_transfer']));
   }
 
   getDragGaugeValue() {
-    return this.getGaugeValue(this.props.data.getIn([SUBSCRIPTIONS[0], 'data', 'drag', 'severity']));
+    return this.getGaugeValue(subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'drag', 'severity']));
   }
 
   getGaugeValue(severity) {

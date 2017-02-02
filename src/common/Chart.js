@@ -185,7 +185,7 @@ class Chart extends Component {
   }
 
   isLegendVisible(props) {
-    return props.size === Size.XLARGE || props.size === Size.LARGE;
+    return props.size === Size.XLARGE;
   }
 
   isAxisLabelsVisible(props) {

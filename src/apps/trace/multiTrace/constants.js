@@ -1,6 +1,9 @@
 export const CATEGORY = 'trace';
 export const NAME = 'multiTrace';
-export const SUBSCRIPTIONS = ['wits/raw', 'wits/summary30Seconds'];
+export const SUBSCRIPTIONS = [
+  {appKey: 'corva.source.witsml', collection: 'raw'},
+  {appKey: 'corva.source.witsml', collection: 'summary_30_seconds'}
+];
 export const METADATA = {
   settingsTitle: 'Multi-Trace',
   subtitle: '',
