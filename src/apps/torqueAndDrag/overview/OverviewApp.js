@@ -16,13 +16,17 @@ class OverviewApp extends Component {
         {this.props.data && this.props.data.get(SUBSCRIPTIONS[0]) ?
           <Grid fluid>
             <Row>
-              <Col md={6} xs={12}>
-                <h3>Weight Transfer</h3>
-                <Gauge widthCols={this.props.widthCols} />
+              <Col md={6} xs={12}  className="c-tnd-overview__gauge">
+                <h4 className="c-tnd-overview__gauge-title">Weight Transfer</h4>
+                <Gauge widthCols={this.props.widthCols}
+                       bands={this.getGaugeBands()}
+                       value={this.getWeightTransferGaugeValue()} />
               </Col>
-              <Col md={6} xs={12}>
-                <h3>Drag</h3>
-                <Gauge widthCols={this.props.widthCols} />
+              <Col md={6} xs={12}  className="c-tnd-overview__gauge">
+                <h4 className="c-tnd-overview__gauge-title">Drag</h4>
+                <Gauge widthCols={this.props.widthCols}
+                       bands={this.getGaugeBands()}
+                       value={this.getDragGaugeValue()} />
               </Col>
             </Row>
             <Row>
@@ -35,6 +39,30 @@ class OverviewApp extends Component {
     );
   }
 
+  getGaugeBands() {
+    return {
+      red:    {from: 0,  to: 10},
+      yellow: {from: 10, to: 20},
+      green:  {from: 20, to: 30}
+    };
+  }
+
+  getWeightTransferGaugeValue() {
+    return this.getGaugeValue(this.props.data.getIn([SUBSCRIPTIONS[0], 'data', 'weight_transfer']));
+  }
+
+  getDragGaugeValue() {
+    return this.getGaugeValue(this.props.data.getIn([SUBSCRIPTIONS[0], 'data', 'drag', 'severity']));
+  }
+
+  getGaugeValue(severity) {
+    switch (severity) {
+      case 'low': return 5;
+      case 'moderate': return 15;
+      case 'high': return 25;
+      default: return null;
+    }
+  }
 }
 
 OverviewApp.propTypes = {

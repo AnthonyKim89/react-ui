@@ -5,3 +5,11 @@
   width: 100%;
   height: 100%;
 }
+
+.c-tnd-overview__gauge {
+  padding-top: 1.5rem;
+}
+
+.c-tnd-overview__gauge-title {
+  text-align: center;
+}

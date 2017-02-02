@@ -41,19 +41,19 @@ class Gauge extends Component {
           enabled: false
         },
         plotBands: [{
-          from: 0,
-          to: 10,
-          color: 'rgb(132, 191, 85)', // green
+          from: this.props.bands.green.from,
+          to: this.props.bands.green.to,
+          color: 'rgb(132, 191, 85)',
           thickness: 30
         }, {
-          from: 10,
-          to: 20,
-          color: 'rgb(234, 202, 69)', // yellow
+          from: this.props.bands.yellow.from,
+          to: this.props.bands.yellow.to,
+          color: 'rgb(234, 202, 69)',
           thickness: 30
         }, {
-          from: 20,
-          to: 30,
-          color: 'rgb(255, 40, 79)', // red
+          from: this.props.bands.red.from,
+          to: this.props.bands.red.to,
+          color: 'rgb(255, 40, 79)',
           thickness: 30
         }]
       },
@@ -68,48 +68,32 @@ class Gauge extends Component {
           pivot: {
             backgroundColor: 'white',
             radius: 15
-          }
+          },
         }
       },
       series: [{
-        name: 'Speed',
-        data: [15],
+        data: [{id: 'pt', y: this.props.value}],
         dataLabels: []
       }],
       title: {text: null},
-      credits: {enabled: false}
+      credits: {enabled: false},
+      tooltip: {enabled: false}
     });
     this.setState({chart});
   }
 
   componentWillReceiveProps(newProps) {
-    /*const chart = this.state.chart;
-    let redraw = false, reflow = false;
-    if (newProps.size !== this.props.size) {
-      const legendVisible = this.isLegendVisible(newProps);
-      for (let i = 0 ; i < chart.series.length ; i++) {
-        chart.series[i].update({showInLegend: legendVisible}, false);
-      }
-      chart.xAxis[0].update({
-        labels: {enabled: this.isAxisLabelsVisible(newProps)}
-      }, false);
-      chart.yAxis[0].update({
-        labels: {enabled: this.isAxisLabelsVisible(newProps)}
-      }, false);
-      reflow = true;
-      redraw = true;
-    } else if (newProps.widthCols !== this.props.widthCols) {
-      reflow = true;
-    }
-    redraw = this.diffPatchSeries(newProps) || redraw;
-    if (reflow) { chart.reflow(); }
-    if (redraw) { chart.redraw(false); }*/
+    const chart = this.state.chart;
+    const point = chart.get('pt');
+    point.update({y: newProps.value});
   }
 
 }
 
 Gauge.propTypes = {
   widthCols: PropTypes.number.isRequired,
+  bands: PropTypes.object.isRequired,
+  value: PropTypes.number.isRequired
 };
 
 export default Gauge;
