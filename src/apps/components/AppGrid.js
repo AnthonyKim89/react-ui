@@ -80,7 +80,8 @@ class AppGrid extends Component {
       .filter(app => app.get('id') !== maximizedId)
       .map(app => {
         const id = app.get('id');
-        const coordinates = app.get('coordinates');
+        const coordinates = app.get('coordinates')
+          .set('isDraggable', !this.props.isNative);
         return <div key={id} data-grid={coordinates.toJS()}>
           {this.renderApp(app)}
         </div>
