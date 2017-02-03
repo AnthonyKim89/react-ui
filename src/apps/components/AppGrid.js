@@ -9,6 +9,7 @@ import AppContainer from './AppContainer';
 import AddAppDialog from './addApp/AddAppDialog';
 import { GRID_BREAKPOINTS, GRID_COLUMN_SIZES, GRID_ROW_HEIGHT } from '../constants';
 import common from '../../common';
+import subscriptions from '../../subscriptions';
 import * as appRegistry from '../appRegistry';
 
 import 'react-grid-layout/css/styles.css';
@@ -101,13 +102,16 @@ class AppGrid extends Component {
     const name = app.get('name');
     const id = app.get('id');
     const coordinates = app.get('coordinates');
+    const size = this.getAppSize(coordinates, maximized);
     const settings = app.get('settings');
     const appType = appRegistry.uiApps.getIn([category, 'appTypes', name]);
     const appData = this.props.appData.get(id);
     return <AppContainer id={id}
                          appType={appType}
                          asset={this.props.appAssets.get(id)}
+                         lastDataUpdate={subscriptions.selectors.lastDataUpdate(appData)}
                          isNative={this.props.isNative}
+                         size={size}
                          maximized={maximized}
                          appSettings={settings}
                          pageParams={this.getPageParams()}
@@ -121,7 +125,7 @@ class AppGrid extends Component {
         data={appData}
         {...this.getPageParams().toJS()}
         {...settings.toObject()}
-        size={this.getAppSize(coordinates, maximized)}
+        size={size}
         widthCols={coordinates.get('w')} />
     </AppContainer>
   }

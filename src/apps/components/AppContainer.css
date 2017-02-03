@@ -39,6 +39,15 @@
   top: 50px;
 }
 
+
+.c-app-container__last-update {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 10px;
+  color:rgb(200, 200, 200);
+}
+
 .c-app-container__actions {
   position: absolute;
   bottom: 0;

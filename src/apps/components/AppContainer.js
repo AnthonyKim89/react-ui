@@ -4,9 +4,11 @@ import classSet from 'react-classset';
 import Modal from 'react-modal';
 import { Glyphicon } from 'react-bootstrap';
 import { List } from 'immutable';
+import { format as formatDate } from 'date-fns';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import AppSettingsDialog from './AppSettingsDialog';
+import common from '../../common';
 
 import './AppContainer.css';
 
@@ -80,6 +82,10 @@ class AppContainer extends Component {
         <div className="c-app-container__content">
           {this.props.children}
         </div>
+        {this.isLastDataUpdateVisible() &&
+          <div className="c-app-container__last-update">
+            Last Update: {this.formatLastDataUpdate()}
+          </div>}
         <div className="c-app-container__actions">
           {this.props.maximized ?
             <Link className="c-app-container__action"
@@ -114,6 +120,15 @@ class AppContainer extends Component {
     );
   }
 
+  isLastDataUpdateVisible() {
+    return this.props.lastDataUpdate && this.props.size !== common.constants.Size.SMALL;
+  }
+
+  formatLastDataUpdate() {
+    const date = new Date(this.props.lastDataUpdate * 1000);
+    return formatDate(date, 'M/D/YYYY h:mm a');
+  }
+
   getSettingsEditors() {
     const common = this.props.commonSettingsEditors || List();
     const forAppType = this.props.appType.settings || List();
@@ -143,8 +158,10 @@ AppContainer.propTypes = {
   id: PropTypes.number.isRequired,
   asset: ImmutablePropTypes.map,
   appType: PropTypes.object.isRequired,
+  lastDataUpdate: PropTypes.number,
   location: PropTypes.object.isRequired,
   isNative: PropTypes.bool.isRequired,
+  size: PropTypes.string.isRequired,
   maximized: PropTypes.bool,
   appSettings: ImmutablePropTypes.map.isRequired,
   pageParams: ImmutablePropTypes.map.isRequired,
