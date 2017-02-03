@@ -15,9 +15,9 @@ class FrictionFactorApp extends Component {
       <div className="c-tnd-friction-factor">
         {this.getData() ?
           <Grid fluid>
-            {this.renderFactor('Casing FF', 'casing_friction_factor')}
-            {this.renderFactor('Open Hole Slackoff FF', 'open_hole_slackoff_friction_factor')}
-            {this.renderFactor('Open Hole Pickup FF', 'open_hole_pickup_friction_factor')}
+            {this.renderFactor('Casing', 'casing')}
+            {this.renderFactor('Open Hole Slackoff', 'open_hole_slackoff')}
+            {this.renderFactor('Open Hole Pickup', 'open_hole_pickup')}
           </Grid> :
           <LoadingIndicator />}
       </div>
