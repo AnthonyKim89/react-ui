@@ -14,7 +14,7 @@ import * as appRegistry from '../appRegistry';
 
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import './AppGrid.css';
+import './AppGridLayout.css';
 
 // Elements matching this selector won't be used by react-grid-layout to trigger drag events
 const NON_DRAGGABLE_ELEMENT_SELECTOR = 'button, a';
@@ -35,7 +35,7 @@ const addAppModalStyles = {
   }
 };
 
-class AppGrid extends Component {
+class AppGridLayout extends Component {
 
   constructor(props) {
     super(props);
@@ -44,7 +44,7 @@ class AppGrid extends Component {
 
   render() {
     return (
-      <div className="c-app-grid">
+      <div className="c-app-grid-layout">
         <GridLayout breakpoints={GRID_BREAKPOINTS}
                     cols={GRID_COLUMN_SIZES}
                     rowHeight={GRID_ROW_HEIGHT}
@@ -175,7 +175,7 @@ class AppGrid extends Component {
 
 }
 
-AppGrid.propTypes = {
+AppGridLayout.propTypes = {
   apps: ImmutablePropTypes.seq.isRequired,
   appData: ImmutablePropTypes.map.isRequired,
   appAssets: ImmutablePropTypes.map.isRequired,
@@ -191,4 +191,4 @@ AppGrid.propTypes = {
   isNative: PropTypes.bool.isRequired
 };
 
-export default AppGrid;
+export default AppGridLayout;

@@ -86,23 +86,24 @@ class AppContainer extends Component {
           <div className="c-app-container__last-update">
             Last Update: {this.formatLastDataUpdate()}
           </div>}
-        <div className="c-app-container__actions">
-          {this.props.maximized ?
-            <Link className="c-app-container__action"
-                  to={{pathname: this.props.location.pathname, query: {maximize: undefined}}}
-                  title="Restore">
-              <Glyphicon glyph="remove"/>
-            </Link> :
-            <Link className="c-app-container__action c-app-container__action--maximize"
-                  to={{pathname: this.props.location.pathname, query: {maximize: this.props.id}}}
-                  title="Full screen">
-            </Link>}
-          {(!this.props.isNative || this.props.maximized) &&
-            <button className="c-app-container__action c-app-container__action--settings"
-                    title="Settings"
-                    onClick={() => this.openSettingsDialog()}>
-            </button>}
-        </div>
+        {!this.props.isActionsDisabled &&
+          <div className="c-app-container__actions">
+            {this.props.maximized ?
+              <Link className="c-app-container__action"
+                    to={{pathname: this.props.location.pathname, query: {maximize: undefined}}}
+                    title="Restore">
+                <Glyphicon glyph="remove"/>
+              </Link> :
+              <Link className="c-app-container__action c-app-container__action--maximize"
+                    to={{pathname: this.props.location.pathname, query: {maximize: this.props.id}}}
+                    title="Full screen">
+              </Link>}
+            {(!this.props.isNative || this.props.maximized) &&
+              <button className="c-app-container__action c-app-container__action--settings"
+                      title="Settings"
+                      onClick={() => this.openSettingsDialog()}>
+              </button>}
+          </div>}
         <Modal
           isOpen={this.state.settingsDialogOpen}
           onRequestClose={() => this.closeSettingsDialog()}
@@ -161,6 +162,7 @@ AppContainer.propTypes = {
   lastDataUpdate: PropTypes.number,
   location: PropTypes.object.isRequired,
   isNative: PropTypes.bool.isRequired,
+  isActionsDisabled: PropTypes.bool,
   size: PropTypes.string.isRequired,
   maximized: PropTypes.bool,
   appSettings: ImmutablePropTypes.map.isRequired,

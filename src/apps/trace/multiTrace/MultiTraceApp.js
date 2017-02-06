@@ -130,7 +130,7 @@ class MultiTraceApp extends Component {
   }
 
   getLatestTraceRecord() {
-    return this.props.data && this.props.data.get(['corva.source.witsml', 'raw']);
+    return this.props.data && this.props.data.getIn(['corva.source.witsml', 'raw']);
   }
 
   getLatestTraceValue(trace) {

@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { List, Map } from 'immutable';
 
-import AppGrid from '../../apps/components/AppGrid';
+import AppGridLayout from '../../apps/components/AppGridLayout';
+import AppSingleLayout from '../../apps/components/AppSingleLayout';
 import DashboardAppAssetSettingEditor from './DashboardAppAssetSettingEditor';
 
 import { currentDashboard, dashboardAppAssets, isNative } from '../selectors';
@@ -46,21 +47,24 @@ class Dashboard extends Component {
   }
 
   render() {
+    const AppLayout = this.props.currentDashboard && this.props.currentDashboard.get('layout') === 'singleApp' ?
+      AppSingleLayout :
+      AppGridLayout;
     return (
       <div className="c-dashboard" >
         {this.props.currentDashboard &&
-          <AppGrid apps={this.props.currentDashboard.get('apps').valueSeq()}
-                   appData={this.props.appData}
-                   appAssets={this.props.dashboardAppAssets}
-                   commonSettingsEditors={DASHBOARD_COMMON_SETTINGS_EDITORS}
-                   onAppSubscribe={(...a) => this.props.subscribeApp(...a)}
-                   onAppUnsubscribe={(...a) => this.props.unsubscribeApp(...a)}
-                   onAppMove={(...a) => this.onAppMove(...a)}
-                   onAppSettingsUpdate={(...a) => this.onAppSettingsUpdate(...a)}
-                   onAppAdd={(...a) => this.onAppAdd(...a)}
-                   onAppRemove={(...a) => this.onAppRemove(...a)}
-                   location={this.props.location}
-                   isNative={this.props.isNative} />}
+          <AppLayout apps={this.props.currentDashboard.get('apps').valueSeq()}
+                     appData={this.props.appData}
+                     appAssets={this.props.dashboardAppAssets}
+                     commonSettingsEditors={DASHBOARD_COMMON_SETTINGS_EDITORS}
+                     onAppSubscribe={(...a) => this.props.subscribeApp(...a)}
+                     onAppUnsubscribe={(...a) => this.props.unsubscribeApp(...a)}
+                     onAppMove={(...a) => this.onAppMove(...a)}
+                     onAppSettingsUpdate={(...a) => this.onAppSettingsUpdate(...a)}
+                     onAppAdd={(...a) => this.onAppAdd(...a)}
+                     onAppRemove={(...a) => this.onAppRemove(...a)}
+                     location={this.props.location}
+                     isNative={this.props.isNative} />}
       </div>
     );
   }

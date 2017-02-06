@@ -40,7 +40,7 @@
 .c-asset-tab-bar .c-asset-tab-bar__losses-tab a {
   background-image: url('../../images/icon-loss.png');
 }
-.c-asset-tab-bar .c-asset-tab-bar__raw-tab a {
+.c-asset-tab-bar .c-asset-tab-bar__traces-tab a {
   background-image: url('../../images/icon-trace.png');
 }
 

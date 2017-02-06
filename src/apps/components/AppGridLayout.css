@@ -1,0 +1,8 @@
+.c-app-grid-layout .react-grid-item {
+  overflow: hidden;
+}
+
+.c-app-grid-layout__add-app {
+  float: right;
+  margin: 10px;
+}

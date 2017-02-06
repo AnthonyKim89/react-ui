@@ -10,6 +10,7 @@ import tndTorque from './torqueAndDrag/torque';
 
 import singleTrace from './trace/singleTrace';
 import multiTrace from './trace/multiTrace';
+import traceTab from './trace/traceTab';
 
 import wellTimeline from './wellTimeline';
 
@@ -33,7 +34,8 @@ export const uiApps = Map({
     subtitle: '',
     appTypes: Map({
       singleTrace,
-      multiTrace
+      multiTrace,
+      traceTab
     })
   })
 });

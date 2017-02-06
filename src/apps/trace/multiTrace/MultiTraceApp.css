@@ -74,8 +74,8 @@
   position: absolute;
   bottom: 0;
   height: 90px;
-  left: 0;
-  right: 0;
+  left: 10px;
+  right: 10px;
 }
 
 .c-trace-multi__range {

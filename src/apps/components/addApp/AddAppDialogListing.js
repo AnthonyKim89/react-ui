@@ -62,6 +62,7 @@ class AddAppDialogListing extends Component {
   renderCategory(category) {
     const appTypes = category.get('appTypes')
       .valueSeq()
+      .filter(appType => !appType.constants.METADATA.isHiddenFromAddApp)
       .filter(appType => this.isAppTypeIncludedInFilter(appType));
     if (!appTypes.isEmpty()) {
       return <Row key={category.get('title')}

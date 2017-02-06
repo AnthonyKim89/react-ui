@@ -1,0 +1,15 @@
+.c-trace-timeline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.c-trace-timeline__chart {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 170px;
+  bottom: 90px;
+}

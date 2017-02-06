@@ -6,7 +6,8 @@ import { isEqual, isNull, omitBy } from 'lodash';
 import { stringify as queryString } from 'query-string';
 
 import AssetTabBar from './AssetTabBar';
-import AppGrid from '../../apps/components/AppGrid';
+import AppGridLayout from '../../apps/components/AppGridLayout';
+import AppSingleLayout from '../../apps/components/AppSingleLayout';
 import * as appRegistry from '../../apps/appRegistry';
 
 import {
@@ -48,21 +49,24 @@ class AssetPage extends Component {
   }
 
   render() {
+    const AppLayout = this.props.currentAssetPageTab && this.props.currentAssetPageTab.get('layout') === 'singleApp' ?
+      AppSingleLayout :
+      AppGridLayout;
     return (
       <div className="c-asset-page" >
         {this.props.currentAssetPageTab &&
-          <AppGrid apps={this.props.currentAssetPageTab.get('apps').valueSeq()}
-                   appData={this.props.appData}
-                   appAssets={this.getAppAssets()}
-                   onAppSubscribe={(...a) => this.props.subscribeApp(...a)}
-                   onAppUnsubscribe={(...a) => this.props.unsubscribeApp(...a)}
-                   onAppMove={(...a) => this.onAppMove(...a)}
-                   onAppSettingsUpdate={(...a) => this.onAppSettingsUpdate(...a)}
-                   onAppAdd={(...a) => this.onAppAdd(...a)}
-                   onAppRemove={(...a) => this.onAppRemove(...a)}
-                   pageParams={this.props.currentPageParams}
-                   location={this.props.location}
-                   isNative={this.props.isNative} />}
+          <AppLayout apps={this.props.currentAssetPageTab.get('apps').valueSeq()}
+                     appData={this.props.appData}
+                     appAssets={this.getAppAssets()}
+                     onAppSubscribe={(...a) => this.props.subscribeApp(...a)}
+                     onAppUnsubscribe={(...a) => this.props.unsubscribeApp(...a)}
+                     onAppMove={(...a) => this.onAppMove(...a)}
+                     onAppSettingsUpdate={(...a) => this.onAppSettingsUpdate(...a)}
+                     onAppAdd={(...a) => this.onAppAdd(...a)}
+                     onAppRemove={(...a) => this.onAppRemove(...a)}
+                     pageParams={this.props.currentPageParams}
+                     location={this.props.location}
+                     isNative={this.props.isNative} />}
         {!this.props.isNative &&
           <AssetTabBar assetId={this.getAssetId()}
                        assetPageTabs={this.props.assetPageTabs}
