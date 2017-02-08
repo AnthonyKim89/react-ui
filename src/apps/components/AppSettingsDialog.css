@@ -68,3 +68,13 @@
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 4000;
 }
+
+.caret {
+  border-color: transparent !important;
+  margin: auto 8px 12px auto !important;
+}
+
+.c-app-settings__editor .btn {
+  border-radius: 0;
+  width: 100%;
+}

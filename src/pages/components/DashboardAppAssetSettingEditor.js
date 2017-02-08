@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { Input } from 'react-materialize';
-import { FormControl } from 'react-bootstrap';
 import { List } from 'immutable';
 
 import * as api from '../../api';
@@ -20,23 +19,6 @@ class DashboardAppAssetSettingEditor extends Component {
 
   render() {
     return (
-      /*<div className="input-field col s6">
-        <FormControl
-          componentClass="select"
-          placeholder="Select"
-          value={this.props.currentValue}
-          disabled={this.state.loading}
-          onChange={e => this.onChange(e)}>
-          <option value={undefined}>
-            {this.state.loading && 'Loading...'}
-          </option>
-          {this.state.assets.map(asset =>
-            <option value={asset.get('id')} key={asset.get('id')}>
-              {asset.get('name')}
-            </option>
-          )}
-        </FormControl>
-      </div>*/
       <Input
         type="select"
         value={this.props.currentValue}

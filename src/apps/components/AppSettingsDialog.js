@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { Button, Glyphicon, Col } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
+import { Button, Icon } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import './AppSettingsDialog.css';
@@ -14,7 +15,7 @@ class AppSettingsDialog extends Component {
   render() {
     return <div className="c-app-settings">
       <header>
-        <Button className="c-app-settings__done" bsStyle="primary" onClick={() => this.onDone()}>
+        <Button className="c-app-settings__done" onClick={() => this.onDone()}>
           Save
         </Button>
         <h4 className="c-app-settings__title">
@@ -40,9 +41,8 @@ class AppSettingsDialog extends Component {
           </Col>
           <Col md={6}>
             <div className="c-app-settings__editor">
-              <h5>Remove app</h5>
-              <Button onClick={this.props.onAppRemove} bsStyle="warning" block>
-                <Glyphicon glyph="remove" /> Remove App
+              <Button className="grey white-text" onClick={this.props.onAppRemove}>
+                <Icon>delete</Icon> Remove Widget
               </Button>
             </div>
           </Col>
