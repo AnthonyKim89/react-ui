@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description=" content="Corva | Drilling Intelligence">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
     <!--
       Notice the use of %PUBLIC_URL% in the tag above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -15,6 +17,12 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Corva | Drilling Intelligence</title>
+    <style type="text/css">
+      /* This little snippet is the fix for a bootstrap/materialize style conflict */
+      .caret {
+        border-color: transparent !important;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
@@ -34,5 +42,7 @@
         history.pushState({}, "entry page", location.hash.substring(1));
       }
     </script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
   </body>
 </html>
