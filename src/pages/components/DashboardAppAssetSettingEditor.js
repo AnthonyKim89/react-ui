@@ -20,14 +20,13 @@ class DashboardAppAssetSettingEditor extends Component {
   render() {
     return (
       <Input
+        className="grey lighten-2 black-text"
         type="select"
         value={this.props.currentValue}
         disabled={this.state.loading}
-        onChange={e => this.onChange(e)}
-        label="Select"
-          >
+        onChange={e => this.onChange(e)}>
           {this.state.assets.map(asset =>
-            <option value={asset.get('id')} key={asset.get('id')}>
+            <option className="grey lighten-2 black-text" value={asset.get('id')} key={asset.get('id')}>
               {asset.get('name')}
             </option>
           )}
