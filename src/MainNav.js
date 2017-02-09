@@ -1,7 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { IndexLink } from 'react-router';
-import { MenuItem, Navbar, Nav, NavItem, NavDropdown } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import { Navbar, NavItem, Dropdown, Button, Icon } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import './MainNav.css';
@@ -10,7 +8,19 @@ class MainNav extends Component {
 
   render() {
     return (
-      <Navbar fixedTop fluid className="c-main-nav">
+      <Navbar href={this.getPathToFirstDashboard()} className="c-main-nav">
+        <NavItem className="navbar-brand" href={this.getPathToFirstDashboard()}>Corva</NavItem>
+        {this.hasDashboards() &&
+        <NavItem href={this.getPathToFirstDashboard()}>Dashboards</NavItem>}
+        <Dropdown trigger={<NavItem>Assets</NavItem>}>
+          <NavItem href="/assets/well"><Icon left>dashboard</Icon>All Wells</NavItem>
+          <NavItem href="/assets/rig"><Icon left>dashboard</Icon>All Rigs</NavItem>
+          {this.props.recentAssets && this.props.recentAssets.map(asset =>
+            <NavItem key={asset.get('id')} href={`/assets/${asset.get('id')}/overview`}><Icon left>dashboard</Icon>{asset.get('name')}</NavItem>)}
+        </Dropdown>
+      </Navbar>
+      // TODO: Do the right sided sign-out menu item.
+      /*<Navbar fixedTop fluid className="c-main-nav">
         <Navbar.Header>
           <Navbar.Brand>
             <IndexLink to={this.getPathToFirstDashboard()}>Corva</IndexLink>
@@ -55,7 +65,7 @@ class MainNav extends Component {
               </NavDropdown>}
           </Nav>
         </Navbar.Collapse>
-      </Navbar>
+      </Navbar>*/
     );
   }
 
