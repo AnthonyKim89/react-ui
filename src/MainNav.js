@@ -18,54 +18,19 @@ class MainNav extends Component {
           {this.props.recentAssets && this.props.recentAssets.map(asset =>
             <NavItem key={asset.get('id')} href={`/assets/${asset.get('id')}/overview`}><Icon left>dashboard</Icon>{asset.get('name')}</NavItem>)}
         </Dropdown>
+        {this.props.currentUser &&
+          <Dropdown trigger={<NavItem className="c-user-menu"><Icon className="c-user-menu">perm_identity</Icon></NavItem>} className="c-user-menu">
+            <NavItem onClick={() => this.logOut()}>Sign Out</NavItem>
+          </Dropdown>
+        }
       </Navbar>
-      // TODO: Do the right sided sign-out menu item.
-      /*<Navbar fixedTop fluid className="c-main-nav">
-        <Navbar.Header>
-          <Navbar.Brand>
-            <IndexLink to={this.getPathToFirstDashboard()}>Corva</IndexLink>
-          </Navbar.Brand>
-          <Navbar.Toggle />
-        </Navbar.Header>
-        <Navbar.Collapse>
-          <Nav>
-            {this.hasDashboards() && 
-              <LinkContainer to={this.getPathToFirstDashboard()}>
-                <NavItem>Dashboards</NavItem>
-              </LinkContainer>}
-            <NavDropdown title="Assets" id="assetsMenu">
-              <LinkContainer to="/assets/well">
-                <MenuItem>
-                  <span className="c-main-nav__all-assets-icon"></span>
-                  All Wells
-                </MenuItem>
-              </LinkContainer>
-              <LinkContainer to="/assets/rig">
-                <MenuItem>
-                  <span className="c-main-nav__all-assets-icon"></span>
-                  All Rigs
-                </MenuItem>
-              </LinkContainer>
-              {this.props.recentAssets && this.props.recentAssets.map(asset => 
-                <LinkContainer key={asset.get('id')} to={`/assets/${asset.get('id')}/overview`}>
-                  <MenuItem>
-                    {asset.get('name')}
-                  </MenuItem>
-                </LinkContainer>)}
-            </NavDropdown>
-          </Nav>
-          <Nav pullRight>
-            {this.props.currentUser &&
-              <NavItem className="c-main-nav__current-user">
-                {this.props.currentUser.getIn(['company', 'name'])}
-              </NavItem>}
-            {this.props.currentUser &&
-              <NavDropdown className="c-main-nav__profile-dropdown-button" title="P" id="profileMenu">
-                 <MenuItem onClick={() => this.logOut()}>Sign Out</MenuItem>
-              </NavDropdown>}
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>*/
+      /*
+        This doesn't currently seem to do anything when added, but I'm leaving it here just in case Tero has more insight into it.
+        {this.props.currentUser &&
+          <NavItem className="c-main-nav__current-user">
+            {this.props.currentUser.getIn(['company', 'name'])}
+          </NavItem>
+        }*/
     );
   }
 
