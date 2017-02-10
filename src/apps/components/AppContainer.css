@@ -40,10 +40,10 @@
   bottom: 30px;
 }
 .c-app-container--with-title .c-app-container__content {
-  top: 30px;
+  top: 32px;
 }
 .c-app-container--with-subtitle .c-app-container__content {
-  top: 50px;
+  top: 52px;
 }
 
 
@@ -101,9 +101,9 @@
 }
 
 h4, .h4 {
-  font-size: 18px;
+  font-size: 1.5rem;
 }
 
 h5, .h5 {
-  font-size: 14px;
+  font-size: 0.93rem;
 }

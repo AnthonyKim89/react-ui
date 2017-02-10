@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Glyphicon } from 'react-bootstrap';
+import { Icon } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import { SUBSCRIPTIONS } from './constants';
@@ -47,8 +47,7 @@ class DownholeTransferApp extends Component {
           <td>{data.getIn(['surface', 'torque'])}</td>
           <td className={`c-tnd-downhole-transfer__efficiency
                           c-tnd-downhole-transfer--${data.get('torque_efficiency')}`}>
-            <Glyphicon glyph="arrow-right"
-                       className="c-tnd-downhole-transfer__efficiency-arrow" />
+            <Icon>play_arrow</Icon>
             <div className="c-tnd-downhole-transfer__efficiency-message">
               {data.get('torque_efficiency')}
             </div>
@@ -65,8 +64,7 @@ class DownholeTransferApp extends Component {
           <td>{data.getIn(['surface', 'weight_on_bit'])}</td>
           <td className={`c-tnd-downhole-transfer__efficiency
                           c-tnd-downhole-transfer--${data.get('weight_on_bit_efficiency')}`}>
-            <Glyphicon glyph="arrow-right"
-                       className="c-tnd-downhole-transfer__efficiency-arrow" />
+            <Icon>play_arrow</Icon>
             <div className="c-tnd-downhole-transfer__efficiency-message">
               {data.get('weight_on_bit_efficiency')}
             </div>
