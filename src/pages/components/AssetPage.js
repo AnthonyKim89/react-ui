@@ -48,7 +48,7 @@ class AssetPage extends Component {
   }
 
   render() {
-    const AppLayout = this.props.currentAssetPageTab && apps.layouts[this.props.currentAssetPageTab.get('layout')];
+    const AppLayout = this.props.currentAssetPageTab && apps.layouts[this.props.currentAssetPageTab.get('layout', 'grid')];
     return (
       <div className="c-asset-page" >
         {this.props.currentAssetPageTab &&

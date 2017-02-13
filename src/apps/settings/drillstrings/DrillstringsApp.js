@@ -5,7 +5,9 @@ import './DrillstringsApp.css';
 class DrillstringsApp extends Component {
 
   render() {
-    return <div>TBD</div>;
+    return <div className="c-drillstrings">
+      TBD
+    </div>;
   }
 
 }
