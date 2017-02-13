@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { List } from 'immutable';
-import { parse as parseTime } from 'date-fns';
+import { parse as parseTime, format as formatTime } from 'date-fns';
 import Highcharts from 'highcharts';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
@@ -24,6 +24,10 @@ class TraceTimeline extends Component {
         series: {
           turboThreshold: 5000,
           stacking: 'normal'
+        },
+        column: {
+          groupPadding: 0,
+          borderWidth: 0
         }
       },
       xAxis: {
@@ -37,12 +41,25 @@ class TraceTimeline extends Component {
           style: {color: '#fff'}
         }
       },
-      yAxis: {
-        id: 'yAxis',
+      yAxis: [{
+        id: 'depthAxis',
+        type: 'linear',
+        reversed: true,
+        gridLineWidth: 0,
+        title: {enabled: false},
+        labels: {style: {color: '#fff'}}
+      }, {
+        id: 'timeAxis',
         type: 'datetime',
         reversed: true,
-        endOnTick: false
-      },
+        title: {enabled: false},
+        labels: {
+          style: {
+            color: '#fff',
+            formatter: function() { return formatTime(this.value, 'M/D H:mm') }
+          },
+        }
+      }],
       title: {text: null},
       credits: {enabled: false},
       legend: {enabled: false},
@@ -84,19 +101,32 @@ class TraceTimeline extends Component {
 
   updateChart(summary) {
     const chart = this.state.chart;
-    const yAxis = chart.get('yAxis');
-    const min = parseTime(summary.first().get('time')).getTime();
-    const max = parseTime(summary.last().get('time')).getTime();
-    yAxis.update({min, max});
+    
+    const firstSummary = summary.first();
+    const lastSummary = summary.last();
+    
+    const timeAxis = chart.get('timeAxis');
+    const minTime = parseTime(firstSummary.get('time')).getTime();
+    const maxTime = parseTime(lastSummary.get('time')).getTime();
+    timeAxis.update({min: minTime, max: maxTime});
 
+    const depthAxis = chart.get('depthAxis');
+    const minDepth = firstSummary.get('hole_depth');
+    const maxDepth = lastSummary.get('hole_depth');
+    depthAxis.update({min: minDepth, max: maxDepth});
+
+    // If there was a series previously, remove it.
     const prevSeries = chart.get('series');
     if (prevSeries) {
       prevSeries.remove();
     }
-    const block = max - min;  
+
+    // Add the new series. Once there is actual summary data to play with,
+    // this should construct the stack of blocks from it.
     chart.addSeries({
       id: 'series',
-      data: [max],
+      data: [maxTime],
+      color: 'rgb(5, 71, 170)',
       animation: false
     });
   }
