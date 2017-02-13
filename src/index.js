@@ -10,12 +10,14 @@ import { routes } from './routes';
 import rootReducer from './rootReducer';
 import authMiddleware from './login/authMiddleware';
 
+
+import 'materialize-css/bin/jquery-2.1.1.min';
+import 'materialize-css/bin/materialize';
+
 // import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.css';
 import './fonts.css';
 import 'materialize-css/bin/materialize.css';
-import 'materialize-css/bin/jquery-2.1.1.min';
-import 'materialize-css/bin/materialize.js';
 import './index.css';
 
 const store = createStore(rootReducer, applyMiddleware(

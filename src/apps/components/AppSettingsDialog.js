@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Col } from 'react-bootstrap';
-import { Button, Icon } from 'react-materialize';
+import { Row, Col, Button, Icon } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import './AppSettingsDialog.css';
@@ -24,8 +23,8 @@ class AppSettingsDialog extends Component {
         {this.props.appType.constants.METADATA.subtitle &&
           <h5 className="c-app-settings__subtitle">{this.props.appType.constants.METADATA.subtitle}</h5>}
       </header>
-      <div>
-          <Col md={6}>
+      <Row className="c-app-settings__grid">
+          <Col s={6}>
             {this.props.settingsEditors.map(editor => {
               const name = editor.get('name');
               const title = editor.get('title');
@@ -39,14 +38,14 @@ class AppSettingsDialog extends Component {
               </div>;
             })}
           </Col>
-          <Col md={6}>
+          <Col s={6}>
             <div className="c-app-settings__editor">
               <Button className="grey white-text" onClick={this.props.onAppRemove}>
                 <Icon>delete</Icon> Remove Widget
               </Button>
             </div>
           </Col>
-      </div>
+      </Row>
     </div>
   }
 

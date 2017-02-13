@@ -44,6 +44,10 @@
   font-size: 16px;
 }
 
+.c-app-settings__grid {
+  width: 100%;
+}
+
 .c-app-settings__title, .c-app-settings__subtitle {
   margin: 0;
 }
