@@ -55,7 +55,7 @@ class ChartColorsEditor extends Component {
   }
   
   setCurrentColor(type, color) {
-    const current = this.props.colors || Map();
+    const current = this.props.currentValue || Map();
     this.setState({expandedPicker: null});
     this.props.onChange(current.set(type, color));
   }
