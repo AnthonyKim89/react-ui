@@ -10,7 +10,7 @@ import { routes } from './routes';
 import rootReducer from './rootReducer';
 import authMiddleware from './login/authMiddleware';
 
-import 'bootstrap/dist/css/bootstrap.css';
+// import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.css';
 import './fonts.css';
 import 'materialize-css/bin/materialize.css';

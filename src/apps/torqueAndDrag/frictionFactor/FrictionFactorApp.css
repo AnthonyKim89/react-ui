@@ -7,18 +7,26 @@
 }
 
 .c-tnd-friction-factor__factor {
-  margin-bottom: 10px;
+  margin-top: 20px;
+
 }
 
-.c-tnd-friction-factor__factor label {
+.c-tnd-friction-factor__factor .c-tnd-friction-factor__label {
+  margin-top: 1px;
 }
 
-.c-tnd-friction-factor__factor input {
+.c-tnd-friction-factor__factor .c-tnd-friction-factor__label label {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.c-tnd-friction-factor__factor input.c-tnd-friction-factor__input {
   background-color: rgb(42, 46, 46);
   max-width: 100px;
   border: 0;
-  font-size: 3rem;
   text-align: center;
+  height: 1.7rem;
+  margin-bottom: 0;
 }
 
 .c-tnd-friction-factor__predicted {
