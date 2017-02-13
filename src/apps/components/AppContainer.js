@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import classSet from 'react-classset';
 import Modal from 'react-modal';
-import { Glyphicon } from 'react-bootstrap';
+import { Icon } from 'react-materialize';
 import { List } from 'immutable';
 import { format as formatDate } from 'date-fns';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -92,7 +92,7 @@ class AppContainer extends Component {
               <Link className="c-app-container__action"
                     to={{pathname: this.props.location.pathname, query: {maximize: undefined}}}
                     title="Restore">
-                <Glyphicon glyph="remove"/>
+                <Icon>delete</Icon>
               </Link> :
               <Link className="c-app-container__action c-app-container__action--maximize"
                     to={{pathname: this.props.location.pathname, query: {maximize: this.props.id}}}
