@@ -13,6 +13,9 @@
   float: left;
   width: 70px;
   height: 60px;
+  background-size: 70px 60px;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
   text-indent: -9999px;
   transition: background-color 0.2s linear;
 }
@@ -42,6 +45,10 @@
 }
 .c-asset-tab-bar .c-asset-tab-bar__traces-tab a {
   background-image: url('../../images/icon-trace.png');
+}
+.c-asset-tab-bar .c-asset-tab-bar__settings-tab a {
+  background-image: url('../../images/icon-settings.png');
+  background-size: 49px 42px; /* Settings icon image has different dimensions than the others; adjust */
 }
 
 .c-asset-tab-bar__current-tab-name {
