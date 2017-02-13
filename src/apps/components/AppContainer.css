@@ -18,14 +18,16 @@
   box-shadow: 0px 0px 18px 3px rgba(0,0,0,0.75);
 }
 
-.c-app-container__title {
+.c-app-container h4.c-app-container__title {
   font-weight: bold;
   margin: 0 0 5px 0;
+  font-size: 1.4rem;
 }
 
-.c-app-container__subtitle {
+.c-app-container h5.c-app-container__subtitle {
   color:rgb(200, 200, 200);
   margin: 0;
+  font-size: 0.85rem;
 }
 
 .c-app-container--editable .c-app-container__title, .c-app-container--editable .c-app-container__subtitle {
@@ -43,7 +45,7 @@
   top: 32px;
 }
 .c-app-container--with-subtitle .c-app-container__content {
-  top: 52px;
+  top: 50px;
 }
 
 
@@ -98,12 +100,4 @@
 }
 .c-app-container__action--settings:hover {
   background-image: url(../../images/settings_hover_icon.png)
-}
-
-h4, .h4 {
-  font-size: 1.5rem;
-}
-
-h5, .h5 {
-  font-size: 0.93rem;
 }
