@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import Modal from 'react-modal';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Button, Glyphicon } from 'react-bootstrap';
+import { Button, Icon } from 'react-materialize';
 import { Map } from 'immutable';
 
 import AppContainer from './AppContainer';
@@ -56,7 +56,7 @@ class AppGridLayout extends Component {
         {this.renderMaximizedApp()}
         {!this.props.isNative &&
           <Button onClick={() => this.openAddAppDialog()} className="c-app-grid__add-app">
-            <Glyphicon glyph="plus" /> Add App
+            <Icon>library_add</Icon> Add App
           </Button>}
         {!this.props.isNative &&
           <Modal

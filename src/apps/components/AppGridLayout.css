@@ -2,7 +2,16 @@
   overflow: hidden;
 }
 
-.c-app-grid-layout__add-app {
-  float: right;
-  margin: 10px;
+button.c-app-grid__add-app {
+  margin: 1px 0 15px 10px;
+  background-color: #3c5c5b;
+}
+
+button.c-app-grid__add-app:hover {
+  background-color: #568281;
+}
+
+button.c-app-grid__add-app i {
+  font-size: .9rem;
+  margin: 1px 5px 0 -2px;
 }
