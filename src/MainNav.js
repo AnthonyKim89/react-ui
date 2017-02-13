@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Navbar, NavItem, Dropdown, Button, Icon } from 'react-materialize';
+import { Navbar, NavItem, Dropdown, Icon } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import './MainNav.css';

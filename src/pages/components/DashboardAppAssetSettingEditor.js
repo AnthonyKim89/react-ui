@@ -22,14 +22,15 @@ class DashboardAppAssetSettingEditor extends Component {
       <Input
         className="grey lighten-2 black-text"
         type="select"
+        defaultValue={this.props.currentValue}
         value={this.props.currentValue}
         disabled={this.state.loading}
         onChange={e => this.onChange(e)}>
-          {this.state.assets.map(asset =>
-            <option className="grey lighten-2 black-text" value={asset.get('id')} key={asset.get('id')}>
-              {asset.get('name')}
-            </option>
-          )}
+        {this.state.assets.map(asset =>
+          <option className="grey lighten-2 black-text" value={asset.get('id')} key={asset.get('id')}>
+            {asset.get('name')}
+          </option>
+        )}
       </Input>
     );
   }

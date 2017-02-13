@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import { Button, Glyphicon, Grid, Row, Col } from 'react-bootstrap';
+import { Button, Icon, Row, Col } from 'react-materialize';
 import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
@@ -17,19 +17,22 @@ class AddAppDialogDetails extends Component {
   render() {
     return <div className="c-add-app-dialog-details">
       {this.renderBreadcrumbs()}
-      <Grid fluid>
-        {this.renderAppDetails()}
-        {this.renderAppActions()}
-      </Grid>
+      <AppIcon />
+      {this.renderAppDetails()}
+      <h4>Add App</h4>
+      {this.renderAppActions()}
+      <Button onClick={() => this.props.onAppAdd(this.props.appType, this.state.settings)} disabled={!this.isAllRequiredSettingsFilled()}>
+        Add
+      </Button>
     </div>;
   }
 
   renderBreadcrumbs() {
     return <h4 className="c-add-app-dialog-details__breadcrumbs">
       <span>Apps</span>
-      <Glyphicon glyph="chevron-right" className="c-add-app-dialog-details__breadcrumbs-divider" />
+      <Icon className="c-add-app-dialog--divider">play_arrow</Icon>
       <span>{this.props.appTypeCategory}</span>
-      <Glyphicon glyph="chevron-right" className="c-add-app-dialog-details__breadcrumbs-divider" />
+      <Icon className="c-add-app-dialog-details__breadcrumbs-divider">play_arrow</Icon>
       <span className="c-add-app-dialog-details__breadcrumbs-app-type">{this.props.appType.constants.METADATA.settingsTitle}</span>
     </h4>;
   }
@@ -42,45 +45,53 @@ class AddAppDialogDetails extends Component {
       version,
       publishedAt
     } = this.props.appType.constants.METADATA;
-    return <Row className="c-add-app-dialog-details__section">
-      <Col xs={12} sm={3} lg={2}>
-        <AppIcon />
-      </Col>
-      <Col xs={12} sm={9} lg={10}>
-        <table className="c-add-app-dialog-details__metadata">
-          <tbody>
-            <tr>
-              <th>Name</th>
-              <td>{title}</td>
-            </tr>
-            <tr>
-              <th>Description</th>
-              <td>{subtitle}</td>
-            </tr>
-            <tr>
-              <th>Developer</th>
-              <td><a href={devUrl} target="_blank">{devName}</a></td>
-            </tr>
-            <tr>
-              <th>Version</th>
-              <td>{version}</td>
-            </tr>
-            <tr>
-              <th>Published</th>
-              <td>{publishedAt}</td>
-            </tr>
-          </tbody>
-        </table>
-      </Col>
-    </Row>
+    return <div className="c-add-app-dialog-details__section">
+      <Row className="c-add-app-dialog-details__metadata">
+        <Col s={1} className="c-add-app-dialog-details__metadata__title">
+          Name
+        </Col>
+        <Col>
+          {title}
+        </Col>
+      </Row>
+      <Row className="c-add-app-dialog-details__metadata">
+        <Col s={1} className="c-add-app-dialog-details__metadata__title">
+          Description
+        </Col>
+        <Col>
+          {subtitle}
+        </Col>
+      </Row>
+      <Row className="c-add-app-dialog-details__metadata">
+        <Col s={1} className="c-add-app-dialog-details__metadata__title">
+          Developer
+        </Col>
+        <Col>
+          <a href={devUrl} target="_blank">{devName}</a>
+        </Col>
+      </Row>
+      <Row className="c-add-app-dialog-details__metadata">
+        <Col s={1} className="c-add-app-dialog-details__metadata__title">
+          Version
+        </Col>
+        <Col>
+          {version}
+        </Col>
+      </Row>
+      <Row className="c-add-app-dialog-details__metadata">
+        <Col s={1} className="c-add-app-dialog-details__metadata__title">
+          Published
+        </Col>
+        <Col>
+          {publishedAt}
+        </Col>
+      </Row>
+    </div>
   }
 
   renderAppActions() {
     return <Row className="c-add-app-dialog-details__section">
-      <Col xs={12} sm={3} lg={2}>
-        <h4>Add App</h4>
-      </Col>
-      <Col xs={12} sm={5} lg={4}>
+      <Col s={2}>
         {this.getSettingsEditors().map(editor => {
           const name = editor.get('name');
           const title = editor.get('title');
@@ -93,11 +104,6 @@ class AddAppDialogDetails extends Component {
               appType={this.props.appType} />
           </div>;
         })}
-        <Button bsStyle="primary"
-                onClick={() => this.props.onAppAdd(this.props.appType, this.state.settings)}
-                disabled={!this.isAllRequiredSettingsFilled()}>
-          Add
-        </Button>
       </Col>
     </Row>;
   }
