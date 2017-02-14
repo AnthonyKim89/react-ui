@@ -23,7 +23,7 @@ class BroomstickApp extends Component {
         {this.getData() ?
           <Chart
             xField="measured_depth"
-            xAxisWidth="2   "
+            xAxisWidth="2"
             xAxisColor="white"
             size={this.props.size}
             widthCols={this.props.widthCols}>
