@@ -32,6 +32,7 @@ class AppSettingsDialog extends Component {
               return <div className="c-app-settings__editor" key={name}>
                 <h5>{title}</h5>
                 <Editor
+                  inSettingsEditor={true}
                   currentValue={this.state.settings.get(name)}
                   onChange={v => this.setState({settings: this.state.settings.set(name, v)})}
                   appType={this.props.appType} />

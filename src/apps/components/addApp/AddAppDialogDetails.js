@@ -30,9 +30,9 @@ class AddAppDialogDetails extends Component {
   renderBreadcrumbs() {
     return <h4 className="c-add-app-dialog-details__breadcrumbs">
       <span>Apps</span>
-      <Icon className="c-add-app-dialog--divider">play_arrow</Icon>
+      <Icon className="c-add-app-dialog--divider">keyboard_arrow_right</Icon>
       <span>{this.props.appTypeCategory}</span>
-      <Icon className="c-add-app-dialog-details__breadcrumbs-divider">play_arrow</Icon>
+      <Icon className="c-add-app-dialog-details__breadcrumbs-divider">keyboard_arrow_right</Icon>
       <span className="c-add-app-dialog-details__breadcrumbs-app-type">{this.props.appType.constants.METADATA.settingsTitle}</span>
     </h4>;
   }

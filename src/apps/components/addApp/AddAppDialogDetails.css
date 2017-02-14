@@ -18,6 +18,10 @@
   padding: 0 0 2rem 0;
 }
 
+.c-add-app-dialog-details__setting h5 {
+  margin-left: 29px;
+}
+
 .c-add-app-dialog-details__setting .select-wrapper input.select-dropdown {
   text-indent: 7px;
 }

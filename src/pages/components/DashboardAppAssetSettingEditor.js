@@ -18,11 +18,37 @@ class DashboardAppAssetSettingEditor extends Component {
   }
 
   render() {
+    if (this.props.inSettingsEditor) {
+      return this.renderForSettingsDialog();
+    } else {
+      return this.defaultRender();
+    }
+  }
+
+  defaultRender() {
+    return (
+      <Input
+        className="white"
+        type="select"
+        value={this.props.currentValue}
+        disabled={this.state.loading}
+        onChange={e => this.onChange(e)}>
+        <option value={undefined}> </option>
+        {this.state.assets.map(asset =>
+          <option value={asset.get('id')} key={asset.get('id')}>
+            {asset.get('name')}
+          </option>
+        )}
+      </Input>
+    );
+  }
+
+  // When we render for the settings dialog, we use some custom coloring and no empty default option
+  renderForSettingsDialog() {
     return (
       <Input
         className="grey lighten-2 black-text"
         type="select"
-        defaultValue={this.props.currentValue}
         value={this.props.currentValue}
         disabled={this.state.loading}
         onChange={e => this.onChange(e)}>
@@ -45,7 +71,8 @@ class DashboardAppAssetSettingEditor extends Component {
 DashboardAppAssetSettingEditor.propTypes = {
   appType: PropTypes.object.isRequired,
   currentValue: PropTypes.number,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  inSettingsEditor: PropTypes.bool,
 };
 
 export default DashboardAppAssetSettingEditor;
