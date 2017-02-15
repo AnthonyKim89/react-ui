@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import { Grid, Row, Col, Button } from 'react-bootstrap';
+import { Grid, Row, Col, Button, FormGroup, FormControl } from 'react-bootstrap';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+
+import DrillstringSummary from './DrillstringSummary';
 
 import './DrillstringBrowser.css';
 
@@ -14,21 +16,42 @@ class DrillstringBrowser extends Component {
             Drillstring
           </Col>
           <Col md={10}>
-            Dropdown
+            <FormGroup controlId="bha">
+              <FormControl
+                componentClass="select"
+                placeholder="select"
+                onChange={evt => this.onSelectChange(evt.target.value)}>
+                {this.props.drillstrings.map(ds =>
+                  <option key={ds.get('_id')} value={ds.get('_id')}>
+                    BHA #{ds.getIn(['data', 'id'])}
+                  </option>
+                )}
+              </FormControl>
+            </FormGroup>
           </Col>
           <Col md={1}>
             <Button onClick={() => this.props.onNewDrillstring()}>Add</Button>
           </Col>
         </Row>
       </Grid>
+      {this.props.displayingDrillstring &&
+        <DrillstringSummary
+          drillstring={this.props.displayingDrillstring}
+          onEditDrillstring={this.props.onEditDrillstring} />}
     </div>;
   }
 
+  onSelectChange(id) {
+    this.props.onSelectDrillstring(this.props.drillstrings.find(ds => ds.get('_id') === id));
+  }
 }
 
 DrillstringBrowser.propTypes = {
   drillstrings: ImmutablePropTypes.list.isRequired,
-  onNewDrillstring: PropTypes.func.isRequired
+  displayingDrillstring: ImmutablePropTypes.map,
+  onSelectDrillstring: PropTypes.func.isRequired,
+  onNewDrillstring: PropTypes.func.isRequired,
+  onEditDrillstring: PropTypes.func.isRequired
 };
 
 export default DrillstringBrowser;

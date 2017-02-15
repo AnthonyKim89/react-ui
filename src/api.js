@@ -136,6 +136,15 @@ export async function getAppStorage(appKey, collection, assetId, params = Map())
   return fromJS(data);
 }
 
+export async function postAppStorage(appKey, collection, item) {
+  const response = await post(`/v1/app_storage/${appKey}/${collection}`, item.toJS());
+  return fromJS(response);
+}
+
+export async function putAppStorage(appKey, collection, id, item) {
+  const response = await put(`/v1/app_storage/${appKey}/${collection}/${id}`, item.toJS());
+  return fromJS(response);
+}
 
 export async function getWellTimeline(wellId) {
   const data = await get(`/v1/jobs/${wellId}/drill_view_timeline_slider`);

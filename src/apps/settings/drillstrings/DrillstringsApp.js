@@ -14,6 +14,7 @@ class DrillstringsApp extends Component {
     super(props);
     this.state = {
       drillstrings: List(),
+      displayingDrillstring: null,
       editingDrillstring: null
     };
   }
@@ -31,8 +32,11 @@ class DrillstringsApp extends Component {
   }
 
   async loadDrillstrings(asset) {
-    const drillstrings = await api.getAppStorage('corva.data', 'drillstrings', asset.get('id'));
-    this.setState({drillstrings});
+    const drillstrings = await api.getAppStorage('corva.data', 'drillstrings', asset.get('id'), Map({limit: 0}));
+    this.setState({
+      drillstrings,
+      displayingDrillstring: drillstrings.first()
+    });
   }
 
   render() {
@@ -40,12 +44,38 @@ class DrillstringsApp extends Component {
       {this.state.editingDrillstring ?
         <DrillstringEditor
           drillstring={this.state.editingDrillstring}
-          onSave={drillstring => this.setState({editingDrillstring: null})}
+          onSave={drillstring => this.saveDrillstring(drillstring)}
           onCancel={() => this.setState({editingDrillstring: null})} /> :
         <DrillstringBrowser
           drillstrings={this.state.drillstrings}
-          onNewDrillstring={() => this.setState({editingDrillstring: Map()})} />}
+          displayingDrillstring={this.state.displayingDrillstring}
+          onSelectDrillstring={ds => this.setState({displayingDrillstring: ds})}
+          onNewDrillstring={() => this.setState({editingDrillstring: this.makeNewDrillstring()})}
+          onEditDrillstring={() => this.setState({editingDrillstring: this.state.displayingDrillstring})} />}
     </div>;
+  }
+
+  makeNewDrillstring() {
+    return Map({
+      asset_id: this.props.asset.get('id'),
+      data: Map({
+        components: List()
+      })
+    });
+  }
+
+  async saveDrillstring(drillstring) {
+    this.setState({editingDrillstring: null});
+    const savedString = drillstring.has('_id') ?
+      await api.putAppStorage('corva.data', 'drillstrings', drillstring.get('_id'), drillstring) :
+      await api.postAppStorage('corva.data', 'drillstrings', drillstring);
+    this.setState({
+      drillstrings: this.state.drillstrings
+        .filterNot((ds => ds.getIn(['data', 'id']) === savedString.getIn(['data', 'id'])))
+        .push(savedString)
+        .sortBy(ds => ds.getIn(['data', 'id'])),
+      displayingDrillstring: savedString
+    });
   }
 
 }
