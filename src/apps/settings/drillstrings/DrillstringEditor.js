@@ -29,15 +29,15 @@ class DrillstringEditor extends Component {
 
   renderTitle() {
     if (this.props.drillstring.get('id')) {
-      return <Row><Col md={12}>Edit Drillstring</Col></Row>;
+      return <Row><Col md={12}><h4>Edit Drillstring</h4></Col></Row>;
     } else {
-      return <Row><Col md={12}>Add New Drillstring</Col></Row>;
+      return <Row><Col md={12}><h4>Add New Drillstring</h4></Col></Row>;
     }
   }
 
   renderAttributeForm() {
     return [
-      <Row key="attributes1">
+      <Row key="attributes1" className="c-drillstring-editor__attributes">
         <Col md={2}>Drillstring/BHA Number</Col>
         <Col md={2}>
           <input
@@ -56,7 +56,7 @@ class DrillstringEditor extends Component {
             onChange={e => this.updateAttr('planning', e.target.checked)} />
         </Col>
       </Row>,
-      <Row key="attributes2">
+      <Row key="attributes2" className="c-drillstring-editor__attributes">
         <Col md={2}>Depth In</Col>
         <Col md={2}>
           <input
@@ -72,7 +72,7 @@ class DrillstringEditor extends Component {
             onChange={e => this.updateAttr('end_depth', parseFloat(e.target.value))} />
         </Col>
       </Row>,
-      <Row key="attributes3">
+      <Row key="attributes3" className="c-drillstring-editor__attributes">
         <Col md={2}>Time In</Col>
         <Col md={2}>
           <input
@@ -106,15 +106,17 @@ class DrillstringEditor extends Component {
           drillstring={this.state.drillstring}
           isEditable={true}
           onAddComponent={() => this.addComponent()}
+          onDeleteComponent={(...a) => this.deleteComponent(...a)}
           onComponentFieldChange={(...a) => this.updateComponentAttr(...a)}/>
       </Col>
     </Row>;
   }
 
   renderActions() {
-    return <Row>
+    return <Row className="c_drillstring_editor__actions">
       <Col md={12}>
-        <Button onClick={() => this.props.onSave(this.state.drillstring)}
+        <Button bsStyle="primary"
+                onClick={() => this.props.onSave(this.state.drillstring)}
                 disabled={!this.isValid()}>
           Save
         </Button>
@@ -139,6 +141,12 @@ class DrillstringEditor extends Component {
   addComponent() {
     this.setState({
       drillstring: this.state.drillstring.updateIn(['data', 'components'], c => c.push(Map({})))
+    });
+  }
+
+  deleteComponent(index) {
+    this.setState({
+      drillstring: this.state.drillstring.deleteIn(['data', 'components', index])
     });
   }
 

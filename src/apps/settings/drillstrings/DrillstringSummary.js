@@ -12,22 +12,22 @@ export class DrillstringSummary extends Component {
     return <div className="c-drillstring-summary">
       <Grid fluid>
         <Row>
-          <Col md={1}>
+          <Col md={2}>
             Drillstring/BHA
           </Col>
-          <Col md={1}>
+          <Col md={2}>
             Bit Size
           </Col>
-          <Col md={1}>
+          <Col md={2}>
             Tools
           </Col>
-          <Col md={1}>
+          <Col md={2}>
             Length (ft)
           </Col>
-          <Col md={1}>
+          <Col md={2}>
             Weight (klbs)
           </Col>
-          <Col md={6}>
+          <Col md={1}>
           </Col>
           <Col md={1}>
             {!this.props.isReadOnly &&
@@ -35,19 +35,19 @@ export class DrillstringSummary extends Component {
           </Col>
         </Row>
         <Row>
-          <Col md={1}>
+          <Col md={2}>
             {this.props.drillstring.getIn(['data', 'id'])}
           </Col>
-          <Col md={1}>
+          <Col md={2}>
             {this.getBitSize()}
           </Col>
-          <Col md={1}>
+          <Col md={2}>
             {this.getComponentCount()}
           </Col>
-          <Col md={1}>
+          <Col md={2}>
             {this.getComponentLengthSum()}
           </Col>
-          <Col md={1}>
+          <Col md={2}>
             {this.getComponentWeightSum()}
           </Col>
         </Row>

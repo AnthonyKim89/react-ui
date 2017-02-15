@@ -19,6 +19,7 @@ class DrillstringComponentTable extends Component {
             <th>OD (in)</th>
             <th>Length (ft)</th>
             <th>Weight (lbs)</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -40,6 +41,10 @@ class DrillstringComponentTable extends Component {
       <td>{this.renderComponentNumberField(component, idx, 'outer_diameter')}</td>
       <td>{this.renderComponentNumberField(component, idx, 'length')}</td>
       <td>{this.renderComponentNumberField(component, idx, 'linear_weight')}</td>
+      <td>
+        {this.props.isEditable &&
+          <Button bsStyle="danger" onClick={() => this.props.onDeleteComponent(idx)}>Remove</Button>}
+      </td>
     </tr>;
   }
 
@@ -71,6 +76,7 @@ DrillstringComponentTable.propTypes = {
   drillstring: ImmutablePropTypes.map.isRequired,
   isEditable: PropTypes.bool.isRequired,
   onAddComponent: PropTypes.func,
+  onDeleteComponent: PropTypes.func,
   onComponentFieldChange: PropTypes.func
 };
 
