@@ -19,6 +19,10 @@ function finishLoad(appSets) {
     if (currentPath === '/') {
       dispatch(push(`/dashboards/${dashboard.get('id')}`));
     }
+    // Send load notification for native app message handler when present
+    if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.swiftHandler) {
+      window.webkit.messageHandlers.swiftHandler.postMessage('pageLoaded');
+    }
   };
 }
 

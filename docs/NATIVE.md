@@ -51,3 +51,15 @@ The native app must include two additional query parameters in the URL (they wil
 During development, one or both of these parameters can also be provided manually into the local web browser URL bar for testing purposes, e.g. `http://localhost:3001/dashboards/1234?jwt=abcd&native=true`.
 
 *Note:* The apps and their content will be automatically sized to fit the space available in the WebView, and no special effort should be required from the native app's side to accommodate different form factors.
+
+## Programmatic Navigation
+
+To move the application from one page to another within the WebView, there is a global `navigateAppTo` JavaScript function available. This may be useful when the same WebView is reused for multiple pages so that it doesn't need to fully reload each time:
+
+    window.navigateAppTo('/dashboards/1234')
+
+## Load Notification
+
+Once the web application has finished loading the dashboard contents, it is able to notify the WebView about this using a postMessage, using the pattern documented [here](http://www.joshuakehn.com/2014/10/29/using-javascript-with-wkwebview-in-ios-8.html).
+
+The native web view should attach a message handler with the key `swiftHandler`. It will be called with a string message `pageLoaded`.
