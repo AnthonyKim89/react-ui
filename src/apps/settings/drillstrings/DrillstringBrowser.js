@@ -3,6 +3,7 @@ import { Grid, Row, Col, Button, FormGroup, FormControl } from 'react-bootstrap'
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import DrillstringSummary from './DrillstringSummary';
+import DrillstringComponentTable from './DrillstringComponentTable';
 
 import './DrillstringBrowser.css';
 
@@ -35,9 +36,15 @@ class DrillstringBrowser extends Component {
         </Row>
       </Grid>
       {this.props.displayingDrillstring &&
-        <DrillstringSummary
-          drillstring={this.props.displayingDrillstring}
-          onEditDrillstring={this.props.onEditDrillstring} />}
+        <div>
+          <DrillstringSummary
+            drillstring={this.props.displayingDrillstring}
+            isReadOnly={false}
+            onEditDrillstring={this.props.onEditDrillstring} />
+          <DrillstringComponentTable
+            drillstring={this.props.displayingDrillstring}
+            isEditable={false} />
+        </div>}
     </div>;
   }
 

@@ -27,8 +27,11 @@ export class DrillstringSummary extends Component {
           <Col md={1}>
             Weight (klbs)
           </Col>
-          <Col md={7}>
-            <Button onClick={() => this.props.onEditDrillstring()}>Edit</Button>
+          <Col md={6}>
+          </Col>
+          <Col md={1}>
+            {!this.props.isReadOnly &&
+              <Button onClick={() => this.props.onEditDrillstring()}>Edit</Button>}
           </Col>
         </Row>
         <Row>
@@ -66,14 +69,14 @@ export class DrillstringSummary extends Component {
     return this.getComponents()
       .map(c => c.get('length'))
       .filter(isNumber)
-      .reduce((sum, i) => sum + i, 0);
+      .reduce((sum, length) => sum + length, 0);
   }
   
   getComponentWeightSum() {
     return this.getComponents()
       .map(c => c.get('linear_weight'))
       .filter(isNumber)
-      .reduce((sum, i) => sum + i, 0);
+      .reduce((sum, weight) => sum + weight, 0);
   }
 
   getComponents() {
@@ -84,7 +87,8 @@ export class DrillstringSummary extends Component {
 
 DrillstringSummary.propTypes = {
   drillstring: ImmutablePropTypes.map.isRequired,
-  onEditDrillstring: PropTypes.func.isRequired
+  isReadOnly: PropTypes.bool.isRequired,
+  onEditDrillstring: PropTypes.func
 };
 
 export default DrillstringSummary;
