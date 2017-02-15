@@ -22,7 +22,7 @@ export function subscribeApp(appInstanceId, subscriptionKeys, assetId, params) {
     }
     for (const {appKey, collection} of subscriptionKeys) {
       dispatch({type: SUBSCRIBE_APP, appInstanceId, appKey, collection, assetId, params});
-      const initialData = await api.getAppResults(appKey, collection, assetId, params);
+      const initialData = await api.getAppStorage(appKey, collection, assetId, params);
       dispatch(receiveAppData(appInstanceId, appKey, collection, assetId, params, initialData));
     }
   };

@@ -1,0 +1,29 @@
+.c-app-tab-layout {
+  position: fixed;
+  top: 110px;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+
+  display: flex;
+}
+
+.c-app-tab-layout__tab-bar {
+  background-color: rgb(96, 91, 91);
+  flex: 1;
+  padding: 0;
+}
+.c-app-tab-layout__tab-bar h4, .c-app-tab-layout__tab-bar li {
+  padding: 10px;
+}
+.c-app-tab-layout__tab--selected {
+  background-color: rgb(104, 188, 184);
+}
+.c-app-tab-layout__tab-bar ul {
+  list-style-type: none;
+  padding: 0;
+}
+.c-app-tab-layout__app {
+  flex: 6;
+  position: relative;
+}
