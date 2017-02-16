@@ -35,6 +35,10 @@ const addAppModalStyles = {
   }
 };
 
+/**
+ * Render an app set in a "grid layout" - a two-dimensional grid of user-adjustable app boxes,
+ * implemented using react-grid-layout.
+ */
 class AppGridLayout extends Component {
 
   constructor(props) {
@@ -124,6 +128,7 @@ class AppGridLayout extends Component {
                          onAppSettingsUpdate={(settings) => this.props.onAppSettingsUpdate(id, settings)}>
       <appType.AppComponent
         data={appData}
+        asset={this.props.appAssets.get(id)}
         {...this.getPageParams().toJS()}
         {...settings.toObject()}
         size={size}

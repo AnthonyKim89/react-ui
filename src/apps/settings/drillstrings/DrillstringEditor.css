@@ -1,0 +1,12 @@
+.c-drillstring-editor input {
+  color: black;
+}
+
+.c-drillstring-editor__attributes input {
+  margin-bottom: 5px;
+  padding: 5px;
+}
+
+.c_drillstring_editor__actions {
+  padding-top: 5rem;
+}

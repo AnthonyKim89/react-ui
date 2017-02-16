@@ -45,9 +45,13 @@ An **Asset Page Tab App Set** represents a page with an app set that is tied to 
 
 *Apps* in this application are self-contained UI elements provide the user a specific piece of information and functionality. Examples: "Torque And Drag Broomstick", "Wellbore Stability".
 
-Several apps are shown on the screen simultaneously. UI Apps are laid out in an *app grid* (implemented using [react-grid-layout](https://www.npmjs.com/package/react-grid-layout)). The user may customize the number, order, and positions of apps in the grid. This means apps must be designed to accomodate flexible sizing. The user may also display individual apps in full-screen mode. 
+Several apps may be shown on the screen simultaneously. Each App Set has a **layout** that controls how its apps will be positioned. There are currently three layouts, each implemented using a React component in `src/apps/components`:
 
-Control apps are not laid out in a grid, but are expected to handle their own visual representation using CSS. A typical control app uses fixed positioning to pin itself in the browser viewport.
+* A *grid* layout (implemented using [react-grid-layout](https://www.npmjs.com/package/react-grid-layout)). The user may customize the number, order, and positions of apps in the grid. This means apps must be designed to accomodate flexible sizing. The user may also display individual apps in full-screen mode. This layout is used for most app sets.
+* A *tab* layout, that lists the apps in a tab menu and allows the user to switch between them. Only one app is displayed at a time. This layout is used for settings apps.
+* A *single app* layout that shows exactly one app that is expected to take over the whole page. This is used for the Traces tab application.
+
+Control apps are not included in the layout, but are expected to handle their own visual representation using CSS. A typical control app uses fixed positioning to pin itself in the browser viewport.
 
 Every app is automatically subscribed to receive data when it is mounted on the screen. This means that apps do not need to do anything to receive their data, they will just be given it as an input property (`data`). When the page is configured to receive real-time data from `corva-subscriptions`, this property will also automatically receive new data whenever it is produced. Apps can, however, also make additional API requests if they have a need for custom API access. See below for more information.
 
@@ -63,7 +67,7 @@ Every app consists of at least one React component. Add this component and its s
       * `MyApp.css`
       * `MyApp.js`
 
-Export the app's main component from the `index.js` file in the default export, so that the app can be easily imported to the grid:
+Export the app's main component from the `index.js` file in the default export, so that the app can be easily imported:
 
 `src/apps/myApp/index.js`
 
@@ -100,9 +104,9 @@ Every app, both UI and control, is registered in to `appRegistry.js`. It is from
 
 Every UI app may expect to get the following input props:
 
-* `assetId` - `number`
+* `asset` - An Immutable.js Map containing information about the asset that is being viewed.
 * `data` - An Immutable.js Map of the latest data from the app's subscriptions. There will be a key in the Map for each of the subscriptions that the app makes, as defined in the app's `constants.js` (as soons as data has been received - it will be `undefined` before that!)
-* `size` - {`Size.SMALL`, `Size.MEDIUM`, `Size.LARGE`, `Size.XLARGE`} - the size the app is currently occupying in the grid. Can be used for responsive rendering.
+* `size` - {`Size.SMALL`, `Size.MEDIUM`, `Size.LARGE`, `Size.XLARGE`} - the size the app is currently occupying in the layout. Can be used for responsive rendering.
 * `widthCols` - number - the current number of columns the app is occuping in the widget grid. Apps *should* use `size` for their responsive rendering istead of `widthCols`, but `widthCols` can be useful to react to resizing using `componentWillReceiveProps`.
 * The current values of any *app settings* supported by the app will be received as props as well. (See below).
 * Additionally, UI apps will receive as props all parameters from the location query string. These are typically populated from control apps.
@@ -159,12 +163,12 @@ For any settings configured this way, once the user has chosen settings for them
 
 Each UI app is parented by a `AppContainer` component. That component is responsible for initiating and destroying the app's real-time subscription when the app is mounted or umounted or when its properties change so that it needs to subscribe to a different real-time feed. `AppContainer` also provides the surrounding UI that's common to all apps. 
 
-`AppContainer`s in turn are laid out in a `AppGrid` component, which handles the visual positioning of apps on the screen, and the repositioning and resizing of apps.
+`AppContainer`s in turn are laid out in an `AppGridLayout` component, `AppTabLayout` component, or a `AppSingleLayout` component depending on which layout is currently active. The layout handles the visual positioning of apps on the screen, and possibly the repositioning and resizing of apps.
 
-Both `AppContainer` and `AppGrid` are presentational components that don't connect to the Redux store directly. Instead everything is given to them as input props. The connection to Redux happens one layer above, in a `Dashboard` or `AssetPage` component. These components act as the "smart components" that connect apps and grids to Redux.
+Both `AppContainer` and the `App*Layout` components are presentational components that don't connect to the Redux store directly. Instead everything is given to them as input props. The connection to Redux happens one layer above, in a `Dashboard` or `AssetPage` component. These components act as the "smart components" that connect apps and grids to Redux.
 
 * `Dashboard`
-  * `AppGrid`
+  * `AppGridLayout`
     * `AppContainer`
       * `SomeApp`
     * `AppContainer`
@@ -172,13 +176,9 @@ Both `AppContainer` and `AppGrid` are presentational components that don't conne
     * `AppContainer`
       * `ThirdApp`
 * `AssetPage`
-  * `AppGrid`
+  * `AppTabLayout`
     * `AppContainer`
       * `SomeApp`
-    * `AppContainer`
-      * `SomeOtherApp`
-    * `AppContainer`
-      * `ThirdApp`
 
 ## Redux Apps
 

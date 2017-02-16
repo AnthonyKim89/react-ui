@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { List, Map } from 'immutable';
 
-import AppGridLayout from '../../apps/components/AppGridLayout';
-import AppSingleLayout from '../../apps/components/AppSingleLayout';
+import apps from '../../apps';
 import DashboardAppAssetSettingEditor from './DashboardAppAssetSettingEditor';
 
 import { currentDashboard, dashboardAppAssets, isNative } from '../selectors';
@@ -47,9 +46,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    const AppLayout = this.props.currentDashboard && this.props.currentDashboard.get('layout') === 'singleApp' ?
-      AppSingleLayout :
-      AppGridLayout;
+    const AppLayout = this.props.currentDashboard && apps.layouts[this.props.currentDashboard.get('layout', 'grid')];
     return (
       <div className="c-dashboard" >
         {this.props.currentDashboard &&

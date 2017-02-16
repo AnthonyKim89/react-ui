@@ -1,0 +1,16 @@
+.c-drillstring-component-table table {
+  width: 100%;
+}
+
+.c-drillstring-component-table thead tr {
+  border-bottom: 1px solid white;
+}
+
+.c-drillstring-component-table tbody tr:nth-child(even) {
+  background-color: rgb(42, 41, 41);
+}
+
+.c-drillstring-component-table th,
+.c-drillstring-component-table td {
+  padding: 5px;
+}

@@ -12,6 +12,8 @@ import singleTrace from './trace/singleTrace';
 import multiTrace from './trace/multiTrace';
 import traceTab from './trace/traceTab';
 
+import drillstrings from './settings/drillstrings';
+
 import wellTimeline from './wellTimeline';
 
 // Apps that can be displayed on dashboard / asset pages, keyed by app type
@@ -36,6 +38,13 @@ export const uiApps = Map({
       singleTrace,
       multiTrace,
       traceTab
+    })
+  }),
+  settings: Map({
+    title: 'Settings',
+    subtitle: '',
+    appTypes: Map({
+      drillstrings
     })
   })
 });

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, browserHistory } from 'react-router';
 import { createStore, applyMiddleware } from 'redux';
-import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux'
+import { syncHistoryWithStore, routerMiddleware, push } from 'react-router-redux'
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { routes } from './routes';
@@ -32,3 +32,8 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
+
+// Programmatic navigation utility for native apps
+window.navigateAppTo = path => {
+  store.dispatch(push(path));
+};

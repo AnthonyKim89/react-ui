@@ -6,8 +6,7 @@ import { isEqual, isNull, omitBy } from 'lodash';
 import { stringify as queryString } from 'query-string';
 
 import AssetTabBar from './AssetTabBar';
-import AppGridLayout from '../../apps/components/AppGridLayout';
-import AppSingleLayout from '../../apps/components/AppSingleLayout';
+import apps from '../../apps';
 import * as appRegistry from '../../apps/appRegistry';
 
 import {
@@ -49,9 +48,7 @@ class AssetPage extends Component {
   }
 
   render() {
-    const AppLayout = this.props.currentAssetPageTab && this.props.currentAssetPageTab.get('layout') === 'singleApp' ?
-      AppSingleLayout :
-      AppGridLayout;
+    const AppLayout = this.props.currentAssetPageTab && apps.layouts[this.props.currentAssetPageTab.get('layout', 'grid')];
     return (
       <div className="c-asset-page" >
         {this.props.currentAssetPageTab &&

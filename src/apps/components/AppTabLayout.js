@@ -7,23 +7,56 @@ import common from '../../common';
 import subscriptions from '../../subscriptions';
 import * as appRegistry from '../appRegistry';
 
-import './AppSingleLayout.css';
+import './AppTabLayout.css';
 
 /**
- * Render a singleton app set. The set is expected to contain just one app which will
- * take over the whole page.
+ * Render an app set in a "tab layout" - a tab bar with a tab for each app, with
+ * one app visible at a time.
  */
-class AppSingleLayout extends Component {
+class AppTabLayout extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {selectedAppIdx: 0};
+  }
 
   render() {
     return (
-      <div className="c-app-single-layout">
-        {!this.props.apps.isEmpty() && this.renderApp(this.props.apps.first())}
+      <div className="c-app-tab-layout">
+        <div className="c-app-tab-layout__tab-bar">
+          <h4>Sections</h4>
+          <ul>
+            {this.props.apps.map((app, idx) =>
+              <li key={idx}
+                  className={idx === this.state.selectedAppIdx ? 'c-app-tab-layout__tab--selected' : ''}
+                  onClick={() => this.selectApp(idx)}>
+                {this.renderAppTabContent(app)}
+              </li>)}
+          </ul>
+        </div>
+        <div className="c-app-tab-layout__app">
+          {this.renderSelectedApp()}
+        </div>
       </div>
     );
   }
 
-  renderApp(app) {
+  selectApp(selectedAppIdx) {
+    this.setState({selectedAppIdx});
+  }
+
+  renderAppTabContent(app) {
+    const category = app.get('category');
+    const name = app.get('name');
+    const appType = appRegistry.uiApps.getIn([category, 'appTypes', name]);
+    return appType.constants.METADATA.title;
+  }
+
+  renderSelectedApp() {
+    if (this.props.apps.isEmpty()) {
+      return;
+    }
+    const app = this.props.apps.get(this.state.selectedAppIdx);
     const category = app.get('category');
     const name = app.get('name');
     const id = app.get('id');
@@ -62,7 +95,7 @@ class AppSingleLayout extends Component {
 
 }
 
-AppSingleLayout.propTypes = {
+AppTabLayout.propTypes = {
   apps: ImmutablePropTypes.seq.isRequired,
   appData: ImmutablePropTypes.map.isRequired,
   appAssets: ImmutablePropTypes.map.isRequired,
@@ -75,4 +108,4 @@ AppSingleLayout.propTypes = {
   isNative: PropTypes.bool.isRequired
 };
 
-export default AppSingleLayout;
+export default AppTabLayout;
