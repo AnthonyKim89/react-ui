@@ -9,14 +9,14 @@ class MainNav extends Component {
   render() {
     return (
       <Navbar href={this.getPathToFirstDashboard()} className="c-main-nav">
-        <NavItem className="navbar-brand" href={this.getPathToFirstDashboard()}>Corva</NavItem>
+        <NavItem className="navbar-brand" href={this.getPathToFirstDashboard()} onClick={(event) => this.navLoad(event)}>Corva</NavItem>
         {this.hasDashboards() &&
-        <NavItem href={this.getPathToFirstDashboard()}>Dashboards</NavItem>}
+        <NavItem href={this.getPathToFirstDashboard()} onClick={(event) => this.navLoad(event)}>Dashboards</NavItem>}
         <Dropdown trigger={<NavItem>Assets</NavItem>}>
-          <NavItem href="/assets/well"><Icon left>dashboard</Icon>All Wells</NavItem>
-          <NavItem href="/assets/rig"><Icon left>dashboard</Icon>All Rigs</NavItem>
+          <NavItem href="/assets/well" onClick={(event) => this.navLoad(event)}><Icon left>dashboard</Icon>All Wells</NavItem>
+          <NavItem href="/assets/rig" onClick={(event) => this.navLoad(event)}><Icon left>dashboard</Icon>All Rigs</NavItem>
           {this.props.recentAssets && this.props.recentAssets.map(asset =>
-            <NavItem key={asset.get('id')} href={`/assets/${asset.get('id')}/overview`}><Icon left>dashboard</Icon>{asset.get('name')}</NavItem>)}
+            <NavItem key={asset.get('id')} href={`/assets/${asset.get('id')}/overview`} onClick={(event) => this.navLoad(event)}><Icon left>dashboard</Icon>{asset.get('name')}</NavItem>)}
         </Dropdown>
         {this.props.currentUser &&
           <Dropdown trigger={<NavItem className="c-user-menu"><Icon className="c-user-menu">perm_identity</Icon></NavItem>} className="c-user-menu">
@@ -32,6 +32,17 @@ class MainNav extends Component {
           </NavItem>
         }*/
     );
+  }
+
+  // This takes a click event on a navitem and loads the link without a reload of the page.
+  navLoad(event) {
+    event.preventDefault();
+
+    let to = event.target.href;
+    to = to.replace("https://", "").replace("http://", "");
+    to = to.split("/").splice(1).join("/");
+    to = "/" + to;
+    this.context.router["push"](to);
   }
 
   hasDashboards() {
@@ -58,6 +69,10 @@ MainNav.propTypes = {
   recentAssets: ImmutablePropTypes.list.isRequired,
   currentUser: ImmutablePropTypes.map,
   logOut: PropTypes.func.isRequired,
-}
+};
+
+MainNav.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 
 export default MainNav;
