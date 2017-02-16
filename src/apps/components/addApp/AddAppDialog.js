@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Button, Glyphicon } from 'react-bootstrap';
+import { Button, Icon } from 'react-materialize';
 
 import AddAppDialogListing from './AddAppDialogListing';
 import AddAppDialogDetails from './AddAppDialogDetails';
@@ -25,8 +25,8 @@ class AddAppDialog extends Component {
         <AddAppDialogListing
           appTypes={this.props.appTypes}
           onSelectType={selectedAppType => this.setState({selectedAppType})} />}
-      <Button bsStyle="link" className="c-add-app-dialog__close-button" onClick={this.props.onClose}>
-        <Glyphicon glyph="remove" />
+      <Button className="c-add-app-dialog__close-button" onClick={this.props.onClose}>
+        <Icon>delete</Icon> Cancel
       </Button>
     </div>;
   }

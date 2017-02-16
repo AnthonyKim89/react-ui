@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import { SUBSCRIPTIONS } from './constants';
@@ -14,11 +14,11 @@ class FrictionFactorApp extends Component {
     return (
       <div className="c-tnd-friction-factor">
         {this.getData() ?
-          <Grid fluid>
+          <div>
             {this.renderFactor('Casing', 'casing')}
             {this.renderFactor('Open Hole Slackoff', 'open_hole_slackoff')}
             {this.renderFactor('Open Hole Pickup', 'open_hole_pickup')}
-          </Grid> :
+          </div> :
           <LoadingIndicator />}
       </div>
     );
@@ -26,15 +26,15 @@ class FrictionFactorApp extends Component {
 
   renderFactor(label, fieldName) {
     return <Row className="c-tnd-friction-factor__factor">
-      <Col md={4}>
+      <Col s={5} className="c-tnd-friction-factor__label">
         <label>{label}</label>
       </Col>
-      <Col md={4}>
-        <input type="number"
+      <Col s={3}>
+        <input type="number" className="c-tnd-friction-factor__input"
                value={this.getData().getIn(['data', 'current_usage', fieldName])}
                onChange={() => {}}/>
       </Col>
-      <Col md={4} className="c-tnd-friction-factor__predicted">
+      <Col s={4} className="c-tnd-friction-factor__predicted">
         *predicted {this.getData().getIn(['data', 'predicted', fieldName])}
       </Col>
     </Row>;

@@ -1,9 +1,10 @@
-/* Colors & fonts should really be extracted to a Bootstrap theme */
 nav.c-main-nav {
   margin: 0;
   background-color: #233736;
-  border-color: #677575;
   font-size: 16px;
+  top: 0;
+  border-bottom: 1px solid #677575;
+  position: absolute;
 }
 
 nav.c-main-nav .navbar-brand {
@@ -13,43 +14,13 @@ nav.c-main-nav .navbar-brand {
   background-repeat: no-repeat;
   background-position: center center;
 }
-nav.c-main-nav .navbar-nav {
-  margin-left: 100px;
-}
-nav.c-main-nav .navbar-nav > li > a {
-  color: white;
-}
-nav.c-main-nav .navbar-nav > li > a:hover, nav.c-main-nav .navbar-nav > li > a:focus {
-  background: transparent;
-  color: #57c9c2;
-}
-nav.c-main-nav .navbar-nav > li > a:active {
-  background: transparent;
-}
-nav.c-main-nav .navbar-nav > li.active > a, nav.MainNav .navbar-nav li.active > a:focus {
-  background: transparent;
-  color: #57c9c2;
-  font-family: orgonboldregular;
+
+nav.c-main-nav ul.c-main-nav span ul.dropdown-content {
+  width: auto !important;
+  top: 64px !important;
 }
 
-.c-main-nav__current-user {
-  color: white;
-}
-
-.c-main-nav__profile-dropdown-button {
-  font-size: 20px;
-  font-family: orgonboldregular;
-  color: white;
-  background: #5c6b6a;
-}
-
-.c-main-nav__all-assets-icon {
-  display: inline-block;
-  width: 15px;
-  height: 18px;
-  margin-right: 10px;
-  background-image: url('./images/icon-all-assets.png');
-  background-size: contain;
-  background-position: 0 bottom;
-  background-repeat: no-repeat;
+nav.c-main-nav span:nth-of-type(2) {
+  position: absolute;
+  right: 5px;
 }

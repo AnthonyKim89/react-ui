@@ -22,17 +22,18 @@ class Chart extends Component {
         zoomType: 'xy',
         panning: true,
         panKey: 'shift',
-        plotBackgroundColor: 'rgb(42, 46, 46)'
+        plotBackgroundColor: 'rgb(42, 46, 46)',
       },
       plotOptions: {
         series: {
           turboThreshold: 5000
-        }
+        },
       },
       xAxis: {
         gridLineWidth: 1,
         gridLineColor: 'rgb(47, 51, 51)',
-        lineWidth: 0,
+        lineWidth: this.props.xAxisWidth || 0,
+        lineColor:  this.props.xAxisColor || '',
         tickWidth: 0,
         labels: {
           enabled: this.isAxisLabelsVisible(this.props),
@@ -50,7 +51,7 @@ class Chart extends Component {
         verticalAlign: 'middle',
         layout: 'vertical',
         itemStyle: {color: '#fff'},
-        enabled: true
+        enabled: true,
       },
       series
     });
@@ -172,9 +173,12 @@ class Chart extends Component {
       },
       opposite: props.yAxisOpposite,
       min: series.minValue || null,
-      max: series.maxValue || null
+      max: series.maxValue || null,
+      lineWidth: props.yAxisWidth || 0,
+      lineColor:  props.yAxisColor || ''
     };
   }
+
   getSeriesArray(props = this.props) {
     return React.Children.toArray(props.children)
   }

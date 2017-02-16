@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import Modal from 'react-modal';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Button, Glyphicon } from 'react-bootstrap';
+import { Button, Icon } from 'react-materialize';
 import { Map } from 'immutable';
 
 import AppContainer from './AppContainer';
@@ -23,7 +23,7 @@ const GridLayout = WidthProvider(Responsive);
 
 const addAppModalStyles = {
   content: {
-    top: '50px',
+    top: '65px',
     left: '0',
     right: '0',
     bottom: '0',
@@ -60,7 +60,7 @@ class AppGridLayout extends Component {
         {this.renderMaximizedApp()}
         {!this.props.isNative &&
           <Button onClick={() => this.openAddAppDialog()} className="c-app-grid__add-app">
-            <Glyphicon glyph="plus" /> Add App
+            <Icon>library_add</Icon> Add App
           </Button>}
         {!this.props.isNative &&
           <Modal
@@ -128,6 +128,7 @@ class AppGridLayout extends Component {
                          onAppSettingsUpdate={(settings) => this.props.onAppSettingsUpdate(id, settings)}>
       <appType.AppComponent
         data={appData}
+        asset={this.props.appAssets.get(id)}
         {...this.getPageParams().toJS()}
         {...settings.toObject()}
         size={size}

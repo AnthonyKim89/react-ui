@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import { SUBSCRIPTIONS } from './constants';
@@ -15,26 +15,20 @@ class OverviewApp extends Component {
     return (
       <div className="c-tnd-overview">
         {subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS) ?
-          <Grid fluid>
             <Row>
-              <Col md={6} xs={12}  className="c-tnd-overview__gauge">
+              <Col s={6} className="c-tnd-overview__gauge">
                 <h4 className="c-tnd-overview__gauge-title">Weight Transfer</h4>
                 <Gauge widthCols={this.props.widthCols}
                        bands={this.getGaugeBands()}
                        value={this.getWeightTransferGaugeValue()} />
               </Col>
-              <Col md={6} xs={12}  className="c-tnd-overview__gauge">
+              <Col s={6} className="c-tnd-overview__gauge">
                 <h4 className="c-tnd-overview__gauge-title">Drag</h4>
                 <Gauge widthCols={this.props.widthCols}
                        bands={this.getGaugeBands()}
                        value={this.getDragGaugeValue()} />
               </Col>
-            </Row>
-            <Row>
-              <Col md={12}>
-              </Col>
-            </Row>
-          </Grid> :
+            </Row> :
           <LoadingIndicator />}
       </div>
     );

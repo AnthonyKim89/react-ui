@@ -1,5 +1,5 @@
 .c-asset-list-page {
-  padding-top: 60px;
+  padding-top: 70px;
 }
 
 .c-asset-list-page__search {
@@ -24,4 +24,5 @@
 }
 .c-asset-list-page__sort-icon {
   margin-left: 10px;
+  font-size: 1rem !important;
 }

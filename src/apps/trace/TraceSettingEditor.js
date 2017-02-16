@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { FormControl } from 'react-bootstrap';
+import { Input } from 'react-materialize';
 
 import { SUPPORTED_TRACES } from './constants';
 
@@ -7,11 +7,7 @@ class TraceSettingEditor extends Component {
   
   render() {
     return (
-      <FormControl
-        componentClass="select"
-        placeholder="Select"
-        value={this.props.currentValue}
-        onChange={e => this.onChange(e)}>
+      <Input type='select' label="Select" value={this.props.currentValue} onChange={e => this.onChange(e)}>
         <option value={undefined}>
         </option>
         {SUPPORTED_TRACES.map(({trace, label}) =>
@@ -19,7 +15,7 @@ class TraceSettingEditor extends Component {
             {label}
           </option>
         )}
-      </FormControl>
+      </Input>
     );
   }
 

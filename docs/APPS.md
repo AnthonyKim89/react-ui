@@ -104,7 +104,7 @@ Every app, both UI and control, is registered in to `appRegistry.js`. It is from
 
 Every UI app may expect to get the following input props:
 
-* `assetId` - `number`
+* `asset` - An Immutable.js Map containing information about the asset that is being viewed.
 * `data` - An Immutable.js Map of the latest data from the app's subscriptions. There will be a key in the Map for each of the subscriptions that the app makes, as defined in the app's `constants.js` (as soons as data has been received - it will be `undefined` before that!)
 * `size` - {`Size.SMALL`, `Size.MEDIUM`, `Size.LARGE`, `Size.XLARGE`} - the size the app is currently occupying in the layout. Can be used for responsive rendering.
 * `widthCols` - number - the current number of columns the app is occuping in the widget grid. Apps *should* use `size` for their responsive rendering istead of `widthCols`, but `widthCols` can be useful to react to resizing using `componentWillReceiveProps`.
