@@ -19,15 +19,17 @@
 }
 
 .c-app-container h4.c-app-container__title {
-  font-weight: bold;
+  font-weight: 900;
   margin: 0 0 5px 0;
-  font-size: 1.4rem;
+  font-size: 1.45rem;
+  font-family: 'Open Sans';
+  letter-spacing: 0.5px;
 }
 
 .c-app-container h5.c-app-container__subtitle {
-  color:rgb(200, 200, 200);
+  color: #bbb;
   margin: 0;
-  font-size: 0.85rem;
+  font-size: 0.815rem;
 }
 
 .c-app-container--editable .c-app-container__title, .c-app-container--editable .c-app-container__subtitle {
