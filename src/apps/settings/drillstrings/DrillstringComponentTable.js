@@ -14,7 +14,10 @@ class DrillstringComponentTable extends Component {
     return <div className="c-drillstring-component-table">
       <Row>
         <Col m={2}>
-          <DrillstringComponentSchematic drillstring={this.props.drillstring} />
+          <DrillstringComponentSchematic
+            drillstring={this.props.drillstring}
+            isEditable={this.props.isEditable}
+            onReorderComponents={this.props.onReorderComponents} />
         </Col>
         <Col m={10}>
           <table>
@@ -35,6 +38,11 @@ class DrillstringComponentTable extends Component {
                 this.renderComponent(cmp, idx))}
             </tbody>
           </table>
+        </Col>
+      </Row>
+      <Row>
+        <Col m={2}></Col>
+        <Col m={10}>
           {this.props.isEditable &&
             <Button floating icon="add" onClick={() => this.props.onAddComponent()}></Button>}
         </Col>
@@ -101,7 +109,8 @@ DrillstringComponentTable.propTypes = {
   isEditable: PropTypes.bool.isRequired,
   onAddComponent: PropTypes.func,
   onDeleteComponent: PropTypes.func,
-  onComponentFieldChange: PropTypes.func
+  onComponentFieldChange: PropTypes.func,
+  onReorderComponents: PropTypes.func
 };
 
 export default DrillstringComponentTable;

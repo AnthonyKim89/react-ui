@@ -1,4 +1,5 @@
 .c-drillstring-component-schematic__component {
+  max-height: 100%;
   display: flex;
   justify-content: space-around;
 }

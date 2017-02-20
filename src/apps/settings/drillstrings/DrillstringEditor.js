@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Row, Col, Button, Input } from 'react-materialize';
 import { Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import uuidV1 from 'uuid/v1';
 
 import DrillstringComponentTable from './DrillstringComponentTable';
 import DrillstringSummary from './DrillstringSummary';
@@ -44,7 +45,6 @@ class DrillstringEditor extends Component {
           min="1"
           step="1"
           value={this.getAttr('id', '')}
-          defaultValue="1"
           onChange={e => this.updateAttr('id', parseInt(e.target.value, 10))} />
         <Input
           m={4}
@@ -59,14 +59,12 @@ class DrillstringEditor extends Component {
           m={4}
           type="number"
           value={this.getAttr('start_depth', 0)}
-          defaultValue="0"
           onChange={e => this.updateAttr('start_depth', parseFloat(e.target.value))} />
         <Input
           m={4}
           label="Depth Out"
           type="number"
           value={this.getAttr('end_depth', 0)}
-          defaultValue="0"
           onChange={e => this.updateAttr('end_depth', parseFloat(e.target.value))} />
       </Row>,
       <Row key="attributes3" className="c-drillstring-editor__attributes">
@@ -75,14 +73,12 @@ class DrillstringEditor extends Component {
           label="Time In"
           type="number"
           value={this.getAttr('start_timestamp', 0)}
-          defaultValue="0"
           onChange={e => this.updateAttr('start_timestamp', parseInt(e.target.value, 10))} />
         <Input
           m={4}
           label="Time Out"
           type="text"
           value={this.getAttr('end_timestamp', 0)}
-          defaultValue="0"
           onChange={e => this.updateAttr('end_timestamp', parseInt(e.target.value, 10))} />
       </Row>
     ];
@@ -105,7 +101,8 @@ class DrillstringEditor extends Component {
           isEditable={true}
           onAddComponent={() => this.addComponent()}
           onDeleteComponent={(...a) => this.deleteComponent(...a)}
-          onComponentFieldChange={(...a) => this.updateComponentAttr(...a)}/>
+          onComponentFieldChange={(...a) => this.updateComponentAttr(...a)}
+          onReorderComponents={(...a) => this.reorderComponents(...a)}/>
       </Col>
     </Row>;
   }
@@ -117,10 +114,10 @@ class DrillstringEditor extends Component {
                 disabled={!this.isValid()}>
           Save
         </Button>
-        or
-        <Button onClick={() => this.props.onCancel()}>
+        &nbsp;or&nbsp;
+        <a onClick={() => this.props.onCancel()}>
           Cancel
-        </Button>
+        </a>
       </Col>
     </Row>;
   }
@@ -136,8 +133,13 @@ class DrillstringEditor extends Component {
   }
 
   addComponent() {
+    const newComponent = Map({
+      id: uuidV1(),
+      type: 'bit',
+      order: this.state.drillstring.getIn(['data', 'components']).size
+    });
     this.setState({
-      drillstring: this.state.drillstring.updateIn(['data', 'components'], c => c.push(Map({type: 'bit'})))
+      drillstring: this.state.drillstring.updateIn(['data', 'components'], c => c.push(newComponent))
     });
   }
 
@@ -150,6 +152,13 @@ class DrillstringEditor extends Component {
   updateComponentAttr(idx, name, value) {
     this.setState({
       drillstring: this.state.drillstring.setIn(['data', 'components', idx, name], value)
+    });
+  }
+
+  reorderComponents(newComponents) {
+    const withNewIndexes = newComponents.map((comp, idx) => comp.set('order', idx));
+    this.setState({
+      drillstring: this.state.drillstring.setIn(['data', 'components'], withNewIndexes)
     });
   }
 
