@@ -136,7 +136,7 @@ class DrillstringEditor extends Component {
 
   addComponent() {
     this.setState({
-      drillstring: this.state.drillstring.updateIn(['data', 'components'], c => c.push(Map({})))
+      drillstring: this.state.drillstring.updateIn(['data', 'components'], c => c.push(Map({type: 'bit'})))
     });
   }
 

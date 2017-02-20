@@ -11,6 +11,8 @@
 }
 
 .c-drillstring-component-table th,
-.c-drillstring-component-table td {
-  padding: 5px;
+.c-drillstring-component-table td,
+.c-drillstring-component-table td .col {
+  margin: 0;
+  padding: 0 5px;
 }

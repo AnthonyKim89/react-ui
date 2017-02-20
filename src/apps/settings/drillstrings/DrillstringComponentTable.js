@@ -1,7 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { Button, Input } from 'react-materialize';
+import { Row, Col, Button, Input } from 'react-materialize';
 import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+
+import { COMPONENT_TYPES } from './constants';
+import DrillstringComponentSchematic from './DrillstringComponentSchematic';
 
 import './DrillstringComponentTable.css';
 
@@ -9,26 +12,33 @@ class DrillstringComponentTable extends Component {
 
   render() {
     return <div className="c-drillstring-component-table">
-      <table>
-        <thead>
-          <tr>
-            <th>Position</th>
-            <th>Name</th>
-            <th>Family</th>
-            <th>ID (in)</th>
-            <th>OD (in)</th>
-            <th>Length (ft)</th>
-            <th>Weight (lbs)</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {this.props.drillstring.getIn(['data', 'components'], List()).map((cmp, idx) => 
-            this.renderComponent(cmp, idx))}
-        </tbody>
-      </table>
-      {this.props.isEditable &&
-        <Button floating icon="add" onClick={() => this.props.onAddComponent()}></Button>}
+      <Row>
+        <Col m={2}>
+          <DrillstringComponentSchematic drillstring={this.props.drillstring} />
+        </Col>
+        <Col m={10}>
+          <table>
+            <thead>
+              <tr>
+                <th>Position</th>
+                <th>Name</th>
+                <th>Family</th>
+                <th>ID (in)</th>
+                <th>OD (in)</th>
+                <th>Length (ft)</th>
+                <th>Weight (lbs)</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.props.drillstring.getIn(['data', 'components'], List()).map((cmp, idx) => 
+                this.renderComponent(cmp, idx))}
+            </tbody>
+          </table>
+          {this.props.isEditable &&
+            <Button floating icon="add" onClick={() => this.props.onAddComponent()}></Button>}
+        </Col>
+      </Row>
     </div>;
   }
 
@@ -36,7 +46,7 @@ class DrillstringComponentTable extends Component {
     return <tr key={idx}>
       <td>{idx + 1}</td>
       <td>{this.renderComponentTextField(component, idx, 'name')}</td>
-      <td>{this.renderComponentTextField(component, idx, 'type')}</td>
+      <td>{this.renderComponentSelectField(component, idx, 'type', COMPONENT_TYPES)}</td>
       <td>{this.renderComponentNumberField(component, idx, 'inner_diameter')}</td>
       <td>{this.renderComponentNumberField(component, idx, 'outer_diameter')}</td>
       <td>{this.renderComponentNumberField(component, idx, 'length')}</td>
@@ -54,6 +64,20 @@ class DrillstringComponentTable extends Component {
         type="text"
         value={component.get(field, '')}
         onChange={e => this.props.onComponentFieldChange(idx, field, e.target.value)} />
+    } else {
+      return component.get(field);
+    }
+  }
+
+  renderComponentSelectField(component, idx, field, options) {
+    if (this.props.isEditable) {
+      return <Input
+        type="select"
+        value={component.get(field, '')}
+        onChange={e => this.props.onComponentFieldChange(idx, field, e.target.value)}>
+        {options.map(({name, type}) =>
+          <option key={type} value={type}>{name}</option>)}
+      </Input>
     } else {
       return component.get(field);
     }

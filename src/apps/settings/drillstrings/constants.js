@@ -11,3 +11,17 @@ export const METADATA = {
   isHiddenFromAddApp: true
 };
 export const SUPPORTED_ASSET_TYPES = ['rig'];
+
+export const COMPONENT_TYPES = [
+  {name: 'bit', type: 'bit'},
+  {name: 'drill collar', type: 'drill_collar'},
+  {name: 'drill pipe', type: 'drill_pipe'},
+  {name: 'heavy weight drill pipe', type: 'heavy_weight_drill_pipe'},
+  {name: 'jar', type: 'jar'},
+  {name: 'motor', type: 'motor'},
+  {name: 'mwd', type: 'mwd'},
+  {name: 'spiral drill collar', type: 'spiral_drill_collar'},
+  {name: 'stabilizer', type: 'stabilizer'},
+  {name: 'sub', type: 'sub'},
+  {name: 'tail pipe', type: 'tail_pipe'}
+];
