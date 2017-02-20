@@ -45,13 +45,15 @@ class DrillstringsApp extends Component {
         <DrillstringEditor
           drillstring={this.state.editingDrillstring}
           onSave={drillstring => this.saveDrillstring(drillstring)}
-          onCancel={() => this.setState({editingDrillstring: null})} /> :
+          onCancel={() => this.setState({editingDrillstring: null})}
+          onDeleteDrillstring={() => this.deleteDrillstring()} /> :
         <DrillstringBrowser
           drillstrings={this.state.drillstrings}
           displayingDrillstring={this.state.displayingDrillstring}
           onSelectDrillstring={ds => this.setState({displayingDrillstring: ds})}
           onNewDrillstring={() => this.setState({editingDrillstring: this.makeNewDrillstring()})}
-          onEditDrillstring={() => this.setState({editingDrillstring: this.state.displayingDrillstring})} />}
+          onEditDrillstring={() => this.setState({editingDrillstring: this.state.displayingDrillstring})}
+          onDeleteDrillstring={() => this.deleteDrillstring()} />}
     </div>;
   }
 
@@ -71,10 +73,23 @@ class DrillstringsApp extends Component {
       await api.postAppStorage('corva.data', 'drillstrings', drillstring);
     this.setState({
       drillstrings: this.state.drillstrings
-        .filterNot((ds => ds.getIn(['data', 'id']) === savedString.getIn(['data', 'id'])))
+        .filterNot(ds => ds.getIn(['data', 'id']) === savedString.getIn(['data', 'id']))
         .push(savedString)
         .sortBy(ds => ds.getIn(['data', 'id'])),
       displayingDrillstring: savedString
+    });
+  }
+
+  async deleteDrillstring() {
+    const drillstring = this.state.editingDrillstring || this.state.displayingDrillstring;
+    console.log('deleting', drillstring.toJS());
+    await api.deleteAppStorage('corva.data', 'drillstrings', drillstring.get('_id'));
+    const drillstringsAfterDelete = this.state.drillstrings
+      .filterNot(ds => ds.get('_id') === drillstring.get('_id'));
+    this.setState({
+      drillstrings: drillstringsAfterDelete,
+      editingDrillstring: null,
+      displayingDrillstring: drillstringsAfterDelete.first()
     });
   }
 

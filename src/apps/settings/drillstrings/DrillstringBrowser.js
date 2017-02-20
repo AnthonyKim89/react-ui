@@ -32,7 +32,8 @@ class DrillstringBrowser extends Component {
           <DrillstringSummary
             drillstring={this.props.displayingDrillstring}
             isReadOnly={false}
-            onEditDrillstring={this.props.onEditDrillstring} />
+            onEditDrillstring={this.props.onEditDrillstring}
+            onDeleteDrillstring={this.props.onDeleteDrillstring} />
           <DrillstringComponentTable
             drillstring={this.props.displayingDrillstring}
             isEditable={false} />
@@ -50,7 +51,8 @@ DrillstringBrowser.propTypes = {
   displayingDrillstring: ImmutablePropTypes.map,
   onSelectDrillstring: PropTypes.func.isRequired,
   onNewDrillstring: PropTypes.func.isRequired,
-  onEditDrillstring: PropTypes.func.isRequired
+  onEditDrillstring: PropTypes.func.isRequired,
+  onDeleteDrillstring: PropTypes.func.isRequired
 };
 
 export default DrillstringBrowser;

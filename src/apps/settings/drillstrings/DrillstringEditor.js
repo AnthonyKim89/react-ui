@@ -91,7 +91,8 @@ class DrillstringEditor extends Component {
   renderSummary() {
     return <Row>
       <Col m={12}>
-        <DrillstringSummary drillstring={this.state.drillstring} isReadOnly={true} />
+        <DrillstringSummary drillstring={this.state.drillstring} isReadOnly={true}
+                            onDeleteDrillstring={this.props.onDeleteDrillstring} />
       </Col>
     </Row>;
   }
@@ -161,7 +162,8 @@ class DrillstringEditor extends Component {
 DrillstringEditor.propTypes = {
   drillstring: ImmutablePropTypes.map.isRequired,
   onSave: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired
+  onCancel: PropTypes.func.isRequired,
+  onDeleteDrillstring: PropTypes.func.isRequired
 };
 
 export default DrillstringEditor;

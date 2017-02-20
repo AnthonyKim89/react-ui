@@ -146,6 +146,11 @@ export async function putAppStorage(appKey, collection, id, item) {
   return fromJS(response);
 }
 
+export async function deleteAppStorage(appKey, collection, id) {
+  const response = await del(`/v1/data/${appKey}/${collection}/${id}`);
+  return fromJS(response);
+}
+
 export async function getWellTimeline(wellId) {
   const data = await get(`/v1/jobs/${wellId}/drill_view_timeline_slider`);
   return fromJS(data);

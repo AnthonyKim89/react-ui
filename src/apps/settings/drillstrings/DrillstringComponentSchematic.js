@@ -9,7 +9,7 @@ class DrillstringComponentSchematic extends Component {
   render() {
     return <div className="c-drillstring-component-schematic">
       {this.props.drillstring.getIn(['data', 'components'], List()).map((cmp, idx) => 
-        <div className="c-drillstring-component-schematic__component">
+        <div className="c-drillstring-component-schematic__component" key={idx}>
           <div className="c-drillstring-component-schematic__number">
             {idx + 1}
           </div>

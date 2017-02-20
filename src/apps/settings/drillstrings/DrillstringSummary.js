@@ -31,6 +31,8 @@ export class DrillstringSummary extends Component {
         <Col m={1}>
           {!this.props.isReadOnly &&
             <Button floating large icon="mode_edit" onClick={() => this.props.onEditDrillstring()}></Button>}
+          {this.props.drillstring.get('_id') &&
+            <Button floating large icon="delete" className="red" onClick={() => this.props.onDeleteDrillstring()}></Button>}
         </Col>
       </Row>
       <Row>
@@ -86,7 +88,8 @@ export class DrillstringSummary extends Component {
 DrillstringSummary.propTypes = {
   drillstring: ImmutablePropTypes.map.isRequired,
   isReadOnly: PropTypes.bool.isRequired,
-  onEditDrillstring: PropTypes.func
+  onEditDrillstring: PropTypes.func,
+  onDeleteDrillstring: PropTypes.func.isRequired
 };
 
 export default DrillstringSummary;
