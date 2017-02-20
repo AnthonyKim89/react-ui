@@ -132,17 +132,17 @@ export async function getActiveChildAsset(id) {
 
 export async function getAppStorage(appKey, collection, assetId, params = Map()) {
   const qry = queryString(params.merge({asset_id: assetId}).toJS());
-  const data = await get(`/v1/app_storage/${appKey}/${collection}?${qry}`);
+  const data = await get(`/v1/data/${appKey}/${collection}?${qry}`);
   return fromJS(data);
 }
 
 export async function postAppStorage(appKey, collection, item) {
-  const response = await post(`/v1/app_storage/${appKey}/${collection}`, item.toJS());
+  const response = await post(`/v1/data/${appKey}/${collection}`, item.toJS());
   return fromJS(response);
 }
 
 export async function putAppStorage(appKey, collection, id, item) {
-  const response = await put(`/v1/app_storage/${appKey}/${collection}/${id}`, item.toJS());
+  const response = await put(`/v1/data/${appKey}/${collection}/${id}`, item.toJS());
   return fromJS(response);
 }
 
