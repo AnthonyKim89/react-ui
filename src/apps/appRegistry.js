@@ -1,5 +1,6 @@
 import { List, Map } from 'immutable';
 
+// TORQUE AND DRAG APPS
 import tndOverview from './torqueAndDrag/overview';
 import tndBroomstick from './torqueAndDrag/broomstick';
 import tndAxialLoad from './torqueAndDrag/axialLoad';
@@ -8,12 +9,15 @@ import tndFrictionFactor from './torqueAndDrag/frictionFactor';
 import tndStress from './torqueAndDrag/stress';
 import tndTorque from './torqueAndDrag/torque';
 
+// TRACE APPS
 import singleTrace from './trace/singleTrace';
 import multiTrace from './trace/multiTrace';
 import traceTab from './trace/traceTab';
 
+// SETTINGS APPS
 import drillstrings from './settings/drillstrings';
 
+// CONTROL APPS
 import wellTimeline from './wellTimeline';
 
 // Apps that can be displayed on dashboard / asset pages, keyed by app type
@@ -29,6 +33,12 @@ export const uiApps = Map({
       frictionFactor: tndFrictionFactor,
       stress: tndStress,
       torque: tndTorque
+    })
+  }),
+  drillingEfficiency: Map({
+    title: 'Drilling Efficiency',
+    subtitle: 'Downhole drilling efficiency',
+    appTypes: Map({
     })
   }),
   trace: Map({
