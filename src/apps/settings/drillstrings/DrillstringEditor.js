@@ -26,7 +26,7 @@ class DrillstringEditor extends Component {
   }
 
   renderTitle() {
-    if (this.props.drillstring.get('id')) {
+    if (this.props.drillstring.get('_id')) {
       return <Row><Col m={12}><h4>Edit Drillstring</h4></Col></Row>;
     } else {
       return <Row><Col m={12}><h4>Add New Drillstring</h4></Col></Row>;

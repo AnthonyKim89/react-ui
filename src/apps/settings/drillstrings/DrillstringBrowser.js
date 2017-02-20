@@ -11,11 +11,12 @@ class DrillstringBrowser extends Component {
 
   render() {
     return <div className="c-drillstring-browser">
+      <h4>Drillstrings/BHAs</h4>
       <Row>
-        <Col m={1}>
-          Drillstring
-        </Col>
-        <Input m={10} type="select" onChange={evt => this.onSelectChange(evt.target.value)}>
+        <Input m={11}
+               label="Drillstring"
+               type="select"
+               onChange={evt => this.onSelectChange(evt.target.value)}>
             {this.props.drillstrings.map(ds =>
               <option key={ds.get('_id')} value={ds.get('_id')}>
                 BHA #{ds.getIn(['data', 'id'])}
@@ -23,7 +24,7 @@ class DrillstringBrowser extends Component {
             )}
         </Input>
         <Col m={1}>
-          <Button onClick={() => this.props.onNewDrillstring()}>Add</Button>
+          <Button floating large icon="add" onClick={() => this.props.onNewDrillstring()} />
         </Col>
       </Row>
       {this.props.displayingDrillstring &&

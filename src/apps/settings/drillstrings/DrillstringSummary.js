@@ -30,7 +30,7 @@ export class DrillstringSummary extends Component {
         </Col>
         <Col m={1}>
           {!this.props.isReadOnly &&
-            <Button onClick={() => this.props.onEditDrillstring()}>Edit</Button>}
+            <Button floating large icon="mode_edit" onClick={() => this.props.onEditDrillstring()}></Button>}
         </Col>
       </Row>
       <Row>

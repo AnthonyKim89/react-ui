@@ -24,7 +24,7 @@ class AppTabLayout extends Component {
     return (
       <div className="c-app-tab-layout">
         <div className="c-app-tab-layout__tab-bar">
-          <h4>Sections</h4>
+          <h5>Sections</h5>
           <ul>
             {this.props.apps.map((app, idx) =>
               <li key={idx}
@@ -70,6 +70,7 @@ class AppTabLayout extends Component {
                          lastDataUpdate={subscriptions.selectors.lastDataUpdate(appData)}
                          isNative={this.props.isNative}
                          isActionsDisabled={true}
+                         isTitlesDisabled={true}
                          size={size}
                          appSettings={settings}
                          pageParams={this.getPageParams()}

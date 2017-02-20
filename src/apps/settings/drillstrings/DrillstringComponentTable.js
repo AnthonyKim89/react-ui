@@ -28,7 +28,7 @@ class DrillstringComponentTable extends Component {
         </tbody>
       </table>
       {this.props.isEditable &&
-        <Button onClick={() => this.props.onAddComponent()}>Add component</Button>}
+        <Button floating icon="add" onClick={() => this.props.onAddComponent()}></Button>}
     </div>;
   }
 
@@ -43,7 +43,7 @@ class DrillstringComponentTable extends Component {
       <td>{this.renderComponentNumberField(component, idx, 'linear_weight')}</td>
       <td>
         {this.props.isEditable &&
-          <Button onClick={() => this.props.onDeleteComponent(idx)}>Remove</Button>}
+          <Button floating icon="delete" className="red" onClick={() => this.props.onDeleteComponent(idx)}></Button>}
       </td>
     </tr>;
   }

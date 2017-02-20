@@ -70,14 +70,15 @@ class AppContainer extends Component {
     const classes = {
       'c-app-container': true,
       'c-app-container--maximized': this.props.maximized,
-      'c-app-container--with-title': this.props.appType.constants.METADATA.title,
-      'c-app-container--with-subtitle': this.props.appType.constants.METADATA.subtitle,
+      'c-app-container--with-title': !this.props.isTitlesDisabled && this.props.appType.constants.METADATA.title,
+      'c-app-container--with-subtitle': !this.props.isTitlesDisabled  && this.props.appType.constants.METADATA.subtitle,
       'c-app-container--movable': !this.props.isNative
     };
     return (
       <div className={classSet(classes)}>
-        <h4 className="c-app-container__title">{this.props.appType.constants.METADATA.title}</h4>
-        {this.props.appType.constants.METADATA.subtitle &&
+        {!this.props.isTitlesDisabled && 
+          <h4 className="c-app-container__title">{this.props.appType.constants.METADATA.title}</h4>}
+        {!this.props.isTitlesDisabled && this.props.appType.constants.METADATA.subtitle &&
           <h5 className="c-app-container__subtitle">{this.props.appType.constants.METADATA.subtitle}</h5>}
         <div className="c-app-container__content">
           {this.props.children}
@@ -163,6 +164,7 @@ AppContainer.propTypes = {
   location: PropTypes.object.isRequired,
   isNative: PropTypes.bool.isRequired,
   isActionsDisabled: PropTypes.bool,
+  isTitlesDisabled: PropTypes.bool,
   size: PropTypes.string.isRequired,
   maximized: PropTypes.bool,
   appSettings: ImmutablePropTypes.map.isRequired,

@@ -13,7 +13,7 @@
   flex: 1;
   padding: 0;
 }
-.c-app-tab-layout__tab-bar h4, .c-app-tab-layout__tab-bar li {
+.c-app-tab-layout__tab-bar h5, .c-app-tab-layout__tab-bar li {
   padding: 10px;
 }
 .c-app-tab-layout__tab--selected {
