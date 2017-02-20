@@ -52,6 +52,7 @@ class AppGridLayout extends Component {
         <GridLayout breakpoints={GRID_BREAKPOINTS}
                     cols={GRID_COLUMN_SIZES}
                     rowHeight={GRID_ROW_HEIGHT}
+                    measureBeforeMount={true}
                     onResizeStop={(...args) => this.onResizeStop(...args)}
                     onDragStop={(...args) => this.onDragStop(...args)}
                     draggableCancel={NON_DRAGGABLE_ELEMENT_SELECTOR}>
