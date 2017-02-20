@@ -30,7 +30,7 @@ export function logIn(email, password) {
       dispatch(push('/'));
       dispatch(pages.actions.start(false));
     } catch (e) {
-      if (e.status === 404) {
+      if (e.status === 401) {
         dispatch(loginFailed());
       } else {
         throw e;
