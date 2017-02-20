@@ -26,5 +26,4 @@
 .c-app-tab-layout__app {
   flex: 6;
   position: relative;
-  overflow-y: auto;
 }
