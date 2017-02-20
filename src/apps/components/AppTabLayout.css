@@ -1,6 +1,6 @@
 .c-app-tab-layout {
   position: fixed;
-  top: 110px;
+  top: 120px;
   bottom: 40px;
   left: 0;
   right: 0;
@@ -26,4 +26,5 @@
 .c-app-tab-layout__app {
   flex: 6;
   position: relative;
+  overflow-y: auto;
 }

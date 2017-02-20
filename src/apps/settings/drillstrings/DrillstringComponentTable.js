@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Input } from 'react-materialize';
 import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
@@ -43,14 +43,14 @@ class DrillstringComponentTable extends Component {
       <td>{this.renderComponentNumberField(component, idx, 'linear_weight')}</td>
       <td>
         {this.props.isEditable &&
-          <Button bsStyle="danger" onClick={() => this.props.onDeleteComponent(idx)}>Remove</Button>}
+          <Button onClick={() => this.props.onDeleteComponent(idx)}>Remove</Button>}
       </td>
     </tr>;
   }
 
   renderComponentTextField(component, idx, field) {
     if (this.props.isEditable) {
-      return <input
+      return <Input
         type="text"
         value={component.get(field, '')}
         onChange={e => this.props.onComponentFieldChange(idx, field, e.target.value)} />
@@ -61,7 +61,7 @@ class DrillstringComponentTable extends Component {
 
   renderComponentNumberField(component, idx, field) {
     if (this.props.isEditable) {
-      return <input
+      return <Input
         type="number"
         value={component.get(field, '')}
         onChange={e => this.props.onComponentFieldChange(idx, field, parseFloat(e.target.value))} />
