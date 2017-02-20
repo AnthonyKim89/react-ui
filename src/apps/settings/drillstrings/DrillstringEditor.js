@@ -44,6 +44,7 @@ class DrillstringEditor extends Component {
           min="1"
           step="1"
           value={this.getAttr('id', '')}
+          defaultValue="1"
           onChange={e => this.updateAttr('id', parseInt(e.target.value, 10))} />
         <Input
           m={4}
@@ -58,12 +59,14 @@ class DrillstringEditor extends Component {
           m={4}
           type="number"
           value={this.getAttr('start_depth', 0)}
+          defaultValue="0"
           onChange={e => this.updateAttr('start_depth', parseFloat(e.target.value))} />
         <Input
           m={4}
           label="Depth Out"
           type="number"
           value={this.getAttr('end_depth', 0)}
+          defaultValue="0"
           onChange={e => this.updateAttr('end_depth', parseFloat(e.target.value))} />
       </Row>,
       <Row key="attributes3" className="c-drillstring-editor__attributes">
@@ -72,12 +75,14 @@ class DrillstringEditor extends Component {
           label="Time In"
           type="number"
           value={this.getAttr('start_timestamp', 0)}
+          defaultValue="0"
           onChange={e => this.updateAttr('start_timestamp', parseInt(e.target.value, 10))} />
         <Input
           m={4}
           label="Time Out"
           type="text"
           value={this.getAttr('end_timestamp', 0)}
+          defaultValue="0"
           onChange={e => this.updateAttr('end_timestamp', parseInt(e.target.value, 10))} />
       </Row>
     ];
