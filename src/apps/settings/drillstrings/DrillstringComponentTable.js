@@ -3,8 +3,8 @@ import { Row, Col, Button, Input } from 'react-materialize';
 import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-import { COMPONENT_FAMILIES } from './constants';
 import DrillstringComponentSchematic from './DrillstringComponentSchematic';
+import DrillstringComponentTableRow from './DrillstringComponentTableRow';
 
 import './DrillstringComponentTable.css';
 
@@ -35,7 +35,13 @@ class DrillstringComponentTable extends Component {
             </thead>
             <tbody>
               {this.props.drillstring.getIn(['data', 'components'], List()).map((cmp, idx) => 
-                this.renderComponent(cmp, idx))}
+                <DrillstringComponentTableRow
+                  key={idx}
+                  index={idx}
+                  component={cmp}
+                  isEditable={this.props.isEditable}
+                  onComponentFieldChange={(field, value) => this.props.onComponentFieldChange(idx, field, value)}
+                  onDeleteComponent={() => this.props.onDeleteComponent(idx)} />)}
             </tbody>
           </table>
         </Col>
@@ -56,21 +62,6 @@ class DrillstringComponentTable extends Component {
     </div>;
   }
 
-  renderComponent(component, idx) {
-    return <tr key={idx}>
-      <td>{idx + 1}</td>
-      <td>{this.renderComponentTextField(component, idx, 'name')}</td>
-      <td>{this.renderComponentSelectField(component, idx, 'family', COMPONENT_FAMILIES)}</td>
-      <td>{this.renderComponentNumberField(component, idx, 'inner_diameter')}</td>
-      <td>{this.renderComponentNumberField(component, idx, 'outer_diameter')}</td>
-      <td>{this.renderComponentNumberField(component, idx, 'length')}</td>
-      <td>{this.renderComponentNumberField(component, idx, 'linear_weight')}</td>
-      <td>
-        {this.props.isEditable &&
-          <Button floating icon="delete" className="red" onClick={() => this.props.onDeleteComponent(idx)}></Button>}
-      </td>
-    </tr>;
-  }
 
   renderBitComponentHighlight(bit, idx) {
     return [
@@ -125,39 +116,6 @@ class DrillstringComponentTable extends Component {
         {this.renderHighlightTextField(pipe, idx, 'grade', 'Grade', 3)}
       </Row>
     ];
-  }
-
-  renderComponentTextField(component, idx, field) {
-    if (this.props.isEditable) {
-      return <Input type="text"
-                    value={component.get(field, '')}
-                    onChange={e => this.props.onComponentFieldChange(idx, field, e.target.value)} />
-    } else {
-      return component.get(field);
-    }
-  }
-
-  renderComponentSelectField(component, idx, field, options) {
-    if (this.props.isEditable) {
-      return <Input type="select"
-                    value={component.get(field, '')}
-                    onChange={e => this.props.onComponentFieldChange(idx, field, e.target.value)}>
-        {options.map(({name, type}) =>
-          <option key={type} value={type}>{name}</option>)}
-      </Input>
-    } else {
-      return component.get(field);
-    }
-  }
-
-  renderComponentNumberField(component, idx, field) {
-    if (this.props.isEditable) {
-      return <Input type="number"
-                    value={component.get(field, '')}
-                    onChange={e => this.props.onComponentFieldChange(idx, field, parseFloat(e.target.value))} />
-    } else {
-      return component.get(field);
-    }
   }
 
   renderHighlightTextField(component, idx, field, label, cols) {
