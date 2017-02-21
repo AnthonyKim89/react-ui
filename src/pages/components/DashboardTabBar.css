@@ -1,18 +1,20 @@
 .c-dashboard-tab-bar {
     left: 0;
     right: 0;
-    height: 60px;
+    height: 50px;
     padding-left: 0;
     list-style-type: none;
-    background-color: rgb(78, 74, 73);
+    background-color: #4E4A49;
+    border-bottom: 1px solid #696564;
+    margin-bottom: 0;
 }
 .c-dashboard-tab-bar a {
     display: block;
     padding: 0 15px;
     float: left;
     width: auto;
-    height: 60px;
-    line-height: 60px;
+    height: 50px;
+    line-height: 50px;
     font-size: 16px;
     text-align: center;
     color: white;
