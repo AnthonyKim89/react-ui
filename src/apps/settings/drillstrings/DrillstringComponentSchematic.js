@@ -20,7 +20,7 @@ const makeSchematicComponent = (isEditable) => {
 
     renderImage() {
       return <div className={`c-drillstring-component-schematic__component-image
-                              c-drillstring-component-schematic__component-image--${this.props.item.get('type')}`}>
+                              c-drillstring-component-schematic__component-image--${this.props.item.get('family')}`}>
       </div>
     }
 

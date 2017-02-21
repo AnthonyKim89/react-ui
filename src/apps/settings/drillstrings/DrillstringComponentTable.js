@@ -3,7 +3,7 @@ import { Row, Col, Button, Input } from 'react-materialize';
 import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-import { COMPONENT_TYPES } from './constants';
+import { COMPONENT_FAMILIES } from './constants';
 import DrillstringComponentSchematic from './DrillstringComponentSchematic';
 
 import './DrillstringComponentTable.css';
@@ -54,7 +54,7 @@ class DrillstringComponentTable extends Component {
     return <tr key={idx}>
       <td>{idx + 1}</td>
       <td>{this.renderComponentTextField(component, idx, 'name')}</td>
-      <td>{this.renderComponentSelectField(component, idx, 'type', COMPONENT_TYPES)}</td>
+      <td>{this.renderComponentSelectField(component, idx, 'family', COMPONENT_FAMILIES)}</td>
       <td>{this.renderComponentNumberField(component, idx, 'inner_diameter')}</td>
       <td>{this.renderComponentNumberField(component, idx, 'outer_diameter')}</td>
       <td>{this.renderComponentNumberField(component, idx, 'length')}</td>

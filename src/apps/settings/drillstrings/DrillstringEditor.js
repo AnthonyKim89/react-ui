@@ -135,7 +135,7 @@ class DrillstringEditor extends Component {
   addComponent() {
     const newComponent = Map({
       id: uuidV1(),
-      type: 'bit',
+      family: 'bit',
       order: this.state.drillstring.getIn(['data', 'components']).size
     });
     this.setState({
