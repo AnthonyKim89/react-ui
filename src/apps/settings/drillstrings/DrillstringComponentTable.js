@@ -47,6 +47,12 @@ class DrillstringComponentTable extends Component {
             <Button floating icon="add" onClick={() => this.props.onAddComponent()}></Button>}
         </Col>
       </Row>
+      {this.getComponentsOfFamily('bit').flatMap(({component, index}) =>
+        this.renderBitComponentHighlight(component, index))}
+      {this.getComponentsOfFamily('motor').flatMap(({component, index}) =>
+        this.renderMotorComponentHighlight(component, index))}
+      {this.getComponentsOfFamily('drill_pipe').flatMap(({component, index}) =>
+        this.renderDrillPipeComponentHighlight(component, index))}
     </div>;
   }
 
@@ -66,12 +72,66 @@ class DrillstringComponentTable extends Component {
     </tr>;
   }
 
+  renderBitComponentHighlight(bit, idx) {
+    return [
+      <Row key={`bit-${idx}-title`}>
+        <Col m={2}></Col>
+        <Col m={10}>
+          <h5>Bit: {bit.get('name')}</h5>
+        </Col>
+      </Row>,
+      <Row key={`bit-${idx}-make`}>
+        <Col m={2}></Col>
+        {this.renderHighlightTextField(bit, idx, 'make', 'Make', 3)}
+        {this.renderHighlightTextField(bit, idx, 'model', 'Model', 3)}
+        {this.renderHighlightTextField(bit, idx, 'serial_number', 'Serial number', 3)}
+      </Row>,
+      <Row key={`bit-${idx}-fields`}>
+        <Col m={2}></Col>
+        {this.renderHighlightNumberField(bit, idx, 'bit_wear', 'Bit wear', 3)}
+        {this.renderHighlightNumberField(bit, idx, 'tfa', 'TFA', 3)}
+        {this.renderHighlightNumberField(bit, idx, 'size', 'Size', 3)}
+      </Row>
+    ];
+  }
+
+  renderMotorComponentHighlight(motor, idx) {
+    return [
+      <Row key={`motor-${idx}-title`}>
+        <Col m={2}></Col>
+        <Col m={10}>
+          <h5>Motor: {motor.get('name')}</h5>
+        </Col>
+      </Row>,
+      <Row key={`motor-${idx}-fields`}>
+        <Col m={2}></Col>
+        {this.renderHighlightNumberField(motor, idx, 'number_rotor_lobes', '# of rotor lobes', 3)}
+        {this.renderHighlightNumberField(motor, idx, 'number_stator_lobes', '# of stator lobes', 3)}
+        {this.renderHighlightNumberField(motor, idx, 'rpg', 'RPG', 3)}
+      </Row>
+    ];
+  }
+
+  renderDrillPipeComponentHighlight(pipe, idx) {
+    return [
+      <Row key={`drill-pipe-${idx}-title`}>
+        <Col m={2}></Col>
+        <Col m={10}>
+          <h5>Drill pipe: {pipe.get('name')}</h5>
+        </Col>
+      </Row>,
+      <Row key={`pipe-${idx}-fields`}>
+        <Col m={2}></Col>
+        {this.renderHighlightTextField(pipe, idx, 'grade', 'Grade', 3)}
+      </Row>
+    ];
+  }
+
   renderComponentTextField(component, idx, field) {
     if (this.props.isEditable) {
-      return <Input
-        type="text"
-        value={component.get(field, '')}
-        onChange={e => this.props.onComponentFieldChange(idx, field, e.target.value)} />
+      return <Input type="text"
+                    value={component.get(field, '')}
+                    onChange={e => this.props.onComponentFieldChange(idx, field, e.target.value)} />
     } else {
       return component.get(field);
     }
@@ -79,10 +139,9 @@ class DrillstringComponentTable extends Component {
 
   renderComponentSelectField(component, idx, field, options) {
     if (this.props.isEditable) {
-      return <Input
-        type="select"
-        value={component.get(field, '')}
-        onChange={e => this.props.onComponentFieldChange(idx, field, e.target.value)}>
+      return <Input type="select"
+                    value={component.get(field, '')}
+                    onChange={e => this.props.onComponentFieldChange(idx, field, e.target.value)}>
         {options.map(({name, type}) =>
           <option key={type} value={type}>{name}</option>)}
       </Input>
@@ -93,13 +152,48 @@ class DrillstringComponentTable extends Component {
 
   renderComponentNumberField(component, idx, field) {
     if (this.props.isEditable) {
-      return <Input
-        type="number"
-        value={component.get(field, '')}
-        onChange={e => this.props.onComponentFieldChange(idx, field, parseFloat(e.target.value))} />
+      return <Input type="number"
+                    value={component.get(field, '')}
+                    onChange={e => this.props.onComponentFieldChange(idx, field, parseFloat(e.target.value))} />
     } else {
       return component.get(field);
     }
+  }
+
+  renderHighlightTextField(component, idx, field, label, cols) {
+    if (this.props.isEditable) {
+      return <Input m={cols}
+                    type="text"
+                    label={label}
+                    value={component.get(field, '')}
+                    onChange={e => this.props.onComponentFieldChange(idx, field, e.target.value)} />
+    } else {
+      return <Col m={cols}>
+        <div>{label}</div>
+        <div>{component.get(field)}</div>
+      </Col>;
+    }
+  }
+
+  renderHighlightNumberField(component, idx, field, label, cols) {
+    if (this.props.isEditable) {
+      return <Input m={cols}
+                    type="number"
+                    label={label}
+                    value={component.get(field, '')}
+                    onChange={e => this.props.onComponentFieldChange(idx, field, parseFloat(e.target.value))} />
+    } else {
+      return <Col m={cols}>
+        <div>{label}</div>
+        <div>{component.get(field)}</div>
+      </Col>;
+    }
+  }
+
+  getComponentsOfFamily(family) {
+    return this.props.drillstring.getIn(['data', 'components'])
+      .map((component, index) => ({component, index}))
+      .filter(item => item.component.get('family') === family);
   }
 
 }
