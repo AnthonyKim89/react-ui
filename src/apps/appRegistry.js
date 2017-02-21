@@ -13,6 +13,7 @@ import multiTrace from './trace/multiTrace';
 import traceTab from './trace/traceTab';
 
 import drillstrings from './settings/drillstrings';
+import casing from './settings/casing';
 
 import wellTimeline from './wellTimeline';
 
@@ -44,7 +45,8 @@ export const uiApps = Map({
     title: 'Settings',
     subtitle: '',
     appTypes: Map({
-      drillstrings
+      drillstrings,
+      casing
     })
   })
 });
