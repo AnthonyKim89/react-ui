@@ -133,7 +133,8 @@ class AppGridLayout extends Component {
         {...this.getPageParams().toJS()}
         {...settings.toObject()}
         size={size}
-        widthCols={coordinates.get('w')} />
+        widthCols={coordinates.get('w')}
+        onAssetModified={asset => this.props.onAssetModified(asset)} />
     </AppContainer>
   }
 
@@ -193,6 +194,7 @@ AppGridLayout.propTypes = {
   onAppSettingsUpdate: PropTypes.func.isRequired,
   onAppAdd: PropTypes.func.isRequired,
   onAppRemove: PropTypes.func.isRequired,
+  onAssetModified: PropTypes.func.isRequired,
   location: PropTypes.object,
   isNative: PropTypes.bool.isRequired
 };

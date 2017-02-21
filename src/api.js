@@ -130,6 +130,11 @@ export async function getActiveChildAsset(id) {
   return fromJS(data);
 }
 
+export async function putAsset(id, asset) {
+  const data = await put(`/v1/assets/${id}`, asset);
+  return fromJS(data);
+}
+
 export async function getAppStorage(appKey, collection, assetId, params = Map()) {
   const qry = queryString(params.merge({asset_id: assetId}).toJS());
   const data = await get(`/v1/data/${appKey}/${collection}?${qry}`);

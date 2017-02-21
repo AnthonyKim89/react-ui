@@ -12,6 +12,7 @@ import singleTrace from './trace/singleTrace';
 import multiTrace from './trace/multiTrace';
 import traceTab from './trace/traceTab';
 
+import generalInfo from './settings/generalInfo';
 import drillstrings from './settings/drillstrings';
 import casing from './settings/casing';
 
@@ -45,6 +46,7 @@ export const uiApps = Map({
     title: 'Settings',
     subtitle: '',
     appTypes: Map({
+      generalInfo,
       drillstrings,
       casing
     })

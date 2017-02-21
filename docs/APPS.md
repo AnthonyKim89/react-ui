@@ -108,6 +108,7 @@ Every UI app may expect to get the following input props:
 * `data` - An Immutable.js Map of the latest data from the app's subscriptions. There will be a key in the Map for each of the subscriptions that the app makes, as defined in the app's `constants.js` (as soons as data has been received - it will be `undefined` before that!)
 * `size` - {`Size.SMALL`, `Size.MEDIUM`, `Size.LARGE`, `Size.XLARGE`} - the size the app is currently occupying in the layout. Can be used for responsive rendering.
 * `widthCols` - number - the current number of columns the app is occuping in the widget grid. Apps *should* use `size` for their responsive rendering istead of `widthCols`, but `widthCols` can be useful to react to resizing using `componentWillReceiveProps`.
+* `onAssetModified` - A callback function the app should call when it has caused the `asset`'s information to change. The platform will refresh the asset from the server, making the updates available to the rest of the application. Useful in settings apps that change asset data.
 * The current values of any *app settings* supported by the app will be received as props as well. (See below).
 * Additionally, UI apps will receive as props all parameters from the location query string. These are typically populated from control apps.
 
