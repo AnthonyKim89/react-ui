@@ -86,7 +86,8 @@ class AppTabLayout extends Component {
         {...this.getPageParams().toJS()}
         {...settings.toObject()}
         size={size}
-        widthCols={12} />
+        widthCols={12}
+        onAssetModified={asset => this.props.onAssetModified(asset)} />
     </AppContainer>
   }
 
@@ -105,6 +106,7 @@ AppTabLayout.propTypes = {
   onAppSubscribe: PropTypes.func.isRequired,
   onAppUnsubscribe: PropTypes.func.isRequired,
   onAppSettingsUpdate: PropTypes.func.isRequired,
+  onAssetModified: PropTypes.func.isRequired,
   location: PropTypes.object,
   isNative: PropTypes.bool.isRequired
 };

@@ -62,6 +62,7 @@ class Dashboard extends Component {
                      onAppSettingsUpdate={(...a) => this.onAppSettingsUpdate(...a)}
                      onAppAdd={(...a) => this.onAppAdd(...a)}
                      onAppRemove={(...a) => this.onAppRemove(...a)}
+                     onAssetModified={asset => this.props.loadAsset(asset.get('id'), true)}
                      location={this.props.location}
                      isNative={this.props.isNative} />}
       </div>

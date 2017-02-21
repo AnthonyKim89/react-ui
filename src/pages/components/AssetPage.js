@@ -61,6 +61,7 @@ class AssetPage extends Component {
                      onAppSettingsUpdate={(...a) => this.onAppSettingsUpdate(...a)}
                      onAppAdd={(...a) => this.onAppAdd(...a)}
                      onAppRemove={(...a) => this.onAppRemove(...a)}
+                     onAssetModified={asset => this.props.loadAsset(asset.get('id'), true)}
                      pageParams={this.props.currentPageParams}
                      location={this.props.location}
                      isNative={this.props.isNative} />}

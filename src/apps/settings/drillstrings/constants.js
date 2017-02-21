@@ -10,7 +10,7 @@ export const METADATA = {
   publishedAt: '2016-07-01T00:00:00',
   isHiddenFromAddApp: true
 };
-export const SUPPORTED_ASSET_TYPES = ['rig'];
+export const SUPPORTED_ASSET_TYPES = ['well'];
 
 export const COMPONENT_FAMILIES = [
   {name: 'bit', type: 'bit'},
