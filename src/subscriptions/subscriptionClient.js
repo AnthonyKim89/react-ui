@@ -18,7 +18,7 @@ export const disconnect = () => {
     socket.disconnect();
     socket = null;
   }
-}
+};
 
 export const subscribe = (appInstanceId, appKey, collection, assetId, params) => {
   if (!socket) { throw new Error('Not connected'); }

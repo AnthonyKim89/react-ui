@@ -5,6 +5,7 @@ import { List, Map } from 'immutable';
 
 import apps from '../../apps';
 import DashboardAppAssetSettingEditor from './DashboardAppAssetSettingEditor';
+import DashboardTabBar from './DashboardTabBar';
 
 import { currentDashboard, dashboardAppAssets, isNative } from '../selectors';
 import {
@@ -34,6 +35,11 @@ class Dashboard extends Component {
   componentWillReceiveProps(newProps) {
     if (newProps.currentDashboard !== this.props.currentDashboard) {
       this.loadAppAssets(newProps.currentDashboard);
+
+      // This key will be applied to the child app grid which guarantees that it refreshes is the dashboard changes.
+      let currState = this.state || {};
+      currState.gridKey = new Date().getTime();
+      this.setState(currState);
     }
   }
 
@@ -49,9 +55,11 @@ class Dashboard extends Component {
     const AppLayout = this.props.currentDashboard && apps.layouts[this.props.currentDashboard.get('layout', 'grid')];
     return (
       <div className="c-dashboard" >
+        <DashboardTabBar/>
         {this.props.currentDashboard &&
           <AppLayout apps={this.props.currentDashboard.get('apps').valueSeq()}
                      appData={this.props.appData}
+                     key={this.state ? this.state.gridKey : null}
                      appAssets={this.props.dashboardAppAssets}
                      commonSettingsEditors={DASHBOARD_COMMON_SETTINGS_EDITORS}
                      onAppSubscribe={(...a) => this.props.subscribeApp(...a)}

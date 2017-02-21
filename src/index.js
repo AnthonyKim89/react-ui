@@ -1,15 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, browserHistory } from 'react-router';
-import { createStore, applyMiddleware } from 'redux';
-import { syncHistoryWithStore, routerMiddleware, push } from 'react-router-redux'
-import thunk from 'redux-thunk';
+import { syncHistoryWithStore, push } from 'react-router-redux'
 import { Provider } from 'react-redux';
 import { routes } from './routes';
-
-import rootReducer from './rootReducer';
-import authMiddleware from './login/authMiddleware';
-
+import { store } from './store';
 
 import 'materialize-css/bin/jquery-2.1.1.min';
 import 'materialize-css/bin/materialize';
@@ -19,12 +14,8 @@ import './fonts.css';
 import 'materialize-css/bin/materialize.css';
 import './index.css';
 
-const store = createStore(rootReducer, applyMiddleware(
-  authMiddleware,
-  thunk,
-  routerMiddleware(browserHistory)
-));
-const history = syncHistoryWithStore(browserHistory, store)
+
+const history = syncHistoryWithStore(browserHistory, store);
 
 ReactDOM.render(
   <Provider store={store}>
