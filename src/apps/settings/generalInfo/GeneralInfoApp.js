@@ -15,7 +15,6 @@ class GeneralInfoApp extends Component {
       asset: props.asset || Map({name: ''}),
       rigs: List()
     };
-    console.log('asset', this.state.asset.toJS());
   }
 
   async componentDidMount() {
