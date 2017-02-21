@@ -5,6 +5,7 @@ import { List, Map } from 'immutable';
 
 import apps from '../../apps';
 import DashboardAppAssetSettingEditor from './DashboardAppAssetSettingEditor';
+import DashboardTabBar from './DashboardTabBar';
 
 import { currentDashboard, dashboardAppAssets, isNative } from '../selectors';
 import {
@@ -49,6 +50,7 @@ class Dashboard extends Component {
     const AppLayout = this.props.currentDashboard && apps.layouts[this.props.currentDashboard.get('layout', 'grid')];
     return (
       <div className="c-dashboard" >
+        <DashboardTabBar/>
         {this.props.currentDashboard &&
           <AppLayout apps={this.props.currentDashboard.get('apps').valueSeq()}
                      appData={this.props.appData}

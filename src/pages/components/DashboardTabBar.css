@@ -1,0 +1,31 @@
+.c-dashboard-tab-bar {
+    left: 0;
+    right: 0;
+    height: 60px;
+    padding-left: 0;
+    list-style-type: none;
+    background-color: rgb(78, 74, 73);
+}
+.c-dashboard-tab-bar a {
+    display: block;
+    padding: 0 15px;
+    float: left;
+    width: auto;
+    height: 60px;
+    line-height: 60px;
+    font-size: 16px;
+    text-align: center;
+    color: white;
+    transition: background-color 0.2s linear;
+}
+.c-dashboard-tab-bar a, .c-dashboard-tab-bar a:hover, .c-dashboard-tab-bar a.is-active, .c-dashboard-tab-bar a:visited {
+    text-decoration: none;
+}
+.c-dashboard-tab-bar a:hover {
+    background: transparent;
+    color: #57c9c2;
+}
+.c-dashboard-tab-bar a.is-active {
+    background-color: #58c9c2;
+    color: white;
+}

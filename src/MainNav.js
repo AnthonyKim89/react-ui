@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import { Navbar, NavItem, Dropdown, Icon } from 'react-materialize';
+import { NavItem, Navbar, Dropdown, Icon } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import RoutingNavItem from './common/RoutingNavItem';
 
 import './MainNav.css';
 
@@ -9,14 +10,14 @@ class MainNav extends Component {
   render() {
     return (
       <Navbar href={this.getPathToFirstDashboard()} className="c-main-nav">
-        <NavItem className="navbar-brand" href={this.getPathToFirstDashboard()} onClick={(event) => this.navLoad(event)}>Corva</NavItem>
+        <RoutingNavItem className="navbar-brand" to={this.getPathToFirstDashboard()}>Corva</RoutingNavItem>
         {this.hasDashboards() &&
-        <NavItem href={this.getPathToFirstDashboard()} onClick={(event) => this.navLoad(event)}>Dashboards</NavItem>}
+        <RoutingNavItem to={this.getPathToFirstDashboard()}>Dashboards</RoutingNavItem>}
         <Dropdown trigger={<NavItem>Assets</NavItem>}>
-          <NavItem href="/assets/well" onClick={(event) => this.navLoad(event)}><Icon left>dashboard</Icon>All Wells</NavItem>
-          <NavItem href="/assets/rig" onClick={(event) => this.navLoad(event)}><Icon left>dashboard</Icon>All Rigs</NavItem>
+          <RoutingNavItem to="/assets/well"><Icon left>dashboard</Icon>All Wells</RoutingNavItem>
+          <RoutingNavItem to="/assets/rig"><Icon left>dashboard</Icon>All Rigs</RoutingNavItem>
           {this.props.recentAssets && this.props.recentAssets.map(asset =>
-            <NavItem key={asset.get('id')} href={`/assets/${asset.get('id')}/overview`} onClick={(event) => this.navLoad(event)}><Icon left>dashboard</Icon>{asset.get('name')}</NavItem>)}
+            <RoutingNavItem key={asset.get('id')} to={`/assets/${asset.get('id')}/overview`}><Icon left>dashboard</Icon>{asset.get('name')}</RoutingNavItem>)}
         </Dropdown>
         {this.props.currentUser &&
           <Dropdown trigger={<NavItem className="c-user-menu"><Icon className="c-user-menu">perm_identity</Icon></NavItem>} className="c-user-menu">
