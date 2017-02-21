@@ -12,7 +12,7 @@ export const METADATA = {
 };
 export const SUPPORTED_ASSET_TYPES = ['rig'];
 
-export const COMPONENT_TYPES = [
+export const COMPONENT_FAMILIES = [
   {name: 'bit', type: 'bit'},
   {name: 'drill collar', type: 'drill_collar'},
   {name: 'drill pipe', type: 'drill_pipe'},

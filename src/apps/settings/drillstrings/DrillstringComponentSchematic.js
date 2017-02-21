@@ -8,7 +8,8 @@ import './DrillstringComponentSchematic.css';
 const makeSchematicComponent = (isEditable) => {
   return class extends Component {
     render() {
-      return <div className="c-drillstring-component-schematic__component" key={this.props.item.get('order')}>
+      return <div className="c-drillstring-component-schematic__component"
+                  key={this.props.item.get('order')}>
         <div className="c-drillstring-component-schematic__number">
           {this.props.item.get('order') + 1}
         </div>
@@ -20,7 +21,7 @@ const makeSchematicComponent = (isEditable) => {
 
     renderImage() {
       return <div className={`c-drillstring-component-schematic__component-image
-                              c-drillstring-component-schematic__component-image--${this.props.item.get('type')}`}>
+                              c-drillstring-component-schematic__component-image--${this.props.item.get('family')}`}>
       </div>
     }
 
