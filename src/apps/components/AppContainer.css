@@ -91,6 +91,10 @@
   border: none;
 }
 
+.c-app-container__action i {
+  margin-left: -5px;
+  margin-top: -5px;
+}
 .c-app-container__action--maximize {
   background: url(../../images/fullscreen_up_icon.png) 50% 50% no-repeat;
 }

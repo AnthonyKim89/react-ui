@@ -26,7 +26,7 @@ class AddAppDialog extends Component {
           appTypes={this.props.appTypes}
           onSelectType={selectedAppType => this.setState({selectedAppType})} />}
       <Button className="c-add-app-dialog__close-button" onClick={this.props.onClose}>
-        <Icon>delete</Icon> Cancel
+        <Icon>close</Icon> <span>Cancel</span>
       </Button>
     </div>;
   }

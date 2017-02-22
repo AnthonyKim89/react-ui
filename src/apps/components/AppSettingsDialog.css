@@ -94,7 +94,11 @@
 .c-app-settings__editor .btn {
   border-radius: 0;
   width: 100%;
-  height: 40px;
+  height: 35px;
+}
+
+.c-app-settings__editor .btn span {
+  vertical-align: top;
 }
 
 .c-app-settings__editor h5 {

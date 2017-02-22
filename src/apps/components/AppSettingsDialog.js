@@ -42,7 +42,7 @@ class AppSettingsDialog extends Component {
           <Col s={6}>
             <div className="c-app-settings__editor">
               <Button className="grey white-text" onClick={this.props.onAppRemove}>
-                <Icon>delete</Icon> Remove Widget
+                <Icon>delete</Icon> <span>Remove Widget</span>
               </Button>
             </div>
           </Col>
