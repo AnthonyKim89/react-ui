@@ -91,15 +91,16 @@ class MultiTraceApp extends Component {
         {this.getActiveTraceKeys().map(trace => {
           const spec = this.getTraceSpec(trace);
           return <ChartSeries
-                   type='line'
-                   key={trace}
-                   id={trace}
-                   title={spec.label}
-                   minValue={spec.min}
-                   maxValue={spec.max}
-                   data={this.state.summary}
-                   yField={this.props[trace]}
-                   color={this.getSeriesColor(trace)} />;
+            dashStyle='Solid'
+            lineWidth={1}
+            key={trace}
+            id={trace}
+            title={spec.label}
+            minValue={spec.min}
+            maxValue={spec.max}
+            data={this.state.summary}
+            yField={this.props[trace]}
+            color={this.getSeriesColor(trace)} />;
         })}
       </Chart>
     </div>;

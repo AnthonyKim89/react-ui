@@ -125,29 +125,29 @@ class Chart extends Component {
 
   getSeries(props) {
     return this.getSeriesArray(props).map(series => {
-      const {type, title, data, color, id, yField, minValue, maxValue} = series.props;
+      const {type, title, data, color, id, yField, minValue, maxValue, dashStyle, lineWidth} = series.props;
       return {
         id,
         name: title,
-        type,
+        type: type || 'line',
         data: data.map(point => ({
           id: `${id}-${point.get(props.xField)}-${point.get(yField)}`,
           x: point.get(props.xField),
           y: yField ? point.get(yField) : null
         })).toJS(),
         yAxis: this.props.multiAxis ? `${id}-axis` : 0,
-        dashStyle: 'ShortDot',
+        dashStyle: dashStyle || 'ShortDot',
         color,
         marker: {
           enabled: type === 'scatter',
           radius: 4
         },
-        lineWidth: type === 'line' ? 3 : 0,
+        lineWidth: lineWidth || (type === 'line' ? 3 : 0),
         animation: false,
         showInLegend: this.isLegendVisible(props),
         minValue,
         maxValue
-      }
+      };
     });
   }
 
