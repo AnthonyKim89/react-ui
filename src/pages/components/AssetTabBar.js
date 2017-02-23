@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Icon } from 'react-materialize';
 import { Link } from 'react-router';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
@@ -9,6 +10,7 @@ class AssetTabBar extends Component {
   render() {
     return (
       <ul className="c-asset-tab-bar">
+        <li className="c-asset-tab-bar__Title-name"><span>Drilling</span><Icon>keyboard_arrow_right</Icon></li>
         {this.props.assetPageTabs.map(tab => this.renderTab(tab))}
         {this.renderCurrentTabName()}
       </ul>
