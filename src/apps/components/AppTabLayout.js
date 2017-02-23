@@ -87,7 +87,8 @@ class AppTabLayout extends Component {
         {...settings.toObject()}
         size={size}
         widthCols={12}
-        onAssetModified={asset => this.props.onAssetModified(asset)} />
+        onAssetModified={asset => this.props.onAssetModified(asset)}
+        onSettingChange={(key, value) => this.props.onAppSettingsUpdate(id, settings.set(key, value))} />
     </AppContainer>
   }
 

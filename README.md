@@ -36,6 +36,8 @@ To produce the built application, run `npm run build` and point the environment 
 REACT_APP_API_URL=http://staging-api.corva.ai npm run build
 ```
 
+If the public URL for `corva-subscriptions` is different from the API (as it is likely to be), also provide a separate environment variable `REACT_APP_SUBSCRIPTIONS_URL` for it.
+
 After this, the application files to be deployed will be under the `build` directory. These can be transferred to an S3 bucket or an HTTP server.
 
 

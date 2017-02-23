@@ -1,3 +1,4 @@
+import { Map } from 'immutable';
 import * as api from '../api';
 import * as client from './subscriptionClient';
 
@@ -12,19 +13,20 @@ export function disconnect() {
 }
 
 export const SUBSCRIBE_APP = 'SUBSCRIBE_APP';
-export function subscribeApp(appInstanceId, subscriptionKeys, assetId, params) {
+export function subscribeApp(appInstanceId, subscriptions, assetId, additionalParams = Map()) {
   return async dispatch => {
     // Only subscribe to live data if we're not asked for a historical time point
-    if (!params.get('time')) {
-      for (const {appKey, collection} of subscriptionKeys) {
-        client.subscribe(appInstanceId, appKey, collection, assetId, params);
+    if (!additionalParams.get('time')) {
+      for (const {appKey, collection, params = Map()} of subscriptions) {
+        client.subscribe(appInstanceId, appKey, collection, assetId, additionalParams.merge(params));
       }
     }
-    for (const {appKey, collection} of subscriptionKeys) {
-      dispatch({type: SUBSCRIBE_APP, appInstanceId, appKey, collection, assetId, params});
-      const initialData = await api.getAppStorage(appKey, collection, assetId, params);
+    for (const {appKey, collection, params = Map()} of subscriptions) {
+      const allParams = additionalParams.merge(params);
+      dispatch({type: SUBSCRIBE_APP, appInstanceId, appKey, collection, assetId, params: allParams});
+      const initialData = await api.getAppStorage(appKey, collection, assetId, allParams);
       if (!initialData.isEmpty()) {
-        dispatch(receiveAppData(appInstanceId, appKey, collection, assetId, params, initialData.first()));
+        dispatch(receiveAppData(appInstanceId, appKey, collection, assetId, allParams, initialData.first()));
       }
     }
   };
