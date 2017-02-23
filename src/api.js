@@ -135,7 +135,7 @@ export async function getActiveChildAsset(id) {
 }
 
 export async function putAsset(id, asset) {
-  const data = await put(`/v1/assets/${id}`, asset);
+  const data = await put(`/v1/assets/${id}`, asset.toJS());
   return fromJS(data);
 }
 
