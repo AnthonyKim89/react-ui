@@ -4,6 +4,7 @@ import * as api from '../api';
 import { dashboards, allAppSets } from './selectors';
 import login from '../login';
 import subscriptions from '../subscriptions';
+import * as nativeMessages from '../nativeMessages';
 
 export const START_LOAD = 'START_LOAD';
 function startLoad(isNative) {
@@ -19,10 +20,7 @@ function finishLoad(appSets) {
     if (currentPath === '/') {
       dispatch(push(`/dashboards/${dashboard.get('id')}`));
     }
-    // Send load notification for native app message handler when present
-    if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.swiftHandler) {
-      window.webkit.messageHandlers.swiftHandler.postMessage('pageLoaded');
-    }
+    nativeMessages.notifyPageLoaded();
   };
 }
 

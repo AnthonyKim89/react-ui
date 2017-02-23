@@ -9,6 +9,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import AppSettingsDialog from './AppSettingsDialog';
 import common from '../../common';
+import * as nativeMessages from '../../nativeMessages';
 
 import './AppContainer.css';
 
@@ -92,12 +93,14 @@ class AppContainer extends Component {
             {this.props.maximized ?
               <Link className="c-app-container__action"
                     to={{pathname: this.props.location.pathname, query: {maximize: undefined}}}
-                    title="Restore">
+                    title="Restore"
+                    onClick={() => nativeMessages.notifyAppRestored()}>
                 <Icon>close</Icon>
               </Link> :
               <Link className="c-app-container__action c-app-container__action--maximize"
                     to={{pathname: this.props.location.pathname, query: {maximize: this.props.id}}}
-                    title="Full screen">
+                    title="Full screen"
+                    onClick={() => nativeMessages.notifyAppMaximized()}>
               </Link>}
             {(!this.props.isNative || this.props.maximized) &&
               <button className="c-app-container__action c-app-container__action--settings"

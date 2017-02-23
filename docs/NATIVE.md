@@ -58,8 +58,10 @@ To move the application from one page to another within the WebView, there is a 
 
     window.navigateAppTo('/dashboards/1234')
 
-## Load Notification
+## Notification
 
-Once the web application has finished loading the dashboard contents, it is able to notify the WebView about this using a postMessage, using the pattern documented [here](http://www.joshuakehn.com/2014/10/29/using-javascript-with-wkwebview-in-ios-8.html).
+On certain events, the JavaScript application will send a notification to the native application using a postMessage, with the pattern documented [here](http://www.joshuakehn.com/2014/10/29/using-javascript-with-wkwebview-in-ios-8.html). The native web view should attach a message handler with the key `swiftHandler`. It will be called on these events
 
-The native web view should attach a message handler with the key `swiftHandler`. It will be called with a string message `pageLoaded`.
+* Once the web application has finished loading the dashboard contents: `pageLoaded`.
+* When any app is maximized on the screen: `appMaximized`.
+* When a previously maximized app is restored back to its original size: `appRestored`.
