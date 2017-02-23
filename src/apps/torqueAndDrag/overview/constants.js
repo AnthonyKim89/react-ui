@@ -1,7 +1,7 @@
 export const CATEGORY = 'torqueAndDrag';
 export const NAME = 'overview';
 export const SUBSCRIPTIONS = [
-  {appKey: 'corva.torque_and_drag.overview', collection: 'results'}
+  {appKey: 'corva.torque-and-drag', collection: 'overview'}
 ];
 export const METADATA = {
   title: 'T&D Overview',

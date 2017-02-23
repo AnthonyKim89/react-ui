@@ -132,7 +132,7 @@ class TraceTimeline extends Component {
   }
 
   getTraceSummary(props) {
-    return props.data && props.data.getIn(['corva.source.witsml','summary_30_seconds']);
+    return props.data && props.data.getIn(['corva.activity-detector','wits-summary-30s']);
   }  
   
 }
