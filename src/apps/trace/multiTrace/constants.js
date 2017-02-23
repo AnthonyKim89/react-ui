@@ -2,7 +2,7 @@ export const CATEGORY = 'trace';
 export const NAME = 'multiTrace';
 export const SUBSCRIPTIONS = [
   {appKey: 'corva.activity-detector', collection: 'wits'},
-  {appKey: 'corva.activity-detector', collection: 'wits-summary-30-seconds'} // TO
+  {appKey: 'corva.activity-detector', collection: 'wits-summary-30s', params: {limit: 1440}}
 ];
 export const METADATA = {
   settingsTitle: 'Multi-Trace',

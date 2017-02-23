@@ -2,7 +2,7 @@ export const CATEGORY = 'trace';
 export const NAME = 'singleTrace';
 export const SUBSCRIPTIONS = [
   {appKey: 'corva.activity-detector', collection: 'wits'},
-  {appKey: 'corva.activity-detector', collection: 'wits-summary-30s'}
+  {appKey: 'corva.activity-detector', collection: 'wits-summary-30s', params: {limit: 1440}}
 ];
 export const METADATA = {
   settingsTitle: 'Single Trace',
