@@ -5,6 +5,7 @@
   padding-left: 0;
   list-style-type: none;
   background-color: #4E4A49;
+  margin-bottom: 2px;
 }
 .c-asset-tab-bar a {
   display: block;
@@ -45,7 +46,7 @@
 .c-asset-tab-bar .c-asset-tab-bar__torqueAndDrag-tab a {
   background-image: url('../../images/icon-torque.png');
 }
-.c-asset-tab-bar .c-asset-tab-bar__drillingEfficiency-tab a {
+.c-asset-tab-bar .c-asset-tab-bar__drilling-efficiency-tab a {
   background-image: url('../../images/icon-efficiency.png');
 }
 .c-asset-tab-bar .c-asset-tab-bar__stability-tab a {
