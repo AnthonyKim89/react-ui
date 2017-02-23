@@ -9,6 +9,9 @@ import tndFrictionFactor from './torqueAndDrag/frictionFactor';
 import tndStress from './torqueAndDrag/stress';
 import tndTorque from './torqueAndDrag/torque';
 
+// DRILLING EFFICIENCY APPS
+import deROPHeatmap from './drillingEfficiency/ropHeatmap';
+
 // TRACE APPS
 import singleTrace from './trace/singleTrace';
 import multiTrace from './trace/multiTrace';
@@ -41,6 +44,7 @@ export const uiApps = Map({
     title: 'Drilling Efficiency',
     subtitle: 'Downhole drilling efficiency',
     appTypes: Map({
+      ropHeatmap: deROPHeatmap,
     })
   }),
   trace: Map({
