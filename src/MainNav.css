@@ -5,10 +5,20 @@ nav.c-main-nav {
   top: 0;
   border-bottom: 1px solid #677575;
   position: absolute;
+  height: 45px;
+  line-height: 45px;
+}
+
+nav.c-main-nav a i {
+  height: 45px;
+  line-height: 45px;
 }
 
 nav.c-main-nav .navbar-brand {
-  width: 150px;
+  width: 143px;
+  height: 44px;
+  margin-top: 1px;
+  margin-right: 13px;
   text-indent: -2000px;
   background-image: url(./images/corva-logo.png);
   background-repeat: no-repeat;
@@ -17,7 +27,7 @@ nav.c-main-nav .navbar-brand {
 
 nav.c-main-nav ul.c-main-nav span ul.dropdown-content {
   width: auto !important;
-  top: 64px !important;
+  top: 44px !important;
 }
 
 nav.c-main-nav span:nth-of-type(2) {

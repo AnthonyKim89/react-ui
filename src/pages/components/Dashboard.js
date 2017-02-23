@@ -33,7 +33,7 @@ class Dashboard extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.currentDashboard !== this.props.currentDashboard) {
+    if (newProps.currentDashboard.get('id') !== this.props.currentDashboard.get('id')) {
       this.loadAppAssets(newProps.currentDashboard);
 
       // This key will be applied to the child app grid which guarantees that it refreshes is the dashboard changes.

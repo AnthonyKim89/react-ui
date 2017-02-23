@@ -20,16 +20,18 @@
 
 .c-app-container h4.c-app-container__title {
   font-weight: 900;
-  margin: 0 0 5px 0;
+  margin: 0 0 5px 3px;
   font-size: 1.45rem;
   font-family: 'Open Sans';
   letter-spacing: 0.5px;
+
 }
 
 .c-app-container h5.c-app-container__subtitle {
   color: #bbb;
   margin: 0;
   font-size: 0.815rem;
+  margin-left: 3px;
 }
 
 .c-app-container--editable .c-app-container__title, .c-app-container--editable .c-app-container__subtitle {
@@ -91,6 +93,10 @@
   border: none;
 }
 
+.c-app-container__action i {
+  margin-left: -5px;
+  margin-top: -5px;
+}
 .c-app-container__action--maximize {
   background: url(../../images/fullscreen_up_icon.png) 50% 50% no-repeat;
 }

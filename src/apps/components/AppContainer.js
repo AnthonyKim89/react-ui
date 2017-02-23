@@ -93,7 +93,7 @@ class AppContainer extends Component {
               <Link className="c-app-container__action"
                     to={{pathname: this.props.location.pathname, query: {maximize: undefined}}}
                     title="Restore">
-                <Icon>delete</Icon>
+                <Icon>close</Icon>
               </Link> :
               <Link className="c-app-container__action c-app-container__action--maximize"
                     to={{pathname: this.props.location.pathname, query: {maximize: this.props.id}}}

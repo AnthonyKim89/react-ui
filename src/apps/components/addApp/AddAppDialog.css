@@ -4,9 +4,7 @@
   top: 10px;
 }
 
-
 button.c-add-app-dialog__close-button {
-  margin: 1px 0 15px 10px;
   background-color: #3c5c5b;
 }
 
@@ -14,7 +12,6 @@ button.c-add-app-dialog__close-button:hover {
   background-color: #568281;
 }
 
-button.c-add-app-dialog__close-button i {
-  font-size: .80rem;
-  margin: 1px 5px 0 -2px;
+button.c-add-app-dialog__close-button span {
+  vertical-align: top;
 }

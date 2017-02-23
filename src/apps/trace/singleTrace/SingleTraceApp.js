@@ -81,7 +81,8 @@ class SingleTraceApp extends Component {
         widthCols={this.props.widthCols}
         xAxisLabelFormatter={(...a) => this.formatDate(...a)}>
         <ChartSeries
-          type='line'
+          dashStyle='Solid'
+          lineWidth={1}
           key={this.props.trace}
           id={this.props.trace}
           title={this.getTrace().label}

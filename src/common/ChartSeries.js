@@ -6,13 +6,15 @@ class ChartSeries extends Component {
 
 ChartSeries.propTypes = {
   id: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(['line', 'scatter']).isRequired,
+  type: PropTypes.oneOf(['line', 'scatter']),
   data: ImmutablePropTypes.list.isRequired,
   yField: PropTypes.string,
   minValue: PropTypes.number,
   maxValue: PropTypes.number,
   title: PropTypes.string,
-  color: PropTypes.string
+  color: PropTypes.string,
+  dashStyle: PropTypes.string,
+  lineSize: PropTypes.string,
 };
 
 export default ChartSeries;
