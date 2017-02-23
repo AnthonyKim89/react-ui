@@ -58,8 +58,10 @@ class MultiTraceApp extends Component {
   }
 
   renderLatestTraces() {
-    return this.getActiveTraceKeys().map(trace => (
-      <div className="c-trace-multi__latest" key={`latest-${trace}`}>
+    return this.getTraceKeys().map(trace => (
+      <div className="c-trace-multi__latest"
+           key={`latest-${trace}`}
+           onClick={() => this.props.isTraceChangeSupported && this.props.onTraceChangeRequested(trace)}>
         <div className="c-trace-multi__latest__trace">
           <div className="c-trace-multi__latest__trace-name">
             {this.getTraceSpec(trace).label}
@@ -69,7 +71,7 @@ class MultiTraceApp extends Component {
           </div>
         </div>
         <div className="c-trace-multi__latest__value">
-          {numeral(this.getLatestTraceValue(trace)).format('0.0a')}
+          {this.props[trace] && numeral(this.getLatestTraceValue(trace)).format('0.0a')}
         </div>
         <div className="c-trace-multi__latest__color-indicator">
           <div className="c-trace-multi__latest__color-indicator-inner"
@@ -169,7 +171,9 @@ MultiTraceApp.propTypes = {
   trace3: PropTypes.string,
   graphColors: ImmutablePropTypes.map,
   size: PropTypes.string.isRequired,
-  widthCols: PropTypes.number.isRequired
+  widthCols: PropTypes.number.isRequired,
+  isTraceChangeSupported: PropTypes.bool,
+  onTraceChangeRequested: PropTypes.func
 };
 
 export default MultiTraceApp;

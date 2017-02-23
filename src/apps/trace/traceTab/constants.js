@@ -1,3 +1,5 @@
+import { List } from 'immutable';
+
 export const CATEGORY = 'trace';
 export const NAME = 'traceTab';
 export const SUBSCRIPTIONS = [
@@ -14,3 +16,17 @@ export const METADATA = {
 };
 export const SUPPORTED_ASSET_TYPES = ['rig'];
 export const INITIAL_SIZE = {w: 5, h: 5};
+
+export const DEFAULT_TRACE_GRAPHS = List.of(
+  'weight_on_bit',
+  'hook_load',
+  'rotary_rpm',
+  'rotary_torque',
+  'rop',
+  'rop_average',
+  'mud_flow_in',
+  'mud_flow_out',
+  'mud_flow_out_percentage',
+  'standpipe_pressure',
+  'pump_spm_total'
+);

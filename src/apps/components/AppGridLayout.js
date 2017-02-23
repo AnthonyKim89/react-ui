@@ -134,7 +134,8 @@ class AppGridLayout extends Component {
         {...settings.toObject()}
         size={size}
         widthCols={coordinates.get('w')}
-        onAssetModified={asset => this.props.onAssetModified(asset)} />
+        onAssetModified={asset => this.props.onAssetModified(asset)}
+        onSettingChange={(key, value) => this.props.onAppSettingsUpdate(id, settings.set(key, value))} />
     </AppContainer>
   }
 

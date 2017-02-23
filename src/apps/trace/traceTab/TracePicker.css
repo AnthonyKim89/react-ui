@@ -1,0 +1,16 @@
+.c-trace-picker {
+  position: absolute;
+  top: 30%;
+  left: 40%;
+  right: 40%;
+  bottom: 30%;
+  border-radius: 0;
+  padding: 20px 20px;
+  border: 1px solid #ccc;
+  background: white;
+  color: black;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  outline: none;
+  z-index: 4001;
+}
