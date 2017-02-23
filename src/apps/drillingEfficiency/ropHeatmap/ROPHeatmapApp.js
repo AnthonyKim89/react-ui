@@ -4,6 +4,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { SUBSCRIPTIONS } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
+import Heatmap from '../../../common/Heatmap';
 
 import './ROPHeatmapApp.css'
 
@@ -13,7 +14,7 @@ class ROPHeatmapApp extends Component {
     return (
       <div className="c-de-ropheatmap">
         {subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS) ?
-          <div>Data Loaded</div> :
+          <Heatmap dataNode={"rotary"} data={subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS)} /> :
           <LoadingIndicator />}
       </div>
     );
