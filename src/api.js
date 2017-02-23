@@ -39,7 +39,11 @@ function attachAuthorizationHeader(requestConfig) {
 async function request(path, config = {}) {
   const response = await fetch(`${baseUrl}${path}`, attachAuthorizationHeader(config));
   if (response.ok) {
-    return fromJS(await response.json());
+    if (response.status === 204) { // No content
+      return null;
+    } else {
+      return fromJS(await response.json());
+    }
   } else {
     throw new APIException(response.status, response.statusText);
   }
