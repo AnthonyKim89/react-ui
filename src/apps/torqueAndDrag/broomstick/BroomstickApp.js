@@ -53,7 +53,7 @@ class BroomstickApp extends Component {
   }
 
   getPredictedCurveSeries() {
-    return this.getData().getIn(['data', 'curves'])
+    return this.getData().getIn(['data', 'curves'], List())
       .entrySeq()
       .flatMap(([curveType, curves]) =>
         curves.map(curve => ({
@@ -66,7 +66,7 @@ class BroomstickApp extends Component {
   }
 
   getActualSeries() {
-    return this.getData().getIn(['data', 'actual'])
+    return this.getData().getIn(['data', 'actual'], List())
       .entrySeq()
       .map(([curveType, points]) => ({
         renderType: 'scatter',
