@@ -133,7 +133,7 @@ class MultiTraceApp extends Component {
   }
 
   getLatestTraceRecord() {
-    return this.props.data && this.props.data.getIn(['corva.activity-detector', 'wits']);
+    return this.props.data && this.props.data.getIn(['corva.data', 'wits']);
   }
 
   getLatestTraceValue(trace) {
@@ -142,7 +142,7 @@ class MultiTraceApp extends Component {
   }
 
   getTraceSummary(props) {
-    return props.data && props.data.getIn(['corva.activity-detector','wits-summary-30s']);
+    return props.data && props.data.getIn(['corva.data','wits-summary-30s']);
   }
 
   getSeriesColor(trace) {
