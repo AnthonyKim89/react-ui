@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import { SUBSCRIPTIONS } from './constants';
@@ -14,7 +14,7 @@ class ROPHeatmapApp extends Component {
     return (
       <div className="c-de-ropheatmap">
         {subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS) ?
-          <Heatmap dataNode={"rotary"} data={subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS)} /> :
+          <Heatmap title="ROP Heatmap" dataNode={"rotary"} data={subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS)} /> :
           <LoadingIndicator />}
       </div>
     );
@@ -22,7 +22,8 @@ class ROPHeatmapApp extends Component {
 }
 
 ROPHeatmapApp.propTypes = {
-  data: ImmutablePropTypes.map
+  data: ImmutablePropTypes.map,
+  title: PropTypes.string
 };
 
 export default ROPHeatmapApp;

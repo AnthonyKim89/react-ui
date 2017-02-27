@@ -4,7 +4,7 @@ export const SUBSCRIPTIONS = [
   {appKey: 'corva.drilling-efficiency', collection: 'rop-heatmap'}
 ];
 export const METADATA = {
-  title: 'ROP Heatmap',
+  title: '',
   settingsTitle: 'ROP Heatmap',
   subtitle: '',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
