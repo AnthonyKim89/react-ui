@@ -68,7 +68,7 @@ class Dashboard extends Component {
                      onAppSettingsUpdate={(...a) => this.onAppSettingsUpdate(...a)}
                      onAppAdd={(...a) => this.onAppAdd(...a)}
                      onAppRemove={(...a) => this.onAppRemove(...a)}
-                     onAssetModified={asset => this.props.loadAsset(asset.get('id'), true)}
+                     onAssetModified={asset => this.props.reloadAsset(asset.get('id'))}
                      location={this.props.location}
                      isNative={this.props.isNative} />}
       </div>
@@ -109,6 +109,7 @@ export default connect(
     addApp,
     removeApp,
     loadAsset: assets.actions.loadAsset,
+    reloadAsset: assets.actions.reloadAsset,
     subscribeApp: subscriptions.actions.subscribeApp,
     unsubscribeApp: subscriptions.actions.unsubscribeApp
   }
