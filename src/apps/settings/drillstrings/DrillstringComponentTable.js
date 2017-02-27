@@ -123,7 +123,7 @@ class DrillstringComponentTable extends Component {
       return <Input m={cols}
                     type="text"
                     label={label}
-                    value={component.get(field, '')}
+                    defaultValue={component.get(field, '')}
                     onChange={e => this.props.onComponentFieldChange(idx, field, e.target.value)} />
     } else {
       return <Col m={cols}>
@@ -138,7 +138,7 @@ class DrillstringComponentTable extends Component {
       return <Input m={cols}
                     type="number"
                     label={label}
-                    value={component.get(field, '')}
+                    defaultValue={component.get(field, '')}
                     onChange={e => this.props.onComponentFieldChange(idx, field, parseFloat(e.target.value))} />
     } else {
       return <Col m={cols}>
