@@ -51,6 +51,11 @@ class AssetPage extends Component {
     const AppLayout = this.props.currentAssetPageTab && apps.layouts[this.props.currentAssetPageTab.get('layout', 'grid')];
     return (
       <div className="c-asset-page" >
+        {!this.props.isNative &&
+        <AssetTabBar assetId={this.getAssetId()}
+                     assetPageTabs={this.props.assetPageTabs}
+                     currentAssetPageTab={this.props.currentAssetPageTab}
+                     pageParams={this.props.currentPageParams} />}
         {this.props.currentAssetPageTab &&
           <AppLayout apps={this.props.currentAssetPageTab.get('apps').valueSeq()}
                      appData={this.props.appData}
@@ -65,11 +70,6 @@ class AssetPage extends Component {
                      pageParams={this.props.currentPageParams}
                      location={this.props.location}
                      isNative={this.props.isNative} />}
-        {!this.props.isNative &&
-          <AssetTabBar assetId={this.getAssetId()}
-                       assetPageTabs={this.props.assetPageTabs}
-                       currentAssetPageTab={this.props.currentAssetPageTab}
-                       pageParams={this.props.currentPageParams} />}
         {this.renderControlApps()}
       </div>
     );

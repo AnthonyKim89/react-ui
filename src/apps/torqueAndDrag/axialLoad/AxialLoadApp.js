@@ -22,7 +22,7 @@ class AxialLoadApp extends Component {
             {this.getSeries().map(({renderType, title, field, data}, idx) => (
               <ChartSeries
                 dashStyle='Solid'
-                lineWidth={1}
+                lineWidth={2}
                 key={field}
                 id={field}
                 title={SUPPORTED_CHART_SERIES[field].label}
