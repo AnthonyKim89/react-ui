@@ -4,7 +4,8 @@ import addHeatmap from 'highcharts/modules/heatmap';
 import addData from 'highcharts/modules/data';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-
+addData(Highcharts);
+addHeatmap(Highcharts);
 
 class Heatmap extends Component {
 
@@ -16,9 +17,6 @@ class Heatmap extends Component {
   }
 
   componentDidMount() {
-    addData(Highcharts);
-    addHeatmap(Highcharts);
-
     let series = this.getSeries(this.props);
     let seriesMinMax = this.getSeriesMinMax(series);
 
