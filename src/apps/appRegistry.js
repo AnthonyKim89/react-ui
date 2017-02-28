@@ -21,6 +21,7 @@ import traceTab from './trace/traceTab';
 import generalInfo from './settings/generalInfo';
 import drillstrings from './settings/drillstrings';
 import casing from './settings/casing';
+import surveys from './settings/surveys';
 
 // CONTROL APPS
 import wellTimeline from './wellTimeline';
@@ -62,7 +63,8 @@ export const uiApps = Map({
     appTypes: Map({
       generalInfo,
       drillstrings,
-      casing
+      casing,
+      surveys
     })
   })
 });

@@ -150,6 +150,17 @@ export async function postAppStorage(appKey, collection, item) {
   return fromJS(response);
 }
 
+export async function postTaskDocument(appKey, collection, file) {
+  const body = new FormData();
+  body.append('file', file);
+  const response = await request(`/v1/tasks/${appKey}/${collection}`, {
+    method: 'POST',
+    headers: {Accept: 'application/json'},
+    body
+  });
+  return fromJS(response);
+}
+
 export async function putAppStorage(appKey, collection, id, item) {
   const response = await put(`/v1/data/${appKey}/${collection}/${id}`, item.toJS());
   return fromJS(response);
