@@ -104,13 +104,13 @@ class SingleTraceApp extends Component {
   }
 
   getLatestTrace() {
-    return this.props.data && this.props.data.hasIn(['corva.activity-detector', 'wits']) ?
-      numeral(this.props.data.getIn(['corva.activity-detector', 'wits', this.props.trace])).format('0.0a') :
+    return this.props.data && this.props.data.hasIn(['corva.data', 'wits']) ?
+      numeral(this.props.data.getIn(['corva.data', 'wits', this.props.trace])).format('0.0a') :
       null;
   }
 
   getTraceSummary(props) {
-    return props.data && props.data.getIn(['corva.activity-detector', 'wits-summary-30s']);
+    return props.data && props.data.getIn(['corva.data', 'wits-summary-30s']);
   }
 
   getSeriesColor() {

@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { List, Map } from 'immutable';
 import { isNumber } from 'lodash';
+import numeral from 'numeral';
+import { format as formatDate } from 'date-fns';
 import { Row, Col, Button } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
@@ -12,19 +14,34 @@ export class DrillstringSummary extends Component {
     return <div className="c-drillstring-summary">
       <Row>
         <Col m={2}>
-          Drillstring/BHA
+          <div className="c-drillstring-summary__label">Drillstring/BHA</div>
+          <div className="c-drillstring-summary__value">
+            {this.props.drillstring.getIn(['data', 'id'])}
+          </div>
         </Col>
         <Col m={2}>
-          Bit Size
+          <div className="c-drillstring-summary__label">Bit Size</div>
+          <div className="c-drillstring-summary__value">
+            {this.getBitSize()}
+          </div>
         </Col>
         <Col m={2}>
-          Tools
+          <div className="c-drillstring-summary__label">Tools</div>
+          <div className="c-drillstring-summary__value">
+            {this.getComponentCount()}
+          </div>
         </Col>
         <Col m={2}>
-          Length (ft)
+          <div className="c-drillstring-summary__label">Length (ft)</div>
+          <div className="c-drillstring-summary__value c-drillstring-summary__value--is-long">
+            {numeral(this.getComponentLengthSum()).format('0,0')}
+          </div>
         </Col>
         <Col m={2}>
-          Weight (klbs)
+          <div className="c-drillstring-summary__label">Weight (klbs)</div>
+          <div className="c-drillstring-summary__value c-drillstring-summary__value--is-long">
+            {numeral(this.getComponentWeightSum()).format('0,0')}
+          </div>
         </Col>
         <Col m={1}>
         </Col>
@@ -35,23 +52,19 @@ export class DrillstringSummary extends Component {
             <Button floating large icon="delete" className="red" onClick={() => this.props.onDeleteDrillstring()}></Button>}
         </Col>
       </Row>
-      <Row>
-        <Col m={2}>
-          {this.props.drillstring.getIn(['data', 'id'])}
-        </Col>
-        <Col m={2}>
-          {this.getBitSize()}
-        </Col>
-        <Col m={2}>
-          {this.getComponentCount()}
-        </Col>
-        <Col m={2}>
-          {this.getComponentLengthSum()}
-        </Col>
-        <Col m={2}>
-          {this.getComponentWeightSum()}
-        </Col>
-      </Row>
+      {!this.props.isReadOnly &&
+        <Row>
+          <Col m={2} className="c-drillstring-summary__footer-value">
+            {this.getDepths()}
+          </Col>
+          <Col m={2} className="c-drillstring-summary__footer-value">
+            {this.getTimestamp()}
+          </Col>
+          {this.props.drillstring.getIn(['data', 'planning']) &&
+            <Col m={3} className="c-drillstring-summary__footer-value c-drillstring-summary__footer-value--planning">
+              Planning Drillstring
+            </Col>}
+        </Row>}
     </div>;
   }
 
@@ -81,6 +94,20 @@ export class DrillstringSummary extends Component {
 
   getComponents() {
     return this.props.drillstring.getIn(['data', 'components'], List())
+  }
+
+  getDepths() {
+    const start = this.props.drillstring.getIn(['data', 'start_depth']);
+    const end   = this.props.drillstring.getIn(['data', 'end_depth']);
+    return `${numeral(start).format('0,0')} - ${numeral(end).format('0,0')} ft`;
+  }
+
+  getTimestamp() {
+    return formatDate(this.props.drillstring.get('timestamp') * 1000, 'ddd MMM Do YYYY');
+  }
+
+  getEndDepth() {
+    return this.props.drillstring.getIn(['data', 'end_depth']);
   }
 
 }

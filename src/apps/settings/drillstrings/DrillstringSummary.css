@@ -3,3 +3,26 @@
   margin: 10px 0;
   padding: 10px 0;
 }
+
+.c-drillstring-summary__label,
+.c-drillstring-summary__value {
+  margin: 5px;
+  text-align: center;
+}
+
+.c-drillstring-summary__value {
+  font-size: 3rem;
+}
+.c-drillstring-summary__value--is-long {
+  font-size: 2rem;
+}
+
+
+.c-drillstring-summary__footer-value {
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.c-drillstring-summary__footer-value--planning { 
+  color: rgb(222, 174, 44);
+}
