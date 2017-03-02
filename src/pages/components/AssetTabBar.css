@@ -1,18 +1,18 @@
 .c-asset-tab-bar {
   left: 0;
   right: 0;
-  height: 50px;
+  height: 60px;
   padding-left: 0;
   list-style-type: none;
-  background-color: #4E4A49;
+  background-color: #595353;
   margin-bottom: 2px;
 }
 .c-asset-tab-bar a {
   display: block;
   float: left;
   width: 60px;
-  height: 50px;
-  background-size: 48px 40px;
+  height: 60px;
+  background-size: 54px 45px;
   background-repeat: no-repeat;
   background-position: 50% 50%;
   text-indent: -9999px;
@@ -22,8 +22,8 @@
   display: block;
   float: left;
   width: 63px;
-  height: 50px;
-  line-height: 50px;
+  height: 60px;
+  line-height: 60px;
   font-size: 1.15rem;
   margin-left: 14px;
 }
@@ -31,10 +31,10 @@
   display: block;
   float: left;
   width: 37px;
-  height: 50px;
+  height: 60px;
   font-size: 2rem;
   color: gold;
-  line-height: 50px;
+  line-height: 60px;
   margin-top: 1px;
 }
 .c-asset-tab-bar a.is-active, .TabBar a:hover {
@@ -69,15 +69,14 @@
 }
 .c-asset-tab-bar .c-asset-tab-bar__settings-tab a {
   background-image: url('../../images/icon-settings.png');
-  background-size: 37px 34px; /* Settings icon image has different dimensions than the others; adjust */
+  background-size: 41px 37px; /* Settings icon image has different dimensions than the others; adjust */
 }
 
 .c-asset-tab-bar__current-tab-name {
   float: right;
   height: 60px;
   line-height: 60px;
-  margin-right: 20px;
+  margin-right: 23px;
   font-size: 1.5em;
-
   color: white;
 }
