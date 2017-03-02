@@ -30,6 +30,10 @@ nav.c-main-nav ul.c-main-nav span ul.dropdown-content {
   top: 46px !important;
 }
 
+nav.c-main-nav ul.c-main-nav span ul.dropdown-content li a {
+  color: #1e1f1f;
+}
+
 nav.c-main-nav span:nth-of-type(2) {
   position: absolute;
   right: 5px;
