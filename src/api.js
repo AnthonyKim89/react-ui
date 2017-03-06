@@ -11,7 +11,7 @@ class APIException {
   }
 
   isAuthenticationProblem() {
-    return this.status === 403 || this.status === 401;
+    return this.status === 403 || this.status === 401 || this.status === 404;
   }
 
 }
