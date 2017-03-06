@@ -1,6 +1,8 @@
 export const CATEGORY = 'settings';
 export const NAME = 'surveys';
-export const SUBSCRIPTIONS = [];
+export const SUBSCRIPTIONS = [
+  {appKey: 'corva', collection: 'tasks.survey-parser'}
+];
 export const METADATA = {
   title: 'Surveys',
   settingsTitle: 'Surveys',

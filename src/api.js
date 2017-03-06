@@ -150,10 +150,11 @@ export async function postAppStorage(appKey, collection, item) {
   return fromJS(response);
 }
 
-export async function postTaskDocument(appKey, collection, file) {
+export async function postTaskDocument(appKey, collection, file, params = Map()) {
   const body = new FormData();
   body.append('file', file);
-  const response = await request(`/v1/tasks/${appKey}/${collection}`, {
+  const qry = queryString(params.toJS());  
+  const response = await request(`/v1/tasks/${appKey}/${collection}?${qry}`, {
     method: 'POST',
     headers: {Accept: 'application/json'},
     body

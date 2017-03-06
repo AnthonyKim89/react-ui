@@ -44,18 +44,19 @@ class AppContainer extends Component {
   subscribe(props) {
     props.onAppSubscribe(
       props.id,
-      this.getSubscriptionKeys(),
+      this.getSubscriptionKeys(props),
       props.asset.get('id'),
       this.getSubscriptionParams(props)
     );
   }
 
   unsubscribe(props) {
-    props.onAppUnsubscribe(props.id, this.getSubscriptionKeys());
+    props.onAppUnsubscribe(props.id, this.getSubscriptionKeys(props));
   }
 
   isSubscriptionChanged(newProps) {
-    return !newProps.asset ||
+    return newProps.id !== this.props.id ||
+           !newProps.asset ||
            !newProps.asset.equals(this.props.asset) ||
            !this.getSubscriptionParams(newProps).equals(this.getSubscriptionParams(this.props))
   }
@@ -153,8 +154,8 @@ class AppContainer extends Component {
     this.props.onAppSettingsUpdate(newSettings);
   }
 
-  getSubscriptionKeys() {
-    return this.props.appType.constants.SUBSCRIPTIONS;
+  getSubscriptionKeys(props) {
+    return props.appType.constants.SUBSCRIPTIONS;
   }
 
 }
