@@ -1,20 +1,17 @@
 import React, {Component, PropTypes} from 'react';
 import Highcharts from 'highcharts';
 
-// This graph expects that series' will be provided as an array of objects containing x/y and a label and/or color:
 /*
-  data: [{
-    x: 1,
-    y: 10,
-    name: "Point2",
-    color: "#00FF00"
-  }, {
-    x: 1,
-    y: 6,
-    name: "Point1",
-    color: "#FF00FF"
-  }]
-*/
+  This graph expects that series' will be provided as an array of objects containing x/y and a label and/or color
+  Also accepted are arrays of [X,Y] for each element in the series.
+
+  Why do we need this in addition to the Chart component?
+    The Chart component expects a provided, static Y-Axis that all X points will be plotted on.
+    If we want to have each series not dependent on a static Y axis, and/or if our Y values will
+    vary from series to series, the ObjectGraph is the appropriate choice.
+
+  Highcharts documentation for a graph with irregular intervals: http://www.highcharts.com/demo/spline-irregular-time
+ */
 
 class ObjectGraph extends Component {
 
