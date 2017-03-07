@@ -1,7 +1,21 @@
 .c-de-mse-v-depth {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  position: absolute;
+  top: 12px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding-bottom: 22px;
+}
+
+.c-de-mse-v-depth .highcharts-xaxis-labels {
+  width: 62px;
+  height: calc(100% - 36px);
+  background-color: rgb(23, 28, 28);
+  z-index: 0;
+}
+
+span.c-de-mse-v-depth-x-label {
+  color: white;
+  font-weight: bold;
+  margin-right: 1px;
 }

@@ -1,6 +1,4 @@
-import React, { Component, PropTypes } from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import Immutable from 'immutable';
+import React, { Component } from 'react';
 
 import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
 import ObjectGraph from '../../../common/ObjectGraph';
@@ -15,10 +13,14 @@ class MSEVDepthApp extends Component {
     return (
       <div className="c-de-mse-v-depth">
         {subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS) ?
-          <ObjectGraph series={this.getSeries()} /> :
+          <ObjectGraph series={this.getSeries()} inverted={true} xAxisLabelFormatter={this.formatYLabel} /> :
           <LoadingIndicator />}
       </div>
     );
+  }
+
+  formatYLabel() {
+    return '<span class="c-de-mse-v-depth-x-label">'+this.value+"</span>ft";
   }
 
   getSeries() {
@@ -35,30 +37,26 @@ class MSEVDepthApp extends Component {
   getDataSeries(field) {
     // Data Prep
     let rawData = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', field]);
-    let fieldColor = SUPPORTED_CHART_SERIES[field].defaultColor;
     let subtype = SUPPORTED_CHART_SERIES[field].subType;
     let processedData = [];
     for (let i = 0; i < rawData.count(); i++) {
-      let dataPoint = {
-        x: rawData.get(i).get("measured_depth"),
-        y: rawData.get(i).get(subtype),
-        name: "DataPoint",
-        color: fieldColor
-      };
-      processedData.unshift(dataPoint);
+      processedData.push([
+        rawData.get(i).get("measured_depth"),
+        rawData.get(i).get(subtype)
+      ]);
     }
 
     return {
-      //renderType: 'line',
+      zrenderType: 'line',
       name: SUPPORTED_CHART_SERIES[field].label,
-      data: Immutable.fromJS(processedData),
+      data: processedData,
+      color: SUPPORTED_CHART_SERIES[field].defaultColor
     };
   }
 
 }
 
 MSEVDepthApp.propTypes = {
-  //data: ImmutablePropTypes.map.isRequired,
 };
 
 export default MSEVDepthApp;

@@ -29,21 +29,41 @@ class ObjectGraph extends Component {
     const graph = Highcharts.chart(this.container, {
       chart: {
         type: 'line',
-        backgroundColor: null,
+        backgroundColor: 'rgb(37, 41, 41)',
         plotBackgroundColor: 'rgb(42, 46, 46)',
-        inverted: true,
+        inverted: this.props.inverted || false,
+        marginTop: 0,
+        marginRight: 0,
       },
       xAxis: {
         title: {
-          text: 'Value'
+          text: ''
         },
-        lineWidth: 2,
+        labels: {
+          formatter: this.props.xAxisLabelFormatter || null,
+          format: this.props.xAxisLabelFormat || "{value}",
+          useHTML: true,
+        },
+        gridLineWidth: 0,
+        tickWidth: 0,
+        showFirstLabel: false,
+        showLastLabel: false,
       },
       yAxis: {
         title: {
-          text: 'Depth'
+          text: ''
         },
-        lineWidth: 2,
+        labels: {
+          formatter: this.props.yAxisLabelFormatter || null,
+          format: this.props.yAxisLabelFormat || "{value}",
+          useHTML: true,
+        },
+        gridLineWidth: 0,
+        showFirstLabel: false,
+        showLastLabel: false,
+      },
+      legend: {
+        enabled: false
       },
       title: {text: null},
       credits: {enabled: false},
@@ -62,7 +82,12 @@ class ObjectGraph extends Component {
 }
 
 ObjectGraph.propTypes = {
-  series: PropTypes.array.isRequired
+  series: PropTypes.array.isRequired,
+  xAxisLabelFormat: PropTypes.string,
+  yAxisLabelFormat: PropTypes.string,
+  xAxisLabelFormatter: PropTypes.func,
+  yAxisLabelFormatter: PropTypes.func,
+  inverted: PropTypes.bool,
 };
 
 export default ObjectGraph;
