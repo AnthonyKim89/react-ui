@@ -3,8 +3,8 @@ import { List } from 'immutable';
 export const CATEGORY = 'trace';
 export const NAME = 'traceTab';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'data.wits'},
-  {devKey: 'corva', collection: 'data.wits-summary-30s', params: {limit: 1440}}
+  {devKey: 'corva', collection: 'wits'},
+  {devKey: 'corva', collection: 'wits.summary-30s', params: {limit: 1440}}
 ];
 export const METADATA = {
   settingsTitle: 'Trace Tab',

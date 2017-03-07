@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { List } from 'immutable';
-import { parse as parseTime, format as formatTime } from 'date-fns';
+import { format as formatTime } from 'date-fns';
 import Highcharts from 'highcharts';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
@@ -85,11 +85,11 @@ class TraceTimeline extends Component {
   addSummaryData(summary) {
     // The new data could by either a list of maps or a single map.
     const newData = List.isList(summary) ?
-      summary.map(s => s.update('time', parseTime)) :
-      List.of(summary.update('time', parseTime));
+      summary.map(s => s.update('timestamp', t => new Date(t * 1000))) :
+      List.of(summary.update('timestamp', t => new Date(t * 1000)));
     return this.state.summary
       .concat(newData)
-      .sortBy(s => s.get('time'));
+      .sortBy(s => s.get('timestamp').getTime());
   }
 
   render() {
@@ -106,13 +106,12 @@ class TraceTimeline extends Component {
     const lastSummary = summary.last();
     
     const timeAxis = chart.get('timeAxis');
-    const minTime = parseTime(firstSummary.get('time')).getTime();
-    const maxTime = parseTime(lastSummary.get('time')).getTime();
+    const minTime = firstSummary.get('timestamp').getTime();
+    const maxTime = lastSummary.get('timestamp').getTime();
     timeAxis.update({min: minTime, max: maxTime});
-
     const depthAxis = chart.get('depthAxis');
-    const minDepth = firstSummary.get('hole_depth');
-    const maxDepth = lastSummary.get('hole_depth');
+    const minDepth = firstSummary.getIn(['data', 'hole_depth']);
+    const maxDepth = lastSummary.getIn(['data', 'hole_depth']);
     depthAxis.update({min: minDepth, max: maxDepth});
 
     // If there was a series previously, remove it.
@@ -132,7 +131,7 @@ class TraceTimeline extends Component {
   }
 
   getTraceSummary(props) {
-    return props.data && props.data.getIn(['corva','data.wits-summary-30s']);
+    return props.data && props.data.getIn(['corva', 'wits.summary-30s', '']);
   }  
   
 }

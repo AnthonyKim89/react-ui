@@ -10,9 +10,15 @@ export const appData = createSelector(
 );
 
 
-export function firstSubData(data, [{devKey, collection, event = ''}]) {
+export function firstSubData(data, [firstSub]) {
+  return getSubData(data, firstSub);
+}
+
+export function getSubData(data, {devKey, collection, event = ''}) {
   return data && data.getIn([devKey, collection, event]);
 }
+
+
 
 /**
  * Given all the data stored for an app, find the timestamp of the latest data
