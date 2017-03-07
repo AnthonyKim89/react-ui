@@ -1,11 +1,11 @@
 export const CATEGORY = 'drillingEfficiency';
-export const NAME = 'ropHeatmap';
+export const NAME = 'mseHeatmap';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'drilling-efficiency.rop-heatmap'}
+  {devKey: 'corva', collection: 'drilling-efficiency.mse-heatmap'}
 ];
 export const METADATA = {
   title: '',
-  settingsTitle: 'ROP Heatmap',
+  settingsTitle: 'MSE Heatmap',
   subtitle: '',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v0.1',

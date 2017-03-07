@@ -37,8 +37,7 @@ class TorqueApp extends Component {
   }
 
   getSeries() {
-    return Object.keys(SUPPORTED_CHART_SERIES)
-      .map(s => this.getDataSeries(s));
+    return Object.keys(SUPPORTED_CHART_SERIES).map(s => this.getDataSeries(s));
   }
 
   getDataSeries(field) {

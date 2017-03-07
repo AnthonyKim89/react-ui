@@ -1,22 +1,22 @@
 nav.c-main-nav {
   margin: 0;
-  background-color: #233736;
+  background-color: #1e1f1f;
   font-size: 16px;
   top: 0;
-  border-bottom: 1px solid #677575;
   position: absolute;
-  height: 45px;
-  line-height: 45px;
+  height: 47px;
+  line-height: 47px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 5px 0 rgba(0, 0, 0, 0.1), 0 3px 1px -2px rgba(0, 0, 0, 0.1);
 }
 
 nav.c-main-nav a i {
-  height: 45px;
-  line-height: 45px;
+  height: 47px;
+  line-height: 47px;
 }
 
 nav.c-main-nav .navbar-brand {
   width: 143px;
-  height: 44px;
+  height: 46px;
   margin-top: 1px;
   margin-right: 13px;
   text-indent: -2000px;
@@ -27,7 +27,11 @@ nav.c-main-nav .navbar-brand {
 
 nav.c-main-nav ul.c-main-nav span ul.dropdown-content {
   width: auto !important;
-  top: 44px !important;
+  top: 46px !important;
+}
+
+nav.c-main-nav ul.c-main-nav span ul.dropdown-content li a {
+  color: #1e1f1f;
 }
 
 nav.c-main-nav span:nth-of-type(2) {

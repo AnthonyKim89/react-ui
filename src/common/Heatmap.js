@@ -24,7 +24,8 @@ class Heatmap extends Component {
       chart: {
         type: 'heatmap',
         backgroundColor: null,
-        plotBorderWidth: 0,
+        plotBorderWidth: 1,
+        plotBorderColor: "rgb(32, 31, 31)",
         marginTop: 60,
       },
       xAxis: this.getXAxis(this.props),
@@ -65,8 +66,6 @@ class Heatmap extends Component {
 
   componentWillReceiveProps(newProps) {
     const heatmap = this.state.heatmap;
-    //heatmap.xAxis = this.getXAxis(newProps);
-    //heatmap.yAxis = this.getYAxis(newProps);
     heatmap.series[0].update(this.getSeries(newProps));
   }
 
@@ -82,6 +81,7 @@ class Heatmap extends Component {
         step: 3
       },
       tickWidth: 0,
+      lineColor: "rgb(32, 31, 31)",
     };
   }
 
@@ -97,6 +97,7 @@ class Heatmap extends Component {
         step: 4
       },
       opposite: true,
+      lineColor: "rgb(32, 31, 31)",
     };
   }
 
