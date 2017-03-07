@@ -1,10 +1,10 @@
 import { List } from 'immutable';
 
-import WellPlansApp from './WellPlansApp';
+import PlanSurveysApp from './PlanSurveysApp';
 import * as constants from './constants';
 
 export default {
-  AppComponent: WellPlansApp,
+  AppComponent: PlanSurveysApp,
   settings: List(),
   constants
 };

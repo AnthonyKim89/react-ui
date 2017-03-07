@@ -82,7 +82,6 @@ class DrillstringsApp extends Component {
 
   async deleteDrillstring() {
     const drillstring = this.state.editingDrillstring || this.state.displayingDrillstring;
-    console.log('deleting', drillstring.toJS());
     await api.deleteAppStorage('corva', 'data.drillstrings', drillstring.get('_id'));
     const drillstringsAfterDelete = this.state.drillstrings
       .filterNot(ds => ds.get('_id') === drillstring.get('_id'));

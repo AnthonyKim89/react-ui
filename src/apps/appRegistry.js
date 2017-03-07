@@ -21,8 +21,8 @@ import traceTab from './trace/traceTab';
 import generalInfo from './settings/generalInfo';
 import drillstrings from './settings/drillstrings';
 import casing from './settings/casing';
-import surveys from './settings/surveys';
-import wellPlans from './settings/wellPlans';
+import actualSurveys from './settings/actualSurveys';
+import planSurveys from './settings/planSurveys';
 
 // CONTROL APPS
 import wellTimeline from './wellTimeline';
@@ -65,8 +65,8 @@ export const uiApps = Map({
       generalInfo,
       drillstrings,
       casing,
-      surveys,
-      wellPlans
+      actualSurveys,
+      planSurveys
     })
   })
 });

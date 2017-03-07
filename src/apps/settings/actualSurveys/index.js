@@ -1,10 +1,10 @@
 import { List } from 'immutable';
 
-import SurveysApp from './SurveysApp';
+import ActualSurveysApp from './ActualSurveysApp';
 import * as constants from './constants';
 
 export default {
-  AppComponent: SurveysApp,
+  AppComponent: ActualSurveysApp,
   settings: List(),
   constants
 };
