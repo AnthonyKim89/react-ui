@@ -66,8 +66,6 @@ class Heatmap extends Component {
 
   componentWillReceiveProps(newProps) {
     const heatmap = this.state.heatmap;
-    //heatmap.xAxis = this.getXAxis(newProps);
-    //heatmap.yAxis = this.getYAxis(newProps);
     heatmap.series[0].update(this.getSeries(newProps));
   }
 
