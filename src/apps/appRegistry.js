@@ -22,6 +22,7 @@ import generalInfo from './settings/generalInfo';
 import drillstrings from './settings/drillstrings';
 import casing from './settings/casing';
 import surveys from './settings/surveys';
+import wellPlans from './settings/wellPlans';
 
 // CONTROL APPS
 import wellTimeline from './wellTimeline';
@@ -64,7 +65,8 @@ export const uiApps = Map({
       generalInfo,
       drillstrings,
       casing,
-      surveys
+      surveys,
+      wellPlans
     })
   })
 });

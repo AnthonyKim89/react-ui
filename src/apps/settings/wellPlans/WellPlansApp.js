@@ -5,21 +5,21 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { SUBSCRIPTIONS } from './constants';
 import DrillingTrajectoryEditor from '../common/DrillingTrajectoryEditor';
 
-import './SurveysApp.css';
+import './WellPlansApp.css';
 
-class SurveysApp extends Component {
+class WellPlansApp extends Component {
 
   render() {
-    return <div className="c-surveys">
+    return <div className="c-well-plans">
       <DrillingTrajectoryEditor data={this.props.data} asset={this.props.asset} subscriptionConfig={SUBSCRIPTIONS} />
     </div>;
   }
 
 }
 
-SurveysApp.propTypes = {
+WellPlansApp.propTypes = {
   data: ImmutablePropTypes.map,
   asset: ImmutablePropTypes.map.isRequired
 };
 
-export default SurveysApp;
+export default WellPlansApp;
