@@ -28,7 +28,6 @@ class DashboardAppAssetSettingEditor extends Component {
   defaultRender() {
     return (
       <Input
-        className="white"
         type="select"
         value={this.props.currentValue}
         disabled={this.state.loading}
