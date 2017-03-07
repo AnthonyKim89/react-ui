@@ -139,22 +139,22 @@ export async function putAsset(id, asset) {
   return fromJS(data);
 }
 
-export async function getAppStorage(appKey, collection, assetId, params = Map()) {
+export async function getAppStorage(devKey, collection, assetId, params = Map()) {
   const qry = queryString(params.merge({asset_id: assetId}).toJS());
-  const data = await get(`/v1/data/${appKey}/${collection}?${qry}`);
+  const data = await get(`/v1/data/${devKey}/${collection}?${qry}`);
   return fromJS(data);
 }
 
-export async function postAppStorage(appKey, collection, item) {
-  const response = await post(`/v1/data/${appKey}/${collection}`, item.toJS());
+export async function postAppStorage(devKey, collection, item) {
+  const response = await post(`/v1/data/${devKey}/${collection}`, item.toJS());
   return fromJS(response);
 }
 
-export async function postTaskDocument(appKey, collection, file, params = Map()) {
+export async function postTaskDocument(devKey, collection, file, params = Map()) {
   const body = new FormData();
   body.append('file', file);
   const qry = queryString(params.toJS());  
-  const response = await request(`/v1/tasks/${appKey}/${collection}?${qry}`, {
+  const response = await request(`/v1/tasks/${devKey}/${collection}?${qry}`, {
     method: 'POST',
     headers: {Accept: 'application/json'},
     body
@@ -162,13 +162,13 @@ export async function postTaskDocument(appKey, collection, file, params = Map())
   return fromJS(response);
 }
 
-export async function putAppStorage(appKey, collection, id, item) {
-  const response = await put(`/v1/data/${appKey}/${collection}/${id}`, item.toJS());
+export async function putAppStorage(devKey, collection, id, item) {
+  const response = await put(`/v1/data/${devKey}/${collection}/${id}`, item.toJS());
   return fromJS(response);
 }
 
-export async function deleteAppStorage(appKey, collection, id) {
-  const response = await del(`/v1/data/${appKey}/${collection}/${id}`);
+export async function deleteAppStorage(devKey, collection, id) {
+  const response = await del(`/v1/data/${devKey}/${collection}/${id}`);
   return fromJS(response);
 }
 

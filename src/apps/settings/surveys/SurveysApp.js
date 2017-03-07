@@ -13,8 +13,7 @@ class SurveysApp extends Component {
   render() {
     return <div className="c-surveys">
       <input type="file" ref={r => this.uploadField = r} />
-      <button onClick={() => this.upload()}
-              disabled={!this.isFileSelected()}>
+      <button onClick={() => this.upload()}>
         Upload
       </button>
 
@@ -30,10 +29,6 @@ class SurveysApp extends Component {
       Map({asset_id: this.props.asset.get('id')})
     );
     this.setState({lastUploadTaskId: res.get('task_id')});
-  }
-
-  isFileSelected() {
-    return this.uploadField && this.uploadField.files.length > 0;
   }
 
 }

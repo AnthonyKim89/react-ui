@@ -1,7 +1,7 @@
 export const CATEGORY = 'torqueAndDrag';
 export const NAME = 'stress';
 export const SUBSCRIPTIONS = [
-  {appKey: 'corva.torque-and-drag', collection: 'stress'}
+  {devKey: 'corva', collection: 'torque-and-drag.stress'}
 ];
 export const METADATA = {
   title: 'Stress',
