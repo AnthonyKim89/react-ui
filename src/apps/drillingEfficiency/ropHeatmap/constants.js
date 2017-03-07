@@ -1,7 +1,7 @@
 export const CATEGORY = 'drillingEfficiency';
 export const NAME = 'ropHeatmap';
 export const SUBSCRIPTIONS = [
-  {appKey: 'corva.drilling-efficiency', collection: 'rop-heatmap'}
+  {devKey: 'corva', collection: 'drilling-efficiency.rop-heatmap'}
 ];
 export const METADATA = {
   title: '',

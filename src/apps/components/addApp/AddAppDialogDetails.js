@@ -109,7 +109,7 @@ class AddAppDialogDetails extends Component {
   }
 
   getSettingsEditors() {
-    const forAppType = this.props.appType.settingsEditors || List();
+    const forAppType = this.props.appType.settings || List();
     const common = this.props.commonSettingsEditors || List();
     return forAppType.concat(common).filter(ed => ed.get('required'));
   }

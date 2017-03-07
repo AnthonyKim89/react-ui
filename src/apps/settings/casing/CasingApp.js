@@ -31,7 +31,7 @@ class CasingApp extends Component {
   }
 
   async loadCasing(asset) {
-    const casing = await api.getAppStorage('corva.data', 'casing', asset.get('id'), Map({limit: 1}));
+    const casing = await api.getAppStorage('corva', 'data.casing', asset.get('id'), Map({limit: 1}));
     this.setState({
       casing: casing.first() || this.makeNewCasing()
     });
@@ -100,8 +100,8 @@ class CasingApp extends Component {
     const casing = this.state.editingCasing;
     this.setState({editingCasing: null});
     const savedCasing = casing.has('_id') ?
-      await api.putAppStorage('corva.data', 'casing', casing.get('_id'), casing) :
-      await api.postAppStorage('corva.data', 'casing', casing);
+      await api.putAppStorage('corva', 'data.casing', casing.get('_id'), casing) :
+      await api.postAppStorage('corva', 'data.casing', casing);
     this.setState({casing: savedCasing});
   }
 
