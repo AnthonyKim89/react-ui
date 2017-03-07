@@ -10,14 +10,20 @@ export const appData = createSelector(
 );
 
 
-export function firstSubData(data, [{appKey, collection}]) {
-  return data && data.getIn([appKey, collection]);
+export function firstSubData(data, [firstSub]) {
+  return getSubData(data, firstSub);
 }
+
+export function getSubData(data, {devKey, collection, event = ''}) {
+  return data && data.getIn([devKey, collection, event]);
+}
+
+
 
 /**
  * Given all the data stored for an app, find the timestamp of the latest data
  * appData will be a nested Map in the shape of
- * {appKey1: {collectionId1: data, collectionId2: data}, appKey2: {...}}
+ * {appKey1: {collectionId1: {event1: data, event2: data}, collectionId2: {event3: data}}, appKey2: {...}}
  *
  * We look at the "timestamp" attribute in data records where it exists.
  */
@@ -27,7 +33,10 @@ export function lastDataUpdate(appData) {
   }
   return appData
     .valueSeq()
-    .map(coll => coll.valueSeq().map(d => d && d.get('timestamp')))
+    .map(coll => coll.valueSeq()
+                     .map(evts => evts.valueSeq())
+                     .flatten(1)
+                     .map(d => d.get('timestamp')))
     .flatten()
     .filter(identity)
     .max();

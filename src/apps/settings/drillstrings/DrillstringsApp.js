@@ -32,7 +32,7 @@ class DrillstringsApp extends Component {
   }
 
   async loadDrillstrings(asset) {
-    const drillstrings = await api.getAppStorage('corva.data', 'drillstrings', asset.get('id'), Map({limit: 0}));
+    const drillstrings = await api.getAppStorage('corva', 'data.drillstrings', asset.get('id'), Map({limit: 0}));
     this.setState({
       drillstrings,
       displayingDrillstring: drillstrings.first()
@@ -69,8 +69,8 @@ class DrillstringsApp extends Component {
   async saveDrillstring(drillstring) {
     this.setState({editingDrillstring: null});
     const savedString = drillstring.has('_id') ?
-      await api.putAppStorage('corva.data', 'drillstrings', drillstring.get('_id'), drillstring) :
-      await api.postAppStorage('corva.data', 'drillstrings', drillstring);
+      await api.putAppStorage('corva', 'data.drillstrings', drillstring.get('_id'), drillstring) :
+      await api.postAppStorage('corva', 'data.drillstrings', drillstring);
     this.setState({
       drillstrings: this.state.drillstrings
         .filterNot(ds => ds.getIn(['data', 'id']) === savedString.getIn(['data', 'id']))
@@ -83,7 +83,7 @@ class DrillstringsApp extends Component {
   async deleteDrillstring() {
     const drillstring = this.state.editingDrillstring || this.state.displayingDrillstring;
     console.log('deleting', drillstring.toJS());
-    await api.deleteAppStorage('corva.data', 'drillstrings', drillstring.get('_id'));
+    await api.deleteAppStorage('corva', 'data.drillstrings', drillstring.get('_id'));
     const drillstringsAfterDelete = this.state.drillstrings
       .filterNot(ds => ds.get('_id') === drillstring.get('_id'));
     this.setState({

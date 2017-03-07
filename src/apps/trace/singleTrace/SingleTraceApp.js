@@ -5,14 +5,17 @@ import { List } from 'immutable';
 import numeral from 'numeral';
 import { parse as parseTime, distanceInWordsToNow } from 'date-fns';
 
-import { SUPPORTED_CHART_SERIES } from './constants';
+import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
 import { SUPPORTED_TRACES } from '../constants';
 
 import Chart from '../../../common/Chart';
 import ChartSeries from '../../../common/ChartSeries';
 import LoadingIndicator from '../../../common/LoadingIndicator';
+import subscriptions from '../../../subscriptions';
 
 import './SingleTraceApp.css'
+
+const [ latestSubscription, summarySubscription ] = SUBSCRIPTIONS;
 
 class SingleTraceApp extends Component {
 
@@ -104,13 +107,16 @@ class SingleTraceApp extends Component {
   }
 
   getLatestTrace() {
-    return this.props.data && this.props.data.hasIn(['corva.data', 'wits']) ?
-      numeral(this.props.data.getIn(['corva.data', 'wits', this.props.trace])).format('0.0a') :
-      null;
+    const trace = subscriptions.selectors.getSubData(this.props.data, latestSubscription);
+    if (trace) {
+      return numeral(trace.getIn(['data', this.props.trace])).format('0.0a');
+    } else {
+      return null;
+    }
   }
 
   getTraceSummary(props) {
-    return props.data && props.data.getIn(['corva.data', 'wits-summary-30s']);
+    return subscriptions.selectors.getSubData(props.data, summarySubscription);
   }
 
   getSeriesColor() {
