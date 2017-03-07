@@ -3,7 +3,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { find } from 'lodash';
 import { List } from 'immutable';
 import numeral from 'numeral';
-import { parse as parseTime, distanceInWordsToNow } from 'date-fns';
+import { distanceInWordsToNow } from 'date-fns';
 
 import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
 import { SUPPORTED_TRACES } from '../constants';
@@ -39,17 +39,17 @@ class SingleTraceApp extends Component {
   addSummaryData(summary) {
     // The new data could by either a list of maps or a single map.
     const newData = List.isList(summary) ?
-      summary.map(s => s.update('time', parseTime)) :
-      List.of(summary.update('time', parseTime));
+      summary.map(s => s.update('timestamp', t => new Date(t * 1000))) :
+      List.of(summary.update('timestamp', t => new Date(t * 1000)));
     return this.state.summary
-      .concat(newData)
-      .sortBy(s => s.get('time'));
+      .concat(newData.map(itm => itm.merge(itm.get('data')).delete('data')))
+      .sortBy(s => s.get('timestamp').getTime());
   }
 
   render() {
     return (
       <div className="c-trace-single">
-        <h3>{this.getTrace().label}</h3>
+        <h4>{this.getTrace().label}</h4>
         {this.getLatestTrace() ?
           this.renderLatestTrace() :
           <LoadingIndicator />}
@@ -79,7 +79,7 @@ class SingleTraceApp extends Component {
         horizontal
         xAxisOpposite
         yAxisOpposite
-        xField="time"
+        xField="timestamp"
         size={this.props.size}
         widthCols={this.props.widthCols}
         xAxisLabelFormatter={(...a) => this.formatDate(...a)}>
