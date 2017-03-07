@@ -1,7 +1,7 @@
 export const CATEGORY = 'drillingEfficiency';
 export const NAME = 'mse';
 export const SUBSCRIPTIONS = [
-  {appKey: 'corva.drilling-efficiency', collection: 'mse'}
+  {devKey: 'corva', collection: 'drilling-efficiency.mse'}
 ];
 export const METADATA = {
   title: 'MSE v Depth',

@@ -1,8 +1,8 @@
 export const CATEGORY = 'trace';
 export const NAME = 'singleTrace';
 export const SUBSCRIPTIONS = [
-  {appKey: 'corva.data', collection: 'wits'},
-  {appKey: 'corva.data', collection: 'wits-summary-30s', params: {limit: 1440}}
+  {devKey: 'corva', collection: 'wits'},
+  {devKey: 'corva', collection: 'wits.summary-30s', params: {limit: 1440}}
 ];
 export const METADATA = {
   settingsTitle: 'Single Trace',

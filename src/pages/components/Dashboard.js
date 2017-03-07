@@ -87,6 +87,9 @@ class Dashboard extends Component {
   }
 
   onAppAdd(appType, appSettings) {
+    if (appSettings.has('assetId')) {
+      this.props.loadAsset(appSettings.get('assetId'));
+    }
     this.props.addApp(this.props.currentDashboard, appType, appSettings);
   }
 

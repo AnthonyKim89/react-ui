@@ -23,7 +23,7 @@ const GridLayout = WidthProvider(Responsive);
 
 const addAppModalStyles = {
   content: {
-    top: '65px',
+    top: '0',
     left: '0',
     right: '0',
     bottom: '0',
@@ -32,6 +32,9 @@ const addAppModalStyles = {
     color: 'white',
     border: '0',
     padding: '20px'
+  },
+  overlay: {
+    backgroundColor: 'rgba(0,0,0,0)'
   }
 };
 
