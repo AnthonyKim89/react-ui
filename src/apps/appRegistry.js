@@ -13,7 +13,10 @@ import tndTorque from './torqueAndDrag/torque';
 import deROPHeatmap from './drillingEfficiency/ropHeatmap';
 import deMSEHeatmap from './drillingEfficiency/mseHeatmap';
 import deMSEVDepth from './drillingEfficiency/mseVDepth';
+import deOptimization from './drillingEfficiency/optimization';
 
+console.log(deMSEVDepth);
+console.log(deOptimization)
 // TRACE APPS
 import singleTrace from './trace/singleTrace';
 import multiTrace from './trace/multiTrace';
@@ -49,6 +52,7 @@ export const uiApps = Map({
       ropHeatmap: deROPHeatmap,
       mseHeatmap: deMSEHeatmap,
       mseVDepth: deMSEVDepth,
+      optimization: deOptimization,
     })
   }),
   trace: Map({
