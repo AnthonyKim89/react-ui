@@ -1,13 +1,19 @@
 # Prerequisites
 
-* A recent Node.js (5, 6, 7, or newer)
+* A recent Node.js - current standard is Node v6.9.1
 * The [Yarn](https://yarnpkg.com/) package manager: `npm install -g yarn`
-* [corva-api](https://bitbucket.org/ryandawson12/corva-api) running in port 3000
-* [corva-subscriptions](https://bitbucket.org/ryandawson12/corva-subscriptions) running in port 3002
+* [corva-api](https://bitbucket.org/corva-ai/corva-api) running at [http://api.local.corva.ai](http://api.local.corva.ai)
+* [corva-subscriptions](https://bitbucket.org/corva-ai/corva-subscriptions) running at [http://subscriptions.local.corva.ai](http://subscriptions.local.corva.ai)
 
 # Running locally
 
-First install project dependencies:
+Update your hosts file (/etc/hosts on Mac OS/Linux) and add the following line:
+
+```
+127.0.0.1 app.local.corva.ai
+```
+
+Next, install project dependencies:
 
 ```
 yarn
@@ -19,14 +25,13 @@ Then start the development server:
 npm start
 ```
 
-In another terminal, also start the automated unit test runner:
+The app will automatically launch in a browser. Code changes are picked up automatically and reloaded to the browser. Unit tests will also automatically run whenever the code changes.
 
-```
-npm test
-```
+## Login Information
+The local development version of the API automatically seeds a database with a standard user and an admin user:
 
-The app will automatically launch in a browser. Code changes are picked
-up automatically and reloaded to the browser. Unit tests will also automatically run whenever the code changes. 
+* Standard User: U: user@corva.ai P: password
+* Admin User: U: admin@corva.ai P: password
 
 # Deploying
 
