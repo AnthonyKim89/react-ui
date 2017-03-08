@@ -1,11 +1,16 @@
-# Prerequisites
+# Corva Web Frontend
+A React UI for the Corva app
+
+[![CircleCI](https://circleci.com/bb/corva-ai/corva-web-frontend.svg?style=shield&circle-token=157bc597386336266688bfd36597406d6573a078)](https://circleci.com/bb/corva-ai/corva-web-frontend)
+
+## Prerequisites
 
 * A recent Node.js - current standard is Node v6.9.1
 * The [Yarn](https://yarnpkg.com/) package manager: `npm install -g yarn`
 * [corva-api](https://bitbucket.org/corva-ai/corva-api) running at [http://api.local.corva.ai](http://api.local.corva.ai)
 * [corva-subscriptions](https://bitbucket.org/corva-ai/corva-subscriptions) running at [http://subscriptions.local.corva.ai](http://subscriptions.local.corva.ai)
 
-# Running locally
+## Running locally
 
 Update your hosts file (/etc/hosts on Mac OS/Linux, c:\Windows\System32\Drivers\etc\hosts on Windows) and add the following line:
 
