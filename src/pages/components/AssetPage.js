@@ -27,6 +27,10 @@ import subscriptions from '../../subscriptions';
 
 import './AssetPage.css';
 
+const DASHBOARD_ENV = Map({
+  type: "asset",
+});
+
 class AssetPage extends Component {
 
   componentDidMount() {
@@ -69,6 +73,7 @@ class AssetPage extends Component {
                      onAssetModified={asset => this.props.reloadAsset(asset.get('id'))}
                      pageParams={this.props.currentPageParams}
                      location={this.props.location}
+                     environment={DASHBOARD_ENV}
                      isNative={this.props.isNative} />}
         {this.renderControlApps()}
       </div>
