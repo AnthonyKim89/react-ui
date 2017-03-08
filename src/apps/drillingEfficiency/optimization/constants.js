@@ -1,12 +1,12 @@
 export const CATEGORY = 'drillingEfficiency';
 export const NAME = 'optimization';
 export const SUBSCRIPTIONS = [
-  {appKey: 'corva.drilling-efficiency', collection: 'optimization'}
+  {devKey: 'corva', collection: 'drilling-efficiency.optimization'}
 ];
 export const METADATA = {
-  title: '',
+  title: 'Drilling Recommendations',
   settingsTitle: 'Optimization',
-  subtitle: '',
+  subtitle: 'Satistical calculation of drilling recommendations',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v0.1',
   publishedAt: '2017-03-7T00:00:00'

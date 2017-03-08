@@ -15,8 +15,6 @@ import deMSEHeatmap from './drillingEfficiency/mseHeatmap';
 import deMSEVDepth from './drillingEfficiency/mseVDepth';
 import deOptimization from './drillingEfficiency/optimization';
 
-console.log(deMSEVDepth);
-console.log(deOptimization)
 // TRACE APPS
 import singleTrace from './trace/singleTrace';
 import multiTrace from './trace/multiTrace';
