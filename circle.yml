@@ -1,18 +1,26 @@
+machine:
+  node:
+    version: 6.1.0
+
+dependencies:
+  override:
+    - yarn
+
 test:
-    override:
-        - npm test
+  override:
+    - npm test
 
 deployment:
-    trial:
-        branch: feature/deploy-to-s3-via-circle
-        commands:
-            - REACT_APP_API_URL=http://api.test.corva.ai npm run build
-            - aws s3 sync ./build/ s3://app.test.corva.ai/ --delete
-    test:
-        branch: master
-        commands:
-            - aws s3 sync ./ s3://app.test.corva.ai/ --delete
-    staging:
-        branch: /release\/.*/
-        commands:
-            - aws s3 sync ./ s3://app.staging.corva.ai/ --delete
+  trial:
+    branch: feature/deploy-to-s3-via-circle
+      commands:
+        - REACT_APP_API_URL=http://api.test.corva.ai npm run build
+        - aws s3 sync ./build/ s3://app.test.corva.ai/ --delete
+  test:
+    branch: master
+    commands:
+      - aws s3 sync ./ s3://app.test.corva.ai/ --delete
+  staging:
+    branch: /release\/.*/
+      commands:
+        - aws s3 sync ./ s3://app.staging.corva.ai/ --delete
