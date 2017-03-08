@@ -6,12 +6,12 @@ deployment:
     trial:
         branch: feature/deploy-to-s3-via-circle
         commands:
-            - aws s3 sync ./ s3://api.test.corva.ai/ --delete
+            - aws s3 sync ./ s3://app.test.corva.ai/ --delete
     test:
         branch: master
         commands:
-            - aws s3 sync ./ s3://api.test.corva.ai/ --delete
+            - aws s3 sync ./ s3://app.test.corva.ai/ --delete
     staging:
         branch: /release\/.*/
         commands:
-            - aws s3 sync ./ s3://api.staging.corva.ai/ --delete
+            - aws s3 sync ./ s3://app.staging.corva.ai/ --delete
