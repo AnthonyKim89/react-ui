@@ -29,6 +29,10 @@
   font-size: .85rem;
 }
 
+.c-app-container-asset-name:empty {
+  display: none;
+}
+
 .c-app-container h4.c-app-container__title {
   font-weight: 900;
   margin: 0 0 5px 3px;

@@ -70,7 +70,7 @@ class AppContainer extends Component {
   getAppAssetName() {
     let assetId = this.props.appSettings.get("assetId");
     let asset = this.props.availableAssets.find(a => a.get("id") === assetId);
-    return asset.get("name");
+    return asset.get("name", "");
   }
   
   render() {
