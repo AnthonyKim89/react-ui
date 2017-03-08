@@ -6,7 +6,8 @@ deployment:
     trial:
         branch: feature/deploy-to-s3-via-circle
         commands:
-            - aws s3 sync ./ s3://app.test.corva.ai/ --delete
+            - REACT_APP_API_URL=http://api.test.corva.ai npm run build
+            - aws s3 sync ./build/ s3://app.test.corva.ai/ --delete
     test:
         branch: master
         commands:
