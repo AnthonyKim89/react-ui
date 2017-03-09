@@ -5,7 +5,7 @@ import * as auth from '../auth';
 
 const socketUrl = process.env.REACT_APP_SUBSCRIPTIONS_URL ||
                   process.env.REACT_APP_API_URL ||
-                  `${location.protocol}//${location.hostname}:3002`;
+                  'subscriptions.local.corva.ai';
 
 let socket;
 
@@ -31,5 +31,5 @@ export const subscribe = (appInstanceId, devKey, collection, assetId, event, par
 
 export const unsubscribe = (appInstanceId, devKey, collection, event) => {
   if (!socket) { throw new Error('Not connected'); }
-  socket.emit('unsubscribe', {appInstanceId, devKey, collection, event}); 
+  socket.emit('unsubscribe', {appInstanceId, devKey, collection, event});
 };

@@ -16,7 +16,7 @@ class APIException {
 
 }
 
-const baseUrl = process.env.REACT_APP_API_URL || `http://${location.hostname}:3000`;
+const baseUrl = process.env.REACT_APP_API_URL || 'http://api.local.corva.ai';
 
 const JSON_HEADERS = {
   'Content-Type': 'application/json',
