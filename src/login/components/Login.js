@@ -2,6 +2,7 @@ import { isEmpty } from 'lodash';
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { Input, Button } from 'react-materialize';
 
 import { logIn } from '../actions';
 import { loginFailure } from '../selectors';
@@ -16,30 +17,30 @@ class Login extends Component {
   }
 
   render() {
-    return <div className="c-login">
+    return <div className="c-login"><div className="c-login-background-gradient"><div className="c-login-box">
       <h1 className="c-login__brand">Corva</h1>
-      <div className="c-login__divider"><span>Sign In with Email</span></div>
+      <div className="c-login__divider">Sign In with Email</div>
       {this.props.loginFailure &&
         <div className="c-login__failure">Invalid email and/or password</div>}
       <form className="c-login__form"
             onSubmit={e => this.doLogin(e)}>
-        <input type="email"
+        <Input type="email"
                name="email"
                value={this.state.email}
-               placeholder="Email"
+               label="Email"
                required
                onChange={e => this.setEmail(e)} />
-        <input type="password"
+        <Input type="password"
                name="password"
                value={this.state.password}
-               placeholder="Password"
+               label="Password"
                required
                onChange={e => this.setPassword(e)} />
-        <button type="submit"
-                disabled={!this.isLoginValid()}>Sign In</button>
+        <Button type="submit" waves="light"
+                disabled={!this.isLoginValid()}>Sign In</Button>
       </form>
       <div className="c-login__divider"></div>
-    </div>;
+    </div></div></div>;
   }
 
   setEmail(evt) {

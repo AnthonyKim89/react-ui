@@ -11,6 +11,7 @@ import { GRID_BREAKPOINTS, GRID_COLUMN_SIZES, GRID_ROW_HEIGHT } from '../constan
 import common from '../../common';
 import subscriptions from '../../subscriptions';
 import * as appRegistry from '../appRegistry';
+import * as api from '../../api';
 
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -47,6 +48,11 @@ class AppGridLayout extends Component {
   constructor(props) {
     super(props);
     this.state = {addAppDialogOpen: false};
+  }
+
+  async componentDidMount() {
+    const assets = await api.getAssets();
+    this.setState({assets});
   }
 
   render() {
@@ -125,6 +131,8 @@ class AppGridLayout extends Component {
                          appSettings={settings}
                          pageParams={this.getPageParams()}
                          commonSettingsEditors={this.props.commonSettingsEditors}
+                         layoutEnvironment={this.props.environment}
+                         availableAssets={this.state.assets}
                          location={this.props.location}
                          onAppSubscribe={(...args) => this.props.onAppSubscribe(...args)}
                          onAppUnsubscribe={(...args) => this.props.onAppUnsubscribe(...args)}
@@ -191,6 +199,7 @@ AppGridLayout.propTypes = {
   appData: ImmutablePropTypes.map.isRequired,
   appAssets: ImmutablePropTypes.map.isRequired,
   commonSettingsEditors: ImmutablePropTypes.list,
+  environment: ImmutablePropTypes.map,
   pageParams: ImmutablePropTypes.map,
   onAppSubscribe: PropTypes.func.isRequired,
   onAppUnsubscribe: PropTypes.func.isRequired,

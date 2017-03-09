@@ -9,6 +9,7 @@
   "dependencies": {
     "bootstrap": "3",
     "date-fns": "^1.27.2",
+    "dotenv": "^4.0.0",
     "font-awesome": "^4.7.0",
     "highcharts": "^5.0.7",
     "immutable": "^3.8.1",

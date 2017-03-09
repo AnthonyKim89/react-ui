@@ -31,7 +31,6 @@ class MSEVDepthApp extends Component {
       }
     }
     return series;
-    //return Object.keys(SUPPORTED_CHART_SERIES).map(s => this.getDataSeries(s));
   }
 
   getDataSeries(field) {
@@ -39,12 +38,12 @@ class MSEVDepthApp extends Component {
     let rawData = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', field]);
     let subtype = SUPPORTED_CHART_SERIES[field].subType;
     let processedData = [];
-    for (let i = 0; i < rawData.count(); i++) {
+    rawData.valueSeq().forEach((value) => {
       processedData.push([
-        rawData.get(i).get("measured_depth"),
-        rawData.get(i).get(subtype)
-      ]);
-    }
+        value.get("measured_depth"),
+        value.get(subtype)
+      ])
+    });
 
     return {
       zrenderType: 'line',
