@@ -5,7 +5,8 @@ import { syncHistoryWithStore, push } from 'react-router-redux'
 import { Provider } from 'react-redux';
 import { routes } from './routes';
 import { store } from './store';
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 import 'materialize-css/bin/jquery-2.1.1.min';
 import 'materialize-css/bin/materialize';
