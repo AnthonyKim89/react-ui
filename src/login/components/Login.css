@@ -1,6 +1,53 @@
 .c-login {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  background-image: url(../../images/illo_dots.png);
+  background-size: cover;
+  -moz-background-size: cover;
+  background-position: -105px 3%;
+  background-repeat: no-repeat;
+}
+
+@media screen and (max-width: 1024px) {
+  .c-login {
+    background-position: -455px -20px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .c-login {
+    background-position: -346px 20px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .c-login {
+    background-position: -280px 70px;
+  }
+}
+
+.c-login-background-gradient {
+   position: fixed;
+   width: 100%;
+   height: 100%;
+   left: 0;
+   top: 0;
+   z-index: 1;
+   background: -webkit-linear-gradient(left top, rgba(0, 82, 78, 0.7), rgba(0, 82, 78, 0.7), rgba(8, 55, 65, 0.7), rgba(16, 29, 53, 0.7), rgba(16, 29, 53, 0.7)); /* For Safari 5.1 to 6.0 */
+   background: -o-linear-gradient(bottom right, rgba(0, 82, 78, 0.7), rgba(0, 82, 78, 0.7), rgba(8, 55, 65, 0.7), rgba(16, 29, 53, 0.7), rgba(16, 29, 53, 0.7)); /* For Opera 11.1 to 12.0 */
+   background: -moz-linear-gradient(bottom right, rgba(0, 82, 78, 0.7), rgba(0, 82, 78, 0.7), rgba(8, 55, 65, 0.7), rgba(16, 29, 53, 0.7), rgba(16, 29, 53, 0.7)); /* For Firefox 3.6 to 15 */
+   background: linear-gradient(to bottom right, rgba(0, 82, 78, 0.7), rgba(0, 82, 78, 0.7), rgba(8, 55, 65, 0.7), rgba(16, 29, 53, 0.7), rgba(16, 29, 53, 0.7)); /* Standard syntax */
+ }
+
+.c-login-box {
   max-width: 320px;
   margin: 0 auto;
+  z-index: 2;
+  color: white;
 }
 
 .c-login__brand {
@@ -8,6 +55,7 @@
   background-image: url(../../images/corva-logo.png);
   background-repeat: no-repeat;
   background-position: center center;
+  margin-bottom: 10px;
 }
 
 .c-login__failure {
@@ -17,40 +65,30 @@
   border: 1px solid red;
 }
 
-.c-login input, .c-login button {
-  display: block;
+.c-login button {
   width: 100%;
-  margin: 2px 0;
-  padding: .7em;
-  border: 0;
-  color: black;
+  margin-top: 1em;
+  background: rgb(22, 177, 142);
+  color: white;
 }
 
-.c-login button {
-  margin-top: 2em;
-  background: #58c9c2;
-  color: white;
-} 
+.c-login button:hover {
+  background: rgb(2, 157, 122);
+}
 
 .c-login__divider {
-  position: relative;
-  margin: 2em 0;
-  min-height: 1em;
+  color: #999999;
+  font-weight: bold;
+  font-size: .75rem;
   text-align: center;
-  font-family: orgonboldregular;
-  color: white;
+  margin-bottom: 40px;
+  font-style: italic;
 }
-.c-login__divider:before {
-  border-top: 1px solid white;
-  content:"";
-  margin: 0 auto; /* this centers the line to the full width specified */
-  position: absolute; /* positioning must be absolute here, and relative positioning must be applied to the parent */
-  top: 50%; left: 0; right: 0; bottom: 0;
-  width: 100%;
-  z-index: -1;
-}
-.c-login__divider span {
-  display: inline-block;
-  padding: 0 7px;
-  background: rgb(51, 51, 51);
+
+.c-login input:-webkit-autofill,
+.c-login input:-webkit-autofill:hover,
+.c-login input:-webkit-autofill:focus,
+.c-login input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: white;
 }
