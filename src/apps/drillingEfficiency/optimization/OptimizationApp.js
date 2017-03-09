@@ -14,25 +14,27 @@ import './OptimizationApp.css'
 class OptimizationApp extends Component {
   
   render() {
-
+    let optimizationData = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[0]);
+    let actualData = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[1]);
+    
     return (
       <div className="c-de-optimization">
-        { subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS) ?
+        { optimizationData && actualData ?
           <div>          
-            <Row></Row>            
+            <Row></Row>
             <Row>
                 <Col s={6} className="c-de-optimization__gauge">
-                  <div className="c-de-optimization__gauge-title">Drilling Efficiency</div>                  
+                  <div className="c-de-optimization__gauge-title">Drilling Efficiency</div>
                   <Gauge widthCols={this.props.widthCols}
                          bands={this.getGaugeBands()}
-                         value={this.getDrillingEfficiencyGaugeValue()} />                  
+                         value={this.getGaugeValue(optimizationData.getIn(['data', 'efficiency']))} />
                 </Col>
                 <Col s= {6}>
                   <div className="c-de-optimization__gauge-title">Parameter Optimization</div>
                   <table>
                     <thead>
                       <tr>
-                        <th></th>
+                        <th>Mode</th>
                         <th>
                           WOB <sub> klbf </sub>
                         </th>
@@ -46,22 +48,40 @@ class OptimizationApp extends Component {
                     </thead>
                     <tbody>
                       <tr>
-                        <td> Current </td>
-                        <td> {this.getDrillingOptimizationParameters("actual","weight_on_bit")}</td>
-                        <td> {this.getDrillingOptimizationParameters("actual","mud_flow_in")} </td>
-                        <td> {this.getDrillingOptimizationParameters("actual","rpm")} </td>
+                        <td> Actual </td>
+                        <td style={this.getStyles(actualData,optimizationData,"wob")}> {actualData.getIn(["data",this.getParamKey("actual","wob")])}</td>
+                        <td style={this.getStyles(actualData,optimizationData,"flow")}> {actualData.getIn(["data",this.getParamKey("actual","flow")])}</td>
+                        <td style={this.getStyles(actualData,optimizationData,"rpm")}> {actualData.getIn(["data",this.getParamKey("actual","rpm")])}</td>
                       </tr>
                       <tr>
                         <td> Rotary </td>
-                        <td> {this.getDrillingOptimizationParameters("recommended_rotary","weight_on_bit")}</td>
-                        <td> {this.getDrillingOptimizationParameters("recommended_rotary","mud_flow_in")}</td>
-                        <td> {this.getDrillingOptimizationParameters("recommended_rotary","rpm")}</td>
+                        <td> 
+                          {optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","min_wob")])} - 
+                          {optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","max_wob")])} 
+                        </td>
+                        <td>
+                          {optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","min_flow")])} -
+                          {optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","max_flow")])} 
+                        </td>
+                        <td>
+                          {optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","min_rpm")])} - 
+                          {optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","max_rpm")])}
+                        </td>
                       </tr>
                       <tr>
-                        <td> Slide </td>
-                        <td> {this.getDrillingOptimizationParameters("recommended_slide","weight_on_bit")}</td>
-                        <td> {this.getDrillingOptimizationParameters("recommended_slide","mud_flow_in")}</td>
-                        <td> {this.getDrillingOptimizationParameters("recommended_slide","rpm")}</td>
+                        <td> Rotary </td>
+                        <td> 
+                          {optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","min_wob")])} - 
+                          {optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","max_wob")])} 
+                        </td>
+                        <td>
+                          {optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","min_flow")])} - 
+                          {optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","max_flow")])} 
+                        </td>
+                        <td>
+                          {optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","min_rpm")])} -
+                          {optimizationData.getIn(["data","recommended_slide",this.getParamKey("optimization","max_rpm")])}
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -82,10 +102,6 @@ class OptimizationApp extends Component {
     };
   }
 
-  getDrillingEfficiencyGaugeValue() {
-    return this.getGaugeValue(subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'efficiency']));
-  }
-
   getGaugeValue(severity) {
     switch (severity) {
       case 'low': return 5;
@@ -95,10 +111,45 @@ class OptimizationApp extends Component {
     }
   }
 
-  getDrillingOptimizationParameters(key,parameter) {
-      return subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS).getIn(['data',key,parameter]);
+  getParamKey(modeString, shortName) {
+    let keys ={
+      "actual" : {
+        "wob" : "weight_on_bit",
+        "flow" : "total_pump_output",
+        "rpm" : "rotary_rpm",
+      }, 
+      "optimization": {
+        "min_wob" : "min_weight_on_bit",
+        "min_flow" : "min_mud_flow_in",
+        "min_rpm" : "min_rpm",
+        "max_wob" : "max_weight_on_bit",
+        "max_flow" : "max_mud_flow_in",
+        "max_rpm" : "max_rpm",
+      }
+    }
+    return keys[modeString][shortName];
   }
 
+  getStyles(actualData, optimizationData, param , activityState="recommended_rotary") {
+    let style = {
+      fontWeight: "bold"
+    }
+
+    let actualVal = actualData.getIn(["data",this.getParamKey("actual",param)]);
+    let optMinVal = optimizationData.getIn(["data",activityState,this.getParamKey("optimization","min_"+param)]);
+    let optMaxVal = optimizationData.getIn(["data",activityState,this.getParamKey("optimization","max_"+param)]);
+    
+    if (actualVal > optMinVal && actualVal < optMaxVal ) {
+      return Object.assign(style, {color: "green"});
+    }
+    else if (actualVal > optMinVal - optMinVal * 0.1 && actualVal < optMaxVal + optMaxVal * 0.1) {
+      return Object.assign(style, {color: "yellow"});
+    }
+    else {
+     return Object.assign(style, {color: "red"}); 
+    }
+  }
+  
 }
 
 OptimizationApp.propTypes = {
