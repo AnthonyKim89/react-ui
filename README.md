@@ -24,7 +24,14 @@ Next, install project dependencies:
 yarn
 ```
 
-Then start the development server:
+Then copy .env.sample to .env and change any settings you need to:
+
+```
+HOST=app.local.corva.ai
+PORT=80
+```
+
+Finally, start the development server:
 
 ```
 sudo npm start
