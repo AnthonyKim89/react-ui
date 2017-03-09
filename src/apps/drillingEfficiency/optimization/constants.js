@@ -1,7 +1,8 @@
 export const CATEGORY = 'drillingEfficiency';
 export const NAME = 'optimization';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'drilling-efficiency.optimization'}
+  {devKey: 'corva', collection: 'drilling-efficiency.optimization'},
+  {devKey: 'corva', collection: 'wits'}
 ];
 export const METADATA = {
   title: 'Drilling Recommendations',
