@@ -27,7 +27,7 @@ yarn
 Then start the development server:
 
 ```
-npm start
+sudo npm start
 ```
 
 The app will automatically launch in a browser. Code changes are picked up automatically and reloaded to the browser. Unit tests will also automatically run whenever the code changes.
