@@ -65,8 +65,10 @@ class Heatmap extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    const heatmap = this.state.heatmap;
-    heatmap.series[0].update(this.getSeries(newProps));
+    if (newProps.data !== this.props.data) {
+      const heatmap = this.state.heatmap;
+      heatmap.series[0].update(this.getSeries(newProps));
+    }
   }
 
   getXAxis(props) {
