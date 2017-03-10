@@ -16,7 +16,7 @@ class Chart extends Component {
     const series = this.getSeries(this.props);
     const chart = Highcharts.chart(this.container, {
       chart: {
-        type: 'line',
+        type: this.props.chartType || 'line',
         inverted: !this.props.horizontal,
         backgroundColor: null,
         zoomType: 'xy',
@@ -30,18 +30,20 @@ class Chart extends Component {
         },
       },
       xAxis: {
-        gridLineWidth: 1,
+        gridLineWidth: this.props.gridLineWidth || 1,
         gridLineColor: 'rgb(47, 51, 51)',
         lineWidth: this.props.xAxisWidth || 0,
         lineColor:  this.props.xAxisColor || '',
         tickWidth: 0,
         labels: {
-          enabled: this.isAxisLabelsVisible(this.props),
+          enabled: this.isAxisLabelsVisible(this.props) && !this.props.hideXAxis,
           autoRotation: false,
-          style: {color: '#fff'},
+          style: this.props.xLabelStyle || {color: '#fff'},
           formatter: this.getXAxisLabelFormatter()
         },
         opposite: this.props.xAxisOpposite,
+        tickPositioner: this.props.xTickPositioner,
+        plotLines: this.props.xPlotLines,
       },
       yAxis: this.getYAxes(series, this.props),
       title: {text: null},
@@ -67,10 +69,10 @@ class Chart extends Component {
         chart.series[i].update({showInLegend: legendVisible}, false);
       }
       chart.xAxis[0].update({
-        labels: {enabled: this.isAxisLabelsVisible(newProps)}
+        labels: {enabled: this.isAxisLabelsVisible(newProps) && !newProps.hideXAxis}
       }, false);
       chart.yAxis[0].update({
-        labels: {enabled: this.isAxisLabelsVisible(newProps)}
+        labels: {enabled: this.isAxisLabelsVisible(newProps) && !newProps.hideYAxis}
       }, false);
       reflow = true;
       redraw = true;
@@ -125,7 +127,7 @@ class Chart extends Component {
 
   getSeries(props) {
     return this.getSeriesArray(props).map(series => {
-      const {type, title, data, color, id, yField, minValue, maxValue, dashStyle, lineWidth} = series.props;
+      const {type, title, data, color, id, yField, minValue, maxValue, dashStyle, lineWidth, pointPadding, groupPadding, borderWidth} = series.props;
       return {
         id,
         name: title,
@@ -133,7 +135,8 @@ class Chart extends Component {
         data: data.map(point => ({
           id: `${id}-${point.get(props.xField)}-${point.get(yField)}`,
           x: point.get(props.xField),
-          y: yField ? point.get(yField) : null
+          y: yField ? point.get(yField) : null,
+          color: point.get("color", undefined)
         })).toJS(),
         yAxis: this.props.multiAxis ? `${id}-axis` : 0,
         dashStyle: dashStyle || 'ShortDot',
@@ -146,7 +149,10 @@ class Chart extends Component {
         animation: false,
         showInLegend: this.isLegendVisible(props),
         minValue,
-        maxValue
+        maxValue,
+        pointPadding: typeof pointPadding !== "undefined" ? pointPadding : 0.1,
+        groupPadding: typeof groupPadding !== "undefined" ? groupPadding : 0.2,
+        borderWidth
       };
     });
   }
@@ -165,17 +171,20 @@ class Chart extends Component {
     return {
       id: `${series.id}-axis`,
       title: {text: null},
-      gridLineWidth: 1,
+      gridLineWidth: this.props.gridLineWidth || 1,
       gridLineColor: 'rgb(47, 51, 51)',
       labels: {
-        enabled: this.isAxisLabelsVisible(props),
-        style: {color: '#fff'}
+        enabled: this.isAxisLabelsVisible(props) && !props.hideYAxis,
+        style:  this.props.yLabelStyle || {color: '#fff'},
       },
       opposite: props.yAxisOpposite,
       min: series.minValue || null,
       max: series.maxValue || null,
       lineWidth: props.yAxisWidth || 0,
-      lineColor:  props.yAxisColor || ''
+      lineColor:  props.yAxisColor || '',
+      tickPositioner: this.props.yTickPositioner,
+      plotLines: this.props.yPlotLines,
+
     };
   }
 
@@ -207,6 +216,16 @@ Chart.propTypes = {
   yAxisOpposite: PropTypes.bool,
   multiAxis: PropTypes.bool,
   xAxisLabelformatter: PropTypes.func,
+  chartType: PropTypes.string,
+  hideXAxis: PropTypes.bool,
+  hideYAxis: PropTypes.bool,
+  xTickPositioner: PropTypes.func,
+  yTickPositioner: PropTypes.func,
+  xPlotLines: PropTypes.array,
+  yPlotLines: PropTypes.array,
+  gridLineWidth: PropTypes.string,
+  xLabelStyle: PropTypes.object,
+  yLabelStyle: PropTypes.object,
 };
 
 export default Chart;
