@@ -46,7 +46,6 @@ class MSEVDepthApp extends Component {
     });
 
     return {
-      zrenderType: 'line',
       name: SUPPORTED_CHART_SERIES[field].label,
       data: processedData,
       color: SUPPORTED_CHART_SERIES[field].defaultColor,

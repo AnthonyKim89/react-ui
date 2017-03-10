@@ -65,6 +65,9 @@ class Heatmap extends Component {
   }
 
   componentWillReceiveProps(newProps) {
+    if (typeof this.state.heatmap === 'undefined') {
+      return;
+    }
     if (newProps.data !== this.props.data) {
       const heatmap = this.state.heatmap;
       heatmap.series[0].update(this.getSeries(newProps));
@@ -132,7 +135,8 @@ class Heatmap extends Component {
       data: series,
       borderWidth: 1,
       borderColor: "#444444",
-      nullColor: "#535353"
+      nullColor: "#535353",
+      animation: false
     };
   }
 

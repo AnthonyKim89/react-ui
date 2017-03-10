@@ -70,11 +70,34 @@ class ObjectGraph extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (typeof this.state.graph !== 'undefined') {
-      for (let i = 0; i < this.state.graph.series.length; i++) {
-        this.state.graph.series[i].update(newProps.series[i]);
+    if (typeof this.state.graph === 'undefined') {
+      return;
+    }
+    const graph = this.state.graph;
+    let redraw = false;
+    for (let i = 0; i < graph.series.length; i++) {
+      if (!this.dataEqual(newProps.series[i].data, this.props.series[i].data)) {
+        graph.series[i].update(newProps.series[i], false);
+        redraw = true;
       }
     }
+    if (redraw) {
+      graph.redraw(false);
+    }
+  }
+
+  dataEqual(arr1, arr2) {
+    if(arr1.length !== arr2.length) {
+      return false;
+    }
+
+    for(let i = arr1.length; i--;) {
+      if(arr1[i][0] !== arr2[i][0] || arr1[i][1] !== arr2[i][1]) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }
 
