@@ -127,7 +127,7 @@ class Chart extends Component {
 
   getSeries(props) {
     return this.getSeriesArray(props).map(series => {
-      const {type, title, data, color, id, yField, minValue, maxValue, dashStyle, lineWidth, pointPadding, groupPadding, borderWidth} = series.props;
+      const {type, title, data, color, id, yField, minValue, maxValue, dashStyle, lineWidth, pointPadding, groupPadding, borderWidth, marker} = series.props;
       return {
         id,
         name: title,
@@ -141,7 +141,7 @@ class Chart extends Component {
         yAxis: this.props.multiAxis ? `${id}-axis` : 0,
         dashStyle: dashStyle || 'ShortDot',
         color,
-        marker: {
+        marker: marker || {
           enabled: type === 'scatter',
           radius: 4
         },
