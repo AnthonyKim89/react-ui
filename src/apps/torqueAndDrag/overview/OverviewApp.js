@@ -44,12 +44,6 @@ class OverviewApp extends Component {
                          hideXAxis={true}
                          alignYTicks={false}
                          yTickPositioner={this.yTickPositioner}
-                         yPlotLines={[{
-                           color: '#bbb',
-                           width: 3,
-                           value: -1,
-                           dashStyle: 'Dot'
-                         }]}
                          gridLineWidth="0"
                          yLabelStyle={{
                            color: "#bbb",
@@ -85,7 +79,7 @@ class OverviewApp extends Component {
   }
 
   yTickPositioner () {
-    return [-20, -10, 0, 10, this.dataMax+5]
+    return [0, 10, this.dataMax+5]
   }
 
   getSeries() {
@@ -161,14 +155,6 @@ class OverviewApp extends Component {
       case 'moderate': return 15;
       case 'high': return 25;
       default: return null;
-    }
-  }
-
-  getSeriesColor(field) {
-    if (this.props.graphColors && this.props.graphColors.has(field)) {
-      return this.props.graphColors.get(field);
-    } else {
-      return SUPPORTED_CHART_SERIES[field].defaultColor;
     }
   }
 }
