@@ -22,6 +22,22 @@ class WOBFounder extends Component {
             size={this.props.size}
             widthCols={this.props.widthCols}
             gridLineWidth="0"
+            xAxisWidth={2}
+            xAxisColor="#fff"
+            yAxisWidth={2}
+            yAxisColor="#fff"
+            xAxisTitle={{
+              text: "WOB",
+              style: {
+                color: "#fff"
+              }
+            }}
+            yAxisTitle={{
+              text: "ROP",
+              style: {
+                color: "#fff"
+              }
+            }}
             xPlotLines={[{
               color: 'red',
               width: 1,
@@ -32,7 +48,7 @@ class WOBFounder extends Component {
                 type="scatter"
                 key={field}
                 id={field}
-                title={SUPPORTED_CHART_SERIES[field].label}
+                title={title}
                 data={data}
                 yField={field}
                 color={this.getSeriesColor(field)}
@@ -46,6 +62,7 @@ class WOBFounder extends Component {
       </div>
     );
   }
+
   getSeries() {
     return Object.keys(SUPPORTED_CHART_SERIES)
       .map(s => this.getDataSeries(s));

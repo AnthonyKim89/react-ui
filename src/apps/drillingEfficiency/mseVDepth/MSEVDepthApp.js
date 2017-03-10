@@ -35,7 +35,6 @@ class MSEVDepthApp extends Component {
   }
 
   getDataSeries(field) {
-    // Data Prep
     let rawData = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', field]);
     let subtype = SUPPORTED_CHART_SERIES[field].subType;
     let processedData = [];
