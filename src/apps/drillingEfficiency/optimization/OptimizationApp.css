@@ -6,6 +6,10 @@
   height: 100%;
 }
 
+.c-de-optimization .row{
+  margin-top: 20px;
+}
+
 .c-de-optimization__gauge {
   padding-top: 1.5rem;
 }
@@ -15,4 +19,47 @@
   font-size: 1rem;
   font-weight: bold;   
   text-align: left;
+}
+
+.c-de-optimization table {
+  margin-top: 10px;  
+}
+.c-de-optimization thead {
+  border-bottom: none;
+  color: #999;
+  font-size: 0.8rem;
+}
+
+.c-de-optimization th {
+  border-right: 1px solid #999;
+  padding-bottom: 0px;
+  padding-top: 0px;
+  text-align: center;
+}
+
+.c-de-optimization th:last-child {
+  border-right: none;
+}
+
+.c-de-optimization tbody tr {
+  border-bottom: 1px solid #999;
+}
+
+.c-de-optimization tbody tr:last-child {
+  border-bottom: none;
+}
+
+.c-de-optimization td {
+  border-right: 1px solid #999;
+  text-align: center;
+}
+
+.c-de-optimization td:last-child {
+  border-right: none;
+}
+
+.appFooter {
+  position: absolute;
+  bottom: 0px;
+  left:0px;
 }
