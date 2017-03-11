@@ -8,85 +8,103 @@ import { SUBSCRIPTIONS } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
+import AppFooter from "../../components/AppFooter.js";
 
 import './OptimizationApp.css'
 
 class OptimizationApp extends Component {
   
-  render() {
+  render() {    
     let optimizationData = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[0]);
     let actualData = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[1]);
-    
+    let footerData;
+    if (!optimizationData || !actualData) {
+      return <LoadingIndicator />
+    }
+    else {
+      let gamma = actualData.getIn(["data","gamma"]);
+      let bit = actualData.getIn(["data","bit_depth"]);
+      let inc = actualData.getIn(["data","inclination"]);
+      
+      footerData = {
+        lastDataUpdate: this.props.lastDataUpdate,
+        others: [
+          { name: "Gamma", value: gamma+ "api" },
+          { name: "Bit", value: bit+ " in" },
+          { name: "Inc", value: inc+ "*" },
+        ]
+      }
+    }
+
     return (
       <div className="c-de-optimization">
-        { optimizationData && actualData ?
-          <Row>
-              <Col s={5} className="c-de-optimization__gauge">
-                <div className="c-de-optimization__gauge-title">Drilling Efficiency</div>
-                <Gauge widthCols={this.props.widthCols}
-                       bands={this.getGaugeBands()}
-                       value={this.getGaugeValue(optimizationData.getIn(['data', 'efficiency']))} />
-              </Col>
-              <Col s={7}>
-                <div className="c-de-optimization__gauge-title">Parameter Optimization</div>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Mode</th>
-                      <th>
-                        WOB <sub> klbf </sub>
-                      </th>
-                      <th>
-                        FLOW <sub> gpm </sub>
-                      </th>
-                      <th>
-                        RPM
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td> Actual </td>
-                      <td style={this.getStyles(actualData,optimizationData,"wob")}> {actualData.getIn(["data",this.getParamKey("actual","wob")])}</td>
-                      <td style={this.getStyles(actualData,optimizationData,"flow")}> {actualData.getIn(["data",this.getParamKey("actual","flow")])}</td>
-                      <td style={this.getStyles(actualData,optimizationData,"rpm")}> {actualData.getIn(["data",this.getParamKey("actual","rpm")])}</td>
-                    </tr>
-                    <tr>
-                      <td> Rotary </td>
-                      <td> 
-                        {optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","min_wob")])} - 
-                        {optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","max_wob")])} 
-                      </td>
-                      <td>
-                        {optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","min_flow")])} -
-                        {optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","max_flow")])} 
-                      </td>
-                      <td>
-                        {optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","min_rpm")])} - 
-                        {optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","max_rpm")])}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td> Rotary </td>
-                      <td> 
-                        {optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","min_wob")])} - 
-                        {optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","max_wob")])} 
-                      </td>
-                      <td>
-                        {optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","min_flow")])} - 
-                        {optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","max_flow")])} 
-                      </td>
-                      <td>
-                        {optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","min_rpm")])} -
-                        {optimizationData.getIn(["data","recommended_slide",this.getParamKey("optimization","max_rpm")])}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </Col>  
-            </Row>
-          : <LoadingIndicator />
-        }
+        <Row>
+            <Col s={5} className="c-de-optimization__gauge">
+              <div className="c-de-optimization__gauge-title">Drilling Efficiency</div>
+              <Gauge widthCols={this.props.widthCols}
+                     bands={this.getGaugeBands()}
+                     value={this.getGaugeValue(optimizationData.getIn(['data', 'efficiency']))} />
+            </Col>
+            <Col s={7}>
+              <div className="c-de-optimization__gauge-title">Parameter Optimization</div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Mode</th>
+                    <th>
+                      WOB <sub> klbf </sub>
+                    </th>
+                    <th>
+                      FLOW <sub> gpm </sub>
+                    </th>
+                    <th>
+                      RPM
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td> Actual </td>
+                    <td style={this.getStyles(actualData,optimizationData,"wob")}> {actualData.getIn(["data",this.getParamKey("actual","wob")])}</td>
+                    <td style={this.getStyles(actualData,optimizationData,"flow")}> {actualData.getIn(["data",this.getParamKey("actual","flow")])}</td>
+                    <td style={this.getStyles(actualData,optimizationData,"rpm")}> {actualData.getIn(["data",this.getParamKey("actual","rpm")])}</td>
+                  </tr>
+                  <tr>
+                    <td> Rotary </td>
+                    <td> 
+                      {optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","min_wob")])} - 
+                      {optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","max_wob")])} 
+                    </td>
+                    <td>
+                      {optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","min_flow")])} -
+                      {optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","max_flow")])} 
+                    </td>
+                    <td>
+                      {optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","min_rpm")])} - 
+                      {optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","max_rpm")])}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td> Rotary </td>
+                    <td> 
+                      {optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","min_wob")])} - 
+                      {optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","max_wob")])} 
+                    </td>
+                    <td>
+                      {optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","min_flow")])} - 
+                      {optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","max_flow")])} 
+                    </td>
+                    <td>
+                      {optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","min_rpm")])} -
+                      {optimizationData.getIn(["data","recommended_slide",this.getParamKey("optimization","max_rpm")])}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </Col>  
+          </Row>
+        
+          <AppFooter data={footerData}></AppFooter>
       </div>
     );
   }
@@ -151,7 +169,7 @@ class OptimizationApp extends Component {
 
 OptimizationApp.propTypes = {
   data: ImmutablePropTypes.map,
-  title: PropTypes.string
+  title: PropTypes.string,
 };
 
 export default OptimizationApp;

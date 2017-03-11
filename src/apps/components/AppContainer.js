@@ -92,10 +92,10 @@ class AppContainer extends Component {
         <div className="c-app-container__content">
           {this.props.children}
         </div>
-        {this.isLastDataUpdateVisible() &&
+        {/*this.isLastDataUpdateVisible() &&
           <div className="c-app-container__last-update">
             Last Update: {this.formatLastDataUpdate()}
-          </div>}
+          </div>*/}
         {!this.props.isActionsDisabled &&
           <div className="c-app-container__actions">
             {this.props.maximized ?
@@ -133,14 +133,15 @@ class AppContainer extends Component {
     );
   }
 
-  isLastDataUpdateVisible() {
+  // Let the component implementation display the date and others info(if necessary)
+  /*isLastDataUpdateVisible() {
     return this.props.lastDataUpdate && this.props.size !== common.constants.Size.SMALL;
   }
 
   formatLastDataUpdate() {
     const date = new Date(this.props.lastDataUpdate * 1000);
     return formatDate(date, 'M/D/YYYY h:mm a');
-  }
+  }*/
 
   getSettingsEditors() {
     const common = this.props.commonSettingsEditors || List();
@@ -171,7 +172,7 @@ AppContainer.propTypes = {
   id: PropTypes.number.isRequired,
   asset: ImmutablePropTypes.map,
   appType: PropTypes.object.isRequired,
-  lastDataUpdate: PropTypes.number,
+  //lastDataUpdate: PropTypes.number,
   location: PropTypes.object.isRequired,
   isNative: PropTypes.bool.isRequired,
   isActionsDisabled: PropTypes.bool,
