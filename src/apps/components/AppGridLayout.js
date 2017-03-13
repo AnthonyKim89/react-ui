@@ -147,6 +147,13 @@ class AppGridLayout extends Component {
         widthCols={coordinates.get('w')}
         onAssetModified={asset => this.props.onAssetModified(asset)}
         onSettingChange={(key, value) => this.props.onAppSettingsUpdate(id, settings.set(key, value))} />
+
+      {appType.AppComponentFooter &&
+        <appType.AppComponentFooter
+          data={appData}
+          lastDataUpdate={subscriptions.selectors.lastDataUpdate(appData)}
+        /> 
+      }
     </AppContainer>
   }
 

@@ -9,15 +9,8 @@ solidGauge(Highcharts);
 class Gauge extends Component {
 
   render() {
-    
-    // TODO get the width and height from props
-    const gaugeContainerStyle = {
-      width:200,
-      height:200
-    }
-
     return (
-      <div style={gaugeContainerStyle} ref={container => this.container = container} />
+      <div ref={container => this.container = container} />
     );
   }
 
@@ -63,6 +56,10 @@ class Gauge extends Component {
           color: 'rgb(255, 40, 79)',
           thickness: 30
         }]
+      },
+      xAxis: {
+        min: 0,
+        max: 0
       },
       plotOptions: {
         gauge: {

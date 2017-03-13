@@ -4,11 +4,11 @@ import classSet from 'react-classset';
 import Modal from 'react-modal';
 import { Icon } from 'react-materialize';
 import { List } from 'immutable';
-import { format as formatDate } from 'date-fns';
+// import { format as formatDate } from 'date-fns';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import AppSettingsDialog from './AppSettingsDialog';
-import common from '../../common';
+// import common from '../../common';
 import * as nativeMessages from '../../nativeMessages';
 
 import './AppContainer.css';

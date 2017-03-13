@@ -8,44 +8,29 @@ import { SUBSCRIPTIONS } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import AppFooter from "../../components/AppFooter.js";
-
 import './OptimizationApp.css'
 
 class OptimizationApp extends Component {
   
   render() {    
+
     let optimizationData = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[0]);
     let actualData = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[1]);
-    let footerData;
+    
     if (!optimizationData || !actualData) {
       return <LoadingIndicator />
     }
-    else {
-      let gamma = actualData.getIn(["data","gamma"]);
-      let bit = actualData.getIn(["data","bit_depth"]);
-      let inc = actualData.getIn(["data","inclination"]);
-      
-      footerData = {
-        lastDataUpdate: this.props.lastDataUpdate,
-        others: [
-          { name: "Gamma", value: gamma+ "api" },
-          { name: "Bit", value: bit+ " in" },
-          { name: "Inc", value: inc+ "*" },
-        ]
-      }
-    }
-
+    
     return (
       <div className="c-de-optimization">
         <Row>
-            <Col s={5} className="c-de-optimization__gauge">
+            <Col s={12} m={4} className="c-de-optimization__gauge">
               <div className="c-de-optimization__gauge-title">Drilling Efficiency</div>
               <Gauge widthCols={this.props.widthCols}
                      bands={this.getGaugeBands()}
                      value={this.getGaugeValue(optimizationData.getIn(['data', 'efficiency']))} />
             </Col>
-            <Col s={7}>
+            <Col m={8} className="c-de-optimization__info">
               <div className="c-de-optimization__gauge-title">Parameter Optimization</div>
               <table>
                 <thead>
@@ -85,7 +70,7 @@ class OptimizationApp extends Component {
                     </td>
                   </tr>
                   <tr>
-                    <td> Rotary </td>
+                    <td> Slide </td>
                     <td> 
                       {optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","min_wob")])} - 
                       {optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","max_wob")])} 
@@ -102,9 +87,7 @@ class OptimizationApp extends Component {
                 </tbody>
               </table>
             </Col>  
-          </Row>
-        
-          <AppFooter data={footerData}></AppFooter>
+          </Row>                
       </div>
     );
   }
@@ -147,7 +130,7 @@ class OptimizationApp extends Component {
 
   getStyles(actualData, optimizationData, param , activityState="recommended_rotary") {
     let style = {
-      fontWeight: "bold"
+      
     }
 
     let actualVal = actualData.getIn(["data",this.getParamKey("actual",param)]);
