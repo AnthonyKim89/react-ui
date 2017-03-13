@@ -16,7 +16,7 @@ export class DrillstringSummary extends Component {
         <Col m={2}>
           <div className="c-drillstring-summary__label">Drillstring/BHA</div>
           <div className="c-drillstring-summary__value">
-            {this.props.drillstring.getIn(['data', 'id'])}
+            {this.props.record.getIn(['data', 'id'])}
           </div>
         </Col>
         <Col m={2}>
@@ -47,9 +47,9 @@ export class DrillstringSummary extends Component {
         </Col>
         <Col m={1}>
           {!this.props.isReadOnly &&
-            <Button floating large icon="mode_edit" onClick={() => this.props.onEditDrillstring()}></Button>}
-          {this.props.drillstring.get('_id') &&
-            <Button floating large icon="delete" className="red" onClick={() => this.props.onDeleteDrillstring()}></Button>}
+            <Button floating large icon="mode_edit" onClick={() => this.props.onEditRecord()}></Button>}
+          {this.props.record.get('_id') &&
+            <Button floating large icon="delete" className="red" onClick={() => this.props.onDeleteRecord()}></Button>}
         </Col>
       </Row>
       {!this.props.isReadOnly &&
@@ -60,7 +60,7 @@ export class DrillstringSummary extends Component {
           <Col m={2} className="c-drillstring-summary__footer-value">
             {this.getTimestamp()}
           </Col>
-          {this.props.drillstring.getIn(['data', 'planning']) &&
+          {this.props.record.getIn(['data', 'planning']) &&
             <Col m={3} className="c-drillstring-summary__footer-value c-drillstring-summary__footer-value--planning">
               Planning Drillstring
             </Col>}
@@ -93,30 +93,30 @@ export class DrillstringSummary extends Component {
   }
 
   getComponents() {
-    return this.props.drillstring.getIn(['data', 'components'], List())
+    return this.props.record.getIn(['data', 'components'], List())
   }
 
   getDepths() {
-    const start = this.props.drillstring.getIn(['data', 'start_depth']);
-    const end   = this.props.drillstring.getIn(['data', 'end_depth']);
+    const start = this.props.record.getIn(['data', 'start_depth']);
+    const end   = this.props.record.getIn(['data', 'end_depth']);
     return `${numeral(start).format('0,0')} - ${numeral(end).format('0,0')} ft`;
   }
 
   getTimestamp() {
-    return formatDate(this.props.drillstring.get('timestamp') * 1000, 'ddd MMM Do YYYY');
+    return formatDate(this.props.record.get('timestamp') * 1000, 'ddd MMM Do YYYY');
   }
 
   getEndDepth() {
-    return this.props.drillstring.getIn(['data', 'end_depth']);
+    return this.props.record.getIn(['data', 'end_depth']);
   }
 
 }
 
 DrillstringSummary.propTypes = {
-  drillstring: ImmutablePropTypes.map.isRequired,
+  record: ImmutablePropTypes.map.isRequired,
   isReadOnly: PropTypes.bool.isRequired,
-  onEditDrillstring: PropTypes.func,
-  onDeleteDrillstring: PropTypes.func.isRequired
+  onEditRecord: PropTypes.func,
+  onDeleteRecord: PropTypes.func.isRequired
 };
 
 export default DrillstringSummary;
