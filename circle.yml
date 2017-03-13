@@ -14,8 +14,8 @@ deployment:
   test:
     branch: master
     commands:
-      - REACT_APP_API_URL=http://api.test.corva.ai npm run build
-      - aws s3 sync ./build/ s3://app.test.corva.ai/ --delete
+      - REACT_APP_API_URL=http://api.qa.corva.ai npm run build
+      - aws s3 sync ./build/ s3://app.qa.corva.ai/ --delete
   staging:
     branch: /release\/.*/
     commands:
