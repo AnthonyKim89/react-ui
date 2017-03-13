@@ -28,7 +28,7 @@ class FluidCheckRheometerReadings extends Component {
                     label={label}
                     type="number"
                     defaultValue={this.getReading(name, '')}
-                    onChange={e => this.props.onReadingChange(name, parseInt(e.target.value, 10))} />;
+                    onChange={e => this.onReadingChange(name, parseInt(e.target.value, 10))} />;
     } else {
       return [
         <Col m={1} key={`${name}-label`}>{label}</Col>,
@@ -38,15 +38,19 @@ class FluidCheckRheometerReadings extends Component {
   }
 
   getReading(name, notSetValue) {
-    return this.props.fluidCheck.getIn(['data', 'rheometer_readings', name], notSetValue);
+    return this.props.record.getIn(['data', 'rheometer_readings', name], notSetValue);
+  }
+
+  onReadingChange(name, value) {
+    this.props.onUpdateRecord(this.props.record.setIn(['data', 'rheometer_readings', name], value));
   }
 
 }
 
 FluidCheckRheometerReadings.propTypes = {
-  fluidCheck: ImmutablePropTypes.map.isRequired,
+  record: ImmutablePropTypes.map.isRequired,
   isEditable: PropTypes.bool.isRequired,
-  onReadingChange: PropTypes.func
+  onUpdateRecord: PropTypes.func
 };
 
 export default FluidCheckRheometerReadings;

@@ -40,6 +40,9 @@ class DrillstringsApp extends Component {
   }
 
   render() {
+    /* recordDataTemplate Map({
+        components: List()
+      }) */
     return <div className="c-drillstrings">
       {this.state.editingDrillstring ?
         <DrillstringEditor

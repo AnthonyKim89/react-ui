@@ -1,3 +1,5 @@
+import { Map } from 'immutable';
+
 export const CATEGORY = 'settings';
 export const NAME = 'fluidChecks';
 export const SUBSCRIPTIONS = [];
@@ -11,3 +13,4 @@ export const METADATA = {
   isHiddenFromAddApp: true
 };
 export const SUPPORTED_ASSET_TYPES = ['well'];
+export const FLUID_CHECK_DATA_TEMPLATE = Map({})
