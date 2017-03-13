@@ -57,6 +57,10 @@ class Gauge extends Component {
           thickness: 30
         }]
       },
+      xAxis: {
+        min: 0,
+        max: 0
+      },
       plotOptions: {
         gauge: {
           dial: {

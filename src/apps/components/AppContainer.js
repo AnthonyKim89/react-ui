@@ -133,8 +133,9 @@ class AppContainer extends Component {
     );
   }
 
+  // Let the component implementation display the date and others info(if necessary)
   isLastDataUpdateVisible() {
-    return this.props.lastDataUpdate && this.props.size !== common.constants.Size.SMALL;
+    return this.props.lastDataUpdate && !this.props.hasAppFooter && this.props.size !== common.constants.Size.SMALL;
   }
 
   formatLastDataUpdate() {
@@ -171,7 +172,7 @@ AppContainer.propTypes = {
   id: PropTypes.number.isRequired,
   asset: ImmutablePropTypes.map,
   appType: PropTypes.object.isRequired,
-  lastDataUpdate: PropTypes.number,
+  //lastDataUpdate: PropTypes.number,
   location: PropTypes.object.isRequired,
   isNative: PropTypes.bool.isRequired,
   isActionsDisabled: PropTypes.bool,
