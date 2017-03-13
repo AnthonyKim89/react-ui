@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
 import ObjectGraph from '../../../common/ObjectGraph';
@@ -34,7 +35,6 @@ class MSEVDepthApp extends Component {
   }
 
   getDataSeries(field) {
-    // Data Prep
     let rawData = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', field]);
     let subtype = SUPPORTED_CHART_SERIES[field].subType;
     let processedData = [];
@@ -46,16 +46,24 @@ class MSEVDepthApp extends Component {
     });
 
     return {
-      zrenderType: 'line',
       name: SUPPORTED_CHART_SERIES[field].label,
       data: processedData,
-      color: SUPPORTED_CHART_SERIES[field].defaultColor
+      color: this.getSeriesColor(field),
+      animation: false
     };
+  }
+
+  getSeriesColor(field) {
+    if (this.props.graphColors && this.props.graphColors.has(field)) {
+      return this.props.graphColors.get(field);
+    }
+    return SUPPORTED_CHART_SERIES[field].defaultColor;
   }
 
 }
 
 MSEVDepthApp.propTypes = {
+  graphColors: ImmutablePropTypes.map,
 };
 
 export default MSEVDepthApp;

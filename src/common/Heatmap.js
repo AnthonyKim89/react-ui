@@ -65,17 +65,23 @@ class Heatmap extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    const heatmap = this.state.heatmap;
-    heatmap.series[0].update(this.getSeries(newProps));
+    if (typeof this.state.heatmap === 'undefined') {
+      return;
+    }
+    if (newProps.data !== this.props.data) {
+      const heatmap = this.state.heatmap;
+      heatmap.series[0].update(this.getSeries(newProps));
+    }
   }
 
   getXAxis(props) {
     let data = props.data.get("data");
-    let columnWidth = (data.get("x_axis").get("maximum") - data.get("x_axis").get("minimum"))/data.get("x_axis").get("columns");
+    let axis = data.get("x_axis");
+    let columnWidth = (axis.get("maximum") - axis.get("minimum"))/axis.get("columns");
     return {
-      categories: this.getAxisData(data.get("x_axis").get("minimum"), columnWidth, data.get("x_axis").get("columns")),
+      categories: this.getAxisData(axis.get("minimum"), columnWidth, axis.get("columns")),
       title: {
-        text: data.get("x_axis").get("type").toUpperCase()
+        text: axis.get("type").toUpperCase()
       },
       labels: {
         step: 3
@@ -87,11 +93,12 @@ class Heatmap extends Component {
 
   getYAxis(props) {
     let data = props.data.get("data");
-    let rowHeight = (data.get("y_axis").get("maximum") - data.get("y_axis").get("minimum"))/data.get("y_axis").get("rows");
+    let axis = data.get("y_axis");
+    let rowHeight = (axis.get("maximum") - axis.get("minimum"))/axis.get("rows");
     return {
-      categories: this.getAxisData(data.get("y_axis").get("minimum"), rowHeight, data.get("y_axis").get("rows")),
+      categories: this.getAxisData(axis.get("minimum"), rowHeight, axis.get("rows")),
       title: {
-        text: data.get("y_axis").get("type").toUpperCase()
+        text: axis.get("type").toUpperCase()
       },
       labels: {
         step: 4
@@ -101,10 +108,10 @@ class Heatmap extends Component {
     };
   }
 
-  getAxisData(start, unitWidth, axisLength) {
+  getAxisData(start, unitSize, axisLength) {
     let data = [];
     for (let i = 0; i < axisLength; i++) {
-      let nextStart = start + unitWidth;
+      let nextStart = start + unitSize;
       data.push(Math.round(start));
       start = nextStart;
     }
@@ -114,9 +121,11 @@ class Heatmap extends Component {
   getSeries(props) {
     let data = props.data.get("data");
     let series = [];
-    for (let y = 0; y < data.get("y_axis").get("rows"); y++) {
+    let rows = data.get("y_axis").get("rows");
+    let columns = data.get("x_axis").get("columns");
+    for (let y = 0; y < rows; y++) {
       let row = data.get(props.dataNode).get(y);
-      for (let x = 0; x < data.get("x_axis").get("columns"); x++) {
+      for (let x = 0; x < columns; x++) {
         let z = row.get(x);
         series.push([y, x, z]);
       }
@@ -126,7 +135,8 @@ class Heatmap extends Component {
       data: series,
       borderWidth: 1,
       borderColor: "#444444",
-      nullColor: "#535353"
+      nullColor: "#535353",
+      animation: false
     };
   }
 

@@ -18,6 +18,7 @@ ChartSeries.propTypes = {
   pointPadding: PropTypes.number,
   groupPadding: PropTypes.number,
   borderWidth: PropTypes.number,
+  marker: PropTypes.object,
 };
 
 export default ChartSeries;

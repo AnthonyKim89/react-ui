@@ -10,10 +10,12 @@ import tndStress from './torqueAndDrag/stress';
 import tndTorque from './torqueAndDrag/torque';
 
 // DRILLING EFFICIENCY APPS
-import deROPHeatmap from './drillingEfficiency/ropHeatmap';
+import deDPFounder from './drillingEfficiency/dpFounder';
 import deMSEHeatmap from './drillingEfficiency/mseHeatmap';
 import deMSEVDepth from './drillingEfficiency/mseVDepth';
 import deOptimization from './drillingEfficiency/optimization';
+import deROPHeatmap from './drillingEfficiency/ropHeatmap';
+import deWOBFounder from './drillingEfficiency/wobFounder';
 
 // TRACE APPS
 import singleTrace from './trace/singleTrace';
@@ -47,10 +49,12 @@ export const uiApps = Map({
     title: 'Drilling Efficiency',
     subtitle: 'Downhole drilling efficiency',
     appTypes: Map({
-      ropHeatmap: deROPHeatmap,
+      dpFounder: deDPFounder,
       mseHeatmap: deMSEHeatmap,
       mseVDepth: deMSEVDepth,
       optimization: deOptimization,
+      ropHeatmap: deROPHeatmap,
+      wobFounder: deWOBFounder,
     })
   }),
   trace: Map({
