@@ -10,11 +10,12 @@ import tndStress from './torqueAndDrag/stress';
 import tndTorque from './torqueAndDrag/torque';
 
 // DRILLING EFFICIENCY APPS
-import deROPHeatmap from './drillingEfficiency/ropHeatmap';
+import deDPFounder from './drillingEfficiency/dpFounder';
 import deMSEHeatmap from './drillingEfficiency/mseHeatmap';
 import deMSEVDepth from './drillingEfficiency/mseVDepth';
+import deOptimization from './drillingEfficiency/optimization';
+import deROPHeatmap from './drillingEfficiency/ropHeatmap';
 import deWOBFounder from './drillingEfficiency/wobFounder';
-import deDPFounder from './drillingEfficiency/dpFounder';
 
 // TRACE APPS
 import singleTrace from './trace/singleTrace';
@@ -51,6 +52,7 @@ export const uiApps = Map({
       dpFounder: deDPFounder,
       mseHeatmap: deMSEHeatmap,
       mseVDepth: deMSEVDepth,
+      optimization: deOptimization,
       ropHeatmap: deROPHeatmap,
       wobFounder: deWOBFounder,
     })

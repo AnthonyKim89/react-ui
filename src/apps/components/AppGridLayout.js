@@ -121,10 +121,12 @@ class AppGridLayout extends Component {
     const settings = app.get('settings');
     const appType = appRegistry.uiApps.getIn([category, 'appTypes', name]);
     const appData = this.props.appData.get(id);
+    const hasAppFooter = appType.AppComponentFooter ? true: false
     return <AppContainer id={id}
-                         appType={appType}
+                         appType={appType}                         
                          asset={this.props.appAssets.get(id)}
                          lastDataUpdate={subscriptions.selectors.lastDataUpdate(appData)}
+                         hasAppFooter={hasAppFooter}
                          isNative={this.props.isNative}
                          size={size}
                          maximized={maximized}
@@ -147,6 +149,13 @@ class AppGridLayout extends Component {
         widthCols={coordinates.get('w')}
         onAssetModified={asset => this.props.onAssetModified(asset)}
         onSettingChange={(key, value) => this.props.onAppSettingsUpdate(id, settings.set(key, value))} />
+
+      {appType.AppComponentFooter &&
+        <appType.AppComponentFooter
+          data={appData}
+          lastDataUpdate={subscriptions.selectors.lastDataUpdate(appData)}
+        /> 
+      }
     </AppContainer>
   }
 
