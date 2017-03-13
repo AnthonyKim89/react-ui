@@ -7,17 +7,17 @@ import ChartSeries from '../../../common/ChartSeries';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './WOBFounderApp.css'
+import './DPFounderApp.css'
 
-class WOBFounder extends Component {
+class DPFounder extends Component {
 
   render() {
     return (
-      <div className="c-de-wobfounder">
+      <div className="c-de-dpfounder">
         {subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS) ?
           <Chart
             horizontal={true}
-            xField="wob"
+            xField="dp"
             chartType="scatter"
             size={this.props.size}
             widthCols={this.props.widthCols}
@@ -27,7 +27,7 @@ class WOBFounder extends Component {
             yAxisWidth={2}
             yAxisColor="#fff"
             xAxisTitle={{
-              text: "WOB",
+              text: "Differential Pressure",
               style: {
                 color: "#fff"
               }
@@ -86,8 +86,8 @@ class WOBFounder extends Component {
 
 }
 
-WOBFounder.propTypes = {
+DPFounder.propTypes = {
   data: ImmutablePropTypes.map,
 };
 
-export default WOBFounder;
+export default DPFounder;

@@ -1,12 +1,12 @@
 export const CATEGORY = 'drillingEfficiency';
-export const NAME = 'wobFounder';
+export const NAME = 'dpFounder';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'drilling-efficiency.wob-founder'}
+  {devKey: 'corva', collection: 'drilling-efficiency.dp-founder'}
 ];
 export const METADATA = {
-  title: 'WOB Founder Point',
-  settingsTitle: 'WOB Founder Point',
-  subtitle: 'Linear Relationship of WOB Increase',
+  title: 'Diff Press Founder Point',
+  settingsTitle: 'Diff Press Founder Point',
+  subtitle: 'Linear Relationship of Diff Press Increase',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v0.1',
   publishedAt: '2017-02-23T00:00:00'
