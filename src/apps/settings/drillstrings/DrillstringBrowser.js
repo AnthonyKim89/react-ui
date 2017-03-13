@@ -5,8 +5,6 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import DrillstringSummary from './DrillstringSummary';
 import DrillstringComponentTable from './DrillstringComponentTable';
 
-import './DrillstringBrowser.css';
-
 class DrillstringBrowser extends Component {
 
   render() {
