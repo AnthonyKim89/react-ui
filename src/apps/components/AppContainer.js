@@ -4,11 +4,11 @@ import classSet from 'react-classset';
 import Modal from 'react-modal';
 import { Icon } from 'react-materialize';
 import { List } from 'immutable';
-// import { format as formatDate } from 'date-fns';
+import { format as formatDate } from 'date-fns';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import AppSettingsDialog from './AppSettingsDialog';
-// import common from '../../common';
+import common from '../../common';
 import * as nativeMessages from '../../nativeMessages';
 
 import './AppContainer.css';
@@ -92,10 +92,10 @@ class AppContainer extends Component {
         <div className="c-app-container__content">
           {this.props.children}
         </div>
-        {/*this.isLastDataUpdateVisible() &&
+        {this.isLastDataUpdateVisible() &&
           <div className="c-app-container__last-update">
             Last Update: {this.formatLastDataUpdate()}
-          </div>*/}
+          </div>}
         {!this.props.isActionsDisabled &&
           <div className="c-app-container__actions">
             {this.props.maximized ?
@@ -134,14 +134,14 @@ class AppContainer extends Component {
   }
 
   // Let the component implementation display the date and others info(if necessary)
-  /*isLastDataUpdateVisible() {
-    return this.props.lastDataUpdate && this.props.size !== common.constants.Size.SMALL;
+  isLastDataUpdateVisible() {
+    return this.props.lastDataUpdate && !this.props.hasAppFooter && this.props.size !== common.constants.Size.SMALL;
   }
 
   formatLastDataUpdate() {
     const date = new Date(this.props.lastDataUpdate * 1000);
     return formatDate(date, 'M/D/YYYY h:mm a');
-  }*/
+  }
 
   getSettingsEditors() {
     const common = this.props.commonSettingsEditors || List();

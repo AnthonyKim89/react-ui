@@ -11,7 +11,7 @@
 }
 
 .c-de-optimization__gauge {
-  padding-left: 3px;
+  padding-left: 3px !important;
   padding-top: 1.5rem;
 }
 
@@ -21,7 +21,7 @@
 
 @media(max-width: 768px) {
   .c-de-optimization__gauge {
-    width:100% !important;
+    width: 100% !important;
   }
   .c-de-optimization__info {
     display: none;
