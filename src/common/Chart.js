@@ -30,6 +30,7 @@ class Chart extends Component {
         },
       },
       xAxis: {
+        title: this.props.xAxisTitle,
         gridLineWidth: this.props.gridLineWidth || 1,
         gridLineColor: 'rgb(47, 51, 51)',
         lineWidth: this.props.xAxisWidth || 0,
@@ -41,6 +42,7 @@ class Chart extends Component {
           style: this.props.xLabelStyle || {color: '#fff'},
           formatter: this.getXAxisLabelFormatter()
         },
+
         opposite: this.props.xAxisOpposite,
         tickPositioner: this.props.xTickPositioner,
         plotLines: this.props.xPlotLines,
@@ -127,7 +129,7 @@ class Chart extends Component {
 
   getSeries(props) {
     return this.getSeriesArray(props).map(series => {
-      const {type, title, data, color, id, yField, minValue, maxValue, dashStyle, lineWidth, pointPadding, groupPadding, borderWidth} = series.props;
+      const {type, title, data, color, id, yField, minValue, maxValue, dashStyle, lineWidth, pointPadding, groupPadding, borderWidth, marker} = series.props;
       return {
         id,
         name: title,
@@ -141,7 +143,7 @@ class Chart extends Component {
         yAxis: this.props.multiAxis ? `${id}-axis` : 0,
         dashStyle: dashStyle || 'ShortDot',
         color,
-        marker: {
+        marker: marker || {
           enabled: type === 'scatter',
           radius: 4
         },
@@ -170,7 +172,7 @@ class Chart extends Component {
   getYAxis(series, props) {
     return {
       id: `${series.id}-axis`,
-      title: {text: null},
+      title: this.props.yAxisTitle || {text: null},
       gridLineWidth: this.props.gridLineWidth || 1,
       gridLineColor: 'rgb(47, 51, 51)',
       labels: {
@@ -216,16 +218,7 @@ Chart.propTypes = {
   yAxisOpposite: PropTypes.bool,
   multiAxis: PropTypes.bool,
   xAxisLabelformatter: PropTypes.func,
-  chartType: PropTypes.string,
-  hideXAxis: PropTypes.bool,
-  hideYAxis: PropTypes.bool,
-  xTickPositioner: PropTypes.func,
-  yTickPositioner: PropTypes.func,
-  xPlotLines: PropTypes.array,
-  yPlotLines: PropTypes.array,
-  gridLineWidth: PropTypes.string,
-  xLabelStyle: PropTypes.object,
-  yLabelStyle: PropTypes.object,
+  chartType: PropTypes.string
 };
 
 export default Chart;
