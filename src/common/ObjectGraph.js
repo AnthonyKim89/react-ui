@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import Highcharts from 'highcharts';
+import { isEqual } from 'lodash'
 
 /*
   This graph expects that series' will be provided as an array of objects containing x/y and a label and/or color
@@ -70,10 +71,19 @@ class ObjectGraph extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (typeof this.state.graph !== 'undefined') {
-      for (let i = 0; i < this.state.graph.series.length; i++) {
-        this.state.graph.series[i].update(newProps.series[i]);
+    if (typeof this.state.graph === 'undefined') {
+      return;
+    }
+    const graph = this.state.graph;
+    let redraw = false;
+    for (let i = 0; i < graph.series.length; i++) {
+      if (!isEqual(newProps.series[i].data, this.props.series[i].data)) {
+        graph.series[i].update(newProps.series[i], false);
+        redraw = true;
       }
+    }
+    if (redraw) {
+      graph.redraw(false);
     }
   }
 }
