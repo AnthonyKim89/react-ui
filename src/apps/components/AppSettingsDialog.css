@@ -116,7 +116,7 @@
 }
 
 .c-app-settings__editor .select-wrapper input.select-dropdown {
-  font-size: 2rem;
+  font-size: 20px;
   padding-left: 10px;
   border-bottom: none;
   height: 40px;
@@ -129,4 +129,8 @@
 .c-app-settings__editor .c-chart-colors-editor .c-chart-colors-editor__header span.c-chart-colors-editor__color-box {
   margin: 3px 10px 0 2px;
   vertical-align: top;
+}
+
+.c-app-settings__editor .input-field {
+  margin-top: 0;
 }
