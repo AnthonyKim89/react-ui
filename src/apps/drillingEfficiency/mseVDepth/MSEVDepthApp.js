@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PropTypes, Component } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
@@ -12,7 +12,6 @@ import './MSEVDepthApp.css'
 class MSEVDepthApp extends Component {
 
   render() {
-    //let convert = new Convert();
     return (
       <div className="c-de-mse-v-depth">
         {subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS) ?
@@ -66,6 +65,7 @@ class MSEVDepthApp extends Component {
 
 MSEVDepthApp.propTypes = {
   graphColors: ImmutablePropTypes.map,
+  convert: PropTypes.instanceOf(Convert),
 };
 
 export default MSEVDepthApp;

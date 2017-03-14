@@ -1,7 +1,7 @@
 import login from '../login';
 import { store } from '../store';
 import convert from 'convert-units';
-import { fromJS } from 'Immutable';
+import { fromJS } from 'immutable';
 
 /*
   This should be instantiated within a react component and used there.
@@ -18,7 +18,7 @@ class Convert {
     return this.user;
   }
 
-  getUserUnitPreference(unitType) {
+  GetUserUnitPreference(unitType) {
     // TODO: Implement looking up the user's preference for a given unit type.
     return "m";
   }
@@ -32,7 +32,7 @@ class Convert {
    */
   ConvertValue(value, unitType, from, to=null) {
     if (to === null) {
-      to = this.getUserUnitPreference(unitType);
+      to = this.GetUserUnitPreference(unitType);
       if (from === to) {
         return value;
       }
@@ -48,11 +48,14 @@ class Convert {
    * @param key The key in each map that we want to convert
    * @param unitType The class of unit such as volume, length, weight, etc.
    * @param from The specific unit such as m, gal, lb, etc.
+   * @param to (optional) the unit that we want to convert the value to.
    */
-  ConvertList(list, key, unitType, from) {
-    let to = this.getUserUnitPreference(unitType);
-    if (from === to) {
-      return list;
+  ConvertList(list, key, unitType, from, to=null) {
+    if (to === null) {
+      to = this.GetUserUnitPreference(unitType);
+      if (from === to) {
+        return list;
+      }
     }
     list = list.toArray();
 

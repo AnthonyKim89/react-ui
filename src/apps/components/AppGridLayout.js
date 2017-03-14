@@ -12,6 +12,7 @@ import common from '../../common';
 import subscriptions from '../../subscriptions';
 import * as appRegistry from '../appRegistry';
 import * as api from '../../api';
+import Convert from '../../common/Convert';
 
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -48,6 +49,7 @@ class AppGridLayout extends Component {
   constructor(props) {
     super(props);
     this.state = {addAppDialogOpen: false};
+    this.convert = new Convert();
   }
 
   async componentDidMount() {
@@ -147,6 +149,7 @@ class AppGridLayout extends Component {
         {...settings.toObject()}
         size={size}
         widthCols={coordinates.get('w')}
+        convert={this.convert}
         onAssetModified={asset => this.props.onAssetModified(asset)}
         onSettingChange={(key, value) => this.props.onAppSettingsUpdate(id, settings.set(key, value))} />
 
