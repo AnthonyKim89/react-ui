@@ -26,8 +26,11 @@ class ROPHeatmapApp extends Component {
     }
   }
 
-  getAxis(axis) {
-    let rowHeight = (axis.get("maximum") - axis.get("minimum"))/axis.get("rows");
+  getAxis(axis, unitType=null, unit=null) {
+    let max = axis.get("maximum");
+    let min = axis.get("minimum");
+    // TODO: Convert min and max to their appropriate units if types are provided.
+    let rowHeight = (max - min)/axis.get("rows");
     return {
       categories: this.getAxisData(axis.get("minimum"), rowHeight, axis.get("rows")),
       title: axis.get("type").toUpperCase(),
@@ -52,6 +55,7 @@ class ROPHeatmapApp extends Component {
       let row = data.get("rotary").get(y);
       for (let x = 0; x < columns; x++) {
         let z = row.get(x);
+        z = z !== null ? this.props.convert.ConvertValue(z, 'length', 'ft') : null;
         series.push([y, x, z]);
       }
     }
