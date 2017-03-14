@@ -99,7 +99,7 @@ class Convert {
 
   /**
    * Converts a property in a simple array of js objects or arrays.
-   * @param iterable The arrau of iterables containing values that we want to convert
+   * @param iterable The array of iterables containing values that we want to convert
    * @param key The key in each sub-element that we want to convert
    * @param unitType The class of unit such as volume, length, mass, etc.
    * @param from The specific unit such as m, gal, lb, etc.
