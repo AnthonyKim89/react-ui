@@ -1,7 +1,7 @@
 import login from '../login';
 import { store } from '../store';
 import convert from 'convert-units';
-import { fromJS } from 'immutable';
+import { Map, fromJS } from 'immutable';
 
 /*
   This should be instantiated within a react component and used there.
@@ -33,13 +33,23 @@ class Convert {
   }
 
   lookupCustomUserUnitPreference(unitType) {
-    return this.user.get('unit_system').get(unitType) || this.user.get('company').get('unit_system').get(unitType);
+    let m = Map(); // Default map if the key can't be found. This avoids null reference exceptions.
+    return this.user.get('unit_system', m).get(unitType) ||
+      this.user.get('company', m).get('unit_system').get(unitType);
   }
 
   lookupUserUnitSystem() {
-    return this.user.get('unit_system').get('system') || this.user.get('company').get('unit_system').get('system') || 'imperial';
+    let m = Map(); // Default map if the key can't be found. This avoids null reference exceptions.
+    return this.user.get('unit_system', m).get('system') ||
+      this.user.get('company', m).get('unit_system', m).get('system') ||
+      'imperial';
   }
 
+  /**
+   * Retrieves a user's prefered unit of a given type
+   * @param unitType length, mass, volume
+   * @returns string
+   */
   GetUserUnitPreference(unitType) {
     return this.userUnits[this.userUnits.system][unitType];
   }
@@ -65,37 +75,37 @@ class Convert {
 
   /**
    * Converts a key in an immutable list of immutables.
-   * @param list The list of maps/lists containing values that we want to convert
-   * @param key The key in each map that we want to convert
+   * @param immt The list of maps/lists containing values that we want to convert
+   * @param key The key in each sub-iterable that we want to convert
    * @param unitType The class of unit such as volume, length, mass, etc.
    * @param from The specific unit such as m, gal, lb, etc.
    * @param to (optional) the unit that we want to convert the value to.
    */
-  ConvertImmutable(list, key, unitType, from, to=null) {
+  ConvertImmutables(immt, key, unitType, from, to=null) {
     if (to === null) {
       to = this.GetUserUnitPreference(unitType);
       if (from === to) {
-        return list;
+        return immt;
       }
     }
-    list = list.toArray();
+    immt = immt.toArray();
 
-    for (let i = 0; i < list.length; i++) {
-      list[i] = list[i].set(key, this.ConvertValue(list[i].get(key), unitType, from, to));
+    for (let i = 0; i < immt.length; i++) {
+      immt[i] = immt[i].set(key, this.ConvertValue(immt[i].get(key), unitType, from, to));
     }
 
-    return fromJS(list);
+    return fromJS(immt);
   }
 
   /**
    * Converts a property in a simple array of js objects or arrays.
-   * @param array The list of maps containing values that we want to convert
-   * @param key The key in each map that we want to convert
+   * @param iterable The arrau of iterables containing values that we want to convert
+   * @param key The key in each sub-element that we want to convert
    * @param unitType The class of unit such as volume, length, mass, etc.
    * @param from The specific unit such as m, gal, lb, etc.
    * @param to (optional) the unit that we want to convert the value to.
    */
-  ConvertArray(iterable, key, unitType, from, to=null) {
+  ConvertIterables(iterable, key, unitType, from, to=null) {
     if (to === null) {
       to = this.GetUserUnitPreference(unitType);
       if (from === to) {

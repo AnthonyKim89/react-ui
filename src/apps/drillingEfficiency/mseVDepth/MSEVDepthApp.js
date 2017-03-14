@@ -57,7 +57,7 @@ class MSEVDepthApp extends Component {
 
     return {
       name: SUPPORTED_CHART_SERIES[field].label,
-      data: this.props.convert.ConvertArray(processedData, 0, 'length', 'ft', this.toUnit),
+      data: this.props.convert.ConvertIterables(processedData, 0, 'length', 'ft', this.toUnit),
       color: this.getSeriesColor(field),
       animation: false
     };
