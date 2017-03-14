@@ -14,8 +14,8 @@ export const METADATA = {
 export const SUPPORTED_ASSET_TYPES = ['rig'];
 export const INITIAL_SIZE = {w: 4, h: 20};
 export const SUPPORTED_CHART_SERIES = {
-  surface: {label: 'Surface', defaultColor: '#e62000', subType: 'mse'},
-  downhole: {label: 'Downhole', defaultColor: '#00d3f4', subType: 'mse'},
-  ucs: {label: 'UCS', defaultColor: '#009585', subType: 'ucs'},
-  rop_average: {label: 'ROP Average', defaultColor: '#78905f', subType: 'rop_average'}
+  surface: {label: 'Surface', defaultColor: '#e62000', subType: 'mse', unitType: 'pressure', unit: 'psi'},
+  downhole: {label: 'Downhole', defaultColor: '#00d3f4', subType: 'mse', unitType: 'pressure', unit: 'psi'},
+  ucs: {label: 'UCS', defaultColor: '#009585', subType: 'ucs', unitType: 'pressure', unit: 'psi'},
+  rop_average: {label: 'ROP Average', defaultColor: '#78905f', subType: 'rop_average', unitType: 'length', unit: 'ft'}
 };

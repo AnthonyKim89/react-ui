@@ -18,16 +18,28 @@ class Convert {
         length: 'ft',
         mass: 'lb',
         volume: 'gal',
+        pressure: 'psi',
+        temperature: 'F',
+        speed: 'm/h',
+        area: 'ft2',
       },
       metric: {
         length: 'm',
         mass: 'kg',
         volume: 'l',
+        pressure: 'kPa',
+        temperature: 'C',
+        speed: 'km/h',
+        area: 'm2',
       },
       custom: {
         length: this.lookupCustomUserUnitPreference('length'),
         mass: this.lookupCustomUserUnitPreference('mass'),
         volume: this.lookupCustomUserUnitPreference('volume'),
+        pressure: this.lookupCustomUserUnitPreference('pressure'),
+        temperature: this.lookupCustomUserUnitPreference('temperature'),
+        speed: this.lookupCustomUserUnitPreference('speed'),
+        area: this.lookupCustomUserUnitPreference('area'),
       }
     };
   }
@@ -64,7 +76,7 @@ class Convert {
   ConvertValue(value, unitType, from, to=null) {
     if (to === null) {
       to = this.GetUserUnitPreference(unitType);
-      if (from === to) {
+      if (typeof to === 'undefined' || to === null || from === to) {
         return value;
       }
     }
@@ -84,7 +96,7 @@ class Convert {
   ConvertImmutables(immt, key, unitType, from, to=null) {
     if (to === null) {
       to = this.GetUserUnitPreference(unitType);
-      if (from === to) {
+      if (typeof to === 'undefined' || to === null || from === to) {
         return immt;
       }
     }
@@ -108,7 +120,7 @@ class Convert {
   ConvertIterables(iterable, key, unitType, from, to=null) {
     if (to === null) {
       to = this.GetUserUnitPreference(unitType);
-      if (from === to) {
+      if (typeof to === 'undefined' || to === null || from === to) {
         return iterable;
       }
     }

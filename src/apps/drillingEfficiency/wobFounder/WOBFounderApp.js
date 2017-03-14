@@ -41,7 +41,7 @@ class WOBFounder extends Component {
             xPlotLines={[{
               color: 'red',
               width: 1,
-              value: subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'founder_value'])
+              value: this.props.convert.ConvertValue(subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'founder_value']), 'pressure', 'psi'),
             }]}>
             {this.getSeries().map(({renderType, title, field, data}, idx) => (
               <ChartSeries
@@ -69,11 +69,22 @@ class WOBFounder extends Component {
   }
 
   getDataSeries(field) {
+    let data = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'points']);
+
+    data = this.props.convert.ConvertImmutables(
+      data,
+      field,
+      SUPPORTED_CHART_SERIES[field].unitType,
+      SUPPORTED_CHART_SERIES[field].unit
+    );
+
+    data = this.props.convert.ConvertImmutables( data, 'wob', 'pressure', 'psi');
+
     return {
       renderType: 'scatter',
       title: field,
       field,
-      data: subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'points'])
+      data: data
     };
   }
 

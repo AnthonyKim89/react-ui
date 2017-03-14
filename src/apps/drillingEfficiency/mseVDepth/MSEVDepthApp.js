@@ -47,6 +47,8 @@ class MSEVDepthApp extends Component {
   getDataSeries(field) {
     let rawData = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', field]);
     let subtype = SUPPORTED_CHART_SERIES[field].subType;
+    let unitType = SUPPORTED_CHART_SERIES[field].unitType;
+    let unit = SUPPORTED_CHART_SERIES[field].unit;
     let processedData = [];
     rawData.valueSeq().forEach((value) => {
       processedData.push([
@@ -55,9 +57,15 @@ class MSEVDepthApp extends Component {
       ])
     });
 
+    processedData = this.props.convert.ConvertIterables(processedData, 0, 'length', 'ft', this.toUnit);
+
+    if (unitType !== null) {
+      processedData = this.props.convert.ConvertIterables(processedData, 1, unitType, unit);
+    }
+
     return {
       name: SUPPORTED_CHART_SERIES[field].label,
-      data: this.props.convert.ConvertIterables(processedData, 0, 'length', 'ft', this.toUnit),
+      data: processedData,
       color: this.getSeriesColor(field),
       animation: false
     };
