@@ -11,22 +11,43 @@ class Convert {
 
   constructor() {
     this.user = login.selectors.currentUser(store.getState());
-    // TODO: Cache the user's unit type preferences in an object for easy lookup.
+
+    this.userUnits = {
+      system: this.lookupUserUnitSystem(),
+      imperial: {
+        length: 'ft',
+        mass: 'lb',
+        volume: 'gal',
+      },
+      metric: {
+        length: 'm',
+        mass: 'kg',
+        volume: 'l',
+      },
+      custom: {
+        length: this.lookupCustomUserUnitPreference('length'),
+        mass: this.lookupCustomUserUnitPreference('mass'),
+        volume: this.lookupCustomUserUnitPreference('volume'),
+      }
+    };
   }
 
-  getUser() {
-    return this.user;
+  lookupCustomUserUnitPreference(unitType) {
+    return this.user.get('unit_system').get(unitType) || this.user.get('company').get('unit_system').get(unitType);
+  }
+
+  lookupUserUnitSystem() {
+    return this.user.get('unit_system').get('system') || this.user.get('company').get('unit_system').get('system') || 'imperial';
   }
 
   GetUserUnitPreference(unitType) {
-    // TODO: Implement looking up the user's preference for a given unit type.
-    return "m";
+    return this.userUnits[this.userUnits.system][unitType];
   }
 
   /**
    * Converts a single value from
    * @param value The value we want converted.
-   * @param unitType The class of unit such as volume, length, weight, etc.
+   * @param unitType The class of unit such as volume, length, mass, etc.
    * @param from The specific unit such as m, gal, lb, etc.
    * @param to (optional) the unit that we want to convert the value to. May be passed in my ConvertList
    */
@@ -46,7 +67,7 @@ class Convert {
    * Converts a key in an immutable list of immutables.
    * @param list The list of maps/lists containing values that we want to convert
    * @param key The key in each map that we want to convert
-   * @param unitType The class of unit such as volume, length, weight, etc.
+   * @param unitType The class of unit such as volume, length, mass, etc.
    * @param from The specific unit such as m, gal, lb, etc.
    * @param to (optional) the unit that we want to convert the value to.
    */
@@ -70,7 +91,7 @@ class Convert {
    * Converts a property in a simple array of js objects or arrays.
    * @param array The list of maps containing values that we want to convert
    * @param key The key in each map that we want to convert
-   * @param unitType The class of unit such as volume, length, weight, etc.
+   * @param unitType The class of unit such as volume, length, mass, etc.
    * @param from The specific unit such as m, gal, lb, etc.
    * @param to (optional) the unit that we want to convert the value to.
    */
