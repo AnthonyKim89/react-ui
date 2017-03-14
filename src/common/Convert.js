@@ -43,14 +43,14 @@ class Convert {
   }
 
   /**
-   * Converts a single key/value in a list of immutable maps to
-   * @param list The list of maps containing values that we want to convert
+   * Converts a key in an immutable list of immutables.
+   * @param list The list of maps/lists containing values that we want to convert
    * @param key The key in each map that we want to convert
    * @param unitType The class of unit such as volume, length, weight, etc.
    * @param from The specific unit such as m, gal, lb, etc.
    * @param to (optional) the unit that we want to convert the value to.
    */
-  ConvertList(list, key, unitType, from, to=null) {
+  ConvertImmutable(list, key, unitType, from, to=null) {
     if (to === null) {
       to = this.GetUserUnitPreference(unitType);
       if (from === to) {
@@ -64,6 +64,29 @@ class Convert {
     }
 
     return fromJS(list);
+  }
+
+  /**
+   * Converts a property in a simple array of js objects or arrays.
+   * @param array The list of maps containing values that we want to convert
+   * @param key The key in each map that we want to convert
+   * @param unitType The class of unit such as volume, length, weight, etc.
+   * @param from The specific unit such as m, gal, lb, etc.
+   * @param to (optional) the unit that we want to convert the value to.
+   */
+  ConvertArray(iterable, key, unitType, from, to=null) {
+    if (to === null) {
+      to = this.GetUserUnitPreference(unitType);
+      if (from === to) {
+        return iterable;
+      }
+    }
+
+    for (let i = 0; i < iterable.length; i++) {
+      iterable[i][key] = this.ConvertValue(iterable[i][key], unitType, from, to);
+    }
+
+    return iterable;
   }
 }
 

@@ -1,28 +1,37 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
 import ObjectGraph from '../../../common/ObjectGraph';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
-import Convert from '../../../common/Convert';
 
 import './MSEVDepthApp.css'
 
 class MSEVDepthApp extends Component {
 
+  constructor(props) {
+    super(props);
+    this.toUnit = props.convert.GetUserUnitPreference('length');
+  }
+
   render() {
     return (
       <div className="c-de-mse-v-depth">
         {subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS) ?
-          <ObjectGraph series={this.getSeries()} inverted={true} xAxisLabelFormatter={this.formatYLabel} /> :
+          <ObjectGraph series={this.getSeries()} inverted={true} xAxisLabelFormatter={this.formatYLabel()} /> :
           <LoadingIndicator />}
       </div>
     );
   }
 
   formatYLabel() {
-    return '<span class="c-de-mse-v-depth-x-label">'+this.value+"</span>ft";
+    let toUnit = this.toUnit;
+    return (
+      function() {
+        return '<span class="c-de-mse-v-depth-x-label">' + this.value + '</span>' + toUnit;
+      }
+    );
   }
 
   getSeries() {
@@ -48,7 +57,7 @@ class MSEVDepthApp extends Component {
 
     return {
       name: SUPPORTED_CHART_SERIES[field].label,
-      data: processedData,
+      data: this.props.convert.ConvertArray(processedData, 0, 'length', 'ft', this.toUnit),
       color: this.getSeriesColor(field),
       animation: false
     };
@@ -65,7 +74,6 @@ class MSEVDepthApp extends Component {
 
 MSEVDepthApp.propTypes = {
   graphColors: ImmutablePropTypes.map,
-  convert: PropTypes.instanceOf(Convert),
 };
 
 export default MSEVDepthApp;
