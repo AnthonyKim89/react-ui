@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "bootstrap": "3",
+    "convert-units": "^1.0.1",
     "date-fns": "^1.27.2",
     "dotenv": "^4.0.0",
     "font-awesome": "^4.7.0",

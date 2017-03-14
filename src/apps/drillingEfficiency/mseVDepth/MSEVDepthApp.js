@@ -5,15 +5,14 @@ import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
 import ObjectGraph from '../../../common/ObjectGraph';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
-import login from '../../../login';
-import { store } from '../../../store';
+import Convert from '../../../common/Convert';
 
 import './MSEVDepthApp.css'
 
 class MSEVDepthApp extends Component {
 
   render() {
-    console.log(login.selectors.currentUser(store.getState()).keySeq().toArray());
+    //let convert = new Convert();
     return (
       <div className="c-de-mse-v-depth">
         {subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS) ?
