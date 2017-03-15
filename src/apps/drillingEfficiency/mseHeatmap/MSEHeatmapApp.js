@@ -17,8 +17,8 @@ class MSEHeatmapApp extends Component {
         <div className="c-de-mseheatmap">
           <Heatmap title="MSE Heatmap"
                    series={this.getSeries(rawData)}
-                   xAxis={this.getAxis(rawData.get("x_axis"))}
-                   yAxis={this.getAxis(rawData.get("y_axis"))} />
+                   xAxis={this.getAxis(rawData.get("x_axis"), 'columns')}
+                   yAxis={this.getAxis(rawData.get("y_axis"), 'rows', 'mass', 'lb')} />
         </div>
       );
     } catch (e) {
@@ -26,10 +26,19 @@ class MSEHeatmapApp extends Component {
     }
   }
 
-  getAxis(axis) {
-    let rowHeight = (axis.get("maximum") - axis.get("minimum"))/axis.get("rows");
+  getAxis(axis, axisType, unitType=null, unit=null) {
+    let max = axis.get("maximum");
+    let min = axis.get("minimum");
+    let axisLength = axis.get(axisType);
+
+    if (unitType !== null) {
+      max = this.props.convert.ConvertValue(max, unitType, unit);
+      min = this.props.convert.ConvertValue(min, unitType, unit);
+    }
+
+    let unitSize = (max - min)/axisLength;
     return {
-      categories: this.getAxisData(axis.get("minimum"), rowHeight, axis.get("rows")),
+      categories: this.getAxisData(min, unitSize, axisLength),
       title: axis.get("type").toUpperCase(),
     }
   }
@@ -45,6 +54,7 @@ class MSEHeatmapApp extends Component {
   }
 
   getSeries(data) {
+    let toUnit = this.props.convert.GetUserUnitPreference('length');
     let series = [];
     let rows = data.get("y_axis").get("rows");
     let columns = data.get("x_axis").get("columns");
@@ -52,6 +62,7 @@ class MSEHeatmapApp extends Component {
       let row = data.get("rotary").get(y);
       for (let x = 0; x < columns; x++) {
         let z = row.get(x);
+        z = z !== null ? this.props.convert.ConvertValue(z, 'length', 'ft', toUnit) : null;
         series.push([y, x, z]);
       }
     }

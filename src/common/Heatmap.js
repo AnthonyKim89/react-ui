@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import Highcharts from 'highcharts';
 import addHeatmap from 'highcharts/modules/heatmap';
 import addData from 'highcharts/modules/data';
+import { isEqual } from 'lodash'
 
 addData(Highcharts);
 addHeatmap(Highcharts);
@@ -85,7 +86,7 @@ class Heatmap extends Component {
     if (typeof this.state.heatmap === 'undefined') {
       return;
     }
-    if (newProps.data !== this.props.data) {
+    if (!isEqual(newProps.series, this.props.series)) {
       const heatmap = this.state.heatmap;
       heatmap.series[0].update(newProps.series);
     }
