@@ -22,6 +22,7 @@ class Convert {
         temperature: 'F',
         speed: 'm/h',
         area: 'ft2',
+        force: 'lbf',
       },
       metric: {
         length: 'm',
@@ -31,6 +32,7 @@ class Convert {
         temperature: 'C',
         speed: 'km/h',
         area: 'm2',
+        force: 'Nm',
       },
       custom: {
         length: this.lookupCustomUserUnitPreference('length'),
@@ -40,6 +42,7 @@ class Convert {
         temperature: this.lookupCustomUserUnitPreference('temperature'),
         speed: this.lookupCustomUserUnitPreference('speed'),
         area: this.lookupCustomUserUnitPreference('area'),
+        force: this.lookupCustomUserUnitPreference('force'),
       }
     };
   }
