@@ -156,6 +156,7 @@ class AppGridLayout extends Component {
       {appType.AppComponentFooter &&
         <appType.AppComponentFooter
           data={appData}
+          convert={this.convert}
           lastDataUpdate={subscriptions.selectors.lastDataUpdate(appData)}
         /> 
       }
