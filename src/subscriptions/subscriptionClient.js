@@ -3,9 +3,7 @@ import { fromJS } from 'immutable';
 
 import * as auth from '../auth';
 
-const socketUrl = process.env.REACT_APP_SUBSCRIPTIONS_URL ||
-                  process.env.REACT_APP_API_URL ||
-                  'subscriptions.local.corva.ai';
+const socketUrl = process.env.REACT_APP_SUBSCRIPTIONS_URL || 'subscriptions.local.corva.ai';
 
 let socket;
 
