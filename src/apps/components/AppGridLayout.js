@@ -19,7 +19,7 @@ import 'react-resizable/css/styles.css';
 import './AppGridLayout.css';
 
 // Elements matching this selector won't be used by react-grid-layout to trigger drag events
-const NON_DRAGGABLE_ELEMENT_SELECTOR = 'button, a';
+const NON_DRAGGABLE_ELEMENT_SELECTOR = 'button, a, input, .select-wrapper';
 
 const GridLayout = WidthProvider(Responsive);
 

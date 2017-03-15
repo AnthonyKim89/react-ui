@@ -30,6 +30,9 @@ import casing from './settings/casing';
 // CONTROL APPS
 import wellTimeline from './wellTimeline';
 
+// ANALYTICS APPS
+import raRigActivity from './rigActivity/rigActivity';
+
 // Apps that can be displayed on dashboard / asset pages, keyed by app type
 export const uiApps = Map({
   torqueAndDrag: Map({
@@ -73,6 +76,13 @@ export const uiApps = Map({
       generalInfo,
       drillstrings,
       casing
+    })
+  }),
+  rigActivity: Map({
+    title: 'Rig Activity',
+    subtitle: '',
+    appTypes: Map({
+      rigActivity: raRigActivity
     })
   })
 });

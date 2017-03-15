@@ -1,0 +1,49 @@
+.c-ra-rig-activity {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+.c-ra-rig-activity div.row.chart-panel {
+	height: 100%;
+	padding-bottom: 60px;
+}
+
+.c-ra-rig-activity .chart-panel div.col {
+	height: 100%;
+}
+
+.c-ra-rig-activity div.sub-panel {
+	height: 50%;
+	margin: 0;
+}
+
+.c-ra-rig-activity div.action-panel {
+	position: absolute;
+	bottom: 0;
+	margin: 0;
+}
+
+.c-ra-rig-activity .action-panel .select-period input {
+	height: 30px;
+	width: 140px;
+	margin: 0;
+	border: none;
+	font-weight: bold;
+}
+
+.c-ra-rig-activity .action-panel .select-period .caret {
+	color: #bbb;
+}
+
+.c-ra-rig-activity .action-panel .text-info {
+	color: #bbb;
+	line-height: 30px;
+	margin-top: 1rem;
+	margin-left: 1rem;
+	font-size: 0.815rem;
+	float: left;
+}
