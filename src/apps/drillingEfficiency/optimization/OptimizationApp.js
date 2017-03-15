@@ -15,7 +15,7 @@ class OptimizationApp extends Component {
   render() {
     let optimizationData = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[0]);
     let actualData = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[1]);
-    
+
     let massUnit = this.props.convert.GetUserUnitPreference("mass");
     let volumeUnit = this.props.convert.GetUserUnitPreference("volume");
     
@@ -42,7 +42,7 @@ class OptimizationApp extends Component {
                       WOB <sub> k{massUnit}f </sub>
                     </th>
                     <th>
-                      FLOW <sub> {volumeUnit == "gal" ? "g" : volumeUnit}pm </sub>
+                      FLOW <sub> {volumeUnit === "gal" ? "g" : volumeUnit}pm </sub>
                     </th>
                     <th>
                       RPM
