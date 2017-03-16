@@ -44,3 +44,29 @@ The local development version of the API automatically seeds a database with a s
 
 * Standard User: U: user@corva.ai P: password
 * Admin User: U: admin@corva.ai P: password
+
+
+## Branching
+
+Generally speaking, we follow git-flow, except that we use `master` as our integration branch and `production` as our production branch.
+
+* `master` is our current working branch.
+* `production` is the current production branch.
+* To contribute, make a `fix/` or `feature/` branch off `master` and make a PR on BitBucket when you're ready to merge
+* To release, make a `release/X.X.X` branch off master
+
+
+## How to Deploy
+Deployments are automated via CircleCI based on the branch or tag
+
+* `master` - The master branch always deploys automatically to the QA environment, http://app.qa.corva.ai
+* `release/X.X.X` - The most recently-created branch in this format automatically deploys to the Staging environment, http://app.staging.corva.ai
+* `tag:vX.X.X` - The most recently-created tag in this format, which should correspond with a release branch, automatically deploys to the Production environment, http://app.corva.ai
+
+**End-to-end Example:**
+
+* Develop in a feature branch called `feature/my-new-feature`
+* Merge your PR to `master` - this auto-deploys to QA
+* Make a branch from `master` called `release/1.4.23` - this auto-deploys to Staging
+* Make a tag on `release/1.4.23` called `v1.4.23` - this auto-deploys to Production
+
