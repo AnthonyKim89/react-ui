@@ -3,7 +3,6 @@ import { shallow } from 'enzyme';
 import { Map, Seq } from 'immutable';
 
 import AppGridLayout from './AppGridLayout';
-import { Size } from '../../common/constants';
 
 it('renders a fallback when mismatching app registry state exists', () => {
   global.console.log = jest.fn();
