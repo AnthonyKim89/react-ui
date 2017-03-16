@@ -14,10 +14,10 @@ export default List([
     Editor: dropdownEditorForDefinitions(PERIOD_TYPES)
   }),
   Map({
-  	name: 'displayFormat',
-  	title: '',
-  	required: false,
-  	default: DISPLAY_FORMATS[0].value,
-  	Editor: radioEditorForDefinitions(DISPLAY_FORMATS)
+    name: 'displayFormat',
+    title: '',
+    required: false,
+    default: DISPLAY_FORMATS[0].value,
+    Editor: radioEditorForDefinitions(DISPLAY_FORMATS)
   })
 ]);

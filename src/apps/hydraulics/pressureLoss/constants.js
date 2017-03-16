@@ -4,9 +4,9 @@ export const SUBSCRIPTIONS = [
   {devKey: 'corva', collection: 'rig-activity.rig-activity'}
 ];
 export const METADATA = {
-  title: 'Rig Activity',
-  settingsTitle: 'Rig Activity',
-  subtitle: 'Automatic rig time calculation based on sensor data',
+  title: 'Pressure Loss',
+  settingsTitle: 'Pressure Loss',
+  subtitle: 'Pressure loss through system',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',
   publishedAt: '2016-07-01T00:00:00'

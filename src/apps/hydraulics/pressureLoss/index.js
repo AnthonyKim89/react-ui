@@ -1,9 +1,9 @@
-import RigActivityApp from './RigActivityApp';
+import PressureLossApp from './PressureLossApp';
 import settings from './settings';
 import * as constants from './constants';
 
 export default {
-  AppComponent: RigActivityApp,
+  AppComponent: PressureLossApp,
   settings,
   constants
 };
