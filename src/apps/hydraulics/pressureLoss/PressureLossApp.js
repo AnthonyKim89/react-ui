@@ -8,25 +8,17 @@ import PieChart from '../../../common/PieChart';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './RigActivityApp.css'
+import './PressureLossApp.css'
 
-class RigActivityApp extends Component {
+class PressureLossApp extends Component {
 
   render() {
     return (
       this.getData() ?
         <div className="c-ra-rig-activity">
           <div className="row chart-panel">
-            <div className="col s8">
+            <div className="col s12">
               {this.renderCombinedChart()}
-            </div>
-            <div className="col s4">
-              <div className="row sub-panel">
-                {this.renderDayChart()}
-              </div>
-              <div className="row sub-panel">
-                {this.renderNightChart()}                
-              </div>
             </div>
           </div>
           <div className="row action-panel">
@@ -89,32 +81,6 @@ class RigActivityApp extends Component {
     </PieChart>;
   }
 
-  renderNightChart() {
-    return <PieChart
-      data={this.getGraphData('night')}
-      title='Night'
-      titleAlign='right'
-      titleVerticalAlign='bottom'
-      titleFontSize='12px'
-      showTooltipInPercentage={this.showTooltipInPercentage()}
-      unit={this.getDisplayUnit()}
-      name='Rig Activity'>
-    </PieChart>;
-  }
-
-  renderDayChart() {
-    return <PieChart
-      data={this.getGraphData('day')}
-      title='Day'
-      titleAlign='right'
-      titleVerticalAlign='top'
-      titleFontSize='12px'
-      showTooltipInPercentage={this.showTooltipInPercentage()}
-      unit={this.getDisplayUnit()}
-      name='Rig Activity'>
-    </PieChart>;
-  }
- 
   showTooltipInPercentage() {
     return this.props.displayFormat === 'percent' ? true : false;
   }
@@ -124,7 +90,7 @@ class RigActivityApp extends Component {
   }
 }
 
-RigActivityApp.propTypes = {
+PressureLossApp.propTypes = {
   data: ImmutablePropTypes.map,
   period: PropTypes.number,
   displayFormat: PropTypes.string,
@@ -132,4 +98,4 @@ RigActivityApp.propTypes = {
   widthCols: PropTypes.number.isRequired
 };
 
-export default RigActivityApp;
+export default PressureLossApp;
