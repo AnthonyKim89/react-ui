@@ -1412,9 +1412,9 @@ convert-source-map@^1.1.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/convert-source-map/-/convert-source-map-1.4.0.tgz#e3dad195bf61bfe13a7a3c73e9876ec14a0268f3"
 
-"convert-units@git+https://github.com/SerenitySoftware/convert-units#739916cec50c53c9bba0cc6d949d604a04099893":
-  version "2.0.1"
-  resolved "git+https://github.com/SerenitySoftware/convert-units#739916cec50c53c9bba0cc6d949d604a04099893"
+"convert-units@git+https://bitbucket.org/corva-ai/corva-convert-units.git#746e1e27949adfe2733d348991d8fb725ca8b9d6":
+  version "1.0.0"
+  resolved "git+https://bitbucket.org/corva-ai/corva-convert-units.git#746e1e27949adfe2733d348991d8fb725ca8b9d6"
   dependencies:
     lodash.foreach "2.3.x"
     lodash.keys "2.3.x"
