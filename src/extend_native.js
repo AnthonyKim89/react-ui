@@ -6,6 +6,6 @@
 
 // This is to avoid having to wrap conversions and other things with toFixed and parseFloat calls
 /*eslint no-extend-native: ["error", { "exceptions": ["Number"] }]*/
-Number.prototype.fixedFloat = function(digits) {
+Number.prototype.fixFloat = function(digits) {
   return parseFloat(this.toFixed(digits));
 };

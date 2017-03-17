@@ -46,7 +46,7 @@ class DownholeTransferApp extends Component {
             TOR
             <div className="c-tnd-downhole-transfer__unit">k{forceUnit}</div>
           </th>
-          <td>{this.props.convert.ConvertValue(data.getIn(['surface', 'torque']), 'force', 'lbf', forceUnit).fixedFloat(1)}</td>
+          <td>{this.props.convert.ConvertValue(data.getIn(['surface', 'torque']), 'force', 'lbf', forceUnit).fixFloat(1)}</td>
           <td className={`c-tnd-downhole-transfer__efficiency
                           c-tnd-downhole-transfer--${data.get('torque_efficiency')}`}>
             <Icon>play_arrow</Icon>
@@ -55,7 +55,7 @@ class DownholeTransferApp extends Component {
             </div>
           </td>
           <td className={`c-tnd-downhole-transfer--${data.get('torque_efficiency')}`}>
-            {this.props.convert.ConvertValue(data.getIn(['downhole', 'torque']), 'force', 'lbf', forceUnit).fixedFloat(1)}
+            {this.props.convert.ConvertValue(data.getIn(['downhole', 'torque']), 'force', 'lbf', forceUnit).fixFloat(1)}
           </td>
         </tr>
         <tr>
@@ -63,7 +63,7 @@ class DownholeTransferApp extends Component {
             WOB
             <div className="c-tnd-downhole-transfer__unit">k{massUnit}</div>
           </th>
-          <td>{this.props.convert.ConvertValue(data.getIn(['surface', 'weight_on_bit']), 'force', 'lb', massUnit).fixedFloat(1)}</td>
+          <td>{this.props.convert.ConvertValue(data.getIn(['surface', 'weight_on_bit']), 'force', 'lb', massUnit).fixFloat(1)}</td>
           <td className={`c-tnd-downhole-transfer__efficiency
                           c-tnd-downhole-transfer--${data.get('weight_on_bit_efficiency')}`}>
             <Icon>play_arrow</Icon>
@@ -72,7 +72,7 @@ class DownholeTransferApp extends Component {
             </div>
           </td>
           <td className={`c-tnd-downhole-transfer--${data.getIn(['weight_on_bit_efficiency'])}`}>
-            {this.props.convert.ConvertValue(data.getIn(['downhole', 'weight_on_bit']), 'force', 'lb', massUnit).fixedFloat(1)}
+            {this.props.convert.ConvertValue(data.getIn(['downhole', 'weight_on_bit']), 'force', 'lb', massUnit).fixFloat(1)}
           </td>
         </tr>
       </tbody>
