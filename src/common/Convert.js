@@ -8,12 +8,13 @@ import { Map, fromJS } from 'immutable';
  */
 
 class Convert {
+  defaultSystem = 'imperial';
 
   constructor() {
     this.user = login.selectors.currentUser(store.getState());
+    this.system = this.lookupUserUnitSystem();
 
-    this.userUnits = {
-      system: this.lookupUserUnitSystem(),
+    this.units = {
       imperial: {
         length: 'ft',
         mass: 'lb',
@@ -34,30 +35,41 @@ class Convert {
         area: 'm2',
         force: 'nm',
       },
-      custom: {
-        length: this.lookupCustomUserUnitPreference('length'),
-        mass: this.lookupCustomUserUnitPreference('mass'),
-        volume: this.lookupCustomUserUnitPreference('volume'),
-        pressure: this.lookupCustomUserUnitPreference('pressure'),
-        temperature: this.lookupCustomUserUnitPreference('temperature'),
-        speed: this.lookupCustomUserUnitPreference('speed'),
-        area: this.lookupCustomUserUnitPreference('area'),
-        force: this.lookupCustomUserUnitPreference('force'),
-      }
+      custom: {},
     };
+
+    this.units.custom = Object.assign(this.units.custom, {
+      length: this.lookupCustomUserUnitPreference('length'),
+      mass: this.lookupCustomUserUnitPreference('mass'),
+      volume: this.lookupCustomUserUnitPreference('volume'),
+      pressure: this.lookupCustomUserUnitPreference('pressure'),
+      temperature: this.lookupCustomUserUnitPreference('temperature'),
+      speed: this.lookupCustomUserUnitPreference('speed'),
+      area: this.lookupCustomUserUnitPreference('area'),
+      force: this.lookupCustomUserUnitPreference('force'),
+    });
   }
 
   lookupCustomUserUnitPreference(unitType) {
+    if (this.user === null) {
+      return this.units[this.defaultSystem][unitType];
+    }
+
     let m = Map(); // Default map if the key can't be found. This avoids null reference exceptions.
     return this.user.get('unit_system', m).get(unitType) ||
-      this.user.get('company', m).get('unit_system').get(unitType);
+      this.user.get('company', m).get('unit_system').get(unitType) ||
+      this.units[this.defaultSystem][unitType];
   }
 
   lookupUserUnitSystem() {
+    if (this.user === null) {
+      return this.defaultSystem;
+    }
+
     let m = Map(); // Default map if the key can't be found. This avoids null reference exceptions.
     return this.user.get('unit_system', m).get('system') ||
       this.user.get('company', m).get('unit_system', m).get('system') ||
-      'imperial';
+      this.defaultSystem;
   }
 
   /**
@@ -66,7 +78,7 @@ class Convert {
    * @returns string
    */
   GetUserUnitPreference(unitType) {
-    return this.userUnits[this.userUnits.system][unitType];
+    return this.units[this.system][unitType];
   }
 
   /**
