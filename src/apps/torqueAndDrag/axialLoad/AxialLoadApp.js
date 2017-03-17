@@ -37,16 +37,24 @@ class AxialLoadApp extends Component {
   }
 
   getSeries() {
+    let data = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'points']);
+    data = this.props.convert.ConvertImmutables(data, 'measured_depth', 'length', 'ft');
+    // Converting each of our y-axis values to their target unit.
+    for (let property in SUPPORTED_CHART_SERIES) {
+      if (SUPPORTED_CHART_SERIES.hasOwnProperty(property)) {
+        data = this.props.convert.ConvertImmutables(data, property, SUPPORTED_CHART_SERIES[property].unitType, SUPPORTED_CHART_SERIES[property].unit);
+      }
+    }
     return Object.keys(SUPPORTED_CHART_SERIES)
-      .map(s => this.getDataSeries(s));
+      .map(s => this.getDataSeries(s, data));
   }
 
-  getDataSeries(field) {
+  getDataSeries(field, data) {
     return {
       renderType: 'line',
       title: field,
       field,
-      data: subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'points'])
+      data: data
     };
   }
 
