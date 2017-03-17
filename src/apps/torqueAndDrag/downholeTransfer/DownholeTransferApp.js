@@ -23,6 +23,8 @@ class DownholeTransferApp extends Component {
 
   renderTable() {
     const data = this.getSubscriptionData().get('data');
+    let forceUnit = this.props.convert.GetUserUnitPreference('force');
+    let massUnit = this.props.convert.GetUserUnitPreference('mass');
     return <table className="c-tnd-downhole-transfer__table">
       <colgroup>
         <col style={{width: '25%'}}></col>
@@ -42,9 +44,9 @@ class DownholeTransferApp extends Component {
         <tr>
           <th>
             TOR
-            <div className="c-tnd-downhole-transfer__unit">kft-lbf</div>
+            <div className="c-tnd-downhole-transfer__unit">k{forceUnit}</div>
           </th>
-          <td>{data.getIn(['surface', 'torque'])}</td>
+          <td>{this.props.convert.ConvertValue(data.getIn(['surface', 'torque']), 'force', 'lbf', forceUnit).fixedFloat(1)}</td>
           <td className={`c-tnd-downhole-transfer__efficiency
                           c-tnd-downhole-transfer--${data.get('torque_efficiency')}`}>
             <Icon>play_arrow</Icon>
@@ -53,15 +55,15 @@ class DownholeTransferApp extends Component {
             </div>
           </td>
           <td className={`c-tnd-downhole-transfer--${data.get('torque_efficiency')}`}>
-            {data.getIn(['downhole', 'torque'])}
+            {this.props.convert.ConvertValue(data.getIn(['downhole', 'torque']), 'force', 'lbf', forceUnit).fixedFloat(1)}
           </td>
         </tr>
         <tr>
           <th>
             WOB
-            <div className="c-tnd-downhole-transfer__unit">klbf</div>
+            <div className="c-tnd-downhole-transfer__unit">k{massUnit}</div>
           </th>
-          <td>{data.getIn(['surface', 'weight_on_bit'])}</td>
+          <td>{this.props.convert.ConvertValue(data.getIn(['surface', 'weight_on_bit']), 'force', 'lb', massUnit).fixedFloat(1)}</td>
           <td className={`c-tnd-downhole-transfer__efficiency
                           c-tnd-downhole-transfer--${data.get('weight_on_bit_efficiency')}`}>
             <Icon>play_arrow</Icon>
@@ -70,7 +72,7 @@ class DownholeTransferApp extends Component {
             </div>
           </td>
           <td className={`c-tnd-downhole-transfer--${data.getIn(['weight_on_bit_efficiency'])}`}>
-            {data.getIn(['downhole', 'weight_on_bit'])}
+            {this.props.convert.ConvertValue(data.getIn(['downhole', 'weight_on_bit']), 'force', 'lb', massUnit).fixedFloat(1)}
           </td>
         </tr>
       </tbody>
