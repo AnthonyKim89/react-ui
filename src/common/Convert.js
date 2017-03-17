@@ -1,6 +1,6 @@
 import login from '../login';
 import { store } from '../store';
-import convert from 'convert-units';
+import convert from 'corva-convert-units';
 import { Map, fromJS } from 'immutable';
 
 /*
@@ -32,7 +32,7 @@ class Convert {
         temperature: 'C',
         speed: 'km/h',
         area: 'm2',
-        force: 'Nm',
+        force: 'nm',
       },
       custom: {
         length: this.lookupCustomUserUnitPreference('length'),

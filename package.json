@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "bootstrap": "3",
-    "convert-units": "git+https://bitbucket.org/corva-ai/corva-convert-units.git#746e1e27949adfe2733d348991d8fb725ca8b9d6",
+    "corva-convert-units": "^1.0.0",
     "date-fns": "^1.27.2",
     "dotenv": "^4.0.0",
     "font-awesome": "^4.7.0",

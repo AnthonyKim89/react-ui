@@ -1412,13 +1412,6 @@ convert-source-map@^1.1.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/convert-source-map/-/convert-source-map-1.4.0.tgz#e3dad195bf61bfe13a7a3c73e9876ec14a0268f3"
 
-"convert-units@git+https://bitbucket.org/corva-ai/corva-convert-units.git#746e1e27949adfe2733d348991d8fb725ca8b9d6":
-  version "1.0.0"
-  resolved "git+https://bitbucket.org/corva-ai/corva-convert-units.git#746e1e27949adfe2733d348991d8fb725ca8b9d6"
-  dependencies:
-    lodash.foreach "2.3.x"
-    lodash.keys "2.3.x"
-
 cookie-signature@1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.0.6.tgz#e303a882b342cc3ee8ca513a79999734dab3ae2c"
@@ -1438,6 +1431,13 @@ core-js@^2.4.0:
 core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
+
+corva-convert-units@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/corva-convert-units/-/corva-convert-units-1.0.0.tgz#fae27625f53c0c90b7e952bffafa7972ce1b4294"
+  dependencies:
+    lodash.foreach "2.3.x"
+    lodash.keys "2.3.x"
 
 cosmiconfig@^2.1.0, cosmiconfig@^2.1.1:
   version "2.1.1"
