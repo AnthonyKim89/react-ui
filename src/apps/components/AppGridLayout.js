@@ -122,6 +122,14 @@ class AppGridLayout extends Component {
     const size = this.getAppSize(coordinates, maximized);
     const settings = app.get('settings');
     const appType = appRegistry.uiApps.getIn([category, 'appTypes', name]);
+
+    // A misconfigured app or appRegistry should not take down all rendering.
+    // Provide a fallback when the app is missing.
+    if (appType === undefined) {
+      console.log(`No UI app found for ${category}:${name}.`);
+      return <div />
+    }
+
     const appData = this.props.appData.get(id);
     const hasAppFooter = appType.AppComponentFooter ? true: false
     return <AppContainer id={id}
