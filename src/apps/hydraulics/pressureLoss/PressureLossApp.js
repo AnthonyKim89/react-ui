@@ -1,42 +1,26 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Input } from 'react-materialize';
-import { format as formatDate } from 'date-fns';
 
-import { SUBSCRIPTIONS, ACTIVITY_COLORS, PERIOD_TYPES } from './constants';
+import { SUBSCRIPTIONS, ACTIVITY_COLORS } from './constants';
 import PieChart from '../../../common/PieChart';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
 import './PressureLossApp.css'
 
+const pieOptions = {
+  innerSize: '33%',
+};
+
 class PressureLossApp extends Component {
 
   render() {
     return (
       this.getData() ?
-        <div className="c-ra-rig-activity">
+        <div className="c-hydraulics-pressure-loss">
           <div className="row chart-panel">
             <div className="col s12">
-              {this.renderCombinedChart()}
-            </div>
-          </div>
-          <div className="row action-panel">
-            <div className="col s12">
-              <Input
-                className="select-period"
-                type="select"
-                value={this.props.period}
-                onChange={e => this.onChangePeriod(e)}>
-                {PERIOD_TYPES.map(item =>
-                  <option value={item.value} key={item.value}>
-                    {item.label}
-                  </option>
-                )}
-              </Input>
-              <span className="text-info">
-                {this.formatDatePeriod()}
-              </span>
+              {this.renderChart()}
             </div>
           </div>
         </div> :
@@ -46,17 +30,6 @@ class PressureLossApp extends Component {
 
   getData() {
     return subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS);
-  }
-
-  formatDatePeriod() {
-    const start_date = new Date(this.getData().getIn(['data', 'start_timestamp']) * 1000);
-    const end_date = new Date(this.getData().getIn(['data', 'end_timestamp']) * 1000);
-    return formatDate(start_date, 'M/D h:mm') + " - " + formatDate(end_date, 'M/D h:mm');
-  }
-
-  onChangePeriod(event) {
-    const currentValue = event.target.value && parseInt(event.target.value, 10);
-    this.props.onSettingChange('period', currentValue);
   }
 
   getGraphData(shift) {
@@ -69,20 +42,18 @@ class PressureLossApp extends Component {
     }));
   }
 
-  renderCombinedChart() {
+  renderChart() {
     return <PieChart
       data={this.getGraphData('combined')}
-      title='Combined'
-      titleAlign='left'
-      titleVerticalAlign='bottom'
       showTooltipInPercentage={this.showTooltipInPercentage()}
       unit={this.getDisplayUnit()}
-      name='Rig Activity'>
+      pieOptions={pieOptions}
+      name='Pressure Loss'>
     </PieChart>;
   }
 
   showTooltipInPercentage() {
-    return this.props.displayFormat === 'percent' ? true : false;
+    return this.props.displayFormat === 'percent';
   }
 
   getDisplayUnit() {
