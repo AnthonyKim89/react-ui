@@ -19,6 +19,7 @@ class TraceTabApp extends Component {
     this.state = {
       tracePickerOpenFor: null
     };
+    this.convert = new Convert();
   }
   render() {
     return <div className="c-trace-tab">
@@ -50,6 +51,7 @@ class TraceTabApp extends Component {
                           trace2={traces.get(1)}
                           trace3={traces.get(2)}
                           size={common.constants.Size.SMALL}
+                          convert={this.convert}
                           widthCols={3}
                           isTraceChangeSupported={true}
                           onTraceChangeRequested={trace => this.openTracePicker(colNumber, trace)}>
