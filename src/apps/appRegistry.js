@@ -17,6 +17,15 @@ import deOptimization from './drillingEfficiency/optimization';
 import deROPHeatmap from './drillingEfficiency/ropHeatmap';
 import deWOBFounder from './drillingEfficiency/wobFounder';
 
+// DIRECTIONAL APPS
+import diTrend from './directional/trend';
+import diAccuracy from './directional/accuracy';
+import diWellPlan from './directional/wellPlan';
+import diToolFaceOrientation from './directional/toolFaceOrientation';
+import diSlideSheet from './directional/slideSheet';
+import diTortuosityIndex from './directional/tortuosityIndex';
+import diSurveys from './directional/surveys';
+
 // TRACE APPS
 import singleTrace from './trace/singleTrace';
 import multiTrace from './trace/multiTrace';
@@ -59,6 +68,19 @@ export const uiApps = Map({
       optimization: deOptimization,
       ropHeatmap: deROPHeatmap,
       wobFounder: deWOBFounder,
+    })
+  }),
+  directional: Map({
+    title: 'Directional',
+    subtitle: 'Directional',
+    appTypes: Map({
+      trend: diTrend,
+      accuracy: diAccuracy,
+      wellPlan: diWellPlan,
+      toolFaceOrientation: diToolFaceOrientation,
+      slideSheet: diSlideSheet,
+      surveys: diSurveys,
+      tortuosityIndex: diTortuosityIndex
     })
   }),
   trace: Map({
