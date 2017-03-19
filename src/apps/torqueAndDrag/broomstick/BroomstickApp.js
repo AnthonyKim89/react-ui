@@ -56,24 +56,31 @@ class BroomstickApp extends Component {
     return this.getData().getIn(['data', 'curves'], List())
       .entrySeq()
       .flatMap(([curveType, curves]) =>
-        curves.map(curve => ({
-          renderType: 'line',
-          title: `${SUPPORTED_CHART_SERIES[curveType].label} ${curve.get('casing_friction_factor')} ${curve.get('openhole_friction_factor')}`,
-          type: curveType,
-          data: curve.get('points')
-        }))
+        curves.map((curve) => {
+          let points = curve.get('points');
+          points = this.props.convert.ConvertImmutables(points, 'hookload', 'mass', 'lb');
+          return {
+            renderType: 'line',
+            title: `${SUPPORTED_CHART_SERIES[curveType].label} ${curve.get('casing_friction_factor')} ${curve.get('openhole_friction_factor')}`,
+            type: curveType,
+            data: points
+          };
+        })
       );
   }
 
   getActualSeries() {
     return this.getData().getIn(['data', 'actual'], List())
       .entrySeq()
-      .map(([curveType, points]) => ({
-        renderType: 'scatter',
-        title: SUPPORTED_CHART_SERIES[curveType].label,
-        type: curveType,
-        data: points
-      }));
+      .map(([curveType, points]) => {
+        points = this.props.convert.ConvertImmutables(points, 'hookload', 'mass', 'lb');
+        return {
+          renderType: 'scatter',
+            title: SUPPORTED_CHART_SERIES[curveType].label,
+          type: curveType,
+          data: points
+        }
+      });
   }
 
   getSeriesColor(seriesType) {
