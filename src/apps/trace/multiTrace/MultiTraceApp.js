@@ -65,7 +65,14 @@ class MultiTraceApp extends Component {
       let traceSpec = this.getTraceSpec(trace);
       let unitDisplay = traceSpec.unit;
       if (traceSpec.hasOwnProperty("unitType") && unitDisplay.includes("{u}")) {
-        // TODO: Convert display of unit to proper label.
+        let formatUnit = this.props.convert.GetUserUnitPreference(traceSpec.unitType);
+        if (formatUnit !== traceSpec.unit) {
+          if (traceSpec.hasOwnProperty('cunitFormat') && traceSpec.cunitFormat.hasOwnProperty(formatUnit)) {
+            formatUnit = traceSpec.cunitFormat[formatUnit];
+          }
+          
+          traceSpec.unit = unitDisplay.replace('{u}', formatUnit);
+        }
       }
       return (<div className="c-trace-multi__latest"
            key={`latest-${trace}`}

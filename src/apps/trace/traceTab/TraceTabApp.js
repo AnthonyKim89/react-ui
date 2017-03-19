@@ -4,6 +4,7 @@ import { List, Range } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import common from '../../../common';
+import Convert from '../../../common/Convert';
 import TraceTimeline from './TraceTimeline';
 import TracePicker from './TracePicker';
 import MultiTraceApp from '../multiTrace/MultiTraceApp';
