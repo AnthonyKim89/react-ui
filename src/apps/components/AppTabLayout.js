@@ -49,7 +49,7 @@ class AppTabLayout extends Component {
     const category = app.get('category');
     const name = app.get('name');
     const appType = appRegistry.uiApps.getIn([category, 'appTypes', name]);
-    return appType.constants.METADATA.title;
+    return (appType === undefined) ? "Not Found" : appType.constants.METADATA.title;
   }
 
   renderSelectedApp() {
@@ -64,7 +64,7 @@ class AppTabLayout extends Component {
     const settings = app.get('settings');
     const appType = appRegistry.uiApps.getIn([category, 'appTypes', name]);
     const appData = this.props.appData.get(id);
-    return <AppContainer id={id}
+    return (appType === undefined) ? "Not Found" : <AppContainer id={id}
                          appType={appType}
                          asset={this.props.appAssets.get(id)}
                          lastDataUpdate={subscriptions.selectors.lastDataUpdate(appData)}
