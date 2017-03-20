@@ -77,11 +77,13 @@
   border-right: 1px solid #999;
   padding-left: 10px;
   text-align: left;
+  padding-top: 0.8vw;
+  padding-bottom: 0.8vw;
 }
 
 .c-de-optimization td:first-child {
   font-size: 1em;
-  font-weight: bold;
+  font-weight: bold;  
 }
 
 .c-de-optimization td:last-child {

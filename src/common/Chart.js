@@ -203,7 +203,7 @@ class Chart extends Component {
     return props.size === Size.XLARGE;
   }
 
-  isAxisLabelsVisible(props) {
+  isAxisLabelsVisible(props) {    
     return props.size !== Size.SMALL
   }
 

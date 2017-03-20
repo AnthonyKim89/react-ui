@@ -182,6 +182,19 @@ Both `AppContainer` and the `App*Layout` components are presentational component
     * `AppContainer`
       * `SomeApp`
 
+## Settings Apps Considerations
+
+The apps under the `apps/settings` category, such as Drillstrings and Casing are slightly different from other apps because they're used not mainly for displaying data but for editing it.
+
+These apps are all still proper Apps like all the others, and everything said in this document applies to them. But they have some special characteristics:
+
+* They typically don't subscribe to any data stream, so their `SUBSCRIPTIONS` will usually be empty. Apps that execute Tasks (in AWS Lambda) may, however, subscribe to the result streams of those tasks.
+* The apps instead invoke `corva-api` directly to read and write to the data collection they are managing.
+
+Most settings apps have the the same basic implementation: Provide the user a list of records in a data collection, and provide the means to create, update, and delete records in the collection. For this purpose, a simple abstraction framework is provided by the `apps/settings/components/SettingsEditorManager` component. Those apps that follow this pattern can simply wrap this component, which will take care of reading, updating, and deleting records in corva-api and of rendering the basic UI framework. The individual apps only need to fill in the details: They should provide components for rendering the actual tables and forms that go into the UI. But these are all simple, stateless components. See the Drillstrings and Fluid Checks apps for examples on how to use the framework.
+
+Implement the `SettingsEditorManager` framework is *not* required, however, and settings apps are free to do whatever they need. For example, the Casings app does not use the framework since its UI does not follow the same pattern.
+
 ## Redux Apps
 
 When an app has nontrivial logic inside it, it is recommended to use Redux to implement that logic and the associated state management.

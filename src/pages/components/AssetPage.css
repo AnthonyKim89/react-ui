@@ -1,3 +1,7 @@
 .c-app--native .c-asset-page {
   padding-top: 0;
 }
+
+.c-asset-page {
+	margin-bottom: 30px;
+}

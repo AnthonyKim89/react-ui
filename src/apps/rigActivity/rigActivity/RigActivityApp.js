@@ -16,40 +16,83 @@ class RigActivityApp extends Component {
     return (
       this.getData() ?
         <div className="c-ra-rig-activity">
-          <div className="row chart-panel">
-            <div className="col s8">
-              {this.renderCombinedChart()}
-            </div>
-            <div className="col s4">
-              <div className="row sub-panel">
-                {this.renderDayChart()}
+          <div className="row">
+            <div className={"col " + (this.isExpanded() ? "s6" : "s12")}>
+              <div className="row chart-panel">
+                <div className="col s8">
+                  {this.renderCombinedChart()}
+                </div>
+                <div className="col s4">
+                  <div className="row sub-panel">
+                    {this.renderDayChart()}
+                  </div>
+                  <div className="row sub-panel">
+                    {this.renderNightChart()}                
+                  </div>
+                </div>
               </div>
-              <div className="row sub-panel">
-                {this.renderNightChart()}                
+              <div className="row action-panel">
+                <div className="col s12">
+                  <Input
+                    className="select-period"
+                    type="select"
+                    value={this.props.period}
+                    onChange={e => this.onChangePeriod(e)}>
+                    {PERIOD_TYPES.map(item =>
+                      <option value={item.value} key={item.value}>
+                        {item.label}
+                      </option>
+                    )}
+                  </Input>
+                  <span className="text-info">
+                    {this.formatDatePeriod()}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="row action-panel">
-            <div className="col s12">
-              <Input
-                className="select-period"
-                type="select"
-                value={this.props.period}
-                onChange={e => this.onChangePeriod(e)}>
-                {PERIOD_TYPES.map(item =>
-                  <option value={item.value} key={item.value}>
-                    {item.label}
-                  </option>
-                )}
-              </Input>
-              <span className="text-info">
-                {this.formatDatePeriod()}
-              </span>
-            </div>
+            {this.renderTable()}              
           </div>
         </div> :
         <LoadingIndicator />
     );
+  }
+
+  componentWillReceiveProps(nextProps) {
+  }
+
+  renderTable() {
+    if (this.isExpanded()) {
+      return (<div className="col s6">
+         <table className="responsive-table chart-table">
+          <thead>
+            <tr>
+                <th data-field="activity">Activity</th>
+                <th data-field="total">Total</th>
+                <th data-field="day">Day</th>
+                <th data-field="night">Night</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.getData().getIn(['data', 'activities']).map(h =>
+              <tr key={h.get('name')}>
+                <td><div className="square" style={{background: ACTIVITY_COLORS[h.get('name')]}}></div>{h.get('name')}</td>
+                <td>{this.roundNumber(h.get('day') + h.get('night'))}</td>
+                <td>{this.roundNumber(h.get('day'))}</td>
+                <td>{this.roundNumber(h.get('night'))}</td>
+              </tr>
+            )}
+          </tbody>
+        </table>                  
+      </div>);
+    }
+  }
+
+  roundNumber(n) {
+    return Math.round(n*10)/10;
+  }
+
+  isExpanded() {
+    return this.props.widthCols > 6;
   }
 
   getData() {
@@ -72,7 +115,7 @@ class RigActivityApp extends Component {
     .getIn(['data', 'activities'])
     .map(h => ({
       "name": h.get('name'),
-      "y": shift === 'combined' ? h.get('day') + h.get('night') : h.get(shift),
+      "y": this.roundNumber(shift === 'combined' ? h.get('day') + h.get('night') : h.get(shift)),
       "color": ACTIVITY_COLORS[h.get('name')]
     }));
   }
