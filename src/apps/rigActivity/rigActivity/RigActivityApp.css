@@ -7,13 +7,52 @@
   padding: 0;
 }
 
-.c-ra-rig-activity div.row.chart-panel {
+.c-ra-rig-activity .chart-table {
+	font-size: 14px;
+	color: white;
+	font-weight: bold;
+}
+
+.c-ra-rig-activity .chart-table thead {
+	border: none;
+}
+
+.c-ra-rig-activity .chart-table th {
+	color: #bbb;
+}
+
+.c-ra-rig-activity .chart-table td {
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+.c-ra-rig-activity .chart-table td .square {
+	width: 11px;
+	height: 11px;
+	background: white;
+	display: inline-block;
+	float: left;
+	margin-top: 4px;
+	margin-right: 5px;
+}
+
+.c-ra-rig-activity .chart-panel {
 	height: 100%;
 	padding-bottom: 60px;
+	position: absolute;
+}
+
+.c-ra-rig-activity .col.s6 .chart-panel {
+	width: 40%;
+}
+
+.c-ra-rig-activity .col.s12 .chart-panel {
+	width: 100%;
 }
 
 .c-ra-rig-activity .chart-panel div.col {
 	height: 100%;
+	top: 0;
 }
 
 .c-ra-rig-activity div.sub-panel {
