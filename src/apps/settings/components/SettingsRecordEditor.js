@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Row, Col, Button } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import Convert from '../../../common/Convert';
 
 import './SettingsRecordEditor.css';
 
@@ -32,6 +33,7 @@ class SettingsRecordEditor extends Component {
   renderAttributeForm() {
     return <this.props.RecordAttributeForm
               record={this.state.record}
+              convert={this.props.convert}
               onUpdateRecord={r => this.updateRecord(r)} />
   }
 
@@ -40,6 +42,7 @@ class SettingsRecordEditor extends Component {
       <Col m={12}>
         <this.props.RecordSummary
           record={this.state.record}
+          convert={this.props.convert}
           isReadOnly={true}
           onDeleteRecord={this.props.onDeleteRecord} />
       </Col>
@@ -51,6 +54,7 @@ class SettingsRecordEditor extends Component {
       <Col m={12}>
         <this.props.RecordDetails
           record={this.state.record}
+          convert={this.props.convert}
           isEditable={true}
           onUpdateRecord={r => this.updateRecord(r)}/>
       </Col>
@@ -85,7 +89,8 @@ SettingsRecordEditor.propTypes = {
   record: ImmutablePropTypes.map.isRequired,
   onSave: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  onDeleteRecord: PropTypes.func.isRequired
+  onDeleteRecord: PropTypes.func.isRequired,
+  convert: React.PropTypes.instanceOf(Convert).isRequired,
 };
 
 export default SettingsRecordEditor;

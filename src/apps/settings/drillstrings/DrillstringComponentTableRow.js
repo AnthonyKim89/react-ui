@@ -13,8 +13,8 @@ class DrillstringComponentTableRow extends Component {
       <td>{this.renderComponentSelectField('family', COMPONENT_FAMILIES)}</td>
       <td>{this.renderComponentNumberField('inner_diameter')}</td>
       <td>{this.renderComponentNumberField('outer_diameter')}</td>
-      <td>{this.renderComponentNumberField('length')}</td>
-      <td>{this.renderComponentNumberField('linear_weight')}</td>
+      <td>{this.renderComponentNumberField('length', 'length', 'ft')}</td>
+      <td>{this.renderComponentNumberField('linear_weight', 'mass', 'lb')}</td>
       <td>
         {this.props.isEditable &&
           <Button floating icon="delete" className="red" onClick={() => this.props.onDeleteComponent()}></Button>}
@@ -45,10 +45,14 @@ class DrillstringComponentTableRow extends Component {
     }
   }
 
-  renderComponentNumberField(field) {
+  renderComponentNumberField(field, unitType=null, unit=null) {
     if (this.props.isEditable) {
+      let value = this.props.component.get(field, '');
+      if (unitType !== null) {
+        value = this.props.convert.ConvertValue(parseFloat(value), unitType, unit).fixFloat(2);
+      }
       return <Input type="number"
-                    value={this.props.component.get(field, '')}
+                    value={value}
                     onChange={e => this.props.onComponentFieldChange(field, parseFloat(e.target.value))} />
     } else {
       return this.props.component.get(field);

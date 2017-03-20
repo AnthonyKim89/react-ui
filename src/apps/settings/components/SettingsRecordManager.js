@@ -5,6 +5,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import * as api from '../../../api';
 import SettingsRecordBrowser from './SettingsRecordBrowser';
 import SettingsRecordEditor from './SettingsRecordEditor';
+import Convert from '../../../common/Convert';
 
 import './SettingsRecordManager.css';
 
@@ -50,6 +51,7 @@ class SettingsRecordManager extends Component {
     return <div className="c-settings-record-manager">
       {this.state.editingRecord ?
         <SettingsRecordEditor
+          convert={this.props.convert}
           recordNameSingular={this.props.recordNameSingular}
           RecordAttributeForm={this.props.RecordAttributeForm}
           RecordSummary={this.props.RecordSummary}
@@ -59,6 +61,7 @@ class SettingsRecordManager extends Component {
           onCancel={() => this.setState({editingRecord: null})}
           onDeleteRecord={() => this.deleteRecord()} /> :
         <SettingsRecordBrowser
+          convert={this.props.convert}
           recordNamePlural={this.props.recordNamePlural}
           recordNameSingular={this.props.recordNameSingular}
           RecordSummary={this.props.RecordSummary}
@@ -118,6 +121,7 @@ SettingsRecordManager.propTypes = {
   RecordAttributeForm: PropTypes.func.isRequired,
   RecordDetails: PropTypes.func.isRequired,
   renderRecordListItem: PropTypes.func.isRequired,
+  convert: React.PropTypes.instanceOf(Convert).isRequired,
 };
 
 
