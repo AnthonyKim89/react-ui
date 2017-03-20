@@ -45,10 +45,10 @@ class CasingTable extends Component {
     return <tr key={idx}>
       <td>{this.renderNumberField(item, idx, 'id')}</td>
       <td>{this.renderNumberField(item, idx, 'od')}</td>
-      <td>{this.renderNumberField(item, idx, 'measured_depth_top')}</td>
-      <td>{this.renderNumberField(item, idx, 'measured_depth_bottom')}</td>
-      <td>{item.get('length')}</td>
-      <td>{this.renderNumberField(item, idx, 'linear_mass')}</td>
+      <td>{this.renderNumberField(item, idx, 'measured_depth_top', 'length', 'ft')}</td>
+      <td>{this.renderNumberField(item, idx, 'measured_depth_bottom', 'length', 'ft')}</td>
+      <td>{this.props.convert.ConvertValue(parseFloat(item.get('length')), 'length', 'ft').fixFloat(2)}</td>
+      <td>{this.renderNumberField(item, idx, 'linear_mass', 'mass', 'lb')}</td>
       <td>{this.renderTextField(item, idx, 'grade')}</td>
       <td>
         {this.props.isEditable &&
@@ -67,10 +67,14 @@ class CasingTable extends Component {
     }
   }
 
-  renderNumberField(item, idx, field) {
+  renderNumberField(item, idx, field, unitType=null, unit=null) {
     if (this.props.isEditable) {
+      let value = item.get(field, '');
+      if (unitType !== null) {
+        value = this.props.convert.ConvertValue(parseFloat(value), unitType, unit).fixFloat(2);
+      }
       return <Input type="number"
-                    value={item.get(field, '')}
+                    value={value}
                     onChange={e => this.props.onItemFieldChange(idx, field, parseFloat(e.target.value))} />
     } else {
       return item.get(field);
