@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "bootstrap": "3",
-    "corva-convert-units": "^1.0.1",
+    "corva-convert-units": "^1.1.0",
     "date-fns": "^1.27.2",
     "dotenv": "^4.0.0",
     "font-awesome": "^4.7.0",

@@ -1432,9 +1432,9 @@ core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
-corva-convert-units@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/corva-convert-units/-/corva-convert-units-1.0.1.tgz#b7f158945d3f1c2951a047c6e97cc292b000045d"
+corva-convert-units@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/corva-convert-units/-/corva-convert-units-1.1.0.tgz#fb0a7749338b0014decb7fcee1027d4abab1bae9"
   dependencies:
     lodash.foreach "2.3.x"
     lodash.keys "2.3.x"
