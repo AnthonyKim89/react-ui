@@ -50,7 +50,7 @@ class SingleTraceApp extends Component {
     return (
       <div className="c-trace-single">
         <h4>{this.getTrace().label}</h4>
-        {this.getLatestTrace() ?
+        {this.hasLatestTrace() ?
           this.renderLatestTrace() :
           <LoadingIndicator />}
         {this.state.summary.size > 0 ?
@@ -61,13 +61,26 @@ class SingleTraceApp extends Component {
   }
 
   renderLatestTrace() {
+    // Formatting the units to display properly.
+    let traceSpec = this.getTrace();
+    let unitDisplay = traceSpec.unit;
+    if (traceSpec.hasOwnProperty("unitType") && unitDisplay.includes("{u}")) {
+      let formatUnit = this.props.convert.GetUserUnitPreference(traceSpec.unitType);
+      if (formatUnit !== traceSpec.unit) {
+        if (traceSpec.hasOwnProperty('cunitFormat') && traceSpec.cunitFormat.hasOwnProperty(formatUnit)) {
+          formatUnit = traceSpec.cunitFormat[formatUnit];
+        }
+        traceSpec.unit = unitDisplay.replace('{u}', formatUnit);
+      }
+    }
+
     return (
       <div className="c-trace-single__latest">
         <span className="c-trace-single__latest__value">
-          {this.getLatestTrace()}
+          {this.getLatestTrace(traceSpec)}
         </span>
         <span className="c-trace-single__latest__unit">
-          {this.getTrace().unit}
+          {traceSpec.unit}
         </span>
       </div>
     );
@@ -106,13 +119,20 @@ class SingleTraceApp extends Component {
     return find(SUPPORTED_TRACES, {trace: this.props.trace}) || {};
   }
 
-  getLatestTrace() {
-    const trace = subscriptions.selectors.getSubData(this.props.data, latestSubscription);
+  hasLatestTrace() {
+    return !!subscriptions.selectors.getSubData(this.props.data, latestSubscription);
+  }
+
+  getLatestTrace(spec) {
+    let trace = subscriptions.selectors.getSubData(this.props.data, latestSubscription);
     if (trace) {
-      return numeral(trace.getIn(['data', this.props.trace])).format('0.0a');
-    } else {
-      return null;
+      trace = trace.getIn(['data', this.props.trace]);
+      if (spec.hasOwnProperty("unitType")) {
+        trace = this.props.convert.ConvertValue(trace, spec.unitType, spec.cunit);
+      }
+      return numeral(trace).format('0.0a');
     }
+    return null;
   }
 
   getTraceSummary(props) {
