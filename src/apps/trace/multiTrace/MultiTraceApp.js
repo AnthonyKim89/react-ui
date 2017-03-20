@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { find } from 'lodash';
-import { List } from 'immutable';
+import { fromJS, List } from 'immutable';
 import numeral from 'numeral';
 import { distanceInWordsToNow } from 'date-fns';
 
@@ -62,6 +62,8 @@ class MultiTraceApp extends Component {
 
   renderLatestTraces() {
     return this.getTraceKeys().map((trace) => {
+
+      // Formatting the units to display properly.
       let traceSpec = this.getTraceSpec(trace);
       let unitDisplay = traceSpec.unit;
       if (traceSpec.hasOwnProperty("unitType") && unitDisplay.includes("{u}")) {
@@ -70,10 +72,10 @@ class MultiTraceApp extends Component {
           if (traceSpec.hasOwnProperty('cunitFormat') && traceSpec.cunitFormat.hasOwnProperty(formatUnit)) {
             formatUnit = traceSpec.cunitFormat[formatUnit];
           }
-          
           traceSpec.unit = unitDisplay.replace('{u}', formatUnit);
         }
       }
+
       return (<div className="c-trace-multi__latest"
            key={`latest-${trace}`}
            onClick={() => this.props.isTraceChangeSupported && this.props.onTraceChangeRequested(trace)}>
@@ -107,6 +109,13 @@ class MultiTraceApp extends Component {
         xAxisLabelFormatter={(...a) => this.formatDate(...a)}>
         {this.getActiveTraceKeys().map(trace => {
           const spec = this.getTraceSpec(trace);
+          let convertedSummary = this.state.summary;
+
+          // Performing unit conversion.
+          if (spec.hasOwnProperty('unitType')) {
+            convertedSummary = this.props.convert.ConvertImmutables(convertedSummary, this.props[trace], spec.unitType, spec.cunit);
+          }
+
           return <ChartSeries
             dashStyle='Solid'
             lineWidth={1}
@@ -115,7 +124,7 @@ class MultiTraceApp extends Component {
             title={spec.label}
             minValue={spec.min}
             maxValue={spec.max}
-            data={this.state.summary}
+            data={convertedSummary}
             yField={this.props[trace]}
             color={this.getSeriesColor(trace)} />;
         })}

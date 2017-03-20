@@ -131,7 +131,7 @@ class TraceTimeline extends Component {
   }
 
   getTraceSummary(props) {
-    return props.data && props.data.getIn(['corva', 'wits.summary-30s', '']);
+    return props.data && props.data.getIn(['corva', 'wits-summary-30s', '']);
   }  
   
 }
