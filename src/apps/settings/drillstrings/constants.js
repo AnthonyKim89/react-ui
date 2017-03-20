@@ -1,3 +1,5 @@
+import { List, Map } from 'immutable';
+
 export const CATEGORY = 'settings';
 export const NAME = 'drillstrings';
 export const SUBSCRIPTIONS = [];
@@ -25,3 +27,5 @@ export const COMPONENT_FAMILIES = [
   {name: 'sub', type: 'sub'},
   {name: 'tail pipe', type: 'tail_pipe'}
 ];
+
+export const DRILLSTRING_DATA_TEMPLATE = Map({components: List()});
