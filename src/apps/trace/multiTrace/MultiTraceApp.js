@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { find } from 'lodash';
-import { fromJS, List } from 'immutable';
 import numeral from 'numeral';
 import { distanceInWordsToNow } from 'date-fns';
+import { List } from 'immutable';
 
 import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
 import { SUPPORTED_TRACES } from '../constants';
