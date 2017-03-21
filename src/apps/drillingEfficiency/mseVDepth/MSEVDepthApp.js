@@ -57,10 +57,10 @@ class MSEVDepthApp extends Component {
       ])
     });
 
-    processedData = this.props.convert.ConvertIterables(processedData, 0, 'length', 'ft', this.toUnit);
+    processedData = this.props.convert.ConvertArray(processedData, 0, 'length', 'ft', this.toUnit);
 
     if (unitType !== null) {
-      processedData = this.props.convert.ConvertIterables(processedData, 1, unitType, unit);
+      processedData = this.props.convert.ConvertArray(processedData, 1, unitType, unit);
     }
 
     return {

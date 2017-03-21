@@ -138,7 +138,7 @@ class Convert {
    * @param from The specific unit such as m, gal, lb, etc.
    * @param to (optional) the unit that we want to convert the value to.
    */
-  ConvertIterables(iterable, key, unitType, from, to=null) {
+  ConvertArray(iterable, key, unitType, from, to=null) {
     if (to === null) {
       to = this.GetUserUnitPreference(unitType);
       if (typeof to === 'undefined' || to === null || from === to) {
