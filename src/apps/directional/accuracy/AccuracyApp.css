@@ -1,0 +1,103 @@
+.c-di-accuracy {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.c-di-accuracy p {
+	padding: 0px;
+	margin: 0px;
+}
+.c-di-accuracy .gaps {
+	margin-top: 15px;
+}
+
+.c-di-accuracy .row .col {
+	padding-left: 3px;
+}
+
+.c-di-accuracy-plan div {
+	font-size: 5vw;
+	font-weight: "bold";
+	line-height: 1;	
+	margin-top: 10px;
+}
+
+.c-di-accuracy-plan div span {
+	font-size: .5em;
+}
+
+.c-di-back-to-plan .recomm-upper {
+	font-weight: bold;
+	font-size: 3vw;
+	line-height: 1;
+	margin-top: 5px;
+}
+
+.c-di-back-to-plan .recomm-upper span{
+	font-size: .5em;
+}
+
+.c-di-back-to-plan .recomm-below {
+	font-size: 1.5vw;
+	margin-top: 20px;
+}
+
+.c-di-back-to-plan .recomm-below:last-child{
+	margin-top: 0px;	
+}
+
+.c-di-back-to-plan .recomm-below span {
+	display: inline-block;
+	margin-left : 10px;
+}
+
+.c-di-accuracy-progress {
+	position: absolute;
+	bottom: 10px;
+	left: 3px;
+	right:0px;
+}
+
+.c-di-accuracy-progress-label {
+	border-bottom: 1px solid #eee;
+	height:25px;
+	margin: 10px 0px;
+
+}
+
+.c-di-accuracy-progress .accuracy-progress-item {
+	float: left;
+	height: 30px;
+}
+
+@media(min-width: 1300px) {
+  .c-di-accuracy-plan div {
+  	font-size: 70px;
+  }
+
+  .c-di-back-to-plan .recomm-upper {
+  	font-size:35px;
+  }
+
+  .c-di-back-to-plan .recomm-below {
+  	font-size: 25px;
+  }
+}
+
+@media(max-width: 768px) {
+  .c-di-accuracy-plan div {
+  	font-size: 30px;
+  }
+
+  .c-di-back-to-plan .recomm-upper {
+  	font-size:20px;
+  }
+
+  .c-di-back-to-plan .recomm-below {
+  	margin-top: 0px;
+  	font-size: 15px;
+  }
+}

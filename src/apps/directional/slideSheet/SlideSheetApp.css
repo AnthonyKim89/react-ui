@@ -1,0 +1,30 @@
+.c-di-slidesheet {
+	position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.c-di-slidesheet thead {
+	padding-top: 0px;
+	padding-bottom: 5px;
+	border-bottom: none;
+}
+
+.c-di-slidesheet thead th {
+	padding-bottom: 5px;
+}
+
+.c-di-slidesheet tr{
+	border-bottom: 1px solid #fff;
+}
+
+.c-di-slidesheet tr:last-child{
+	border-bottom: none;
+}
+
+.c-di-slidesheet tr td {
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
