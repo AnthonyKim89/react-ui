@@ -8,13 +8,15 @@ import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './WellPlanApp.css'
+import './Prev300App.css'
 
-class WellPlanApp extends Component {
+
+class Prev300App extends Component {
 
   render() {
+        
     return (
-      <div className="c-di-wellplan">
+      <div className="c-di-prev300">
         {subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS) ?
           <Chart
             horizontal={true}
@@ -40,13 +42,14 @@ class WellPlanApp extends Component {
             }}
             yAxisReversed={true}>
 
-            {this.getSeries().map(({renderType, title, field, data}, idx) => (
+            {this.getSeries().map(({renderType, title, field, marker, data}, idx) => (
               <ChartSeries
                 type={renderType}
                 key={field}
                 id={field}
                 title={title}
                 data={data}
+                marker={marker}
                 yField={"tvd"}
                 dashStyle={"Solid"}
                 color={this.getSeriesColor(field)}
@@ -64,11 +67,15 @@ class WellPlanApp extends Component {
   }
 
   getDataSeries(field) {
+    let data = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', field ])
+    let startIndex = (data.size - 15 >= 0) ? data.size - 15 : 0;
+
     return {
       renderType: SUPPORTED_CHART_SERIES[field].chartType,
       title: field,
       field,
-      data: subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', field ])
+      marker: { radius: 2},
+      data: subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', field ]).slice(startIndex)
     };
   }
 
@@ -78,13 +85,13 @@ class WellPlanApp extends Component {
     }
     return SUPPORTED_CHART_SERIES[field].defaultColor;
   }
-   
+
 }
 
-WellPlanApp.propTypes = {
+Prev300App.propTypes = {
   data: ImmutablePropTypes.map,
   title: PropTypes.string,
 };
 
-export default WellPlanApp;
+export default Prev300App;
 

@@ -186,7 +186,7 @@ class Chart extends Component {
       lineColor:  props.yAxisColor || '',
       tickPositioner: this.props.yTickPositioner,
       plotLines: this.props.yPlotLines,
-
+      reversed: props.yAxisReversed || false
     };
   }
 

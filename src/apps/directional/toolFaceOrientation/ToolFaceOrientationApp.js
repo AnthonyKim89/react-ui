@@ -2,9 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 // import { Row, Col } from 'react-materialize';
 
-// import { SUBSCRIPTIONS } from './constants';
+import { SUBSCRIPTIONS } from './constants';
 // import LoadingIndicator from '../../../common/LoadingIndicator';
-// import subscriptions from '../../../subscriptions';
+import subscriptions from '../../../subscriptions';
 
 import './ToolFaceOrientationApp.css'
 

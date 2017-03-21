@@ -25,6 +25,7 @@ import diToolFaceOrientation from './directional/toolFaceOrientation';
 import diSlideSheet from './directional/slideSheet';
 import diTortuosityIndex from './directional/tortuosityIndex';
 import diSurveys from './directional/surveys';
+import diPrev300 from './directional/prev300';
 
 // TRACE APPS
 import singleTrace from './trace/singleTrace';
@@ -80,6 +81,7 @@ export const uiApps = Map({
       toolFaceOrientation: diToolFaceOrientation,
       slideSheet: diSlideSheet,
       surveys: diSurveys,
+      prev300: diPrev300,
       tortuosityIndex: diTortuosityIndex
     })
   }),
