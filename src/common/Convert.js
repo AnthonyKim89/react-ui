@@ -24,6 +24,8 @@ class Convert {
         speed: 'm/h',
         area: 'ft2',
         force: 'lbf',
+        oil: 'bbl',
+        yp: 'dsf',
       },
       metric: {
         length: 'm',
@@ -34,6 +36,8 @@ class Convert {
         speed: 'km/h',
         area: 'm2',
         force: 'nm',
+        oil: 'm3',
+        yp: 'Pa',
       },
       custom: {},
     };
@@ -47,6 +51,8 @@ class Convert {
       speed: this.lookupCustomUserUnitPreference('speed'),
       area: this.lookupCustomUserUnitPreference('area'),
       force: this.lookupCustomUserUnitPreference('force'),
+      oil: this.lookupCustomUserUnitPreference('oil'),
+      yp: this.lookupCustomUserUnitPreference('yp'),
     });
   }
 
