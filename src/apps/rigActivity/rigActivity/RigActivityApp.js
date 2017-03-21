@@ -6,6 +6,7 @@ import { format as formatDate } from 'date-fns';
 import { SUBSCRIPTIONS, ACTIVITY_COLORS, PERIOD_TYPES } from './constants';
 import PieChart from '../../../common/PieChart';
 import LoadingIndicator from '../../../common/LoadingIndicator';
+import common from '../../../common';
 import subscriptions from '../../../subscriptions';
 
 import './RigActivityApp.css'
@@ -92,7 +93,7 @@ class RigActivityApp extends Component {
   }
 
   isExpanded() {
-    return this.props.widthCols > 6;
+    return this.props.size === common.constants.Size.XLARGE || this.props.widthCols >= 6;
   }
 
   getData() {

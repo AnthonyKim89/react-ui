@@ -49,6 +49,9 @@
 .c-asset-tab-bar .c-asset-tab-bar__drilling-efficiency-tab a {
   background-image: url('../../images/icon-efficiency.png');
 }
+.c-asset-tab-bar .c-asset-tab-bar__directional-tab a {
+  background-image: url('../../images/icon-directional.png');
+}
 .c-asset-tab-bar .c-asset-tab-bar__stability-tab a {
   background-image: url('../../images/icon-wellbore.png');
 }
