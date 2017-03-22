@@ -22,7 +22,7 @@ class PressureLossApp extends Component {
                 unit={this.displayUnit}
                 pieOptions={PIE_OPTIONS}
                 name='Pressure Loss'>
-              </PieChart>;
+              </PieChart>
             </div>
           </div>
         </div> :
