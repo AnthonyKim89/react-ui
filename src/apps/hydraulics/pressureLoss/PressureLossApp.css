@@ -9,8 +9,7 @@
 
 .c-hydraulics-pressure-loss div.row.chart-panel {
   height: 100%;
-  padding-bottom: 30px;
-  padding-top: 30px;
+  padding-top: 10px;
 }
 
 .c-hydraulics-pressure-loss .chart-panel div.col {
