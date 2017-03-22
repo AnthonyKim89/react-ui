@@ -41,11 +41,11 @@ export const COLORS = {
 
 export const DISPLAY_FORMATS = [
   {
-    label: 'Percent(%)',
+    label: 'Percent (%)',
     value: 'percent'
   },
   {
-    label: 'Hour',
-    value: 'hour'
+    label: 'Pounds per square inch',
+    value: 'psi'
   }
 ];

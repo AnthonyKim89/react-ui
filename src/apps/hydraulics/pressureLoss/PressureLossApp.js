@@ -49,7 +49,6 @@ class PressureLossApp extends Component {
   }
 
   get displayUnit() {
-    // TODO: confirm unit.
     return this.showTooltipInPercentage() ? '%' : ' PSI';
   }
 }
