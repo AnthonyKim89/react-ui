@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-import { SUBSCRIPTIONS } from './constants';
+import { SUBSCRIPTIONS,SUPPORTED_CHART_SERIES } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
@@ -11,7 +11,6 @@ import './TrendApp.css'
 class TrendApp extends Component {
 
   render() {
-    
     return (
       <div className="c-di-trend">
         <div className="gaps"></div>
@@ -33,13 +32,29 @@ class TrendApp extends Component {
   }
 
   getSeries() {
-    return [{
-        name: 'GTF', type: 'scatter', yAxis:1, color: '#add8e6', data: this.getSeriesData("tfo",["measured_depth","tfo"]) }, {
-        name: 'Well Path', type:'line', yAxis:0, color:'#00ff00', data: this.getSeriesData("tvd_actual",["measured_depth","tvd"])}, {
-        name: 'Planned Well Path', type:'line', yAxis: 0, color: '#ff0000', data: this.getSeriesData("tvd_plan",["measured_depth","tvd"])}, {
-        name: 'Drilling Window', type:'arearange', yAxis: 0, color: 'rgba(255,255,0,0.5)', data: this.getSeriesData("drilling_window",["measured_depth","top","bottom"]) , lineWidth:30 } , {
-        name: 'DLS', type:'line', yAxis: 2, color: '#0000ff', data: this.getSeriesData("dls",["measured_depth","dls"])
-      }]
+    let serieSetting = {
+      tfo: {yAxis:1, data: this.getSeriesData("tfo",["measured_depth","tfo"]) },
+      tvd_actual: {yAxis:0, data: this.getSeriesData("tvd_actual",["measured_depth","tvd"]) },
+      tvd_plan: {yAxis:0,  data: this.getSeriesData("tvd_plan",["measured_depth","tvd"]) },
+      drilling_window: {yAxis:0, data:this.getSeriesData("drilling_window",["measured_depth","top","bottom"]) , lineWidth:30},
+      dls: {yAxis:2, data: this.getSeriesData("dls",["measured_depth","dls"]) },
+    }
+
+    return Object.keys(SUPPORTED_CHART_SERIES)
+        .map( (field) => {
+            return Object.assign({}, 
+                serieSetting[field],
+                SUPPORTED_CHART_SERIES[field], 
+                {name: SUPPORTED_CHART_SERIES[field].label,color:this.getSeriesColor(field)});
+        });
+  }
+
+  getSeriesColor(field) {
+
+    if (this.props.graphColors && this.props.graphColors.has(field)) {
+      return this.props.graphColors.get(field);
+    }
+    return SUPPORTED_CHART_SERIES[field].defaultColor;
   }
 
   getSeriesData(serieName, keys) {

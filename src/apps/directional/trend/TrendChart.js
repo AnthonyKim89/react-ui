@@ -9,9 +9,8 @@ class TrendChart extends Component {
     );
   }
 
-  componentDidMount() {
-
-    Highcharts.chart(this.container, {
+  componentWillReceiveProps(newProps) {
+    const chart = Highcharts.chart(this.container, {
       chart: {        
         backgroundColor: null,
         plotBackgroundColor: 'rgb(42, 46, 46)',
@@ -22,6 +21,11 @@ class TrendChart extends Component {
       	itemStyle:{
       		color:'#ffffff'
       	}
+      },
+      plotOptions: {
+        series: {
+          animation: false
+        }
       },
       xAxis: {
           title: {
@@ -39,8 +43,8 @@ class TrendChart extends Component {
           gridLineWidth: 1,
           gridLineColor: 'rgb(150, 150, 150)',
           tickWidth: 0,
-      },
-      yAxis: this.props.yAxes.map( y=> {
+      },      
+      yAxis: newProps.yAxes.map( y=> {
 
       	let yAxe = {
       		title: {
@@ -54,7 +58,7 @@ class TrendChart extends Component {
       				color: '#ffffff'
       			},      			
       			format: '{value}'
-      		},
+      		},          
           
           gridLineWidth: 1,
           gridLineColor: 'rgb(150, 150, 150)',
@@ -71,10 +75,10 @@ class TrendChart extends Component {
 
       }),
 
-      series: this.props.series
+      series: newProps.series
     });
-
   }
+
 }
 
 TrendChart.propTypes = {
