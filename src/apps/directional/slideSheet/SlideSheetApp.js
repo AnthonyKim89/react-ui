@@ -9,7 +9,7 @@ import './SlideSheetApp.css'
 
 class SlideSheetApp extends Component {
   render() {
-    let json = subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS)
+    let json = subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS);
     return (
       <div className="c-di-slidesheet">
         <div className="gaps"></div>
@@ -28,14 +28,13 @@ class SlideSheetApp extends Component {
               { json.getIn(["data","intervals"]).map( (t,index)=> {
                 return (
                 <tr key={index}>
-                  <td>{t.get("measured_depth")} <sub> ft</sub></td>
-                  <td>{t.get("length")} <sub> ft </sub></td>
+                  <td>{this.props.convert.ConvertValue(t.get("measured_depth"), 'length', 'ft').fixFloat(1)} <sub> {this.props.convert.GetUnitDisplay('length')}</sub></td>
+                  <td>{this.props.convert.ConvertValue(t.get("length"), 'length', 'ft').fixFloat(1)} <sub> {this.props.convert.GetUnitDisplay('length')}</sub></td>
                   <td>{t.get("inclination")} <sub>*</sub></td>
                   <td>{t.get("azimuth")} <sub>*</sub></td>
                   <td>{t.get("dls")}</td>        
                 </tr>
                 )
-
               })}
             </tbody>
           </table>:
@@ -44,8 +43,6 @@ class SlideSheetApp extends Component {
       </div>
     )
   }
-
- 
 }
 
 SlideSheetApp.propTypes = {
@@ -54,4 +51,3 @@ SlideSheetApp.propTypes = {
 };
 
 export default SlideSheetApp;
-
