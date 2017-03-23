@@ -95,7 +95,7 @@ class TrendChart extends Component {
 
     if (!isEqual(newProps.yAxes, this.props.yAxes)) {
       updated = true;
-      chart.yAxis.update(this.generateYAxis(newProps.yAxes));
+      chart.yAxis.update(this.generateYAxis(newProps.yAxes), false);
     }
 
     if (updated) {
