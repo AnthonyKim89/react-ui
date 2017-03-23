@@ -30,9 +30,9 @@ class SlideSheetApp extends Component {
                 <tr key={index}>
                   <td>{this.props.convert.ConvertValue(t.get("measured_depth"), 'length', 'ft').fixFloat(1)} <sub> {this.props.convert.GetUnitDisplay('length')}</sub></td>
                   <td>{this.props.convert.ConvertValue(t.get("length"), 'length', 'ft').fixFloat(1)} <sub> {this.props.convert.GetUnitDisplay('length')}</sub></td>
-                  <td>{t.get("inclination")} <sub>*</sub></td>
-                  <td>{t.get("azimuth")} <sub>*</sub></td>
-                  <td>{t.get("dls")}</td>        
+                  <td>{t.get("inclination").fixFloat(2)} <sub>*</sub></td>
+                  <td>{t.get("azimuth").fixFloat(2)} <sub>*</sub></td>
+                  <td>{t.get("dls").fixFloat(2)}</td>
                 </tr>
                 )
               })}
