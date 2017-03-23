@@ -55,7 +55,7 @@ class TortuosityIndexApp extends Component {
           <LoadingIndicator />}
       </div>
     )
-  }  
+  }
 
   getSeries() {
     let data = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'points']);
@@ -79,7 +79,6 @@ class TortuosityIndexApp extends Component {
     }
     return SUPPORTED_CHART_SERIES[field].defaultColor;
   }
-
 }
 
 TortuosityIndexApp.propTypes = {

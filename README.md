@@ -48,7 +48,9 @@ The local development version of the API automatically seeds a database with a s
 
 ## Adding Dependencies
 
-When adding dependencies, use the command `yarn add package-name`. This will add the package to the `package.json` file, and will trigger a `yarn install` which will update the `yarn.lock` file.Be sure to commit the changes to both the `package.json` and `yarn.lock` files.
+When adding dependencies, use the command `yarn add package-name`.
+This will add the package to the `package.json` file, and will trigger a `yarn install` which will update the `yarn.lock` file.
+Be sure to commit the changes to both the `package.json` and `yarn.lock` files.
 
 
 ## Branching
