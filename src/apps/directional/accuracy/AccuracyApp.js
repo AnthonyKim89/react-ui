@@ -12,7 +12,6 @@ class AccuracyApp extends Component {
 
   constructor(props) {
     super(props);
-    this.lengthUnit = this.props.convert.GetUserUnitPreference('length');
   }
 
   render() {
@@ -56,7 +55,7 @@ class AccuracyApp extends Component {
           Accuracy to Plan
         </p>
         <div style={Object.assign({marginLeft:"-5px"},this.getAccuracyColorStyle(accuracyData))}>
-          {this.props.convert.ConvertValue(accuracyData.get("distance_to_plan"), 'length', 'ft', this.lengthUnit)} <span>{this.lengthUnit}</span>
+          {this.props.convert.ConvertValue(accuracyData.get("distance_to_plan"), 'length', 'ft').fixFloat(2)} <span>{this.props.convert.GetUnitDisplay('length')}</span>
         </div>
       </div>
     )
@@ -76,10 +75,10 @@ class AccuracyApp extends Component {
         </div>
 
         <div className="recomm-below">
-          Left/Right plan <span>{this.props.convert.ConvertValue(recommendedData.get('right_left'), 'length', 'ft', this.lengthUnit).fixFloat(2)}{this.lengthUnit}</span>
+          Left/Right plan <span>{this.props.convert.ConvertValue(recommendedData.get('right_left'), 'length', 'ft').fixFloat(2)}{this.props.convert.GetUnitDisplay('length')}</span>
         </div>
         <div className="recomm-below">
-          High/Row plan <span>{this.props.convert.ConvertValue(recommendedData.get('high_low'), 'length', 'ft', this.lengthUnit).fixFloat(2)}{this.lengthUnit}</span>
+          High/Row plan <span>{this.props.convert.ConvertValue(recommendedData.get('high_low'), 'length', 'ft').fixFloat(2)}{this.props.convert.GetUnitDisplay('length')}</span>
         </div>
       </div>
     )
@@ -88,7 +87,7 @@ class AccuracyApp extends Component {
   renderAccuracyProgress() {
     let pointsData = subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS).getIn(["data","points"]);
     // Currently we don't need the distance_to_plan value on these points. this is the conversion code for it if we do eventually:
-    // pointsData = this.props.convert.ConvertImmutables(pointsData, 'distance_to_plan', 'ft', this.lengthUnit);
+    // pointsData = this.props.convert.ConvertImmutables(pointsData, 'distance_to_plan', 'ft');
     let itemWidth = 100 / pointsData.size -1;
     let style = {
       marginRight: "1%",
