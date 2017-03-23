@@ -80,11 +80,20 @@ class Convert {
 
   /**
    * Retrieves a user's prefered unit of a given type
-   * @param unitType length, mass, volume
+   * @param unitType length, mass, volume, etc
    * @returns string
    */
   GetUserUnitPreference(unitType) {
     return this.units[this.system][unitType];
+  }
+
+  /**
+   * Retrieves the unit display name for a given unit type
+   * @param unitType length, mass, volume, etc
+   * @returns string
+   */
+  GetUnitDisplay(unitType) {
+    return convert().describe(this.GetUserUnitPreference(unitType)).display;
   }
 
   /**
@@ -93,6 +102,7 @@ class Convert {
    * @param unitType The class of unit such as volume, length, mass, etc.
    * @param from The specific unit such as m, gal, lb, etc.
    * @param to (optional) the unit that we want to convert the value to. May be passed in my ConvertList
+   * @return number
    */
   ConvertValue(value, unitType, from, to=null) {
     if (to === null) {
@@ -113,6 +123,7 @@ class Convert {
    * @param unitType The class of unit such as volume, length, mass, etc.
    * @param from The specific unit such as m, gal, lb, etc.
    * @param to (optional) the unit that we want to convert the value to.
+   * @returns Immutable
    */
   ConvertImmutables(immt, key, unitType, from, to=null) {
     if (to === null) {
@@ -137,6 +148,7 @@ class Convert {
    * @param unitType The class of unit such as volume, length, mass, etc.
    * @param from The specific unit such as m, gal, lb, etc.
    * @param to (optional) the unit that we want to convert the value to.
+   * @returns Array
    */
   ConvertArray(iterable, key, unitType, from, to=null) {
     if (to === null) {
