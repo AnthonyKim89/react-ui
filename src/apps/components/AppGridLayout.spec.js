@@ -20,7 +20,7 @@ it('renders a fallback when mismatching app registry state exists', () => {
   const emptySeq = Seq([fakeApp]);
   const emptyMap = Map();
   const location = { query: { maximize: 'nope' } };
-  const wrapper = shallow(
+  shallow(
     <AppGridLayout
       apps={emptySeq}
       appData={emptyMap}

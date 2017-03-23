@@ -10,7 +10,7 @@ class TrendChart extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    const chart = Highcharts.chart(this.container, {
+    Highcharts.chart(this.container, {
       chart: {        
         backgroundColor: null,
         plotBackgroundColor: 'rgb(42, 46, 46)',
@@ -63,9 +63,9 @@ class TrendChart extends Component {
           gridLineWidth: 1,
           gridLineColor: 'rgb(150, 150, 150)',
           
-      	}
+      	};
       	
-      	for (var prop in y.others) {
+      	for (let prop in y.others) {
       		if (y.others.hasOwnProperty(prop)) {
       			yAxe[prop] = y.others[prop];
       		}
@@ -84,6 +84,6 @@ class TrendChart extends Component {
 TrendChart.propTypes = {
 	series: PropTypes.array,
 	yAxes: PropTypes.array
-}
+};
 export default TrendChart;
 
