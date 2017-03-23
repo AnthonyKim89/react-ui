@@ -8,13 +8,12 @@ import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './Prev300App.css'
+import './Prev300App.css';
 
 
 class Prev300App extends Component {
 
   render() {
-        
     return (
       <div className="c-di-prev300">
         {subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS) ?
@@ -67,15 +66,19 @@ class Prev300App extends Component {
   }
 
   getDataSeries(field) {
-    let data = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', field ])
+    let data = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', field ]);
     let startIndex = (data.size - 15 >= 0) ? data.size - 15 : 0;
+
+    data = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', field ]).slice(startIndex);
+    data = this.props.convert.ConvertImmutables(data, "tvd", "length", "ft");
+    data = this.props.convert.ConvertImmutables(data, "vertical_section", "length", "ft");
 
     return {
       renderType: SUPPORTED_CHART_SERIES[field].chartType,
       title: field,
       field,
-      marker: { radius: 2},
-      data: subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', field ]).slice(startIndex)
+      marker: {radius: 2},
+      data: data
     };
   }
 
