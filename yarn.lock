@@ -1432,9 +1432,9 @@ core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
-corva-convert-units@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/corva-convert-units/-/corva-convert-units-1.1.0.tgz#fb0a7749338b0014decb7fcee1027d4abab1bae9"
+corva-convert-units@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/corva-convert-units/-/corva-convert-units-1.2.0.tgz#8ebf836c5f7d81f8dce6e70c09b2d3c38008510f"
   dependencies:
     lodash.foreach "2.3.x"
     lodash.keys "2.3.x"
@@ -3843,6 +3843,10 @@ minimist@^1.1.1, minimist@^1.2.0:
   dependencies:
     minimist "0.0.8"
 
+moment@^2.17.1:
+  version "2.18.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
+
 ms@0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.1.tgz#9cd13c03adbff25b65effde7ce864ee952017098"
@@ -4748,6 +4752,15 @@ react-color@^2.11.1:
     reactcss "^1.1.1"
     tinycolor2 "^1.1.2"
 
+react-datepicker@^0.43.0:
+  version "0.43.0"
+  resolved "https://registry.yarnpkg.com/react-datepicker/-/react-datepicker-0.43.0.tgz#a648ab9df13eb2daa2fbcc150c8cdf983f09a31c"
+  dependencies:
+    classnames "^2.2.5"
+    moment "^2.17.1"
+    react-onclickoutside "^5.9.0"
+    tether "^1.4.0"
+
 react-dev-utils@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-0.5.1.tgz#0715b73b6fb7ef53604bc2c4da146847cc4d43c9"
@@ -4818,6 +4831,10 @@ react-motion@^0.4.5:
   dependencies:
     performance-now "^0.2.0"
     raf "^3.1.0"
+
+react-onclickoutside@^5.9.0:
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/react-onclickoutside/-/react-onclickoutside-5.10.0.tgz#6831f1bd8683ce75f3f4f9821aa012919e907684"
 
 react-redux@^5.0.3:
   version "5.0.3"
@@ -5589,6 +5606,10 @@ test-exclude@^3.3.0:
     object-assign "^4.1.0"
     read-pkg-up "^1.0.1"
     require-main-filename "^1.0.1"
+
+tether@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/tether/-/tether-1.4.0.tgz#0f9fa171f75bf58485d8149e94799d7ae74d1c1a"
 
 text-table@~0.2.0:
   version "0.2.0"
