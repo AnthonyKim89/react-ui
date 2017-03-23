@@ -64,11 +64,15 @@ class WellPlanApp extends Component {
   }
 
   getDataSeries(field) {
+    let data = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', field ]);
+    data = this.props.convert.ConvertImmutables(data, "tvd", "length", "ft");
+    data = this.props.convert.ConvertImmutables(data, "vertical_section", "length", "ft");
+
     return {
       renderType: SUPPORTED_CHART_SERIES[field].chartType,
       title: field,
       field,
-      data: subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', field ])
+      data: data
     };
   }
 
