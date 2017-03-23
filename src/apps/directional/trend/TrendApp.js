@@ -59,7 +59,7 @@ class TrendApp extends Component {
       dls: {yAxis:2, data: dls},
     };
 
-    return Object.keys(SUPPORTED_CHART_SERIES) .map( (field) => {
+    return Object.keys(SUPPORTED_CHART_SERIES).map( (field) => {
       return Object.assign(
         {},
         seriesSetting[field],
