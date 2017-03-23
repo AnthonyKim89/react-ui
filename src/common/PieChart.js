@@ -30,14 +30,14 @@ class PieChart extends Component {
         pointFormat: this.props.showTooltipInPercentage ? '<b>{point.percentage:.1f}%</b>' : '<b>{point.y}' + this.props.unit + '</b>'
       },
       plotOptions: {
-        pie: {
+        pie: Object.assign({
           size: '100%',
           slicedOffset: 0,
           cursor: 'pointer',
           dataLabels: {
             enabled: false
           }
-        }
+        }, this.props.pieOptions)
       },
       series: [{
         name: this.props.name || '',
