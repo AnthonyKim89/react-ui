@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
-import { List, Map } from 'immutable';
+import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Table, Button, Col, Row } from 'react-materialize';
+import { Table, Button } from 'react-materialize';
 import './CostsSummary.css';
 
 class CostsSummary extends Component { 
@@ -35,9 +34,18 @@ class CostsSummary extends Component {
     let total = 0;
     this.props.records.map((record)=> {
         total += parseFloat(record.getIn(["data","cost"]));
+        return record;
     })
     let average = (this.props.records.size>0) ? (total / this.props.records.size).toFixed(2) : 0;
     return {total,average}
   }
 }
+
+CostsSummary.propTypes = {
+  
+  records: ImmutablePropTypes.list.isRequired,
+  onAdd: PropTypes.func.isRequired,
+  
+};
+
 export default CostsSummary;
