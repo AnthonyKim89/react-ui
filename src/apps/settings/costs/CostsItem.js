@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
-import { List, Map } from 'immutable';
+import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Input, Button, Col, Row } from 'react-materialize';
+import { Input, Button} from 'react-materialize';
 import moment from 'moment'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -91,4 +90,13 @@ class CostsItem extends Component {
   }
 
 }
+
+CostsItem.propTypes = {
+  
+  record: ImmutablePropTypes.map.isRequired,
+  onSave: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
+  
+};
+
 export default CostsItem;
