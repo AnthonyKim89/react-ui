@@ -10,10 +10,6 @@ import './AccuracyApp.css'
 
 class AccuracyApp extends Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div className="c-di-accuracy">
