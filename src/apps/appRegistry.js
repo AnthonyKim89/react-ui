@@ -44,6 +44,9 @@ import wellTimeline from './wellTimeline';
 // ANALYTICS APPS
 import raRigActivity from './rigActivity/rigActivity';
 
+// HYDRAULICS APPS
+import hydraulicsPressureLoss from './hydraulics/pressureLoss';
+
 // Apps that can be displayed on dashboard / asset pages, keyed by app type
 export const uiApps = Map({
   torqueAndDrag: Map({
@@ -109,6 +112,13 @@ export const uiApps = Map({
     subtitle: '',
     appTypes: Map({
       rigActivity: raRigActivity
+    })
+  }),
+  hydraulics: Map({
+    title: 'Hydraulics',
+    subtitle: '',
+    appTypes: Map({
+      pressureLoss: hydraulicsPressureLoss
     })
   })
 });
