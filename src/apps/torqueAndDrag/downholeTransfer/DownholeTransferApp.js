@@ -23,8 +23,8 @@ class DownholeTransferApp extends Component {
 
   renderTable() {
     const data = this.getSubscriptionData().get('data');
-    let forceUnit = this.props.convert.GetUserUnitPreference('force');
-    let massUnit = this.props.convert.GetUserUnitPreference('mass');
+    let forceUnit = this.props.convert.GetUnitPreference('force');
+    let massUnit = this.props.convert.GetUnitPreference('mass');
     return <table className="c-tnd-downhole-transfer__table">
       <colgroup>
         <col style={{width: '25%'}}></col>

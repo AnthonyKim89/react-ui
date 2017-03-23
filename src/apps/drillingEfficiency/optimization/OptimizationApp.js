@@ -16,8 +16,8 @@ class OptimizationApp extends Component {
     let optimizationData = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[0]);
     let actualData = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[1]);
 
-    let massUnit = this.props.convert.GetUserUnitPreference("mass");
-    let volumeUnit = this.props.convert.GetUserUnitPreference("volume");
+    let massUnit = this.props.convert.GetUnitPreference("mass");
+    let volumeUnit = this.props.convert.GetUnitPreference("volume");
     
     if (!optimizationData || !actualData) {
       return <LoadingIndicator />

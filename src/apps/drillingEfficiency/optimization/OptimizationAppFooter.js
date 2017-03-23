@@ -18,7 +18,7 @@ class OptimizationAppFooter extends Component {
 		let lastDataUpdate = this.props.lastDataUpdate;
 
 		let gamma = actualData.getIn(["data","gamma"]);
-    let depthUnit = this.props.convert.GetUserUnitPreference("length");
+    let depthUnit = this.props.convert.GetUnitPreference("length");
     let bit = this.props.convert.ConvertValue(actualData.getIn(["data","bit_depth"]), "length", "ft", depthUnit);
     bit = bit.toFixed(2);
     let inc = actualData.getIn(["data","inclination"]);

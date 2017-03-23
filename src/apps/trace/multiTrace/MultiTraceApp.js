@@ -67,7 +67,7 @@ class MultiTraceApp extends Component {
       let traceSpec = this.getTraceSpec(trace);
       let unitDisplay = traceSpec.unit;
       if (traceSpec.hasOwnProperty("unitType") && unitDisplay.includes("{u}")) {
-        let formatUnit = this.props.convert.GetUserUnitPreference(traceSpec.unitType);
+        let formatUnit = this.props.convert.GetUnitPreference(traceSpec.unitType);
         if (formatUnit !== traceSpec.unit) {
           if (traceSpec.hasOwnProperty('cunitFormat') && traceSpec.cunitFormat.hasOwnProperty(formatUnit)) {
             formatUnit = traceSpec.cunitFormat[formatUnit];

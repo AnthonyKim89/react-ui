@@ -54,7 +54,7 @@ class MSEHeatmapApp extends Component {
   }
 
   getSeries(data) {
-    let toUnit = this.props.convert.GetUserUnitPreference('length');
+    let toUnit = this.props.convert.GetUnitPreference('length');
     let series = [];
     let rows = data.get("y_axis").get("rows");
     let columns = data.get("x_axis").get("columns");

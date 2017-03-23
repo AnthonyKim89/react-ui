@@ -11,8 +11,8 @@ import './DrillstringSummary.css';
 export class DrillstringSummary extends Component {
 
   render() {
-    let massUnit = this.props.convert.GetUserUnitPreference('mass');
-    let lengthUnit = this.props.convert.GetUserUnitPreference('length');
+    let massUnit = this.props.convert.GetUnitPreference('mass');
+    let lengthUnit = this.props.convert.GetUnitPreference('length');
     return <div className="c-drillstring-summary">
       <Row>
         <Col m={2}>

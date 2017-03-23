@@ -12,7 +12,7 @@ class MSEVDepthApp extends Component {
 
   constructor(props) {
     super(props);
-    this.toUnit = props.convert.GetUserUnitPreference('length');
+    this.toUnit = props.convert.GetUnitPreference('length');
   }
 
   render() {

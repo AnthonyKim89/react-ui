@@ -83,7 +83,7 @@ class Convert {
    * @param unitType length, mass, volume, etc
    * @returns string
    */
-  GetUserUnitPreference(unitType) {
+  GetUnitPreference(unitType) {
     return this.units[this.system][unitType];
   }
 
@@ -93,7 +93,7 @@ class Convert {
    * @returns string
    */
   GetUnitDisplay(unitType) {
-    return convert().describe(this.GetUserUnitPreference(unitType)).display;
+    return convert().describe(this.GetUnitPreference(unitType)).display;
   }
 
   /**
@@ -106,7 +106,7 @@ class Convert {
    */
   ConvertValue(value, unitType, from, to=null) {
     if (to === null) {
-      to = this.GetUserUnitPreference(unitType);
+      to = this.GetUnitPreference(unitType);
       if (typeof to === 'undefined' || to === null || from === to) {
         return value;
       }
@@ -127,7 +127,7 @@ class Convert {
    */
   ConvertImmutables(immt, key, unitType, from, to=null) {
     if (to === null) {
-      to = this.GetUserUnitPreference(unitType);
+      to = this.GetUnitPreference(unitType);
       if (typeof to === 'undefined' || to === null || from === to) {
         return immt;
       }
@@ -152,7 +152,7 @@ class Convert {
    */
   ConvertArray(iterable, key, unitType, from, to=null) {
     if (to === null) {
-      to = this.GetUserUnitPreference(unitType);
+      to = this.GetUnitPreference(unitType);
       if (typeof to === 'undefined' || to === null || from === to) {
         return iterable;
       }
