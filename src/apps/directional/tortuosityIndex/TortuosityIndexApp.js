@@ -58,16 +58,18 @@ class TortuosityIndexApp extends Component {
   }  
 
   getSeries() {
+    let data = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'points']);
+    data = this.props.convert.ConvertImmutables(data, 'measured_depth', 'length' ,'ft');
     return Object.keys(SUPPORTED_CHART_SERIES)
-      	.map(field => this.getDataSeries(field));    
+      	.map(field => this.getDataSeries(field, data));
   }
 
-  getDataSeries(field) {
+  getDataSeries(field, data) {
     return {
       renderType: 'line',
       title: field,
       field,
-      data: subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'points'])
+      data: data
     };
   }
 

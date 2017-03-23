@@ -1442,9 +1442,9 @@ core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
-corva-convert-units@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/corva-convert-units/-/corva-convert-units-1.3.0.tgz#4ac9d95135b36d8d0b3b93f6417652c1fc23b8c2"
+corva-convert-units@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/corva-convert-units/-/corva-convert-units-1.3.1.tgz#e34e100572f23d2d0f6c2e1dc66978440b6bb1b5"
   dependencies:
     lodash.foreach "2.3.x"
     lodash.keys "2.3.x"
@@ -1705,16 +1705,9 @@ diff@^3.0.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.2.0.tgz#c9ce393a4b7cbd0b058a725c93df299027868ff9"
 
-doctrine@1.3.x:
+doctrine@1.3.x, doctrine@^1.2.2:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-1.3.0.tgz#13e75682b55518424276f7c173783456ef913d26"
-  dependencies:
-    esutils "^2.0.2"
-    isarray "^1.0.0"
-
-doctrine@^1.2.2:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-1.5.0.tgz#379dce730f6166f76cefa4e6707a159b02c5a6fa"
   dependencies:
     esutils "^2.0.2"
     isarray "^1.0.0"
