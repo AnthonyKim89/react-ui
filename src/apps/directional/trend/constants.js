@@ -13,3 +13,11 @@ export const METADATA = {
 };
 export const SUPPORTED_ASSET_TYPES = ['rig'];
 export const INITIAL_SIZE = {w: 9, h: 10};
+export const SUPPORTED_CHART_SERIES = {
+	 tfo: {label:'GTF', defaultColor:'#add8e6', type:'scatter'},
+	 tvd_actual: {label:'Well Path', defaultColor:'#00ff00', type:'line'},
+	 tvd_plan: {label:'Planned Well Path', defaultColor:'#ff0000', type:'line'},
+	 drilling_window: {label:'Drilling Window', defaultColor:'rgba(255,255,0,0.5)', type:'arearange'},
+	 dls: {label:'DLS', defaultColor:'#0000ff', type:'line'}
+	 
+};

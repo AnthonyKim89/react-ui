@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { List, Map } from 'immutable';
+import React, { Component,PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Input, Button, Col, Row } from 'react-materialize';
 import moment from 'moment'
@@ -70,4 +69,13 @@ class CostsAdd extends Component {
   }
 
 }
+
+CostsAdd.propTypes = {
+  
+  record: ImmutablePropTypes.map.isRequired,
+  onSave: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  
+};
+
 export default CostsAdd;
