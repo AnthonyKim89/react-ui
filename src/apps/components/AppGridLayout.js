@@ -131,7 +131,7 @@ class AppGridLayout extends Component {
     }
 
     const appData = this.props.appData.get(id);
-    const hasAppFooter = appType.AppComponentFooter ? true: false
+    const hasAppFooter = !!appType.AppComponentFooter;
     return <AppContainer id={id}
                          appType={appType}                         
                          asset={this.props.appAssets.get(id)}
