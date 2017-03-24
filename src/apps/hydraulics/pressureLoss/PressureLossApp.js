@@ -5,7 +5,7 @@ import LoadingIndicator from '../../../common/LoadingIndicator';
 import PieChart from '../../../common/PieChart';
 import subscriptions from '../../../subscriptions';
 
-import { COLORS, LABELS, PIE_OPTIONS, SUBSCRIPTIONS } from './constants';
+import { COLORS, LABELS, PIE_OPTIONS, SUBSCRIPTIONS, DISPLAY_FORMATS } from './constants';
 import './PressureLossApp.css'
 
 class PressureLossApp extends Component {
@@ -39,7 +39,7 @@ class PressureLossApp extends Component {
       .getIn(['data', 'percentages'])
       .map(datum => ({
         name: LABELS[datum.get('type')],
-        y: datum.get('pressure_loss'),
+        y: this.props.convert.ConvertValue(datum.get('pressure_loss'), 'pressure', 'psi').fixFloat(1),
         color: COLORS[datum.get('type')]
       }));
   }
@@ -49,7 +49,7 @@ class PressureLossApp extends Component {
   }
 
   get displayUnit() {
-    return this.showTooltipInPercentage() ? '%' : ' PSI';
+    return this.showTooltipInPercentage() ? '%' : ' ' + this.props.convert.GetUnitDisplay("pressure");
   }
 }
 
@@ -58,6 +58,10 @@ PressureLossApp.propTypes = {
   displayFormat: PropTypes.string,
   size: PropTypes.string.isRequired,
   widthCols: PropTypes.number.isRequired
+};
+
+PressureLossApp.defaultProps = {
+  displayFormat: DISPLAY_FORMATS[1].value,
 };
 
 export default PressureLossApp;
