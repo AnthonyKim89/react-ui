@@ -112,7 +112,7 @@ class MapApp extends Component {
       if (this.marker) {
         this.map.removeLayer(this.marker);
       }
-      this.marker = L.marker(tLatLng)
+      this.marker = L.marker(tLatLng);
       this.map.addLayer(this.marker);
       this.map.setView(tLatLng,8);
     }

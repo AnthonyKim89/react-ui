@@ -8,20 +8,20 @@ function parseLatLng( input ) {
       return input.split(',');
   }
 
-  var parts = input.split(/[°'"]+/).join(' ').split(/[^\w\S]+/);
-  var directions = [];
-  var coords = [];
-  var dd = 0;
-  var pow = 0;
+  let parts = input.split(/[°'"]+/).join(' ').split(/[^\w\S]+/);
+  let directions = [];
+  let coords = [];
+  let dd = 0;
+  let pow = 0;
 
-  for(var i in parts ) {
+  for(let i in parts ) {
 
     // we end on a direction
     if( isNaN( parts[i] ) ) {
 
-        var _float = parseFloat( parts[i] );
+        let _float = parseFloat( parts[i] );
 
-        var direction = parts[i];
+        let direction = parts[i];
 
         if( !isNaN(_float ) ) {
             dd += ( _float / Math.pow( 60, pow++ ) );
@@ -47,7 +47,7 @@ function parseLatLng( input ) {
   }
 
   if( directions[0] === 'W' || directions[0] === 'E' ) {
-      var tmp = coords[0];
+      let tmp = coords[0];
       coords[0] = coords[1];
       coords[1] = tmp;
   }
