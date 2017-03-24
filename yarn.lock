@@ -1432,6 +1432,10 @@ core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
+corslite@0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/corslite/-/corslite-0.0.6.tgz#622954e14c33852123c4c68fa3deffa9e2d1c896"
+
 cosmiconfig@^2.1.0, cosmiconfig@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/cosmiconfig/-/cosmiconfig-2.1.1.tgz#817f2c2039347a1e9bf7d090c0923e53f749ca82"
@@ -3388,6 +3392,10 @@ lcid@^1.0.0:
   dependencies:
     invert-kv "^1.0.0"
 
+leaflet@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.0.2.tgz#fa4fbcb7844944fc2bfb0bcf9ca0dea13463ca21"
+
 levn@^0.3.0, levn@~0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/levn/-/levn-0.3.0.tgz#3b09924edf9f083c0490fdd4c0bc4421e04764ee"
@@ -3594,6 +3602,16 @@ makeerror@1.0.x:
   dependencies:
     tmpl "1.0.x"
 
+mapbox.js@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/mapbox.js/-/mapbox.js-3.0.1.tgz#630a97d1c5aac1fd8dc77f5eef250bf9522aba04"
+  dependencies:
+    corslite "0.0.6"
+    isarray "0.0.1"
+    leaflet "1.0.2"
+    mustache "2.2.1"
+    sanitize-caja "0.1.4"
+
 marked-terminal@^1.6.2:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/marked-terminal/-/marked-terminal-1.7.0.tgz#c8c460881c772c7604b64367007ee5f77f125904"
@@ -3714,6 +3732,10 @@ minimist@^1.1.1, minimist@^1.2.0:
   dependencies:
     minimist "0.0.8"
 
+moment@^2.17.1:
+  version "2.18.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
+
 ms@0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.1.tgz#9cd13c03adbff25b65effde7ce864ee952017098"
@@ -3721,6 +3743,10 @@ ms@0.7.1:
 ms@0.7.2:
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.2.tgz#ae25cf2512b3885a1d95d7f037868d8431124765"
+
+mustache@2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/mustache/-/mustache-2.2.1.tgz#2c40ca21c278f53150682bcf9090e41a3339b876"
 
 mute-stream@0.0.5:
   version "0.0.5"
@@ -4619,6 +4645,15 @@ react-color@^2.11.1:
     reactcss "^1.1.1"
     tinycolor2 "^1.1.2"
 
+react-datepicker@^0.43.0:
+  version "0.43.0"
+  resolved "https://registry.yarnpkg.com/react-datepicker/-/react-datepicker-0.43.0.tgz#a648ab9df13eb2daa2fbcc150c8cdf983f09a31c"
+  dependencies:
+    classnames "^2.2.5"
+    moment "^2.17.1"
+    react-onclickoutside "^5.9.0"
+    tether "^1.4.0"
+
 react-dev-utils@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-0.5.1.tgz#0715b73b6fb7ef53604bc2c4da146847cc4d43c9"
@@ -4689,6 +4724,10 @@ react-motion@^0.4.5:
   dependencies:
     performance-now "^0.2.0"
     raf "^3.1.0"
+
+react-onclickoutside@^5.9.0:
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/react-onclickoutside/-/react-onclickoutside-5.10.0.tgz#6831f1bd8683ce75f3f4f9821aa012919e907684"
 
 react-redux@^5.0.3:
   version "5.0.3"
@@ -5085,6 +5124,10 @@ sane@~1.4.1:
     walker "~1.0.5"
     watch "~0.10.0"
 
+sanitize-caja@0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/sanitize-caja/-/sanitize-caja-0.1.4.tgz#7803e8e452b8e3bacb342dbd93adb885acd078af"
+
 sax@^1.2.1, sax@~1.2.1:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.2.tgz#fd8631a23bc7826bef5d871bdb87378c95647828"
@@ -5460,6 +5503,10 @@ test-exclude@^3.3.0:
     object-assign "^4.1.0"
     read-pkg-up "^1.0.1"
     require-main-filename "^1.0.1"
+
+tether@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/tether/-/tether-1.4.0.tgz#0f9fa171f75bf58485d8149e94799d7ae74d1c1a"
 
 text-table@~0.2.0:
   version "0.2.0"

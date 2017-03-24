@@ -49,12 +49,6 @@ class CostsApp extends Component {
           records={this.state.records} 
           onAdd={()=>this.add()}/>
 
-        {this.state.currentRecord?
-          <CostsAdd
-            record={this.state.currentRecord}
-            onSave={(record)=>this.saveRecord(record)}
-            onCancel={()=>this.cancelAdd()} /> : ''}
-
         {this.state.records?
           <table className="responsive">
             <thead>
@@ -71,6 +65,12 @@ class CostsApp extends Component {
               })}
             </tbody>
           </table> : '' }
+
+        {this.state.currentRecord?
+          <CostsAdd
+            record={this.state.currentRecord}
+            onSave={(record)=>this.saveRecord(record)}
+            onCancel={()=>this.cancelAdd()} /> : ''}
       </div>
     )
   }
@@ -80,7 +80,7 @@ class CostsApp extends Component {
       asset_id: this.props.asset.get('id'),
       data: Map({})
     });
-    this.setState({currentRecord: record});
+    this.setState({currentRecord: record});    
   }
 
   cancelAdd() {

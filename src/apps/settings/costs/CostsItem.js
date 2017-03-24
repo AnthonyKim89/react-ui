@@ -21,14 +21,14 @@ class CostsItem extends Component {
    
     this.selectDate = this.selectDate.bind(this); 
   }
-
+  
   render() {
     let item = !this.state.editing? (
       <tr className='c-cost-item'>
-        <td className="td-1">{this.state.date.format('L')}</td>
-        <td className="td-2">{this.state.cost}</td>
-        <td className="td-3">{this.state.description}</td>
-        <td className="td-4">
+        <td>{this.state.date.format('L')}</td>
+        <td>{this.state.cost}</td>
+        <td>{this.state.description}</td>
+        <td>
           <Button floating className='lightblue' waves='light' icon='edit' onClick={()=>this.setState({editing:true})} />
           <Button floating className='red' waves='light' icon='remove' onClick={()=>this.remove()} />
         </td>

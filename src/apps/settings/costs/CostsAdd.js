@@ -1,6 +1,6 @@
 import React, { Component,PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Input, Button, Col, Row } from 'react-materialize';
+import {Button} from 'react-materialize';
 import moment from 'moment'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -20,30 +20,39 @@ class CostsAdd extends Component {
     this.selectDate = this.selectDate.bind(this);
   }
 
+  componentDidMount() {
+
+    this.costInput.focus();
+  }
+
   render() {
     return (
-      <div className="c-costs-add">
-        <Row>
-          <Col s={12}>
-            <DatePicker
-              selected={this.state.date}
-              onChange={this.selectDate} />
-          </Col>
-
-          <Col s={12} m={6}>
-            <Input type="text" label="Cost" s={12} defaultValue={this.state.cost} onChange={(e)=>{this.setState({cost: e.target.value})}} />
-          </Col>
-
-          <Col s={12} m={6}>
-            <Input type="text" label="Description" s={12} defaultValue={this.state.description} onChange={(e)=>{this.setState({description: e.target.value})}} />
-          </Col>
-          
-          <Col s={12}>
-            <Button waves='light' onClick={()=>this.save()}>Save</Button>
-            <Button waves='light' className="red" onClick={()=>this.cancel()}>Cancel</Button>
-          </Col>
-        </Row>
-      </div>
+      <table className="c-costs-add responsive">
+        <tbody>
+          <tr>
+            <td>
+              <DatePicker
+                selected={this.state.date}
+                onChange={this.selectDate} />
+            </td>
+            <td>
+              <input type="text"                 
+                defaultValue={this.state.cost}
+                ref={(costInput)=>this.costInput=costInput}
+                onChange={(e)=>{this.setState({cost: e.target.value})}} />
+            </td>
+            <td>
+              <input type="text" 
+                defaultValue={this.state.description} 
+                onChange={(e)=>{this.setState({description: e.target.value})}} />
+            </td>
+            <td>
+              <Button waves='light' floating icon='save' className='lightblue' onClick={()=>this.save()}></Button>
+              <Button waves='light' floating icon='cancel' className="red" onClick={()=>this.cancel()}></Button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     )
   }
 
