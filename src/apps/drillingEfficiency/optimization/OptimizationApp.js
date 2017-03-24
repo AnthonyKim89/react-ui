@@ -16,9 +16,6 @@ class OptimizationApp extends Component {
     let optimizationData = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[0]);
     let actualData = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[1]);
 
-    let massUnit = this.props.convert.GetUnitPreference("mass");
-    let volumeUnit = this.props.convert.GetUnitPreference("volume");
-    
     if (!optimizationData || !actualData) {
       return <LoadingIndicator />
     }
@@ -39,10 +36,10 @@ class OptimizationApp extends Component {
                   <tr>
                     <th>Mode</th>
                     <th>
-                      WOB <sub> k{massUnit}f </sub>
+                      WOB <sub> k{this.props.convert.GetUnitDisplay('mass')}f </sub>
                     </th>
                     <th>
-                      FLOW <sub> {volumeUnit === "gal" ? "g" : volumeUnit}pm </sub>
+                      FLOW <sub> {this.props.convert.GetUnitDisplay('volume')}pm </sub>
                     </th>
                     <th>
                       RPM
@@ -52,19 +49,19 @@ class OptimizationApp extends Component {
                 <tbody>
                   <tr>
                     <td> Actual </td>
-                    <td style={this.getStyles(actualData,optimizationData,"wob")}> {this.props.convert.ConvertValue(actualData.getIn(["data",this.getParamKey("actual","wob")]), "mass", "lb", massUnit).fixFloat(1)}</td>
-                    <td style={this.getStyles(actualData,optimizationData,"flow")}> {this.props.convert.ConvertValue(actualData.getIn(["data",this.getParamKey("actual","flow")]), "volume", "gal", volumeUnit).fixFloat(1)}</td>
+                    <td style={this.getStyles(actualData,optimizationData,"wob")}> {this.props.convert.ConvertValue(actualData.getIn(["data",this.getParamKey("actual","wob")]), "mass", "lb").fixFloat(1)}</td>
+                    <td style={this.getStyles(actualData,optimizationData,"flow")}> {this.props.convert.ConvertValue(actualData.getIn(["data",this.getParamKey("actual","flow")]), "volume", "gal").fixFloat(1)}</td>
                     <td style={this.getStyles(actualData,optimizationData,"rpm")}> {actualData.getIn(["data",this.getParamKey("actual","rpm")])}</td>
                   </tr>
                   <tr>
                     <td> Rotary </td>
                     <td> 
-                      {this.props.convert.ConvertValue(optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","min_wob")]), "mass", "lb", massUnit).fixFloat(1)} -
-                      {this.props.convert.ConvertValue(optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","max_wob")]), "mass", "lb", massUnit).fixFloat(1)}
+                      {this.props.convert.ConvertValue(optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","min_wob")]), "mass", "lb").fixFloat(1)} -
+                      {this.props.convert.ConvertValue(optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","max_wob")]), "mass", "lb").fixFloat(1)}
                     </td>
                     <td>
-                      {this.props.convert.ConvertValue(optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","min_flow")]), "volume", "gal", volumeUnit).fixFloat(1)} -
-                      {this.props.convert.ConvertValue(optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","max_flow")]), "volume", "gal", volumeUnit).fixFloat(1)}
+                      {this.props.convert.ConvertValue(optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","min_flow")]), "volume", "gal").fixFloat(1)} -
+                      {this.props.convert.ConvertValue(optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","max_flow")]), "volume", "gal").fixFloat(1)}
                     </td>
                     <td>
                       {optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","min_rpm")])} - 
@@ -74,12 +71,12 @@ class OptimizationApp extends Component {
                   <tr>
                     <td> Slide </td>
                     <td> 
-                      {this.props.convert.ConvertValue(optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","min_wob")]), "mass", "lb", massUnit).fixFloat(1)} -
-                      {this.props.convert.ConvertValue(optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","max_wob")]), "mass", "lb", massUnit).fixFloat(1)}
+                      {this.props.convert.ConvertValue(optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","min_wob")]), "mass", "lb").fixFloat(1)} -
+                      {this.props.convert.ConvertValue(optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","max_wob")]), "mass", "lb").fixFloat(1)}
                     </td>
                     <td>
-                      {this.props.convert.ConvertValue(optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","min_flow")]), "volume", "gal", volumeUnit).fixFloat(1)} -
-                      {this.props.convert.ConvertValue(optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","max_flow")]), "volume", "gal", volumeUnit).fixFloat(1)}
+                      {this.props.convert.ConvertValue(optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","min_flow")]), "volume", "gal").fixFloat(1)} -
+                      {this.props.convert.ConvertValue(optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","max_flow")]), "volume", "gal").fixFloat(1)}
                     </td>
                     <td>
                       {optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","min_rpm")])} -

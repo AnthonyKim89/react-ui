@@ -70,14 +70,7 @@ class WOBFounder extends Component {
 
   getDataSeries(field) {
     let data = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'points']);
-
-    data = this.props.convert.ConvertImmutables(
-      data,
-      field,
-      SUPPORTED_CHART_SERIES[field].unitType,
-      SUPPORTED_CHART_SERIES[field].unit
-    );
-
+    data = this.props.convert.ConvertImmutables(data, field, SUPPORTED_CHART_SERIES[field].unitType, SUPPORTED_CHART_SERIES[field].unit);
     data = this.props.convert.ConvertImmutables( data, 'wob', 'pressure', 'psi');
 
     return {

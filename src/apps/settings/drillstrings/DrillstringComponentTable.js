@@ -29,8 +29,8 @@ class DrillstringComponentTable extends Component {
                 <th>Family</th>
                 <th>ID (in)</th>
                 <th>OD (in)</th>
-                <th>Length ({this.props.convert.GetUnitPreference('length')})</th>
-                <th>Weight ({this.props.convert.GetUnitPreference('mass')}s)</th>
+                <th>Length ({this.props.convert.GetUnitDisplay('length')})</th>
+                <th>Weight ({this.props.convert.GetUnitDisplay('mass')})</th>
                 <th></th>
               </tr>
             </thead>

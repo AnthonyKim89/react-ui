@@ -10,11 +10,6 @@ import './MSEVDepthApp.css'
 
 class MSEVDepthApp extends Component {
 
-  constructor(props) {
-    super(props);
-    this.toUnit = props.convert.GetUnitPreference('length');
-  }
-
   render() {
     return (
       <div className="c-de-mse-v-depth">
@@ -26,10 +21,10 @@ class MSEVDepthApp extends Component {
   }
 
   formatYLabel() {
-    let toUnit = this.toUnit;
+    let unit = this.props.convert.GetUnitDisplay('length');
     return (
       function() {
-        return '<span class="c-de-mse-v-depth-x-label">' + this.value + '</span>' + toUnit;
+        return '<span class="c-de-mse-v-depth-x-label">' + this.value + '</span>' + unit;
       }
     );
   }
@@ -57,9 +52,9 @@ class MSEVDepthApp extends Component {
       ])
     });
 
-    processedData = this.props.convert.ConvertArray(processedData, 0, 'length', 'ft', this.toUnit);
+    processedData = this.props.convert.ConvertArray(processedData, 0, 'length', 'ft', this.props.convert.GetUnitDisplay('length'));
 
-    if (unitType !== null) {
+    if (unitType) {
       processedData = this.props.convert.ConvertArray(processedData, 1, unitType, unit);
     }
 

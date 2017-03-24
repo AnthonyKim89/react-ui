@@ -11,8 +11,6 @@ import './DrillstringSummary.css';
 export class DrillstringSummary extends Component {
 
   render() {
-    let massUnit = this.props.convert.GetUnitPreference('mass');
-    let lengthUnit = this.props.convert.GetUnitPreference('length');
     return <div className="c-drillstring-summary">
       <Row>
         <Col m={2}>
@@ -34,15 +32,15 @@ export class DrillstringSummary extends Component {
           </div>
         </Col>
         <Col m={2}>
-          <div className="c-drillstring-summary__label">Length ({lengthUnit})</div>
+          <div className="c-drillstring-summary__label">Length ({this.props.convert.GetUnitDisplay('length')})</div>
           <div className="c-drillstring-summary__value c-drillstring-summary__value--is-long">
-            {numeral(this.props.convert.ConvertValue(this.getComponentLengthSum(), 'length', 'ft', lengthUnit)).format('0,0')}
+            {numeral(this.props.convert.ConvertValue(this.getComponentLengthSum(), 'length', 'ft')).format('0,0')}
           </div>
         </Col>
         <Col m={2}>
-          <div className="c-drillstring-summary__label">Weight (k{massUnit}s)</div>
+          <div className="c-drillstring-summary__label">Weight (k{this.props.convert.GetUnitDisplay('mass')})</div>
           <div className="c-drillstring-summary__value c-drillstring-summary__value--is-long">
-            {numeral(this.props.convert.ConvertValue(this.getComponentWeightSum(), 'mass', 'lb', massUnit)).format('0,0')}
+            {numeral(this.props.convert.ConvertValue(this.getComponentWeightSum(), 'mass', 'lb')).format('0,0')}
           </div>
         </Col>
         <Col m={1}>

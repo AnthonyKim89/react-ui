@@ -18,8 +18,7 @@ class OptimizationAppFooter extends Component {
 		let lastDataUpdate = this.props.lastDataUpdate;
 
 		let gamma = actualData.getIn(["data","gamma"]);
-    let depthUnit = this.props.convert.GetUnitPreference("length");
-    let bit = this.props.convert.ConvertValue(actualData.getIn(["data","bit_depth"]), "length", "ft", depthUnit);
+    let bit = this.props.convert.ConvertValue(actualData.getIn(["data","bit_depth"]), "length", "ft");
     bit = bit.toFixed(2);
     let inc = actualData.getIn(["data","inclination"]);
         
@@ -30,7 +29,7 @@ class OptimizationAppFooter extends Component {
 				}
 				
 				<span> Gamma: {gamma} api </span>
-				<span> Bit: {bit} {depthUnit} </span>
+				<span> Bit: {bit} {this.props.convert.GetUnitDisplay('length')} </span>
 				<span> Inc: {inc}&deg; </span>
 
 			</div>

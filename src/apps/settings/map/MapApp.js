@@ -85,7 +85,7 @@ class MapApp extends Component {
       const record = (this.state.record || Map({
         asset_id: this.props.asset.get('id'),
         data: Map({})
-      })).set("data",data);            
+      })).set("data",data);
       
       const savedRecord = record.has('_id')? 
         await api.putAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record.get('_id') , record) :
@@ -95,7 +95,7 @@ class MapApp extends Component {
       this.updateMap();
       
     } else {
-      alert("parsing error");      
+      alert("parsing error");
     }    
 
   }
