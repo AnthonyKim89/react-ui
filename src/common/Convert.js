@@ -97,6 +97,24 @@ class Convert {
   }
 
   /**
+   * Retrieves the full name for a given unit type, singular
+   * @param unitType length, mass, volume, etc
+   * @returns string
+   */
+  GetUnitSingular(unitType) {
+    return convert().describe(this.GetUnitPreference(unitType)).singular;
+  }
+
+  /**
+   * Retrieves the full name for a given unit type, plural
+   * @param unitType length, mass, volume, etc
+   * @returns string
+   */
+  GetUnitPlural(unitType) {
+    return convert().describe(this.GetUnitPreference(unitType)).plural;
+  }
+
+  /**
    * Converts a single value from
    * @param value The value we want converted.
    * @param unitType The class of unit such as volume, length, mass, etc.
