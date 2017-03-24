@@ -38,6 +38,7 @@ import drillstrings from './settings/drillstrings';
 import casing from './settings/casing';
 import fluidChecks from './settings/fluidChecks';
 import costs from './settings/costs';
+import map from './settings/map';
 
 // CONTROL APPS
 import wellTimeline from './wellTimeline';
@@ -106,7 +107,8 @@ export const uiApps = Map({
       drillstrings,
       casing,
       fluidChecks,
-      costs
+      costs,
+      map
     })
   }),
   rigActivity: Map({
