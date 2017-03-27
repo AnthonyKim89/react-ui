@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import Slider from 'rc-slider'
-import format from 'date-fns/format'
-import isEqual from 'date-fns/is_equal'
-import parse from 'date-fns/parse'
+import Slider from 'rc-slider';
+import format from 'date-fns/format';
+import isEqual from 'date-fns/is_equal';
+import parse from 'date-fns/parse';
 
-import 'rc-slider/assets/index.css'
+import 'rc-slider/assets/index.css';
 
-import './WellTimelineScrollBar.css'
+import './WellTimelineScrollBar.css';
 
 class WellTimelineScrollBar extends Component {
 
@@ -66,7 +66,7 @@ class WellTimelineScrollBar extends Component {
   }
 
   formatItem(idx) {
-    const item = this.props.tooltipDepthData.get(idx)
+    const item = this.props.tooltipDepthData.get(idx);
     if (item) {
       const entryAt = item.get('entry_at');
       const bitDepth = item.get('bit_depth');
@@ -97,7 +97,7 @@ class WellTimelineScrollBar extends Component {
       // Last value means we go live
       this.props.onChangeTime(null);
     } else {
-      const item = this.props.tooltipDepthData.get(idx)
+      const item = this.props.tooltipDepthData.get(idx);
       if (item) {
         this.props.onChangeTime(parse(item.get("entry_at")));
       }

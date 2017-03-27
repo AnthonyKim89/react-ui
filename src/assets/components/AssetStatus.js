@@ -13,7 +13,7 @@ class AssetStatus extends Component {
       {this.isMarkerSupported() &&
         <span className={`c-asset-status__marker c-asset-status__marker--${status}`} />}
       {capitalize(status)}
-    </span>
+    </span>;
   }
 
   isMarkerSupported() {

@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { find } from 'lodash';
-import { List } from 'immutable';
 import numeral from 'numeral';
 import { distanceInWordsToNow } from 'date-fns';
+import { List } from 'immutable';
 
 import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
 import { SUPPORTED_TRACES } from '../constants';
@@ -13,7 +13,7 @@ import ChartSeries from '../../../common/ChartSeries';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './MultiTraceApp.css'
+import './MultiTraceApp.css';
 
 const [ latestSubscription, summarySubscription ] = SUBSCRIPTIONS;
 
@@ -33,7 +33,7 @@ class MultiTraceApp extends Component {
 
   isSummaryChanged(newProps) {
     return this.getTraceSummary(newProps) &&
-           !this.getTraceSummary(newProps).equals(this.getTraceSummary(this.props))
+           !this.getTraceSummary(newProps).equals(this.getTraceSummary(this.props));
   }
 
   addSummaryData(summary) {
@@ -61,28 +61,36 @@ class MultiTraceApp extends Component {
   }
 
   renderLatestTraces() {
-    return this.getTraceKeys().map(trace => (
-      <div className="c-trace-multi__latest"
+    return this.getTraceKeys().map((trace) => {
+
+      // Formatting the units to display properly.
+      let traceSpec = this.getTraceSpec(trace);
+      let unitDisplay = traceSpec.unit;
+      if (traceSpec.hasOwnProperty("unitType") && unitDisplay.includes("{u}")) {
+        traceSpec.unit = unitDisplay.replace('{u}', this.props.convert.getUnitDisplay(traceSpec.unitType));
+      }
+
+      return (<div className="c-trace-multi__latest"
            key={`latest-${trace}`}
            onClick={() => this.props.isTraceChangeSupported && this.props.onTraceChangeRequested(trace)}>
         <div className="c-trace-multi__latest__trace">
           <div className="c-trace-multi__latest__trace-name">
-            {this.getTraceSpec(trace).label}
+            {traceSpec.label}
           </div>
           <div className="c-trace-multi__latest__trace-unit">
-            {this.getTraceSpec(trace).unit}
+            {traceSpec.unit}
           </div>
         </div>
         <div className="c-trace-multi__latest__value">
-          {this.props[trace] && numeral(this.getLatestTraceValue(trace)).format('0.0a')}
+          {this.props[trace] && numeral(this.getLatestTraceValue(trace, traceSpec)).format('0.0a')}
         </div>
         <div className="c-trace-multi__latest__color-indicator">
           <div className="c-trace-multi__latest__color-indicator-inner"
                style={{borderRightColor: this.getSeriesColor(trace)}}></div>
           <div className="c-trace-multi__latest__color-indicator-outer"></div>
         </div>
-      </div>
-    ));
+      </div>);
+    });
   }
 
   renderTraceSummaryGraph() {
@@ -95,6 +103,13 @@ class MultiTraceApp extends Component {
         xAxisLabelFormatter={(...a) => this.formatDate(...a)}>
         {this.getActiveTraceKeys().map(trace => {
           const spec = this.getTraceSpec(trace);
+          let convertedSummary = this.state.summary;
+
+          // Performing unit conversion.
+          if (spec.hasOwnProperty('unitType')) {
+            convertedSummary = this.props.convert.convertImmutables(convertedSummary, this.props[trace], spec.unitType, spec.cunit);
+          }
+
           return <ChartSeries
             dashStyle='Solid'
             lineWidth={1}
@@ -103,7 +118,7 @@ class MultiTraceApp extends Component {
             title={spec.label}
             minValue={spec.min}
             maxValue={spec.max}
-            data={this.state.summary}
+            data={convertedSummary}
             yField={this.props[trace]}
             color={this.getSeriesColor(trace)} />;
         })}
@@ -139,9 +154,13 @@ class MultiTraceApp extends Component {
     return subscriptions.selectors.getSubData(this.props.data, latestSubscription);
   }
 
-  getLatestTraceValue(trace) {
+  getLatestTraceValue(trace, spec) {
     const traceKey = this.props[trace];
-    return this.getLatestTraceRecord().getIn(['data', traceKey]);
+    let value = this.getLatestTraceRecord().getIn(['data', traceKey]);
+    if (spec.hasOwnProperty("unitType")) {
+      value = this.props.convert.convertValue(value, spec.unitType, spec.cunit);
+    }
+    return value;
   }
 
   getTraceSummary(props) {
@@ -157,7 +176,7 @@ class MultiTraceApp extends Component {
   }
 
   getTraceKeys() {
-    return ['trace1', 'trace2', 'trace3']
+    return ['trace1', 'trace2', 'trace3'];
   }
 
   getActiveTraceKeys() {

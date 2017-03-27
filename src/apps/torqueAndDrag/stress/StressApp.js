@@ -7,7 +7,7 @@ import ChartSeries from '../../../common/ChartSeries';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './StressApp.css'
+import './StressApp.css';
 
 class StressApp extends Component {
 
@@ -37,16 +37,24 @@ class StressApp extends Component {
   }
 
   getSeries() {
+    let data = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'points']);
+    data = this.props.convert.convertImmutables(data, 'measured_depth', 'length', 'ft');
+    // Converting each of our y-axis values to their target unit.
+    for (let property in SUPPORTED_CHART_SERIES) {
+      if (SUPPORTED_CHART_SERIES.hasOwnProperty(property)) {
+        data = this.props.convert.convertImmutables(data, property, SUPPORTED_CHART_SERIES[property].unitType, SUPPORTED_CHART_SERIES[property].unit);
+      }
+    }
     return Object.keys(SUPPORTED_CHART_SERIES)
-      .map(s => this.getDataSeries(s));
+      .map(s => this.getDataSeries(s, data));
   }
 
-  getDataSeries(field) {
+  getDataSeries(field, data) {
     return {
       renderType: 'line',
       title: field,
       field,
-      data: subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'points'])
+      data: data
     };
   }
 

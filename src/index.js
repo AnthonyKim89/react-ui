@@ -1,7 +1,8 @@
+import './extend_native';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, browserHistory } from 'react-router';
-import { syncHistoryWithStore, push } from 'react-router-redux'
+import { syncHistoryWithStore, push } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import { routes } from './routes';
 import { store } from './store';

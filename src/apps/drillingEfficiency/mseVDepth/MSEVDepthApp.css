@@ -8,7 +8,8 @@
 }
 
 .c-de-mse-v-depth .highcharts-xaxis-labels {
-  width: 62px;
+  width: 64px;
+  border-right: 1px white solid;
   height: calc(100% - 36px);
   background-color: rgb(23, 28, 28);
   z-index: 0;

@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect'
+import { createSelector } from 'reselect';
 import { identity } from 'lodash';
 import { NAME } from './constants';
 

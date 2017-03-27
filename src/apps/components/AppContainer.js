@@ -57,7 +57,7 @@ class AppContainer extends Component {
   isSubscriptionChanged(newProps) {
     return !newProps.asset ||
            !newProps.asset.equals(this.props.asset) ||
-           !this.getSubscriptionParams(newProps).equals(this.getSubscriptionParams(this.props))
+           !this.getSubscriptionParams(newProps).equals(this.getSubscriptionParams(this.props));
   }
 
   getSubscriptionParams(props) {

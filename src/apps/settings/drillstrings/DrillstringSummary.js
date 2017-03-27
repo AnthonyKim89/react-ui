@@ -32,15 +32,15 @@ export class DrillstringSummary extends Component {
           </div>
         </Col>
         <Col m={2}>
-          <div className="c-drillstring-summary__label">Length (ft)</div>
+          <div className="c-drillstring-summary__label">Length ({this.props.convert.getUnitDisplay('length')})</div>
           <div className="c-drillstring-summary__value c-drillstring-summary__value--is-long">
-            {numeral(this.getComponentLengthSum()).format('0,0')}
+            {numeral(this.props.convert.convertValue(this.getComponentLengthSum(), 'length', 'ft')).format('0,0')}
           </div>
         </Col>
         <Col m={2}>
-          <div className="c-drillstring-summary__label">Weight (klbs)</div>
+          <div className="c-drillstring-summary__label">Weight (k{this.props.convert.getUnitDisplay('mass')})</div>
           <div className="c-drillstring-summary__value c-drillstring-summary__value--is-long">
-            {numeral(this.getComponentWeightSum()).format('0,0')}
+            {numeral(this.props.convert.convertValue(this.getComponentWeightSum(), 'mass', 'lb')).format('0,0')}
           </div>
         </Col>
         <Col m={1}>
@@ -93,7 +93,7 @@ export class DrillstringSummary extends Component {
   }
 
   getComponents() {
-    return this.props.record.getIn(['data', 'components'], List())
+    return this.props.record.getIn(['data', 'components'], List());
   }
 
   getDepths() {

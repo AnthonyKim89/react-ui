@@ -5,16 +5,11 @@ import { SUBSCRIPTIONS } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './SurveysApp.css'
+import './SurveysApp.css';
 
 class SurveysApp extends Component {
   render() {
   	let json = subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS);
-
-  	// let top5 
-  	// if (json) {
-  	// 	top5 = json.splice(5,0);
-  	// }
     return (
       <div className="c-di-surveys">
         <div className="gaps"></div>
@@ -35,12 +30,12 @@ class SurveysApp extends Component {
               	json.getIn(["data","actual"]).slice(0,5).map( (t,index)=> {
 	                return (
 	                <tr key={index}>
-	                  <td>{t.get("measured_depth")} <sub> ft</sub></td>
-	                  <td>{t.get("inclination")} <sub>*</sub></td>
-	                  <td>{t.get("azimuth")} <sub>*</sub></td>
-	                  <td>{t.get("dls").toString().substring(0,4)}</td>
+	                  <td>{this.props.convert.convertValue(t.get("measured_depth"), 'length', 'ft').fixFloat(1)} <sub> {this.props.convert.getUnitDisplay('length')}</sub></td>
+	                  <td>{t.get("inclination").fixFloat(2)} <sub>*</sub></td>
+	                  <td>{t.get("azimuth").fixFloat(2)} <sub>*</sub></td>
+	                  <td>{t.get("dls").fixFloat(2)}</td>
 	                </tr>
-                )
+                );
 
               })}
             </tbody>
@@ -48,9 +43,8 @@ class SurveysApp extends Component {
         <LoadingIndicator/> 
         }
       </div>
-    )
-  }  
-
+    );
+  }
 }
 
 SurveysApp.propTypes = {
@@ -59,4 +53,3 @@ SurveysApp.propTypes = {
 };
 
 export default SurveysApp;
-

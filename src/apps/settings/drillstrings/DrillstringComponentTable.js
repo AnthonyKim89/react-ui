@@ -29,14 +29,15 @@ class DrillstringComponentTable extends Component {
                 <th>Family</th>
                 <th>ID (in)</th>
                 <th>OD (in)</th>
-                <th>Length (ft)</th>
-                <th>Weight (lbs)</th>
+                <th>Length ({this.props.convert.getUnitDisplay('length')})</th>
+                <th>Weight ({this.props.convert.getUnitDisplay('mass')})</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
               {this.props.record.getIn(['data', 'components'], List()).map((cmp, idx) => 
                 <DrillstringComponentTableRow
+                  convert={this.props.convert}
                   key={idx}
                   index={idx}
                   component={cmp}
@@ -125,7 +126,7 @@ class DrillstringComponentTable extends Component {
                     type="text"
                     label={label}
                     defaultValue={component.get(field, '')}
-                    onChange={e => this.onComponentFieldChange(idx, field, e.target.value)} />
+                    onChange={e => this.onComponentFieldChange(idx, field, e.target.value)} />;
     } else {
       return <Col m={cols}>
         <div>{label}</div>
@@ -140,7 +141,7 @@ class DrillstringComponentTable extends Component {
                     type="number"
                     label={label}
                     defaultValue={component.get(field, '')}
-                    onChange={e => this.onComponentFieldChange(idx, field, parseFloat(e.target.value))} />
+                    onChange={e => this.onComponentFieldChange(idx, field, parseFloat(e.target.value))} />;
     } else {
       return <Col m={cols}>
         <div>{label}</div>

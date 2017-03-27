@@ -7,7 +7,7 @@ import ChartSeries from '../../../common/ChartSeries';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './DPFounderApp.css'
+import './DPFounderApp.css';
 
 class DPFounder extends Component {
 
@@ -41,7 +41,7 @@ class DPFounder extends Component {
             xPlotLines={[{
               color: 'red',
               width: 1,
-              value: subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'founder_value'])
+              value: this.props.convert.convertValue(subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'founder_value']), 'pressure', 'psi'),
             }]}>
             {this.getSeries().map(({renderType, title, field, data}, idx) => (
               <ChartSeries
@@ -69,11 +69,15 @@ class DPFounder extends Component {
   }
 
   getDataSeries(field) {
+    let data = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'points']);
+    data = this.props.convert.convertImmutables(data, field, SUPPORTED_CHART_SERIES[field].unitType, SUPPORTED_CHART_SERIES[field].unit);
+    data = this.props.convert.convertImmutables( data, 'dp', 'pressure', 'psi');
+
     return {
       renderType: 'scatter',
       title: field,
       field,
-      data: subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'points'])
+      data: data
     };
   }
 

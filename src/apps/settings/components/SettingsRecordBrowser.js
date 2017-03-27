@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Button, Row, Col, Input } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import Convert from '../../../common/Convert';
 
 class SettingsRecordBrowser extends Component {
 
@@ -26,11 +27,13 @@ class SettingsRecordBrowser extends Component {
         <div>
           <this.props.RecordSummary
             record={this.props.displayingRecord}
+            convert={this.props.convert}
             isReadOnly={false}
             onEditRecord={this.props.onEditRecord}
             onDeleteRecord={this.props.onDeleteRecord} />
           <this.props.RecordDetails
             record={this.props.displayingRecord}
+            convert={this.props.convert}
             isEditable={false} />
         </div>}
     </div>;
@@ -52,7 +55,8 @@ SettingsRecordBrowser.propTypes = {
   onSelectRecord: PropTypes.func.isRequired,
   onNewRecord: PropTypes.func.isRequired,
   onEditRecord: PropTypes.func.isRequired,
-  onDeleteRecord: PropTypes.func.isRequired
+  onDeleteRecord: PropTypes.func.isRequired,
+  convert: React.PropTypes.instanceOf(Convert).isRequired,
 };
 
 export default SettingsRecordBrowser;

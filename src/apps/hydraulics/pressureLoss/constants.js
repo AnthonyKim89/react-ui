@@ -45,7 +45,7 @@ export const DISPLAY_FORMATS = [
     value: 'percent'
   },
   {
-    label: 'Pounds per square inch',
-    value: 'psi'
+    label: 'Pressure',
+    value: 'pressure'
   }
 ];

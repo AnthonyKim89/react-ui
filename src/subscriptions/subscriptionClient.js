@@ -10,7 +10,7 @@ let socket;
 export const connect = (onReceiveData) => {
   socket = io(socketUrl);
   socket.on('connect', () => {
-    socket.emit('authenticate', {token: auth.getToken()})
+    socket.emit('authenticate', {token: auth.getToken()});
   });
   socket.on('data',evt => onReceiveData(evt.appInstanceId, evt.devKey, evt.collection, evt.assetId, evt.event, fromJS(evt.params), fromJS(evt.data)));
 };

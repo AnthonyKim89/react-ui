@@ -210,7 +210,9 @@ class Chart extends Component {
 
   getXAxisLabelFormatter() {
     const formatter = this.props.xAxisLabelFormatter;
-    return formatter && function() { return formatter(this.value, this.isFirst, this.isLast) }
+    return formatter && function() {
+      return formatter(this.value, this.isFirst, this.isLast);
+    };
   }
 
   isLegendVisible(props) {
@@ -218,9 +220,8 @@ class Chart extends Component {
   }
 
   isAxisLabelsVisible(props) {    
-    return props.size !== Size.SMALL
+    return props.size !== Size.SMALL;
   }
-
 }
 
 Chart.propTypes = {
