@@ -16,6 +16,7 @@
 .c-trace-tab__timeline {
   flex: 1;
   position: relative;
+  min-width: 135px;
 }
 
 .c-trace-tab__trace {
