@@ -41,7 +41,7 @@ class TraceBoxes extends Component {
     if (value && spec.hasOwnProperty('unitType')) {
       value = this.props.convert.convertValue(value, spec.unitType, spec.cunit);
     }
-    return numeral(value).format('0.0a');
+    return numeral(value).format('0,0');
   }
 
   getTraceDisplayUnit(spec) {
