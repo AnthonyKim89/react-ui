@@ -12,7 +12,9 @@ export const SUPPORTED_TRACES = [
   {trace: 'pump_spm_total', label: 'SPM', unit: 'spm', min: 0, max: 250},
   {trace: 'mud_volume', label: 'MV', unit: 'bbl', min: 0, max: 1000},
   {trace: 'diff_press', label: 'Diff Press', unit: 'psi', min: 0, max: 1000},
-  {trace: 'block_height', label: 'BH', unit: 'ft', min: 0, max: 100}
+  {trace: 'block_height', label: 'BH', unit: 'ft', min: 0, max: 100},
+  {trace: 'bit_depth', label: 'Bit Depth', unit: 'ft'},
+  {trace: 'hole_depth', label: 'Hole Depth', unit: 'ft'}
 ];
 
 export const SUPPORTED_TIME_PERIODS = [
