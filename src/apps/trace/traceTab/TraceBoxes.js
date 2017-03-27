@@ -6,7 +6,7 @@ import { find } from 'lodash';
 
 import { SUPPORTED_TRACES } from '../constants';
 
-import './TraceBoxes.css'
+import './TraceBoxes.css';
 
 class TraceBoxes extends Component {
 
