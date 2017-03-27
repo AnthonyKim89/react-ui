@@ -23,6 +23,7 @@ class Chart extends Component {
         panning: true,
         panKey: 'shift',
         plotBackgroundColor: 'rgb(42, 46, 46)',
+        spacing: this.props.noSpacing ? [0, 0, 0, 0] : [10, 10, 15, 10]
       },
       plotOptions: {
         series: {
@@ -233,7 +234,8 @@ Chart.propTypes = {
   yAxisOpposite: PropTypes.bool,
   multiAxis: PropTypes.bool,
   xAxisLabelformatter: PropTypes.func,
-  chartType: PropTypes.string
+  chartType: PropTypes.string,
+  noSpacing: PropTypes.bool
 };
 
 export default Chart;

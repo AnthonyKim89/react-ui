@@ -7,9 +7,9 @@
 }
 
 .c-trace-multi__latest {
-  height: 50px;
+  height: 40px;
   position: relative;
-  margin: 5px;
+  margin: 5px 10px;
   border-bottom: 1px solid #354849;
 }
 
@@ -17,8 +17,9 @@
   position: absolute;
   left: 0;
   top: 0;
-  height: 50px;
+  height: 40px;
   width: 50%;
+  line-height: 120%;
 }
 .c-trace-multi__latest__trace-name {
   font-family: orgonBoldRegular;
@@ -27,11 +28,11 @@
   position: absolute;
   left: 50%;
   top: 0;
-  height: 50px;
+  height: 40px;
   right: 0;
   padding-right: 30px;
 
-  font-size: 2.5rem;
+  font-size: 2rem;
   text-align: right;
 }
 
@@ -39,7 +40,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  height: 50px;
+  height: 40px;
 }
 .c-trace-multi__latest__color-indicator-inner {
   border-left: 20px solid transparent;
@@ -64,32 +65,36 @@
 
 .c-trace-multi__graph {
   position: absolute;
-  top: 170px;
-  bottom: 90px;
-  left: 0;
-  right: 0;
+  top: 140px;
+  bottom: 60px;
+  left: 10px;
+  right: 10px;
 }
 
 .c-trace-multi__ranges {
   position: absolute;
   bottom: 0;
-  height: 90px;
+  height: 60px;
   left: 10px;
   right: 10px;
 }
 
 .c-trace-multi__range {
-  height: 30px;
-  padding-top: 5px;
+  height: 20px;
+  padding-top: 3px;
   border-bottom-style: solid;
   border-bottom-width: 2px;
 }
 .c-trace-multi__range-label {
   text-align: center;
+  font-size: 0.8rem;
+  opacity: 1.0;
 }
 .c-trace-multi__range-min {
   float: left;
+  font-size: 0.8rem;
 }
 .c-trace-multi__range-max {
   float: right;
+  font-size: 0.8rem;
 }

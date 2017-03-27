@@ -5,3 +5,8 @@
   left: 0;
   right: 0;
 }
+
+/* No need for app container footer spacing in the single layout, as there are no action buttons */
+.c-app-single-layout .c-app-container__content {
+  bottom: 10px;
+}
