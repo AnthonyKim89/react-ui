@@ -4,7 +4,7 @@ import subscriptions from '../../../subscriptions';
 
 import { format as formatDate } from 'date-fns';
 
-import './OptimizationApp.css'
+import './OptimizationApp.css';
 
 class OptimizationAppFooter extends Component {
 
@@ -33,7 +33,7 @@ class OptimizationAppFooter extends Component {
 				<span> Inc: {inc}&deg; </span>
 
 			</div>
-		)
+		);
 	}
 
 	formatLastDataUpdate(lastDataUpdate) {
@@ -43,6 +43,4 @@ class OptimizationAppFooter extends Component {
 
 }
 
-export default OptimizationAppFooter
-
-
+export default OptimizationAppFooter;

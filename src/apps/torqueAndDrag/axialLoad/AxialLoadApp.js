@@ -7,7 +7,7 @@ import ChartSeries from '../../../common/ChartSeries';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './AxialLoadApp.css'
+import './AxialLoadApp.css';
 
 class AxialLoadApp extends Component {
 

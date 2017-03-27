@@ -35,7 +35,7 @@ class SettingsRecordManager extends Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.asset !== this.props.asset) {
-      this.loadRecords(newProps.asset)
+      this.loadRecords(newProps.asset);
     }
   }
 

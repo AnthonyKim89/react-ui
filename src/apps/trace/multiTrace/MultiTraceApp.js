@@ -13,7 +13,7 @@ import ChartSeries from '../../../common/ChartSeries';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './MultiTraceApp.css'
+import './MultiTraceApp.css';
 
 const [ latestSubscription, summarySubscription ] = SUBSCRIPTIONS;
 
@@ -33,7 +33,7 @@ class MultiTraceApp extends Component {
 
   isSummaryChanged(newProps) {
     return this.getTraceSummary(newProps) &&
-           !this.getTraceSummary(newProps).equals(this.getTraceSummary(this.props))
+           !this.getTraceSummary(newProps).equals(this.getTraceSummary(this.props));
   }
 
   addSummaryData(summary) {
@@ -95,7 +95,7 @@ class MultiTraceApp extends Component {
                style={{borderRightColor: this.getSeriesColor(trace)}}></div>
           <div className="c-trace-multi__latest__color-indicator-outer"></div>
         </div>
-      </div>)
+      </div>);
     });
   }
 
@@ -166,7 +166,7 @@ class MultiTraceApp extends Component {
     if (spec.hasOwnProperty("unitType")) {
       value = this.props.convert.ConvertValue(value, spec.unitType, spec.cunit);
     }
-    return value
+    return value;
   }
 
   getTraceSummary(props) {
@@ -182,7 +182,7 @@ class MultiTraceApp extends Component {
   }
 
   getTraceKeys() {
-    return ['trace1', 'trace2', 'trace3']
+    return ['trace1', 'trace2', 'trace3'];
   }
 
   getActiveTraceKeys() {

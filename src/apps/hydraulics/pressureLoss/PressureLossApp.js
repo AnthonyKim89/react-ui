@@ -6,7 +6,8 @@ import PieChart from '../../../common/PieChart';
 import subscriptions from '../../../subscriptions';
 
 import { COLORS, LABELS, PIE_OPTIONS, SUBSCRIPTIONS, DISPLAY_FORMATS } from './constants';
-import './PressureLossApp.css'
+
+import './PressureLossApp.css';
 
 class PressureLossApp extends Component {
 

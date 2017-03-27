@@ -24,7 +24,7 @@ class FluidChecksApp extends Component {
               RecordSummary={FluidCheckSummary}
               RecordAttributeForm={FluidCheckAttributeForm}
               RecordDetails={FluidCheckRheometerReadings}
-              renderRecordListItem={r => this.renderFluidCheckListItem(r)} />
+              renderRecordListItem={r => this.renderFluidCheckListItem(r)} />;
   }
 
   renderFluidCheckListItem(fluidCheck) {

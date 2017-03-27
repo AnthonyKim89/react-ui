@@ -6,7 +6,7 @@ import ObjectGraph from '../../../common/ObjectGraph';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './MSEVDepthApp.css'
+import './MSEVDepthApp.css';
 
 class MSEVDepthApp extends Component {
 
@@ -33,7 +33,7 @@ class MSEVDepthApp extends Component {
     let series = [];
     for (let prop in SUPPORTED_CHART_SERIES) {
       if (SUPPORTED_CHART_SERIES.hasOwnProperty(prop)) {
-        series.push(this.getDataSeries(prop))
+        series.push(this.getDataSeries(prop));
       }
     }
     return series;
@@ -49,7 +49,7 @@ class MSEVDepthApp extends Component {
       processedData.push([
         value.get("measured_depth"),
         value.get(subtype)
-      ])
+      ]);
     });
 
     processedData = this.props.convert.ConvertArray(processedData, 0, 'length', 'ft', this.props.convert.GetUnitDisplay('length'));

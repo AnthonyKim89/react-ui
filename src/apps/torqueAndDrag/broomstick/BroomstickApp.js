@@ -8,7 +8,7 @@ import ChartSeries from '../../../common/ChartSeries';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './BroomstickApp.css'
+import './BroomstickApp.css';
 
 class BroomstickApp extends Component {
 
@@ -79,7 +79,7 @@ class BroomstickApp extends Component {
             title: SUPPORTED_CHART_SERIES[curveType].label,
           type: curveType,
           data: points
-        }
+        };
       });
   }
 

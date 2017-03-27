@@ -7,7 +7,7 @@ import ChartSeries from '../../../common/ChartSeries';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './DPFounderApp.css'
+import './DPFounderApp.css';
 
 class DPFounder extends Component {
 

@@ -57,7 +57,7 @@ class Prev300App extends Component {
           </Chart> :
           <LoadingIndicator />}
       </div>
-    )
+    );
   }
 
   getSeries() {

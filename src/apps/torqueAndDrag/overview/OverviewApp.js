@@ -10,7 +10,7 @@ import subscriptions from '../../../subscriptions';
 import Chart from '../../../common/Chart';
 import ChartSeries from '../../../common/ChartSeries';
 
-import './OverviewApp.css'
+import './OverviewApp.css';
 
 class OverviewApp extends Component {
 
@@ -79,7 +79,7 @@ class OverviewApp extends Component {
   }
 
   yTickPositioner () {
-    return [0, 10, this.dataMax+5]
+    return [0, 10, this.dataMax+5];
   }
 
   getSeries() {
@@ -130,7 +130,7 @@ class OverviewApp extends Component {
     return {
       series: fromJS(updatedSeries),
       maxValue: max,
-    }
+    };
   }
 
   getGaugeBands() {

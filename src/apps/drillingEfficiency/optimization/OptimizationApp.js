@@ -8,7 +8,7 @@ import { SUBSCRIPTIONS } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './OptimizationApp.css'
+import './OptimizationApp.css';
 
 class OptimizationApp extends Component {
   
@@ -17,7 +17,7 @@ class OptimizationApp extends Component {
     let actualData = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[1]);
 
     if (!optimizationData || !actualData) {
-      return <LoadingIndicator />
+      return <LoadingIndicator />;
     }
     
     return (
@@ -123,30 +123,25 @@ class OptimizationApp extends Component {
         "max_flow" : "max_mud_flow_in",
         "max_rpm" : "max_rpm",
       }
-    }
+    };
     return keys[modeString][shortName];
   }
 
   getStyles(actualData, optimizationData, param , activityState="recommended_rotary") {
-    let style = {
-      
-    }
-
     let actualVal = actualData.getIn(["data",this.getParamKey("actual",param)]);
     let optMinVal = optimizationData.getIn(["data",activityState,this.getParamKey("optimization","min_"+param)]);
     let optMaxVal = optimizationData.getIn(["data",activityState,this.getParamKey("optimization","max_"+param)]);
     
     if (actualVal > optMinVal && actualVal < optMaxVal ) {
-      return Object.assign(style, {color: "#00ff00"});
+      return {color: "#00ff00"};
     }
     else if (actualVal > optMinVal - optMinVal * 0.1 && actualVal < optMaxVal + optMaxVal * 0.1) {
-      return Object.assign(style, {color: "#ffff00"});
+      return {color: "#ffff00"};
     }
     else {
-     return Object.assign(style, {color: "#ff0000"}); 
+     return {color: "#ff0000"};
     }
   }
-  
 }
 
 OptimizationApp.propTypes = {

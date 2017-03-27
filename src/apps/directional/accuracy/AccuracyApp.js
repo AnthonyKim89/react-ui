@@ -6,7 +6,7 @@ import { SUBSCRIPTIONS } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './AccuracyApp.css'
+import './AccuracyApp.css';
 
 class AccuracyApp extends Component {
 
@@ -39,7 +39,7 @@ class AccuracyApp extends Component {
           </Row> :        
         <LoadingIndicator/> }
       </div>
-    )
+    );
   }
 
   renderAccuracyPlan() {
@@ -54,7 +54,7 @@ class AccuracyApp extends Component {
           {this.props.convert.ConvertValue(accuracyData.get("distance_to_plan"), 'length', 'ft').fixFloat(2)} <span>{this.props.convert.GetUnitDisplay('length')}</span>
         </div>
       </div>
-    )
+    );
   }
 
   renderBackToPlan() {
@@ -77,13 +77,11 @@ class AccuracyApp extends Component {
           High/Row plan <span>{this.props.convert.ConvertValue(recommendedData.get('high_low'), 'length', 'ft').fixFloat(2)}{this.props.convert.GetUnitDisplay('length')}</span>
         </div>
       </div>
-    )
+    );
   }
 
   renderAccuracyProgress() {
     let pointsData = subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS).getIn(["data","points"]);
-    // Currently we don't need the distance_to_plan value on these points. this is the conversion code for it if we do eventually:
-    // pointsData = this.props.convert.ConvertImmutables(pointsData, 'distance_to_plan', 'ft');
     let itemWidth = 100 / pointsData.size -1;
     let style = {
       marginRight: "1%",
@@ -94,21 +92,21 @@ class AccuracyApp extends Component {
       return (
         <div key={index} className="accuracy-progress-item" style={Object.assign({},style,this.getAccuracyBackColorStyle(t))}>
         </div>
-      )
-    })
+      );
+    });
     
   }
 
   getAccuracyColorStyle(accuracyData) {
     let severity = accuracyData.get("severity");    
     if (severity === "low") {
-      return Object.assign({}, {color:"#ff0000"})
+      return Object.assign({}, {color:"#ff0000"});
     }
     else if (severity === "moderate") {
-     return Object.assign({}, {color:"#ffff00"})
+     return Object.assign({}, {color:"#ffff00"});
     }
     else {
-      return Object.assign({}, {color:"#00ff00"})
+      return Object.assign({}, {color:"#00ff00"});
     }
   }
 
@@ -133,4 +131,3 @@ AccuracyApp.propTypes = {
 };
 
 export default AccuracyApp;
-

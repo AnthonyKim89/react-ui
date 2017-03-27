@@ -6,7 +6,7 @@ import { SUBSCRIPTIONS } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './DownholeTransferApp.css'
+import './DownholeTransferApp.css';
 
 class DownholeTransferApp extends Component {
 

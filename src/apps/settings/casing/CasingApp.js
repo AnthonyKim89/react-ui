@@ -26,7 +26,7 @@ class CasingApp extends Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.asset !== this.props.asset) {
-      this.loadCasing(newProps.asset)
+      this.loadCasing(newProps.asset);
     }
   }
 

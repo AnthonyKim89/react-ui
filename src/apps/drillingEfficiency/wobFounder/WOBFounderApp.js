@@ -7,7 +7,7 @@ import ChartSeries from '../../../common/ChartSeries';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './WOBFounderApp.css'
+import './WOBFounderApp.css';
 
 class WOBFounder extends Component {
 

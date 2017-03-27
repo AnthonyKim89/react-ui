@@ -126,7 +126,7 @@ class DrillstringComponentTable extends Component {
                     type="text"
                     label={label}
                     defaultValue={component.get(field, '')}
-                    onChange={e => this.onComponentFieldChange(idx, field, e.target.value)} />
+                    onChange={e => this.onComponentFieldChange(idx, field, e.target.value)} />;
     } else {
       return <Col m={cols}>
         <div>{label}</div>
@@ -141,7 +141,7 @@ class DrillstringComponentTable extends Component {
                     type="number"
                     label={label}
                     defaultValue={component.get(field, '')}
-                    onChange={e => this.onComponentFieldChange(idx, field, parseFloat(e.target.value))} />
+                    onChange={e => this.onComponentFieldChange(idx, field, parseFloat(e.target.value))} />;
     } else {
       return <Col m={cols}>
         <div>{label}</div>

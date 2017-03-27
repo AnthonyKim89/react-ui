@@ -13,7 +13,7 @@ import ChartSeries from '../../../common/ChartSeries';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './SingleTraceApp.css'
+import './SingleTraceApp.css';
 
 const [ latestSubscription, summarySubscription ] = SUBSCRIPTIONS;
 
@@ -33,7 +33,7 @@ class SingleTraceApp extends Component {
 
   isSummaryChanged(newProps) {
     return this.getTraceSummary(newProps) &&
-           !this.getTraceSummary(newProps).equals(this.getTraceSummary(this.props))
+           !this.getTraceSummary(newProps).equals(this.getTraceSummary(this.props));
   }
 
   addSummaryData(summary) {

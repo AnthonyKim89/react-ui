@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import Highcharts from 'highcharts';
 import addHeatmap from 'highcharts/modules/heatmap';
 import addData from 'highcharts/modules/data';
-import { isEqual } from 'lodash'
+import { isEqual } from 'lodash';
 
 addData(Highcharts);
 addHeatmap(Highcharts);

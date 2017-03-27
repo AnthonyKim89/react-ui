@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import Highcharts from 'highcharts';
-import { isEqual } from 'lodash'
+import { isEqual } from 'lodash';
 
 /*
   This graph expects that series' will be provided as an array of objects containing x/y and a label and/or color

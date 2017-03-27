@@ -9,7 +9,7 @@ import LoadingIndicator from '../../../common/LoadingIndicator';
 import common from '../../../common';
 import subscriptions from '../../../subscriptions';
 
-import './RigActivityApp.css'
+import './RigActivityApp.css';
 
 class RigActivityApp extends Component {
 

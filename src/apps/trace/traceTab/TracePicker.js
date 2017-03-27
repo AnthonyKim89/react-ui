@@ -3,7 +3,7 @@ import { Button, Input } from 'react-materialize';
 
 import { SUPPORTED_TRACES } from '../constants';
 
-import './TracePicker.css'
+import './TracePicker.css';
 
 class TracePicker extends Component {
 

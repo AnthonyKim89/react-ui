@@ -62,7 +62,7 @@ class AppSingleLayout extends Component {
         convert={this.convert}
         onAssetModified={asset => this.props.onAssetModified(asset)}
         onSettingChange={(key, value) => this.props.onAppSettingsUpdate(id, settings.set(key, value))} />
-    </AppContainer>
+    </AppContainer>;
   }
 
   getPageParams() {

@@ -29,7 +29,7 @@ class AssetTabBar extends Component {
 
   renderCurrentTabName() {
     const title = this.props.currentAssetPageTab && this.props.currentAssetPageTab.get('name');
-    return <li className="c-asset-tab-bar__current-tab-name">{title}</li>
+    return <li className="c-asset-tab-bar__current-tab-name">{title}</li>;
   }
 
   getLocation(category) {

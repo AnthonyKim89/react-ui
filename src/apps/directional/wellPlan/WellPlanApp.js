@@ -8,7 +8,7 @@ import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './WellPlanApp.css'
+import './WellPlanApp.css';
 
 class WellPlanApp extends Component {
 
@@ -55,7 +55,7 @@ class WellPlanApp extends Component {
           </Chart> :
           <LoadingIndicator />}
       </div>
-    )
+    );
   }
 
   getSeries() {

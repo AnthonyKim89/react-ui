@@ -100,7 +100,7 @@ class AppGridLayout extends Component {
           .set('isDraggable', !this.props.isNative);
         return <div key={id} data-grid={coordinates.toJS()}>
           {this.renderApp(app)}
-        </div>
+        </div>;
       });
   }
 
@@ -127,7 +127,7 @@ class AppGridLayout extends Component {
     // Provide a fallback when the app is missing.
     if (appType === undefined) {
       console.log(`No UI app found for ${category}:${name}.`);
-      return <div />
+      return <div />;
     }
 
     const appData = this.props.appData.get(id);
@@ -168,7 +168,7 @@ class AppGridLayout extends Component {
           lastDataUpdate={subscriptions.selectors.lastDataUpdate(appData)}
         /> 
       }
-    </AppContainer>
+    </AppContainer>;
   }
 
   getPageParams() {

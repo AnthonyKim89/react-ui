@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Highcharts from 'highcharts';
-import { isEqual } from 'lodash'
+import { isEqual } from 'lodash';
 
 class TrendChart extends Component {
 

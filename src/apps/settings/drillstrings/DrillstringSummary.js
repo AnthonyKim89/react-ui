@@ -93,7 +93,7 @@ export class DrillstringSummary extends Component {
   }
 
   getComponents() {
-    return this.props.record.getIn(['data', 'components'], List())
+    return this.props.record.getIn(['data', 'components'], List());
   }
 
   getDepths() {

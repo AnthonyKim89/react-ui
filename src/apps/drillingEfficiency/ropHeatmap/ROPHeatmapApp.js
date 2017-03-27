@@ -6,7 +6,7 @@ import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 import Heatmap from '../../../common/Heatmap';
 
-import './ROPHeatmapApp.css'
+import './ROPHeatmapApp.css';
 
 class ROPHeatmapApp extends Component {
 
@@ -22,7 +22,7 @@ class ROPHeatmapApp extends Component {
         </div>
       );
     } catch (e) {
-      return <div className="c-de-ropheatmap"><LoadingIndicator /></div>
+      return <div className="c-de-ropheatmap"><LoadingIndicator /></div>;
     }
   }
 
@@ -40,7 +40,7 @@ class ROPHeatmapApp extends Component {
     return {
       categories: this.getAxisData(min, unitSize, axisLength),
       title: axis.get("type").toUpperCase(),
-    }
+    };
   }
 
   getAxisData(start, unitSize, axisLength) {

@@ -34,7 +34,7 @@ class SettingsRecordEditor extends Component {
     return <this.props.RecordAttributeForm
               record={this.state.record}
               convert={this.props.convert}
-              onUpdateRecord={r => this.updateRecord(r)} />
+              onUpdateRecord={r => this.updateRecord(r)} />;
   }
 
   renderSummary() {

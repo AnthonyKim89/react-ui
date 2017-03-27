@@ -6,7 +6,7 @@ export function notifyPageLoaded() {
 }
 
 export function notifyAppMaximized() {
-  notify('appMaximized')
+  notify('appMaximized');
 }
 
 export function notifyAppRestored() {

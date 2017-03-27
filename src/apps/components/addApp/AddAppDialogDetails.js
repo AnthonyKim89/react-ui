@@ -86,7 +86,7 @@ class AddAppDialogDetails extends Component {
           {publishedAt}
         </Col>
       </Row>
-    </div>
+    </div>;
   }
 
   renderAppActions() {

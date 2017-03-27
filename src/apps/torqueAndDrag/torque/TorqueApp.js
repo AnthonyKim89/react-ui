@@ -7,7 +7,7 @@ import ChartSeries from '../../../common/ChartSeries';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './TorqueApp.css'
+import './TorqueApp.css';
 
 class TorqueApp extends Component {
 

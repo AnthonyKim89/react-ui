@@ -5,7 +5,7 @@ import { SUBSCRIPTIONS } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './SlideSheetApp.css'
+import './SlideSheetApp.css';
 
 class SlideSheetApp extends Component {
   render() {
@@ -34,14 +34,14 @@ class SlideSheetApp extends Component {
                   <td>{t.get("azimuth").fixFloat(2)} <sub>*</sub></td>
                   <td>{t.get("dls").fixFloat(2)}</td>
                 </tr>
-                )
+                );
               })}
             </tbody>
           </table>:
         <LoadingIndicator/> 
         }
       </div>
-    )
+    );
   }
 }
 

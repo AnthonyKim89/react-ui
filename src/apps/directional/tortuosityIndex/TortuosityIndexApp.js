@@ -8,7 +8,7 @@ import { SUBSCRIPTIONS ,SUPPORTED_CHART_SERIES } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './TortuosityIndexApp.css'
+import './TortuosityIndexApp.css';
 
 class TortuosityIndexApp extends Component {
   render() {
@@ -54,7 +54,7 @@ class TortuosityIndexApp extends Component {
           </Chart> :
           <LoadingIndicator />}
       </div>
-    )
+    );
   }
 
   getSeries() {

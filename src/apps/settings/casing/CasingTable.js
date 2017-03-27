@@ -61,7 +61,7 @@ class CasingTable extends Component {
     if (this.props.isEditable) {
       return <Input type="text"
                     value={item.get(field, '')}
-                    onChange={e => this.props.onItemFieldChange(idx, field, e.target.value)} />
+                    onChange={e => this.props.onItemFieldChange(idx, field, e.target.value)} />;
     } else {
       return item.get(field);
     }
@@ -75,7 +75,7 @@ class CasingTable extends Component {
       }
       return <Input type="number"
                     value={value}
-                    onChange={e => this.props.onItemFieldChange(idx, field, parseFloat(e.target.value))} />
+                    onChange={e => this.props.onItemFieldChange(idx, field, parseFloat(e.target.value))} />;
     } else {
       return item.get(field);
     }

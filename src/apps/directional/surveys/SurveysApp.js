@@ -5,7 +5,7 @@ import { SUBSCRIPTIONS } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './SurveysApp.css'
+import './SurveysApp.css';
 
 class SurveysApp extends Component {
   render() {
@@ -35,7 +35,7 @@ class SurveysApp extends Component {
 	                  <td>{t.get("azimuth").fixFloat(2)} <sub>*</sub></td>
 	                  <td>{t.get("dls").fixFloat(2)}</td>
 	                </tr>
-                )
+                );
 
               })}
             </tbody>
@@ -43,7 +43,7 @@ class SurveysApp extends Component {
         <LoadingIndicator/> 
         }
       </div>
-    )
+    );
   }
 }
 
@@ -53,4 +53,3 @@ SurveysApp.propTypes = {
 };
 
 export default SurveysApp;
-

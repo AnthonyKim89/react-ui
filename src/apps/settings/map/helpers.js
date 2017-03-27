@@ -55,4 +55,4 @@ function parseLatLng( input ) {
   return coords;
 }
 
-export default parseLatLng
+export default parseLatLng;

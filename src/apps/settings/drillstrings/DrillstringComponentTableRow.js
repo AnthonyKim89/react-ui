@@ -26,7 +26,7 @@ class DrillstringComponentTableRow extends Component {
     if (this.props.isEditable) {
       return <Input type="text"
                     value={this.props.component.get(field, '')}
-                    onChange={e => this.props.onComponentFieldChange(field, e.target.value)} />
+                    onChange={e => this.props.onComponentFieldChange(field, e.target.value)} />;
     } else {
       return this.props.component.get(field);
     }
@@ -39,7 +39,7 @@ class DrillstringComponentTableRow extends Component {
                     onChange={e => this.props.onComponentFieldChange(field, e.target.value)}>
         {options.map(({name, type}) =>
           <option key={type} value={type}>{name}</option>)}
-      </Input>
+      </Input>;
     } else {
       return this.props.component.get(field);
     }
@@ -53,7 +53,7 @@ class DrillstringComponentTableRow extends Component {
       }
       return <Input type="number"
                     value={value}
-                    onChange={e => this.props.onComponentFieldChange(field, parseFloat(e.target.value))} />
+                    onChange={e => this.props.onComponentFieldChange(field, parseFloat(e.target.value))} />;
     } else {
       return this.props.component.get(field);
     }

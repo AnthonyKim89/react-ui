@@ -11,7 +11,7 @@ import MultiTraceApp from '../multiTrace/MultiTraceApp';
 
 import { DEFAULT_TRACE_GRAPHS } from './constants';
 
-import './TraceTabApp.css'
+import './TraceTabApp.css';
 
 class TraceTabApp extends Component {
 

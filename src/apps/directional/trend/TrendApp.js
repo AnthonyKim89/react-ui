@@ -5,8 +5,9 @@ import { SUBSCRIPTIONS,SUPPORTED_CHART_SERIES } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import TrendChart from './TrendChart'
-import './TrendApp.css'
+import TrendChart from './TrendChart';
+
+import './TrendApp.css';
 
 class TrendApp extends Component {
 
@@ -18,7 +19,7 @@ class TrendApp extends Component {
           <TrendChart convert={this.props.convert} series={this.getSeries()} yAxes={this.getYAxes()} /> :
         <LoadingIndicator/> }
       </div>
-    )
+    );
   }
 
   getYAxes() {
@@ -28,7 +29,7 @@ class TrendApp extends Component {
       titleText: 'GTF', color:'#add8e6' , others: { opposite:true }
     }, {
       titleText: 'DLS', color:'#0000ff', others: { opposite:true }
-    }]
+    }];
   }
 
   getSeries() {
@@ -81,8 +82,8 @@ class TrendApp extends Component {
     return rawData.map((t) => {
       return keys.map(key => {
         return t[key];
-      })
-    })
+      });
+    });
   }
 }
 
