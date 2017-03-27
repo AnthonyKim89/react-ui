@@ -1,3 +1,10 @@
-.c-di-tfo {
+.c-di-toolface {
 
+}
+
+
+.c-di-toolface .c-di-toolface-last-tfo {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 4rem;
 }

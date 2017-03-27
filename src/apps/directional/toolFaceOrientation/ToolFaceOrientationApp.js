@@ -11,7 +11,7 @@ import './ToolFaceOrientationApp.css';
 class ToolFaceOrientationApp extends Component {
   render() {
     return (
-      <div className="c-di-tfo">
+      <div className="c-di-toolface">
         {this.getSubscriptionData() ?
           this.renderData() :
           <LoadingIndicator />}
@@ -24,7 +24,9 @@ class ToolFaceOrientationApp extends Component {
     return (
       <div className="c-di-toolface">
         <div className="gaps"></div>
-        {data.get('slides').last().get("tfo")} <span>°</span>
+        <div className="c-di-toolface-last-tfo">
+          {data.get('slides').last().get("tfo")} <span>°</span>
+        </div>
       </div>
     );
   }
