@@ -13,4 +13,4 @@ export const METADATA = {
   isHiddenFromAddApp: true
 };
 export const SUPPORTED_ASSET_TYPES = ['well'];
-export const FLUID_CHECK_DATA_TEMPLATE = Map({})
+export const FLUID_CHECK_DATA_TEMPLATE = Map({});

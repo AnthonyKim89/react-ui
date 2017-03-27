@@ -1,4 +1,4 @@
-import { push } from 'react-router-redux'
+import { push } from 'react-router-redux';
 
 import * as api from '../api';
 import { dashboards, allAppSets } from './selectors';

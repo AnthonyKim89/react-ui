@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import Highcharts from 'highcharts';
 import addHeatmap from 'highcharts/modules/heatmap';
 import addData from 'highcharts/modules/data';
-import ImmutablePropTypes from 'react-immutable-proptypes';
+import { isEqual } from 'lodash';
 
 addData(Highcharts);
 addHeatmap(Highcharts);
@@ -17,9 +17,7 @@ class Heatmap extends Component {
   }
 
   componentDidMount() {
-    let series = this.getSeries(this.props);
-    let seriesMinMax = this.getSeriesMinMax(series);
-
+    let seriesMinMax = this.getSeriesMinMax(this.props.series);
     const heatmap = Highcharts.chart(this.container, {
       chart: {
         type: 'heatmap',
@@ -28,8 +26,28 @@ class Heatmap extends Component {
         plotBorderColor: "rgb(32, 31, 31)",
         marginTop: 60,
       },
-      xAxis: this.getXAxis(this.props),
-      yAxis: this.getYAxis(this.props),
+      xAxis: {
+        categories: this.props.xAxis["categories"],
+        title: {
+          text: this.props.xAxis["title"]
+        },
+        labels: {
+          step: 3
+        },
+        tickWidth: 0,
+        lineColor: "rgb(32, 31, 31)",
+      },
+      yAxis: {
+        categories: this.props.yAxis["categories"],
+        title: {
+          text: this.props.yAxis["title"]
+        },
+        labels: {
+          step: 4
+        },
+        opposite: true,
+        lineColor: "rgb(32, 31, 31)",
+      },
       title: {
         align: "left",
         text: this.props.title,
@@ -59,7 +77,7 @@ class Heatmap extends Component {
         y: 3,
         x: -50,
       },
-      series: [series]
+      series: [this.props.series]
     });
     this.setState({heatmap});
   }
@@ -68,76 +86,10 @@ class Heatmap extends Component {
     if (typeof this.state.heatmap === 'undefined') {
       return;
     }
-    if (newProps.data !== this.props.data) {
+    if (!isEqual(newProps.series, this.props.series)) {
       const heatmap = this.state.heatmap;
-      heatmap.series[0].update(this.getSeries(newProps));
+      heatmap.series[0].update(newProps.series);
     }
-  }
-
-  getXAxis(props) {
-    let data = props.data.get("data");
-    let axis = data.get("x_axis");
-    let columnWidth = (axis.get("maximum") - axis.get("minimum"))/axis.get("columns");
-    return {
-      categories: this.getAxisData(axis.get("minimum"), columnWidth, axis.get("columns")),
-      title: {
-        text: axis.get("type").toUpperCase()
-      },
-      labels: {
-        step: 3
-      },
-      tickWidth: 0,
-      lineColor: "rgb(32, 31, 31)",
-    };
-  }
-
-  getYAxis(props) {
-    let data = props.data.get("data");
-    let axis = data.get("y_axis");
-    let rowHeight = (axis.get("maximum") - axis.get("minimum"))/axis.get("rows");
-    return {
-      categories: this.getAxisData(axis.get("minimum"), rowHeight, axis.get("rows")),
-      title: {
-        text: axis.get("type").toUpperCase()
-      },
-      labels: {
-        step: 4
-      },
-      opposite: true,
-      lineColor: "rgb(32, 31, 31)",
-    };
-  }
-
-  getAxisData(start, unitSize, axisLength) {
-    let data = [];
-    for (let i = 0; i < axisLength; i++) {
-      let nextStart = start + unitSize;
-      data.push(Math.round(start));
-      start = nextStart;
-    }
-    return data;
-  }
-
-  getSeries(props) {
-    let data = props.data.get("data");
-    let series = [];
-    let rows = data.get("y_axis").get("rows");
-    let columns = data.get("x_axis").get("columns");
-    for (let y = 0; y < rows; y++) {
-      let row = data.get(props.dataNode).get(y);
-      for (let x = 0; x < columns; x++) {
-        let z = row.get(x);
-        series.push([y, x, z]);
-      }
-    }
-    return {
-      name: "ROP",
-      data: series,
-      borderWidth: 1,
-      borderColor: "#444444",
-      nullColor: "#535353",
-      animation: false
-    };
   }
 
   getSeriesMinMax(series) {
@@ -152,8 +104,9 @@ class Heatmap extends Component {
 }
 
 Heatmap.propTypes = {
-  data: ImmutablePropTypes.map.isRequired,
-  dataNode: PropTypes.string.isRequired,
+  series: PropTypes.object.isRequired,
+  yAxis: PropTypes.object.isRequired,
+  xAxis: PropTypes.object.isRequired,
 };
 
 export default Heatmap;

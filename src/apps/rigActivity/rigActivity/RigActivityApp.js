@@ -3,13 +3,13 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Input } from 'react-materialize';
 import { format as formatDate } from 'date-fns';
 
-import { SUBSCRIPTIONS, ACTIVITY_COLORS, PERIOD_TYPES } from './constants';
+import { SUBSCRIPTIONS, ACTIVITY_COLORS, PERIOD_TYPES, DISPLAY_FORMATS } from './constants';
 import PieChart from '../../../common/PieChart';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import common from '../../../common';
 import subscriptions from '../../../subscriptions';
 
-import './RigActivityApp.css'
+import './RigActivityApp.css';
 
 class RigActivityApp extends Component {
 
@@ -56,9 +56,6 @@ class RigActivityApp extends Component {
         </div> :
         <LoadingIndicator />
     );
-  }
-
-  componentWillReceiveProps(nextProps) {
   }
 
   renderTable() {
@@ -160,7 +157,7 @@ class RigActivityApp extends Component {
   }
  
   showTooltipInPercentage() {
-    return this.props.displayFormat === 'percent' ? true : false;
+    return this.props.displayFormat === 'percent';
   }
 
   getDisplayUnit() {
@@ -174,6 +171,11 @@ RigActivityApp.propTypes = {
   displayFormat: PropTypes.string,
   size: PropTypes.string.isRequired,
   widthCols: PropTypes.number.isRequired
+};
+
+RigActivityApp.defaultProps = {
+  period: PERIOD_TYPES[0].value,
+  displayFormat: DISPLAY_FORMATS[0].value,
 };
 
 export default RigActivityApp;

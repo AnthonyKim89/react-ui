@@ -16,16 +16,16 @@ const makeSchematicComponent = (isEditable) => {
         {isEditable ?
           this.props.dragHandle(this.renderImage()) :
           this.renderImage()}
-      </div>
+      </div>;
     }
 
     renderImage() {
       return <div className={`c-drillstring-component-schematic__component-image
                               c-drillstring-component-schematic__component-image--${this.props.item.get('family')}`}>
-      </div>
+      </div>;
     }
 
-  }
+  };
 };
 
 class DrillstringComponentSchematic extends Component {

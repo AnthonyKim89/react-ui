@@ -18,9 +18,10 @@ class AssetTabBar extends Component {
   }
 
   renderTab(tab) {
+    const id = tab.get('id');
     const category = tab.get('category');
     const name = tab.get('name');
-    return <li key={category} className={`c-asset-tab-bar__${category}-tab`}>
+    return <li key={id} className={`c-asset-tab-bar__${category}-tab`}>
       <Link to={this.getLocation(category)} activeClassName="is-active">
         {name}
       </Link>
@@ -29,7 +30,7 @@ class AssetTabBar extends Component {
 
   renderCurrentTabName() {
     const title = this.props.currentAssetPageTab && this.props.currentAssetPageTab.get('name');
-    return <li className="c-asset-tab-bar__current-tab-name">{title}</li>
+    return <li className="c-asset-tab-bar__current-tab-name">{title}</li>;
   }
 
   getLocation(category) {
