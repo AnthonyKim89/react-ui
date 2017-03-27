@@ -6,6 +6,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import common from '../../../common';
 import subscriptions from '../../../subscriptions';
 import TraceBoxes from './TraceBoxes';
+import Convert from '../../../common/Convert';
 import TraceTimeline from './TraceTimeline';
 import TracePicker from './TracePicker';
 import MultiTraceApp from '../multiTrace/MultiTraceApp';
@@ -13,7 +14,7 @@ import MultiTraceApp from '../multiTrace/MultiTraceApp';
 import { DEFAULT_TRACE_BOXES, DEFAULT_TRACE_GRAPHS, SUBSCRIPTIONS } from './constants';
 import { SUPPORTED_TRACES } from '../constants';
 
-import './TraceTabApp.css'
+import './TraceTabApp.css';
 
 const [ latestSubscription ] = SUBSCRIPTIONS;
 
@@ -25,6 +26,7 @@ class TraceTabApp extends Component {
       traceBoxAdderOpen: false,
       tracePickerOpenFor: null
     };
+    this.convert = new Convert();
   }
   render() {
     return <div className="c-trace-tab">
@@ -33,7 +35,8 @@ class TraceTabApp extends Component {
           latestTraceRecord={this.getLatestTraceRecord()}
           traces={this.getTraceBoxes()}
           onTraceAddRequested={() => this.openTraceBoxAdder()}
-          onTraceRemoveRequested={idx => this.removeTraceBox(idx)} />
+          onTraceRemoveRequested={idx => this.removeTraceBox(idx)}
+          convert={this.convert} />
       </div>
       <div className="c-trace-tab__timeline">
         <TraceTimeline data={this.props.data} />
@@ -73,6 +76,7 @@ class TraceTabApp extends Component {
                           trace2={traces.get(1)}
                           trace3={traces.get(2)}
                           size={common.constants.Size.SMALL}
+                          convert={this.convert}
                           widthCols={3}
                           isTraceChangeSupported={true}
                           onTraceChangeRequested={trace => this.openTracePicker(colNumber, trace)}>

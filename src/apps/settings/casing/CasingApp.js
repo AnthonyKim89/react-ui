@@ -26,7 +26,7 @@ class CasingApp extends Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.asset !== this.props.asset) {
-      this.loadCasing(newProps.asset)
+      this.loadCasing(newProps.asset);
     }
   }
 
@@ -41,12 +41,14 @@ class CasingApp extends Component {
     return <div className="c-casing">
       {this.state.editingCasing ?
         <CasingEditor casing={this.state.editingCasing}
+                      convert={this.props.convert}
                       onAddItem={(...a) => this.addItem(...a)}
                       onDeleteItem={(...a) => this.deleteItem(...a)}
                       onItemFieldChange={(...a) => this.updateItemField(...a)}
                       onSave={() => this.save()}
                       onCancel={() => this.setState({editingCasing: null})} /> :
         <CasingViewer casing={this.state.casing}
+                      convert={this.props.convert}
                       onEdit={() => this.edit()} />}
     </div>;
   }

@@ -1,14 +1,14 @@
-import React, {Component, PropTypes} from 'react'
-import format from 'date-fns/format'
-import parse from 'date-fns/parse'
+import React, {Component, PropTypes} from 'react';
+import format from 'date-fns/format';
+import parse from 'date-fns/parse';
 import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-import WellTimelineStatusBar from './WellTimelineStatusBar'
-import WellTimelineScrollBar from './WellTimelineScrollBar'
+import WellTimelineStatusBar from './WellTimelineStatusBar';
+import WellTimelineScrollBar from './WellTimelineScrollBar';
 import * as api from '../../api';
 
-import './WellTimelineApp.css'
+import './WellTimelineApp.css';
 
 class WellTimelineApp extends Component {
 

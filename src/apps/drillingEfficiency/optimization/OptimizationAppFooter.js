@@ -4,7 +4,7 @@ import subscriptions from '../../../subscriptions';
 
 import { format as formatDate } from 'date-fns';
 
-import './OptimizationApp.css'
+import './OptimizationApp.css';
 
 class OptimizationAppFooter extends Component {
 
@@ -18,7 +18,8 @@ class OptimizationAppFooter extends Component {
 		let lastDataUpdate = this.props.lastDataUpdate;
 
 		let gamma = actualData.getIn(["data","gamma"]);
-    let bit = actualData.getIn(["data","bit_depth"]);
+    let bit = this.props.convert.convertValue(actualData.getIn(["data","bit_depth"]), "length", "ft");
+    bit = bit.toFixed(2);
     let inc = actualData.getIn(["data","inclination"]);
         
     return (
@@ -28,11 +29,11 @@ class OptimizationAppFooter extends Component {
 				}
 				
 				<span> Gamma: {gamma} api </span>
-				<span> Bit: {bit} in </span>
-				<span> Inc: {inc}* </span>
+				<span> Bit: {bit} {this.props.convert.getUnitDisplay('length')} </span>
+				<span> Inc: {inc}&deg; </span>
 
 			</div>
-		)
+		);
 	}
 
 	formatLastDataUpdate(lastDataUpdate) {
@@ -42,6 +43,4 @@ class OptimizationAppFooter extends Component {
 
 }
 
-export default OptimizationAppFooter
-
-
+export default OptimizationAppFooter;

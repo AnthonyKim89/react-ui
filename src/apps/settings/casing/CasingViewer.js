@@ -18,7 +18,8 @@ class CasingViewer extends Component {
       <Row>
         <Col m={12}>
           <CasingTable casing={this.props.casing}
-                      isEditable={false} />
+                       convert={this.props.convert}
+                       isEditable={false} />
         </Col>
       </Row>
     </div>;

@@ -19,5 +19,4 @@ export const SUPPORTED_CHART_SERIES = {
 	 tvd_plan: {label:'Planned Well Path', defaultColor:'#ff0000', type:'line'},
 	 drilling_window: {label:'Drilling Window', defaultColor:'rgba(255,255,0,0.5)', type:'arearange'},
 	 dls: {label:'DLS', defaultColor:'#0000ff', type:'line'}
-	 
 };

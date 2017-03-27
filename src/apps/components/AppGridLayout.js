@@ -12,6 +12,7 @@ import common from '../../common';
 import subscriptions from '../../subscriptions';
 import * as appRegistry from '../appRegistry';
 import * as api from '../../api';
+import Convert from '../../common/Convert';
 
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -48,6 +49,7 @@ class AppGridLayout extends Component {
   constructor(props) {
     super(props);
     this.state = {addAppDialogOpen: false};
+    this.convert = new Convert();
   }
 
   async componentDidMount() {
@@ -98,7 +100,7 @@ class AppGridLayout extends Component {
           .set('isDraggable', !this.props.isNative);
         return <div key={id} data-grid={coordinates.toJS()}>
           {this.renderApp(app)}
-        </div>
+        </div>;
       });
   }
 
@@ -125,11 +127,11 @@ class AppGridLayout extends Component {
     // Provide a fallback when the app is missing.
     if (appType === undefined) {
       console.log(`No UI app found for ${category}:${name}.`);
-      return <div />
+      return <div />;
     }
 
     const appData = this.props.appData.get(id);
-    const hasAppFooter = appType.AppComponentFooter ? true: false
+    const hasAppFooter = !!appType.AppComponentFooter;
     return <AppContainer id={id}
                          appType={appType}                         
                          asset={this.props.appAssets.get(id)}
@@ -155,16 +157,18 @@ class AppGridLayout extends Component {
         {...settings.toObject()}
         size={size}
         widthCols={coordinates.get('w')}
+        convert={this.convert}
         onAssetModified={asset => this.props.onAssetModified(asset)}
         onSettingChange={(key, value) => this.props.onAppSettingsUpdate(id, settings.set(key, value))} />
 
       {appType.AppComponentFooter &&
         <appType.AppComponentFooter
           data={appData}
+          convert={this.convert}
           lastDataUpdate={subscriptions.selectors.lastDataUpdate(appData)}
         /> 
       }
-    </AppContainer>
+    </AppContainer>;
   }
 
   getPageParams() {

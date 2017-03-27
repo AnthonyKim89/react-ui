@@ -6,7 +6,7 @@ import { SUBSCRIPTIONS } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './FrictionFactorApp.css'
+import './FrictionFactorApp.css';
 
 class FrictionFactorApp extends Component {
 

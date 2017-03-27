@@ -6,6 +6,7 @@ import AppContainer from './AppContainer';
 import common from '../../common';
 import subscriptions from '../../subscriptions';
 import * as appRegistry from '../appRegistry';
+import Convert from '../../common/Convert';
 
 import './AppTabLayout.css';
 
@@ -18,6 +19,7 @@ class AppTabLayout extends Component {
   constructor(props) {
     super(props);
     this.state = {selectedAppIdx: 0};
+    this.convert = new Convert();
   }
 
   render() {
@@ -87,9 +89,10 @@ class AppTabLayout extends Component {
         {...settings.toObject()}
         size={size}
         widthCols={12}
+        convert={this.convert}
         onAssetModified={asset => this.props.onAssetModified(asset)}
         onSettingChange={(key, value) => this.props.onAppSettingsUpdate(id, settings.set(key, value))} />
-    </AppContainer>
+    </AppContainer>;
   }
 
   getPageParams() {

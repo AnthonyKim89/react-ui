@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import assets from '../../assets';
 
-import './WellTimelineStatusBar.css'
+import './WellTimelineStatusBar.css';
 
 class WellTimelineStatusBar extends Component {
   render() {
@@ -22,7 +22,7 @@ class WellTimelineStatusBar extends Component {
         {this.renderSpace('md', 'u-pull-right')}
         {this.renderWellName()}
       </div>
-    )
+    );
   }
 
   renderMode() {
@@ -121,6 +121,6 @@ WellTimelineStatusBar.propTypes = {
   lastWitsRecord: ImmutablePropTypes.map,
   isScrollBarVisible: React.PropTypes.bool,
   onToggleDrillScrollBar: React.PropTypes.func.isRequired
-}
+};
 
-export default WellTimelineStatusBar
+export default WellTimelineStatusBar;

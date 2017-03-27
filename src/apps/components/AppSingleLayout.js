@@ -6,6 +6,7 @@ import AppContainer from './AppContainer';
 import common from '../../common';
 import subscriptions from '../../subscriptions';
 import * as appRegistry from '../appRegistry';
+import Convert from '../../common/Convert';
 
 import './AppSingleLayout.css';
 
@@ -14,6 +15,11 @@ import './AppSingleLayout.css';
  * take over the whole page.
  */
 class AppSingleLayout extends Component {
+
+  constructor(props) {
+    super(props);
+    this.convert = new Convert();
+  }
 
   render() {
     return (
@@ -53,9 +59,10 @@ class AppSingleLayout extends Component {
         {...settings.toObject()}
         size={size}
         widthCols={12}
+        convert={this.convert}
         onAssetModified={asset => this.props.onAssetModified(asset)}
         onSettingChange={(key, value) => this.props.onAppSettingsUpdate(id, settings.set(key, value))} />
-    </AppContainer>
+    </AppContainer>;
   }
 
   getPageParams() {

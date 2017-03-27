@@ -21,13 +21,14 @@ class TraceBoxes extends Component {
   }
 
   renderBox(trace, index) {
+    let traceSpec = this.getTraceSpec(trace);
     return <div className="c-trace-boxes__box" key={index}>
       <Button flat className="c-trace-boxes__remove" onClick={() => this.props.onTraceRemoveRequested(index)}>
         <Icon>close</Icon>
       </Button>
-      <div className="c-trace-boxes__label">{this.getTraceSpec(trace).label}</div>
-      <div className="c-trace-boxes__value">{this.getTraceValue(trace)}</div>
-      <div className="c-trace-boxes__unit">{this.getTraceSpec(trace).unit}</div>
+      <div className="c-trace-boxes__label">{traceSpec.label}</div>
+      <div className="c-trace-boxes__value">{this.getTraceValue(trace, traceSpec)}</div>
+      <div className="c-trace-boxes__unit">{this.getTraceDisplayUnit(traceSpec)}</div>
     </div>;
   }
 
@@ -35,10 +36,21 @@ class TraceBoxes extends Component {
     return find(SUPPORTED_TRACES, {trace}) || {};
   }
 
-  getTraceValue(trace) {
-    return this.props.latestTraceRecord && numeral(this.props.latestTraceRecord.getIn(['data', trace])).format('0.0a');
+  getTraceValue(trace, spec) {
+    let value = this.props.latestTraceRecord && this.props.latestTraceRecord.getIn(['data', trace]);
+    if (value && spec.hasOwnProperty('unitType')) {
+      value = this.props.convert.convertValue(value, spec.unitType, spec.cunit);
+    }
+    return numeral(value).format('0.0a');
   }
 
+  getTraceDisplayUnit(spec) {
+    let unitDisplay = spec.unit;
+    if (spec.hasOwnProperty("unitType") && unitDisplay.includes("{u}")) {
+      unitDisplay = unitDisplay.replace('{u}', this.props.convert.getUnitDisplay(spec.unitType));
+    }
+    return unitDisplay;
+  }
 }
 
 TraceBoxes.propTypes = {
