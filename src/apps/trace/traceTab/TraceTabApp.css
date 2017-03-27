@@ -8,12 +8,17 @@
   display: flex;
 }
 
+.c-trace-tab__boxes {
+  flex: 1.2;
+  position: relative;
+}
+
 .c-trace-tab__timeline {
   flex: 1;
   position: relative;
 }
 
 .c-trace-tab__trace {
-  flex: 2;
+  flex: 3;
   position: relative;
 }
