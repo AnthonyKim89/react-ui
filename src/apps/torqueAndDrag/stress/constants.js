@@ -14,11 +14,11 @@ export const METADATA = {
 export const SUPPORTED_ASSET_TYPES = ['rig'];
 export const INITIAL_SIZE = {w: 2, h: 10};
 export const SUPPORTED_CHART_SERIES = {
-  von_mises_stress: {label: 'von Mises stress', defaultColor: '#f7e47a'},
-  twist_stress: {label: 'Twist Stress', defaultColor: '#78905f'},
-  axial_stress: {label: 'Axial Stress', defaultColor: '#5f7f90'},
-  yield_stress_60_percent: {label: 'Yield Stress 60%', defaultColor: '#f7e47a'},
-  yield_stress_80_percent: {label: 'Yield Stress 80%', defaultColor: '#78905f'},
-  yield_stress: {label: 'Yield Stress', defaultColor: '#5f7f90'},
-  bending_stress: {label: 'Bending Stress', defaultColor: '#24baea'}
+  von_mises_stress: {label: 'von Mises stress', defaultColor: '#f7e47a', unitType: 'force', unit: 'lbf'},
+  twist_stress: {label: 'Twist Stress', defaultColor: '#78905f', unitType: 'force', unit: 'lbf'},
+  axial_stress: {label: 'Axial Stress', defaultColor: '#5f7f90', unitType: 'force', unit: 'lbf'},
+  yield_stress_60_percent: {label: 'Yield Stress 60%', defaultColor: '#f7e47a', unitType: 'force', unit: 'lbf'},
+  yield_stress_80_percent: {label: 'Yield Stress 80%', defaultColor: '#78905f', unitType: 'force', unit: 'lbf'},
+  yield_stress: {label: 'Yield Stress', defaultColor: '#5f7f90', unitType: 'force', unit: 'lbf'},
+  bending_stress: {label: 'Bending Stress', defaultColor: '#24baea', unitType: 'force', unit: 'lbf'}
 };

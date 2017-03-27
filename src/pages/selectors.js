@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect'
+import { createSelector } from 'reselect';
 import { List, Map } from 'immutable';
 
 import { NAME } from './constants';

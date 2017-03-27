@@ -17,7 +17,6 @@ export default List([
   	name: 'displayFormat',
   	title: '',
   	required: false,
-  	default: DISPLAY_FORMATS[0].value,
-  	Editor: radioEditorForDefinitions(DISPLAY_FORMATS)
+  	Editor: radioEditorForDefinitions(DISPLAY_FORMATS, DISPLAY_FORMATS[0].value)
   })
 ]);

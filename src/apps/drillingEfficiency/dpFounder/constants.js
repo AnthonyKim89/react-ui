@@ -14,5 +14,5 @@ export const METADATA = {
 export const SUPPORTED_ASSET_TYPES = ['rig'];
 export const INITIAL_SIZE = {w: 4, h: 10};
 export const SUPPORTED_CHART_SERIES = {
-  rop: {label: 'ROP', defaultColor: '#fff'},
+  rop: {label: 'ROP', defaultColor: '#fff', unitType: 'length', unit: 'ft'},
 };

@@ -110,13 +110,13 @@ class AssetListPage extends Component {
     return {
       pathname: `/assets/${this.props.params.assetType}`,
       query: {...this.props.location.query, sortField, sortOrder}
-    }
+    };
   }
 
   renderSortIcon(sortField) {
     const {sortField: currentField, sortOrder: currentOrder} = this.props.location.query;
     if (sortField === currentField || (sortField === 'name' && !currentField)) {
-      return <Icon className="c-asset-list-page__sort-icon">{currentOrder === 'desc' ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}</Icon>
+      return <Icon className="c-asset-list-page__sort-icon">{currentOrder === 'desc' ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}</Icon>;
     } else {
       return null;
     }

@@ -6,9 +6,10 @@ import { SUBSCRIPTIONS } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './AccuracyApp.css'
+import './AccuracyApp.css';
 
 class AccuracyApp extends Component {
+
   render() {
     return (
       <div className="c-di-accuracy">
@@ -38,11 +39,11 @@ class AccuracyApp extends Component {
           </Row> :        
         <LoadingIndicator/> }
       </div>
-    )
+    );
   }
 
   renderAccuracyPlan() {
-    let accuracyData = subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS).getIn(["data","accuracy"])
+    let accuracyData = subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS).getIn(["data","accuracy"]);
 
     return (
       <div className="c-di-accuracy-plan">
@@ -50,14 +51,14 @@ class AccuracyApp extends Component {
           Accuracy to Plan
         </p>
         <div style={Object.assign({marginLeft:"-5px"},this.getAccuracyColorStyle(accuracyData))}>
-          {accuracyData.get("distance_to_plan")} <span>ft</span>
+          {this.props.convert.convertValue(accuracyData.get("distance_to_plan"), 'length', 'ft').fixFloat(2)} <span>{this.props.convert.getUnitDisplay('length')}</span>
         </div>
       </div>
-    )
+    );
   }
 
   renderBackToPlan() {
-    let recommendedData = subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS).getIn(["data","recommendation"])
+    let recommendedData = subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS).getIn(["data","recommendation"]);
 
     return (
       <div className="c-di-back-to-plan">
@@ -70,42 +71,42 @@ class AccuracyApp extends Component {
         </div>
 
         <div className="recomm-below">
-          Left/Right plan <span>8.4ft</span>
+          Left/Right plan <span>{this.props.convert.convertValue(recommendedData.get('right_left'), 'length', 'ft').fixFloat(2)}{this.props.convert.getUnitDisplay('length')}</span>
         </div>
         <div className="recomm-below">
-          High/Row plan <span>3.1ft</span>
+          High/Row plan <span>{this.props.convert.convertValue(recommendedData.get('high_low'), 'length', 'ft').fixFloat(2)}{this.props.convert.getUnitDisplay('length')}</span>
         </div>
       </div>
-    )
+    );
   }
 
   renderAccuracyProgress() {
     let pointsData = subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS).getIn(["data","points"]);
-    let itemWidth = 100 / pointsData.size -1;    
+    let itemWidth = 100 / pointsData.size -1;
     let style = {
       marginRight: "1%",
       width: itemWidth + "%"
-    }
+    };
 
     return pointsData.map( (t,index) => {
       return (
         <div key={index} className="accuracy-progress-item" style={Object.assign({},style,this.getAccuracyBackColorStyle(t))}>
         </div>
-      )
-    })
+      );
+    });
     
   }
 
   getAccuracyColorStyle(accuracyData) {
     let severity = accuracyData.get("severity");    
     if (severity === "low") {
-      return Object.assign({}, {color:"#ff0000"})
+      return Object.assign({}, {color:"#ff0000"});
     }
     else if (severity === "moderate") {
-     return Object.assign({}, {color:"#ffff00"})
+     return Object.assign({}, {color:"#ffff00"});
     }
     else {
-      return Object.assign({}, {color:"#00ff00"})
+      return Object.assign({}, {color:"#00ff00"});
     }
   }
 
@@ -115,10 +116,10 @@ class AccuracyApp extends Component {
       return Object.assign({}, {backgroundColor:"#ff0000"});
     }
     else if (severity === "moderate") {      
-      return Object.assign({}, {backgroundColor:"#ffff00"})
+      return Object.assign({}, {backgroundColor:"#ffff00"});
     }
     else {
-      return Object.assign({}, {backgroundColor:"#00ff00"})
+      return Object.assign({}, {backgroundColor:"#00ff00"});
     }
   }
  
@@ -130,4 +131,3 @@ AccuracyApp.propTypes = {
 };
 
 export default AccuracyApp;
-

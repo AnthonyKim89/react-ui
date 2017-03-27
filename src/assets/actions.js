@@ -35,7 +35,7 @@ export function loadAsset(assetId) {
       }
       dispatch({type: LOAD_ASSETS, assets});
     }
-  }
+  };
 }
 
 export function reloadAsset(assetId) {
@@ -43,7 +43,7 @@ export function reloadAsset(assetId) {
     const loadedAsset = assets(getState()).get(assetId, Map());
     const refreshedAsset = loadedAsset.merge(await api.getAsset(assetId));
     dispatch({type: LOAD_ASSETS, assets: List.of(refreshedAsset)});
-  }
+  };
 }
 
 export function listAssets(assetType) {
@@ -56,5 +56,5 @@ export function listAssets(assetType) {
     }
     const assets = await api.getAssets(assetTypesToResolve);
     dispatch({type: LOAD_ASSETS, assets});
-  }
+  };
 }
