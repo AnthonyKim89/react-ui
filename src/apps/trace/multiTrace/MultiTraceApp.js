@@ -92,6 +92,7 @@ class MultiTraceApp extends Component {
         xField="timestamp"
         size={this.props.size}
         widthCols={this.props.widthCols}
+        noSpacing={this.props.noSpacing}
         xAxisLabelFormatter={(...a) => this.formatDate(...a)}>
         {this.getActiveTraceKeys().map(trace => {
           const spec = this.getTraceSpec(trace);
@@ -175,6 +176,7 @@ MultiTraceApp.propTypes = {
   graphColors: ImmutablePropTypes.map,
   size: PropTypes.string.isRequired,
   widthCols: PropTypes.number.isRequired,
+  noSpacing: PropTypes.bool,
   isTraceChangeSupported: PropTypes.bool,
   onTraceChangeRequested: PropTypes.func
 };

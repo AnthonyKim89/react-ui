@@ -46,13 +46,14 @@ class TraceTabApp extends Component {
     const traces = this.getTraceGraphGoup(colNumber);
     return <div className="c-trace-tab__trace">
       <MultiTraceApp data={this.props.data}
-                          trace1={traces.get(0)}
-                          trace2={traces.get(1)}
-                          trace3={traces.get(2)}
-                          size={common.constants.Size.SMALL}
-                          widthCols={3}
-                          isTraceChangeSupported={true}
-                          onTraceChangeRequested={trace => this.openTracePicker(colNumber, trace)}>
+                     trace1={traces.get(0)}
+                     trace2={traces.get(1)}
+                     trace3={traces.get(2)}
+                     size={common.constants.Size.SMALL}
+                     widthCols={3}
+                     noSpacing={true}
+                     isTraceChangeSupported={true}
+                     onTraceChangeRequested={trace => this.openTracePicker(colNumber, trace)}>
       </MultiTraceApp>
     </div>;
   }

@@ -18,7 +18,9 @@ class TraceTimeline extends Component {
       chart: {
         type: 'column',
         backgroundColor: null,
-        plotBackgroundColor: 'rgb(42, 46, 46)'
+        plotBackgroundColor: 'rgb(42, 46, 46)',
+        spacing: [0, 0, 0, 0],
+        style: {overflow: 'visible'}
       },
       plotOptions: {
         series: {
