@@ -25,7 +25,6 @@ class DropdownEditor extends Component {
     const currentValue = event.target.value && parseInt(event.target.value, 10);
     this.props.onChange(currentValue);
   }
-
 }
 
 DropdownEditor.propTypes = {

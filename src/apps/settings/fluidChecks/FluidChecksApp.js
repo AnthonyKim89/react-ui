@@ -15,6 +15,7 @@ class FluidChecksApp extends Component {
   render() {
     return <SettingsRecordManager
               asset={this.props.asset}
+              convert={this.props.convert}
               recordDevKey="corva"
               recordCollection="data.mud"
               recordNamePlural="Fluid Checks"
@@ -23,7 +24,7 @@ class FluidChecksApp extends Component {
               RecordSummary={FluidCheckSummary}
               RecordAttributeForm={FluidCheckAttributeForm}
               RecordDetails={FluidCheckRheometerReadings}
-              renderRecordListItem={r => this.renderFluidCheckListItem(r)} />
+              renderRecordListItem={r => this.renderFluidCheckListItem(r)} />;
   }
 
   renderFluidCheckListItem(fluidCheck) {

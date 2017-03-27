@@ -4,10 +4,10 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import * as api from '../../../api';
 
-import {METADATA} from './constants'
-import CostsSummary from './CostsSummary'
-import CostsAdd from './CostsAdd'
-import CostsItem from './CostsItem'
+import {METADATA} from './constants';
+import CostsSummary from './CostsSummary';
+import CostsAdd from './CostsAdd';
+import CostsItem from './CostsItem';
 
 import './CostsApp.css';
 
@@ -17,7 +17,7 @@ class CostsApp extends Component {
     this.state = {
       records: List(),
       currentRecord: null
-    }
+    };
   }
   
   componentDidMount() {
@@ -28,7 +28,7 @@ class CostsApp extends Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.asset !== this.props.asset) {
-      this.loadRecords(newProps.asset)
+      this.loadRecords(newProps.asset);
     }
   }
 
@@ -61,7 +61,7 @@ class CostsApp extends Component {
             </thead>
             <tbody>
               {this.state.records.map(record=> {
-                return <CostsItem key={record.get("_id")} record={record} onSave={(record)=>this.saveRecord(record)} onRemove={(record)=>this.removeRecord(record)}/>
+                return <CostsItem key={record.get("_id")} record={record} onSave={(record)=>this.saveRecord(record)} onRemove={(record)=>this.removeRecord(record)}/>;
               })}
             </tbody>
           </table> : '' }
@@ -72,7 +72,7 @@ class CostsApp extends Component {
             onSave={(record)=>this.saveRecord(record)}
             onCancel={()=>this.cancelAdd()} /> : ''}
       </div>
-    )
+    );
   }
 
   add() {
@@ -84,15 +84,15 @@ class CostsApp extends Component {
   }
 
   cancelAdd() {
-    this.setState({currentRecord: null})
+    this.setState({currentRecord: null});
   }
 
   async saveRecord(record) {
-    this.setState({currentRecord: null})
+    this.setState({currentRecord: null});
     
-    const savedRecord = record.has('_id')? 
+    const savedRecord = record.has('_id') ?
       await api.putAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record.get('_id') , record) :
-      await api.postAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record)
+      await api.postAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record);
 
     this.setState({
       records: this.state.records.filterNot(r => r.get('_id') === savedRecord.get('_id'))
@@ -111,8 +111,7 @@ class CostsApp extends Component {
       });
     }
     catch(error) {
-      alert("Server api for deletion has bug. fix it first. We need to include good library for alert. Toaster???")
-      // error handling
+      alert("Unable to delete the settings record.");
     }
         
   }

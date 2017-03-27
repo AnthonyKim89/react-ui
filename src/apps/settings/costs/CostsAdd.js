@@ -1,7 +1,7 @@
 import React, { Component,PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import {Button} from 'react-materialize';
-import moment from 'moment'
+import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -15,7 +15,7 @@ class CostsAdd extends Component {
       date: moment(),
       cost: 20,
       description: "directional services"
-    }
+    };
 
     this.selectDate = this.selectDate.bind(this);
   }
@@ -39,12 +39,12 @@ class CostsAdd extends Component {
               <input type="text"                 
                 defaultValue={this.state.cost}
                 ref={(costInput)=>this.costInput=costInput}
-                onChange={(e)=>{this.setState({cost: e.target.value})}} />
+                onChange={e => this.setState({cost: e.target.value})} />
             </td>
             <td>
               <input type="text" 
                 defaultValue={this.state.description} 
-                onChange={(e)=>{this.setState({description: e.target.value})}} />
+                onChange={e => this.setState({description: e.target.value})} />
             </td>
             <td>
               <Button waves='light' floating icon='save' className='lightblue' onClick={()=>this.save()}></Button>
@@ -53,18 +53,17 @@ class CostsAdd extends Component {
           </tr>
         </tbody>
       </table>
-    )
+    );
   }
 
   save() {
     const record = this.props.record.update('data',(oldMap) => {
-      const newMap = oldMap.set("date",this.state.date.unix())
-            .set("cost",parseFloat(this.state.cost))
-            .set("description",this.state.description)
-      return newMap;
-    })      
-    
-    this.props.onSave(record)
+      return oldMap.set("date",this.state.date.unix())
+        .set("cost",parseFloat(this.state.cost))
+        .set("description",this.state.description);
+    });
+
+    this.props.onSave(record);
   }
 
   cancel() {

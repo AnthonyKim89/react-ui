@@ -8,7 +8,7 @@ import { SUBSCRIPTIONS ,SUPPORTED_CHART_SERIES } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './TortuosityIndexApp.css'
+import './TortuosityIndexApp.css';
 
 class TortuosityIndexApp extends Component {
   render() {
@@ -54,20 +54,22 @@ class TortuosityIndexApp extends Component {
           </Chart> :
           <LoadingIndicator />}
       </div>
-    )
-  }  
-
-  getSeries() {
-    return Object.keys(SUPPORTED_CHART_SERIES)
-      	.map(field => this.getDataSeries(field));    
+    );
   }
 
-  getDataSeries(field) {
+  getSeries() {
+    let data = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'points']);
+    data = this.props.convert.convertImmutables(data, 'measured_depth', 'length' ,'ft');
+    return Object.keys(SUPPORTED_CHART_SERIES)
+      	.map(field => this.getDataSeries(field, data));
+  }
+
+  getDataSeries(field, data) {
     return {
       renderType: 'line',
       title: field,
       field,
-      data: subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'points'])
+      data: data
     };
   }
 
@@ -77,7 +79,6 @@ class TortuosityIndexApp extends Component {
     }
     return SUPPORTED_CHART_SERIES[field].defaultColor;
   }
-
 }
 
 TortuosityIndexApp.propTypes = {

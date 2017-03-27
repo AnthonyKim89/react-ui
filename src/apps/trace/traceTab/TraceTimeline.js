@@ -4,7 +4,7 @@ import { format as formatTime } from 'date-fns';
 import Highcharts from 'highcharts';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-import './TraceTimeline.css'
+import './TraceTimeline.css';
 
 class TraceTimeline extends Component {
 
@@ -56,7 +56,9 @@ class TraceTimeline extends Component {
         labels: {
           style: {
             color: '#fff',
-            formatter: function() { return formatTime(this.value, 'M/D H:mm') }
+            formatter: function() {
+              return formatTime(this.value, 'M/D H:mm');
+            }
           },
         }
       }],
@@ -79,7 +81,7 @@ class TraceTimeline extends Component {
 
   isSummaryChanged(newProps) {
     return this.getTraceSummary(newProps) &&
-           !this.getTraceSummary(newProps).equals(this.getTraceSummary(this.props))
+           !this.getTraceSummary(newProps).equals(this.getTraceSummary(this.props));
   }
 
   addSummaryData(summary) {
@@ -131,7 +133,7 @@ class TraceTimeline extends Component {
   }
 
   getTraceSummary(props) {
-    return props.data && props.data.getIn(['corva', 'wits.summary-30s', '']);
+    return props.data && props.data.getIn(['corva', 'wits-summary-30s', '']);
   }  
   
 }

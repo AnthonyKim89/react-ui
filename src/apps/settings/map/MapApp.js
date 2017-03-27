@@ -4,12 +4,12 @@ import { Button, Row, Col} from 'react-materialize';
 import { Map } from 'immutable';
 
 import L from 'mapbox.js';
-import 'mapbox.js/theme/style.css'
+import 'mapbox.js/theme/style.css';
 
 import * as api from '../../../api';
 
-import {METADATA} from './constants'
-import parseLatLng from './helpers'
+import {METADATA} from './constants';
+import parseLatLng from './helpers';
 import './MapApp.css';
 
 class MapApp extends Component {
@@ -21,7 +21,7 @@ class MapApp extends Component {
       record: null,
       topHole:'',
       bottomHole:'' 
-    }
+    };
   }
 
   componentDidMount() {    
@@ -70,7 +70,7 @@ class MapApp extends Component {
         </Row>
         <div id="map" ref={(mapContainer)=>this.mapContainer=mapContainer}></div>       
       </div>
-    )
+    );
   }
   
   async save() {    
@@ -85,7 +85,7 @@ class MapApp extends Component {
       const record = (this.state.record || Map({
         asset_id: this.props.asset.get('id'),
         data: Map({})
-      })).set("data",data);            
+      })).set("data",data);
       
       const savedRecord = record.has('_id')? 
         await api.putAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record.get('_id') , record) :
@@ -95,7 +95,7 @@ class MapApp extends Component {
       this.updateMap();
       
     } else {
-      alert("parsing error");      
+      alert("parsing error");
     }    
 
   }

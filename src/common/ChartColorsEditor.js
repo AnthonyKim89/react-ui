@@ -35,7 +35,7 @@ class ChartColorsEditor extends Component {
   renderCurrentColorIndicator(type) {
     return <span className="c-chart-colors-editor__color-box"
                  style={{backgroundColor: this.getCurrentColor(type)}}>
-    </span>
+    </span>;
   }
 
   expandOrCollapse(type) {

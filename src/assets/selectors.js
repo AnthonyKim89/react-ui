@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect'
+import { createSelector } from 'reselect';
 import { Map } from 'immutable';
 import { isEmpty, trim } from 'lodash';
 import { NAME, ASSET_TYPES } from './constants';
@@ -109,5 +109,5 @@ function makeAssetComparator(reverseSort) {
     } else if (a > b) {
       return reverseSort ? -1 : 1;
     }
-  }
+  };
 }

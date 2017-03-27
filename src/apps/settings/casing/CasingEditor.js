@@ -15,7 +15,8 @@ class CasingEditor extends Component {
                        isEditable={true}
                        onAddItem={this.props.onAddItem}
                        onDeleteItem={this.props.onDeleteItem}
-                       onItemFieldChange={this.props.onItemFieldChange} />
+                       onItemFieldChange={this.props.onItemFieldChange}
+                       convert={this.props.convert} />
         </Col>
       </Row>
       {this.renderActions()}

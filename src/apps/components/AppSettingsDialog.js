@@ -47,7 +47,7 @@ class AppSettingsDialog extends Component {
             </div>
           </Col>
       </Row>
-    </div>
+    </div>;
   }
 
   onDone() {

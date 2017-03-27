@@ -191,12 +191,14 @@ class Chart extends Component {
   }
 
   getSeriesArray(props = this.props) {
-    return React.Children.toArray(props.children)
+    return React.Children.toArray(props.children);
   }
 
   getXAxisLabelFormatter() {
     const formatter = this.props.xAxisLabelFormatter;
-    return formatter && function() { return formatter(this.value, this.isFirst, this.isLast) }
+    return formatter && function() {
+      return formatter(this.value, this.isFirst, this.isLast);
+    };
   }
 
   isLegendVisible(props) {
@@ -204,7 +206,7 @@ class Chart extends Component {
   }
 
   isAxisLabelsVisible(props) {    
-    return props.size !== Size.SMALL
+    return props.size !== Size.SMALL;
   }
 
 }

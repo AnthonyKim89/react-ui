@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import Highcharts from 'highcharts';
-import { isEqual } from 'lodash'
+import { isEqual } from 'lodash';
 
 /*
   This graph expects that series' will be provided as an array of objects containing x/y and a label and/or color
@@ -44,6 +44,7 @@ class ObjectGraph extends Component {
         },
         gridLineWidth: 0,
         tickWidth: 0,
+        lineWidth: 0,
         showFirstLabel: false,
         showLastLabel: false,
       },
@@ -57,6 +58,7 @@ class ObjectGraph extends Component {
           useHTML: true,
         },
         gridLineWidth: 0,
+        lineWidth: 0,
         showFirstLabel: false,
         showLastLabel: false,
       },

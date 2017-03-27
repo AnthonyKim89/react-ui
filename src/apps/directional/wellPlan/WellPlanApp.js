@@ -8,7 +8,7 @@ import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './WellPlanApp.css'
+import './WellPlanApp.css';
 
 class WellPlanApp extends Component {
 
@@ -55,7 +55,7 @@ class WellPlanApp extends Component {
           </Chart> :
           <LoadingIndicator />}
       </div>
-    )
+    );
   }
 
   getSeries() {
@@ -64,11 +64,15 @@ class WellPlanApp extends Component {
   }
 
   getDataSeries(field) {
+    let data = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', field ]);
+    data = this.props.convert.convertImmutables(data, "tvd", "length", "ft");
+    data = this.props.convert.convertImmutables(data, "vertical_section", "length", "ft");
+
     return {
       renderType: SUPPORTED_CHART_SERIES[field].chartType,
       title: field,
       field,
-      data: subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', field ])
+      data: data
     };
   }
 

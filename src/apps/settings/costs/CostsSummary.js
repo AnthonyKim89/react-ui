@@ -27,7 +27,7 @@ class CostsSummary extends Component {
     			</tbody>
     		</Table>
       </div>
-    )
+    );
   }
 
   getTotalAndAverage() {
@@ -35,9 +35,9 @@ class CostsSummary extends Component {
     this.props.records.map((record)=> {
         total += parseFloat(record.getIn(["data","cost"]));
         return record;
-    })
+    });
     let average = (this.props.records.size>0) ? (total / this.props.records.size).toFixed(2) : 0;
-    return {total,average}
+    return {total,average};
   }
 }
 
