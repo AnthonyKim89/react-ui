@@ -3,7 +3,6 @@ import { List } from 'immutable';
 import { format as formatTime } from 'date-fns';
 import Highcharts from 'highcharts';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import numeral from 'numeral';
 
 import './TraceTimeline.css';
 
