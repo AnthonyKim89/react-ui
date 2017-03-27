@@ -42,9 +42,9 @@ class DownholeTransferApp extends Component {
         <tr>
           <th>
             TOR
-            <div className="c-tnd-downhole-transfer__unit">k{this.props.convert.GetUnitDisplay('force')}</div>
+            <div className="c-tnd-downhole-transfer__unit">k{this.props.convert.getUnitDisplay('force')}</div>
           </th>
-          <td>{this.props.convert.ConvertValue(data.getIn(['surface', 'torque']), 'force', 'lbf').fixFloat(1)}</td>
+          <td>{this.props.convert.convertValue(data.getIn(['surface', 'torque']), 'force', 'lbf').fixFloat(1)}</td>
           <td className={`c-tnd-downhole-transfer__efficiency
                           c-tnd-downhole-transfer--${data.get('torque_efficiency')}`}>
             <Icon>play_arrow</Icon>
@@ -53,15 +53,15 @@ class DownholeTransferApp extends Component {
             </div>
           </td>
           <td className={`c-tnd-downhole-transfer--${data.get('torque_efficiency')}`}>
-            {this.props.convert.ConvertValue(data.getIn(['downhole', 'torque']), 'force', 'lbf').fixFloat(1)}
+            {this.props.convert.convertValue(data.getIn(['downhole', 'torque']), 'force', 'lbf').fixFloat(1)}
           </td>
         </tr>
         <tr>
           <th>
             WOB
-            <div className="c-tnd-downhole-transfer__unit">k{this.props.convert.GetUnitDisplay('mass')}</div>
+            <div className="c-tnd-downhole-transfer__unit">k{this.props.convert.getUnitDisplay('mass')}</div>
           </th>
-          <td>{this.props.convert.ConvertValue(data.getIn(['surface', 'weight_on_bit']), 'mass', 'lb').fixFloat(1)}</td>
+          <td>{this.props.convert.convertValue(data.getIn(['surface', 'weight_on_bit']), 'mass', 'lb').fixFloat(1)}</td>
           <td className={`c-tnd-downhole-transfer__efficiency
                           c-tnd-downhole-transfer--${data.get('weight_on_bit_efficiency')}`}>
             <Icon>play_arrow</Icon>
@@ -70,7 +70,7 @@ class DownholeTransferApp extends Component {
             </div>
           </td>
           <td className={`c-tnd-downhole-transfer--${data.getIn(['weight_on_bit_efficiency'])}`}>
-            {this.props.convert.ConvertValue(data.getIn(['downhole', 'weight_on_bit']), 'mass', 'lb').fixFloat(1)}
+            {this.props.convert.convertValue(data.getIn(['downhole', 'weight_on_bit']), 'mass', 'lb').fixFloat(1)}
           </td>
         </tr>
       </tbody>

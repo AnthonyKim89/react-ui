@@ -67,13 +67,7 @@ class MultiTraceApp extends Component {
       let traceSpec = this.getTraceSpec(trace);
       let unitDisplay = traceSpec.unit;
       if (traceSpec.hasOwnProperty("unitType") && unitDisplay.includes("{u}")) {
-        let formatUnit = this.props.convert.GetUnitPreference(traceSpec.unitType);
-        if (formatUnit !== traceSpec.unit) {
-          if (traceSpec.hasOwnProperty('cunitFormat') && traceSpec.cunitFormat.hasOwnProperty(formatUnit)) {
-            formatUnit = traceSpec.cunitFormat[formatUnit];
-          }
-          traceSpec.unit = unitDisplay.replace('{u}', formatUnit);
-        }
+        traceSpec.unit = unitDisplay.replace('{u}', this.props.convert.getUnitDisplay(traceSpec.unitType));
       }
 
       return (<div className="c-trace-multi__latest"
@@ -113,7 +107,7 @@ class MultiTraceApp extends Component {
 
           // Performing unit conversion.
           if (spec.hasOwnProperty('unitType')) {
-            convertedSummary = this.props.convert.ConvertImmutables(convertedSummary, this.props[trace], spec.unitType, spec.cunit);
+            convertedSummary = this.props.convert.convertImmutables(convertedSummary, this.props[trace], spec.unitType, spec.cunit);
           }
 
           return <ChartSeries
@@ -164,7 +158,7 @@ class MultiTraceApp extends Component {
     const traceKey = this.props[trace];
     let value = this.getLatestTraceRecord().getIn(['data', traceKey]);
     if (spec.hasOwnProperty("unitType")) {
-      value = this.props.convert.ConvertValue(value, spec.unitType, spec.cunit);
+      value = this.props.convert.convertValue(value, spec.unitType, spec.cunit);
     }
     return value;
   }

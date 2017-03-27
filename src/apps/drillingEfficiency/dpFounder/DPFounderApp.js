@@ -41,7 +41,7 @@ class DPFounder extends Component {
             xPlotLines={[{
               color: 'red',
               width: 1,
-              value: this.props.convert.ConvertValue(subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'founder_value']), 'pressure', 'psi'),
+              value: this.props.convert.convertValue(subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'founder_value']), 'pressure', 'psi'),
             }]}>
             {this.getSeries().map(({renderType, title, field, data}, idx) => (
               <ChartSeries
@@ -70,8 +70,8 @@ class DPFounder extends Component {
 
   getDataSeries(field) {
     let data = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'points']);
-    data = this.props.convert.ConvertImmutables(data, field, SUPPORTED_CHART_SERIES[field].unitType, SUPPORTED_CHART_SERIES[field].unit);
-    data = this.props.convert.ConvertImmutables( data, 'dp', 'pressure', 'psi');
+    data = this.props.convert.convertImmutables(data, field, SUPPORTED_CHART_SERIES[field].unitType, SUPPORTED_CHART_SERIES[field].unit);
+    data = this.props.convert.convertImmutables( data, 'dp', 'pressure', 'psi');
 
     return {
       renderType: 'scatter',

@@ -32,7 +32,7 @@ class TrendChart extends Component {
       xAxis: {
           title: {
               enabled: true,
-              text: 'Measure Depth ('+this.props.convert.GetUnitDisplay('length')+')',
+              text: 'Measure Depth ('+this.props.convert.getUnitDisplay('length')+')',
               style: {
               	color:'#ffffff'
               }

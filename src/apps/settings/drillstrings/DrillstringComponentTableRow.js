@@ -49,7 +49,7 @@ class DrillstringComponentTableRow extends Component {
     if (this.props.isEditable) {
       let value = this.props.component.get(field, '');
       if (unitType !== null) {
-        value = this.props.convert.ConvertValue(parseFloat(value), unitType, unit).fixFloat(2);
+        value = this.props.convert.convertValue(parseFloat(value), unitType, unit).fixFloat(2);
       }
       return <Input type="number"
                     value={value}

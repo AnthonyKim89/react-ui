@@ -65,13 +65,7 @@ class SingleTraceApp extends Component {
     let traceSpec = this.getTrace();
     let unitDisplay = traceSpec.unit;
     if (traceSpec.hasOwnProperty("unitType") && unitDisplay.includes("{u}")) {
-      let formatUnit = this.props.convert.GetUnitPreference(traceSpec.unitType);
-      if (formatUnit !== traceSpec.unit) {
-        if (traceSpec.hasOwnProperty('cunitFormat') && traceSpec.cunitFormat.hasOwnProperty(formatUnit)) {
-          formatUnit = traceSpec.cunitFormat[formatUnit];
-        }
-        traceSpec.unit = unitDisplay.replace('{u}', formatUnit);
-      }
+      traceSpec.unit = unitDisplay.replace('{u}', this.props.convert.getUnitDisplay(traceSpec.unitType));
     }
 
     return (
@@ -128,7 +122,7 @@ class SingleTraceApp extends Component {
     if (trace) {
       trace = trace.getIn(['data', this.props.trace]);
       if (spec.hasOwnProperty("unitType")) {
-        trace = this.props.convert.ConvertValue(trace, spec.unitType, spec.cunit);
+        trace = this.props.convert.convertValue(trace, spec.unitType, spec.cunit);
       }
       return numeral(trace).format('0.0a');
     }

@@ -40,7 +40,7 @@ class PressureLossApp extends Component {
       .getIn(['data', 'percentages'])
       .map(datum => ({
         name: LABELS[datum.get('type')],
-        y: this.props.convert.ConvertValue(datum.get('pressure_loss'), 'pressure', 'psi').fixFloat(1),
+        y: this.props.convert.convertValue(datum.get('pressure_loss'), 'pressure', 'psi').fixFloat(1),
         color: COLORS[datum.get('type')]
       }));
   }
@@ -50,7 +50,7 @@ class PressureLossApp extends Component {
   }
 
   get displayUnit() {
-    return this.showTooltipInPercentage() ? '%' : ' ' + this.props.convert.GetUnitDisplay("pressure");
+    return this.showTooltipInPercentage() ? '%' : ' ' + this.props.convert.getUnitDisplay("pressure");
   }
 }
 

@@ -21,7 +21,7 @@ class MSEVDepthApp extends Component {
   }
 
   formatYLabel() {
-    let unit = this.props.convert.GetUnitDisplay('length');
+    let unit = this.props.convert.getUnitDisplay('length');
     return (
       function() {
         return '<span class="c-de-mse-v-depth-x-label">' + this.value + '</span>' + unit;
@@ -52,10 +52,11 @@ class MSEVDepthApp extends Component {
       ]);
     });
 
-    processedData = this.props.convert.ConvertArray(processedData, 0, 'length', 'ft', this.props.convert.GetUnitDisplay('length'));
+    // Measured Depth is in index 0
+    processedData = this.props.convert.convertArray(processedData, 0, 'length', 'ft');
 
     if (unitType) {
-      processedData = this.props.convert.ConvertArray(processedData, 1, unitType, unit);
+      processedData = this.props.convert.convertArray(processedData, 1, unitType, unit);
     }
 
     return {

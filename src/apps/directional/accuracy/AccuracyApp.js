@@ -51,7 +51,7 @@ class AccuracyApp extends Component {
           Accuracy to Plan
         </p>
         <div style={Object.assign({marginLeft:"-5px"},this.getAccuracyColorStyle(accuracyData))}>
-          {this.props.convert.ConvertValue(accuracyData.get("distance_to_plan"), 'length', 'ft').fixFloat(2)} <span>{this.props.convert.GetUnitDisplay('length')}</span>
+          {this.props.convert.convertValue(accuracyData.get("distance_to_plan"), 'length', 'ft').fixFloat(2)} <span>{this.props.convert.getUnitDisplay('length')}</span>
         </div>
       </div>
     );
@@ -71,10 +71,10 @@ class AccuracyApp extends Component {
         </div>
 
         <div className="recomm-below">
-          Left/Right plan <span>{this.props.convert.ConvertValue(recommendedData.get('right_left'), 'length', 'ft').fixFloat(2)}{this.props.convert.GetUnitDisplay('length')}</span>
+          Left/Right plan <span>{this.props.convert.convertValue(recommendedData.get('right_left'), 'length', 'ft').fixFloat(2)}{this.props.convert.getUnitDisplay('length')}</span>
         </div>
         <div className="recomm-below">
-          High/Row plan <span>{this.props.convert.ConvertValue(recommendedData.get('high_low'), 'length', 'ft').fixFloat(2)}{this.props.convert.GetUnitDisplay('length')}</span>
+          High/Row plan <span>{this.props.convert.convertValue(recommendedData.get('high_low'), 'length', 'ft').fixFloat(2)}{this.props.convert.getUnitDisplay('length')}</span>
         </div>
       </div>
     );

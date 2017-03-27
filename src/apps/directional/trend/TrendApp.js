@@ -24,7 +24,7 @@ class TrendApp extends Component {
 
   getYAxes() {
     return  [{
-      titleText: 'TVD('+this.props.convert.GetUnitDisplay('length')+')', color:'#ffffff', others: { min:0, reversed:true }
+      titleText: 'TVD('+this.props.convert.getUnitDisplay('length')+')', color:'#ffffff', others: { min:0, reversed:true }
     }, {
       titleText: 'GTF', color:'#add8e6' , others: { opposite:true }
     }, {
@@ -34,29 +34,29 @@ class TrendApp extends Component {
 
   getSeries() {
     let tfo = this.getSeriesData("tfo",["measured_depth","tfo"]);
-    tfo = this.props.convert.ConvertArray(tfo, 0, 'length', 'ft');
+    tfo = this.props.convert.convertArray(tfo, 0, 'length', 'ft');
 
-    let tvd_actual = this.getSeriesData("tvd_actual",["measured_depth","tvd"]);
-    tvd_actual = this.props.convert.ConvertArray(tvd_actual, 0, 'length', 'ft');
-    tvd_actual = this.props.convert.ConvertArray(tvd_actual, 1, 'length', 'ft');
+    let tvdActual = this.getSeriesData("tvd_actual",["measured_depth","tvd"]);
+    tvdActual = this.props.convert.convertArray(tvdActual, 0, 'length', 'ft');
+    tvdActual = this.props.convert.convertArray(tvdActual, 1, 'length', 'ft');
 
-    let tvd_plan = this.getSeriesData("tvd_plan",["measured_depth","tvd"]);
-    tvd_plan = this.props.convert.ConvertArray(tvd_plan, 0, 'length', 'ft');
-    tvd_plan = this.props.convert.ConvertArray(tvd_plan, 1, 'length', 'ft');
+    let tvdPlan = this.getSeriesData("tvd_plan",["measured_depth","tvd"]);
+    tvdPlan = this.props.convert.convertArray(tvdPlan, 0, 'length', 'ft');
+    tvdPlan = this.props.convert.convertArray(tvdPlan, 1, 'length', 'ft');
 
-    let drilling_window = this.getSeriesData("drilling_window",["measured_depth","top","bottom"]);
-    drilling_window = this.props.convert.ConvertArray(drilling_window, 0, 'length', 'ft');
-    drilling_window = this.props.convert.ConvertArray(drilling_window, 1, 'length', 'ft');
-    drilling_window = this.props.convert.ConvertArray(drilling_window, 2, 'length', 'ft');
+    let drillingWindow = this.getSeriesData("drilling_window",["measured_depth","top","bottom"]);
+    drillingWindow = this.props.convert.convertArray(drillingWindow, 0, 'length', 'ft');
+    drillingWindow = this.props.convert.convertArray(drillingWindow, 1, 'length', 'ft');
+    drillingWindow = this.props.convert.convertArray(drillingWindow, 2, 'length', 'ft');
 
     let dls = this.getSeriesData("dls",["measured_depth","dls"]);
-    dls = this.props.convert.ConvertArray(dls, 0, 'length', 'ft');
+    dls = this.props.convert.convertArray(dls, 0, 'length', 'ft');
 
     let seriesSetting = {
       tfo: {yAxis:1, data: tfo},
-      tvd_actual: {yAxis:0, data: tvd_actual},
-      tvd_plan: {yAxis:0,  data: tvd_plan},
-      drilling_window: {yAxis:0, data: drilling_window, lineWidth:30},
+      tvd_actual: {yAxis:0, data: tvdActual},
+      tvd_plan: {yAxis:0,  data: tvdPlan},
+      drilling_window: {yAxis:0, data: drillingWindow, lineWidth:30},
       dls: {yAxis:2, data: dls},
     };
 

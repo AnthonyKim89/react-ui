@@ -32,15 +32,15 @@ export class DrillstringSummary extends Component {
           </div>
         </Col>
         <Col m={2}>
-          <div className="c-drillstring-summary__label">Length ({this.props.convert.GetUnitDisplay('length')})</div>
+          <div className="c-drillstring-summary__label">Length ({this.props.convert.getUnitDisplay('length')})</div>
           <div className="c-drillstring-summary__value c-drillstring-summary__value--is-long">
-            {numeral(this.props.convert.ConvertValue(this.getComponentLengthSum(), 'length', 'ft')).format('0,0')}
+            {numeral(this.props.convert.convertValue(this.getComponentLengthSum(), 'length', 'ft')).format('0,0')}
           </div>
         </Col>
         <Col m={2}>
-          <div className="c-drillstring-summary__label">Weight (k{this.props.convert.GetUnitDisplay('mass')})</div>
+          <div className="c-drillstring-summary__label">Weight (k{this.props.convert.getUnitDisplay('mass')})</div>
           <div className="c-drillstring-summary__value c-drillstring-summary__value--is-long">
-            {numeral(this.props.convert.ConvertValue(this.getComponentWeightSum(), 'mass', 'lb')).format('0,0')}
+            {numeral(this.props.convert.convertValue(this.getComponentWeightSum(), 'mass', 'lb')).format('0,0')}
           </div>
         </Col>
         <Col m={1}>

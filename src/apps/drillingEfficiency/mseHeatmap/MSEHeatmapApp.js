@@ -11,8 +11,10 @@ import './MSEHeatmapApp.css';
 class MSEHeatmapApp extends Component {
 
   render() {
-    try {
-      let rawData = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).get("data");
+    let rawData = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS);
+
+    if (rawData) {
+      rawData = rawData.get("data");
       return (
         <div className="c-de-mseheatmap">
           <Heatmap title="MSE Heatmap"
@@ -21,9 +23,9 @@ class MSEHeatmapApp extends Component {
                    yAxis={this.getAxis(rawData.get("y_axis"), 'rows', 'mass', 'lb')} />
         </div>
       );
-    } catch (e) {
-      return <div className="c-de-mseheatmap"><LoadingIndicator /></div>;
     }
+
+    return <div className="c-de-mseheatmap"><LoadingIndicator /></div>;
   }
 
   getAxis(axis, axisType, unitType=null, unit=null) {
@@ -32,8 +34,8 @@ class MSEHeatmapApp extends Component {
     let axisLength = axis.get(axisType);
 
     if (unitType !== null) {
-      max = this.props.convert.ConvertValue(max, unitType, unit);
-      min = this.props.convert.ConvertValue(min, unitType, unit);
+      max = this.props.convert.convertValue(max, unitType, unit);
+      min = this.props.convert.convertValue(min, unitType, unit);
     }
 
     let unitSize = (max - min)/axisLength;
@@ -54,7 +56,7 @@ class MSEHeatmapApp extends Component {
   }
 
   getSeries(data) {
-    let toUnit = this.props.convert.GetUnitPreference('length');
+    let toUnit = this.props.convert.getUnitPreference('length');
     let series = [];
     let rows = data.get("y_axis").get("rows");
     let columns = data.get("x_axis").get("columns");
@@ -62,7 +64,7 @@ class MSEHeatmapApp extends Component {
       let row = data.get("rotary").get(y);
       for (let x = 0; x < columns; x++) {
         let z = row.get(x);
-        z = z !== null ? this.props.convert.ConvertValue(z, 'length', 'ft', toUnit) : null;
+        z = z !== null ? this.props.convert.convertValue(z, 'length', 'ft', toUnit) : null;
         series.push([y, x, z]);
       }
     }

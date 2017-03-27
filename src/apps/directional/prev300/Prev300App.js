@@ -67,11 +67,11 @@ class Prev300App extends Component {
 
   getDataSeries(field) {
     let data = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', field ]);
-    let startIndex = (data.size - 15 >= 0) ? data.size - 15 : 0;
+    let startIndex = Math.max(data.size - 15, 0);
 
     data = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', field ]).slice(startIndex);
-    data = this.props.convert.ConvertImmutables(data, "tvd", "length", "ft");
-    data = this.props.convert.ConvertImmutables(data, "vertical_section", "length", "ft");
+    data = this.props.convert.convertImmutables(data, "tvd", "length", "ft");
+    data = this.props.convert.convertImmutables(data, "vertical_section", "length", "ft");
 
     return {
       renderType: SUPPORTED_CHART_SERIES[field].chartType,

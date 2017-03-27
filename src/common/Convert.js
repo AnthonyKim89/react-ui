@@ -1,10 +1,17 @@
-import login from '../login';
-import { store } from '../store';
 import convert from 'corva-convert-units';
 import { Map, fromJS } from 'immutable';
 
+import login from '../login';
+import { store } from '../store';
+
 /*
-  This should be instantiated within a react component and used there.
+  This conversion class acts as a smart wrapper for corva-convert-units (a fork of the npm convert-units module.
+  It will automatically inject the current user's unit conversion preferences, so apps can easily convert
+    units without having to individually look up a user's details.
+  This should be instantiated within a react component and used there. It requires a react component context because
+    it relies on the react-redux store to get the current state so selectors can use it.
+  This will automatically be added to every App when it's instantiated as the `convert` prop.
+    this.props.convert.convertValue(...), etc.
  */
 
 class Convert {
@@ -12,7 +19,7 @@ class Convert {
 
   constructor() {
     this.user = login.selectors.currentUser(store.getState());
-    this.system = this.lookupUserUnitSystem();
+    this.system = this._lookupUserUnitSystem();
 
     this.units = {
       imperial: {
@@ -43,20 +50,20 @@ class Convert {
     };
 
     this.units.custom = Object.assign(this.units.custom, {
-      length: this.lookupCustomUserUnitPreference('length'),
-      mass: this.lookupCustomUserUnitPreference('mass'),
-      volume: this.lookupCustomUserUnitPreference('volume'),
-      pressure: this.lookupCustomUserUnitPreference('pressure'),
-      temperature: this.lookupCustomUserUnitPreference('temperature'),
-      speed: this.lookupCustomUserUnitPreference('speed'),
-      area: this.lookupCustomUserUnitPreference('area'),
-      force: this.lookupCustomUserUnitPreference('force'),
-      oil: this.lookupCustomUserUnitPreference('oil'),
-      yp: this.lookupCustomUserUnitPreference('yp'),
+      length: this._lookupCustomUserUnitPreference('length'),
+      mass: this._lookupCustomUserUnitPreference('mass'),
+      volume: this._lookupCustomUserUnitPreference('volume'),
+      pressure: this._lookupCustomUserUnitPreference('pressure'),
+      temperature: this._lookupCustomUserUnitPreference('temperature'),
+      speed: this._lookupCustomUserUnitPreference('speed'),
+      area: this._lookupCustomUserUnitPreference('area'),
+      force: this._lookupCustomUserUnitPreference('force'),
+      oil: this._lookupCustomUserUnitPreference('oil'),
+      yp: this._lookupCustomUserUnitPreference('yp'),
     });
   }
 
-  lookupCustomUserUnitPreference(unitType) {
+  _lookupCustomUserUnitPreference(unitType) {
     if (this.user === null) {
       return this.units[this.defaultSystem][unitType];
     }
@@ -67,7 +74,7 @@ class Convert {
       this.units[this.defaultSystem][unitType];
   }
 
-  lookupUserUnitSystem() {
+  _lookupUserUnitSystem() {
     if (this.user === null) {
       return this.defaultSystem;
     }
@@ -83,7 +90,7 @@ class Convert {
    * @param unitType length, mass, volume, etc
    * @returns string
    */
-  GetUnitPreference(unitType) {
+  getUnitPreference(unitType) {
     return this.units[this.system][unitType];
   }
 
@@ -92,8 +99,8 @@ class Convert {
    * @param unitType length, mass, volume, etc
    * @returns string
    */
-  GetUnitDisplay(unitType) {
-    return convert().describe(this.GetUnitPreference(unitType)).display;
+  getUnitDisplay(unitType) {
+    return convert().describe(this.getUnitPreference(unitType)).display;
   }
 
   /**
@@ -101,8 +108,8 @@ class Convert {
    * @param unitType length, mass, volume, etc
    * @returns string
    */
-  GetUnitSingular(unitType) {
-    return convert().describe(this.GetUnitPreference(unitType)).singular;
+  getUnitSingular(unitType) {
+    return convert().describe(this.getUnitPreference(unitType)).singular;
   }
 
   /**
@@ -110,21 +117,21 @@ class Convert {
    * @param unitType length, mass, volume, etc
    * @returns string
    */
-  GetUnitPlural(unitType) {
-    return convert().describe(this.GetUnitPreference(unitType)).plural;
+  getUnitPlural(unitType) {
+    return convert().describe(this.getUnitPreference(unitType)).plural;
   }
 
   /**
-   * Converts a single value from
+   * Converts a single value
    * @param value The value we want converted.
    * @param unitType The class of unit such as volume, length, mass, etc.
    * @param from The specific unit such as m, gal, lb, etc.
    * @param to (optional) the unit that we want to convert the value to. May be passed in my ConvertList
    * @return number
    */
-  ConvertValue(value, unitType, from, to=null) {
+  convertValue(value, unitType, from, to=null) {
     if (to === null) {
-      to = this.GetUnitPreference(unitType);
+      to = this.getUnitPreference(unitType);
       if (typeof to === 'undefined' || to === null || from === to) {
         return value;
       }
@@ -143,9 +150,9 @@ class Convert {
    * @param to (optional) the unit that we want to convert the value to.
    * @returns Immutable
    */
-  ConvertImmutables(immt, key, unitType, from, to=null) {
+  convertImmutables(immt, key, unitType, from, to=null) {
     if (to === null) {
-      to = this.GetUnitPreference(unitType);
+      to = this.getUnitPreference(unitType);
       if (typeof to === 'undefined' || to === null || from === to) {
         return immt;
       }
@@ -153,7 +160,7 @@ class Convert {
     immt = immt.toArray();
 
     for (let i = 0; i < immt.length; i++) {
-      immt[i] = immt[i].set(key, this.ConvertValue(immt[i].get(key), unitType, from, to));
+      immt[i] = immt[i].set(key, this.convertValue(immt[i].get(key), unitType, from, to));
     }
 
     return fromJS(immt);
@@ -168,16 +175,16 @@ class Convert {
    * @param to (optional) the unit that we want to convert the value to.
    * @returns Array
    */
-  ConvertArray(iterable, key, unitType, from, to=null) {
+  convertArray(iterable, key, unitType, from, to=null) {
     if (to === null) {
-      to = this.GetUnitPreference(unitType);
+      to = this.getUnitPreference(unitType);
       if (typeof to === 'undefined' || to === null || from === to) {
         return iterable;
       }
     }
 
     for (let i = 0; i < iterable.length; i++) {
-      iterable[i][key] = this.ConvertValue(iterable[i][key], unitType, from, to);
+      iterable[i][key] = this.convertValue(iterable[i][key], unitType, from, to);
     }
 
     return iterable;

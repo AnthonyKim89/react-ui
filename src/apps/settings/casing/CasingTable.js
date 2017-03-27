@@ -47,7 +47,7 @@ class CasingTable extends Component {
       <td>{this.renderNumberField(item, idx, 'od')}</td>
       <td>{this.renderNumberField(item, idx, 'measured_depth_top', 'length', 'ft')}</td>
       <td>{this.renderNumberField(item, idx, 'measured_depth_bottom', 'length', 'ft')}</td>
-      <td>{this.props.convert.ConvertValue(parseFloat(item.get('length')), 'length', 'ft').fixFloat(2)}</td>
+      <td>{this.props.convert.convertValue(parseFloat(item.get('length')), 'length', 'ft').fixFloat(2)}</td>
       <td>{this.renderNumberField(item, idx, 'linear_mass', 'mass', 'lb')}</td>
       <td>{this.renderTextField(item, idx, 'grade')}</td>
       <td>
@@ -71,7 +71,7 @@ class CasingTable extends Component {
     if (this.props.isEditable) {
       let value = item.get(field, '');
       if (unitType !== null) {
-        value = this.props.convert.ConvertValue(parseFloat(value), unitType, unit).fixFloat(2);
+        value = this.props.convert.convertValue(parseFloat(value), unitType, unit).fixFloat(2);
       }
       return <Input type="number"
                     value={value}

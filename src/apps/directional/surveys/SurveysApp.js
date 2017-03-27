@@ -30,7 +30,7 @@ class SurveysApp extends Component {
               	json.getIn(["data","actual"]).slice(0,5).map( (t,index)=> {
 	                return (
 	                <tr key={index}>
-	                  <td>{this.props.convert.ConvertValue(t.get("measured_depth"), 'length', 'ft').fixFloat(1)} <sub> {this.props.convert.GetUnitDisplay('length')}</sub></td>
+	                  <td>{this.props.convert.convertValue(t.get("measured_depth"), 'length', 'ft').fixFloat(1)} <sub> {this.props.convert.getUnitDisplay('length')}</sub></td>
 	                  <td>{t.get("inclination").fixFloat(2)} <sub>*</sub></td>
 	                  <td>{t.get("azimuth").fixFloat(2)} <sub>*</sub></td>
 	                  <td>{t.get("dls").fixFloat(2)}</td>
