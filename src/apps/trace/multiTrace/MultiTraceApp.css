@@ -66,7 +66,7 @@
 .c-trace-multi__graph {
   position: absolute;
   top: 140px;
-  bottom: 90px;
+  bottom: 60px;
   left: 10px;
   right: 10px;
 }
@@ -74,23 +74,27 @@
 .c-trace-multi__ranges {
   position: absolute;
   bottom: 0;
-  height: 90px;
+  height: 60px;
   left: 10px;
   right: 10px;
 }
 
 .c-trace-multi__range {
-  height: 30px;
-  padding-top: 5px;
+  height: 20px;
+  padding-top: 3px;
   border-bottom-style: solid;
   border-bottom-width: 2px;
 }
 .c-trace-multi__range-label {
   text-align: center;
+  font-size: 0.8rem;
+  opacity: 1.0;
 }
 .c-trace-multi__range-min {
   float: left;
+  font-size: 0.8rem;
 }
 .c-trace-multi__range-max {
   float: right;
+  font-size: 0.8rem;
 }
