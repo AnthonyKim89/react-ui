@@ -54,7 +54,7 @@ export const currentAssetPageTab = createSelector(
 
 export const currentPageParams = createSelector(
   pageParams,
-  (_, props) => props.params.assetId,
+  (_, props) => parseInt(props.params.assetId, 10),
   (allParams, assetId) => allParams.get(assetId)
 );
 
