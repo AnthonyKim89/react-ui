@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import Highcharts from 'highcharts';
-import { differenceBy, intersectionBy, values } from 'lodash';
+import { difference, find, intersection, differenceBy, values } from 'lodash';
 import { Size } from './constants';
 
 class Chart extends Component {
@@ -13,7 +13,7 @@ class Chart extends Component {
   }
 
   componentDidMount() {
-    const series = this.getSeries(this.props);
+    const series = this.getAllSeries(this.props);
     const chart = Highcharts.chart(this.container, {
       chart: {
         type: this.props.chartType || 'line',
@@ -88,28 +88,26 @@ class Chart extends Component {
 
   diffPatchSeries(newProps) {
     const chart = this.state.chart;
-    const oldSeries = this.getSeries(this.props);
-    const newSeries = this.getSeries(newProps);
-    const addedSeries = differenceBy(newSeries, oldSeries, s => s.id);
-    const removedSeries = differenceBy(oldSeries, newSeries, s => s.id);
-    const retainedSeries = intersectionBy(newSeries, oldSeries, s => s.id);
+    const {added, removed, retained} = this.getSeriesDiff(newProps, this.props);
     let redraw = false;
-    for (const series of removedSeries) {
-      chart.get(series.id).remove(false);
+    for (const seriesId of removed) {
+      chart.get(seriesId).remove(false);
       if (newProps.multiAxis) {
-        chart.get(`${series.id}-axis`).remove(false);
+        chart.get(`${seriesId}-axis`).remove(false);
       }
       redraw = true;
     }
-    for (const series of addedSeries) {
+    for (const seriesId of added) {
+      const series = this.getSeries(newProps, seriesId);
       if (newProps.multiAxis) {
         chart.addAxis(this.getYAxis(series, newProps), false);
       }
       chart.addSeries(series, false);
       redraw = true;
     }
-    for (const newVersion of retainedSeries) {
-      const oldVersion = chart.get(newVersion.id);
+    for (const seriesId of retained) {
+      const oldVersion = chart.get(seriesId);
+      const newVersion = this.getSeries(newProps, seriesId);
       const colorChange = oldVersion.options.color !== newVersion.color;
       const addedPoints = differenceBy(newVersion.data, oldVersion.data, p => p.id);
       const removedPoints = differenceBy(oldVersion.data, newVersion.data, p => p.id);
@@ -127,36 +125,56 @@ class Chart extends Component {
     return redraw;
   }
 
-  getSeries(props) {
-    return this.getSeriesArray(props).map(series => {
-      const {type, title, data, color, id, yField, minValue, maxValue, dashStyle, lineWidth, pointPadding, groupPadding, borderWidth, marker} = series.props;
-      return {
-        id,
-        name: title,
-        type: type || 'line',
-        data: data.map(point => ({
-          id: `${id}-${point.get(props.xField)}-${point.get(yField)}`,
-          x: point.get(props.xField),
-          y: yField ? point.get(yField) : null,
-          color: point.get("color", undefined)
-        })).toJS(),
-        yAxis: this.props.multiAxis ? `${id}-axis` : 0,
-        dashStyle: dashStyle || 'ShortDot',
-        color,
-        marker: marker || {
-          enabled: type === 'scatter',
-          radius: 4
-        },
-        lineWidth: lineWidth || (type === 'line' ? 3 : 0),
-        animation: false,
-        showInLegend: this.isLegendVisible(props),
-        minValue,
-        maxValue,
-        pointPadding: typeof pointPadding !== "undefined" ? pointPadding : 0.1,
-        groupPadding: typeof groupPadding !== "undefined" ? groupPadding : 0.2,
-        borderWidth
-      };
-    });
+  getSeriesDiff(newProps, previousProps) {
+    const newSeriesIds = React.Children.map(newProps.children, s => s.props.id);
+    const previousSeriesIds = React.Children.map(previousProps.children, s => s.props.id);
+    return {
+      added: difference(newSeriesIds, previousSeriesIds),
+      removed: difference(previousSeriesIds, newSeriesIds),
+      retained: intersection(newSeriesIds, previousSeriesIds)
+    };
+  }
+
+  getSeries(props, id) {
+    const children = React.Children.toArray(props.children);
+    const child = find(children, s => s.props.id === id);
+    return this.getSeriesFromChild(child, props);
+  }
+
+  getAllSeries(props) {
+    return React.Children.map(props.children, child => this.getSeriesFromChild(child, props));
+  }
+
+   getSeriesFromChild(child, props) {
+    const {type, title, data, color, id, yField, minValue, maxValue, dashStyle, lineWidth, pointPadding, groupPadding, borderWidth, marker} = child.props;
+    return {
+      id,
+      name: title,
+      type: type || 'line',
+      data: data.reduce((result, point) => {
+        const x = point.get(props.xField);
+        const y = yField ? point.get(yField) : null;
+        const color = point.get('color');
+        const pointId = `${id}-${x}-${y}`;
+        result.push({id: pointId, x, y, color});
+        return result;
+      }, []),
+      yAxis: props.multiAxis ? `${id}-axis` : 0,
+      dashStyle: dashStyle || 'ShortDot',
+      color,
+      marker: marker || {
+        enabled: type === 'scatter',
+        radius: 4
+      },
+      lineWidth: lineWidth || (type === 'line' ? 3 : 0),
+      animation: false,
+      showInLegend: this.isLegendVisible(props),
+      minValue,
+      maxValue,
+      pointPadding: typeof pointPadding !== "undefined" ? pointPadding : 0.1,
+      groupPadding: typeof groupPadding !== "undefined" ? groupPadding : 0.2,
+      borderWidth
+    };
   }
 
   getYAxes(allSeries, props) {
@@ -188,10 +206,6 @@ class Chart extends Component {
       plotLines: this.props.yPlotLines,
       reversed: props.yAxisReversed || false
     };
-  }
-
-  getSeriesArray(props = this.props) {
-    return React.Children.toArray(props.children)
   }
 
   getXAxisLabelFormatter() {
