@@ -1,10 +1,13 @@
+import './extend_native';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, browserHistory } from 'react-router';
-import { syncHistoryWithStore, push } from 'react-router-redux'
+import { syncHistoryWithStore, push } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import { routes } from './routes';
 import { store } from './store';
+import dotenv from 'dotenv';
+dotenv.config();
 
 import 'materialize-css/bin/jquery-2.1.1.min';
 import 'materialize-css/bin/materialize';

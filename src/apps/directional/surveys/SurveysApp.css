@@ -1,0 +1,38 @@
+.c-di-surveys {
+	position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.c-di-surveys {
+	position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.c-di-surveys thead {
+	padding-top: 0px;
+	padding-bottom: 5px;
+	border-bottom: none;
+}
+
+.c-di-surveys thead th {
+	padding-bottom: 5px;
+}
+
+.c-di-surveys tr{
+	border-bottom: 1px solid #fff;
+}
+
+.c-di-surveys tr:last-child{
+	border-bottom: none;
+}
+
+.c-di-surveys tr td {
+	padding-top: 2px;
+	padding-bottom: 2px;
+}

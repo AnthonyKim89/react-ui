@@ -6,6 +6,7 @@ import AppContainer from './AppContainer';
 import common from '../../common';
 import subscriptions from '../../subscriptions';
 import * as appRegistry from '../appRegistry';
+import Convert from '../../common/Convert';
 
 import './AppTabLayout.css';
 
@@ -18,6 +19,7 @@ class AppTabLayout extends Component {
   constructor(props) {
     super(props);
     this.state = {selectedAppIdx: 0};
+    this.convert = new Convert();
   }
 
   render() {
@@ -49,7 +51,7 @@ class AppTabLayout extends Component {
     const category = app.get('category');
     const name = app.get('name');
     const appType = appRegistry.uiApps.getIn([category, 'appTypes', name]);
-    return appType.constants.METADATA.title;
+    return (appType === undefined) ? "Not Found" : appType.constants.METADATA.title;
   }
 
   renderSelectedApp() {
@@ -64,7 +66,7 @@ class AppTabLayout extends Component {
     const settings = app.get('settings');
     const appType = appRegistry.uiApps.getIn([category, 'appTypes', name]);
     const appData = this.props.appData.get(id);
-    return <AppContainer id={id}
+    return (appType === undefined) ? "Not Found" : <AppContainer id={id}
                          appType={appType}
                          asset={this.props.appAssets.get(id)}
                          lastDataUpdate={subscriptions.selectors.lastDataUpdate(appData)}
@@ -87,9 +89,10 @@ class AppTabLayout extends Component {
         {...settings.toObject()}
         size={size}
         widthCols={12}
+        convert={this.convert}
         onAssetModified={asset => this.props.onAssetModified(asset)}
         onSettingChange={(key, value) => this.props.onAppSettingsUpdate(id, settings.set(key, value))} />
-    </AppContainer>
+    </AppContainer>;
   }
 
   getPageParams() {

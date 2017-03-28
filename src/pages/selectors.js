@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect'
+import { createSelector } from 'reselect';
 import { List, Map } from 'immutable';
 
 import { NAME } from './constants';
@@ -54,7 +54,7 @@ export const currentAssetPageTab = createSelector(
 
 export const currentPageParams = createSelector(
   pageParams,
-  (_, props) => props.params.assetId,
+  (_, props) => parseInt(props.params.assetId, 10),
   (allParams, assetId) => allParams.get(assetId)
 );
 

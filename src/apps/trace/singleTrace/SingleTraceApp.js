@@ -3,16 +3,19 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { find } from 'lodash';
 import { List } from 'immutable';
 import numeral from 'numeral';
-import { parse as parseTime, distanceInWordsToNow } from 'date-fns';
+import { distanceInWordsToNow } from 'date-fns';
 
-import { SUPPORTED_CHART_SERIES } from './constants';
+import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
 import { SUPPORTED_TRACES } from '../constants';
 
 import Chart from '../../../common/Chart';
 import ChartSeries from '../../../common/ChartSeries';
 import LoadingIndicator from '../../../common/LoadingIndicator';
+import subscriptions from '../../../subscriptions';
 
-import './SingleTraceApp.css'
+import './SingleTraceApp.css';
+
+const [ latestSubscription, summarySubscription ] = SUBSCRIPTIONS;
 
 class SingleTraceApp extends Component {
 
@@ -30,24 +33,24 @@ class SingleTraceApp extends Component {
 
   isSummaryChanged(newProps) {
     return this.getTraceSummary(newProps) &&
-           !this.getTraceSummary(newProps).equals(this.getTraceSummary(this.props))
+           !this.getTraceSummary(newProps).equals(this.getTraceSummary(this.props));
   }
 
   addSummaryData(summary) {
     // The new data could by either a list of maps or a single map.
     const newData = List.isList(summary) ?
-      summary.map(s => s.update('time', parseTime)) :
-      List.of(summary.update('time', parseTime));
+      summary.map(s => s.update('timestamp', t => new Date(t * 1000))) :
+      List.of(summary.update('timestamp', t => new Date(t * 1000)));
     return this.state.summary
-      .concat(newData)
-      .sortBy(s => s.get('time'));
+      .concat(newData.map(itm => itm.merge(itm.get('data')).delete('data')))
+      .sortBy(s => s.get('timestamp').getTime());
   }
 
   render() {
     return (
       <div className="c-trace-single">
-        <h3>{this.getTrace().label}</h3>
-        {this.getLatestTrace() ?
+        <h4>{this.getTrace().label}</h4>
+        {this.hasLatestTrace() ?
           this.renderLatestTrace() :
           <LoadingIndicator />}
         {this.state.summary.size > 0 ?
@@ -58,13 +61,20 @@ class SingleTraceApp extends Component {
   }
 
   renderLatestTrace() {
+    // Formatting the units to display properly.
+    let traceSpec = this.getTrace();
+    let unitDisplay = traceSpec.unit;
+    if (traceSpec.hasOwnProperty("unitType") && unitDisplay.includes("{u}")) {
+      traceSpec.unit = unitDisplay.replace('{u}', this.props.convert.getUnitDisplay(traceSpec.unitType));
+    }
+
     return (
       <div className="c-trace-single__latest">
         <span className="c-trace-single__latest__value">
-          {this.getLatestTrace()}
+          {this.getLatestTrace(traceSpec)}
         </span>
         <span className="c-trace-single__latest__unit">
-          {this.getTrace().unit}
+          {traceSpec.unit}
         </span>
       </div>
     );
@@ -76,7 +86,7 @@ class SingleTraceApp extends Component {
         horizontal
         xAxisOpposite
         yAxisOpposite
-        xField="time"
+        xField="timestamp"
         size={this.props.size}
         widthCols={this.props.widthCols}
         xAxisLabelFormatter={(...a) => this.formatDate(...a)}>
@@ -103,14 +113,24 @@ class SingleTraceApp extends Component {
     return find(SUPPORTED_TRACES, {trace: this.props.trace}) || {};
   }
 
-  getLatestTrace() {
-    return this.props.data && this.props.data.hasIn(['corva', 'data.wits']) ?
-      numeral(this.props.data.getIn(['corva', 'data.wits', this.props.trace])).format('0.0a') :
-      null;
+  hasLatestTrace() {
+    return !!subscriptions.selectors.getSubData(this.props.data, latestSubscription);
+  }
+
+  getLatestTrace(spec) {
+    let trace = subscriptions.selectors.getSubData(this.props.data, latestSubscription);
+    if (trace) {
+      trace = trace.getIn(['data', this.props.trace]);
+      if (spec.hasOwnProperty("unitType")) {
+        trace = this.props.convert.convertValue(trace, spec.unitType, spec.cunit);
+      }
+      return numeral(trace).format('0.0a');
+    }
+    return null;
   }
 
   getTraceSummary(props) {
-    return props.data && props.data.getIn(['corva', 'data.wits-summary-30s']);
+    return subscriptions.selectors.getSubData(props.data, summarySubscription);
   }
 
   getSeriesColor() {

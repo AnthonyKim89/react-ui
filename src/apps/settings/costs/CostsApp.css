@@ -1,5 +1,5 @@
-.c-drillstrings {
-  position: absolute;
+.c-costs {
+	position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -7,4 +7,10 @@
   overflow-y: scroll;
 
   padding: 30px;
+}
+
+@media(max-width: 768px) {
+	.c-costs {
+		padding:0px;
+	}
 }

@@ -58,7 +58,7 @@ class AppContainer extends Component {
     return newProps.id !== this.props.id ||
            !newProps.asset ||
            !newProps.asset.equals(this.props.asset) ||
-           !this.getSubscriptionParams(newProps).equals(this.getSubscriptionParams(this.props))
+           !this.getSubscriptionParams(newProps).equals(this.getSubscriptionParams(this.props));
   }
 
   getSubscriptionParams(props) {
@@ -66,6 +66,12 @@ class AppContainer extends Component {
       .filter(s => s.get('includeInSubscriptionParams'))
       .map(s => [s.get('name'), props.appSettings.get(s.get('name')) || s.get('default')]);
     return props.pageParams.merge(paramsFromSettings);
+  }
+
+  getAppAssetName() {
+    let assetId = this.props.appSettings.get("assetId");
+    let asset = this.props.availableAssets.find(a => a.get("id") === assetId);
+    return asset.get("name", "");
   }
   
   render() {
@@ -82,6 +88,8 @@ class AppContainer extends Component {
           <h4 className="c-app-container__title">{this.props.appType.constants.METADATA.title}</h4>}
         {!this.props.isTitlesDisabled && this.props.appType.constants.METADATA.subtitle &&
           <h5 className="c-app-container__subtitle">{this.props.appType.constants.METADATA.subtitle}</h5>}
+        {this.props.availableAssets && this.props.layoutEnvironment && this.props.layoutEnvironment.get("type") === "general" &&
+          <div className="c-app-container-asset-name">{this.getAppAssetName()}</div>}
         <div className="c-app-container__content">
           {this.props.children}
         </div>
@@ -126,8 +134,9 @@ class AppContainer extends Component {
     );
   }
 
+  // Let the component implementation display the date and others info(if necessary)
   isLastDataUpdateVisible() {
-    return this.props.lastDataUpdate && this.props.size !== common.constants.Size.SMALL;
+    return this.props.lastDataUpdate && !this.props.hasAppFooter && this.props.size !== common.constants.Size.SMALL;
   }
 
   formatLastDataUpdate() {
@@ -164,7 +173,7 @@ AppContainer.propTypes = {
   id: PropTypes.number.isRequired,
   asset: ImmutablePropTypes.map,
   appType: PropTypes.object.isRequired,
-  lastDataUpdate: PropTypes.number,
+  //lastDataUpdate: PropTypes.number,
   location: PropTypes.object.isRequired,
   isNative: PropTypes.bool.isRequired,
   isActionsDisabled: PropTypes.bool,
@@ -174,6 +183,8 @@ AppContainer.propTypes = {
   appSettings: ImmutablePropTypes.map.isRequired,
   pageParams: ImmutablePropTypes.map.isRequired,
   commonSettingsEditors: ImmutablePropTypes.list,
+  layoutEnvironment: ImmutablePropTypes.map,
+  availableAssets: ImmutablePropTypes.list,
   onAppSubscribe: PropTypes.func.isRequired,
   onAppUnsubscribe: PropTypes.func.isRequired,
   onAppRemove: PropTypes.func.isRequired,

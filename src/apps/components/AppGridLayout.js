@@ -11,19 +11,21 @@ import { GRID_BREAKPOINTS, GRID_COLUMN_SIZES, GRID_ROW_HEIGHT } from '../constan
 import common from '../../common';
 import subscriptions from '../../subscriptions';
 import * as appRegistry from '../appRegistry';
+import * as api from '../../api';
+import Convert from '../../common/Convert';
 
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import './AppGridLayout.css';
 
 // Elements matching this selector won't be used by react-grid-layout to trigger drag events
-const NON_DRAGGABLE_ELEMENT_SELECTOR = 'button, a';
+const NON_DRAGGABLE_ELEMENT_SELECTOR = 'button, a, input, .select-wrapper';
 
 const GridLayout = WidthProvider(Responsive);
 
 const addAppModalStyles = {
   content: {
-    top: '65px',
+    top: '0',
     left: '0',
     right: '0',
     bottom: '0',
@@ -32,6 +34,9 @@ const addAppModalStyles = {
     color: 'white',
     border: '0',
     padding: '20px'
+  },
+  overlay: {
+    backgroundColor: 'rgba(0,0,0,0)'
   }
 };
 
@@ -44,6 +49,12 @@ class AppGridLayout extends Component {
   constructor(props) {
     super(props);
     this.state = {addAppDialogOpen: false};
+    this.convert = new Convert();
+  }
+
+  async componentDidMount() {
+    const assets = await api.getAssets();
+    this.setState({assets});
   }
 
   render() {
@@ -89,7 +100,7 @@ class AppGridLayout extends Component {
           .set('isDraggable', !this.props.isNative);
         return <div key={id} data-grid={coordinates.toJS()}>
           {this.renderApp(app)}
-        </div>
+        </div>;
       });
   }
 
@@ -111,17 +122,29 @@ class AppGridLayout extends Component {
     const size = this.getAppSize(coordinates, maximized);
     const settings = app.get('settings');
     const appType = appRegistry.uiApps.getIn([category, 'appTypes', name]);
+
+    // A misconfigured app or appRegistry should not take down all rendering.
+    // Provide a fallback when the app is missing.
+    if (appType === undefined) {
+      console.log(`No UI app found for ${category}:${name}.`);
+      return <div />;
+    }
+
     const appData = this.props.appData.get(id);
+    const hasAppFooter = !!appType.AppComponentFooter;
     return <AppContainer id={id}
-                         appType={appType}
+                         appType={appType}                         
                          asset={this.props.appAssets.get(id)}
                          lastDataUpdate={subscriptions.selectors.lastDataUpdate(appData)}
+                         hasAppFooter={hasAppFooter}
                          isNative={this.props.isNative}
                          size={size}
                          maximized={maximized}
                          appSettings={settings}
                          pageParams={this.getPageParams()}
                          commonSettingsEditors={this.props.commonSettingsEditors}
+                         layoutEnvironment={this.props.environment}
+                         availableAssets={this.state.assets}
                          location={this.props.location}
                          onAppSubscribe={(...args) => this.props.onAppSubscribe(...args)}
                          onAppUnsubscribe={(...args) => this.props.onAppUnsubscribe(...args)}
@@ -134,9 +157,18 @@ class AppGridLayout extends Component {
         {...settings.toObject()}
         size={size}
         widthCols={coordinates.get('w')}
+        convert={this.convert}
         onAssetModified={asset => this.props.onAssetModified(asset)}
         onSettingChange={(key, value) => this.props.onAppSettingsUpdate(id, settings.set(key, value))} />
-    </AppContainer>
+
+      {appType.AppComponentFooter &&
+        <appType.AppComponentFooter
+          data={appData}
+          convert={this.convert}
+          lastDataUpdate={subscriptions.selectors.lastDataUpdate(appData)}
+        /> 
+      }
+    </AppContainer>;
   }
 
   getPageParams() {
@@ -188,6 +220,7 @@ AppGridLayout.propTypes = {
   appData: ImmutablePropTypes.map.isRequired,
   appAssets: ImmutablePropTypes.map.isRequired,
   commonSettingsEditors: ImmutablePropTypes.list,
+  environment: ImmutablePropTypes.map,
   pageParams: ImmutablePropTypes.map,
   onAppSubscribe: PropTypes.func.isRequired,
   onAppUnsubscribe: PropTypes.func.isRequired,

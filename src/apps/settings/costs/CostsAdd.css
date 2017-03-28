@@ -1,0 +1,38 @@
+
+
+.c-costs-add button {
+	margin-right: 10px;
+}
+
+.c-costs-add .input-field{
+	margin-top: 0px;
+}
+
+.c-costs-add td:nth-child(1) {
+	width:20%;
+}
+
+.c-costs-add td:nth-child(2) {
+	width:20%;
+}
+
+.c-costs-add td:nth-child(3) {
+	width:40%;
+}
+
+.c-costs-add td:nth-child(4) {
+	width:20%;
+}
+
+@media(max-width: 420px) {
+	
+	.c-costs-add td:nth-child(1) {
+		width:50%;
+	}
+	.c-costs-add td:nth-child(3) {
+		display: none;
+	}
+	.c-costs-add td:nth-child(4) {
+		display: none;
+	}		
+}

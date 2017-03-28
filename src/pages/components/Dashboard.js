@@ -26,6 +26,10 @@ const DASHBOARD_COMMON_SETTINGS_EDITORS = List([
   })
 ]);
 
+const DASHBOARD_ENV = Map({
+  type: "general",
+});
+
 class Dashboard extends Component {
 
   componentDidMount() {
@@ -62,6 +66,7 @@ class Dashboard extends Component {
                      key={this.state ? this.state.gridKey : null}
                      appAssets={this.props.dashboardAppAssets}
                      commonSettingsEditors={DASHBOARD_COMMON_SETTINGS_EDITORS}
+                     environment={DASHBOARD_ENV}
                      onAppSubscribe={(...a) => this.props.subscribeApp(...a)}
                      onAppUnsubscribe={(...a) => this.props.unsubscribeApp(...a)}
                      onAppMove={(...a) => this.onAppMove(...a)}
@@ -87,6 +92,9 @@ class Dashboard extends Component {
   }
 
   onAppAdd(appType, appSettings) {
+    if (appSettings.has('assetId')) {
+      this.props.loadAsset(appSettings.get('assetId'));
+    }
     this.props.addApp(this.props.currentDashboard, appType, appSettings);
   }
 

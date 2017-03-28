@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Row, Col, Button, Input } from 'react-materialize';
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import uuidV1 from 'uuid/v1';
 
 import DrillstringComponentSchematic from './DrillstringComponentSchematic';
 import DrillstringComponentTableRow from './DrillstringComponentTableRow';
@@ -15,9 +16,9 @@ class DrillstringComponentTable extends Component {
       <Row>
         <Col m={2}>
           <DrillstringComponentSchematic
-            drillstring={this.props.drillstring}
+            drillstring={this.props.record}
             isEditable={this.props.isEditable}
-            onReorderComponents={this.props.onReorderComponents} />
+            onReorderComponents={this.onReorderComponents} />
         </Col>
         <Col m={10}>
           <table>
@@ -28,20 +29,21 @@ class DrillstringComponentTable extends Component {
                 <th>Family</th>
                 <th>ID (in)</th>
                 <th>OD (in)</th>
-                <th>Length (ft)</th>
-                <th>Weight (lbs)</th>
+                <th>Length ({this.props.convert.getUnitDisplay('length')})</th>
+                <th>Weight ({this.props.convert.getUnitDisplay('mass')})</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {this.props.drillstring.getIn(['data', 'components'], List()).map((cmp, idx) => 
+              {this.props.record.getIn(['data', 'components'], List()).map((cmp, idx) => 
                 <DrillstringComponentTableRow
+                  convert={this.props.convert}
                   key={idx}
                   index={idx}
                   component={cmp}
                   isEditable={this.props.isEditable}
-                  onComponentFieldChange={(field, value) => this.props.onComponentFieldChange(idx, field, value)}
-                  onDeleteComponent={() => this.props.onDeleteComponent(idx)} />)}
+                  onComponentFieldChange={(field, value) => this.onComponentFieldChange(idx, field, value)}
+                  onDeleteComponent={() => this.onDeleteComponent(idx)} />)}
             </tbody>
           </table>
         </Col>
@@ -50,7 +52,7 @@ class DrillstringComponentTable extends Component {
         <Col m={2}></Col>
         <Col m={10}>
           {this.props.isEditable &&
-            <Button floating icon="add" onClick={() => this.props.onAddComponent()}></Button>}
+            <Button floating icon="add" onClick={() => this.onAddComponent()}></Button>}
         </Col>
       </Row>
       {this.getComponentsOfFamily('bit').flatMap(({component, index}) =>
@@ -124,7 +126,7 @@ class DrillstringComponentTable extends Component {
                     type="text"
                     label={label}
                     defaultValue={component.get(field, '')}
-                    onChange={e => this.props.onComponentFieldChange(idx, field, e.target.value)} />
+                    onChange={e => this.onComponentFieldChange(idx, field, e.target.value)} />;
     } else {
       return <Col m={cols}>
         <div>{label}</div>
@@ -139,7 +141,7 @@ class DrillstringComponentTable extends Component {
                     type="number"
                     label={label}
                     defaultValue={component.get(field, '')}
-                    onChange={e => this.props.onComponentFieldChange(idx, field, parseFloat(e.target.value))} />
+                    onChange={e => this.onComponentFieldChange(idx, field, parseFloat(e.target.value))} />;
     } else {
       return <Col m={cols}>
         <div>{label}</div>
@@ -149,20 +151,39 @@ class DrillstringComponentTable extends Component {
   }
 
   getComponentsOfFamily(family) {
-    return this.props.drillstring.getIn(['data', 'components'])
+    return this.props.record.getIn(['data', 'components'])
       .map((component, index) => ({component, index}))
       .filter(item => item.component.get('family') === family);
+  }
+
+  onAddComponent() {
+    const newComponent = Map({
+      id: uuidV1(),
+      family: 'bit',
+      order: this.props.record.getIn(['data', 'components']).size
+    });
+    this.props.onUpdateRecord(this.props.record.updateIn(['data', 'components'], c => c.push(newComponent)));
+  }
+
+  onDeleteComponent(index) {
+    this.props.onUpdateRecord(this.props.record.deleteIn(['data', 'components', index]));
+  }
+
+  onComponentFieldChange(idx, name, value) {
+    this.props.onUpdateRecord(this.props.record.setIn(['data', 'components', idx, name], value));
+  }
+
+  onReorderComponents(newComponents) {
+    const withNewIndexes = newComponents.map((comp, idx) => comp.set('order', idx));
+    this.props.onUpdateRecord(this.props.record.setIn(['data', 'components'], withNewIndexes));
   }
 
 }
 
 DrillstringComponentTable.propTypes = {
-  drillstring: ImmutablePropTypes.map.isRequired,
+  record: ImmutablePropTypes.map.isRequired,
   isEditable: PropTypes.bool.isRequired,
-  onAddComponent: PropTypes.func,
-  onDeleteComponent: PropTypes.func,
-  onComponentFieldChange: PropTypes.func,
-  onReorderComponents: PropTypes.func
+  onUpdateRecord: PropTypes.func
 };
 
 export default DrillstringComponentTable;

@@ -1,0 +1,28 @@
+.c-fluid-check-summary {
+  background-color: rgb(42, 41, 41);
+  margin: 10px 0;
+  padding: 10px 0;
+}
+
+.c-fluid-check-summary__label,
+.c-fluid-check-summary__value {
+  margin: 5px;
+  text-align: center;
+}
+
+.c-fluid-check-summary__value {
+  font-size: 3rem;
+}
+.c-fluid-check-summary__value--is-long {
+  font-size: 2rem;
+}
+
+
+.c-fluid-check-summary__footer-value {
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.c-fluid-check-summary__footer-value--planning { 
+  color: rgb(222, 174, 44);
+}

@@ -26,7 +26,9 @@ export function subscribeApp(appInstanceId, subscriptions, assetId, additionalPa
       dispatch({type: SUBSCRIBE_APP, appInstanceId, devKey, collection, assetId, event, params: allParams});
       const initialData = await api.getAppStorage(devKey, collection, assetId, allParams);
       if (!initialData.isEmpty()) {
-        dispatch(receiveAppData(appInstanceId, devKey, collection, event, assetId, allParams, initialData.first()));
+        // Usually apps expect one item. Those that explicitly set a limit expect a collection of items.
+        const items = allParams.has('limit') ? initialData : initialData.first();
+        dispatch(receiveAppData(appInstanceId, devKey, collection, assetId, event, allParams, items));
       }
     }
   };
