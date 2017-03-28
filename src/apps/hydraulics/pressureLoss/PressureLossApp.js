@@ -54,6 +54,11 @@ class PressureLossApp extends Component {
     return this.showTooltipInPercentage() ? '%' : ' ' + this.props.convert.getUnitDisplay("pressure");
   }
 
+  /**
+   * Get the pie options.
+   *
+   * The pie options are a combination of static and dynamic data.
+   */
   get pieOptions() {
     return Object.assign(PIE_OPTIONS, {
       dataLabels: this.dataLabels,
@@ -61,6 +66,12 @@ class PressureLossApp extends Component {
     });
   }
 
+  /**
+   * Get the data labels for larger sizes.
+   *
+   * Data labels get clipped at smaller sizes so only show them when displayed
+   * in a larger mode.
+   */
   get dataLabels() {
     if (this.showInLegend) {
       const format = this.showTooltipInPercentage() ? '{percentage:.1f}' : '{y}';
@@ -70,6 +81,11 @@ class PressureLossApp extends Component {
     }
   }
 
+  /**
+   * Decide when to show the legend.
+   *
+   * At smaller sizes, the legend would completely overlap the pie area.
+   */
   get showInLegend() {
     return this.props.size === Size.LARGE || this.props.size === Size.XLARGE;
   }
