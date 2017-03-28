@@ -39,6 +39,13 @@ class PieChart extends Component {
           }
         }, this.props.pieOptions)
       },
+      legend: {
+        align: 'right',
+        verticalAlign: 'middle',
+        layout: 'vertical',
+        itemStyle: {color: '#fff'},
+        enabled: true,
+      },
       series: [{
         name: this.props.name || '',
         colorByPoint: true,

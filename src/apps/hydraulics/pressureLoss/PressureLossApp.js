@@ -3,6 +3,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import PieChart from '../../../common/PieChart';
+import { Size } from '../../../common/constants';
 import subscriptions from '../../../subscriptions';
 
 import { COLORS, LABELS, PIE_OPTIONS, SUBSCRIPTIONS, DISPLAY_FORMATS } from './constants';
@@ -21,7 +22,7 @@ class PressureLossApp extends Component {
                 data={this.graphData}
                 showTooltipInPercentage={this.showTooltipInPercentage()}
                 unit={this.displayUnit}
-                pieOptions={PIE_OPTIONS}
+                pieOptions={this.pieOptions}
                 name='Pressure Loss'>
               </PieChart>
             </div>
@@ -51,6 +52,14 @@ class PressureLossApp extends Component {
 
   get displayUnit() {
     return this.showTooltipInPercentage() ? '%' : ' ' + this.props.convert.getUnitDisplay("pressure");
+  }
+
+  get pieOptions() {
+    return Object.assign(PIE_OPTIONS, {showInLegend: this.showInLegend});
+  }
+
+  get showInLegend() {
+    return this.props.size === Size.XLARGE;
   }
 }
 
