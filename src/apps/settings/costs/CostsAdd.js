@@ -1,8 +1,8 @@
 import React, { Component,PropTypes } from 'react';
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import {Input,Button} from 'react-materialize';
-import moment from 'moment'
+import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -44,7 +44,7 @@ class CostsAdd extends Component {
             <td>
               <Input type="text"                 
                 defaultValue={this.state.description}                
-                onChange={(e)=>{this.setState({description: e.target.value})}} />
+                onChange={(e)=>{this.setState({description: e.target.value});}} />
             </td>
             <td>
               <Button waves='light' floating icon='save' className='lightblue' onClick={()=>this.save()}></Button>

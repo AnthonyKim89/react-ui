@@ -17,7 +17,7 @@ class MapApp extends Component {
   constructor(props) {
     super(props);
     L.mapbox.accessToken = 'pk.eyJ1IjoiYm9yaXMtcGV0cm92IiwiYSI6ImNqMG5nbXV4ZTAwYW8yd2xkZmJldjQ3b2QifQ.AYJSB4RNRS7kpk0q_Z4kgw';
-    this.state = {}
+    this.state = {};
   }
 
   componentDidMount() {    

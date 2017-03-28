@@ -97,7 +97,7 @@ class CostsApp extends Component {
     try {
       const savedRecord = record.has('_id')? 
         await api.putAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record.get('_id') , record) :
-        await api.postAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record)
+        await api.postAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record);
       this.setState({
         records: this.state.records.filterNot(r => r.get('_id') === savedRecord.get('_id'))
                                    .push(savedRecord)
