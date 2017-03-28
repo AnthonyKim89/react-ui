@@ -7,7 +7,6 @@
 
   display: flex;
 }
-
 .c-app-tab-layout__tab-bar {
   background-color: rgb(96, 91, 91);
   flex: 1;
@@ -26,4 +25,7 @@
 .c-app-tab-layout__app {
   flex: 6;
   position: relative;
+}
+.c-app-tab-layout__tab-bar ul li {
+  cursor: pointer;
 }
