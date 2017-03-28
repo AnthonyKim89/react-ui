@@ -17,9 +17,9 @@ class SurveyDetails extends Component {
         <tbody>
           {this.props.record.getIn(['data', 'stations'], List()).map((station, index) => 
             <tr key={index}>
-              <td>{station.get('svy_depth')}</td>
-              <td>{station.get('svy_inclination')}</td>
-              <td>{station.get('svy_azimuth')}</td>
+              <td>{station.get('depth')}</td>
+              <td>{station.get('inclination')}</td>
+              <td>{station.get('azimuth')}</td>
             </tr>
           )}
         </tbody>
