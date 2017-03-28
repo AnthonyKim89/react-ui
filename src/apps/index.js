@@ -4,8 +4,17 @@ import AppTabLayout from './components/AppTabLayout';
 
 export default {
   layouts: {
-    grid: AppGridLayout,
-    singleApp: AppSingleLayout,
-    tabs: AppTabLayout
+    grid: {
+      layout: AppGridLayout,
+      controlApps: true,
+    },
+    singleApp: {
+      layout: AppSingleLayout,
+      controlApps: false,
+    },
+    tabs: {
+      layout: AppTabLayout,
+      controlApps: false,
+    },
   }
 };

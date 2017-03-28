@@ -52,7 +52,8 @@ class AssetPage extends Component {
   }
 
   render() {
-    const AppLayout = this.props.currentAssetPageTab && apps.layouts[this.props.currentAssetPageTab.get('layout', 'grid')];
+    const LayoutData = this.props.currentAssetPageTab && apps.layouts[this.props.currentAssetPageTab.get('layout', 'grid')];
+    const AppLayout = this.props.currentAssetPageTab && LayoutData['layout'];
     return (
       <div className="c-asset-page" >
         {!this.props.isNative &&
@@ -75,7 +76,7 @@ class AssetPage extends Component {
                      location={this.props.location}
                      environment={DASHBOARD_ENV}
                      isNative={this.props.isNative} />}
-        {this.renderControlApps()}
+        {this.props.currentAssetPageTab && LayoutData['controlApps'] && this.renderControlApps()}
       </div>
     );
   }
