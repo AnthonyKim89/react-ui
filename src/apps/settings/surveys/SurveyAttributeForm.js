@@ -35,7 +35,7 @@ export function attributeFormWithUpload(uploadResult, onUpload) {
     render() {
       return <SurveyAttributeForm {...this.props} uploadResult={uploadResult} onUpload={onUpload} />;
     }
-  }
+  };
 }
 
 export default SurveyAttributeForm;
