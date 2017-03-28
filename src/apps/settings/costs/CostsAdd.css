@@ -8,6 +8,10 @@
 	margin-top: 0px;
 }
 
+.c-costs-add .input-field.col label{
+	left: 0;
+}
+
 .c-costs-add td:nth-child(1) {
 	width:20%;
 }

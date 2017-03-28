@@ -1,7 +1,8 @@
 import React, { Component,PropTypes } from 'react';
+import ReactDOM from 'react-dom'
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import {Button} from 'react-materialize';
-import moment from 'moment';
+import {Input,Button} from 'react-materialize';
+import moment from 'moment'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -20,9 +21,8 @@ class CostsAdd extends Component {
     this.selectDate = this.selectDate.bind(this);
   }
 
-  componentDidMount() {
-
-    this.costInput.focus();
+  componentDidMount() {    
+    ReactDOM.findDOMNode(this.costInput).children[0].focus();    
   }
 
   render() {
@@ -36,15 +36,15 @@ class CostsAdd extends Component {
                 onChange={this.selectDate} />
             </td>
             <td>
-              <input type="text"                 
+              <Input type="number"                
                 defaultValue={this.state.cost}
                 ref={(costInput)=>this.costInput=costInput}
                 onChange={e => this.setState({cost: e.target.value})} />
             </td>
             <td>
-              <input type="text" 
-                defaultValue={this.state.description} 
-                onChange={e => this.setState({description: e.target.value})} />
+              <Input type="text"                 
+                defaultValue={this.state.description}                
+                onChange={(e)=>{this.setState({description: e.target.value})}} />
             </td>
             <td>
               <Button waves='light' floating icon='save' className='lightblue' onClick={()=>this.save()}></Button>
@@ -57,6 +57,12 @@ class CostsAdd extends Component {
   }
 
   save() {
+    if (isNaN(parseFloat(this.state.cost))) {
+      this.setState({cost:0},()=>{
+        this.save();
+      });
+      return;
+    }
     const record = this.props.record.update('data',(oldMap) => {
       return oldMap.set("date",this.state.date.unix())
         .set("cost",parseFloat(this.state.cost))

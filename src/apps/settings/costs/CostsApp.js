@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import NotificationSystem from 'react-notification-system';
 
 import * as api from '../../../api';
 
@@ -24,6 +25,7 @@ class CostsApp extends Component {
     if (this.props.asset) {
       this.loadRecords(this.props.asset);
     }
+    this._notificationSystem = this.refs.notificationSystem;
   }
 
   componentWillReceiveProps(newProps) {
@@ -71,6 +73,8 @@ class CostsApp extends Component {
             record={this.state.currentRecord}
             onSave={(record)=>this.saveRecord(record)}
             onCancel={()=>this.cancelAdd()} /> : ''}
+
+        <NotificationSystem ref="notificationSystem" noAnimation={true} />
       </div>
     );
   }
@@ -90,14 +94,26 @@ class CostsApp extends Component {
   async saveRecord(record) {
     this.setState({currentRecord: null});
     
-    const savedRecord = record.has('_id') ?
-      await api.putAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record.get('_id') , record) :
-      await api.postAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record);
+    try {
+      const savedRecord = record.has('_id')? 
+        await api.putAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record.get('_id') , record) :
+        await api.postAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record)
+      this.setState({
+        records: this.state.records.filterNot(r => r.get('_id') === savedRecord.get('_id'))
+                                   .push(savedRecord)
+                                   .sortBy(r => r.getIn(["data","date"]))});
+      this._notificationSystem.addNotification({
+        message: 'The record has been saved successfully.',
+        level: 'success'
+      });
+    }
+    catch(error) {
+      this._notificationSystem.addNotification({
+        message: 'Error when creating a cost record.',
+        level: 'error'
+      });
+    }
 
-    this.setState({
-      records: this.state.records.filterNot(r => r.get('_id') === savedRecord.get('_id'))
-                                 .push(savedRecord)
-                                 .sortBy(r => r.getIn(["data","date"]))});
   }
 
   async removeRecord(record) {    
@@ -109,9 +125,19 @@ class CostsApp extends Component {
         records: recordsAfterDelete,
         currentRecord: null,      
       });
+
+      this._notificationSystem.addNotification({
+        message: 'The record has been deleted successfully.',
+        level: 'success'
+      });
     }
     catch(error) {
-      alert("Unable to delete the settings record.");
+
+      this._notificationSystem.addNotification({
+        message: 'Error when deleting a cost record.',
+        level: 'error'
+      });
+
     }
         
   }

@@ -9,6 +9,10 @@
 	margin-top: 0px;
 }
 
+.c-cost-item .input-field.col label{
+	left: 0;
+}
+
 .c-cost-item td:nth-child(1) {
 	width:20%;
 }

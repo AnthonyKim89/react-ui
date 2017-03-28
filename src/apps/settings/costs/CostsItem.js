@@ -23,7 +23,7 @@ class CostsItem extends Component {
   }
   
   render() {
-    if (this.state.editing) return (
+    if (!this.state.editing) return (
       <tr className='c-cost-item'>
         <td>{this.state.date.format('L')}</td>
         <td>{this.state.cost}</td>
@@ -44,14 +44,14 @@ class CostsItem extends Component {
             onChange={this.selectDate} />
         </td>
         <td>
-          <Input type="text" 
-            s={12}
+          <Input type="number" 
+            s={12}            
             defaultValue={this.state.cost}
             onChange={e => this.setState({cost: e.target.value})} />
         </td>
         <td>
           <Input type="text" 
-            s={12} 
+            s={12}
             defaultValue={this.state.description} 
             onChange={e => this.setState({description: e.target.value})} />
         </td>
@@ -63,9 +63,14 @@ class CostsItem extends Component {
     );
   }
 
-  save() {    
-    this.setState({editing:false});
-    
+  save() {
+    if (isNaN(parseFloat(this.state.cost))) {
+      this.setState({cost:0},()=>{
+        this.save();
+      });
+      return;
+    }
+    this.setState({editing:false});    
     const record = this.props.record.update('data',(oldMap) => {
       return oldMap.set("date",this.state.date.unix())
         .set("cost",parseFloat(this.state.cost))
