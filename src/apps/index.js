@@ -10,7 +10,7 @@ export default {
     },
     singleApp: {
       layout: AppSingleLayout,
-      controlApps: false,
+      controlApps: true,
     },
     tabs: {
       layout: AppTabLayout,
