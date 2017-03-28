@@ -59,7 +59,7 @@ class PressureLossApp extends Component {
   }
 
   get showInLegend() {
-    return this.props.size === Size.XLARGE;
+    return this.props.size === Size.LARGE || this.props.size === Size.XLARGE;
   }
 }
 
