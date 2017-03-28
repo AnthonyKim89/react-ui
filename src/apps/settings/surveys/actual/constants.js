@@ -1,7 +1,8 @@
 export const CATEGORY = 'settings';
 export const NAME = 'actualSurveys';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'tasks.survey-parser', event: 'update'}
+  {devKey: 'corva', collection: 'tasks.survey-parser', event: 'update'},
+  {devKey: 'corva', collection: 'tasks.survey-minimum-curvature', event: 'update'}
 ];
 export const METADATA = {
   title: 'Surveys',

@@ -3,15 +3,18 @@ import React, { Component } from 'react';
 import SurveysApp from '../SurveysApp';
 import { SUBSCRIPTIONS } from './constants';
 
-const [ parseSubscription ] = SUBSCRIPTIONS;
+const [ parseSubscription, minimumCurvatureSubscription ] = SUBSCRIPTIONS;
 
 class ActualSurveysApp extends Component {
 
   render() {
     return <SurveysApp
               {...this.props}
+              recordNamePlural="Surveys"
+              recordNameSingular="Survey"
               dataCollectionConfig={{devKey: 'corva', collection: 'data.actual_survey'}}
-              parseCollectionConfig={parseSubscription} />;
+              parseCollectionConfig={parseSubscription}
+              minimumCurvatureCollectionConfig={minimumCurvatureSubscription} />;
   }
 
 }

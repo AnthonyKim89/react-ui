@@ -20,21 +20,30 @@ class SurveysApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pendingUploadTaskId: null,
-      lastUploadResult: null
+      pendingParseTaskId: null,
+      pendingMinimumCurvatureTaskId: null,
+      lastTaskResult: null
     };
   }
 
   componentWillReceiveProps(newProps) {
-    this.receiveUploadedTaskData(newProps);
+    this.receiveTaskData(newProps);
   }
 
-  receiveUploadedTaskData(props) {
-    const data = subscriptions.selectors.getSubData(props.data, this.props.parseCollectionConfig);
-    if (data && data.get('task_id') === this.state.pendingUploadTaskId) {
+  receiveTaskData(props) {
+    const parseResult = subscriptions.selectors.getSubData(props.data, this.props.parseCollectionConfig);
+    if (parseResult && parseResult.get('task_id') === this.state.pendingParseTaskId) {
+      this.setState({pendingParseTaskId: null});
+      // Parsing done, invoke the second, minimum curvature task.
+      // (This chaining should be done automatically by Lambda function composition in the long run,
+      // instead of having the frontend do it.)
+      this.invokeMinimumCurvatureTask(parseResult.get('data'));
+    }
+    const minimumCurvatureResult = subscriptions.selectors.getSubData(props.data, this.props.minimumCurvatureCollectionConfig);
+    if (minimumCurvatureResult && minimumCurvatureResult.get('task_id') === this.state.pendingMinimumCurvatureTaskId) {
       this.setState({
-        pendingUploadTaskId: null,
-        lastUploadResult: data.getIn(['data', 'data'])
+        pendingMinimumCurvatureTaskId: null,
+        lastTaskResult: minimumCurvatureResult.getIn(['data', 'data'])
       });
     }
   }
@@ -45,11 +54,11 @@ class SurveysApp extends Component {
               convert={this.props.convert}
               recordDevKey={this.props.dataCollectionConfig.devKey}
               recordCollection={this.props.dataCollectionConfig.collection}
-              recordNamePlural="Well Plans"
-              recordNameSingular="Well Plan"
+              recordNamePlural={this.props.recordNamePlural}
+              recordNameSingular={this.props.recordNameSingular}
               recordDataTemplate={SURVEY_DATA_TEMPLATE}
               RecordSummary={SurveySummary}
-              RecordAttributeForm={attributeFormWithUpload(this.state.lastUploadResult, (...a) => this.upload(...a))}
+              RecordAttributeForm={attributeFormWithUpload(this.state.lastTaskResult, (...a) => this.invokeParseTask(...a))}
               RecordDetails={SurveyDetails}
               renderRecordListItem={s => this.renderSurveyListItem(s)} />;
   }
@@ -59,23 +68,35 @@ class SurveysApp extends Component {
     return `Date ${timestamp}`;
   }
 
-  async upload(file) {
+  async invokeParseTask(file) {
     const res = await api.postTaskDocument(
-      'corva',
-      'tasks.survey-parser',
+      this.props.parseCollectionConfig.devKey,
+      this.props.parseCollectionConfig.collection,
       file,
       Map({asset_id: this.props.asset.get('id')})
     );
-    this.setState({pendingUploadTaskId: res.get('task_id')});
+    this.setState({pendingParseTaskId: res.get('task_id')});
   }
 
-  
+  async invokeMinimumCurvatureTask(data) {
+    const blob = new Blob([JSON.stringify(data.toJS())], {type: 'application/json'});
+    const res = await api.postTaskDocument(
+      this.props.minimumCurvatureCollectionConfig.devKey,
+      this.props.minimumCurvatureCollectionConfig.collection,
+      blob,
+      Map({asset_id: this.props.asset.get('id')})
+    );
+    this.setState({pendingMinimumCurvatureTaskId: res.get('task_id')});
+  }
 
 }
 
 SurveysApp.propTypes = {
+  recordNamePlural: PropTypes.string.isRequired,
+  recordNameSingular: PropTypes.string.isRequired,
   dataCollectionConfig: PropTypes.object.isRequired,
   parseCollectionConfig: PropTypes.object.isRequired,
+  minimumCurvatureCollectionConfig: PropTypes.object.isRequired,
   asset: ImmutablePropTypes.map.isRequired,
   data: ImmutablePropTypes.map
 };
