@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
+import { Size } from '../../../common/constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import PieChart from '../../../common/PieChart';
-import { Size } from '../../../common/constants';
 import subscriptions from '../../../subscriptions';
 
 import { COLORS, LABELS, PIE_OPTIONS, SUBSCRIPTIONS, DISPLAY_FORMATS } from './constants';
