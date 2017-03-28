@@ -55,7 +55,19 @@ class PressureLossApp extends Component {
   }
 
   get pieOptions() {
-    return Object.assign(PIE_OPTIONS, {showInLegend: this.showInLegend});
+    return Object.assign(PIE_OPTIONS, {
+      dataLabels: this.dataLabels,
+      showInLegend: this.showInLegend
+    });
+  }
+
+  get dataLabels() {
+    if (this.showInLegend) {
+      const format = this.showTooltipInPercentage() ? '{percentage:.1f}' : '{y}';
+      return { enabled: true, format: format };
+    } else {
+      return { enabled: false };
+    }
   }
 
   get showInLegend() {
