@@ -10,19 +10,19 @@ import './CostsItem.css';
 class CostsItem extends Component { 
   constructor(props) {
     super(props);
-    const recordData = props.record.get("data");
-    
+    const record = props.record;
     this.state = {
-      date: moment.unix(recordData.get("date")),
-      cost: recordData.get("cost"),
-      description: recordData.get("description"),      
-      editing: false
+      date: record.getIn(["data","date"])? moment.unix(record.getIn(["data","date"])) : moment(),
+      cost: record.getIn(["data","cost"]) || 0,
+      description: record.getIn(["data","description"]) || "directional services",
+      editing: record.has("_id")? false : true
     };
    
     this.selectDate = this.selectDate.bind(this); 
   }
   
   render() {
+
     if (!this.state.editing) return (
       <tr className='c-cost-item'>
         <td>{this.state.date.format('L')}</td>
@@ -52,7 +52,7 @@ class CostsItem extends Component {
         <td>
           <Input type="text" 
             s={12}
-            defaultValue={this.state.description} 
+            defaultValue={this.state.description}
             onChange={e => this.setState({description: e.target.value})} />
         </td>
         <td>
@@ -70,7 +70,7 @@ class CostsItem extends Component {
       });
       return;
     }
-    this.setState({editing:false});    
+
     const record = this.props.record.update('data',(oldMap) => {
       return oldMap.set("date",this.state.date.unix())
         .set("cost",parseFloat(this.state.cost))
@@ -78,6 +78,10 @@ class CostsItem extends Component {
     });
 
     this.props.onSave(record);
+
+    if (this.props.record.has("_id")) {
+      this.setState({editing:false});
+    }
   }
 
   remove() {
@@ -85,7 +89,12 @@ class CostsItem extends Component {
   }
 
   cancelEdit() {
-    this.setState({editing:false});
+    if (this.props.record.has("_id")) {
+      this.setState({editing:false});
+    }
+    else {
+      this.props.onCancel(this.props.record);
+    }
   }
 
   selectDate(date) {
@@ -100,7 +109,6 @@ CostsItem.propTypes = {
   
   record: ImmutablePropTypes.map.isRequired,
   onSave: PropTypes.func.isRequired,
-  onRemove: PropTypes.func.isRequired,
   
 };
 

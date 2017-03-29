@@ -9,6 +9,10 @@
   padding: 30px;
 }
 
+.c-costs tr:nth-child(even) {
+  background-color: rgb(41,41,41);
+}
+
 @media(max-width: 768px) {
 	.c-costs {
 		padding:0px;

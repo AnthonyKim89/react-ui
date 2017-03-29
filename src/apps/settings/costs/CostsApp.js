@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { Button } from 'react-materialize';
 import NotificationSystem from 'react-notification-system';
 
 import * as api from '../../../api';
 
 import {METADATA} from './constants';
 import CostsSummary from './CostsSummary';
-import CostsAdd from './CostsAdd';
 import CostsItem from './CostsItem';
 
 import './CostsApp.css';
@@ -17,7 +18,7 @@ class CostsApp extends Component {
     super(props);
     this.state = {
       records: List(),
-      currentRecord: null
+      preRecords: List()
     };
   }
   
@@ -36,9 +37,8 @@ class CostsApp extends Component {
 
   async loadRecords(asset) {
     const records = await api.getAppStorage(METADATA.recordDevKey, METADATA.recordCollection, asset.get('id'), Map({limit: 0}));
-    const sortedRecords = records.sortBy(r => r.getIn(["data","date"]));
     this.setState({
-      records: sortedRecords    
+      records: records.sortBy(r=>r.get("timestamp"))
     });
   }
 
@@ -63,51 +63,80 @@ class CostsApp extends Component {
             </thead>
             <tbody>
               {this.state.records.map(record=> {
-                return <CostsItem key={record.get("_id")} record={record} onSave={(record)=>this.saveRecord(record)} onRemove={(record)=>this.removeRecord(record)}/>;
+                return <CostsItem 
+                          key={record.get("_id")} 
+                          record={record} 
+                          onSave={(record)=>this.saveRecord(record)} 
+                          onRemove={(record)=>this.removeRecord(record)}/>;
+              })}
+
+              {this.state.preRecords.map((record)=> {
+                return <CostsItem 
+                  key={record.get("_pre_id")}
+                  record={record}
+                  onSave={(record)=>this.saveRecord(record)}
+                  onCancel={(preRecord)=>this.cancelAdd(preRecord)} />;
               })}
             </tbody>
           </table> : '' }
-
-        {this.state.currentRecord?
-          <CostsAdd
-            record={this.state.currentRecord}
-            onSave={(record)=>this.saveRecord(record)}
-            onCancel={()=>this.cancelAdd()} /> : ''}
-
+          <Button floating large className='lightblue' style={{marginTop:10}} waves='light' icon='add' ref="bottomAddBtn" onClick={(e)=>{this.add();}} />
         <NotificationSystem ref="notificationSystem" noAnimation={true} />
       </div>
     );
   }
 
-  add() {
+  add() {        
     const record = Map({
       asset_id: this.props.asset.get('id'),
+      _pre_id: new Date().getTime(),
       data: Map({})
     });
-    this.setState({currentRecord: record});    
+
+    this.setState({
+      preRecords: this.state.preRecords.push(record)
+    });
+
+    ReactDOM.findDOMNode(this.refs.bottomAddBtn).focus();
   }
 
-  cancelAdd() {
-    this.setState({currentRecord: null});
+  cancelAdd(preRecord) {
+    this.setState({
+      preRecords: this.state.preRecords.filterNot(r => r.get('_pre_id') === preRecord.get('_pre_id'))
+    });
   }
 
   async saveRecord(record) {
-    this.setState({currentRecord: null});
     
     try {
       const savedRecord = record.has('_id')? 
         await api.putAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record.get('_id') , record) :
         await api.postAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record);
-      this.setState({
-        records: this.state.records.filterNot(r => r.get('_id') === savedRecord.get('_id'))
-                                   .push(savedRecord)
-                                   .sortBy(r => r.getIn(["data","date"]))});
+
+      let index = this.state.records.findIndex(r=>r.get("_id")===savedRecord.get("_id"));                  
+
+      if (index!==-1) { //update record
+        this.setState({
+          records: this.state.records.delete(index).insert(index,savedRecord)});
+      }
+      else { //create record id
+        
+        let recordsAfterSave = this.state.records.push(savedRecord);
+        let preRecordsAfterSave = this.state.preRecords.filterNot(r => r.get('_pre_id') === record.get('_pre_id'));
+
+        this.setState({
+          records: recordsAfterSave,
+          preRecords: preRecordsAfterSave
+        });
+
+      }
+
       this._notificationSystem.addNotification({
         message: 'The record has been saved successfully.',
         level: 'success'
       });
     }
     catch(error) {
+      console.log(error);
       this._notificationSystem.addNotification({
         message: 'Error when creating a cost record.',
         level: 'error'
@@ -123,7 +152,6 @@ class CostsApp extends Component {
         .filterNot(r => r.get('_id') === record.get('_id'));
       this.setState({
         records: recordsAfterDelete,
-        currentRecord: null,      
       });
 
       this._notificationSystem.addNotification({
@@ -138,8 +166,7 @@ class CostsApp extends Component {
         level: 'error'
       });
 
-    }
-        
+    }      
   }
 }
 
