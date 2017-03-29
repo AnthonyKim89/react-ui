@@ -3,6 +3,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Input } from 'react-materialize';
 import { format as formatDate } from 'date-fns';
 
+
 import { SUBSCRIPTIONS, ACTIVITY_COLORS, PERIOD_TYPES, DISPLAY_FORMATS } from './constants';
 import PieChart from '../../../common/PieChart';
 import LoadingIndicator from '../../../common/LoadingIndicator';
@@ -126,6 +127,8 @@ class RigActivityApp extends Component {
       titleVerticalAlign='bottom'
       showTooltipInPercentage={this.showTooltipInPercentage()}
       unit={this.getDisplayUnit()}
+      size={this.props.size}
+      showLegend={false}
       name='Rig Activity'>
     </PieChart>;
   }
@@ -139,6 +142,8 @@ class RigActivityApp extends Component {
       titleFontSize='12px'
       showTooltipInPercentage={this.showTooltipInPercentage()}
       unit={this.getDisplayUnit()}
+      size={this.props.size}  
+      showLegend={false}    
       name='Rig Activity'>
     </PieChart>;
   }
@@ -152,6 +157,8 @@ class RigActivityApp extends Component {
       titleFontSize='12px'
       showTooltipInPercentage={this.showTooltipInPercentage()}
       unit={this.getDisplayUnit()}
+      size={this.props.size}   
+      showLegend={false}   
       name='Rig Activity'>
     </PieChart>;
   }

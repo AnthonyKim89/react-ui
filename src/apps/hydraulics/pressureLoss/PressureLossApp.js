@@ -23,6 +23,8 @@ class PressureLossApp extends Component {
                 showTooltipInPercentage={this.showTooltipInPercentage()}
                 unit={this.displayUnit}
                 pieOptions={this.pieOptions}
+                size={this.props.size}
+                showLegend={true}
                 name='Pressure Loss'>
               </PieChart>
             </div>
@@ -94,6 +96,7 @@ class PressureLossApp extends Component {
   get showInLegend() {
     return this.props.size === Size.LARGE || this.props.size === Size.XLARGE;
   }
+
 }
 
 PressureLossApp.propTypes = {
