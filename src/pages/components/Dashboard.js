@@ -56,8 +56,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    const LayoutData = this.props.currentDashboard && apps.layouts[this.props.currentDashboard.get('layout', 'grid')];
-    const AppLayout = this.props.currentDashboard && LayoutData['layout'];
+    const AppLayout = this.props.currentDashboard && apps.layouts[this.props.currentDashboard.get('layout', 'grid')];
     return (
       <div className="c-dashboard" >
         {!this.props.isNative && <DashboardTabBar/>}
