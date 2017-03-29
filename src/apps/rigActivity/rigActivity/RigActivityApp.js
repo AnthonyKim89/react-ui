@@ -62,7 +62,7 @@ class RigActivityApp extends Component {
   renderTable() {
     if (this.isExpanded()) {
       return (<div className="col s6">
-         <table className="responsive-table chart-table">
+         <table className="chart-table">
           <thead>
             <tr>
                 <th data-field="activity">Activity</th>
