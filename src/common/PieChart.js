@@ -41,7 +41,7 @@ class PieChart extends Component {
       },
       legend: {
         align: 'right',
-        verticalAlign: 'middle',
+        verticalAlign: 'top',
         layout: 'vertical',
         itemStyle: {color: '#fff'},
         enabled: true,

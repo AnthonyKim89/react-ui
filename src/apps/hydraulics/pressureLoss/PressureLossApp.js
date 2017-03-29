@@ -75,7 +75,12 @@ class PressureLossApp extends Component {
   get dataLabels() {
     if (this.showInLegend) {
       const format = this.showTooltipInPercentage() ? '{percentage:.1f}' : '{y}';
-      return { enabled: true, format: format };
+      return {
+        enabled: true,
+        color: '#fff',
+        distance: 10,
+        format: format
+      };
     } else {
       return { enabled: false };
     }
