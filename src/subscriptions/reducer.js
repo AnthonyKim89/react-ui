@@ -27,16 +27,14 @@ export default function(state = initialState, action) {
       const activeSub = state.getIn(['appSubscriptions', action.appInstanceId, action.devKey, action.collection, action.event || '']);
       if (activeSub && activeSub.get('assetId') === action.assetId && activeSub.get('params').equals(action.params)) {
 
-        // If this data is cumulative, we slice off the number of rows
-        if (action.params.get("accumulate", false)) {
-          if (List.isList(action.data)) {
-            let currentData = state.getIn(['appData', action.appInstanceId, action.devKey, action.collection, action.event || '']);
-            if (currentData !== undefined) {
-              // Slicing off the number of rows that we're about to add and pushing the new rows onto
-              // the end of the data to "accumulate" the new data instead of throwing the old away
-              currentData = currentData.slice(0, -action.data.count());
-              action.data = currentData.unshift(...action.data);
-            }
+        // If the accumulate flag is set, we slice off the number of rows we're going to add, and add the new rows
+        if (action.params.get("accumulate", false) && List.isList(action.data)) {
+          let currentData = state.getIn(['appData', action.appInstanceId, action.devKey, action.collection, action.event || '']);
+          if (currentData !== undefined) {
+            // Slicing off the number of rows that we're about to add and pushing the new rows onto
+            // the end of the data to "accumulate" the new data instead of throwing the old away
+            currentData = currentData.slice(0, -action.data.count());
+            action.data = currentData.unshift(...action.data);
           }
         }
 
