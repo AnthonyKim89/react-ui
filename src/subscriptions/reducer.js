@@ -1,4 +1,4 @@
-import { Map } from 'immutable';
+import { List, Map } from 'immutable';
 
 import * as t from './actions';
 
@@ -25,9 +25,21 @@ export default function(state = initialState, action) {
       );
     case t.RECEIVE_APP_DATA:
       const activeSub = state.getIn(['appSubscriptions', action.appInstanceId, action.devKey, action.collection, action.event || '']);
-      if (activeSub &&
-          activeSub.get('assetId') === action.assetId &&
-          activeSub.get('params').equals(action.params)) {
+      if (activeSub && activeSub.get('assetId') === action.assetId && activeSub.get('params').equals(action.params)) {
+
+        // If this data is cumulative, we slice off the number of rows
+        if (action.params.get("accumulate", false)) {
+          if (List.isList(action.data)) {
+            let currentData = state.getIn(['appData', action.appInstanceId, action.devKey, action.collection, action.event || '']);
+            if (currentData !== undefined) {
+              // Slicing off the number of rows that we're about to add and pushing the new rows onto
+              // the end of the data to "accumulate" the new data instead of throwing the old away
+              currentData = currentData.slice(0, -action.data.count());
+              action.data = currentData.unshift(...action.data);
+            }
+          }
+        }
+
         return state.setIn(['appData', action.appInstanceId, action.devKey, action.collection, action.event || ''], action.data);
       } else {
         return state;
