@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { find } from 'lodash';
-import { List } from 'immutable';
 import numeral from 'numeral';
 import { distanceInWordsToNow } from 'date-fns';
 
@@ -19,31 +18,17 @@ const [ latestSubscription, summarySubscription ] = SUBSCRIPTIONS;
 
 class SingleTraceApp extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {summary: List()};
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.getTraceSummary(this.props) !== this.getTraceSummary(nextProps);
   }
 
-  componentWillReceiveProps(newProps) {
-    if (this.isSummaryChanged(newProps)) {
-      const summary = this.getTraceSummary(newProps);
-      this.setState({summary: this.addSummaryData(summary)});
-    }
-  }
-
-  isSummaryChanged(newProps) {
-    return this.getTraceSummary(newProps) &&
-           !this.getTraceSummary(newProps).equals(this.getTraceSummary(this.props));
-  }
-
-  addSummaryData(summary) {
-    // The new data could by either a list of maps or a single map.
-    const newData = List.isList(summary) ?
-      summary.map(s => s.update('timestamp', t => new Date(t * 1000))) :
-      List.of(summary.update('timestamp', t => new Date(t * 1000)));
-    return this.state.summary
-      .concat(newData.map(itm => itm.merge(itm.get('data')).delete('data')))
-      .sortBy(s => s.get('timestamp').getTime());
+  getSummaryData() {
+    let summary = this.getTraceSummary(this.props);
+    summary = summary.map(s => s.update('timestamp', t => new Date(t * 1000)));
+    summary = summary.sortBy(s => s.get('timestamp'));
+    summary = summary.map(itm => itm.merge(itm.get('data')).delete('data'));
+    summary = summary.sortBy(s => s.get('timestamp'));
+    return summary;
   }
 
   render() {
@@ -53,7 +38,7 @@ class SingleTraceApp extends Component {
         {this.hasLatestTrace() ?
           this.renderLatestTrace() :
           <LoadingIndicator />}
-        {this.state.summary.size > 0 ?
+        {this.getTraceSummary(this.props) ?
           this.renderTraceSummaryGraph() :
           <LoadingIndicator />}
       </div>
@@ -81,6 +66,14 @@ class SingleTraceApp extends Component {
   }
 
   renderTraceSummaryGraph() {
+    let summary = this.getSummaryData();
+    let traceSpec = this.getTrace();
+
+    // Performing unit conversion.
+    if (traceSpec.hasOwnProperty('unitType')) {
+      summary = this.props.convert.convertImmutables(summary, this.props.trace, traceSpec.unitType, traceSpec.cunit);
+    }
+
     return <div className="c-trace-single__graph">
       <Chart
         horizontal
@@ -96,7 +89,7 @@ class SingleTraceApp extends Component {
           key={this.props.trace}
           id={this.props.trace}
           title={this.getTrace().label}
-          data={this.state.summary}
+          data={summary}
           yField={this.props.trace}
           color={this.getSeriesColor()} />
           </Chart>
