@@ -15,12 +15,12 @@ const initialState = Map({
  * @returns {Stack.<T|U>|List<T>|Number|Stack<T>|Cursor|List.<T|U>|*}
  */
 function processNewSubscriptionData(state, action) {
-  let behavior = action.params.get("type", false);
+  let behavior = action.params.get("behavior", false);
 
   if (behavior && List.isList(action.data)) {
     let currentData = state.getIn(['appData', action.appInstanceId, action.devKey, action.collection, action.event || '']);
     if (currentData) {
-      // Custom data processing for various subscription types.
+      // Custom data processing for various subscription behaviors.
       if (behavior === "turnover") {
         // If the turnover behavior is set, we slice off the number of rows we're going to add, and add the new rows
         currentData = currentData.slice(0, -action.data.count());
