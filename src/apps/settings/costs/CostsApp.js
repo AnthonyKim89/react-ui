@@ -52,7 +52,7 @@ class CostsApp extends Component {
           onAdd={()=>this.add()}/>
 
         {this.state.records?
-          <table className="responsive highlight costs-table">
+          <table className="responsive costs-table">
             <thead>
               <tr>
                 <th> Date </th>
@@ -79,7 +79,9 @@ class CostsApp extends Component {
               })}
             </tbody>
           </table> : '' }
-          <Button floating large className='lightblue' style={{marginTop:10}} waves='light' icon='add' ref="bottomAddBtn" onClick={(e)=>{this.add();}} />
+          <Button floating large className='lightblue' style={{marginTop:10}} waves='light' icon='add'  onClick={(e)=>{this.add();}} />
+          
+          <a ref="scrollHelperAnchor"></a>
         <NotificationSystem ref="notificationSystem" noAnimation={true} />
       </div>
     );
@@ -96,7 +98,10 @@ class CostsApp extends Component {
       preRecords: this.state.preRecords.push(record)
     });
 
-    ReactDOM.findDOMNode(this.refs.bottomAddBtn).focus();
+    setTimeout(()=>{
+      ReactDOM.findDOMNode(this.refs.scrollHelperAnchor).scrollIntoView({behavior: "smooth"});
+    },0);
+    
   }
 
   cancelAdd(preRecord) {

@@ -52,7 +52,7 @@ class FormationsApp extends Component {
           onAdd={()=>this.add()}/>
 
         {this.state.records?
-          <table className="responsive highlight formations-table">
+          <table className="responsive formations-table">
             <thead>
               <tr>
                 <th> True Vertical Depth(ft) </th>
@@ -80,7 +80,8 @@ class FormationsApp extends Component {
               })}
             </tbody>
           </table> : '' }
-          <Button floating large className='lightblue' style={{marginTop:10}} waves='light' icon='add' ref="bottomAddBtn" onClick={(e)=>{this.add();}} />
+          <Button floating large className='lightblue' style={{marginTop:10}} waves='light' icon='add' onClick={(e)=>{this.add();}} />
+          <a ref="scrollHelperAnchor"></a>
         <NotificationSystem ref="notificationSystem" noAnimation={true} />
       </div>
     );
@@ -97,7 +98,9 @@ class FormationsApp extends Component {
       preRecords: this.state.preRecords.push(record)
     });
 
-    ReactDOM.findDOMNode(this.refs.bottomAddBtn).focus();
+    setTimeout(()=>{
+      ReactDOM.findDOMNode(this.refs.scrollHelperAnchor).scrollIntoView({behavior: "smooth"});
+    },0);
   }
 
   cancelAdd(preRecord) {

@@ -9,11 +9,15 @@
   padding: 30px;
 }
 
+.c-costs h4 {
+  margin-bottom:0px;
+}
+
 .costs-table tr:nth-child(even) {
   background-color: rgb(41,41,41);
 }
 
-.costs-table.highlight tr:hover {
+.costs-table tbody tr:hover {
   background-color: rgb(96,91,91);
 }
 
@@ -43,9 +47,10 @@
 }
 
 .costs-table td {
-  padding-top:10px;
-  padding-bottom:10px;
-  height:60px;
+  border-radius: 0px;
+  padding-top:12px;
+  padding-bottom:12px;
+  height:65px;
 }
 
 .costs-table td:nth-child(1) {

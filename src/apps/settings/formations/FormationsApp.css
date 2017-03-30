@@ -9,11 +9,15 @@
   padding: 30px;
 }
 
+.c-formations h4 {
+  margin-bottom:0px;
+}
+
 .formations-table tr:nth-child(even) {
   background-color: rgb(41,41,41);
 }
 
-.formations-table.highlight tr:hover {
+.formations-table tbody tr:hover {
   background-color: rgb(96,91,91);
 }
 
@@ -43,9 +47,10 @@
 }
 
 .formations-table td {
+  border-radius: 0px;
   padding-top:10px;
   padding-bottom:10px;
-  height:60px;
+  height:65px;
 }
 
 .formations-table td:nth-child(1) {
