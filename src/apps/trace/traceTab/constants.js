@@ -4,7 +4,7 @@ export const CATEGORY = 'trace';
 export const NAME = 'traceTab';
 export const SUBSCRIPTIONS = [
   {devKey: 'corva', collection: 'wits'},
-  {devKey: 'corva', collection: 'wits-summary-30s', params: {initial: 240, type: "turnover"}}
+  {devKey: 'corva', collection: 'wits-summary-30s', params: {initial: 240, behavior: "turnover"}}
 ];
 export const METADATA = {
   settingsTitle: 'Trace Tab',
