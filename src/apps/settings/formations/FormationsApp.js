@@ -8,12 +8,12 @@ import NotificationSystem from 'react-notification-system';
 import * as api from '../../../api';
 
 import {METADATA} from './constants';
-import CostsSummary from './CostsSummary';
-import CostsItem from './CostsItem';
+import FormationsSummary from './FormationsSummary';
+import FormationsItem from './FormationsItem';
 
-import './CostsApp.css';
+import './FormationsApp.css';
 
-class CostsApp extends Component {
+class FormationsApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,7 +36,7 @@ class CostsApp extends Component {
   }
 
   async loadRecords(asset) {
-    const records = await api.getAppStorage(METADATA.recordDevKey, METADATA.recordCollection, asset.get('id'), Map({limit: 0}));
+    const records = await api.getAppStorage(METADATA.recordDevKey, METADATA.recordCollection, asset.get('id'), Map({limit: 0}));    
     this.setState({
       records: records.sortBy(r=>r.get("timestamp"))
     });
@@ -44,26 +44,27 @@ class CostsApp extends Component {
 
   render() {
     return (
-      <div className="c-costs">
+      <div className="c-formations">
         <h4>{METADATA.title}</h4>
         <div>{METADATA.subtitle}</div>
-        <CostsSummary 
+        <FormationsSummary
           records={this.state.records} 
           onAdd={()=>this.add()}/>
 
         {this.state.records?
-          <table className="responsive highlight costs-table">
+          <table className="responsive highlight formations-table">
             <thead>
               <tr>
-                <th> Date </th>
-                <th> Cost </th>
-                <th> Description </th>
+                <th> True Vertical Depth(ft) </th>
+                <th> Measured Depth(ft) </th>
+                <th> Formation Name </th>
+                <th> Lithology</th>
                 <th> </th>
               </tr>
             </thead>
             <tbody>
               {this.state.records.map(record=> {
-                return <CostsItem 
+                return <FormationsItem
                           key={record.get("_id")} 
                           record={record} 
                           onSave={(record)=>this.saveRecord(record)} 
@@ -71,7 +72,7 @@ class CostsApp extends Component {
               })}
 
               {this.state.preRecords.map((record)=> {
-                return <CostsItem 
+                return <FormationsItem 
                   key={record.get("_pre_id")}
                   record={record}
                   onSave={(record)=>this.saveRecord(record)}
@@ -85,7 +86,7 @@ class CostsApp extends Component {
     );
   }
 
-  add() {        
+  add() {
     const record = Map({
       asset_id: this.props.asset.get('id'),
       _pre_id: new Date().getTime(),
@@ -169,8 +170,8 @@ class CostsApp extends Component {
   }
 }
 
-CostsApp.propTypes = {
+FormationsApp.propTypes = {
   asset: ImmutablePropTypes.map
 };
 
-export default CostsApp;
+export default FormationsApp;

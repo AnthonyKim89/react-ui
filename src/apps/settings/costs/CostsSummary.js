@@ -25,7 +25,6 @@ class CostsSummary extends Component {
     						<Button floating large className='lightblue' waves='light' icon='add' onClick={this.props.onAdd} />
     					</td>
     				</tr>
-
     			</tbody>
     		</Table>
       </div>

@@ -39,6 +39,7 @@ import casing from './settings/casing';
 import fluidChecks from './settings/fluidChecks';
 import costs from './settings/costs';
 import map from './settings/map';
+import formations from './settings/formations';
 
 // CONTROL APPS
 import wellTimeline from './wellTimeline';
@@ -108,7 +109,8 @@ export const uiApps = Map({
       casing,
       fluidChecks,
       costs,
-      map
+      map,
+      formations
     })
   }),
   rigActivity: Map({

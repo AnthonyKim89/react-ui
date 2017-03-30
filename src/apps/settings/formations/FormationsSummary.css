@@ -1,0 +1,19 @@
+.c-formations-summary {
+  background-color: rgb(42, 41, 41);
+  margin: 10px 0;
+  padding: 10px 0;
+}
+
+.c-formations-summary table {
+	overflow-x: visible;
+}
+
+.c-formations-summary table td:nth-child(1) {	
+	text-align: left;
+	padding-left: 20%;
+}
+
+.c-formations-summary table td:nth-child(2) {
+	
+	width: 10%;
+}
