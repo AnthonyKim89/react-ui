@@ -2,7 +2,7 @@ export const CATEGORY = 'trace';
 export const NAME = 'multiTrace';
 export const SUBSCRIPTIONS = [
   {devKey: 'corva', collection: 'wits'},
-  {devKey: 'corva', collection: 'wits-summary-30s', params: {initial: 240, accumulate: true}}
+  {devKey: 'corva', collection: 'wits-summary-30s', params: {initial: 240, type: "turnover"}}
 ];
 export const METADATA = {
   settingsTitle: 'Multi-Trace',

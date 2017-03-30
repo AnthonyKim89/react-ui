@@ -7,6 +7,33 @@ const initialState = Map({
   appData: Map()
 });
 
+/**
+ * Processes data that comes in and prepares it for use in the apps.
+ * In many (most) cases the data won't be touched at all.
+ * @param state
+ * @param action
+ * @returns {Stack.<T|U>|List<T>|Number|Stack<T>|Cursor|List.<T|U>|*}
+ */
+function processNewSubscriptionData(state, action) {
+  let subscriptionType = action.params.get("type", false);
+
+  if (subscriptionType && List.isList(action.data)) {
+    let currentData = state.getIn(['appData', action.appInstanceId, action.devKey, action.collection, action.event || '']);
+    if (currentData) {
+      // Custom data processing for various subscription types.
+      if (subscriptionType === "turnover") {
+        // If the turnover type is set, we slice off the number of rows we're going to add, and add the new rows
+        currentData = currentData.slice(0, -action.data.count());
+        action.data = currentData.unshift(...action.data);
+      } else if (subscriptionType === "accumulate") {
+        // If the accumulate type is set, we add the new rows to the data and keep the old data
+        action.data = currentData.unshift(...action.data);
+      }
+    }
+  }
+  return action.data;
+}
+
 export default function(state = initialState, action) {
   switch (action.type) {
     case t.SUBSCRIBE_APP:
@@ -26,19 +53,7 @@ export default function(state = initialState, action) {
     case t.RECEIVE_APP_DATA:
       const activeSub = state.getIn(['appSubscriptions', action.appInstanceId, action.devKey, action.collection, action.event || '']);
       if (activeSub && activeSub.get('assetId') === action.assetId && activeSub.get('params').equals(action.params)) {
-
-        // If the accumulate flag is set, we slice off the number of rows we're going to add, and add the new rows
-        if (action.params.get("accumulate", false) && List.isList(action.data)) {
-          let currentData = state.getIn(['appData', action.appInstanceId, action.devKey, action.collection, action.event || '']);
-          if (currentData !== undefined) {
-            // Slicing off the number of rows that we're about to add and pushing the new rows onto
-            // the end of the data to "accumulate" the new data instead of throwing the old away
-            currentData = currentData.slice(0, -action.data.count());
-            action.data = currentData.unshift(...action.data);
-          }
-        }
-
-        return state.setIn(['appData', action.appInstanceId, action.devKey, action.collection, action.event || ''], action.data);
+        return state.setIn(['appData', action.appInstanceId, action.devKey, action.collection, action.event || ''], processNewSubscriptionData(state, action));
       } else {
         return state;
       }
