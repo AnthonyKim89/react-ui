@@ -6,7 +6,7 @@ export const SUBSCRIPTIONS = [
 export const METADATA = {
   title: 'Pressure Trend',
   settingsTitle: 'Pressure Trend',
-  subtitle: '',
+  subtitle: 'Trending pressure, mud weight, and ECD',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',
   publishedAt: '2016-07-01T00:00:00'

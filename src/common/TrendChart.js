@@ -21,7 +21,10 @@ class TrendChart extends Component {
       title: "",
       legend:{
         itemStyle:{
-          color:'#ffffff'
+          color:'#ffffff',
+        },
+        itemHoverStyle:{
+          color:'#58c9c2',
         }
       },
       plotOptions: {
