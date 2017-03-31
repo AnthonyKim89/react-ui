@@ -1,11 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-import { SUBSCRIPTIONS,SUPPORTED_CHART_SERIES } from './constants';
+import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
+import TrendChart from '../../../common/TrendChart';
 import subscriptions from '../../../subscriptions';
-
-import TrendChart from './TrendChart';
 
 import './TrendApp.css';
 

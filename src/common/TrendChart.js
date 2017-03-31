@@ -20,9 +20,9 @@ class TrendChart extends Component {
       credits: {enabled: false},
       title: "",
       legend:{
-      	itemStyle:{
-      		color:'#ffffff'
-      	}
+        itemStyle:{
+          color:'#ffffff'
+        }
       },
       plotOptions: {
         series: {
@@ -30,22 +30,22 @@ class TrendChart extends Component {
         }
       },
       xAxis: {
-          title: {
-              enabled: true,
-              text: 'Measure Depth ('+this.props.convert.getUnitDisplay('length')+')',
-              style: {
-              	color:'#ffffff'
-              }
-          },
-          labels:{
-          	style:{
-          		color:'#ffffff'
-          	}
-          },
-          gridLineWidth: 1,
-          gridLineColor: 'rgb(150, 150, 150)',
-          tickWidth: 0,
-      },      
+        title: {
+          enabled: true,
+          text: 'Measure Depth ('+this.props.convert.getUnitDisplay('length')+')',
+          style: {
+            color:'#ffffff'
+          }
+        },
+        labels:{
+          style:{
+            color:'#ffffff'
+          }
+        },
+        gridLineWidth: 1,
+        gridLineColor: 'rgb(150, 150, 150)',
+        tickWidth: 0,
+      },
       yAxis: this.generateYAxis(this.props.yAxes),
       series: this.props.series
     });
@@ -105,8 +105,9 @@ class TrendChart extends Component {
 }
 
 TrendChart.propTypes = {
-	series: PropTypes.array,
-	yAxes: PropTypes.array
+  series: PropTypes.array,
+  yAxes: PropTypes.array
 };
+
 export default TrendChart;
 

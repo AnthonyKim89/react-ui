@@ -1,12 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-import { Size } from '../../../common/constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
-import PieChart from '../../../common/PieChart';
+import TrendChart from '../../../common/TrendChart';
 import subscriptions from '../../../subscriptions';
 
-import { COLORS, LABELS, PIE_OPTIONS, SUBSCRIPTIONS, DISPLAY_FORMATS } from './constants';
+import {
+  SUBSCRIPTIONS,
+  SUPPORTED_CHART_SERIES
+} from './constants';
 
 import './PressureTrendApp.css';
 
@@ -16,19 +18,11 @@ class PressureTrendApp extends Component {
     return (
       this.data ?
         <div className="c-hydraulics-pressure-trend">
-          <div className="row chart-panel">
-            <div className="col s12">
-              <PieChart
-                data={this.graphData}
-                showTooltipInPercentage={this.showTooltipInPercentage()}
-                unit={this.displayUnit}
-                pieOptions={this.pieOptions}
-                size={this.props.size}
-                showLegend={true}
-                name='Pressure Loss'>
-              </PieChart>
-            </div>
-          </div>
+          <TrendChart
+            convert={this.props.convert}
+            series={this.series}
+            yAxes={this.yAxes}
+          />
         </div> :
         <LoadingIndicator />
     );
@@ -38,76 +32,82 @@ class PressureTrendApp extends Component {
     return subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS);
   }
 
-  get graphData() {
-    return this.data
-      .getIn(['data', 'percentages'])
-      .map(datum => ({
-        name: LABELS[datum.get('type')],
-        y: this.props.convert.convertValue(datum.get('pressure_loss'), 'pressure', 'psi').fixFloat(1),
-        color: COLORS[datum.get('type')]
-      }));
+  get yAxes() {
+    return  [{
+      titleText: `EMW (pp${this.props.convert.getUnitDisplay('volume')})`,
+      color:'#ffffff'
+    }, {
+      titleText: this.props.convert.getUnitDisplay('pressure').toUpperCase(),
+      color:'#ffffff' ,
+      others: { opposite:true }
+    }];
   }
 
-  showTooltipInPercentage() {
-    return this.props.displayFormat === 'percent';
-  }
+  get series() {
+    let mudWeight = this.getSeriesData("mud_weight", ["measured_depth", "value"]);
+    mudWeight = this.props.convert.convertArray(mudWeight, 0, 'length', 'ft');
+    mudWeight = this.props.convert.convertArray(mudWeight, 1, 'volume', 'gal');
 
-  get displayUnit() {
-    return this.showTooltipInPercentage() ? '%' : ' ' + this.props.convert.getUnitDisplay("pressure");
-  }
+    let equivalentCirculatingDensity = this.getSeriesData(
+        "equivalent_circulating_density", ["measured_depth", "value"]);
+    equivalentCirculatingDensity = this.props.convert.convertArray(
+        equivalentCirculatingDensity, 0, 'length', 'ft');
+    equivalentCirculatingDensity = this.props.convert.convertArray(
+        equivalentCirculatingDensity, 1, 'volume', 'gal');
 
-  /**
-   * Get the pie options.
-   *
-   * The pie options are a combination of static and dynamic data.
-   */
-  get pieOptions() {
-    return Object.assign(PIE_OPTIONS, {
-      dataLabels: this.dataLabels,
-      showInLegend: this.showInLegend
+    let standpipePressure = this.getSeriesData(
+        "standpipe_pressure", ["measured_depth", "value"]);
+    standpipePressure = this.props.convert.convertArray(standpipePressure, 0, 'length', 'ft');
+    standpipePressure = this.props.convert.convertArray(standpipePressure, 1, 'pressure', 'psi');
+
+    let seriesSetting = {
+      mudWeight: {
+        yAxis: 0,
+        data: mudWeight
+      },
+      equivalentCirculatingDensity: {
+        yAxis: 0,
+        data: equivalentCirculatingDensity
+      },
+      standpipePressure: {
+        yAxis: 1,
+        data: standpipePressure
+      }
+    };
+
+    return Object.keys(SUPPORTED_CHART_SERIES).map( (field) => {
+      return Object.assign(
+        {},
+        seriesSetting[field],
+        SUPPORTED_CHART_SERIES[field],
+        {name: SUPPORTED_CHART_SERIES[field].label, color:this.getSeriesColor(field)}
+      );
     });
   }
 
-  /**
-   * Get the data labels for larger sizes.
-   *
-   * Data labels get clipped at smaller sizes so only show them when displayed
-   * in a larger mode.
-   */
-  get dataLabels() {
-    if (this.showInLegend) {
-      const format = this.showTooltipInPercentage() ? '{percentage:.1f}' : '{y}';
-      return {
-        enabled: true,
-        color: '#fff',
-        distance: 10,
-        format: format
-      };
-    } else {
-      return { enabled: false };
+  getSeriesColor(field) {
+    if (this.props.graphColors && this.props.graphColors.has(field)) {
+      return this.props.graphColors.get(field);
     }
+    return SUPPORTED_CHART_SERIES[field].defaultColor;
   }
 
-  /**
-   * Decide when to show the legend.
-   *
-   * At smaller sizes, the legend would completely overlap the pie area.
-   */
-  get showInLegend() {
-    return this.props.size === Size.LARGE || this.props.size === Size.XLARGE;
+  getSeriesData(serieName, keys) {
+    let rawData = subscriptions.selectors.firstSubData(
+        this.props.data, SUBSCRIPTIONS).getIn(['data', serieName]).toJSON();
+    return rawData.map((t) => {
+      return keys.map(key => {
+        return t[key];
+      });
+    });
   }
 
 }
 
 PressureTrendApp.propTypes = {
   data: ImmutablePropTypes.map,
-  displayFormat: PropTypes.string,
   size: PropTypes.string.isRequired,
   widthCols: PropTypes.number.isRequired
-};
-
-PressureTrendApp.defaultProps = {
-  displayFormat: DISPLAY_FORMATS[1].value,
 };
 
 export default PressureTrendApp;

@@ -1,13 +1,13 @@
 import { List, Map } from 'immutable';
 
-import { radioEditorForDefinitions } from '../../../common/RadioEditor';
-import { DISPLAY_FORMATS } from './constants';
+import { chartColorsEditorForDefinitions } from '../../../common/ChartColorsEditor';
+import { SUPPORTED_CHART_SERIES } from './constants';
 
 export default List([
   Map({
-    name: 'displayFormat',
-    title: 'Display Format',
+    name: 'graphColors',
+    title: 'Graph Colors',
     required: false,
-    Editor: radioEditorForDefinitions(DISPLAY_FORMATS, DISPLAY_FORMATS[1].value)
+    Editor: chartColorsEditorForDefinitions(SUPPORTED_CHART_SERIES)
   })
 ]);
