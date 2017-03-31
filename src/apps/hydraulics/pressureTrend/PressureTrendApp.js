@@ -21,6 +21,7 @@ class PressureTrendApp extends Component {
           <TrendChart
             convert={this.props.convert}
             series={this.series}
+            xAxisTitle={'Measured Depth ('+this.props.convert.getUnitDisplay('length')+')'}
             yAxes={this.yAxes}
           />
         </div> :

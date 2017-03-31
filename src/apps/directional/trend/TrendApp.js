@@ -15,7 +15,12 @@ class TrendApp extends Component {
       <div className="c-di-trend">
         <div className="gaps"></div>
         {subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS) ?
-          <TrendChart convert={this.props.convert} series={this.getSeries()} yAxes={this.getYAxes()} /> :
+          <TrendChart
+            convert={this.props.convert}
+            series={this.getSeries()}
+            xAxisTitle={'Measured Depth ('+this.props.convert.getUnitDisplay('length')+')'}
+            yAxes={this.getYAxes()}
+          /> :
         <LoadingIndicator/> }
       </div>
     );
