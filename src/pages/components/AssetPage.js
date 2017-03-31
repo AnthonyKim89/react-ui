@@ -86,6 +86,10 @@ class AssetPage extends Component {
       return apps.map(({constants, AppComponent}) => 
         <AppComponent
           key={constants.NAME}
+          id={constants.NAME}
+          data={this.props.appData.get(constants.NAME)}
+          subscribeApp={(...a) => this.props.subscribeApp(...a)}
+          unsubscribeApp={(...a) => this.props.unsubscribeApp(...a)}
           asset={this.props.currentAsset}
           {...(this.props.currentPageParams && this.props.currentPageParams.toJS())}
           onUpdateParams={(...args) => this.onPageParamsUpdate(...args)} />

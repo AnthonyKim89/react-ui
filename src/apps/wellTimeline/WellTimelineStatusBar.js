@@ -117,6 +117,7 @@ class WellTimelineStatusBar extends Component {
 
 WellTimelineStatusBar.propTypes = {
   isLive: React.PropTypes.bool,
+  data: ImmutablePropTypes.map,
   asset: ImmutablePropTypes.map.isRequired,
   lastWitsRecord: ImmutablePropTypes.map,
   isScrollBarVisible: React.PropTypes.bool,

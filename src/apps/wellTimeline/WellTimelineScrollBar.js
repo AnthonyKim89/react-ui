@@ -127,6 +127,7 @@ class WellTimelineScrollBar extends Component {
 
 WellTimelineScrollBar.propTypes = {
   time: PropTypes.string,
+  data: ImmutablePropTypes.map,
   tooltipDepthData: ImmutablePropTypes.list.isRequired,
   activity: ImmutablePropTypes.list.isRequired,
   onChangeTime: PropTypes.func.isRequired
