@@ -52,14 +52,14 @@ class FormationsApp extends Component {
           onAdd={()=>this.add()}/>
 
         {this.state.records?
-          <table className="responsive formations-table">
+          <table className="c-formations__formations-table">
             <thead>
               <tr>
                 <th> True Vertical Depth(ft) </th>
                 <th> Measured Depth(ft) </th>
                 <th> Formation Name </th>
-                <th> Lithology</th>
-                <th> </th>
+                <th className="hide-on-med-and-down"> Lithology</th>
+                <th className="hide-on-med-and-down"> </th>
               </tr>
             </thead>
             <tbody>
@@ -110,34 +110,11 @@ class FormationsApp extends Component {
   }
 
   async saveRecord(record) {
-    
+    let savedRecord;
     try {
-      const savedRecord = record.has('_id')? 
+      savedRecord = record.has('_id')? 
         await api.putAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record.get('_id') , record) :
-        await api.postAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record);
-
-      let index = this.state.records.findIndex(r=>r.get("_id")===savedRecord.get("_id"));                  
-
-      if (index!==-1) { //update record
-        this.setState({
-          records: this.state.records.delete(index).insert(index,savedRecord)});
-      }
-      else { //create record id
-        
-        let recordsAfterSave = this.state.records.push(savedRecord);
-        let preRecordsAfterSave = this.state.preRecords.filterNot(r => r.get('_pre_id') === record.get('_pre_id'));
-
-        this.setState({
-          records: recordsAfterSave,
-          preRecords: preRecordsAfterSave
-        });
-
-      }
-
-      this._notificationSystem.addNotification({
-        message: 'The record has been saved successfully.',
-        level: 'success'
-      });
+        await api.postAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record);      
     }
     catch(error) {
       this._notificationSystem.addNotification({
@@ -146,30 +123,55 @@ class FormationsApp extends Component {
       });
     }
 
+    if (!savedRecord) {
+      return;
+    }
+    let index = this.state.records.findIndex(r=>r.get("_id")===savedRecord.get("_id"));                  
+
+    if (index!==-1) { //update record
+      this.setState({
+        records: this.state.records.delete(index).insert(index,savedRecord)});
+    }
+    else { //create record id
+      
+      let recordsAfterSave = this.state.records.push(savedRecord);
+      let preRecordsAfterSave = this.state.preRecords.filterNot(r => r.get('_pre_id') === record.get('_pre_id'));
+
+      this.setState({
+        records: recordsAfterSave,
+        preRecords: preRecordsAfterSave
+      });
+
+    }
+
+    this._notificationSystem.addNotification({
+      message: 'The record has been saved successfully.',
+      level: 'success'
+    });
   }
 
   async removeRecord(record) {    
     try {
-      await api.deleteAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record.get('_id'));
-      const recordsAfterDelete = this.state.records
-        .filterNot(r => r.get('_id') === record.get('_id'));
-      this.setState({
-        records: recordsAfterDelete,
-      });
-
-      this._notificationSystem.addNotification({
-        message: 'The record has been deleted successfully.',
-        level: 'success'
-      });
+      await api.deleteAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record.get('_id'));      
     }
     catch(error) {
-
       this._notificationSystem.addNotification({
         message: 'Error when deleting a record.',
         level: 'error'
       });
+      return;
+    }
 
-    }      
+    const recordsAfterDelete = this.state.records.filterNot(r => r.get('_id') === record.get('_id'));
+    this.setState({
+      records: recordsAfterDelete,
+    });
+
+    this._notificationSystem.addNotification({
+      message: 'The record has been deleted successfully.',
+      level: 'success'
+    });
+
   }
 }
 

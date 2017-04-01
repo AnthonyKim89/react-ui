@@ -13,63 +13,31 @@
   margin-bottom:0px;
 }
 
-.formations-table tr:nth-child(even) {
+.c-formations__formations-table tr:nth-child(even) {
   background-color: rgb(41,41,41);
 }
 
-.formations-table tbody tr:hover {
+.c-formations__formations-table tbody tr:hover {
   background-color: rgb(96,91,91);
 }
 
-.formations-table tr .view-action {
-  display:none;
-}
-
-.formations-table button {
-  margin-left: 10px;
-}
-
-.formations-table tr:hover .view-action {
-  display: inline;  
-}
-
-.formations-table .input-field{
-  margin-top: 0px;
-}
-
-.formations-table .input-field.col label{
-  left: 0;
-  width: 100%;
-}
-
-.formations-table .input-field.col label:after{
-  top:40px;
-}
-
-.formations-table td {
-  border-radius: 0px;
-  padding-top:10px;
-  padding-bottom:10px;
-  height:65px;
-}
-
-.formations-table td:nth-child(1) {
+.c-formations__formations-table th:nth-child(1) {
   width:20%;
 }
 
-.formations-table td:nth-child(2) {
+.c-formations__formations-table th:nth-child(2) {
   width:20%;
 }
 
-.formations-table td:nth-child(3) {
+.c-formations__formations-table th:nth-child(3) {
   width:20%;
 }
 
-.formations-table td:nth-child(4) {
+.c-formations__formations-table th:nth-child(4) {
   width:20%;
 }
 
-.formations-table td:nth-child(5) {
+.c-formations__formations-table th:nth-child(5) {
   width:20%;
 }
 
@@ -79,39 +47,14 @@
     padding:0px;
   }
 
-  .formations-table th:nth-child(1) {
-    width:50%;
+  .c-formations__formations-table th:nth-child(1) {
+    width: 30%;
   }
-  .formations-table th:nth-child(2) {
-    width:50%;
+  .c-formations__formations-table th:nth-child(2) {
+    width: 30%;
   }
-  .formations-table th:nth-child(3) {
-    display: none;
+  .c-formations__formations-table th:nth-child(3) {
+    width: 40%;
   }
-
-  .formations-table th:nth-child(4) {
-    display: none;
-  }
-
-  .formations-table th:nth-child(5) {
-    display: none;
-  }
-
-  .formations-table td:nth-child(1) {
-    width:50%;
-  }
-  .formations-table td:nth-child(2) {
-    width:50%;
-  }
-  .formations-table td:nth-child(3) {
-    display: none;
-  }
-
-  .formations-table td:nth-child(4) {
-    display: none;
-  }
-
-  .formations-table td:nth-child(5) {
-    display: none;
-  }
+  
 }

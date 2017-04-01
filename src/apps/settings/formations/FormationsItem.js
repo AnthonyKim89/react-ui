@@ -5,6 +5,8 @@ import { Map } from 'immutable';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
+import './FormationsItem.css';
+
 class FormationsItem extends Component { 
   constructor(props) {
     super(props);
@@ -26,12 +28,12 @@ class FormationsItem extends Component {
     let {td,md,formation_name,lithology} = this.state.data;
 
     if (!this.state.editing) return (
-      <tr>
+      <tr className="c-formations-item">
         <td>{td}</td>
         <td>{md}</td>
         <td>{formation_name}</td>
-        <td>{lithology}</td>
-        <td>
+        <td className="hide-on-med-and-down">{lithology}</td>
+        <td className="hide-on-med-and-down">
           <Button floating className='lightblue view-action' waves='light' icon='edit'
                   onClick={() => this.setState({editing: true})}/>
           <Button floating className='red view-action' waves='light' icon='remove' onClick={() => this.remove()}/>
@@ -40,7 +42,7 @@ class FormationsItem extends Component {
     );
 
     return (
-      <tr>
+      <tr className="c-formations-item">
         <td>
           <Input type="number" 
             s={12}
@@ -67,7 +69,7 @@ class FormationsItem extends Component {
             onChange={e => this.setState({data: Object.assign({},this.state.data,{formation_name:e.target.value})} )} />
         </td>
 
-        <td>
+        <td className="hide-on-med-and-down">
           <Input type="text" 
             s={12}
             label="Lithology"            
@@ -75,7 +77,7 @@ class FormationsItem extends Component {
             onChange={e => this.setState({data: Object.assign({},this.state.data,{lithology:e.target.value})} )} />
         </td>
         
-        <td>
+        <td className="hide-on-med-and-down">
           <Button floating className='lightblue' waves='light' icon='save' onClick={()=>this.save()} />
           <Button floating className='red' waves='light' icon='cancel' onClick={()=>this.cancelEdit()} />
         </td>

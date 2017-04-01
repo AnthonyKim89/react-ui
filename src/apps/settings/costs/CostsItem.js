@@ -5,6 +5,8 @@ import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
+import './CostsItem.css';
+
 class CostsItem extends Component { 
   constructor(props) {
     super(props);
@@ -27,11 +29,11 @@ class CostsItem extends Component {
     let {date,cost,description} = this.state.data;
 
     if (!this.state.editing) return (
-      <tr>
+      <tr className="c-costs-item">
         <td>{date.format('L')}</td>
         <td>{cost}</td>
-        <td>{description}</td>
-        <td>
+        <td className="hide-on-med-and-down">{description}</td>
+        <td className="hide-on-med-and-down">
           <Button floating className='lightblue view-action' waves='light' icon='edit'
                   onClick={() => this.setState({editing: true})}/>
           <Button floating className='red view-action' waves='light' icon='remove' onClick={() => this.remove()}/>
@@ -40,7 +42,7 @@ class CostsItem extends Component {
     );
 
     return (
-      <tr>
+      <tr className="c-costs-item">
         <td>
           <DatePicker
             selected={date}
@@ -54,14 +56,14 @@ class CostsItem extends Component {
             defaultValue={cost}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{cost:e.target.value})} )} />
         </td>
-        <td>
+        <td className="hide-on-med-and-down">
           <Input type="text" 
             s={12}
             label="description"
             defaultValue={description}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{description: e.target.value})} )} />
         </td>
-        <td>
+        <td className="hide-on-med-and-down">
           <Button floating className='lightblue' waves='light' icon='save' onClick={()=>this.save()} />
           <Button floating className='red' waves='light' icon='cancel' onClick={()=>this.cancelEdit()} />
         </td>
