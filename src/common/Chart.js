@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import Highcharts from 'highcharts';
-import { difference, find, intersection, differenceBy, values } from 'lodash';
+import { difference, find, intersection, differenceBy, values, uniqBy } from 'lodash';
 import { Size } from './constants';
 
 class Chart extends Component {
@@ -146,11 +146,11 @@ class Chart extends Component {
     return React.Children.map(props.children, child => this.getSeriesFromChild(child, props));
   }
 
-   getSeriesFromChild(child, props) {
-    const {type, title, data, color, id, yField, minValue, maxValue, dashStyle, lineWidth, pointPadding, groupPadding, borderWidth, marker} = child.props;
+  getSeriesFromChild(child, props) {
+    const {type, title, data, color, id, yField, yAxis, yAxisTitle, yAxisOpposite, minValue, maxValue, dashStyle, lineWidth, pointPadding, groupPadding, borderWidth, marker} = child.props;
     return {
       id,
-      name: title,
+      name: title, 
       type: type || 'line',
       data: data.reduce((result, point) => {
         const x = point.get(props.xField);
@@ -160,7 +160,9 @@ class Chart extends Component {
         result.push({id: pointId, x, y, color});
         return result;
       }, []),
-      yAxis: props.multiAxis ? `${id}-axis` : 0,
+      yAxis: props.multiAxis ? yAxis : 0,
+      yAxisTitle: yAxisTitle,
+      yAxisOpposite: yAxisOpposite,
       dashStyle: dashStyle || 'ShortDot',
       color,
       marker: marker || {
@@ -180,7 +182,7 @@ class Chart extends Component {
 
   getYAxes(allSeries, props) {
     if (props.multiAxis) {
-      return allSeries.map(s => this.getYAxis(s, props));
+      return uniqBy(allSeries.map(s => this.getYAxis(s, props)), 'id');
     } else if (allSeries.length) {
       return [this.getYAxis(allSeries[0], props)];
     } else {
@@ -190,15 +192,15 @@ class Chart extends Component {
 
   getYAxis(series, props) {
     return {
-      id: `${series.id}-axis`,
-      title: this.props.yAxisTitle || {text: null},
+      id: series.yAxis,
+      title: series.yAxisTitle || this.props.yAxisTitle || {text: null},
       gridLineWidth: this.props.gridLineWidth || 1,
       gridLineColor: 'rgb(47, 51, 51)',
       labels: {
         enabled: this.isAxisLabelsVisible(props) && !props.hideYAxis,
         style:  this.props.yLabelStyle || {color: '#fff'},
       },
-      opposite: props.yAxisOpposite,
+      opposite: series.yAxisOpposite ? series.yAxisOpposite : props.yAxisOpposite,
       min: series.minValue || null,
       max: series.maxValue || null,
       lineWidth: props.yAxisWidth || 0,

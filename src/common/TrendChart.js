@@ -114,4 +114,3 @@ TrendChart.propTypes = {
 };
 
 export default TrendChart;
-

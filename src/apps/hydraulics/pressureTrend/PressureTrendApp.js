@@ -1,112 +1,134 @@
 import React, { Component, PropTypes } from 'react';
+import { Map, List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
+import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
+import Chart from '../../../common/Chart';
+import ChartSeries from '../../../common/ChartSeries';
 import LoadingIndicator from '../../../common/LoadingIndicator';
-import TrendChart from '../../../common/TrendChart';
 import subscriptions from '../../../subscriptions';
-
-import {
-  SUBSCRIPTIONS,
-  SUPPORTED_CHART_SERIES
-} from './constants';
 
 import './PressureTrendApp.css';
 
 class PressureTrendApp extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {series: List()};
+  }
+
   render() {
     return (
-      this.data ?
-        <div className="c-hydraulics-pressure-trend">
-          <TrendChart
-            convert={this.props.convert}
-            series={this.series}
-            xAxisTitle={'Measured Depth ('+this.props.convert.getUnitDisplay('length')+')'}
-            yAxes={this.yAxes}
-          />
-        </div> :
-        <LoadingIndicator />
+      <div className="c-hydraulics-pressure-trend">
+        {this.getData() ?
+          <Chart
+            xField="measured_depth"
+            xAxisTitle={{text:"Measured Depth - " + this.props.convert.getUnitDisplay('length')}}
+            xAxisWidth="2"
+            xAxisColor="white"
+            horizontal={true}
+            multiAxis={true}
+            size={this.props.size}
+            widthCols={this.props.widthCols}>
+            {this.getSeries().map(({renderType, title, type, yAxis, yAxisTitle, yAxisOpposite, data}) => (
+              <ChartSeries
+                key={title}
+                id={title}
+                type={renderType}
+                title={title}
+                data={data}
+                yField="value"
+                yAxis={yAxis}
+                yAxisTitle={{text:yAxisTitle}}
+                yAxisOpposite={yAxisOpposite}
+                color={this.getSeriesColor(type)} />
+            )).toJS()}
+          </Chart> :
+          <LoadingIndicator />}
+      </div>
     );
   }
 
-  get data() {
+  getData() {
     return subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS);
   }
 
-  get yAxes() {
-    return  [{
-      titleText: `EMW (pp${this.props.convert.getUnitDisplay('volume')})`,
-      color:'#ffffff'
-    }, {
-      titleText: this.props.convert.getUnitDisplay('pressure').toUpperCase(),
-      color:'#ffffff' ,
-      others: { opposite:true }
-    }];
+
+  getSeries() {
+    return List([this.getMudWeightSeries(), this.getECDSeries(), this.getStandpipePressureSeries()]);
   }
 
-  get series() {
-    let mudWeight = this.getSeriesData("mud_weight", ["measured_depth", "value"]);
-    mudWeight = this.props.convert.convertArray(mudWeight, 0, 'length', 'ft');
-    mudWeight = this.props.convert.convertArray(mudWeight, 1, 'volume', 'gal');
-
-    let equivalentCirculatingDensity = this.getSeriesData(
-        "equivalent_circulating_density", ["measured_depth", "value"]);
-    equivalentCirculatingDensity = this.props.convert.convertArray(
-        equivalentCirculatingDensity, 0, 'length', 'ft');
-    equivalentCirculatingDensity = this.props.convert.convertArray(
-        equivalentCirculatingDensity, 1, 'volume', 'gal');
-
-    let standpipePressure = this.getSeriesData(
-        "standpipe_pressure", ["measured_depth", "value"]);
-    standpipePressure = this.props.convert.convertArray(standpipePressure, 0, 'length', 'ft');
-    standpipePressure = this.props.convert.convertArray(standpipePressure, 1, 'pressure', 'psi');
-
-    let seriesSetting = {
-      mudWeight: {
+  getMudWeightSeries() {
+    const type = 'mudWeight';
+    return {
+        renderType: `${SUPPORTED_CHART_SERIES[type].type}`,
+        title: `${SUPPORTED_CHART_SERIES[type].label}`,
+        type: type,
         yAxis: 0,
-        data: mudWeight
-      },
-      equivalentCirculatingDensity: {
-        yAxis: 0,
-        data: equivalentCirculatingDensity
-      },
-      standpipePressure: {
-        yAxis: 1,
-        data: standpipePressure
-      }
+        yAxisOpposite: false,
+        yAxisTitle: "Mud Weight - " + this.props.convert.getUnitDisplay('pressure'),
+        data: List(this.getSeriesData('mud_weight', 'pressure', 'psi'))
     };
-
-    return Object.keys(SUPPORTED_CHART_SERIES).map( (field) => {
-      return Object.assign(
-        {},
-        seriesSetting[field],
-        SUPPORTED_CHART_SERIES[field],
-        {name: SUPPORTED_CHART_SERIES[field].label, color:this.getSeriesColor(field)}
-      );
-    });
   }
 
-  getSeriesColor(field) {
-    if (this.props.graphColors && this.props.graphColors.has(field)) {
-      return this.props.graphColors.get(field);
-    }
-    return SUPPORTED_CHART_SERIES[field].defaultColor;
+  getECDSeries() {
+    const type = 'equivalentCirculatingDensity';
+    return {
+        renderType: `${SUPPORTED_CHART_SERIES[type].type}`,
+        title: `${SUPPORTED_CHART_SERIES[type].label}`,
+        type: type,
+        yAxis: 0,
+        yAxisOpposite: false,
+        yAxisTitle: "Mud Weight - " + this.props.convert.getUnitDisplay('pressure'),
+        data: List(this.getSeriesData('equivalent_circulating_density', 'pressure', 'psi'))
+    };
   }
 
-  getSeriesData(serieName, keys) {
-    let rawData = subscriptions.selectors.firstSubData(
+  getStandpipePressureSeries() {
+    const type = 'standpipePressure';
+    return {
+        renderType: `${SUPPORTED_CHART_SERIES[type].type}`,
+        title: `${SUPPORTED_CHART_SERIES[type].label}`,
+        type: type,
+        yAxis: 1,
+        yAxisOpposite: true,
+        yAxisTitle: "Pressure - " + this.props.convert.getUnitDisplay('pressure'),
+        data: List(this.getSeriesData('standpipe_pressure', 'pressure', 'psi'))
+    };
+  }
+
+
+
+  getSeriesData(serieName, value_category, value_unit) {
+    let data = subscriptions.selectors.firstSubData(
         this.props.data, SUBSCRIPTIONS).getIn(['data', serieName]).toJSON();
-    return rawData.map((t) => {
-      return keys.map(key => {
-        return t[key];
-      });
+    data = this.props.convert.convertImmutables(data, 'measured_depth', 'length', 'ft'); 
+    data = this.props.convert.convertImmutables(data, 'value', 'volume', 'gal'); 
+    data = data.map(({measure_depth, value})  =>  
+    {
+        return Map({
+          measure_depth: measure_depth,
+          value: value
+        });
     });
+    return data;
+  }
+
+
+
+  getSeriesColor(seriesType) {
+    if (this.props.graphColors && this.props.graphColors.has(seriesType)) {
+      return this.props.graphColors.get(seriesType);
+    } else {
+      return SUPPORTED_CHART_SERIES[seriesType].defaultColor;
+    }
   }
 
 }
 
 PressureTrendApp.propTypes = {
   data: ImmutablePropTypes.map,
+  graphColors: ImmutablePropTypes.map,
   size: PropTypes.string.isRequired,
   widthCols: PropTypes.number.isRequired
 };
