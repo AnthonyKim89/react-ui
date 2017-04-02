@@ -1,13 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import format from 'date-fns/format';
-//import parse from 'date-fns/parse';
-//import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import { SUBSCRIPTIONS } from './constants';
 import WellTimelineStatusBar from './WellTimelineStatusBar';
 import WellTimelineScrollBar from './WellTimelineScrollBar';
-//import * as api from '../../api';
 import subscriptions from '../../subscriptions';
 
 import './WellTimelineApp.css';
@@ -34,31 +31,6 @@ class WellTimelineApp extends Component {
       SUBSCRIPTIONS,
       this.props.asset.get('id')
     );
-    /*
-    const timeline = await api.getWellTimeline(this.props.asset.get('id'));
-    const jobData = timeline.get('jobData');
-    const outOfHoleData = timeline.get('outOfHoleData');
-
-    if (outOfHoleData.isEmpty()) {
-      this.setState({timeline, activity: List()});
-      return;
-    }
-
-    const firstDate = parse(jobData.get('start_date')).getTime();
-    const lastDate = parse(jobData.get('last_date')).getTime();
-    const activity = outOfHoleData.map((item, index) => {
-      const itemEndTime = parse(item.get('end_time')).getTime();
-      const itemStartTime = parse(item.get('start_time')).getTime();
-      let relativeDuration = (itemEndTime - itemStartTime) / (lastDate - firstDate) * 100;
-      let relativeStart  = (itemStartTime - firstDate) / (lastDate - firstDate) * 100;
-      return Map({
-        activity: item.get('activity'),
-        relativeStart,
-        relativeDuration
-      });
-    });
-    this.setState({timeline, activity});
-    */
   }
 
   componentWillUnmount() {
@@ -67,16 +39,14 @@ class WellTimelineApp extends Component {
   }
 
   render() {
-    let latestWitsRecord = subscriptions.selectors.firstSubData(this.props.data, latestSubscription);
-    let summaryData = subscriptions.selectors.firstSubData(this.props.data, summarySubscription);
+    let latestWitsRecord = subscriptions.selectors.getSubData(this.props.data, latestSubscription);
+    let summaryData = subscriptions.selectors.getSubData(this.props.data, summarySubscription);
     return (
       <div className="c-well-timeline">
         {summaryData && this.state.scrollBarVisible &&
           <WellTimelineScrollBar
             time={this.props.time}
             data={summaryData}
-            tooltipDepthData={this.state.timeline.get('tooltipDepthData')}
-            activity={this.state.activity}
             onChangeTime={t => this.updateParams(t)} />}
         {summaryData && latestWitsRecord &&
           <WellTimelineStatusBar
