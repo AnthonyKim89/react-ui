@@ -52,6 +52,9 @@
   margin: 0;
   font-size: 0.815rem;
   margin-left: 3px;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  white-space: nowrap;
 }
 
 .c-app-container--editable .c-app-container__title, .c-app-container--editable .c-app-container__subtitle {

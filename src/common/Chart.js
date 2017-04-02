@@ -217,13 +217,17 @@ class Chart extends Component {
   }
 
   isLegendVisible(props) {
-    return props.size === Size.XLARGE;
+    return props.showLegend && (props.size === Size.XLARGE);
   }
 
   isAxisLabelsVisible(props) {    
     return props.size !== Size.SMALL;
   }
 }
+
+Chart.defaultProps = {
+  showLegend: true,
+};
 
 Chart.propTypes = {
   size: PropTypes.oneOf(values(Size)).isRequired,
@@ -234,6 +238,7 @@ Chart.propTypes = {
   yAxisOpposite: PropTypes.bool,
   multiAxis: PropTypes.bool,
   xAxisLabelformatter: PropTypes.func,
+  showLegend: PropTypes.bool, 
   chartType: PropTypes.string,
   noSpacing: PropTypes.bool
 };

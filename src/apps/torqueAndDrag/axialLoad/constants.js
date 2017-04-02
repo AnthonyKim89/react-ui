@@ -6,7 +6,7 @@ export const SUBSCRIPTIONS = [
 export const METADATA = {
   title: 'Axial Load',
   settingsTitle: 'Axial Load',
-  subtitle: '',
+  subtitle: 'Buckling forces applied to drillstring',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',
   publishedAt: '2016-07-01T00:00:00'

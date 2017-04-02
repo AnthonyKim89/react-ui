@@ -44,6 +44,7 @@ class OverviewApp extends Component {
                          hideXAxis={true}
                          alignYTicks={false}
                          yTickPositioner={this.yTickPositioner}
+                         showLegend={false}
                          gridLineWidth="0"
                          yLabelStyle={{
                            color: "#bbb",
