@@ -1,16 +1,18 @@
 import React, {Component, PropTypes} from 'react';
 import format from 'date-fns/format';
-import parse from 'date-fns/parse';
-import { List } from 'immutable';
+//import parse from 'date-fns/parse';
+//import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import { SUBSCRIPTIONS } from './constants';
 import WellTimelineStatusBar from './WellTimelineStatusBar';
 import WellTimelineScrollBar from './WellTimelineScrollBar';
-import * as api from '../../api';
+//import * as api from '../../api';
 import subscriptions from '../../subscriptions';
 
 import './WellTimelineApp.css';
+
+const [ latestSubscription, summarySubscription ] = SUBSCRIPTIONS;
 
 class WellTimelineApp extends Component {
 
@@ -32,7 +34,7 @@ class WellTimelineApp extends Component {
       SUBSCRIPTIONS,
       this.props.asset.get('id')
     );
-
+    /*
     const timeline = await api.getWellTimeline(this.props.asset.get('id'));
     const jobData = timeline.get('jobData');
     const outOfHoleData = timeline.get('outOfHoleData');
@@ -56,6 +58,7 @@ class WellTimelineApp extends Component {
       });
     });
     this.setState({timeline, activity});
+    */
   }
 
   componentWillUnmount() {
@@ -64,22 +67,23 @@ class WellTimelineApp extends Component {
   }
 
   render() {
-    subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS);
+    let latestWitsRecord = subscriptions.selectors.firstSubData(this.props.data, latestSubscription);
+    let summaryData = subscriptions.selectors.firstSubData(this.props.data, summarySubscription);
     return (
       <div className="c-well-timeline">
-        {this.state.timeline && this.state.scrollBarVisible &&
+        {summaryData && this.state.scrollBarVisible &&
           <WellTimelineScrollBar
             time={this.props.time}
-            data={this.props.data}
+            data={summaryData}
             tooltipDepthData={this.state.timeline.get('tooltipDepthData')}
             activity={this.state.activity}
             onChangeTime={t => this.updateParams(t)} />}
-        {this.state.timeline && 
+        {summaryData && latestWitsRecord &&
           <WellTimelineStatusBar
             isLive={!this.props.time}
             asset={this.props.asset}
-            data={this.props.data}
-            lastWitsRecord={this.state.timeline.get('lastWitsRecord')}
+            data={summaryData}
+            lastWitsRecord={latestWitsRecord}
             isScrollBarVisible={this.state.scrollBarVisible}
             onToggleDrillScrollBar={() => this.toggleScrollBar()} />}
       </div>
