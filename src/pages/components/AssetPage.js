@@ -8,6 +8,7 @@ import { stringify as queryString } from 'query-string';
 import AssetTabBar from './AssetTabBar';
 import apps from '../../apps';
 import * as appRegistry from '../../apps/appRegistry';
+import Convert from '../../common/Convert';
 
 import {
   isNative,
@@ -32,6 +33,11 @@ const DASHBOARD_ENV = Map({
 });
 
 class AssetPage extends Component {
+
+  constructor(props) {
+    super(props);
+    this.convert = new Convert();
+  }
 
   componentDidMount() {
     this.props.loadAsset(this.getAssetId());
@@ -64,6 +70,7 @@ class AssetPage extends Component {
           <AppLayout apps={this.props.currentAssetPageTab.get('apps').valueSeq()}
                      appData={this.props.appData}
                      appAssets={this.getAppAssets()}
+                     convert={this.convert}
                      onAppSubscribe={(...a) => this.props.subscribeApp(...a)}
                      onAppUnsubscribe={(...a) => this.props.unsubscribeApp(...a)}
                      onAppMove={(...a) => this.onAppMove(...a)}
@@ -87,6 +94,7 @@ class AssetPage extends Component {
         <AppComponent
           key={constants.NAME}
           id={constants.NAME}
+          convert={this.convert}
           data={this.props.appData.get(constants.NAME)}
           subscribeApp={(...a) => this.props.subscribeApp(...a)}
           unsubscribeApp={(...a) => this.props.unsubscribeApp(...a)}

@@ -6,6 +6,7 @@ import { List, Map } from 'immutable';
 import apps from '../../apps';
 import DashboardAppAssetSettingEditor from './DashboardAppAssetSettingEditor';
 import DashboardTabBar from './DashboardTabBar';
+import Convert from '../../common/Convert';
 
 import { currentDashboard, dashboardAppAssets, isNative } from '../selectors';
 import {
@@ -31,6 +32,11 @@ const DASHBOARD_ENV = Map({
 });
 
 class Dashboard extends Component {
+
+  constructor(props) {
+    super(props);
+    this.convert = new Convert();
+  }
 
   componentDidMount() {
     this.loadAppAssets(this.props.currentDashboard);
@@ -66,6 +72,7 @@ class Dashboard extends Component {
                      key={this.state ? this.state.gridKey : null}
                      appAssets={this.props.dashboardAppAssets}
                      commonSettingsEditors={DASHBOARD_COMMON_SETTINGS_EDITORS}
+                     convert={this.convert}
                      environment={DASHBOARD_ENV}
                      onAppSubscribe={(...a) => this.props.subscribeApp(...a)}
                      onAppUnsubscribe={(...a) => this.props.unsubscribeApp(...a)}
