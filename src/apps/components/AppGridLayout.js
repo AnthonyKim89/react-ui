@@ -49,7 +49,6 @@ class AppGridLayout extends Component {
   constructor(props) {
     super(props);
     this.state = {addAppDialogOpen: false};
-    this.convert = new Convert();
   }
 
   async componentDidMount() {
@@ -157,14 +156,14 @@ class AppGridLayout extends Component {
         {...settings.toObject()}
         size={size}
         widthCols={coordinates.get('w')}
-        convert={this.convert}
+        convert={this.props.convert}
         onAssetModified={asset => this.props.onAssetModified(asset)}
         onSettingChange={(key, value) => this.props.onAppSettingsUpdate(id, settings.set(key, value))} />
 
       {appType.AppComponentFooter &&
         <appType.AppComponentFooter
           data={appData}
-          convert={this.convert}
+          convert={this.props.convert}
           lastDataUpdate={subscriptions.selectors.lastDataUpdate(appData)}
         /> 
       }
@@ -220,6 +219,7 @@ AppGridLayout.propTypes = {
   appData: ImmutablePropTypes.map.isRequired,
   appAssets: ImmutablePropTypes.map.isRequired,
   commonSettingsEditors: ImmutablePropTypes.list,
+  convert: React.PropTypes.instanceOf(Convert).isRequired,
   environment: ImmutablePropTypes.map,
   pageParams: ImmutablePropTypes.map,
   onAppSubscribe: PropTypes.func.isRequired,
