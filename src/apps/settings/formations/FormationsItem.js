@@ -3,8 +3,6 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Input, Button} from 'react-materialize';
 import { Map } from 'immutable';
 
-import 'react-datepicker/dist/react-datepicker.css';
-
 import './FormationsItem.css';
 
 class FormationsItem extends Component { 

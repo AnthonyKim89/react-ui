@@ -1,0 +1,31 @@
+.c-crews-item .view-action {
+  display:none;
+}
+
+.c-crews-item:hover .view-action {
+  display: inline;  
+}
+
+.c-crews-item button {
+  margin-left: 10px;
+}
+
+ .c-crews-item .input-field{
+  margin-top: 0px;
+}
+
+.c-crews-item .input-field.col label{
+  left: 0;
+  width: 100%;
+}
+
+.c-crews-item .input-field.col label:after{
+  top:40px;
+}
+
+.c-crews-item td {
+  border-radius: 0px;
+  padding-top:12px;
+  padding-bottom:12px;
+  height:65px;
+}

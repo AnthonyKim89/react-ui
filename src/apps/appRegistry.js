@@ -40,6 +40,7 @@ import fluidChecks from './settings/fluidChecks';
 import costs from './settings/costs';
 import map from './settings/map';
 import formations from './settings/formations';
+import crewsContact from './settings/crewsContact';
 
 // CONTROL APPS
 import wellTimeline from './wellTimeline';
@@ -110,7 +111,8 @@ export const uiApps = Map({
       fluidChecks,
       costs,
       map,
-      formations
+      formations,
+      crewsContact
     })
   }),
   rigActivity: Map({
