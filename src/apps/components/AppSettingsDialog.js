@@ -8,7 +8,7 @@ class AppSettingsDialog extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {settings: props.currentSettings};
+    this.state = {settings: props.currentSettings};   
   }
 
   render() {
@@ -52,6 +52,17 @@ class AppSettingsDialog extends Component {
 
   onDone() {
     this.props.onDone(this.state.settings);
+  }
+
+
+  shouldComponentUpdate(nextProps, nextState) {
+    // Only render when the state changes. shouldComponentUpdate will be called 
+    // frequently when the parent app receives new subscription data. But, we 
+    // don't want to update the settings page.
+    if(nextState !== this.state) {
+      return true;
+    }
+    return false;
   }
 
 }
