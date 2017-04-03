@@ -32,6 +32,7 @@ class Chart extends Component {
       },
       xAxis: {
         title: this.props.xAxisTitle,
+        visible: this.isAxisLabelsVisible(this.props),
         gridLineWidth: this.props.gridLineWidth || 1,
         gridLineColor: 'rgb(47, 51, 51)',
         lineWidth: this.props.xAxisWidth || 0,
@@ -194,6 +195,7 @@ class Chart extends Component {
     return {
       id: series.yAxis,
       title: series.yAxisTitle || this.props.yAxisTitle || {text: null},
+      visible: this.isAxisLabelsVisible(props),
       gridLineWidth: this.props.gridLineWidth || 1,
       gridLineColor: 'rgb(47, 51, 51)',
       labels: {
