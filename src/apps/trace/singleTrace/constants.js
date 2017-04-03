@@ -1,8 +1,8 @@
 export const CATEGORY = 'trace';
 export const NAME = 'singleTrace';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'wits'},
-  {devKey: 'corva', collection: 'wits-summary-30s', params: {initial: 240, behavior: "turnover"}}
+  {provider: 'corva', collection: 'wits'},
+  {provider: 'corva', collection: 'wits-summary-30s', params: {initial: 240, behavior: "turnover"}}
 ];
 export const METADATA = {
   settingsTitle: 'Single Trace',

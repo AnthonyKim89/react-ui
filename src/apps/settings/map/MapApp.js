@@ -30,7 +30,7 @@ class MapApp extends Component {
   }
 
   async loadRecords(asset) {
-    const records = await api.getAppStorage(METADATA.recordDevKey, METADATA.recordCollection, asset.get('id'), Map({limit: 1}));    
+    const records = await api.getAppStorage(METADATA.recordProvider, METADATA.recordCollection, asset.get('id'), Map({limit: 1}));
     let record = records.get(0);      
     this.setState({
       record: record,
@@ -86,8 +86,8 @@ class MapApp extends Component {
       })).set("data",data);
       
       const savedRecord = record.has('_id')? 
-        await api.putAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record.get('_id') , record) :
-        await api.postAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record);
+        await api.putAppStorage(METADATA.recordProvider, METADATA.recordCollection, record.get('_id') , record) :
+        await api.postAppStorage(METADATA.recordProvider, METADATA.recordCollection, record);
 
       this.setState({record: savedRecord});
       this.updateMap();

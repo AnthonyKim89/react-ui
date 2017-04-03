@@ -5,7 +5,7 @@ export const METADATA = {
   title: 'Crews & Contact',
   settingsTitle: 'Crews & Contact',
   subtitle: 'crew and contact information',
-  recordDevKey: 'corva',
+  recordProvider: 'corva',
   recordCollection:'data.crews',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',

@@ -16,7 +16,7 @@ class FluidChecksApp extends Component {
     return <SettingsRecordManager
               asset={this.props.asset}
               convert={this.props.convert}
-              recordDevKey="corva"
+              recordProvider="corva"
               recordCollection="data.mud"
               recordNamePlural="Fluid Checks"
               recordNameSingular="Fluid Check"

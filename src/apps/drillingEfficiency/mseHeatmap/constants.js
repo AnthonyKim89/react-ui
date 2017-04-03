@@ -1,7 +1,7 @@
 export const CATEGORY = 'drillingEfficiency';
 export const NAME = 'mseHeatmap';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'drilling-efficiency.mse-heatmap'}
+  {provider: 'corva', collection: 'drilling-efficiency.mse-heatmap'}
 ];
 export const METADATA = {
   title: '',

@@ -1,7 +1,7 @@
 export const CATEGORY = 'directional';
 export const NAME = 'surveys';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'directional.surveys'}
+  {provider: 'corva', collection: 'directional.surveys'}
 ];
 export const METADATA = {
   title: 'Surveys',

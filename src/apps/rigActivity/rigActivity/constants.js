@@ -1,7 +1,7 @@
 export const CATEGORY = 'rigActivity';
 export const NAME = 'rigActivity';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'rig-activity.rig-activity'}
+  {provider: 'corva', collection: 'rig-activity.rig-activity'}
 ];
 export const METADATA = {
   title: 'Rig Activity',

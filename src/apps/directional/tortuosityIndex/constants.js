@@ -1,7 +1,7 @@
 export const CATEGORY = 'directional';
 export const NAME = 'tortuosityIndex';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'directional.tortuosity'}
+  {provider: 'corva', collection: 'directional.tortuosity'}
 ];
 export const METADATA = {
   title: 'Tortuosity Index',

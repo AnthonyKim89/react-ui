@@ -1,7 +1,7 @@
 export const CATEGORY = 'hydraulics';
 export const NAME = 'pressureTrend';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'hydraulics.pressure-trend'}
+  {provider: 'corva', collection: 'hydraulics.pressure-trend'}
 ];
 export const METADATA = {
   title: 'Pressure Trend',

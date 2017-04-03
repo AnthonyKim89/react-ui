@@ -40,7 +40,7 @@ class SettingsRecordManager extends Component {
   }
 
   async loadRecords(asset) {
-    const records = await api.getAppStorage(this.props.recordDevKey, this.props.recordCollection, asset.get('id'), Map({limit: 0}));
+    const records = await api.getAppStorage(this.props.recordProvider, this.props.recordCollection, asset.get('id'), Map({limit: 0}));
     this.setState({
       records,
       displayingRecord: records.first()
@@ -86,8 +86,8 @@ class SettingsRecordManager extends Component {
   async saveRecord(record) {
     this.setState({editingRecord: null});
     const savedRecord = record.has('_id') ?
-      await api.putAppStorage(this.props.recordDevKey, this.props.recordCollection, record.get('_id'), record) :
-      await api.postAppStorage(this.props.recordDevKey, this.props.recordCollection, record);
+      await api.putAppStorage(this.props.recordProvider, this.props.recordCollection, record.get('_id'), record) :
+      await api.postAppStorage(this.props.recordProvider, this.props.recordCollection, record);
     this.setState({
       records: this.state.records.filterNot(r => r.get('_id') === savedRecord.get('_id'))
                                  .push(savedRecord)
@@ -98,7 +98,7 @@ class SettingsRecordManager extends Component {
 
   async deleteRecord() {
     const record = this.state.editingRecord || this.state.displayingRecord;
-    await api.deleteAppStorage(this.props.recordDevKey, this.props.recordCollection, record.get('_id'));
+    await api.deleteAppStorage(this.props.recordProvider, this.props.recordCollection, record.get('_id'));
     const recordsAfterDelete = this.state.records
       .filterNot(r => r.get('_id') === record.get('_id'));
     this.setState({
@@ -112,7 +112,7 @@ class SettingsRecordManager extends Component {
 
 SettingsRecordManager.propTypes = {
   asset: ImmutablePropTypes.map,
-  recordDevKey: PropTypes.string.isRequired,
+  recordProvider: PropTypes.string.isRequired,
   recordCollection: PropTypes.string.isRequired,
   recordNamePlural: PropTypes.string.isRequired,
   recordNameSingular: PropTypes.string.isRequired,

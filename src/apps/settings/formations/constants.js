@@ -5,7 +5,7 @@ export const METADATA = {
   title: 'Formations',
   settingsTitle: 'Formations',
   subtitle: 'Geological formation layers',
-  recordDevKey: 'corva',
+  recordProvider: 'corva',
   recordCollection:'data.formations',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',

@@ -18,7 +18,7 @@ function processNewSubscriptionData(state, action) {
   let behavior = action.params.get("behavior", false);
 
   if (behavior && List.isList(action.data)) {
-    let currentData = state.getIn(['appData', action.appInstanceId, action.devKey, action.collection, action.event || '']);
+    let currentData = state.getIn(['appData', action.appInstanceId, action.provider, action.collection, action.event || '']);
     if (currentData) {
       // Custom data processing for various subscription behaviors.
       if (behavior === "turnover") {
@@ -38,7 +38,7 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case t.SUBSCRIBE_APP:
       return state.setIn(
-        ['appSubscriptions', action.appInstanceId, action.devKey, action.collection, action.event || ''],
+        ['appSubscriptions', action.appInstanceId, action.provider, action.collection, action.event || ''],
         Map({
           assetId: action.assetId,
           params: action.params,
@@ -46,14 +46,14 @@ export default function(state = initialState, action) {
       );
     case t.UNSUBSCRIBE_APP:
       return action.subscriptionKeys.reduce(
-        (state, subKey) => state.removeIn(['appSubscriptions', action.appInstanceId, subKey.devKey, subKey.collection, subKey.event || ''])
-                                .removeIn(['appData', action.appInstanceId, subKey.devKey, subKey.collection, subKey.event || '']),
+        (state, subKey) => state.removeIn(['appSubscriptions', action.appInstanceId, subKey.provider, subKey.collection, subKey.event || ''])
+                                .removeIn(['appData', action.appInstanceId, subKey.provider, subKey.collection, subKey.event || '']),
         state
       );
     case t.RECEIVE_APP_DATA:
-      const activeSub = state.getIn(['appSubscriptions', action.appInstanceId, action.devKey, action.collection, action.event || '']);
+      const activeSub = state.getIn(['appSubscriptions', action.appInstanceId, action.provider, action.collection, action.event || '']);
       if (activeSub && activeSub.get('assetId') === action.assetId && activeSub.get('params').equals(action.params)) {
-        return state.setIn(['appData', action.appInstanceId, action.devKey, action.collection, action.event || ''], processNewSubscriptionData(state, action));
+        return state.setIn(['appData', action.appInstanceId, action.provider, action.collection, action.event || ''], processNewSubscriptionData(state, action));
       } else {
         return state;
       }

@@ -8,7 +8,7 @@ it('stores information about subscriptions by app instance id and subscription k
     {
       type: actions.SUBSCRIBE_APP,
       appInstanceId: 'instanceId',
-      devKey: 'corva.torque_and_drag.overview',
+      provider: 'corva.torque_and_drag.overview',
       collection: 'results',
       assetId: 'asset',
       event: 'update',
@@ -36,7 +36,7 @@ it('can store information about subscriptions for no specific event', () => {
     {
       type: actions.SUBSCRIBE_APP,
       appInstanceId: 'instanceId',
-      devKey: 'corva.torque_and_drag.overview',
+      provider: 'corva.torque_and_drag.overview',
       collection: 'results',
       assetId: 'asset',
       params: {}
@@ -76,8 +76,8 @@ it('unsubscribes all given subscription keys but not others', () => {
       type: actions.UNSUBSCRIBE_APP,
       appInstanceId: 'instance1',
       subscriptionKeys: [
-        {devKey: 'corva.torque_and_drag.overview', collection: 'results'},
-        {devKey: 'corva.torque_and_drag.torque', collection: 'results'}
+        {provider: 'corva.torque_and_drag.overview', collection: 'results'},
+        {provider: 'corva.torque_and_drag.torque', collection: 'results'}
       ]
     }
   );
@@ -115,7 +115,7 @@ it('stores app subscription data by app key and subscription id', () => {
     {
       type: actions.RECEIVE_APP_DATA,
       appInstanceId: 'instanceId',
-      devKey: 'corva.torque_and_drag.overview',
+      provider: 'corva.torque_and_drag.overview',
       collection: 'results',
       assetId: 'asset',
       params: fromJS({}),
@@ -147,7 +147,7 @@ it('does not accept subscription data if asset id does not match', () => {
     {
       type: actions.RECEIVE_APP_DATA,
       appInstanceId: 'instanceId',
-      devKey: 'corva.torque_and_drag.overview',
+      provider: 'corva.torque_and_drag.overview',
       collection: 'results',
       assetId: 'some other asset',
       params: fromJS({}),
@@ -175,7 +175,7 @@ it('does not accept subscription data if params do not match', () => {
     {
       type: actions.RECEIVE_APP_DATA,
       appInstanceId: 'instanceId',
-      devKey: 'corva.torque_and_drag.overview',
+      provider: 'corva.torque_and_drag.overview',
       collection: 'results',
       assetId: 'asset',
       params: fromJS({}),
@@ -203,7 +203,7 @@ it('does not accept subscription data if event does not match', () => {
     {
       type: actions.RECEIVE_APP_DATA,
       appInstanceId: 'instanceId',
-      devKey: 'corva.torque_and_drag.overview',
+      provider: 'corva.torque_and_drag.overview',
       collection: 'results',
       assetId: 'asset',
       event: 'update',
