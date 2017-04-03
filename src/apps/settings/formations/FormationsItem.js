@@ -28,7 +28,7 @@ class FormationsItem extends Component {
     if (!this.state.editing) return (
       <tr className="c-formations-item">
         <td>{td}</td>
-        <td>{md}</td>
+        <td className="hide-on-med-and-down">{md}</td>
         <td>{formation_name}</td>
         <td className="hide-on-med-and-down">{lithology}</td>
         <td className="hide-on-med-and-down">
@@ -50,7 +50,7 @@ class FormationsItem extends Component {
             onChange={e => this.setState({data: Object.assign({},this.state.data,{td:e.target.value})} )} />
         </td>
 
-        <td>
+        <td className="hide-on-med-and-down">
           <Input type="number"
             s={12}
             label="Measured Depth (ft)"

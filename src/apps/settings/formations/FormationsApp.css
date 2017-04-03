@@ -32,13 +32,10 @@
   }
 
   .c-formations__tvd-header {
-    width: 30%;
+    width: 50%;
   }
-  .c-formations__md-header {
-    width: 30%;
-  }
-  .c-formations__fm-header th:nth-child(3) {
-    width: 40%;
+  .c-formations__fm-header {
+    width: 50%;
   }
   
 }

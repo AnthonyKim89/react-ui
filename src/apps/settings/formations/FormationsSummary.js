@@ -9,14 +9,14 @@ class FormationsSummary extends Component {
     
     return (
     	<div className="c-formations-summary">
-    		<Table centered={true} responsive={true}>
+    		<Table responsive={true}>
     			<tbody>
             <tr>
-              <td>
+              <td className="c-formations-summary__layers">
                 Layers
                 <h4>{this.props.records.size}</h4>
               </td>              
-              <td>
+              <td className="c-formations-summary__action">
                 <Button floating large className='lightblue' waves='light' icon='add' onClick={this.props.onAdd} />
               </td>
             </tr>
