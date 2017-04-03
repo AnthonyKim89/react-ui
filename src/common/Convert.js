@@ -28,12 +28,12 @@ class Convert {
         volume: 'gal',
         pressure: 'psi',
         temperature: 'F',
-        speed: 'm/h',
+        speed: 'ft/h',
         area: 'ft2',
         force: 'lbf',
         oil: 'bbl',
         yp: 'dsf',
-        density: 'ppg'
+        density: 'ppg',
       },
       metric: {
         length: 'm',
@@ -41,12 +41,12 @@ class Convert {
         volume: 'l',
         pressure: 'kPa',
         temperature: 'C',
-        speed: 'km/h',
+        speed: 'm/h',
         area: 'm2',
         force: 'nm',
         oil: 'm3',
         yp: 'Pa',
-        density: 'sg'
+        density: 'kg/m3',
       },
       custom: {},
     };
