@@ -46,7 +46,7 @@ class Convert {
         force: 'nm',
         oil: 'm3',
         yp: 'Pa',
-        density: 'Sg',
+        density: 'kg/m3',
       },
       custom: {},
     };
