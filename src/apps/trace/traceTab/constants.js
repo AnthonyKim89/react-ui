@@ -17,6 +17,11 @@ export const METADATA = {
 export const SUPPORTED_ASSET_TYPES = ['rig'];
 export const INITIAL_SIZE = {w: 5, h: 5};
 
+export const DEFAULT_TRACE_BOXES = List.of(
+  'hole_depth',
+  'bit_depth'
+);
+
 export const DEFAULT_TRACE_GRAPHS = List.of(
   'weight_on_bit',
   'hook_load',

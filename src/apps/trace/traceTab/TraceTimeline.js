@@ -49,7 +49,14 @@ class TraceTimeline extends Component {
         reversed: true,
         gridLineWidth: 0,
         title: {enabled: false},
-        labels: {style: {color: '#fff'}}
+        labels: {
+          style: {
+            color: '#fff'
+          },
+          formatter: function() {
+            return parseFloat(this.value).toFixed();
+          }
+        }
       }, {
         id: 'timeAxis',
         type: 'datetime',
@@ -58,10 +65,10 @@ class TraceTimeline extends Component {
         labels: {
           style: {
             color: '#fff',
-            formatter: function() {
-              return formatTime(this.value, 'M/D H:mm');
-            }
           },
+          formatter: function() {
+            return formatTime(this.value, 'H:mm');
+          }
         }
       }],
       title: {text: null},

@@ -4,26 +4,40 @@ import { List, Range } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import common from '../../../common';
+import subscriptions from '../../../subscriptions';
+import TraceBoxes from './TraceBoxes';
 import Convert from '../../../common/Convert';
 import TraceTimeline from './TraceTimeline';
 import TracePicker from './TracePicker';
 import MultiTraceApp from '../multiTrace/MultiTraceApp';
 
-import { DEFAULT_TRACE_GRAPHS } from './constants';
+import { DEFAULT_TRACE_BOXES, DEFAULT_TRACE_GRAPHS, SUBSCRIPTIONS } from './constants';
+import { SUPPORTED_TRACES } from '../constants';
 
 import './TraceTabApp.css';
+
+const [ latestSubscription ] = SUBSCRIPTIONS;
 
 class TraceTabApp extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
+      traceBoxAdderOpen: false,
       tracePickerOpenFor: null
     };
     this.convert = new Convert();
   }
   render() {
     return <div className="c-trace-tab">
+      <div className="c-trace-tab__boxes">
+        <TraceBoxes
+          latestTraceRecord={this.getLatestTraceRecord()}
+          traces={this.getTraceBoxes()}
+          onTraceAddRequested={() => this.openTraceBoxAdder()}
+          onTraceRemoveRequested={idx => this.removeTraceBox(idx)}
+          convert={this.convert} />
+      </div>
       <div className="c-trace-tab__timeline">
         <TraceTimeline data={this.props.data} />
       </div>
@@ -31,6 +45,16 @@ class TraceTabApp extends Component {
       {this.renderColumn(1)}
       {this.renderColumn(2)}
       {this.renderColumn(3)}
+      <Modal
+          isOpen={this.state.traceBoxAdderOpen}
+          onRequestClose={() => this.closeTraceBoxAdder()}
+          className='c-trace-picker'
+          overlayClassName='c-trace-picker__overlay'
+          contentLabel="Add Trace">
+        <TracePicker
+          trace={SUPPORTED_TRACES[0].trace}
+          onTraceChange={trace => this.addTraceBox(trace)} />
+      </Modal>
       <Modal
           isOpen={this.state.tracePickerOpenFor !== null}
           onRequestClose={() => this.closeTracePicker()}
@@ -61,11 +85,19 @@ class TraceTabApp extends Component {
     </div>;
   }
 
+  openTraceBoxAdder() {
+    this.setState({traceBoxAdderOpen: true});
+  }
+
+  closeTraceBoxAdder() {
+    this.setState({traceBoxAdderOpen: false});
+  }
+
   openTracePicker(colNumber, trace) {
     const traceNumber = {trace1: 0, trace2: 1, trace3: 2}[trace];
     this.setState({tracePickerOpenFor: colNumber * 3 + traceNumber});
   }
-
+  
   closeTracePicker() {
     this.setState({tracePickerOpenFor: null});
   }
@@ -77,8 +109,23 @@ class TraceTabApp extends Component {
       .get(number, List());
   }
 
+  getTraceBoxes() {
+    return this.props.traceBoxes || DEFAULT_TRACE_BOXES;
+  }
+
   getTraceGraphs() {
     return this.props.traceGraphs || DEFAULT_TRACE_GRAPHS;
+  }
+
+  addTraceBox(trace) {
+    const newTraceBoxes = this.getTraceBoxes().push(trace);
+    this.props.onSettingChange('traceBoxes', newTraceBoxes);
+    this.closeTraceBoxAdder();
+  }
+
+  removeTraceBox(index) {
+    const newTraceBoxes = this.getTraceBoxes().delete(index);
+    this.props.onSettingChange('traceBoxes', newTraceBoxes);
   }
 
   setTraceGraph(number, trace) {
@@ -87,10 +134,15 @@ class TraceTabApp extends Component {
     this.closeTracePicker();
   }
 
+  getLatestTraceRecord() {
+    return subscriptions.selectors.getSubData(this.props.data, latestSubscription);
+  }
+
 }
 
 TraceTabApp.propTypes = {
   data: ImmutablePropTypes.map,
+  traceBoxes: ImmutablePropTypes.list,
   traceGraphs: ImmutablePropTypes.list,
   size: PropTypes.string.isRequired,
   widthCols: PropTypes.number.isRequired,
