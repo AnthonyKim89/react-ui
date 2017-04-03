@@ -9,6 +9,8 @@ import 'rc-slider/assets/index.css';
 
 import './WellTimelineScrollBar.css';
 
+const TooltipSlider = Slider.createSliderWithTooltip(Slider);
+
 class WellTimelineScrollBar extends Component {
 
   constructor(props) {
@@ -16,8 +18,16 @@ class WellTimelineScrollBar extends Component {
     this.state = {value: this.findValue()};
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextState.value !== this.state.value || nextProps.data !== this.props.data);
+  }
+
   componentWillReceiveProps(newProps) {
-    if (newProps.time && !isEqual(parse(newProps.time), parse(this.props.time))) {
+    if (!newProps.time) {
+      if (this.state.value !== newProps.data.size) {
+        this.setState({value: newProps.data.size});
+      }
+    }  else if (!isEqual(parse(newProps.time), parse(this.props.time))) {
       this.setState({value: this.findValue(newProps.time)});
     }
   }
@@ -32,9 +42,9 @@ class WellTimelineScrollBar extends Component {
         </button>
         <div className="c-well-timeline-scroll-bar__bar">
           <div className="c-well-timeline-scroll-bar__slider">
-            <Slider 
-              min={0} 
-              max={this.props.data.size - 1}
+            <TooltipSlider
+              min={0}
+              max={this.props.data.size}
               value={this.state.value}
               onChange={i => this.setState({value: i})}
               onAfterChange={i => this.changeTime()}
@@ -54,13 +64,10 @@ class WellTimelineScrollBar extends Component {
 
   formatItem(idx) {
     const item = this.props.data.get(idx);
-    if (item) {
-      const entryAt = item.get('entry_at');
-      const bitDepth = item.get('bit_depth');
-      return `${this.formatDate(entryAt)} \n ${bitDepth} ft`;
-    } else {
-      return '';
+    if (!item) {
+      return `Live Data`;
     }
+    return `${this.formatDate(item.get('timestamp')*1000)} \n ${item.get("data").get('bit_depth')} ft`;
   }
 
   formatDate(time) {
@@ -70,23 +77,22 @@ class WellTimelineScrollBar extends Component {
 
   findValue(time = this.props.time) {
     const dateToFind = time && parse(time);
-    const entry = this.props.data
-      .findEntry(e => dateToFind && isEqual(dateToFind, parse(e.get("entry_at"))));
+    const entry = this.props.data.findEntry(e => dateToFind && isEqual(dateToFind, parse(e.get("timestamp")*1000)));
+
     if (entry) {
       return entry[0];
     } else {
-      return this.props.data.size - 1;
+      return this.props.data.size;
     }
   }
 
   changeTime(idx = this.state.value) {
-    if (idx === this.props.data.size - 1) {
-      // Last value means we go live
+    if (idx === this.props.data.size ) {
       this.props.onChangeTime(null);
     } else {
       const item = this.props.data.get(idx);
       if (item) {
-        this.props.onChangeTime(parse(item.get("entry_at")));
+        this.props.onChangeTime(parse(item.get("timestamp")*1000));
       }
     }
   }
@@ -108,8 +114,6 @@ class WellTimelineScrollBar extends Component {
   jumpToNext() {
     this.changeTime(this.findValue() + 1);
   }
-
-
 }
 
 WellTimelineScrollBar.propTypes = {
