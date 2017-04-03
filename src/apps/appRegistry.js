@@ -48,6 +48,7 @@ import raRigActivity from './rigActivity/rigActivity';
 
 // HYDRAULICS APPS
 import hydraulicsPressureLoss from './hydraulics/pressureLoss';
+import hydraulicsPressureTrend from './hydraulics/pressureTrend';
 
 // Apps that can be displayed on dashboard / asset pages, keyed by app type
 export const uiApps = Map({
@@ -122,7 +123,8 @@ export const uiApps = Map({
     title: 'Hydraulics',
     subtitle: '',
     appTypes: Map({
-      pressureLoss: hydraulicsPressureLoss
+      pressureLoss: hydraulicsPressureLoss,
+      pressureTrend: hydraulicsPressureTrend,
     })
   })
 });

@@ -19,6 +19,9 @@ ChartSeries.propTypes = {
   groupPadding: PropTypes.number,
   borderWidth: PropTypes.number,
   marker: PropTypes.object,
+  yAxis: PropTypes.number,
+  yAxisOpposite: PropTypes.bool,
+  yAxisTitle: PropTypes.object
 };
 
 export default ChartSeries;
