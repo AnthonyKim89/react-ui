@@ -28,6 +28,10 @@ class MSEHeatmapApp extends Component {
     return <div className="c-de-mseheatmap"><LoadingIndicator /></div>;
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextState !== this.state || nextProps !== this.props || nextProps.size !== this.props.size);
+  }
+
   getAxis(axis, axisType, unitType=null, unit=null) {
     let max = axis.get("maximum");
     let min = axis.get("minimum");

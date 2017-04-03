@@ -63,6 +63,10 @@ class WOBFounder extends Component {
     );
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextState !== this.state || nextProps !== this.props || nextProps.size !== this.props.size);
+  }
+
   getSeries() {
     return Object.keys(SUPPORTED_CHART_SERIES)
       .map(field => this.getDataSeries(field));
