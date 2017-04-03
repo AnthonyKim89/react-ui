@@ -40,7 +40,9 @@ class WellTimelineScrollBar extends Component {
                 onClick={() => this.jumpToPrevious()}>
           <span className="c-well-timeline-scroll-bar__arrow-left"></span>
         </button>
+
         <div className="c-well-timeline-scroll-bar__bar">
+          <div className="c-well-timeline-scroll-bar__legend">foofoofoo</div>
           <div className="c-well-timeline-scroll-bar__slider">
             <TooltipSlider
               min={0}
@@ -53,6 +55,7 @@ class WellTimelineScrollBar extends Component {
             />
           </div>
         </div>
+
         <button className="c-well-timeline-scroll-bar__arrow"
                 disabled={!this.isPossibleToJumpToNext()}
                 onClick={() => this.jumpToNext()}>

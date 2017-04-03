@@ -82,3 +82,8 @@
 .c-well-timeline-scroll-bar__activity--5 {
   background-color: #72b49e;
 }
+
+.c-well-timeline-scroll-bar__legend {
+  position: absolute;
+
+}
