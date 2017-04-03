@@ -65,7 +65,6 @@ class CrewsContactItem extends Component {
             s={12} 
             type='select' 
             defaultValue={shift}
-            error={this.state.errors.shift}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{shift: e.target.value})} )}>
               <option value=''>Select Shift</option>
               <option value='Day'>Day</option>
@@ -99,16 +98,11 @@ class CrewsContactItem extends Component {
 
   save() {
 
-    let {name,shift} = this.state.data;
+    let {name} = this.state.data;
     let hasErrors = false;
     let errors = {};
     if (name.length<1) {
       errors["name"] = "Invalid Name";
-      hasErrors = true;
-    }   
-    
-    if (shift.length<1) {
-      errors["shift"] = "Invalid Shift";
       hasErrors = true;
     }
 
