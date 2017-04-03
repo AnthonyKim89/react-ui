@@ -33,7 +33,7 @@ class Convert {
         force: 'lbf',
         oil: 'bbl',
         yp: 'dsf',
-        density: 'ppg'
+        density: 'ppg',
       },
       metric: {
         length: 'm',
@@ -46,7 +46,7 @@ class Convert {
         force: 'nm',
         oil: 'm3',
         yp: 'Pa',
-        density: 'sg'
+        density: 'Sg',
       },
       custom: {},
     };
