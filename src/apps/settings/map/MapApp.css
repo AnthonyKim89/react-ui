@@ -9,6 +9,10 @@
   padding: 30px;
 }
 
+.c-map h4{
+  margin-bottom:0px;
+}
+
 .c-map-latlng {
   background-color: rgb(42,41,41);
 }

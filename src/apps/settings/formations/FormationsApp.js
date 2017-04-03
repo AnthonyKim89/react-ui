@@ -8,12 +8,12 @@ import NotificationSystem from 'react-notification-system';
 import * as api from '../../../api';
 
 import {METADATA} from './constants';
-import CostsSummary from './CostsSummary';
-import CostsItem from './CostsItem';
+import FormationsSummary from './FormationsSummary';
+import FormationsItem from './FormationsItem';
 
-import './CostsApp.css';
+import './FormationsApp.css';
 
-class CostsApp extends Component {
+class FormationsApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,7 +36,7 @@ class CostsApp extends Component {
   }
 
   async loadRecords(asset) {
-    const records = await api.getAppStorage(METADATA.recordDevKey, METADATA.recordCollection, asset.get('id'), Map({limit: 0}));
+    const records = await api.getAppStorage(METADATA.recordDevKey, METADATA.recordCollection, asset.get('id'), Map({limit: 0}));    
     this.setState({
       records: records.sortBy(r=>r.get("timestamp"))
     });
@@ -44,26 +44,27 @@ class CostsApp extends Component {
 
   render() {
     return (
-      <div className="c-costs">
+      <div className="c-formations">
         <h4>{METADATA.title}</h4>
         <div>{METADATA.subtitle}</div>
-        <CostsSummary 
+        <FormationsSummary
           records={this.state.records} 
           onAdd={()=>this.add()}/>
 
         {this.state.records?
-          <table className="c-costs__costs-table">
+          <table className="c-formations__formations-table">
             <thead>
               <tr>
-                <th className="c-costs__date-header"> Date </th>
-                <th className="c-costs__cost-header"> Cost </th>
-                <th className="c-costs__description-header hide-on-med-and-down"> Description </th>
-                <th className="c-costs__action-header hide-on-med-and-down"> </th>
+                <th className="c-formations__tvd-header"> True Vertical Depth(ft) </th>
+                <th className="c-formations__md-header hide-on-med-and-down"> Measured Depth(ft) </th>
+                <th className="c-formations__fm-header"> Formation Name </th>
+                <th className="c-formations__lithology-header hide-on-med-and-down"> Lithology</th>
+                <th className="c-formations__action-header hide-on-med-and-down"> </th>
               </tr>
             </thead>
             <tbody>
               {this.state.records.map(record=> {
-                return <CostsItem 
+                return <FormationsItem
                           key={record.get("_id")} 
                           record={record} 
                           onSave={(record)=>this.saveRecord(record)} 
@@ -71,7 +72,7 @@ class CostsApp extends Component {
               })}
 
               {this.state.preRecords.map((record)=> {
-                return <CostsItem 
+                return <FormationsItem 
                   key={record.get("_pre_id")}
                   record={record}
                   onSave={(record)=>this.saveRecord(record)}
@@ -79,15 +80,14 @@ class CostsApp extends Component {
               })}
             </tbody>
           </table> : '' }
-          <Button floating large className='lightblue' style={{marginTop:10}} waves='light' icon='add'  onClick={(e)=>{this.add();}} />
-          
+          <Button floating large className='lightblue' style={{marginTop:10}} waves='light' icon='add' onClick={(e)=>{this.add();}} />
           <a ref="scrollHelperAnchor"></a>
         <NotificationSystem ref="notificationSystem" noAnimation={true} />
       </div>
     );
   }
 
-  add() {        
+  add() {
     const record = Map({
       asset_id: this.props.asset.get('id'),
       _pre_id: new Date().getTime(),
@@ -101,7 +101,6 @@ class CostsApp extends Component {
     setTimeout(()=>{
       ReactDOM.findDOMNode(this.refs.scrollHelperAnchor).scrollIntoView({behavior: "smooth"});
     },0);
-    
   }
 
   cancelAdd(preRecord) {
@@ -111,9 +110,7 @@ class CostsApp extends Component {
   }
 
   async saveRecord(record) {
-    
     let savedRecord;
-
     try {
       savedRecord = record.has('_id')? 
         await api.putAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record.get('_id') , record) :
@@ -129,33 +126,33 @@ class CostsApp extends Component {
     if (!savedRecord) {
       return;
     }
+    let index = this.state.records.findIndex(r=>r.get("_id")===savedRecord.get("_id"));                  
 
-    let index = this.state.records.findIndex(r=>r.get("_id")===savedRecord.get("_id"));
-      
     if (index!==-1) { //update record
       this.setState({
         records: this.state.records.delete(index).insert(index,savedRecord)});
     }
-    else { //create record id        
+    else { //create record id
+      
       let recordsAfterSave = this.state.records.push(savedRecord);
       let preRecordsAfterSave = this.state.preRecords.filterNot(r => r.get('_pre_id') === record.get('_pre_id'));
+
       this.setState({
         records: recordsAfterSave,
         preRecords: preRecordsAfterSave
       });
+
     }
 
     this._notificationSystem.addNotification({
       message: 'The record has been saved successfully.',
       level: 'success'
     });
-
   }
 
-  async removeRecord(record) {
-
-    try {      
-      await api.deleteAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record.get('_id'));            
+  async removeRecord(record) {    
+    try {
+      await api.deleteAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record.get('_id'));      
     }
     catch(error) {
       this._notificationSystem.addNotification({
@@ -166,7 +163,6 @@ class CostsApp extends Component {
     }
 
     const recordsAfterDelete = this.state.records.filterNot(r => r.get('_id') === record.get('_id'));
-
     this.setState({
       records: recordsAfterDelete,
     });
@@ -175,12 +171,12 @@ class CostsApp extends Component {
       message: 'The record has been deleted successfully.',
       level: 'success'
     });
-    
+
   }
 }
 
-CostsApp.propTypes = {
+FormationsApp.propTypes = {
   asset: ImmutablePropTypes.map
 };
 
-export default CostsApp;
+export default FormationsApp;
