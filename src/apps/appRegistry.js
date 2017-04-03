@@ -47,6 +47,7 @@ import wellTimeline from './wellTimeline';
 import raRigActivity from './rigActivity/rigActivity';
 
 // HYDRAULICS APPS
+import hydraulicsOverview from './hydraulics/overview';
 import hydraulicsPressureLoss from './hydraulics/pressureLoss';
 import hydraulicsPressureTrend from './hydraulics/pressureTrend';
 
@@ -123,6 +124,7 @@ export const uiApps = Map({
     title: 'Hydraulics',
     subtitle: '',
     appTypes: Map({
+      overview: hydraulicsOverview,
       pressureLoss: hydraulicsPressureLoss,
       pressureTrend: hydraulicsPressureTrend,
     })
