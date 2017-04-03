@@ -55,10 +55,10 @@ class CostsApp extends Component {
           <table className="c-costs__costs-table">
             <thead>
               <tr>
-                <th> Date </th>
-                <th> Cost </th>
-                <th className="hide-on-med-and-down"> Description </th>
-                <th className="hide-on-med-and-down"> </th>
+                <th className="c-costs__date-header"> Date </th>
+                <th className="c-costs__cost-header"> Cost </th>
+                <th className="c-costs__description-header hide-on-med-and-down"> Description </th>
+                <th className="c-costs__action-header hide-on-med-and-down"> </th>
               </tr>
             </thead>
             <tbody>

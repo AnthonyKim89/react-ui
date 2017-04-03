@@ -57,12 +57,12 @@ class CrewsContactApp extends Component {
           <table className="c-crews__crews-table">
             <thead>
               <tr>
-                <th> Name </th>
-                <th> Phone </th>
-                <th className="hide-on-med-and-down"> Shift </th>
-                <th className="hide-on-med-and-down"> Rotation </th>
-                <th className="hide-on-med-and-down"> Position </th>
-                <th className="hide-on-med-and-down"> </th>
+                <th className="c-crews__name-header"> Name </th>
+                <th className="c-crews__phone-header"> Phone </th>
+                <th className="c-crews__shift-header hide-on-med-and-down"> Shift </th>
+                <th className="c-crews__rotation-header hide-on-med-and-down"> Rotation </th>
+                <th className="c-crews__position-header hide-on-med-and-down"> Position </th>
+                <th className="c-crews__action-header hide-on-med-and-down"> </th>
               </tr>
             </thead>
             <tbody>
