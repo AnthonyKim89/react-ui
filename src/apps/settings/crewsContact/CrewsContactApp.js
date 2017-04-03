@@ -8,12 +8,13 @@ import NotificationSystem from 'react-notification-system';
 import * as api from '../../../api';
 
 import {METADATA} from './constants';
-import CostsSummary from './CostsSummary';
-import CostsItem from './CostsItem';
+import CrewsContactSummary from './CrewsContactSummary';
+import CrewsContactItem from './CrewsContactItem';
 
-import './CostsApp.css';
+import './CrewsContactApp.css';
 
-class CostsApp extends Component {
+class CrewsContactApp extends Component {
+ 
   constructor(props) {
     super(props);
     this.state = {
@@ -21,7 +22,7 @@ class CostsApp extends Component {
       preRecords: List()
     };
   }
-  
+
   componentDidMount() {
     if (this.props.asset) {
       this.loadRecords(this.props.asset);
@@ -44,26 +45,29 @@ class CostsApp extends Component {
 
   render() {
     return (
-      <div className="c-costs">
+      <div className="c-crews">
         <h4>{METADATA.title}</h4>
         <div>{METADATA.subtitle}</div>
-        <CostsSummary 
+        
+        <CrewsContactSummary
           records={this.state.records} 
           onAdd={()=>this.add()}/>
 
         {this.state.records?
-          <table className="c-costs__costs-table">
+          <table className="c-crews__crews-table">
             <thead>
               <tr>
-                <th className="c-costs__date-header"> Date </th>
-                <th className="c-costs__cost-header"> Cost </th>
-                <th className="c-costs__description-header hide-on-med-and-down"> Description </th>
-                <th className="c-costs__action-header hide-on-med-and-down"> </th>
+                <th className="c-crews__name-header"> Name </th>
+                <th className="c-crews__phone-header"> Phone </th>
+                <th className="c-crews__shift-header hide-on-med-and-down"> Shift </th>
+                <th className="c-crews__rotation-header hide-on-med-and-down"> Rotation </th>
+                <th className="c-crews__position-header hide-on-med-and-down"> Position </th>
+                <th className="c-crews__action-header hide-on-med-and-down"> </th>
               </tr>
             </thead>
             <tbody>
               {this.state.records.map(record=> {
-                return <CostsItem 
+                return <CrewsContactItem 
                           key={record.get("_id")} 
                           record={record} 
                           onSave={(record)=>this.saveRecord(record)} 
@@ -71,7 +75,7 @@ class CostsApp extends Component {
               })}
 
               {this.state.preRecords.map((record)=> {
-                return <CostsItem 
+                return <CrewsContactItem
                   key={record.get("_pre_id")}
                   record={record}
                   onSave={(record)=>this.saveRecord(record)}
@@ -87,7 +91,7 @@ class CostsApp extends Component {
     );
   }
 
-  add() {        
+  add() {
     const record = Map({
       asset_id: this.props.asset.get('id'),
       _pre_id: new Date().getTime(),
@@ -101,7 +105,6 @@ class CostsApp extends Component {
     setTimeout(()=>{
       ReactDOM.findDOMNode(this.refs.scrollHelperAnchor).scrollIntoView({behavior: "smooth"});
     },0);
-    
   }
 
   cancelAdd(preRecord) {
@@ -111,9 +114,7 @@ class CostsApp extends Component {
   }
 
   async saveRecord(record) {
-    
     let savedRecord;
-
     try {
       savedRecord = record.has('_id')? 
         await api.putAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record.get('_id') , record) :
@@ -129,33 +130,33 @@ class CostsApp extends Component {
     if (!savedRecord) {
       return;
     }
+    let index = this.state.records.findIndex(r=>r.get("_id")===savedRecord.get("_id"));                  
 
-    let index = this.state.records.findIndex(r=>r.get("_id")===savedRecord.get("_id"));
-      
     if (index!==-1) { //update record
       this.setState({
         records: this.state.records.delete(index).insert(index,savedRecord)});
     }
-    else { //create record id        
+    else { //create record id
+      
       let recordsAfterSave = this.state.records.push(savedRecord);
       let preRecordsAfterSave = this.state.preRecords.filterNot(r => r.get('_pre_id') === record.get('_pre_id'));
+
       this.setState({
         records: recordsAfterSave,
         preRecords: preRecordsAfterSave
       });
+
     }
 
     this._notificationSystem.addNotification({
       message: 'The record has been saved successfully.',
       level: 'success'
     });
-
   }
 
-  async removeRecord(record) {
-
-    try {      
-      await api.deleteAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record.get('_id'));            
+  async removeRecord(record) {    
+    try {
+      await api.deleteAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record.get('_id'));      
     }
     catch(error) {
       this._notificationSystem.addNotification({
@@ -166,7 +167,6 @@ class CostsApp extends Component {
     }
 
     const recordsAfterDelete = this.state.records.filterNot(r => r.get('_id') === record.get('_id'));
-
     this.setState({
       records: recordsAfterDelete,
     });
@@ -175,12 +175,14 @@ class CostsApp extends Component {
       message: 'The record has been deleted successfully.',
       level: 'success'
     });
-    
+
   }
+
+ 
 }
 
-CostsApp.propTypes = {
+CrewsContactApp.propTypes = {
   asset: ImmutablePropTypes.map
 };
 
-export default CostsApp;
+export default CrewsContactApp;

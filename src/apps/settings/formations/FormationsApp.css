@@ -1,0 +1,41 @@
+.c-formations {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+
+  padding: 30px;
+}
+
+.c-formations h4 {
+  margin-bottom:0px;
+}
+
+.c-formations__formations-table tr:nth-child(even) {
+  background-color: rgb(41,41,41);
+}
+
+.c-formations__formations-table tbody tr:hover {
+  background-color: rgb(96,91,91);
+}
+
+.c-formations__formations-table th{
+  width:20%;
+}
+
+
+@media(max-width: 768px) {
+  .c-formations {
+    padding:0px;
+  }
+
+  .c-formations__tvd-header {
+    width: 50%;
+  }
+  .c-formations__fm-header {
+    width: 50%;
+  }
+  
+}
