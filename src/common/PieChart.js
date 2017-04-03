@@ -47,6 +47,9 @@ class PieChart extends Component {
         verticalAlign: 'top',
         layout: 'vertical',
         itemStyle: {color: '#fff'},
+        itemHoverStyle:{
+          color:'#58c9c2',
+        },
         enabled: true,
       },
       series: [{
