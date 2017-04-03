@@ -40,7 +40,7 @@ class Convert {
         volume: 'l',
         pressure: 'kPa',
         temperature: 'C',
-        speed: 'ft/h',
+        speed: 'm/h',
         area: 'm2',
         force: 'nm',
         oil: 'm3',
