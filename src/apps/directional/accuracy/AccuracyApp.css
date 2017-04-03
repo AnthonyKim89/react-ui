@@ -20,13 +20,15 @@
 
 .c-di-accuracy-plan div {
 	font-size: 5vw;
-	font-weight: "bold";
+	font-family: orgonBoldRegular;
 	line-height: 1;	
 	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 .c-di-accuracy-plan div span {
-	font-size: .5em;
+	font-weight: normal;
+	font-size: 1.5rem;
 }
 
 .c-di-back-to-plan .recomm-upper {
@@ -34,6 +36,7 @@
 	font-size: 3vw;
 	line-height: 1;
 	margin-top: 5px;
+	margin-bottom: 10px;
 }
 
 .c-di-back-to-plan .recomm-upper span{
@@ -41,12 +44,11 @@
 }
 
 .c-di-back-to-plan .recomm-below {
-	font-size: 1.5vw;
 	margin-top: 20px;
 }
 
 .c-di-back-to-plan .recomm-below:last-child{
-	margin-top: 0px;	
+	margin-top: 0px;
 }
 
 .c-di-back-to-plan .recomm-below span {
@@ -83,7 +85,7 @@
   }
 
   .c-di-back-to-plan .recomm-below {
-  	font-size: 25px;
+  	font-size: 1rem;
   }
 }
 
