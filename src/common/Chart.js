@@ -164,7 +164,7 @@ class Chart extends Component {
       yAxis: props.multiAxis ? yAxis : 0,
       yAxisTitle: yAxisTitle,
       yAxisOpposite: yAxisOpposite,
-      dashStyle: dashStyle || 'ShortDot',
+      dashStyle: dashStyle || 'solid',
       color,
       marker: marker || {
         enabled: type === 'scatter',
