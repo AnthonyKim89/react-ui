@@ -4,7 +4,7 @@ export const SUBSCRIPTIONS = [];
 export const METADATA = {
   title: 'Casing',
   settingsTitle: 'Casing',
-  subtitle: '',
+  subtitle: 'Casing interval list',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',
   publishedAt: '2016-07-01T00:00:00',

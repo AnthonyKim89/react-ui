@@ -6,6 +6,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import * as api from '../../../api';
 
 import './GeneralInfoApp.css';
+import {METADATA} from './constants';
 
 class GeneralInfoApp extends Component {
 
@@ -31,34 +32,37 @@ class GeneralInfoApp extends Component {
   render() {
     return <div className="c-general-info">
       {this.state.asset && <div>
-        <h4>General Info</h4>
-        <Row>
-          <Input m={4}
-                type="text"
-                label="Well Name"
-                defaultValue={this.state.asset.get('name')}
-                onChange={e => this.setName(e.target.value)} />
-        </Row>
-        <Row>
-          <Input m={4}
-                type="select"
-                label="Rig"
-                defaultValue={this.state.asset.get('parent_asset_id')}
-                onChange={e => this.setParentAssetId(e.target.value)}>
-            {this.state.rigs.map(rig =>
-              <option key={rig.get('id')} value={rig.get('id')}>
-                {rig.get('name')}
-              </option>)}
-          </Input>
-        </Row>
-        <Row>
-          <Col m={12}>
-            <Button onClick={() => this.saveChanges()}
-                    disabled={this.state.asset.equals(this.props.asset)}>
-              Save changes
-            </Button>
-          </Col>
-        </Row>
+        <h4>{METADATA.title}</h4>
+        <div>{METADATA.subtitle}</div> 
+        <div className="c-general-info__info-block">
+          <Row>
+            <Input m={4}
+                  type="text"
+                  label="Well Name"
+                  defaultValue={this.state.asset.get('name')}
+                  onChange={e => this.setName(e.target.value)} />
+          </Row>
+          <Row>
+            <Input m={4}
+                  type="select"
+                  label="Rig"
+                  defaultValue={this.state.asset.get('parent_asset_id')}
+                  onChange={e => this.setParentAssetId(e.target.value)}>
+              {this.state.rigs.map(rig =>
+                <option key={rig.get('id')} value={rig.get('id')}>
+                  {rig.get('name')}
+                </option>)}
+            </Input>
+          </Row>
+          <Row>
+            <Col m={12}>
+              <Button onClick={() => this.saveChanges()}
+                      disabled={this.state.asset.equals(this.props.asset)}>
+                Save changes
+              </Button>
+            </Col>
+          </Row>
+        </div>
       </div>}
     </div>;
   }

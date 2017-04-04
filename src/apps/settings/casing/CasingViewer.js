@@ -3,12 +3,15 @@ import { Button, Col, Row } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import CasingTable from './CasingTable';
+import {METADATA} from './constants';
+
 
 class CasingViewer extends Component {
 
   render() {
     return <div className="c-casing-viewer">
-      <h4>Casing</h4>
+      <h4>{METADATA.title}</h4>
+      <div>{METADATA.subtitle}</div>
       <Row>
         <Col m={11}></Col>
         <Col>

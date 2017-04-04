@@ -4,6 +4,7 @@ export const SUBSCRIPTIONS = [];
 export const METADATA = {
   title: 'General Info',
   settingsTitle: 'General Info',
+  subtitle: "Asset general information",
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',
   publishedAt: '2016-07-01T00:00:00',

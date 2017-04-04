@@ -6,5 +6,14 @@
   height: 100%;
   overflow-y: scroll;
 
-  padding: 30px;
+  padding: 20px 30px;
+}
+
+.c-general-info h4{
+  margin-top: 0px;
+  margin-bottom:0px;
+}
+
+.c-general-info__info-block {
+  margin-top: 20px;
 }
