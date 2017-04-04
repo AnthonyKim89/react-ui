@@ -12,7 +12,7 @@ export const connect = (onReceiveData) => {
   socket.on('connect', () => {
     socket.emit('authenticate', {token: auth.getToken()});
   });
-  socket.on('data',evt => onReceiveData(evt.appInstanceId, evt.devKey, evt.collection, evt.assetId, evt.event, fromJS(evt.params), fromJS(evt.data)));
+  socket.on('data',evt => onReceiveData(evt.appInstanceId, evt.provider, evt.collection, evt.assetId, evt.event, fromJS(evt.params), fromJS(evt.data)));
 };
 
 export const disconnect = () => {
@@ -22,12 +22,12 @@ export const disconnect = () => {
   }
 };
 
-export const subscribe = (appInstanceId, devKey, collection, assetId, event, params) => {
+export const subscribe = (appInstanceId, provider, collection, assetId, event, params) => {
   if (!socket) { throw new Error('Not connected'); }
-  socket.emit('subscribe', {appInstanceId, devKey, collection, assetId, event, params: params.toJS()});
+  socket.emit('subscribe', {appInstanceId, provider, collection, assetId, event, params: params.toJS()});
 };
 
-export const unsubscribe = (appInstanceId, devKey, collection, event) => {
+export const unsubscribe = (appInstanceId, provider, collection, event) => {
   if (!socket) { throw new Error('Not connected'); }
-  socket.emit('unsubscribe', {appInstanceId, devKey, collection, event});
+  socket.emit('unsubscribe', {appInstanceId, provider, collection, event});
 };

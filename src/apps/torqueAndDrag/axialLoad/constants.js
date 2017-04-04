@@ -1,7 +1,7 @@
 export const CATEGORY = 'torqueAndDrag';
 export const NAME = 'axialLoad';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'torque-and-drag.axial-load'}
+  {provider: 'corva', collection: 'torque-and-drag.axial-load'}
 ];
 export const METADATA = {
   title: 'Axial Load',

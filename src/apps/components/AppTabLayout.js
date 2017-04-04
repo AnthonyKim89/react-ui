@@ -19,7 +19,6 @@ class AppTabLayout extends Component {
   constructor(props) {
     super(props);
     this.state = {selectedAppIdx: 0};
-    this.convert = new Convert();
   }
 
   render() {
@@ -89,7 +88,7 @@ class AppTabLayout extends Component {
         {...settings.toObject()}
         size={size}
         widthCols={12}
-        convert={this.convert}
+        convert={this.props.convert}
         onAssetModified={asset => this.props.onAssetModified(asset)}
         onSettingChange={(key, value) => this.props.onAppSettingsUpdate(id, settings.set(key, value))} />
     </AppContainer>;
@@ -106,6 +105,7 @@ AppTabLayout.propTypes = {
   appData: ImmutablePropTypes.map.isRequired,
   appAssets: ImmutablePropTypes.map.isRequired,
   commonSettingsEditors: ImmutablePropTypes.list,
+  convert: React.PropTypes.instanceOf(Convert).isRequired,
   pageParams: ImmutablePropTypes.map,
   onAppSubscribe: PropTypes.func.isRequired,
   onAppUnsubscribe: PropTypes.func.isRequired,

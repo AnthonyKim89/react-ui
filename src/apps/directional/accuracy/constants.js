@@ -1,7 +1,7 @@
 export const CATEGORY = 'directional';
 export const NAME = 'accuracy';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'directional.accuracy'}
+  {provider: 'corva', collection: 'directional.accuracy'}
 ];
 export const METADATA = {
   title: 'Directional Accuracy',

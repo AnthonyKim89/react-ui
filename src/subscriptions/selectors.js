@@ -14,8 +14,8 @@ export function firstSubData(data, [firstSub]) {
   return getSubData(data, firstSub);
 }
 
-export function getSubData(data, {devKey, collection, event = ''}) {
-  return data && data.getIn([devKey, collection, event]);
+export function getSubData(data, {provider, collection, event = ''}) {
+  return data && data.getIn([provider, collection, event]);
 }
 
 

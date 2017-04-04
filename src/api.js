@@ -139,24 +139,24 @@ export async function putAsset(id, asset) {
   return fromJS(data);
 }
 
-export async function getAppStorage(devKey, collection, assetId, params = Map()) {
+export async function getAppStorage(provider, collection, assetId, params = Map()) {
   const qry = queryString(params.merge({asset_id: assetId}).toJS());
-  const data = await get(`/v1/data/${devKey}/${collection}?${qry}`);
+  const data = await get(`/v1/data/${provider}/${collection}?${qry}`);
   return fromJS(data);
 }
 
-export async function postAppStorage(devKey, collection, item) {
-  const response = await post(`/v1/data/${devKey}/${collection}`, item.toJS());
+export async function postAppStorage(provider, collection, item) {
+  const response = await post(`/v1/data/${provider}/${collection}`, item.toJS());
   return fromJS(response);
 }
 
-export async function putAppStorage(devKey, collection, id, item) {
-  const response = await put(`/v1/data/${devKey}/${collection}/${id}`, item.toJS());
+export async function putAppStorage(provider, collection, id, item) {
+  const response = await put(`/v1/data/${provider}/${collection}/${id}`, item.toJS());
   return fromJS(response);
 }
 
-export async function deleteAppStorage(devKey, collection, id) {
-  const response = await del(`/v1/data/${devKey}/${collection}/${id}`);
+export async function deleteAppStorage(provider, collection, id) {
+  const response = await del(`/v1/data/${provider}/${collection}/${id}`);
   return fromJS(response);
 }
 

@@ -37,7 +37,7 @@ class CrewsContactApp extends Component {
   }
 
   async loadRecords(asset) {
-    const records = await api.getAppStorage(METADATA.recordDevKey, METADATA.recordCollection, asset.get('id'), Map({limit: 0}));
+    const records = await api.getAppStorage(METADATA.recordProvider, METADATA.recordCollection, asset.get('id'), Map({limit: 0}));
     this.setState({
       records: records.sortBy(r=>r.get("timestamp"))
     });
@@ -117,8 +117,8 @@ class CrewsContactApp extends Component {
     let savedRecord;
     try {
       savedRecord = record.has('_id')? 
-        await api.putAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record.get('_id') , record) :
-        await api.postAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record);      
+        await api.putAppStorage(METADATA.recordProvider, METADATA.recordCollection, record.get('_id') , record) :
+        await api.postAppStorage(METADATA.recordProvider, METADATA.recordCollection, record);
     }
     catch(error) {
       this._notificationSystem.addNotification({
@@ -156,7 +156,7 @@ class CrewsContactApp extends Component {
 
   async removeRecord(record) {    
     try {
-      await api.deleteAppStorage(METADATA.recordDevKey, METADATA.recordCollection, record.get('_id'));      
+      await api.deleteAppStorage(METADATA.recordProvider, METADATA.recordCollection, record.get('_id'));
     }
     catch(error) {
       this._notificationSystem.addNotification({

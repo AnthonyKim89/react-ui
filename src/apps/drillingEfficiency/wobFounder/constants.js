@@ -1,7 +1,7 @@
 export const CATEGORY = 'drillingEfficiency';
 export const NAME = 'wobFounder';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'drilling-efficiency.wob-founder'}
+  {provider: 'corva', collection: 'drilling-efficiency.wob-founder'}
 ];
 export const METADATA = {
   title: 'WOB Founder Point',

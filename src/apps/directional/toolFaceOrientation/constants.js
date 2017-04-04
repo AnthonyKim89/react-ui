@@ -1,7 +1,7 @@
 export const CATEGORY = 'directional';
 export const NAME = 'toolFaceOrientation';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'directional.tool-face-orientation'}
+  {provider: 'corva', collection: 'directional.tool-face-orientation'}
 ];
 export const METADATA = {
   title: 'Tool Face Orientation',

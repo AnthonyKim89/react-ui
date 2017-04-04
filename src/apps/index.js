@@ -6,6 +6,6 @@ export default {
   layouts: {
     grid: AppGridLayout,
     singleApp: AppSingleLayout,
-    tabs: AppTabLayout
+    tabs: AppTabLayout,
   }
 };

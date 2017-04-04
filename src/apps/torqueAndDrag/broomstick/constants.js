@@ -1,7 +1,7 @@
 export const CATEGORY = 'torqueAndDrag';
 export const NAME = 'broomstick';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'torque-and-drag.broomstick'}
+  {provider: 'corva', collection: 'torque-and-drag.broomstick'}
 ];
 export const METADATA = {
   title: 'Trend Broomstick',

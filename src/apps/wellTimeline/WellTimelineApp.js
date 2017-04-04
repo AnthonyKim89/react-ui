@@ -1,14 +1,15 @@
 import React, {Component, PropTypes} from 'react';
 import format from 'date-fns/format';
-import parse from 'date-fns/parse';
-import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
+import { SUBSCRIPTIONS } from './constants';
 import WellTimelineStatusBar from './WellTimelineStatusBar';
 import WellTimelineScrollBar from './WellTimelineScrollBar';
-import * as api from '../../api';
+import subscriptions from '../../subscriptions';
 
 import './WellTimelineApp.css';
+
+const [ latestSubscription, summarySubscription ] = SUBSCRIPTIONS;
 
 class WellTimelineApp extends Component {
 
@@ -19,49 +20,40 @@ class WellTimelineApp extends Component {
     };
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState !== this.state || nextProps.data !== this.props.data;
+  }
+
   async componentDidMount() {
-    this._mounted = true;
-    const timeline = await api.getWellTimeline(this.props.asset.get('id'));
-    const jobData = timeline.get('jobData');
-    const outOfHoleData = timeline.get('outOfHoleData');
-    if (!outOfHoleData.isEmpty()) {
-      const firstDate = parse(jobData.get('start_date')).getTime();
-      const lastDate = parse(jobData.get('last_date')).getTime();
-      const activity = outOfHoleData.map((item, index) => {
-        const itemEndTime = parse(item.get('end_time')).getTime();
-        const itemStartTime = parse(item.get('start_time')).getTime();
-        let relativeDuration = (itemEndTime - itemStartTime) / (lastDate - firstDate) * 100;
-        let relativeStart  = (itemStartTime - firstDate) / (lastDate - firstDate) * 100;
-        return Map({
-          activity: item.get('activity'),
-          relativeStart,
-          relativeDuration
-        });
-      });
-      if (this._mounted) this.setState({timeline, activity});
-    } else {
-      if (this._mounted) this.setState({timeline, activity: List()});
-    }
+    // Subscribing to the wits data
+    this.props.subscribeApp(
+      this.props.id,
+      SUBSCRIPTIONS,
+      this.props.asset.get('id')
+    );
   }
 
   componentWillUnmount() {
-    this._mounted = false;
+    // Unsubscribing from the wits data
+    this.props.unsubscribeApp(this.props.id, SUBSCRIPTIONS);
   }
 
   render() {
+    let latestWitsRecord = subscriptions.selectors.getSubData(this.props.data, latestSubscription);
+    let summaryData = subscriptions.selectors.getSubData(this.props.data, summarySubscription);
     return (
       <div className="c-well-timeline">
-        {this.state.timeline && this.state.scrollBarVisible && 
+        {summaryData && this.state.scrollBarVisible &&
           <WellTimelineScrollBar
             time={this.props.time}
-            tooltipDepthData={this.state.timeline.get('tooltipDepthData')}
-            activity={this.state.activity}
+            data={summaryData}
             onChangeTime={t => this.updateParams(t)} />}
-        {this.state.timeline && 
+        {summaryData && latestWitsRecord &&
           <WellTimelineStatusBar
             isLive={!this.props.time}
             asset={this.props.asset}
-            lastWitsRecord={this.state.timeline.get('lastWitsRecord')}
+            data={summaryData}
+            lastWitsRecord={latestWitsRecord}
             isScrollBarVisible={this.state.scrollBarVisible}
             onToggleDrillScrollBar={() => this.toggleScrollBar()} />}
       </div>
@@ -78,9 +70,12 @@ class WellTimelineApp extends Component {
 }
 
 WellTimelineApp.propTypes = {
+  data: ImmutablePropTypes.map,
   asset: ImmutablePropTypes.map.isRequired,
   time: PropTypes.string,
-  onUpdateParams: PropTypes.func.isRequired
+  onUpdateParams: PropTypes.func.isRequired,
+  subscribeApp: PropTypes.func.isRequired,
+  unsubscribeApp: PropTypes.func.isRequired,
 };
 
 export default WellTimelineApp;
