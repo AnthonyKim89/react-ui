@@ -56,18 +56,28 @@
   background-color: transparent;
   height: 47px;
 }
+
 .c-well-timeline-scroll-bar__slider .rc-slider-track, .c-well-timeline-scroll-bar__slider .rc-slider-rail {
   background-color: transparent;
 }
+
 .c-well-timeline-scroll-bar__slider .rc-slider-handle {
   background: #58c9c2 url('../../images/slider-handle.png');
-  width: 21px;
-  height: 55px;
-  margin-top: -9px;
-  margin-left: -10px;
-  border-radius: 0px;
-  border: 1px solid #ffffff;
-  background-color: #58c9c2;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-position-x: center;
+  background-position-y: center;
+  width: 56px;
+  height: 21px;
+  margin-top: 7.5px;
+  margin-left: -28px;
+  border-radius: 3px;
+  border: 0;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 
 .c-well-timeline-scroll-bar__activity {
@@ -85,5 +95,11 @@
 
 .c-well-timeline-scroll-bar__legend {
   position: absolute;
-
+  font-size: .8rem;
+  top: 15px;
+  width: 100%;
+}
+.c-well-timeline-scroll-bar__legend__day {
+  display: inline-block;
+  text-align: center;
 }

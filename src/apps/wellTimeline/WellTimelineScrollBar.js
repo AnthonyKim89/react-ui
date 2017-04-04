@@ -42,7 +42,7 @@ class WellTimelineScrollBar extends Component {
         </button>
 
         <div className="c-well-timeline-scroll-bar__bar">
-          <div className="c-well-timeline-scroll-bar__legend">foofoofoo</div>
+            {this.renderLegend()}
           <div className="c-well-timeline-scroll-bar__slider">
             <TooltipSlider
               min={0}
@@ -109,13 +109,45 @@ class WellTimelineScrollBar extends Component {
     const current = this.findValue();
     return current < this.props.data.size - 1;
   }
-  
+
   jumpToPrevious() {
     this.changeTime(this.findValue() - 1);
   }
 
   jumpToNext() {
     this.changeTime(this.findValue() + 1);
+  }
+
+  renderLegend() {
+    let days = this.getLegendDays();
+    return (
+      <div className="c-well-timeline-scroll-bar__legend">
+        {days.map(day => (
+          <div className="c-well-timeline-scroll-bar__legend__day" style={{width: 100/days.length + '%'}} key={day}>
+            {day}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  getLegendDays() {
+    let days = [];
+    this.props.data.valueSeq().forEach((value) => {
+      let date = new Date(value.get('timestamp')*1000);
+      let day = date.getDate();
+      if (!days.includes(day)) {
+        days.push(day);
+      }
+    });
+
+    let startMonth = new Date(this.props.data.first().get('timestamp')*1000).toLocaleString("en-us", { month: "short" });
+    let endMonth = new Date(this.props.data.last().get('timestamp')*1000).toLocaleString("en-us", { month: "short" });
+
+    days[0] = startMonth + ' ' + days[0];
+    days[days.length-1] = endMonth + ' ' + days[days.length-1];
+
+    return days;
   }
 }
 
