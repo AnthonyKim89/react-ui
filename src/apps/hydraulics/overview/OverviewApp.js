@@ -11,11 +11,15 @@ import './OverviewApp.css';
 
 class OverviewApp extends Component {
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState !== this.state || nextProps !== this.props || nextProps.size !== this.props.size;
+  }
+
   render() {
     return (
       <div className="c-hydraulics-overview">
         <div className="gaps"></div>
-        {subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS) ?
+        {this.data ?
           <Row>
             <Col m={6} s={12}>
               <h4 className="c-hydraulics-overview__gauge-title">Hole Cleaning</h4>
@@ -44,6 +48,10 @@ class OverviewApp extends Component {
     );
   }
 
+  get data() {
+    return subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS);
+  }
+
   get gaugeBands() {
     return {
       red:    {from: 0,  to: 10},
@@ -53,8 +61,7 @@ class OverviewApp extends Component {
   }
 
   get holeCleaningSeverity() {
-    const severity = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(
-      ["data", "hole_cleaning", "severity"]);
+    const severity = this.data.getIn(["data", "hole_cleaning", "severity"]);
     return this.getGaugeValue(severity);
   }
 
@@ -68,15 +75,12 @@ class OverviewApp extends Component {
   }
 
   renderStatistics() {
-    let recommendedFlowRate = subscriptions.selectors.firstSubData(
-        this.props.data,SUBSCRIPTIONS).getIn(["data", "recommended_flow_rate"]);
+    let recommendedFlowRate = this.data.getIn(["data", "recommended_flow_rate"]);
     recommendedFlowRate = this.props.convert.convertValue(
         recommendedFlowRate, "volume", "gal").fixFloat(1);
 
-    let staticHoleCleaningDuration = subscriptions.selectors.firstSubData(
-        this.props.data,SUBSCRIPTIONS).getIn(["data", "static_hole_cleaning", "duration"]);
-    let staticHoleCleaningFlowRate = subscriptions.selectors.firstSubData(
-        this.props.data,SUBSCRIPTIONS).getIn(["data", "static_hole_cleaning", "mud_flow_rate"]);
+    let staticHoleCleaningDuration = this.data.getIn(["data", "static_hole_cleaning", "duration"]);
+    let staticHoleCleaningFlowRate = this.data.getIn(["data", "static_hole_cleaning", "mud_flow_rate"]);
     staticHoleCleaningFlowRate = this.props.convert.convertValue(
         staticHoleCleaningFlowRate, "volume", "gal").fixFloat(1);
 
@@ -97,8 +101,7 @@ class OverviewApp extends Component {
   }
 
   renderProgress() {
-    let pointsData = subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS).getIn(
-      ["data", "hole_cleaning", "points"]);
+    let pointsData = this.data.getIn(["data", "hole_cleaning", "points"]);
     let itemWidth = 100 / pointsData.size -1;
     let style = {
       marginRight: "1%",
