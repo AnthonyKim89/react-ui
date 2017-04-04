@@ -24,7 +24,7 @@ class MinimumFlowRateApp extends Component {
             xField="measured_depth"
             xAxisWidth="1"
             xAxisColor="white"
-            xAxisTitle={{text: `Measured Depth - ${this.props.convert.getUnitDisplay('length')}`}}
+            xAxisTitle={{text: `Measured Depth (${this.props.convert.getUnitDisplay('length')})`}}
             size={this.props.size}
             widthCols={this.props.widthCols}>
             <ChartSeries
@@ -34,7 +34,7 @@ class MinimumFlowRateApp extends Component {
               title={title}
               data={this.getSeriesData()}
               yField="value"
-              yAxisTitle={{text: `Flow Rate - ${this.props.convert.getUnitDisplay('volume')}pm`}}
+              yAxisTitle={{text: `Flow Rate (${this.props.convert.getUnitDisplay('volume')}pm)`}}
               color={this.getSeriesColor('flow_rate')}
             />
           </Chart> :
