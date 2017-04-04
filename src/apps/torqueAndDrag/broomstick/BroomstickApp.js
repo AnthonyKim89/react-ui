@@ -34,6 +34,7 @@ class BroomstickApp extends Component {
                 type={renderType}
                 title={title}
                 data={data}
+                dashStyle={"ShortDot"}                
                 yField="hookload"
                 color={this.getSeriesColor(type)} />
             )).toJS()}
