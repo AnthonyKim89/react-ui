@@ -12,31 +12,32 @@ import './MinimumFlowRateApp.css';
 
 class MinimumFlowRateApp extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {series: List()};
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.data !== this.props.data || nextProps.size !== this.props.size;
   }
 
   render() {
+    let title = SUPPORTED_CHART_SERIES['flow_rate'].label;
     return (
-      <div className="c-tnd-broomstick">
+      <div className="c-hydraulics-minimum-flow-rate">
         {this.getData() ?
           <Chart
             xField="measured_depth"
-            xAxisWidth="2"
+            xAxisWidth="1"
             xAxisColor="white"
+            xAxisTitle={{text: `Measured Depth - ${this.props.convert.getUnitDisplay('length')}`}}
             size={this.props.size}
             widthCols={this.props.widthCols}>
-            {this.getSeries().map(({renderType, title, type, data}, idx) => (
-              <ChartSeries
-                key={title}
-                id={title}
-                type={renderType}
-                title={title}
-                data={data}
-                yField="hookload"
-                color={this.getSeriesColor(type)} />
-            )).toJS()}
+            <ChartSeries
+              key={title}
+              id={title}
+              type="line"
+              title={title}
+              data={this.getSeriesData()}
+              yField="value"
+              yAxisTitle={{text: `Flow Rate - ${this.props.convert.getUnitDisplay('volume')}pm`}}
+              color={this.getSeriesColor('flow_rate')}
+            />
           </Chart> :
           <LoadingIndicator />}
       </div>
@@ -47,40 +48,11 @@ class MinimumFlowRateApp extends Component {
     return subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS);
   }
 
-  getSeries() {
-    return this.getPredictedCurveSeries()
-      .concat(this.getActualSeries());
-  }
-
-  getPredictedCurveSeries() {
-    return this.getData().getIn(['data', 'curves'], List())
-      .entrySeq()
-      .flatMap(([curveType, curves]) =>
-        curves.map((curve) => {
-          let points = curve.get('points');
-          points = this.props.convert.convertImmutables(points, 'hookload', 'mass', 'lb');
-          return {
-            renderType: 'line',
-            title: `${SUPPORTED_CHART_SERIES[curveType].label} ${curve.get('casing_friction_factor')} ${curve.get('openhole_friction_factor')}`,
-            type: curveType,
-            data: points
-          };
-        })
-      );
-  }
-
-  getActualSeries() {
-    return this.getData().getIn(['data', 'actual'], List())
-      .entrySeq()
-      .map(([curveType, points]) => {
-        points = this.props.convert.convertImmutables(points, 'hookload', 'mass', 'lb');
-        return {
-          renderType: 'scatter',
-            title: SUPPORTED_CHART_SERIES[curveType].label,
-          type: curveType,
-          data: points
-        };
-      });
+  getSeriesData() {
+    let points = this.getData().getIn(['data', 'flow_rate']);
+    points = this.props.convert.convertImmutables(points, 'measured_depth', 'length', 'ft');
+    points = this.props.convert.convertImmutables(points, 'value', 'volume', 'gal');
+    return points;
   }
 
   getSeriesColor(seriesType) {
