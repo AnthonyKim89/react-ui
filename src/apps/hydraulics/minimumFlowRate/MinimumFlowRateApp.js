@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
