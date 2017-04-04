@@ -6,7 +6,7 @@ export const SUBSCRIPTIONS = [
 export const METADATA = {
   title: 'MSE Heatmap',
   settingsTitle: 'MSE Heatmap',
-  subtitle: 'Optimial run paramaters for MSE',
+  subtitle: 'Optimal run paramaters for MSE',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v0.1',
   publishedAt: '2017-02-23T00:00:00'

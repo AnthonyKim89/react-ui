@@ -6,7 +6,7 @@ export const SUBSCRIPTIONS = [
 export const METADATA = {
   title: 'ROP Heatmap',
   settingsTitle: 'ROP Heatmap',
-  subtitle: 'Optimial run paramaters for ROP',
+  subtitle: 'Optimal run paramaters for ROP',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v0.1',
   publishedAt: '2017-02-23T00:00:00'

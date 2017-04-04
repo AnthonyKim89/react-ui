@@ -65,7 +65,7 @@ class DPFounder extends Component {
   }
   
   shouldComponentUpdate(nextProps, nextState) {
-    return (nextState !== this.state || nextProps !== this.props || nextProps.size !== this.props.size);
+    return (nextProps.data !== this.props.data || nextProps.size !== this.props.size);
   }
 
   getSeries() {
