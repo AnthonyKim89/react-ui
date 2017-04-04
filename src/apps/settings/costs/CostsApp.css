@@ -13,14 +13,6 @@
   margin-bottom:0px;
 }
 
-.c-costs__costs-table tbody tr:nth-child(even) {
-  background-color: rgb(41,41,41);
-}
-
-.c-costs__costs-table tbody tr:hover {
-  background-color: rgb(96,91,91);
-}
-
 .c-costs__date-header, .c-costs__cost-header, .c-costs__action-header {
   width: 20%;
 }

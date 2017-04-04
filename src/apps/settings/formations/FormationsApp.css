@@ -13,14 +13,6 @@
   margin-bottom:0px;
 }
 
-.c-formations__formations-table tr:nth-child(even) {
-  background-color: rgb(41,41,41);
-}
-
-.c-formations__formations-table tbody tr:hover {
-  background-color: rgb(96,91,91);
-}
-
 .c-formations__formations-table th{
   width:20%;
 }

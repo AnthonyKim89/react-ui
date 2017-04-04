@@ -15,3 +15,28 @@ body {
 .u-half-opacity {
   opacity: 50%;
 }
+
+/**
+*
+* this is temporary css override for react-datetime
+* react-datetime and react-materialize style is in conflict.
+* once we move to material-ui datepicker we don't need this css override.
+* 
+**/
+.rdtPicker {
+  bottom:20px;
+}
+.rdtPicker table {
+	color: black !important;
+}
+
+.rdtPicker td,th {
+	padding: 3px 5px;
+	height: auto;  
+}
+.rdtPicker thead {
+  border-bottom: none;
+}
+.rdtPicker thead tr {  
+  line-height: 10px;
+}

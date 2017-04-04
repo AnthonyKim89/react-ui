@@ -1,0 +1,34 @@
+.c-npt {
+	position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+
+  padding: 30px;
+}
+
+.c-npt h4 {
+  margin-bottom:0px;
+}
+
+
+.c-npt__comment-header, .c-npt__action-header ,.c-npt__depth-header , .c-npt__type-header{
+  width: 15%;
+}
+
+.c-npt__starttime-header, .c-npt__endtime-header{
+  width: 20%;
+}
+
+@media(max-width: 768px) {
+  .c-npt {
+    padding:0px;
+  }
+
+  .c-npt__endtime-header, .c-npt__type-header {
+    width: 50%;
+  }
+  
+}

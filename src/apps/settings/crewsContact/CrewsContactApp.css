@@ -13,14 +13,6 @@
   margin-bottom:0px;
 }
 
-.c-crews__crews-table tr:nth-child(even) {
-  background-color: rgb(41,41,41);
-}
-
-.c-crews__crews-table tbody tr:hover {
-  background-color: rgb(96,91,91);
-}
-
 .c-crews__name-header, .c-crews__phone-header, .c-crews__position-header, .c-crews__action-header {
   width: 20%;
 }
@@ -28,7 +20,6 @@
 .c-crews__shift-header, .c-crews__rotation-header {
   width: 10%;
 }
-
 
 @media(max-width: 768px) {
   .c-crews {

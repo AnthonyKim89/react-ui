@@ -1,0 +1,9 @@
+.c-npt-summary {
+  background-color: rgb(42, 41, 41);
+  margin: 10px 0;
+  padding: 10px 0;
+}
+
+.c-npt-summary table {
+	overflow-x: visible;
+}

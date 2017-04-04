@@ -2,8 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Input, Button} from 'react-materialize';
 import moment from 'moment';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+
+import Datetime from 'react-datetime';
+import 'react-datetime/css/react-datetime.css';
 
 import './CostsItem.css';
 
@@ -44,9 +45,10 @@ class CostsItem extends Component {
     return (
       <tr className="c-costs-item">
         <td>
-          <DatePicker
-            selected={date}
-            onChange={this.selectDate} />
+          <Datetime 
+            defaultValue={date} 
+            onChange={this.selectDate} 
+            timeFormat={false}/>
         </td>
         <td>
           <Input type="number" 
