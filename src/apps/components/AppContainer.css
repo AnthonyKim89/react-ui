@@ -44,6 +44,9 @@
   font-size: 1.45rem;
   font-family: 'Open Sans';
   letter-spacing: 0.5px;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  white-space: nowrap;
 
 }
 
