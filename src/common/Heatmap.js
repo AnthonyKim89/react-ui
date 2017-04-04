@@ -2,7 +2,8 @@ import React, {Component, PropTypes} from 'react';
 import Highcharts from 'highcharts';
 import addHeatmap from 'highcharts/modules/heatmap';
 import addData from 'highcharts/modules/data';
-import { isEqual } from 'lodash';
+import { isEqual, values } from 'lodash';
+import { Size } from './constants';
 
 addData(Highcharts);
 addHeatmap(Highcharts);
@@ -24,7 +25,7 @@ class Heatmap extends Component {
         backgroundColor: null,
         plotBorderWidth: 1,
         plotBorderColor: "rgb(32, 31, 31)",
-        marginTop: 60,
+        marginTop: 7
       },
       xAxis: {
         categories: this.props.xAxis["categories"],
@@ -48,18 +49,7 @@ class Heatmap extends Component {
         opposite: true,
         lineColor: "rgb(32, 31, 31)",
       },
-      title: {
-        align: "left",
-        text: this.props.title,
-        style: {
-          color: "white",
-          "font-weight": 900,
-          "font-size": "1.45rem",
-          "font-family": "Open Sans",
-          "letter-spacing": "0.5px",
-        },
-        y: 20,
-      },
+      title: {text: null},
       credits: {enabled: false},
       colorAxis: {
         stops: [
@@ -71,11 +61,20 @@ class Heatmap extends Component {
         max: seriesMinMax.max,
       },
       legend: {
+        itemWidth: 200,
+        itemDistance: 10,
+        itemMarginBottom: 0,
+        padding: 5,
+        margin: 0,
+        itemStyle: {
+          fontSize: "8px",
+        },
+        symbolPadding: 0,
         align: 'right',
-        verticalAlign: 'top',
+        verticalAlign: 'bottom',
         floating: true,
-        y: 3,
-        x: -50,
+        y: 30,
+        x: -10,      
       },
       series: [this.props.series]
     });
@@ -83,12 +82,20 @@ class Heatmap extends Component {
   }
 
   componentWillReceiveProps(newProps) {
+
     if (typeof this.state.heatmap === 'undefined') {
       return;
     }
     if (!isEqual(newProps.series, this.props.series)) {
       const heatmap = this.state.heatmap;
       heatmap.series[0].update(newProps.series);
+    }
+
+    if (newProps.coordinates !== this.props.coordinates) {
+      const heatmap = this.state.heatmap;
+      heatmap.enabled = this.isLegendVisible(newProps);
+      heatmap.reflow();
+      heatmap.redraw(false);
     }
   }
 
@@ -101,9 +108,17 @@ class Heatmap extends Component {
     }
     return {min, max};
   }
+
+  isLegendVisible(props) {
+    return props.showLegend && (props.size === Size.LARGE || props.size === Size.XLARGE);
+  }
+
 }
 
 Heatmap.propTypes = {
+  size: PropTypes.oneOf(values(Size)).isRequired,
+  coordinates: PropTypes.object.isRequired,
+  showLegend: PropTypes.bool,
   series: PropTypes.object.isRequired,
   yAxis: PropTypes.object.isRequired,
   xAxis: PropTypes.object.isRequired,

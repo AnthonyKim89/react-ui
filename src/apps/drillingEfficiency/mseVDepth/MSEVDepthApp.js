@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
@@ -14,7 +14,23 @@ class MSEVDepthApp extends Component {
     return (
       <div className="c-de-mse-v-depth">
         {subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS) ?
-          <ObjectGraph series={this.getSeries()} inverted={true} xAxisLabelFormatter={this.formatYLabel()} /> :
+          <ObjectGraph  series={this.getSeries()} 
+                        size={this.props.size}
+                        coordinates={this.props.coordinates}
+                        yAxisTitle={{text:`Pressure (${this.props.convert.getUnitDisplay('pressure')})`, style: { color: "#fff" }}}
+                        xAxisTitle={{text:`Measure Depth (${this.props.convert.getUnitDisplay('length')})`, style: { color: "#fff" }}}
+                        inverted={true} 
+                        marginBottom={80}
+                        legend={{
+                          align: 'bottom',
+                          verticalAlign: 'bottom',
+                          layout: 'horizontal',
+                          itemStyle: {color: '#fff'},
+                          itemHoverStyle: {color: '#58c9c2'},
+                          enabled: true,
+                          y: 15
+                        }}
+                        xAxisLabelFormatter={this.formatYLabel()} /> :
           <LoadingIndicator />}
       </div>
     );
@@ -82,6 +98,8 @@ class MSEVDepthApp extends Component {
 
 MSEVDepthApp.propTypes = {
   graphColors: ImmutablePropTypes.map,
+  size: PropTypes.string.isRequired,
+  coordinates: PropTypes.object.isRequired,
 };
 
 export default MSEVDepthApp;
