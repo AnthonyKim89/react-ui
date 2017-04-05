@@ -1,12 +1,12 @@
 export const CATEGORY = 'hydraulics';
 export const NAME = 'minimumFlowRate';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'hydraulics.minimum-flow-rate'}
+  {provider: 'corva', collection: 'hydraulics.minimum-flow-rate'}
 ];
 export const METADATA = {
   title: 'Required Minimum Flow Rate',
   settingsTitle: 'Required Minimum Flow Rate',
-  subtitle: 'The flow rate required at each depth',
+  subtitle: 'The optimal flow rate required at each depth',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',
   publishedAt: '2016-07-01T00:00:00',
