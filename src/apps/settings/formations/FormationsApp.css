@@ -6,19 +6,12 @@
   height: 100%;
   overflow-y: scroll;
 
-  padding: 30px;
+  padding: 20px 30px;
 }
 
 .c-formations h4 {
+  margin-top: 0px;
   margin-bottom:0px;
-}
-
-.c-formations__formations-table tr:nth-child(even) {
-  background-color: rgb(41,41,41);
-}
-
-.c-formations__formations-table tbody tr:hover {
-  background-color: rgb(96,91,91);
 }
 
 .c-formations__formations-table th{

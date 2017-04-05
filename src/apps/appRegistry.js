@@ -41,6 +41,7 @@ import costs from './settings/costs';
 import map from './settings/map';
 import formations from './settings/formations';
 import crewsContact from './settings/crewsContact';
+import nptEvents from './settings/nptEvents';
 
 // CONTROL APPS
 import wellTimeline from './wellTimeline';
@@ -115,7 +116,8 @@ export const uiApps = Map({
       costs,
       map,
       formations,
-      crewsContact
+      crewsContact,
+      nptEvents
     })
   }),
   rigActivity: Map({

@@ -1,0 +1,54 @@
+.c-npt-item:nth-child(even) {
+  background-color: rgb(41,41,41);
+}
+
+.c-npt-item:hover {
+  background-color: rgb(96,91,91);
+}
+
+.c-npt-item .view-action {
+  display:none;
+}
+
+.c-npt-item:hover .view-action {
+  display: inline;  
+}
+
+.c-npt-item button {
+  margin-left: 10px;
+}
+
+ .c-npt-item .input-field{
+  margin-top: 0px;
+}
+
+.c-npt-item .input-field.col label{
+  left: 0;
+  width: 100%;
+}
+
+.c-npt-item .input-field.col label:after{
+  top:40px;
+}
+
+.c-npt-item td {
+  border-radius: 0px;
+  padding-top:12px;
+  padding-bottom:12px;
+  height:65px;
+}
+
+.c-npt-item__error-wrapper {
+  position: relative;
+}
+
+.c-npt-item__error-wrapper label {
+  position: absolute;
+  bottom: -6px;
+  color: red;
+  font-size: 15px;
+}
+
+.c-npt-item__error-wrapper input {
+  border-bottom: 2px solid #ff0000 !important;
+}
