@@ -4,6 +4,13 @@ import Slider from 'rc-slider';
 import format from 'date-fns/format';
 import isEqual from 'date-fns/is_equal';
 import parse from 'date-fns/parse';
+import { fromJS } from 'immutable';
+import numeral from 'numeral';
+
+import { Size } from '../../common/constants';
+import Chart from '../../common/Chart';
+import ChartSeries from '../../common/ChartSeries';
+import { SUPPORTED_CHART_SERIES } from './constants';
 
 import 'rc-slider/assets/index.css';
 
@@ -33,36 +40,89 @@ class WellTimelineScrollBar extends Component {
   }
 
   render() {
+    let series = this.getSeries();
     return (
       <div className="c-well-timeline-scroll-bar">
-        <button className="c-well-timeline-scroll-bar__arrow"
-                disabled={!this.isPossibleToJumpToPrevious()}
-                onClick={() => this.jumpToPrevious()}>
-          <span className="c-well-timeline-scroll-bar__arrow-left"></span>
-        </button>
-
-        <div className="c-well-timeline-scroll-bar__bar">
-            {this.renderLegend()}
-          <div className="c-well-timeline-scroll-bar__slider">
-            <TooltipSlider
-              min={0}
-              max={this.props.data.size}
-              value={this.state.value}
-              onChange={i => this.setState({value: i})}
-              onAfterChange={i => this.changeTime()}
-              tipFormatter={i => this.formatItem(i)}
-              tipTransitionName="rc-slider-tooltip-zoom-down"
-            />
-          </div>
+        <div className="c-well-timeline-scroll-bar__chart-container">
+          <Chart
+            xField="timestamp"
+            horizontal={true}
+            size={Size.MEDIUM}
+            widthCols={1}
+            plotBackgroundColor="rgb(69, 81, 84)"
+            hideXAxis={true}
+            showFirstYLabel={false}
+            showLastYLabel={false}
+            reserveYLabelSpace={false}
+            marginBottom={0}
+            marginLeft={20}
+            marginRight={20}
+            marginTop={0}
+            xAxisType="datetime"
+            tooltipValueSuffix={" " + this.props.convert.getUnitDisplay("length")}
+            yAxisLabelFormatter={this.yAxisLabelFormatter}>
+            {Object.keys(SUPPORTED_CHART_SERIES).map(field => (
+              <ChartSeries
+                key={field}
+                id={field}
+                yField={field}
+                data={series}
+                lineWidth={2}
+                title={SUPPORTED_CHART_SERIES[field].label}
+                color={SUPPORTED_CHART_SERIES[field].color} />
+            ))}
+          </Chart>
         </div>
+        <div className="c-well-timeline-scroll-bar__slider-container">
+          <button className="c-well-timeline-scroll-bar__arrow"
+                  disabled={!this.isPossibleToJumpToPrevious()}
+                  onClick={() => this.jumpToPrevious()}>
+            <span className="c-well-timeline-scroll-bar__arrow-left"></span>
+          </button>
 
-        <button className="c-well-timeline-scroll-bar__arrow"
-                disabled={!this.isPossibleToJumpToNext()}
-                onClick={() => this.jumpToNext()}>
-          <span className="c-well-timeline-scroll-bar__arrow-right"></span>
-        </button>
+          <div className="c-well-timeline-scroll-bar__bar">
+              {this.renderLegend(series)}
+            <div className="c-well-timeline-scroll-bar__slider">
+              <TooltipSlider
+                min={0}
+                max={this.props.data.size}
+                value={this.state.value}
+                onChange={i => this.setState({value: i})}
+                onAfterChange={i => this.changeTime()}
+                tipFormatter={i => this.formatItem(i)}
+                tipTransitionName="rc-slider-tooltip-zoom-down"
+              />
+            </div>
+          </div>
+
+          <button className="c-well-timeline-scroll-bar__arrow"
+                  disabled={!this.isPossibleToJumpToNext()}
+                  onClick={() => this.jumpToNext()}>
+            <span className="c-well-timeline-scroll-bar__arrow-right"></span>
+          </button>
+        </div>
       </div>
     );
+  }
+
+  yAxisLabelFormatter() {
+    return numeral(this.value).format('0a');
+  }
+
+  getSeries() {
+    let series = [];
+    this.props.data.valueSeq().forEach((value) => {
+      let point = {
+        timestamp: value.get('timestamp')*1000,
+        time: value.get('data').get('time')
+      };
+      Object.keys(SUPPORTED_CHART_SERIES).map(field => (
+        point[field] = this.props.convert.convertValue(value.get('data').get(field), SUPPORTED_CHART_SERIES[field].unitType, SUPPORTED_CHART_SERIES[field].unit)
+      ));
+      series.push(point);
+    });
+    console.log(series);
+    return fromJS(series);
   }
 
   formatItem(idx) {
@@ -118,8 +178,8 @@ class WellTimelineScrollBar extends Component {
     this.changeTime(this.findValue() + 1);
   }
 
-  renderLegend() {
-    let days = this.getLegendDays();
+  renderLegend(series) {
+    let days = this.getLegendDays(series);
     return (
       <div className="c-well-timeline-scroll-bar__legend">
         {days.map(day => (
@@ -131,10 +191,10 @@ class WellTimelineScrollBar extends Component {
     );
   }
 
-  getLegendDays() {
+  getLegendDays(series) {
     let days = [];
-    this.props.data.valueSeq().forEach((value) => {
-      let date = new Date(value.get('timestamp')*1000);
+    series.valueSeq().forEach((value) => {
+      let date = new Date(value.get('timestamp'));
       let day = date.getDate();
       if (!days.includes(day)) {
         days.push(day);

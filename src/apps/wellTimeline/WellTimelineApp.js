@@ -47,6 +47,7 @@ class WellTimelineApp extends Component {
           <WellTimelineScrollBar
             time={this.props.time}
             data={summaryData}
+            convert={this.props.convert}
             onChangeTime={t => this.updateParams(t)} />}
         {summaryData && latestWitsRecord &&
           <WellTimelineStatusBar
