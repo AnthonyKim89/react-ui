@@ -15,14 +15,14 @@ export function disconnect() {
 export const SUBSCRIBE_APP = 'SUBSCRIBE_APP';
 export function subscribeApp(appInstanceId, subscriptions, assetId, additionalParams = Map()) {
   return async dispatch => {
-    // Only subscribe to live data if we're not asked for a historical time point
-    if (!additionalParams.get('time')) {
-      for (const {provider, collection, event = '', params = Map()} of subscriptions) {
-        client.subscribe(appInstanceId, provider, collection, assetId, event, additionalParams.merge(params));
-      }
-    }
     for (const {provider, collection, event = '', params = Map()} of subscriptions) {
       const allParams = additionalParams.merge(params);
+
+      // Only subscribe to live data if we're not asked for a historical time point
+      if (!allParams.get('time') || allParams.get('alwaysSubscribe')) {
+        client.subscribe(appInstanceId, provider, collection, assetId, event, allParams);
+      }
+
       dispatch({type: SUBSCRIBE_APP, appInstanceId, provider, collection, assetId, event, params: allParams});
       const initialData = await api.getAppStorage(provider, collection, assetId, allParams);
       if (!initialData.isEmpty()) {
