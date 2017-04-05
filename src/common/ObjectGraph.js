@@ -1,6 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import Highcharts from 'highcharts';
 import { isEqual } from 'lodash';
+import { Size } from './constants';
+
 
 /*
   This graph expects that series' will be provided as an array of objects containing x/y and a label and/or color
@@ -26,44 +28,61 @@ class ObjectGraph extends Component {
   componentDidMount() {
     const graph = Highcharts.chart(this.container, {
       chart: {
-        type: 'line',
-        backgroundColor: 'rgb(37, 41, 41)',
+        type: this.props.chartType || 'line',
+        inverted: !this.props.horizontal,
+        backgroundColor: null,
+        zoomType: 'xy',
+        panning: true,
+        panKey: 'shift',
         plotBackgroundColor: 'rgb(42, 46, 46)',
-        inverted: this.props.inverted || false,
-        marginTop: 0,
-        marginRight: 0,
+        spacing: this.props.noSpacing ? [0, 0, 0, 0] : [10, 10, 15, 10],
+        marginBottom: this.props.marginBottom || null
+      },
+      plotOptions: {
+        series: {
+          turboThreshold: 5000
+        },
       },
       xAxis: {
-        title: {
-          text: ''
-        },
-        labels: {
-          formatter: this.props.xAxisLabelFormatter || null,
-          format: this.props.xAxisLabelFormat || "{value}",
-          useHTML: true,
-        },
-        gridLineWidth: 0,
+        title: this.isAxisLabelsVisible(this.props) ? this.props.xAxisTitle : {text:null},
+        gridLineWidth: this.props.gridLineWidth || 1,
+        gridLineColor: 'rgb(47, 51, 51)',
+        lineWidth: this.props.xAxisWidth || 0,
+        lineColor:  this.props.xAxisColor || '',
         tickWidth: 0,
-        lineWidth: 0,
-        showFirstLabel: false,
-        showLastLabel: false,
+        labels: {
+          enabled: this.isAxisLabelsVisible(this.props) && !this.props.hideXAxis,
+          autoRotation: false,
+          style: this.props.xLabelStyle || {color: '#fff'},
+        },
+
+        opposite: this.props.xAxisOpposite,
+        tickPositioner: this.props.xTickPositioner,
+        plotLines: this.props.xPlotLines,
       },
       yAxis: {
-        title: {
-          text: ''
-        },
+        title: this.props.yAxisTitle || {text: null},
+        gridLineWidth: this.props.gridLineWidth || 1,
+        gridLineColor: 'rgb(47, 51, 51)',
         labels: {
-          formatter: this.props.yAxisLabelFormatter || null,
-          format: this.props.yAxisLabelFormat || "{value}",
-          useHTML: true,
+          enabled: this.isAxisLabelsVisible(this.props) && !this.props.hideYAxis,
+          style:  this.props.yLabelStyle || {color: '#fff'},
         },
-        gridLineWidth: 0,
-        lineWidth: 0,
-        showFirstLabel: false,
-        showLastLabel: false,
+        opposite: this.props.yAxisOpposite,
+        min: null,
+        max: null,
+        lineWidth: this.props.yAxisWidth || 0,
+        lineColor:  this.props.yAxisColor || '',
+        tickPositioner: this.props.yTickPositioner,
+        plotLines: this.props.yPlotLines,
+        reversed: this.props.yAxisReversed || false
       },
-      legend: {
-        enabled: false
+      legend: this.props.legend || {
+        align: 'right',
+        verticalAlign: 'middle',
+        layout: 'vertical',
+        itemStyle: {color: '#fff'},
+        enabled: true,
       },
       title: {text: null},
       credits: {enabled: false},
@@ -77,20 +96,51 @@ class ObjectGraph extends Component {
       return;
     }
     const graph = this.state.graph;
-    let redraw = false;
+    let redraw = false, reflow = false;
+
     for (let i = 0; i < graph.series.length; i++) {
       if (!isEqual(newProps.series[i].data, this.props.series[i].data)) {
         graph.series[i].update(newProps.series[i], false);
         redraw = true;
       }
     }
+
+    if (newProps.coordinates !== this.props.coordinates) {
+      const legendVisible = this.isLegendVisible(newProps);
+      for (let i = 0 ; i < graph.series.length ; i++) {
+        graph.series[i].update({showInLegend: legendVisible}, false);
+      }
+      graph.xAxis[0].update({
+        labels: {enabled: this.isAxisLabelsVisible(newProps) && !newProps.hideXAxis}
+      }, false);
+      graph.yAxis[0].update({
+        labels: {enabled: this.isAxisLabelsVisible(newProps) && !newProps.hideYAxis}
+      }, false);
+      reflow = true;
+      redraw = true;
+    } else if (newProps.widthCols !== this.props.widthCols) {
+      reflow = true;
+    }
+
+    if (reflow) { graph.reflow(); }
     if (redraw) {
       graph.redraw(false);
     }
   }
+
+
+  isLegendVisible(props) {
+    return props.showLegend && (props.size === Size.XLARGE);
+  }
+
+  isAxisLabelsVisible(props) {    
+    return props.size !== Size.SMALL;
+  }
 }
 
 ObjectGraph.propTypes = {
+  size: PropTypes.string.isRequired,
+  coordinates: PropTypes.object.isRequired,
   series: PropTypes.array.isRequired,
   xAxisLabelFormat: PropTypes.string,
   yAxisLabelFormat: PropTypes.string,

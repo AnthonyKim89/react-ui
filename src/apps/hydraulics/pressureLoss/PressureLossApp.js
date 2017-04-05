@@ -34,6 +34,10 @@ class PressureLossApp extends Component {
     );
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextProps.data !== this.props.data || nextProps.size !== this.props.size);
+  }
+
   get data() {
     return subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS);
   }

@@ -178,6 +178,7 @@ AppContainer.propTypes = {
   isActionsDisabled: PropTypes.bool,
   isTitlesDisabled: PropTypes.bool,
   size: PropTypes.string.isRequired,
+  coordinates: PropTypes.object.isRequired,
   maximized: PropTypes.bool,
   appSettings: ImmutablePropTypes.map.isRequired,
   pageParams: ImmutablePropTypes.map.isRequired,

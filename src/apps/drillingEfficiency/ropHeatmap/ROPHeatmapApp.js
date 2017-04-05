@@ -17,8 +17,9 @@ class ROPHeatmapApp extends Component {
       rawData = rawData.get("data");
       return (
         <div className="c-de-ropheatmap">
-          <Heatmap title="ROP Heatmap"
-                   series={this.getSeries(rawData)}
+          <Heatmap series={this.getSeries(rawData)}
+                    size={this.props.size}
+                    coordinates={this.props.coordinates}
                    xAxis={this.getAxis(rawData.get("x_axis"), 'columns')}
                    yAxis={this.getAxis(rawData.get("y_axis"), 'rows', 'mass', 'lb')} />
         </div>
@@ -26,6 +27,10 @@ class ROPHeatmapApp extends Component {
     }
 
     return <div className="c-de-ropheatmap"><LoadingIndicator /></div>;
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+   return (nextProps.data !== this.props.data || nextProps.size !== this.props.size);
   }
 
   getAxis(axis, axisType, unitType=null, unit=null) {
@@ -80,6 +85,8 @@ class ROPHeatmapApp extends Component {
 }
 
 ROPHeatmapApp.propTypes = {
+  size: PropTypes.string.isRequired,
+  coordinates: PropTypes.object.isRequired,
   data: ImmutablePropTypes.map,
   title: PropTypes.string
 };

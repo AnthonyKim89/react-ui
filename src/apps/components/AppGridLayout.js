@@ -138,6 +138,7 @@ class AppGridLayout extends Component {
                          hasAppFooter={hasAppFooter}
                          isNative={this.props.isNative}
                          size={size}
+                         coordinates={coordinates}
                          maximized={maximized}
                          appSettings={settings}
                          pageParams={this.getPageParams()}
@@ -155,6 +156,7 @@ class AppGridLayout extends Component {
         {...this.getPageParams().toJS()}
         {...settings.toObject()}
         size={size}
+        coordinates={coordinates}
         widthCols={coordinates.get('w')}
         convert={this.props.convert}
         onAssetModified={asset => this.props.onAssetModified(asset)}

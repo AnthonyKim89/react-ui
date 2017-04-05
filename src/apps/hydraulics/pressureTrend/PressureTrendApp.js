@@ -23,7 +23,7 @@ class PressureTrendApp extends Component {
         {this.getData() ?
           <Chart
             xField="measured_depth"
-            xAxisTitle={{text:"Measured Depth - " + this.props.convert.getUnitDisplay('length')}}
+            xAxisTitle={{text:`Measured Depth (${this.props.convert.getUnitDisplay('length')})`, style: { color: "#fff" }}}
             xAxisWidth="2"
             xAxisColor="white"
             horizontal={true}
@@ -39,7 +39,7 @@ class PressureTrendApp extends Component {
                 data={data}
                 yField="value"
                 yAxis={yAxis}
-                yAxisTitle={{text:yAxisTitle}}
+                yAxisTitle={{text:yAxisTitle, style: { color: "#fff" }}}
                 yAxisOpposite={yAxisOpposite}
                 color={this.getSeriesColor(type)} />
             )).toJS()}
@@ -47,6 +47,10 @@ class PressureTrendApp extends Component {
           <LoadingIndicator />}
       </div>
     );
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextProps.data !== this.props.data || nextProps.size !== this.props.size);
   }
 
   getData() {
@@ -66,7 +70,7 @@ class PressureTrendApp extends Component {
         type: type,
         yAxis: 0,
         yAxisOpposite: false,
-        yAxisTitle: "Mud Weight - " + this.props.convert.getUnitDisplay('pressure'),
+        yAxisTitle: `Mud Weight (${this.props.convert.getUnitDisplay('pressure')})`,
         data: List(this.getSeriesData('mud_weight', 'pressure', 'psi'))
     };
   }
@@ -79,7 +83,7 @@ class PressureTrendApp extends Component {
         type: type,
         yAxis: 0,
         yAxisOpposite: false,
-        yAxisTitle: "Mud Weight - " + this.props.convert.getUnitDisplay('pressure'),
+        yAxisTitle: `Mud Weight (${this.props.convert.getUnitDisplay('pressure')})`,
         data: List(this.getSeriesData('equivalent_circulating_density', 'pressure', 'psi'))
     };
   }
@@ -92,7 +96,7 @@ class PressureTrendApp extends Component {
         type: type,
         yAxis: 1,
         yAxisOpposite: true,
-        yAxisTitle: "Pressure - " + this.props.convert.getUnitDisplay('pressure'),
+        yAxisTitle: `Pressure (${this.props.convert.getUnitDisplay('pressure')})`,
         data: List(this.getSeriesData('standpipe_pressure', 'pressure', 'psi'))
     };
   }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
@@ -20,6 +20,7 @@ class DPFounder extends Component {
             xField="dp"
             chartType="scatter"
             size={this.props.size}
+            coordinates={this.props.coordinates}
             widthCols={this.props.widthCols}
             gridLineWidth="0"
             xAxisWidth={2}
@@ -62,6 +63,10 @@ class DPFounder extends Component {
       </div>
     );
   }
+  
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextProps.data !== this.props.data || nextProps.size !== this.props.size);
+  }
 
   getSeries() {
     return Object.keys(SUPPORTED_CHART_SERIES)
@@ -92,6 +97,7 @@ class DPFounder extends Component {
 
 DPFounder.propTypes = {
   data: ImmutablePropTypes.map,
+  coordinates: PropTypes.object.isRequired,
 };
 
 export default DPFounder;

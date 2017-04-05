@@ -4,9 +4,9 @@ export const SUBSCRIPTIONS = [
   {provider: 'corva', collection: 'drilling-efficiency.rop-heatmap'}
 ];
 export const METADATA = {
-  title: '',
+  title: 'ROP Heatmap',
   settingsTitle: 'ROP Heatmap',
-  subtitle: '',
+  subtitle: 'Optimal run paramaters for ROP',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v0.1',
   publishedAt: '2017-02-23T00:00:00'
