@@ -17,15 +17,21 @@ class MSEHeatmapApp extends Component {
       rawData = rawData.get("data");
       return (
         <div className="c-de-mseheatmap">
-          <Heatmap title="MSE Heatmap"
-                   series={this.getSeries(rawData)}
-                   xAxis={this.getAxis(rawData.get("x_axis"), 'columns')}
-                   yAxis={this.getAxis(rawData.get("y_axis"), 'rows', 'mass', 'lb')} />
+          <Heatmap  series={this.getSeries(rawData)}
+                    size={this.props.size}
+                    coordinates={this.props.coordinates}
+                    appSettings={this.props.appSettings}
+                    xAxis={this.getAxis(rawData.get("x_axis"), 'columns')}
+                    yAxis={this.getAxis(rawData.get("y_axis"), 'rows', 'mass', 'lb')} />
         </div>
       );
     }
 
     return <div className="c-de-mseheatmap"><LoadingIndicator /></div>;
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextProps.data !== this.props.data || nextProps.size !== this.props.size);
   }
 
   getAxis(axis, axisType, unitType=null, unit=null) {
@@ -80,6 +86,9 @@ class MSEHeatmapApp extends Component {
 }
 
 MSEHeatmapApp.propTypes = {
+  size: PropTypes.string.isRequired,
+  coordinates: PropTypes.object.isRequired,
+  appSettings: PropTypes.object,
   data: ImmutablePropTypes.map,
   title: PropTypes.string
 };

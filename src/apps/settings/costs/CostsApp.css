@@ -6,19 +6,12 @@
   height: 100%;
   overflow-y: scroll;
 
-  padding: 30px;
+  padding: 20px 30px;
 }
 
 .c-costs h4 {
   margin-bottom:0px;
-}
-
-.c-costs__costs-table tbody tr:nth-child(even) {
-  background-color: rgb(41,41,41);
-}
-
-.c-costs__costs-table tbody tr:hover {
-  background-color: rgb(96,91,91);
+  margin-top: 0px;
 }
 
 .c-costs__date-header, .c-costs__cost-header, .c-costs__action-header {

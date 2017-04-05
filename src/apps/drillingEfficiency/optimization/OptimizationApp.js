@@ -91,6 +91,10 @@ class OptimizationApp extends Component {
     );
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextProps.data !== this.props.data || nextProps.size !== this.props.size);
+  }
+
   getGaugeBands() {
     return {
       red:    {from: 0,  to: 10},

@@ -1,12 +1,12 @@
 export const CATEGORY = 'settings';
-export const NAME = 'formations';
+export const NAME = 'nptEvents';
 export const SUBSCRIPTIONS = [];
 export const METADATA = {
-  title: 'Formations',
-  settingsTitle: 'Formations',
-  subtitle: 'Geological formation layers',
-  recordProvider: 'corva',
-  recordCollection:'data.formations',
+  title: 'NPT Events',
+  settingsTitle: 'NPT Events',
+  subtitle: 'Non-Productive(NPT) events - equipment/critical failures and delays',
+  recordDevKey: 'corva',
+  recordCollection:'data.nptEvents',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',
   publishedAt: '2017-03-29T00:00:00',

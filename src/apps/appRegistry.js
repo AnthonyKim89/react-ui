@@ -41,6 +41,7 @@ import costs from './settings/costs';
 import map from './settings/map';
 import formations from './settings/formations';
 import crewsContact from './settings/crewsContact';
+import nptEvents from './settings/nptEvents';
 
 // CONTROL APPS
 import wellTimeline from './wellTimeline';
@@ -49,6 +50,7 @@ import wellTimeline from './wellTimeline';
 import raRigActivity from './rigActivity/rigActivity';
 
 // HYDRAULICS APPS
+import hydraulicsMinimumFlowRate from './hydraulics/minimumFlowRate';
 import hydraulicsOverview from './hydraulics/overview';
 import hydraulicsPressureLoss from './hydraulics/pressureLoss';
 import hydraulicsPressureTrend from './hydraulics/pressureTrend';
@@ -114,7 +116,8 @@ export const uiApps = Map({
       costs,
       map,
       formations,
-      crewsContact
+      crewsContact,
+      nptEvents
     })
   }),
   rigActivity: Map({
@@ -128,6 +131,7 @@ export const uiApps = Map({
     title: 'Hydraulics',
     subtitle: '',
     appTypes: Map({
+      minimumFlowRate: hydraulicsMinimumFlowRate,
       overview: hydraulicsOverview,
       pressureLoss: hydraulicsPressureLoss,
       pressureTrend: hydraulicsPressureTrend,
