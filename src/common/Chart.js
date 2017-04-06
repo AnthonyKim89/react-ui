@@ -22,8 +22,19 @@ class Chart extends Component {
         zoomType: 'xy',
         panning: true,
         panKey: 'shift',
-        plotBackgroundColor: 'rgb(42, 46, 46)',
-        spacing: this.props.noSpacing ? [0, 0, 0, 0] : [10, 10, 15, 10]
+        plotBackgroundColor: this.props.plotBackgroundColor || 'rgb(42, 46, 46)',
+        spacing: this.props.noSpacing ? [0, 0, 0, 0] : [10, 10, 15, 10],
+        marginBottom: this.props.marginBottom,
+        marginLeft: this.props.marginLeft,
+        marginRight: this.props.marginRight,
+        marginTop: this.props.marginTop,
+      },
+      tooltip: {
+        formatter: this.props.tooltipFormatter,
+        pointFormat: this.props.tooltipPointFormat || `<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y}</b><br/>`,
+        pointFormatter: this.props.tooltipPointFormatter,
+        valuePrefix: this.props.tooltipValuePrefix,
+        valueSuffix: this.props.tooltipValueSuffix,
       },
       plotOptions: {
         series: {
@@ -41,12 +52,15 @@ class Chart extends Component {
           enabled: this.isAxisLabelsVisible(this.props) && !this.props.hideXAxis,
           autoRotation: false,
           style: this.props.xLabelStyle || {color: '#fff'},
-          formatter: this.getXAxisLabelFormatter()
+          formatter: this.getXAxisLabelFormatter(),
+          reserveSpace: this.props.reserveXLabelSpace
         },
-
+        showFirstLabel: this.props.showFirstXLabel,
+        showLastLabel: this.props.showLastXLabel,
         opposite: this.props.xAxisOpposite,
         tickPositioner: this.props.xTickPositioner,
         plotLines: this.props.xPlotLines,
+        type: this.props.xAxisType
       },
       yAxis: this.getYAxes(series, this.props),
       title: {text: null},
@@ -194,37 +208,43 @@ class Chart extends Component {
   getYAxis(series, props) {
     return {
       id: series.yAxis,
-      title: series.yAxisTitle || this.props.yAxisTitle || {text: null},
+      title: series.yAxisTitle || props.yAxisTitle || {text: null},
       visible: this.isAxisLabelsVisible(props),
-      gridLineWidth: this.props.gridLineWidth || 1,
+      gridLineWidth: props.gridLineWidth || 1,
       gridLineColor: 'rgb(47, 51, 51)',
       labels: {
         enabled: this.isAxisLabelsVisible(props) && !props.hideYAxis,
-        style:  this.props.yLabelStyle || {color: '#fff'},
+        style:  props.yLabelStyle || {color: '#fff'},
+        formatter: props.yAxisLabelFormatter,
+        useHTML: true,
+        reserveSpace: props.reserveYLabelSpace
       },
       opposite: series.yAxisOpposite ? series.yAxisOpposite : props.yAxisOpposite,
       min: series.minValue || null,
       max: series.maxValue || null,
       lineWidth: props.yAxisWidth || 0,
       lineColor:  props.yAxisColor || '',
-      tickPositioner: this.props.yTickPositioner,
-      plotLines: this.props.yPlotLines,
-      reversed: props.yAxisReversed || false
+      tickPositioner: props.yTickPositioner,
+      plotLines: props.yPlotLines,
+      reversed: props.yAxisReversed || false,
+      showFirstLabel: props.showFirstYLabel,
+      showLastLabel: props.showLastYLabel,
+      type: this.props.yAxisType
     };
   }
 
   getXAxisLabelFormatter() {
     const formatter = this.props.xAxisLabelFormatter;
     return formatter && function() {
-      return formatter(this.value, this.isFirst, this.isLast);
-    };
+        return formatter(this.value, this.isFirst, this.isLast);
+      };
   }
 
   isLegendVisible(props) {
     return props.showLegend && (props.size === Size.XLARGE);
   }
 
-  isAxisLabelsVisible(props) {    
+  isAxisLabelsVisible(props) {
     return props.size !== Size.SMALL;
   }
 }

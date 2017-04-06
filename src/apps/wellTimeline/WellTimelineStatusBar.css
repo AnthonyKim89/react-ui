@@ -8,13 +8,22 @@
 
   font-size: 12px;
 
-  background: #cecbcb;
-  color: black;
+  background-color: rgb(111, 111, 111);
+  color: #eee;
+  border-top: 1px solid #eee;
+  cursor: pointer;
+}
+.c-well-timeline-status-bar:hover {
+  background-color: #568281;
 }
 
 .c-well-timeline-status-bar__space {
   display: inline-block;
   width: 5px;
+}
+
+.c-well-timeline-status-bar__space--sm {
+  width: 10px;
 }
 
 .c-well-timeline-status-bar__space--md {
@@ -28,6 +37,14 @@
 .c-well-timeline-status-bar__stats-box {
   line-height: 42px;
   font-size: 12px;
+}
+
+.c-well-timeline-status-bar__stats-bit {
+  width: 90px;
+}
+
+.c-well-timeline-status-bar__stats-hole {
+  width: 100px;
 }
 
 .c-well-timeline-status-bar__string_mark {
@@ -50,11 +67,22 @@
 
 /* Colors for other statuses can be added here */
 .c-well-timeline-status-bar__status_mark--live {
-  background-color: #6cf81f;
+  color: #6cf81f;
+}
+.c-well-timeline-status-bar__status_mark--rewind {
+  color: #f8ee00;
+}
+.c-well-timeline-status-bar__status_mark {
+  font-size: 3rem;
+  line-height: .275rem;
+  margin-right: 11px;
 }
 
 .c-well-timeline-status-bar__title {
   font-family: 'orgonboldregular';
+}
+.c-well-timeline-status-bar__parent-title {
+  margin-right: 20px;
 }
 .c-well-timeline-status-bar__value {
   margin-left: 8px;
@@ -63,8 +91,9 @@
 .c-well-timeline-status-bar__timeline-toggle {
   line-height: 42px;
   font-size: 16px;
-  appearance: none;
   border: 0;
   background: transparent;
-  cursor: pointer;
+  width: 150px;
+  left: calc(50% - 75px);
+  position: absolute;
 }

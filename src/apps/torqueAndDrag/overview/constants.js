@@ -12,7 +12,7 @@ export const METADATA = {
   publishedAt: '2016-07-01T00:00:00'
 };
 export const SUPPORTED_ASSET_TYPES = ['rig'];
-export const INITIAL_SIZE = {w: 2, h: 10};
+export const INITIAL_SIZE = {w: 4, h: 13};
 export const SUPPORTED_CHART_SERIES = {
   drag_trend: {label: 'Drag Trend', defaultColor: '#f7e47a'}
 };

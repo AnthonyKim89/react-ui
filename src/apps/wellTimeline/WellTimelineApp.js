@@ -47,14 +47,16 @@ class WellTimelineApp extends Component {
           <WellTimelineScrollBar
             time={this.props.time}
             data={summaryData}
+            convert={this.props.convert}
             onChangeTime={t => this.updateParams(t)} />}
         {summaryData && latestWitsRecord &&
           <WellTimelineStatusBar
             isLive={!this.props.time}
             asset={this.props.asset}
             data={summaryData}
+            convert={this.props.convert}
             lastWitsRecord={latestWitsRecord}
-            isScrollBarVisible={this.state.scrollBarVisible}
+            scrollBarVisible={this.state.scrollBarVisible}
             onToggleDrillScrollBar={() => this.toggleScrollBar()} />}
       </div>
     );

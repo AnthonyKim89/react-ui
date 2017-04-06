@@ -8,19 +8,20 @@ import './WellTimelineStatusBar.css';
 class WellTimelineStatusBar extends Component {
   render() {
     return (
-      <div className="c-well-timeline-status-bar">
-        {this.renderSpace('md')}
-        {this.renderMode()}
-        {this.renderSpace('md')}
-        {this.renderBitDepth()}
-        {this.renderSpace('md')}
-        {this.renderHoleDepth()}
-        {this.renderSpace('md')}
-        {this.renderStatus()}
-        {this.renderSpace('lg')}
-        {this.renderTimelineToggle()}
-        {this.renderSpace('md', 'u-pull-right')}
-        {this.renderWellName()}
+      <div>
+        <div className="c-well-timeline-status-bar" onClick={() => this.props.onToggleDrillScrollBar(!this.props.scrollBarVisible)}>
+          {this.renderSpace('md')}
+          {this.renderMode()}
+          {this.renderSpace('md')}
+          {this.renderBitDepth()}
+          {this.renderSpace('sm')}
+          {this.renderHoleDepth()}
+          {this.renderSpace('md')}
+          {this.renderStatus()}
+          {this.renderTimelineToggle()}
+          {this.renderSpace('md', 'u-pull-right')}
+          {this.renderWellName()}
+        </div>
       </div>
     );
   }
@@ -40,13 +41,14 @@ class WellTimelineStatusBar extends Component {
       return null;
     }
     return (
-      <div className="u-inline-block c-well-timeline-status-bar__stats-box">
+      <div className="u-inline-block c-well-timeline-status-bar__stats-box c-well-timeline-status-bar__stats-bit">
         <span className="c-well-timeline-status-bar__title">
           Bit:
         </span>
         <span className="c-well-timeline-status-bar__value">
-          {this.props.lastWitsRecord.get('bit_depth')}
-        <span className="u-half-opacity"> ft</span></span>
+          {this.props.convert.convertValue(this.props.lastWitsRecord.get('data').get('bit_depth'), 'length', 'ft').fixFloat(2)}
+          <span className="u-half-opacity"> {this.props.convert.getUnitDisplay('length')}</span>
+        </span>
       </div>
     );
   }
@@ -56,40 +58,43 @@ class WellTimelineStatusBar extends Component {
       return null;
     }
     return (
-      <div className="u-inline-block c-well-timeline-status-bar__stats-box">
+      <div className="u-inline-block c-well-timeline-status-bar__stats-box c-well-timeline-status-bar__stats-hole">
         <span className="c-well-timeline-status-bar__title">
           Hole:
         </span>
         <span className="c-well-timeline-status-bar__value">
-          {this.props.lastWitsRecord.get('hole_depth')}
-        <span className="u-half-opacity"> ft</span></span>
+          {this.props.convert.convertValue(this.props.lastWitsRecord.get('data').get('hole_depth'), 'length', 'ft').fixFloat(2)}
+          <span className="u-half-opacity"> {this.props.convert.getUnitDisplay('length')}</span>
+        </span>
       </div>
     );
   }
 
   renderTimelineToggle() {
     return (
-      <button className="u-inline-block c-well-timeline-status-bar__timeline-toggle"
-              onClick={() => this.props.onToggleDrillScrollBar(!this.props.scrollBarVisible)}>
+      <div className="u-inline-block c-well-timeline-status-bar__timeline-toggle">
         <span className="c-well-timeline-status-bar__title">
           Drilling Timeline
         </span>
-        {this.renderSpace('md')}
+        {this.renderSpace('sm')}
         {this.props.scrollBarVisible ?
           <i className="fa fa-chevron-down"></i> :
           <i className="fa fa-chevron-up"></i>}
-      </button>
+      </div>
     );
   }
 
   renderWellName() {
     return (
       <div className="u-inline-block c-well-timeline-status-bar__stats-box u-pull-right">
-        <span className="c-well-timeline-status-bar__title">
-          {this.props.asset.get('name')}
-          {this.props.asset.get('parent') &&
-            <span> ({this.props.asset.getIn(['parent', 'name'])})</span>}
-        </span>
+        {this.props.asset.get('parent') &&
+        <span className="c-well-timeline-status-bar__parent-title">
+          {this.props.isLive ?
+            <span className="c-well-timeline-status-bar__status_mark c-well-timeline-status-bar__status_mark--live">&bull;</span> :
+            <span className="c-well-timeline-status-bar__status_mark c-well-timeline-status-bar__status_mark--rewind">&bull;</span>}
+          {this.props.asset.getIn(['parent', 'name'])}
+        </span>}
+        <span className="c-well-timeline-status-bar__title">{this.props.asset.get('name')}</span>
       </div>
     );
   }
@@ -120,7 +125,7 @@ WellTimelineStatusBar.propTypes = {
   data: ImmutablePropTypes.list.isRequired,
   asset: ImmutablePropTypes.map.isRequired,
   lastWitsRecord: ImmutablePropTypes.map,
-  isScrollBarVisible: React.PropTypes.bool,
+  scrollBarVisible: React.PropTypes.bool,
   onToggleDrillScrollBar: React.PropTypes.func.isRequired
 };
 
