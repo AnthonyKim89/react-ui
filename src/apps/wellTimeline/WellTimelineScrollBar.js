@@ -121,7 +121,6 @@ class WellTimelineScrollBar extends Component {
       ));
       series.push(point);
     });
-    console.log(series);
     return fromJS(series);
   }
 
