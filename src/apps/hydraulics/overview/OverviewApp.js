@@ -12,7 +12,9 @@ import './OverviewApp.css';
 class OverviewApp extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
-    return JSON.stringify(nextProps) !== JSON.stringify(this.props);
+    var dataChange = (nextProps.data !== this.props.data);
+    var coordinatesChange = (nextProps.coordinates !== this.props.coordinates);
+    return (dataChange || coordinatesChange);
   }
 
   render() {

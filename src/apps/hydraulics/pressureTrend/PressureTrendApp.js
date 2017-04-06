@@ -50,7 +50,10 @@ class PressureTrendApp extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return JSON.stringify(nextProps) !== JSON.stringify(this.props);
+    var dataChange = (nextProps.data !== this.props.data);
+    var coordinatesChange = (nextProps.coordinates !== this.props.coordinates);
+    var colorsChange = (nextProps.graphColors !== this.props.graphColors);
+    return (dataChange || colorsChange || coordinatesChange);
   }
 
   getData() {
