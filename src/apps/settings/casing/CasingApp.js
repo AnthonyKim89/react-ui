@@ -57,8 +57,8 @@ class CasingApp extends Component {
           <table className="c-casing__casing-table">
             <thead>
               <tr>
-                <th className="c-casing__id-header"> I.D(in) </th>
-                <th className="c-casing__od-header"> O.D(in) </th>
+                <th className="c-casing__id-header"> I.D({this.props.convert.getUnitDisplay('length')}) </th>
+                <th className="c-casing__od-header"> O.D({this.props.convert.getUnitDisplay('length')}) </th>
                 <th className="c-casing__td-header hide-on-med-and-down"> Top Depth </th>
                 <th className="c-casing__bd-header hide-on-med-and-down"> Bottom Depth </th>
                 <th className="c-casing__length-header"> Length </th>

@@ -13,7 +13,7 @@ class CasingSummary extends Component {
           <tbody>
             <tr>
               <td className="c-casing-summary__layers">
-                Layers
+                Intervals
                 <h4>{this.props.records.size}</h4>
               </td>              
               <td className="c-casing-summary__action">

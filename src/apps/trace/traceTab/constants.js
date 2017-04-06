@@ -7,8 +7,8 @@ export const SUBSCRIPTIONS = [
   {provider: 'corva', collection: 'wits-summary-30s', params: {initial: 240, behavior: "turnover"}}
 ];
 export const METADATA = {
-  settingsTitle: 'Trace Tab',
-  subtitle: '',
+  settingsTitle: 'Trace Curves',
+  subtitle: 'Trace curves visualization',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',
   publishedAt: '2016-07-01T00:00:00',
