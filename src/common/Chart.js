@@ -167,7 +167,8 @@ class Chart extends Component {
       color,
       marker: marker || {
         enabled: type === 'scatter',
-        radius: 4
+        radius: 3,
+        symbol: "circle"
       },
       lineWidth: lineWidth || (type === 'line' ? 3 : 0),
       animation: false,
