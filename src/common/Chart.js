@@ -169,9 +169,9 @@ class Chart extends Component {
       data: data.reduce((result, point) => {
         const x = point.get(props.xField);
         const y = yField ? point.get(yField) : null;
-        const pointColor = point.get('color') || color;
+        const color = point.get('color');
         const pointId = `${id}-${x}-${y}`;
-        result.push({id: pointId, x, y, pointColor});
+        result.push({id: pointId, x, y, color});
         return result;
       }, []),
       yAxis: props.multiAxis ? yAxis : 0,
