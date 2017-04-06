@@ -35,7 +35,7 @@ class PressureLossApp extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return (nextProps.data !== this.props.data || nextProps.size !== this.props.size);
+    return JSON.stringify(nextProps) !== JSON.stringify(this.props);
   }
 
   get data() {
