@@ -24,6 +24,7 @@ class Convert {
     this.units = {
       imperial: {
         length: 'ft',
+        shortLength: 'in',
         mass: 'lb',
         volume: 'gal',
         pressure: 'psi',
@@ -37,6 +38,7 @@ class Convert {
       },
       metric: {
         length: 'm',
+        shortLength: 'cm',
         mass: 'kg',
         volume: 'l',
         pressure: 'kPa',
@@ -53,6 +55,7 @@ class Convert {
 
     this.units.custom = Object.assign(this.units.custom, {
       length: this._lookupCustomUserUnitPreference('length'),
+      shortLength: this._lookupCustomUserUnitPreference('shortLength'),
       mass: this._lookupCustomUserUnitPreference('mass'),
       volume: this._lookupCustomUserUnitPreference('volume'),
       pressure: this._lookupCustomUserUnitPreference('pressure'),
