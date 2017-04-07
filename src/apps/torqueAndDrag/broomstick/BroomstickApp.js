@@ -26,6 +26,7 @@ class BroomstickApp extends Component {
             xAxisWidth="2"
             xAxisColor="white"
             size={this.props.size}
+            coordinates={this.props.coordinates}
             widthCols={this.props.widthCols}>
             {this.getSeries().map(({renderType, title, type, data}, idx) => (
               <ChartSeries
@@ -42,6 +43,13 @@ class BroomstickApp extends Component {
           <LoadingIndicator />}
       </div>
     );
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    var dataChange = (nextProps.data !== this.props.data);
+    var coordinatesChange = (nextProps.coordinates !== this.props.coordinates);
+    var colorsChange = (nextProps.graphColors !== this.props.graphColors);
+    return (dataChange || colorsChange || coordinatesChange);
   }
 
   getData() {

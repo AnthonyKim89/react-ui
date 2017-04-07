@@ -18,6 +18,7 @@ class AxialLoadApp extends Component {
           <Chart
             xField="measured_depth"
             size={this.props.size}
+            coordinates={this.props.coordinates}
             widthCols={this.props.widthCols}>
             {this.getSeries().map(({renderType, title, field, data}, idx) => (
               <ChartSeries
@@ -34,6 +35,13 @@ class AxialLoadApp extends Component {
           <LoadingIndicator />}
       </div>
     );
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    var dataChange = (nextProps.data !== this.props.data);
+    var coordinatesChange = (nextProps.coordinates !== this.props.coordinates);
+    var colorsChange = (nextProps.graphColors !== this.props.graphColors);
+    return (dataChange || colorsChange || coordinatesChange);
   }
 
   getSeries() {
