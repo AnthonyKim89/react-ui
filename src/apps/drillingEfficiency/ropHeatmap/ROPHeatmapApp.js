@@ -30,7 +30,9 @@ class ROPHeatmapApp extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-   return (nextProps.data !== this.props.data || nextProps.size !== this.props.size);
+    var dataChange = (nextProps.data !== this.props.data);
+    var coordinatesChange = (nextProps.coordinates !== this.props.coordinates);
+    return (dataChange || coordinatesChange);
   }
 
   getAxis(axis, axisType, unitType=null, unit=null) {
