@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import {fromJS} from 'immutable';
+
 class TFOChart extends Component {
 
   constructor(props) {
@@ -20,7 +22,7 @@ class TFOChart extends Component {
   }
   
   shouldComponentUpdate(nextProps,nextState) {        
-    if (JSON.stringify(this.props.data) !== JSON.stringify(nextProps.data)) {
+    if (!this.props.data.equals(nextProps.data)) {
       this.draw();
     }
     return false;
@@ -51,7 +53,7 @@ class TFOChart extends Component {
   }
 
   checkDimensionChange() {
-    if (JSON.stringify(this.canvasDimension) !== JSON.stringify(this.prevCanvasDimension)) {
+    if (!fromJS(this.canvasDimension).equals(fromJS(this.prevCanvasDimension))) {
       this.prevCanvasDimension = Object.assign({}, this.canvasDimension);
       return true;
     }
@@ -59,7 +61,7 @@ class TFOChart extends Component {
   }
 
   checkPositionChange() {
-   if (JSON.stringify(this.canvasPosition) !== JSON.stringify(this.prevCanvasPosition)) {
+    if (!fromJS(this.canvasPosition).equals(fromJS(this.prevCanvasPosition))) {
       this.prevCanvasPosition = Object.assign({}, this.canvasPosition);
       return true;
     }
@@ -224,7 +226,7 @@ class TFOChart extends Component {
         y.push(yn);
       }
       else {
-        let _c = size* (item.timestamp - data[size].timestamp) / (data[0].timestamp - data[size].timestamp);
+        let _c = size* (item.measured_depth - data[size].measured_depth) / (data[0].measured_depth - data[size].measured_depth);
         let _x = _c/size * (_xn-_x0) + _x0;
         let _y = _c/size * (_yn-_y0) + _y0;
         x.push(_x);
