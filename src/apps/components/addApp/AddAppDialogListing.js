@@ -65,7 +65,7 @@ class AddAppDialogListing extends Component {
   
   renderAppType(appType) {
     return <Col s={1} key={appType.constants.NAME} className="c-add-app-dialog-listing__app-type-list-item">
-      <AppIcon onClick={() => this.props.onSelectType(appType)} title={appType.constants.METADATA.title}>
+      <AppIcon onClick={() => this.props.onSelectType(appType)} title={appType.constants.METADATA.title || appType.constants.METADATA.settingsTitle}>
       </AppIcon>
       <div className="c-add-app-dialog-listing__app-type-title">
         {appType.constants.METADATA.settingsTitle}

@@ -22,4 +22,6 @@
   pointer-events: none;
   font-size: 1.5rem;
   font-family: orgonboldregular;
+  vertical-align: baseline;
+  text-anchor: middle;
 }

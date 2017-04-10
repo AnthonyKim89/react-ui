@@ -18,7 +18,7 @@ class AddAppDialogDetails extends Component {
   render() {
     return <div className="c-add-app-dialog-details">
       {this.renderBreadcrumbs()}
-      <AppIcon title={this.props.appType.constants.METADATA.title} />
+      <AppIcon title={this.props.appType.constants.METADATA.title || this.props.appType.constants.METADATA.settingsTitle}/>
       {this.renderAppDetails()}
       <h4>Settings</h4>
       {this.renderAppActions()}
