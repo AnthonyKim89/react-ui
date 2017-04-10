@@ -5,6 +5,11 @@ import * as auth from '../auth';
 import pages from '../pages';
 import subscriptions from '../subscriptions';
 
+export const LOG_IN = 'login/LOG_IN';
+function loggingIn() {
+  return {type: LOG_IN};
+}
+
 export const LOGGED_IN = 'login/LOGGED_IN';
 function loggedIn(user) {
   return {type: LOGGED_IN, user};
@@ -20,9 +25,14 @@ function loginFailed() {
   return {type: LOGIN_FAILED};
 }
 
-export const LOG_IN = 'login/LOG_IN';
+export const API_FAILURE = 'login/API_FAILURE';
+function loginAPIFailure() {
+  return {type: API_FAILURE};
+}
+
 export function logIn(email, password) {
   return async dispatch => {
+    dispatch(loggingIn());
     try {
       await api.logIn(email, password);
       const user = await api.getCurrentUser();
@@ -30,10 +40,10 @@ export function logIn(email, password) {
       dispatch(push('/'));
       dispatch(pages.actions.start(false));
     } catch (e) {
-      if (e.status === 401) {
+      if (e.isAuthenticationProblem()) {
         dispatch(loginFailed());
       } else {
-        throw e;
+        dispatch(loginAPIFailure());
       }
     }
   };
@@ -55,8 +65,14 @@ export function loginCheck() {
     if (qry.jwt) {
       auth.setToken(qry.jwt);
     }
-    const user = await api.getCurrentUser();
-    dispatch(loggedIn(user));
-    dispatch(pages.actions.start(!!qry.native));
+    try {
+      const user = await api.getCurrentUser();
+      dispatch(loggedIn(user));
+      dispatch(pages.actions.start(!!qry.native));
+    } catch (e) {
+      if (!e.isAuthenticationProblem()) {
+        dispatch(loginAPIFailure());
+      }
+    }
   };
 }
