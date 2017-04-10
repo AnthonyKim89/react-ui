@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import moment from 'moment';
 import { Button, Icon, Row, Col } from 'react-materialize';
 import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -17,9 +18,9 @@ class AddAppDialogDetails extends Component {
   render() {
     return <div className="c-add-app-dialog-details">
       {this.renderBreadcrumbs()}
-      <AppIcon />
+      <AppIcon title={this.props.appType.constants.METADATA.title} />
       {this.renderAppDetails()}
-      <h4>Add App</h4>
+      <h4>Settings</h4>
       {this.renderAppActions()}
       <Button onClick={() => this.props.onAppAdd(this.props.appType, this.state.settings)} disabled={!this.isAllRequiredSettingsFilled()}>
         Add
@@ -29,9 +30,7 @@ class AddAppDialogDetails extends Component {
 
   renderBreadcrumbs() {
     return <h4 className="c-add-app-dialog-details__breadcrumbs">
-      <span>Apps</span>
-      <Icon className="c-add-app-dialog--divider">keyboard_arrow_right</Icon>
-      <span>{this.props.appTypeCategory}</span>
+      <Button className="c-add-app-dialog-details__breadcrumbs-apps" onClick={this.props.onViewAllApps}>Apps</Button>
       <Icon className="c-add-app-dialog-details__breadcrumbs-divider">keyboard_arrow_right</Icon>
       <span className="c-add-app-dialog-details__breadcrumbs-app-type">{this.props.appType.constants.METADATA.settingsTitle}</span>
     </h4>;
@@ -52,6 +51,14 @@ class AddAppDialogDetails extends Component {
         </Col>
         <Col>
           {title}
+        </Col>
+      </Row>
+      <Row className="c-add-app-dialog-details__metadata">
+        <Col s={1} className="c-add-app-dialog-details__metadata__title">
+          Category
+        </Col>
+        <Col>
+          {this.props.appTypeCategory}
         </Col>
       </Row>
       <Row className="c-add-app-dialog-details__metadata">
@@ -83,7 +90,7 @@ class AddAppDialogDetails extends Component {
           Published
         </Col>
         <Col>
-          {publishedAt}
+          {moment(publishedAt).format("MMM Do YYYY")}
         </Col>
       </Row>
     </div>;
@@ -126,7 +133,8 @@ AddAppDialogDetails.propTypes = {
   appType: PropTypes.object.isRequired,
   commonSettingsEditors: ImmutablePropTypes.list,
   appTypeCategory: PropTypes.string.isRequired,
-  onAppAdd: PropTypes.func.isRequired
+  onAppAdd: PropTypes.func.isRequired,
+  onViewAllApps: PropTypes.func.isRequired
 };
 
 export default AddAppDialogDetails;

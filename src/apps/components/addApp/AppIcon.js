@@ -16,13 +16,22 @@ class AppIcon extends Component {
         cx="50"
         cy="42.5"
         r="22" />
+      <text x="43" y="50" className="c-app-icon__name">
+        {this.getTitleAbbreviation()}
+      </text>
     </svg>;
+  }
+
+  getTitleAbbreviation() {
+    var title = this.props.title || this.props.settingsTitle;
+    return title ? title.charAt(0).toUpperCase()  : '';
   }
 
 }
 
 AppIcon.propTypes = {
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  title: PropTypes.string,
 };
 
 export default AppIcon;
