@@ -29,6 +29,11 @@
 	border-bottom: 1px solid #fff;
 }
 
+.c-di-surveys tr span {
+	opacity: 0.5;
+	font-size: 0.8rem;
+}
+
 .c-di-surveys tr:last-child{
 	border-bottom: none;
 }
