@@ -59,7 +59,7 @@ class AppSettingsDialog extends Component {
     // Only render when the state changes. shouldComponentUpdate will be called 
     // frequently when the parent app receives new subscription data. But, we 
     // don't want to update the settings page.
-    if(nextState !== this.state) {
+    if(!nextState.equals(this.state)) {
       return true;
     }
     return false;
