@@ -61,6 +61,7 @@ class AppTabLayout extends Component {
     const category = app.get('category');
     const name = app.get('name');
     const id = app.get('id');
+    const coordinates = app.get('coordinates');
     const size = common.constants.Size.XLARGE;
     const settings = app.get('settings');
     const appType = appRegistry.uiApps.getIn([category, 'appTypes', name]);
@@ -73,6 +74,7 @@ class AppTabLayout extends Component {
                          isActionsDisabled={true}
                          isTitlesDisabled={true}
                          size={size}
+                         coordinates={coordinates}
                          appSettings={settings}
                          pageParams={this.getPageParams()}
                          commonSettingsEditors={this.props.commonSettingsEditors}

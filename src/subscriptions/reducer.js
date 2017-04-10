@@ -23,11 +23,11 @@ function processNewSubscriptionData(state, action) {
       // Custom data processing for various subscription behaviors.
       if (behavior === "turnover") {
         // If the turnover behavior is set, we slice off the number of rows we're going to add, and add the new rows
-        currentData = currentData.slice(0, -action.data.count());
-        action.data = currentData.unshift(...action.data);
+        currentData = currentData.slice(action.data.count());
+        action.data = currentData.push(...action.data);
       } else if (behavior === "accumulate") {
         // If the accumulate behavior is set, we add the new rows to the data and keep the old data
-        action.data = currentData.unshift(...action.data);
+        action.data = currentData.push(...action.data);
       }
     }
   }

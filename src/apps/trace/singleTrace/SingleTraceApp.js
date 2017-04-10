@@ -123,7 +123,7 @@ class SingleTraceApp extends Component {
   }
 
   getTraceSummary(props) {
-    return subscriptions.selectors.getSubData(props.data, summarySubscription);
+    return subscriptions.selectors.getSubData(props.data, summarySubscription, false);
   }
 
   getSeriesColor() {
