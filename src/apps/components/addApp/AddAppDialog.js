@@ -48,6 +48,16 @@ class AddAppDialog extends Component {
     this.setState({selectedAppType: selectedAppType});
     ReactDOM.findDOMNode(this).scrollIntoView();
   }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    // Only render when the state changes. shouldComponentUpdate will be called 
+    // frequently when the parent app receives new subscription data. But, we 
+    // don't want to update the settings page.
+    if(nextState !== this.state) {
+      return true;
+    }
+    return false;
+  }
 }
 
 AddAppDialog.propTypes = {

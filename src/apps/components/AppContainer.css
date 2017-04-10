@@ -40,8 +40,9 @@
 
 .c-app-container h4.c-app-container__title {
   font-weight: 900;
-  margin: 0 0 5px 3px;
+  margin: 0 0 1px 3px;
   font-size: 1.45rem;
+  line-height: 1.9rem;  
   font-family: 'Open Sans';
   letter-spacing: 0.5px;
   text-overflow: ellipsis;
