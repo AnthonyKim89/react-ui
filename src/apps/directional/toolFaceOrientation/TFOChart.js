@@ -105,6 +105,22 @@ class TFOChart extends Component {
     this.drawText(ctx, "90L", 12, cx-r4-20, cy+3);
     this.drawText(ctx, "90R", 12, cx+r4+3, cy+3);
 
+
+    //draw scale legend in bottom right;
+    let scaleString = this.getScaleString();
+    if (scaleString) {
+      let ex = cx*2;
+      let ey = cy*2;
+      let fontSize = 12;
+      let textWidth = this.getTextWidth(ctx,scaleString,fontSize);
+      let distance = r1- r0;
+      let someSpace = 5;
+
+      this.drawText(ctx, "|" , fontSize, ex-(distance+textWidth+someSpace), ey-15);
+      this.drawText(ctx, "|" , fontSize, ex-(textWidth+someSpace), ey-15);
+      this.drawText(ctx, scaleString , fontSize, ex-(textWidth), ey-14);
+    }
+
     // latest tfo data;
     let latestTFO = this.getLatestTFO();
     if (latestTFO) {      
@@ -161,6 +177,11 @@ class TFOChart extends Component {
     ctx.fillText(text,x,y);
   }
 
+  getTextWidth(ctx,txt,fontSize) {
+    ctx.font= fontSize+ "px sans-serif";
+    return ctx.measureText(txt).width;
+  }
+
   getCanvasCtx() {
     return this.canvas.getContext('2d');
   }
@@ -180,6 +201,15 @@ class TFOChart extends Component {
     }
   }
 
+  getScaleString() {
+    let data = this.getTFORawData();
+    if (data.length>0) {
+      let scale = (data[0].measured_depth - data[data.length-1].measured_depth) / 4;
+      let scaleString = `  ${this.props.convert.convertValue(scale, 'length', 'ft').fixFloat(2)} ${this.props.convert.getUnitDisplay('length')}`;
+      return scaleString;
+    }
+  }
+
   sin(degree) {
     return Math.sin(degree/180*Math.PI);
   }
@@ -188,6 +218,12 @@ class TFOChart extends Component {
     return Math.cos(degree/180*Math.PI);
   }
 
+  /**
+   * calculates the position (x,y) of the blue circles based on measured_depth and tfo.
+   * x0 = r0* sin(tfo-0), y0 = r0*cos(tfo-0) where r0 is radius of innermost white circle
+   * xn = rn * sin(tfo-n), yn = rn*cos(tfo-n) where rn is radius of outermost white circle
+   * (x1,y1) ~ (xn-1,yn-1) are calculated by using linear equation of measured_depth.
+  */
   calcPosition() {
     
     let data = this.getTFORawData();

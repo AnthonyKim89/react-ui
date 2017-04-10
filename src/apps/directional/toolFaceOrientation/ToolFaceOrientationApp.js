@@ -8,18 +8,14 @@ import subscriptions from '../../../subscriptions';
 import './ToolFaceOrientationApp.css';
 import TFOChart from './TFOChart';
 
-class ToolFaceOrientationApp extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-  
+class ToolFaceOrientationApp extends Component {  
   render() {    
     return (      
       <div id="c-di-toolface">
         { subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS) ?
           <TFOChart
             container="c-di-toolface"
+            convert={this.props.convert}
             data={subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(["data","slides"])}
           /> :
           <LoadingIndicator/>
