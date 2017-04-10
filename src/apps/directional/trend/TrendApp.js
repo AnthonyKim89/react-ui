@@ -60,7 +60,7 @@ class TrendApp extends Component {
       tfo: {yAxis:1, data: tfo},
       tvd_actual: {yAxis:0, data: tvdActual},
       tvd_plan: {yAxis:0,  data: tvdPlan},
-      drilling_window: {yAxis:0, data: drillingWindow, lineWidth:30,zIndex:-999},
+      drilling_window: {yAxis:0, data: drillingWindow, lineWidth:30, zIndex:-999},
       dls: {yAxis:2, data: dls},
     };
 

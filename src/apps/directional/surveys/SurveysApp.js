@@ -17,12 +17,9 @@ class SurveysApp extends Component {
       );
     }
 
-    let data;
+    let data = json.getIn(["data","actual"]).slice(0,5);
     if (this.props.maximize) {
       data = json.getIn(["data","actual"]);
-    }
-    else {
-      data = json.getIn(["data","actual"]).slice(0,5);
     }
 
     return (
