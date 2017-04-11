@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Button, Icon } from 'react-materialize';
 import { Map } from 'immutable';
+import { Platform } from 'react-native';
 
 import AppContainer from './AppContainer';
 import AddAppDialog from './addApp/AddAppDialog';
@@ -48,7 +49,7 @@ class AppGridLayout extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {addAppDialogOpen: false};
+    this.state = {addAppDialogOpen: false, isTouchDevice: (Platform.OS === 'android' || Platform.OS === 'ios')};
   }
 
   async componentDidMount() {
@@ -63,6 +64,8 @@ class AppGridLayout extends Component {
                     cols={GRID_COLUMN_SIZES}
                     rowHeight={GRID_ROW_HEIGHT}
                     measureBeforeMount={true}
+                    isDraggable={!this.state.isTouchDevice}
+                    isResizable={!this.state.isTouchDevice}
                     onResizeStop={(...args) => this.onResizeStop(...args)}
                     onDragStop={(...args) => this.onDragStop(...args)}
                     draggableCancel={NON_DRAGGABLE_ELEMENT_SELECTOR}>
