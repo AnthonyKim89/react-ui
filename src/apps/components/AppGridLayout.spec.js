@@ -32,6 +32,7 @@ it('renders a fallback when mismatching app registry state exists', () => {
       onAppAdd={noop}
       onAppRemove={noop}
       onAssetModified={noop}
+      convert={noop}
       isNative={true}
       location={location}
     />);
