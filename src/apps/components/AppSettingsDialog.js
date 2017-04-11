@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Row, Col, Button, Icon } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { isEqual } from 'lodash';
 
 import './AppSettingsDialog.css';
 
@@ -59,10 +60,7 @@ class AppSettingsDialog extends Component {
     // Only render when the state changes. shouldComponentUpdate will be called 
     // frequently when the parent app receives new subscription data. But, we 
     // don't want to update the settings page.
-    if(!nextState.equals(this.state)) {
-      return true;
-    }
-    return false;
+    return !isEqual(nextState, this.state);
   }
 
 }
