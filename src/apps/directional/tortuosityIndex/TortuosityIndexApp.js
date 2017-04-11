@@ -20,6 +20,7 @@ class TortuosityIndexApp extends Component {
             xField="measured_depth"
             chartType="line"
             size={this.props.size}
+            coordinates={this.props.coordinates}
             widthCols={this.props.widthCols}
             gridLineWidth="1"
             xAxisWidth={2}
@@ -55,6 +56,10 @@ class TortuosityIndexApp extends Component {
           <LoadingIndicator />}
       </div>
     );
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !(nextProps.data.equals(this.props.data) && nextProps.coordinates.equals(this.props.coordinates) && nextProps.graphColors.equals(this.props.graphColors));
   }
 
   getSeries() {
