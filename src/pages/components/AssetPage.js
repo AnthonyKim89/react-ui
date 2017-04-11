@@ -82,7 +82,7 @@ class AssetPage extends Component {
                      location={this.props.location}
                      environment={DASHBOARD_ENV}
                      isNative={this.props.isNative} />}
-        {this.props.currentAssetPageTab && this.props.currentAssetPageTab.get('settings').get('show_control_apps', true) && this.renderControlApps()}
+        {!this.props.isNative && this.props.currentAssetPageTab && this.props.currentAssetPageTab.get('settings').get('show_control_apps', true) && this.renderControlApps()}
       </div>
     );
   }
