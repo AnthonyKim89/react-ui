@@ -3,6 +3,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { find } from 'lodash';
 import numeral from 'numeral';
 import { distanceInWordsToNow } from 'date-fns';
+import Immutable from 'immutable';
 
 import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
 import { SUPPORTED_TRACES } from '../constants';
@@ -19,7 +20,10 @@ const [ latestSubscription, summarySubscription ] = SUBSCRIPTIONS;
 class MultiTraceApp extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
-    return this.getTraceSummary(this.props) !== this.getTraceSummary(nextProps);
+    if (Immutable.Iterable.isIterable(this.props.data)) {
+      return !this.props.data.equals(nextProps.data);
+    }
+    return false;
   }
 
   getSummaryData() {
@@ -150,7 +154,7 @@ class MultiTraceApp extends Component {
   }
 
   getTraceSummary(props) {
-    return subscriptions.selectors.getSubData(props.data, summarySubscription);
+    return subscriptions.selectors.getSubData(props.data, summarySubscription, false);
   }
 
   getSeriesColor(trace) {

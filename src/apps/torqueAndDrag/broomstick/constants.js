@@ -4,9 +4,9 @@ export const SUBSCRIPTIONS = [
   {provider: 'corva', collection: 'torque-and-drag.broomstick'}
 ];
 export const METADATA = {
-  title: 'Trend Broomstick',
-  settingsTitle: 'Trend Broomstick',
-  subtitle: 'Visual trend identification for hole problems or poor cleaning',
+  title: 'Hookload Trend Broomstick',
+  settingsTitle: 'Hookload Trend Broomstick',
+  subtitle: 'Visual hookload trend identification for hole problems or poor cleaning',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',
   publishedAt: '2016-07-01T00:00:00',

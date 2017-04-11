@@ -1,8 +1,32 @@
+.c-add-app-dialog-details__breadcrumbs {
+  margin: -20px -20px 30px -20px;
+  padding: 30px 20px 30px 20px;
+  background: #1d1d1d;
+}
+
 .c-add-app-dialog-details__breadcrumbs-divider {
   margin: 0 10px;
 }
 .c-add-app-dialog-details__breadcrumbs-app-type {
   font-family: orgonboldregular;
+}
+
+.c-add-app-dialog-details__breadcrumbs .c-add-app-dialog-details__breadcrumbs-apps {
+  font-family: orgonlightregular;
+  padding: 0px;
+  margin-left: 10px;
+  background-color: transparent;
+  border-width: 0px;
+  box-shadow: none;
+  text-transform: none;
+}
+
+.c-add-app-dialog-details__breadcrumbs .c-add-app-dialog-details__breadcrumbs-apps:hover {
+  background-color: transparent;
+  border-width: 0px;
+  box-shadow: none;
+  text-transform: none;
+  text-decoration: underline;
 }
 
 .c-add-app-dialog-details__section {

@@ -6,30 +6,23 @@ import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
 import './ToolFaceOrientationApp.css';
+import TFOChart from './TFOChart';
 
-
-class ToolFaceOrientationApp extends Component {
-  render() {
-    return (
-      <div className="c-di-toolface">
-        {this.getSubscriptionData() ?
-          this.renderData() :
-          <LoadingIndicator />}
+class ToolFaceOrientationApp extends Component {  
+  render() {    
+    return (      
+      <div id="c-di-toolface">
+        { subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS) ?
+          <TFOChart
+            container="c-di-toolface"
+            convert={this.props.convert}
+            data={subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(["data","slides"])}
+          /> :
+          <LoadingIndicator/>
+        }
       </div>
     );
   } 
-
-  renderData() {
-    const data = this.getSubscriptionData().get('data');
-    return (
-      <div className="c-di-toolface">
-        <div className="gaps"></div>
-        <div className="c-di-toolface-last-tfo">
-          {data.get('slides').last().get("tfo")} <span>°</span>
-        </div>
-      </div>
-    );
-  }
 
   getSubscriptionData() {
     return subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS);
@@ -40,5 +33,6 @@ ToolFaceOrientationApp.propTypes = {
   data: ImmutablePropTypes.map,
   title: PropTypes.string,
 };
+
 
 export default ToolFaceOrientationApp;

@@ -59,10 +59,11 @@
 }
 
 .c-login__failure {
-  margin: 0 0 1em 0;
+  margin: 1em 0 0 0;
   padding: 1em;
   background: salmon;
   border: 1px solid red;
+  text-align: center;
 }
 
 .c-login button {
@@ -91,4 +92,14 @@
 .c-login input:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s;
   -webkit-text-fill-color: white;
+}
+
+.c-login .progress {
+  margin: -4px 0 0 0;
+  background-color: transparent;
+  z-index: 1000;
+}
+
+.c-login .progress .indeterminate {
+  background-color: rgb(2, 205, 177);
 }
