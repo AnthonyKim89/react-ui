@@ -18,6 +18,7 @@ class TorqueApp extends Component {
           <Chart
             xField="measured_depth"
             size={this.props.size}
+            coordinates={this.props.coordinates}
             widthCols={this.props.widthCols}>
             {this.getSeries().map(({renderType, title, field, data}, idx) => (
               <ChartSeries
@@ -34,6 +35,10 @@ class TorqueApp extends Component {
           <LoadingIndicator />}
       </div>
     );
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !(nextProps.data.equals(this.props.data) && nextProps.coordinates.equals(this.props.coordinates) && nextProps.graphColors.equals(this.props.graphColors));
   }
 
   getSeries() {

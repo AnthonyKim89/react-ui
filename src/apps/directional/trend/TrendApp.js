@@ -17,6 +17,7 @@ class TrendApp extends Component {
         {subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS) ?
           <TrendChart
             convert={this.props.convert}
+            coordinates={this.props.coordinates}
             series={this.getSeries()}
             xAxisTitle={'Measured Depth ('+this.props.convert.getUnitDisplay('length')+')'}
             yAxes={this.getYAxes()}
@@ -24,6 +25,10 @@ class TrendApp extends Component {
         <LoadingIndicator/> }
       </div>
     );
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !(nextProps.data.equals(this.props.data) && nextProps.coordinates.equals(this.props.coordinates) && nextProps.graphColors.equals(this.props.graphColors));
   }
 
   getYAxes() {
