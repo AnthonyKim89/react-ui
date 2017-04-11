@@ -109,11 +109,13 @@ class AppContainer extends Component {
                     to={{pathname: this.props.location.pathname, query: {maximize: this.props.id}}}
                     title="Full screen"
                     onClick={() => nativeMessages.notifyAppMaximized()}>
+                <Icon>launch</Icon>
               </Link>}
             {(!this.props.isNative || this.props.maximized) &&
               <button className="c-app-container__action c-app-container__action--settings"
                       title="Settings"
                       onClick={() => this.openSettingsDialog()}>
+                <Icon>settings</Icon>
               </button>}
           </div>}
         <Modal
