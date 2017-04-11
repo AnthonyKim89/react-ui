@@ -70,7 +70,10 @@ export function loginCheck() {
       dispatch(loggedIn(user));
       dispatch(pages.actions.start(!!qry.native));
     } catch (e) {
+      dispatch(push('/login'));
+      // If it IS an authentication problem, then they just need to log in.
       if (!e.isAuthenticationProblem()) {
+        // otherwise display API error on the login page.
         dispatch(loginAPIFailure());
       }
     }
