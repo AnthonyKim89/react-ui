@@ -40,7 +40,7 @@ class WellTimelineApp extends Component {
 
   render() {
     let latestWitsRecord = subscriptions.selectors.getSubData(this.props.data, latestSubscription);
-    let summaryData = subscriptions.selectors.getSubData(this.props.data, summarySubscription);
+    let summaryData = subscriptions.selectors.getSubData(this.props.data, summarySubscription, false);
     return (
       <div className="c-well-timeline">
         {summaryData && this.state.scrollBarVisible &&

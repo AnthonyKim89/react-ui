@@ -17,12 +17,9 @@ class SlideSheetApp extends Component {
       );
     }
 
-    let data;
+    let data = json.getIn(["data","intervals"]).slice(0,5);
     if (this.props.maximize) {
       data = json.getIn(["data","intervals"]);
-    }
-    else {
-      data = json.getIn(["data","intervals"]).slice(0,5);
     }
 
     return (

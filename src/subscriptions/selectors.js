@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import { identity } from 'lodash';
 import { NAME } from './constants';
+import { List } from 'immutable';
 
 const stateSelector = state => state[NAME];
 
@@ -10,15 +11,25 @@ export const appData = createSelector(
 );
 
 
-export function firstSubData(data, [firstSub]) {
-  return getSubData(data, firstSub);
+export function firstSubData(data, [firstSub], latestItemOnly=true) {
+  let subData = getSubData(data, firstSub);
+
+  if (latestItemOnly && List.isList(subData)) {
+    subData = subData.last();
+  }
+
+  return subData;
 }
 
-export function getSubData(data, {provider, collection, event = ''}) {
-  return data && data.getIn([provider, collection, event]);
+export function getSubData(data, {provider, collection, event = ''}, latestItemOnly=true) {
+  let subData = data && data.getIn([provider, collection, event]);
+
+  if (latestItemOnly && List.isList(subData)) {
+    subData = subData.last();
+  }
+
+  return subData;
 }
-
-
 
 /**
  * Given all the data stored for an app, find the timestamp of the latest data
