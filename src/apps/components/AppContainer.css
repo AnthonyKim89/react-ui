@@ -123,6 +123,7 @@
 .c-app-container__action i {
   margin-left: -5px;
   margin-top: -5px;
+  font-size: 1.3rem;
 }
 .c-app-container__action--maximize {
   background-color: transparent;
@@ -133,6 +134,7 @@
 }
 .c-app-container__action--settings {
   background-color: transparent;
+  margin-right: -5px;
 }
 .c-app-container__action--settings:hover {
   color: rgb(0, 207, 197);
