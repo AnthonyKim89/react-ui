@@ -7,7 +7,7 @@ export const SUBSCRIPTIONS = [
 export const METADATA = {
   title: 'Drilling Recommendations',
   settingsTitle: 'Optimization',
-  subtitle: 'Satistical calculation of drilling recommendations',
+  subtitle: 'Statistical calculation of drilling recommendations',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v0.1',
   publishedAt: '2017-03-7T00:00:00'

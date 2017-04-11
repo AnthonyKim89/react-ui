@@ -1,6 +1,10 @@
+
 .c-add-app-dialog-listing__header {
+  margin: -20px -20px 20px -20px;
+  padding: 20px 20px 0px 20px;
   display: flex;
   justify-content: space-between;
+  background: #1d1d1d;
 }
 
 .c-add-app-dialog-listing__title {
@@ -51,4 +55,6 @@
 .c-add-app-dialog-listing__app-type-list-item {
   text-align: center;
   margin-left: 0 !important;
+  min-width: 150px;
+  width: 150px;
 }

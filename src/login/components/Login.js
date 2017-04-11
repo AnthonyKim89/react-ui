@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import { Input, Button } from 'react-materialize';
 
 import { logIn } from '../actions';
-import { loginFailure } from '../selectors';
+import { loginFailure, loggingIn, apiFailure } from '../selectors';
 
 import './Login.css';
 
@@ -20,8 +20,6 @@ class Login extends Component {
     return <div className="c-login"><div className="c-login-background-gradient"><div className="c-login-box">
       <h1 className="c-login__brand">Corva</h1>
       <div className="c-login__divider">Sign In with Email</div>
-      {this.props.loginFailure &&
-        <div className="c-login__failure">Invalid email and/or password</div>}
       <form className="c-login__form"
             onSubmit={e => this.doLogin(e)}>
         <Input type="email"
@@ -38,6 +36,13 @@ class Login extends Component {
                onChange={e => this.setPassword(e)} />
         <Button type="submit" waves="light"
                 disabled={!this.isLoginValid()}>Sign In</Button>
+        {this.props.loggingIn && <div className="progress">
+          <div className="indeterminate"></div>
+        </div>}
+        {this.props.loginFailure &&
+          <div className="c-login__failure">Invalid Email and/or Password</div>}
+        {this.props.apiFailure &&
+          <div className="c-login__failure">Unable to Connect to API Server</div>}
       </form>
       <div className="c-login__divider"></div>
     </div></div></div>;
@@ -66,7 +71,9 @@ class Login extends Component {
 
 export default connect(
   createStructuredSelector({
-    loginFailure
+    loginFailure,
+    loggingIn,
+    apiFailure
   }),
   {logIn}
 )(Login);

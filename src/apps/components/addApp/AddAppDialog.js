@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Button, Icon } from 'react-materialize';
 
@@ -21,10 +22,11 @@ class AddAppDialog extends Component {
           appType={this.state.selectedAppType}
           appTypeCategory={this.getSelectedAppTypeCategory()}
           commonSettingsEditors={this.props.commonSettingsEditors}
-          onAppAdd={this.props.onAppAdd} /> :
+          onAppAdd={this.props.onAppAdd}
+          onViewAllApps={() => this.showAppList()} /> :
         <AddAppDialogListing
           appTypes={this.props.appTypes}
-          onSelectType={selectedAppType => this.setState({selectedAppType})} />}
+          onSelectType={selectedAppType => this.showAppDetails(selectedAppType)} />}
       <Button className="c-add-app-dialog__close-button" onClick={this.props.onClose}>
         <Icon>close</Icon> <span>Cancel</span>
       </Button>
@@ -35,6 +37,16 @@ class AddAppDialog extends Component {
     const cat = this.props.appTypes
       .findEntry((v, k) => v.get('appTypes').includes(this.state.selectedAppType));
     return cat[1].get('title');
+  }
+
+  showAppList() {
+    this.setState({selectedAppType: null});
+    ReactDOM.findDOMNode(this).scrollIntoView();
+  }
+
+  showAppDetails(selectedAppType) {
+    this.setState({selectedAppType: selectedAppType});
+    ReactDOM.findDOMNode(this).scrollIntoView();
   }
 }
 
