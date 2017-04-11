@@ -35,10 +35,7 @@ class PressureLossApp extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    var dataChange = (nextProps.data !== this.props.data);
-    var coordinatesChange = (nextProps.coordinates !== this.props.coordinates);
-    var colorsChange = (nextProps.graphColors !== this.props.graphColors);
-    return (dataChange || colorsChange || coordinatesChange);
+    return !(nextProps.data.equals(this.props.data) && nextProps.coordinates.equals(this.props.coordinates) && nextProps.graphColors.equals(this.props.graphColors));
   }
 
   get data() {

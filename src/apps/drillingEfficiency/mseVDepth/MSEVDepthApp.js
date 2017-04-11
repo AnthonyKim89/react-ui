@@ -37,12 +37,7 @@ class MSEVDepthApp extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    var dataChange = (nextProps.data !== this.props.data);
-    var coordinatesChange = (nextProps.coordinates !== this.props.coordinates);
-    // This component is acting weird and only pushes the graphColor when it's changed.
-    var colorsChange = ((nextProps.graphColors || 0) !== (this.props.graphColors || 0));
-    console.log(colorsChange);
-    return (dataChange || colorsChange || coordinatesChange);
+    return !(nextProps.data.equals(this.props.data) && nextProps.coordinates.equals(this.props.coordinates) && nextProps.graphColors.equals(this.props.graphColors));
   }
 
   formatYLabel() {

@@ -81,9 +81,7 @@ class OverviewApp extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    var dataChange = (nextProps.data !== this.props.data);
-    var coordinatesChange = (nextProps.coordinates !== this.props.coordinates);
-    return (dataChange || coordinatesChange);
+    return !(nextProps.data.equals(this.props.data) && nextProps.coordinates.equals(this.props.coordinates));
   }
 
   yTickPositioner () {
