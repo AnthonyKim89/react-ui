@@ -8,8 +8,7 @@ class TraceTimePeriodSettingEditor extends Component {
   render() {
     return (
       <Input type='select' label="Select" value={this.props.currentValue || DEFAULT_TIME_PERIOD } onChange={e => this.onChange(e)}>
-        <option value={undefined}>
-        </option>
+        { this.renderLabel() }
         {SUPPORTED_TIME_PERIODS.map(({period, label}) =>
           <option value={period} key={period}>
             {label}
@@ -19,6 +18,12 @@ class TraceTimePeriodSettingEditor extends Component {
     );
   }
 
+  renderLabel() {
+    return this.props.isLabelVisible ? 
+    <option value="" disabled defaultValue="true">{this.props.label}</option>
+    : "";
+  }
+
   onChange(event) {
     const n = event.target.value && parseFloat(event.target.value);
     this.props.onChange(n);
@@ -26,9 +31,16 @@ class TraceTimePeriodSettingEditor extends Component {
 
 }
 
+TraceTimePeriodSettingEditor.defaultProps = {
+  label: "Choose Time Window",
+  isLabelVisible: true,
+};
+
 TraceTimePeriodSettingEditor.propTypes = {
   currentValue: PropTypes.number,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  label: PropTypes.string,
+  isLabelVisible: PropTypes.bool
 };
 
 export default TraceTimePeriodSettingEditor;
