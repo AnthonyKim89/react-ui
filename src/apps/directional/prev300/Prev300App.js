@@ -21,7 +21,6 @@ class Prev300App extends Component {
             horizontal={true}
             xField="vertical_section"
             size={this.props.size}
-            coordinates={this.props.coordinates}
             widthCols={this.props.widthCols}
             gridLineWidth="1"
             xAxisWidth={2}
@@ -59,10 +58,6 @@ class Prev300App extends Component {
           <LoadingIndicator />}
       </div>
     );
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return !(nextProps.data.equals(this.props.data) && nextProps.coordinates.equals(this.props.coordinates) && nextProps.graphColors.equals(this.props.graphColors));
   }
 
   getSeries() {

@@ -93,7 +93,7 @@ class Chart extends Component {
       }, false);
       reflow = true;
       redraw = true;
-    } else if (newProps.widthCols !== this.props.widthCols || (this.props.coordinates && (newProps.coordinates !== this.props.coordinates))) {
+    } else if (newProps.widthCols !== this.props.widthCols) {
       reflow = true;
     }
     redraw = this.diffPatchSeries(newProps) || redraw;
@@ -255,7 +255,6 @@ Chart.defaultProps = {
 
 Chart.propTypes = {
   size: PropTypes.oneOf(values(Size)).isRequired,
-  coordinates: PropTypes.object,
   widthCols: PropTypes.number.isRequired,
   xField: PropTypes.string,
   horizontal: PropTypes.bool,

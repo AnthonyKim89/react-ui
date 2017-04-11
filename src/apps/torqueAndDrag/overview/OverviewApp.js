@@ -40,7 +40,6 @@ class OverviewApp extends Component {
                          chartType="column"
                          xField="time"
                          size={this.props.size}
-                         coordinates={this.props.coordinates}
                          widthCols={this.props.widthCols}
                          hideXAxis={true}
                          alignYTicks={false}
@@ -78,10 +77,6 @@ class OverviewApp extends Component {
           <LoadingIndicator />}
       </div>
     );
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return !(nextProps.data.equals(this.props.data) && nextProps.coordinates.equals(this.props.coordinates));
   }
 
   yTickPositioner () {

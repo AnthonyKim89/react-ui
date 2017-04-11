@@ -31,7 +31,7 @@ class MSEHeatmapApp extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !(nextProps.data.equals(this.props.data) && nextProps.coordinates.equals(this.props.coordinates));
+    return (nextProps.data !== this.props.data || nextProps.size !== this.props.size);
   }
 
   getAxis(axis, axisType, unitType=null, unit=null) {
