@@ -57,12 +57,12 @@ class CasingApp extends Component {
           <table className="c-casing__casing-table">
             <thead>
               <tr>
-                <th className="c-casing__id-header"> I.D({this.props.convert.getUnitDisplay('length')}) </th>
-                <th className="c-casing__od-header"> O.D({this.props.convert.getUnitDisplay('length')}) </th>
-                <th className="c-casing__td-header hide-on-med-and-down"> Top Depth </th>
-                <th className="c-casing__bd-header hide-on-med-and-down"> Bottom Depth </th>
-                <th className="c-casing__length-header"> Length </th>
-                <th className="c-casing__lm-header hide-on-med-and-down"> Linear Maass </th>
+                <th className="c-casing__id-header"> I.D({this.props.convert.getUnitDisplay('shortLength')}) </th>
+                <th className="c-casing__od-header"> O.D({this.props.convert.getUnitDisplay('shortLength')}) </th>
+                <th className="c-casing__td-header hide-on-med-and-down"> Top Depth({this.props.convert.getUnitDisplay('length')}) </th>
+                <th className="c-casing__bd-header hide-on-med-and-down"> Bottom Depth({this.props.convert.getUnitDisplay('length')}) </th>
+                <th className="c-casing__length-header"> Length({this.props.convert.getUnitDisplay('length')}) </th>
+                <th className="c-casing__lm-header hide-on-med-and-down"> Linear Mass({this.props.convert.getUnitDisplay('mass')}/{this.props.convert.getUnitDisplay('length')}) </th>
                 <th className="c-casing__grade-header hide-on-med-and-down"> Grade </th>
                 <th className="c-casing__action-header hide-on-med-and-down"> </th>
               </tr>
@@ -72,6 +72,7 @@ class CasingApp extends Component {
                 return <CasingItem
                           key={record.get("_id")} 
                           record={record} 
+                          convert={this.props.convert}
                           onSave={(record)=>this.saveRecord(record)} 
                           onRemove={(record)=>this.removeRecord(record)}/>;
               })}
@@ -80,6 +81,7 @@ class CasingApp extends Component {
                 return <CasingItem
                   key={record.get("_pre_id")}
                   record={record}
+                  convert={this.props.convert}
                   onSave={(record)=>this.saveRecord(record)}
                   onCancel={(preRecord)=>this.cancelAdd(preRecord)} />;
               })}
@@ -124,7 +126,7 @@ class CasingApp extends Component {
     }
     catch(error) {
       this._notificationSystem.addNotification({
-        message: 'Error when creating a record.',
+        message: 'Error when saving a record.',
         level: 'error'
       });
     }

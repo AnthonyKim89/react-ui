@@ -41,15 +41,15 @@ class CasingItem extends Component {
   render() {
 
     let {id,od,top_depth,bottom_depth,length,linear_mass,grade} = this.state.data;
-
+    
     if (!this.state.editing) return (
       <tr className="c-casing-item">
-        <td>{id}</td>
-        <td>{od}</td>
-        <td className="hide-on-med-and-down">{top_depth}</td>
-        <td className="hide-on-med-and-down">{bottom_depth}</td>
-        <td>{length}</td>
-        <td className="hide-on-med-and-down">{linear_mass}</td>
+        <td>{this.props.convert.convertValue(parseFloat(id), "shortLength", "in").fixFloat(2)}</td>
+        <td>{this.props.convert.convertValue(parseFloat(od), "shortLength", "in").fixFloat(2)}</td>
+        <td className="hide-on-med-and-down">{this.props.convert.convertValue(parseFloat(top_depth), "length", "ft").fixFloat(2)}</td>
+        <td className="hide-on-med-and-down">{this.props.convert.convertValue(parseFloat(bottom_depth), "length", "ft").fixFloat(2)}</td>
+        <td>{this.props.convert.convertValue(parseFloat(length), "length", "ft").fixFloat(2)}</td>
+        <td className="hide-on-med-and-down">{parseFloat(linear_mass).fixFloat(2)}</td>
         <td className="hide-on-med-and-down">{grade}</td>
         <td className="hide-on-med-and-down">
           <Button floating className='lightblue view-action' waves='light' icon='edit'
@@ -65,7 +65,7 @@ class CasingItem extends Component {
           <Input type="number"
             s={12}
             label="I.D"
-            defaultValue={id}
+            defaultValue={id? this.props.convert.convertValue(parseFloat(id), "shortLength", "in").fixFloat(2): id}
             error={this.state.errors.id}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{id: e.target.value})} )} 
             onBlur={this.onCalcLinearMass}/>
@@ -75,7 +75,7 @@ class CasingItem extends Component {
           <Input type="number"
             s={12}
             label="O.D"
-            defaultValue={od}
+            defaultValue={od? this.props.convert.convertValue(parseFloat(od), "shortLength", "in").fixFloat(2): od}
             error={this.state.errors.od}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{od: e.target.value})} )} 
             onBlur={this.onCalcLinearMass}/>
@@ -85,7 +85,7 @@ class CasingItem extends Component {
           <Input type="number"
             s={12}
             label="Top Depth"
-            defaultValue={top_depth}
+            defaultValue={top_depth? this.props.convert.convertValue(parseFloat(top_depth), "length", "ft").fixFloat(2): top_depth}
             error={this.state.errors.top_depth}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{top_depth: e.target.value})} )} 
             onBlur={this.onCalcLength}/>
@@ -95,19 +95,19 @@ class CasingItem extends Component {
           <Input type="number"
             s={12}
             label="Bottom Depth"
-            defaultValue={bottom_depth}
+            defaultValue={bottom_depth? this.props.convert.convertValue(parseFloat(bottom_depth), "length", "ft").fixFloat(2): bottom_depth}
             error={this.state.errors.bottom_depth}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{bottom_depth: e.target.value})} )} 
             onBlur={this.onCalcLength}/>
         </td>
 
-        <td>{length}</td>
+        <td>{length? this.props.convert.convertValue(parseFloat(length), "length", "ft").fixFloat(2): length}</td>
 
         <td className="hide-on-med-and-down">
           <Input type="number"
             s={12}
             label="Linear Mass"
-            defaultValue={this.state.data.linear_mass}
+            defaultValue={linear_mass? parseFloat(this.state.data.linear_mass).fixFloat(2): linear_mass}
             ref="linearMassInput"
             error={this.state.errors.linear_mass}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{linear_mass: e.target.value})})} />
@@ -169,7 +169,7 @@ class CasingItem extends Component {
     if (this.isValidNumber(id,MIN_ID,MAX_ID) && this.isValidNumber(od,MIN_OD,MAX_OD) && this.isValidNumber(id,MIN_ID,od)) {
       let calLW = this.deriveLinearMass(id,od);
       this.setState({data: Object.assign({},this.state.data,{linear_mass: calLW})});
-      ReactDOM.findDOMNode(this.refs.linearMassInput).children[0].value = calLW ;
+      ReactDOM.findDOMNode(this.refs.linearMassInput).children[0].value = calLW.fixFloat(2) ;
       ReactDOM.findDOMNode(this.refs.linearMassInput).children[1].className="active";
     }
     
@@ -221,7 +221,7 @@ class CasingItem extends Component {
     }
 
     if (!this.isValidNumber(linear_mass,0)) {      
-      errors["linear_mass"] = "Invalid Lineaer Mass";
+      errors["linear_mass"] = "Invalid Linear Mass";
       hasErrors = true;
     }
 
