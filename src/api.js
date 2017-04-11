@@ -11,9 +11,8 @@ class APIException {
   }
 
   isAuthenticationProblem() {
-    return this.status === 403 || this.status === 401 || this.status === 404;
+    return this.status === 403 || this.status === 401;
   }
-
 }
 
 const baseUrl = process.env.REACT_APP_API_URL || 'http://api.local.corva.ai';
