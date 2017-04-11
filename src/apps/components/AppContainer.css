@@ -125,14 +125,15 @@
   margin-top: -5px;
 }
 .c-app-container__action--maximize {
-  background: url(../../images/fullscreen_up_icon.png) 50% 50% no-repeat;
+  background-color: transparent;
+  margin-right: 3px;
 }
 .c-app-container__action--maximize:hover {
-  background-image: url(../../images/fullscreen_hover_icon.png)
+  color: rgb(0, 207, 197);
 }
 .c-app-container__action--settings {
-  background: url(../../images/settings_up_icon.png) 50% 50% no-repeat;
+  background-color: transparent;
 }
 .c-app-container__action--settings:hover {
-  background-image: url(../../images/settings_hover_icon.png)
+  color: rgb(0, 207, 197);
 }
