@@ -92,7 +92,7 @@ class OptimizationApp extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return (nextProps.data !== this.props.data || nextProps.size !== this.props.size);
+    return (nextProps.data !== this.props.data || nextProps.coordinates !== this.props.coordinates);
   }
 
   getGaugeBands() {

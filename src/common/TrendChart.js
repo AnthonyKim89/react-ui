@@ -86,7 +86,7 @@ class TrendChart extends Component {
     if (typeof this.state.chart === 'undefined') {
       return;
     }
-    let updated = false;
+    let updated = false, reflow = false;
     const chart = this.state.chart;
 
     if (!isEqual(newProps.series, this.props.series)) {
@@ -101,6 +101,11 @@ class TrendChart extends Component {
       chart.yAxis.update(this.generateYAxis(newProps.yAxes), false);
     }
 
+    if (newProps.widthCols !== this.props.widthCols || (this.props.coordinates && (newProps.coordinates !== this.props.coordinates))) {
+      reflow = true;
+    }
+
+    if (reflow) { chart.reflow(); }
     if (updated) {
       chart.redraw(false);
     }
@@ -108,6 +113,7 @@ class TrendChart extends Component {
 }
 
 TrendChart.propTypes = {
+  coordinates: PropTypes.object,
   series: PropTypes.array,
   xAxisTitle: PropTypes.string.isRequired,
   yAxes: PropTypes.array

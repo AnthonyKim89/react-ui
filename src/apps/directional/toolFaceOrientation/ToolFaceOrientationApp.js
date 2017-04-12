@@ -27,6 +27,10 @@ class ToolFaceOrientationApp extends Component {
   getSubscriptionData() {
     return subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS);
   }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextProps.data !== this.props.data || nextProps.coordinates !== this.props.coordinates);
+  }
 }
 
 ToolFaceOrientationApp.propTypes = {

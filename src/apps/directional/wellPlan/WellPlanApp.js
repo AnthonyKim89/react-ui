@@ -20,6 +20,7 @@ class WellPlanApp extends Component {
             horizontal={true}
             xField="vertical_section"
             size={this.props.size}
+            coordinates={this.props.coordinates}
             widthCols={this.props.widthCols}
             gridLineWidth="1"
             xAxisWidth={2}
@@ -56,6 +57,10 @@ class WellPlanApp extends Component {
           <LoadingIndicator />}
       </div>
     );
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextProps.data !== this.props.data || nextProps.coordinates !== this.props.coordinates || nextProps.graphColors !== this.props.graphColors);
   }
 
   getSeries() {

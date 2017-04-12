@@ -20,6 +20,7 @@ class WOBFounder extends Component {
             xField="wob"
             chartType="scatter"
             size={this.props.size}
+            coordinates={this.props.coordinates}
             widthCols={this.props.widthCols}
             gridLineWidth="0"
             xAxisWidth={2}
@@ -64,7 +65,7 @@ class WOBFounder extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return (nextProps.data !== this.props.data || nextProps.size !== this.props.size);
+    return (nextProps.data !== this.props.data || nextProps.coordinates !== this.props.coordinates || nextProps.graphColors !== this.props.graphColors);
   }
 
   getSeries() {

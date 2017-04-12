@@ -10,6 +10,10 @@ import './AccuracyApp.css';
 
 class AccuracyApp extends Component {
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextProps.data !== this.props.data || nextProps.coordinates !== this.props.coordinates);
+  }
+
   render() {
     return (
       <div className="c-di-accuracy">

@@ -12,7 +12,7 @@ import './MinimumFlowRateApp.css';
 class MinimumFlowRateApp extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.data !== this.props.data || nextProps.size !== this.props.size;
+    return (nextProps.data !== this.props.data || nextProps.coordinates !== this.props.coordinates || nextProps.graphColors !== this.props.graphColors);
   }
 
   render() {
@@ -26,6 +26,7 @@ class MinimumFlowRateApp extends Component {
             xAxisColor="white"
             xAxisTitle={{text: `Measured Depth (${this.props.convert.getUnitDisplay('length')})`}}
             size={this.props.size}
+            coordinates={this.props.coordinates}
             widthCols={this.props.widthCols}>
             <ChartSeries
               key={title}
@@ -68,6 +69,7 @@ MinimumFlowRateApp.propTypes = {
   data: ImmutablePropTypes.map,
   graphColors: ImmutablePropTypes.map,
   size: PropTypes.string.isRequired,
+  coordinates: PropTypes.object.isRequired,
   widthCols: PropTypes.number.isRequired
 };
 
