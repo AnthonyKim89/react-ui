@@ -10,8 +10,10 @@ class AppComponent extends Component {
   renderError(message = "An unknown error has occcured") {
     return (
       <div className="c-app-component__error">
-            <Icon>error_outline</Icon>
-            <h1>{message}</h1>
+        <div className="c-app-component__error-inner">
+          <Icon>error_outline</Icon>
+          <h1>{message}</h1>
+        </div>
       </div>
     );
   }

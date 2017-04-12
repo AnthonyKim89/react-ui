@@ -4,25 +4,34 @@
     padding: 0px;
 }
 
-
 .c-app-component__error {
     width: 100%;
     height: 100%;
-    padding: 10px;  
-    align-items: center;
-    display: flex;
-    justify-content: center;
+    padding: 10px;
+    text-align: center;
+    display: table;
+}
+
+.c-app-component__error-inner {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
 }
 
 .c-app-component__error i {
-    display: block;
     font-size: 10rem;
     color: #ff0000;
+    vertical-align: middle;
+    display: block;
 }
 
 .c-app-component__error h1 {
-    display: block;
     font-size: 1rem;
     margin-top: 1rem;
     color: #FFFFFF;
+    vertical-align: middle;
+    display: block;
 }
