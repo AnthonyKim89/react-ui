@@ -19,11 +19,7 @@ class OverviewApp extends AppComponent {
     let data = this.getData();
     return (
       <div className="c-tnd-overview">
-        {data ?
-          (this.isErrorPresent(data) ? 
-          this.renderError(this.getErrorMesssage()) : 
-          this.renderApp()) :
-          <LoadingIndicator />}
+        { data ? this.renderApp() : <LoadingIndicator /> }
       </div>
     );
   }

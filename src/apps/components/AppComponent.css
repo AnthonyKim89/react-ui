@@ -24,7 +24,6 @@
 .c-app-component__error i {
     font-size: 10rem;
     color: #ff0000;
-    vertical-align: middle;
     display: block;
 }
 
@@ -32,6 +31,5 @@
     font-size: 1rem;
     margin-top: 1rem;
     color: #FFFFFF;
-    vertical-align: middle;
     display: block;
 }

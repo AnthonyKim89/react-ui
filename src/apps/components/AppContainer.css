@@ -136,3 +136,36 @@
 .c-app-container__action--settings:hover {
   background-image: url(../../images/settings_hover_icon.png)
 }
+
+
+
+
+.c-app-container__error {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    text-align: center;
+    display: table;
+}
+
+.c-app-container__error-inner {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.c-app-container__error i {
+    font-size: 7rem;
+    color: #ff0000;
+    display: block;
+}
+
+.c-app-container__error h1 {
+    font-size: 1rem;
+    margin-top: 1rem;
+    color: #FFFFFF;
+    display: block;
+}
