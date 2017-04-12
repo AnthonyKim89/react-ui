@@ -46,6 +46,7 @@ export function lastDataUpdate(appData) {
     .valueSeq()
     .map(coll => coll.valueSeq()
                      .map(evts => evts.valueSeq())
+                     .last()
                      .flatten(1)
                      .map(d => d.get('timestamp')))
     .flatten()
