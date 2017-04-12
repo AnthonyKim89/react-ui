@@ -95,7 +95,7 @@ class RigActivityApp extends Component {
   }
 
   getData() {
-    return subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS);
+    return subscriptions.selectors.getSubData(this.props.data, SUBSCRIPTIONS[this.props.period || 0]);
   }
 
   formatDatePeriod() {

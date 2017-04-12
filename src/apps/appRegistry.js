@@ -48,7 +48,7 @@ import wellTimeline from './wellTimeline';
 
 // ANALYTICS APPS
 import raRigActivity from './rigActivity/rigActivity';
-import raDrillingConnections from './rigActivity/drillingConnections';
+import raDrillingOperations from './rigActivity/drillingOperations';
 
 // HYDRAULICS APPS
 import hydraulicsMinimumFlowRate from './hydraulics/minimumFlowRate';
@@ -126,7 +126,7 @@ export const uiApps = Map({
     subtitle: '',
     appTypes: Map({
       rigActivity: raRigActivity,
-      drillingConnections: raDrillingConnections
+      drillingOperations: raDrillingOperations
     })
   }),
   hydraulics: Map({

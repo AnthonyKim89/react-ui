@@ -5,21 +5,21 @@ import { format as formatDate } from 'date-fns';
 import { pull, map, find } from 'lodash';
 import { fromJS } from 'immutable';
 
-import { SUBSCRIPTIONS, ACTIVITY_COLORS, PERIOD_TYPES, TARGET, SUPPORTED_CONNECTIONS } from './constants';
+import { SUBSCRIPTIONS, ACTIVITY_COLORS, PERIOD_TYPES, TARGET, SUPPORTED_OPERATIONS } from './constants';
 import ColumnChart from '../../../common/ColumnChart';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './DrillingConnectionsApp.css'
+import './DrillingOperationsApp.css'
 
-class DrillingConnectionsApp extends Component {
+class DrillingOperationsApp extends Component {
 
   render() {
     return (
       this.getData() ?
-        <div className="c-ra-drilling-connections">
-          <h4>{this.getConnection().title}</h4>
-          <h5>{this.getConnection().description}</h5>
+        <div className="c-ra-drilling-operations">
+          <h4>{this.getOperation().title}</h4>
+          <h5>{this.getOperation().description}</h5>
           <div className="row chart-panel">
             <div className="col s12">
               <ColumnChart
@@ -52,8 +52,8 @@ class DrillingConnectionsApp extends Component {
     );
   }
 
-  getConnection() {
-    return find(SUPPORTED_CONNECTIONS, {type: this.props.connectionType || 0}) || {};
+  getOperation() {
+    return find(SUPPORTED_OPERATIONS, {type: this.props.operationType || 0}) || {};
   }
 
   formatDatePeriod() {
@@ -68,7 +68,7 @@ class DrillingConnectionsApp extends Component {
   }
 
   getXAxisLines() {
-    const x = this.getData().getIn(['data', 'connections']).filter(c => c.get('shift') === 'day').count() - 0.5;
+    const x = this.getData().getIn(['data', 'operations']).filter(c => c.get('shift') === 'day').count() - 0.5;
     return fromJS([{
       value: x,
       text: 'Day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Night',
@@ -85,32 +85,32 @@ class DrillingConnectionsApp extends Component {
   }
 
   getData() {
-    return subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS);
+    return subscriptions.selectors.getSubData(this.props.data, SUBSCRIPTIONS[this.props.operationType || 0]);
   }
 
   getGraphData() {
     const keys = pull(this.getData()
-      .getIn(['data', 'connections']).first().keySeq().toArray(), 'from', 'to', 'shift');
-    const sorted = this.getData().getIn(['data', 'connections']).sort((a, b) =>
+      .getIn(['data', 'operations']).first().keySeq().toArray(), 'from', 'to', 'shift');
+    const sorted = this.getData().getIn(['data', 'operations']).sort((a, b) =>
         a.get('shift').localeCompare(b.get('shift'))
       ).toJS();
     return fromJS(keys.map(key => ({
         name: key,
         data: map(sorted, h => ({
           y: Math.round(h[key]), 
-          name: formatDate(h.from, 'M/D h:mm') + ' - ' + formatDate(h.to, 'M/D h:mm')
+          name: formatDate(h.from*1000, 'M/D h:mm') + ' - ' + formatDate(h.to*1000, 'M/D h:mm')
         })),
         color: ACTIVITY_COLORS[key]
       })));
   }
 }
 
-DrillingConnectionsApp.propTypes = {
+DrillingOperationsApp.propTypes = {
   data: ImmutablePropTypes.map,
   period: PropTypes.number,
   size: PropTypes.string.isRequired,
   widthCols: PropTypes.number.isRequired,
-  connectionType: PropTypes.number.isRequired
+  operationType: PropTypes.number.isRequired
 };
 
-export default DrillingConnectionsApp;
+export default DrillingOperationsApp;

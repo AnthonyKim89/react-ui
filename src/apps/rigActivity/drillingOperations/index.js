@@ -1,9 +1,9 @@
-import drillingConnectionsApp from './DrillingConnectionsApp';
+import drillingOperationsApp from './DrillingOperationsApp';
 import settings from './settings';
 import * as constants from './constants';
 
 export default {
-  AppComponent: drillingConnectionsApp,
+  AppComponent: drillingOperationsApp,
   settings,
   constants
 };

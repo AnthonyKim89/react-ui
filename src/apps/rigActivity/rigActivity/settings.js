@@ -9,7 +9,7 @@ export default List([
     name: 'period',
     title: 'Period',
     required: false,
-    includeInSubscriptionParams: true,
+    // includeInSubscriptionParams: true,
     default: PERIOD_TYPES[0].value,
     Editor: dropdownEditorForDefinitions(PERIOD_TYPES)
   }),

@@ -1,4 +1,4 @@
-.c-ra-drilling-connections {
+.c-ra-drilling-operations {
   position: absolute;
   top: 0;
   left: 0;
@@ -6,7 +6,7 @@
   height: 100%;
 }
 
-.c-ra-drilling-connections h4 {
+.c-ra-drilling-operations h4 {
     font-weight: 900;
     margin: 10px 0 5px 3px;
     font-size: 1.45rem;
@@ -14,14 +14,14 @@
     letter-spacing: 0.5px;
 }
 
-.c-ra-drilling-connections h5 {
+.c-ra-drilling-operations h5 {
     color: #bbb;
     margin: 0;
     font-size: 0.815rem;
     margin-left: 3px;
 }
 
-.c-ra-drilling-connections .chart-panel {
+.c-ra-drilling-operations .chart-panel {
 	height: 100%;
 	width: 100%;
 	padding-bottom: 70px;
@@ -29,18 +29,18 @@
 	position: absolute;
 }
 
-.c-ra-drilling-connections .chart-panel .col {
+.c-ra-drilling-operations .chart-panel .col {
 	height: 100%;
 	top: 0;
 }
 
-.c-ra-drilling-connections .action-panel {
+.c-ra-drilling-operations .action-panel {
 	position: absolute;
 	bottom: 0;
 	margin: 0;
 }
 
-.c-ra-drilling-connections .action-panel .select-period input {
+.c-ra-drilling-operations .action-panel .select-period input {
 	height: 30px;
 	width: 140px;
 	margin: 0;
@@ -48,11 +48,11 @@
 	font-weight: bold;
 }
 
-.c-ra-drilling-connections .action-panel .select-period .caret {
+.c-ra-drilling-operations .action-panel .select-period .caret {
 	color: #bbb;
 }
 
-.c-ra-drilling-connections .action-panel .text-info {
+.c-ra-drilling-operations .action-panel .text-info {
 	color: #bbb;
 	line-height: 30px;
 	margin-top: 1rem;

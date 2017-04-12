@@ -1,10 +1,28 @@
 export const CATEGORY = 'rigActivity';
-export const NAME = 'drillingConnections';
+export const NAME = 'drillingOperations';
 export const SUBSCRIPTIONS = [
-  {provider: 'corva', collection: 'rig-activity.drilling-connections'}
+  {provider: 'corva', collection: 'operations.tripping-in-connection'},
+  {provider: 'corva', collection: 'operations.tripping-in-running'},
+  {provider: 'corva', collection: 'operations.tripping-out-connection'},
+  {provider: 'corva', collection: 'operations.tripping-out-running'},
+  {provider: 'corva', collection: 'operations.drilling-connection'},
+  {provider: 'corva', collection: 'operations.weight-to-weight'},
+  {provider: 'corva', collection: 'operations.treatment'},
+  {provider: 'corva', collection: 'operations.drilling-joint'},
+  {provider: 'corva', collection: 'operations.running-casing-setting'},
+  {provider: 'corva', collection: 'operations.running-casing'},
+  {provider: 'corva', collection: 'operations.cementing'},
+  {provider: 'corva', collection: 'operations.total-casing-time'},
+  {provider: 'corva', collection: 'operations.total-trip-time'},
+  {provider: 'corva', collection: 'operations.full-trip-in'},
+  {provider: 'corva', collection: 'operations.full-trip-out'},
+  {provider: 'corva', collection: 'operations.change-bha'},
+  {provider: 'corva', collection: 'operations.on-bottom-to-slips'},
+  {provider: 'corva', collection: 'operations.slips-to-on-bottom'}
 ];
 export const METADATA = {
-  settingsTitle: '',
+  title: '',
+  settingsTitle: 'Drilling Operations',
   subtitle: '',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',
@@ -36,12 +54,22 @@ export const PERIOD_TYPES = [
   }
 ];
 export const ACTIVITY_COLORS = {
-  'Inslips': '#909f98',
+  'Drilling Slide': '#0085e3',
+  'Drilling Rotary': '#4840d1',
+  'Connection': '#909f98',
   'Circulating': '#9500b7',
-  'Reaming': '#38732e',
-  'Washing': '#efd34b'
+  'Run in Hole': '#f70000',
+  'Run out of Hole': '#940000',
+  'Reaming Upwards': '#38732e',
+  'Reaming Downwards': '#5dd94b',
+  'Washing Upwards': '#efd34b',
+  'Washing Downwards': '#e99100',
+  'Other': '#d2dfd8',
+  'Running Casing': '#e837f3',
+  'Casing Trip In': '#f8a2fd',
+  'Cementing': '#47c7cf'
 };
-export const SUPPORTED_CONNECTIONS = [
+export const SUPPORTED_OPERATIONS = [
   {type: 0, title: 'Tripping In (Connection)', description: ''},
   {type: 1, title: 'Tripping In (Running)', description: ''},
   {type: 2, title: 'Tripping Out (Connection)', description: ''},
