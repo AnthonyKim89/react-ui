@@ -16,6 +16,8 @@ class App extends Component {
 
   componentDidMount() {
     this.props.loginCheck();
+    // TODO: Replace this listAssets with a "get recent assets" call or lookup once that exists.
+    this.props.listAssets('rig');
   }
 
   render() {
@@ -50,6 +52,7 @@ export default connect(
   }),
   {
     loginCheck: login.actions.loginCheck,
-    logOut: login.actions.logOut
+    logOut: login.actions.logOut,
+    listAssets: assets.actions.listAssets,
   }
 )(App);
