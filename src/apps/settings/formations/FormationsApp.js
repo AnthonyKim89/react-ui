@@ -55,8 +55,8 @@ class FormationsApp extends Component {
           <table className="c-formations__formations-table">
             <thead>
               <tr>
-                <th className="c-formations__tvd-header"> True Vertical Depth(ft) </th>
-                <th className="c-formations__md-header hide-on-med-and-down"> Measured Depth(ft) </th>
+                <th className="c-formations__tvd-header"> True Vertical Depth({this.props.convert.getUnitDisplay('length')}) </th>
+                <th className="c-formations__md-header hide-on-med-and-down"> Measured Depth({this.props.convert.getUnitDisplay('length')}) </th>
                 <th className="c-formations__fm-header"> Formation Name </th>
                 <th className="c-formations__lithology-header hide-on-med-and-down"> Lithology</th>
                 <th className="c-formations__action-header hide-on-med-and-down"> </th>
@@ -66,7 +66,8 @@ class FormationsApp extends Component {
               {this.state.records.map(record=> {
                 return <FormationsItem
                           key={record.get("_id")} 
-                          record={record} 
+                          record={record}
+                          convert={this.props.convert}
                           onSave={(record)=>this.saveRecord(record)} 
                           onRemove={(record)=>this.removeRecord(record)}/>;
               })}
@@ -75,6 +76,7 @@ class FormationsApp extends Component {
                 return <FormationsItem 
                   key={record.get("_pre_id")}
                   record={record}
+                  convert={this.props.convert}
                   onSave={(record)=>this.saveRecord(record)}
                   onCancel={(preRecord)=>this.cancelAdd(preRecord)} />;
               })}

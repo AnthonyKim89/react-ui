@@ -38,7 +38,7 @@ class NPTEventsItem extends Component {
         <td>
           {this.getTimeDiff()}
         </td>
-        <td className="hide-on-med-and-down">{depth}</td>
+        <td className="hide-on-med-and-down">{this.props.convert.convertValue(parseFloat(depth), "length", "ft").fixFloat(2)}</td>
         <td>{type}</td>
         <td className="hide-on-med-and-down">{comment}</td>
         <td className="hide-on-med-and-down">
@@ -71,7 +71,7 @@ class NPTEventsItem extends Component {
             s={12}
             label="Depth"
             error={this.state.errors.depth}
-            defaultValue={depth}
+            defaultValue={depth?this.props.convert.convertValue(parseFloat(depth), "length", "ft").fixFloat(2) : depth}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{depth: e.target.value})} )} />
         </td>
 
@@ -141,7 +141,7 @@ class NPTEventsItem extends Component {
         .set("end_time",end_time.unix())
         .set("type",type)
         .set("comment",comment)
-        .set("depth",depth);
+        .set("depth",this.props.convert.convertValue(depth, "length", this.props.convert.getUnitPreference("length"), "ft"));
     });
 
     this.props.onSave(record);

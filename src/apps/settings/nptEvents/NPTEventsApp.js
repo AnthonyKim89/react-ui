@@ -57,7 +57,7 @@ class NPTEventsApp extends Component {
               <tr>
                 <th className="c-npt__starttime-header hide-on-med-and-down"> Start Time </th>
                 <th className="c-npt__endtime-header"> End Time </th>
-                <th className="c-npt__depth-header hide-on-med-and-down"> Depth(ft) </th>
+                <th className="c-npt__depth-header hide-on-med-and-down"> Depth({this.props.convert.getUnitDisplay('length')}) </th>
                 <th className="c-npt__type-header"> Type</th>
                 <th className="c-npt__comment-header hide-on-med-and-down"> Comments</th>
                 <th className="c-npt__action-header hide-on-med-and-down"> </th>
@@ -67,7 +67,8 @@ class NPTEventsApp extends Component {
               {this.state.records.map(record=> {
                 return <NPTEventsItem
                           key={record.get("_id")} 
-                          record={record} 
+                          record={record}
+                          convert={this.props.convert}
                           onSave={(record)=>this.saveRecord(record)} 
                           onRemove={(record)=>this.removeRecord(record)}/>;
               })}
@@ -76,6 +77,7 @@ class NPTEventsApp extends Component {
                 return <NPTEventsItem 
                   key={record.get("_pre_id")}
                   record={record}
+                  convert={this.props.convert}
                   onSave={(record)=>this.saveRecord(record)}
                   onCancel={(preRecord)=>this.cancelAdd(preRecord)} />;
               })}
