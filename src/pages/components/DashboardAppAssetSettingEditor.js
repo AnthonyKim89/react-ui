@@ -62,8 +62,8 @@ class DashboardAppAssetSettingEditor extends Component {
   }
 
   renderLabel() {
-    return (this.props.isLabelVisible || true) ? 
-    <option value="" disabled defaultValue="true">{this.props.label || "Choose An Asset"}</option>
+    return this.props.isLabelVisible ? 
+    <option value="" disabled defaultValue="true">{this.props.label}</option>
     : "";
   }
 
@@ -73,6 +73,11 @@ class DashboardAppAssetSettingEditor extends Component {
   }
 
 }
+
+DashboardAppAssetSettingEditor.defaultProps = {
+  label: "Choose An Asset",
+  isLabelVisible: true,
+};
 
 DashboardAppAssetSettingEditor.propTypes = {
   appType: PropTypes.object.isRequired,

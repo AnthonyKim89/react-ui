@@ -106,8 +106,7 @@ class AddAppDialogDetails extends Component {
           return <div className="c-add-app-dialog-details__setting" key={name}>
             <h5>{title}</h5>
             <Editor
-              label={name}
-              currentValue={this.state.settings.get(name)}
+              currentValue={this.state.settings.get(name) || ""}
               onChange={v => this.setState({settings: this.state.settings.set(name, v)})}
               appType={this.props.appType} />
           </div>;

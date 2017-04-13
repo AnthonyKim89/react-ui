@@ -40,8 +40,9 @@
 
 .c-app-container h4.c-app-container__title {
   font-weight: 900;
-  margin: 0 0 5px 3px;
+  margin: 0 0 1px 3px;
   font-size: 1.45rem;
+  line-height: 1.9rem;  
   font-family: 'Open Sans';
   letter-spacing: 0.5px;
   text-overflow: ellipsis;
@@ -123,18 +124,21 @@
 .c-app-container__action i {
   margin-left: -5px;
   margin-top: -5px;
+  font-size: 1.3rem;
 }
 .c-app-container__action--maximize {
-  background: url(../../images/fullscreen_up_icon.png) 50% 50% no-repeat;
+  background-color: transparent;
+  margin-right: 3px;
 }
 .c-app-container__action--maximize:hover {
-  background-image: url(../../images/fullscreen_hover_icon.png)
+  color: rgb(0, 207, 197);
 }
 .c-app-container__action--settings {
-  background: url(../../images/settings_up_icon.png) 50% 50% no-repeat;
+  background-color: transparent;
+  margin-right: -5px;
 }
 .c-app-container__action--settings:hover {
-  background-image: url(../../images/settings_hover_icon.png)
+  color: rgb(0, 207, 197);
 }
 
 

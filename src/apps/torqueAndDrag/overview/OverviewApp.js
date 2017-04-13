@@ -1,10 +1,9 @@
-import React, { PropTypes } from 'react';
-import { Row, Col } from 'react-materialize';
+import React, { Component, PropTypes } from 'react';
+import { Row, Col } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { fromJS } from 'immutable';
 
 import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
-import AppComponent from '../../components/AppComponent';
 import Gauge from '../../../common/Gauge';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
@@ -13,78 +12,76 @@ import ChartSeries from '../../../common/ChartSeries';
 
 import './OverviewApp.css';
 
-class OverviewApp extends AppComponent {
+class OverviewApp extends Component {
 
   render() {
-    let data = this.getData();
     return (
       <div className="c-tnd-overview">
-        { data ? this.renderApp() : <LoadingIndicator /> }
+        {subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS) ?
+          <div>
+            <Row>
+              <Col s={6} className="c-tnd-overview__gauge">
+                <h4 className="c-tnd-overview__gauge-title">Weight Transfer</h4>
+                <Gauge widthCols={this.props.widthCols}
+                       bands={this.getGaugeBands()}
+                       value={this.getWeightTransferGaugeValue()} />
+              </Col>
+              <Col s={6} className="c-tnd-overview__gauge">
+                <h4 className="c-tnd-overview__gauge-title">Drag</h4>
+                <Gauge widthCols={this.props.widthCols}
+                       bands={this.getGaugeBands()}
+                       value={this.getDragGaugeValue()} />
+              </Col>
+            </Row>
+            <Row>
+              <Col s={12} className="c-tnd-overview__drag">
+                <h4 className="c-tnd-overview__drag-title">Drag Trend</h4>
+                <Chart horizontal={true}
+                       chartType="column"
+                       xField="time"
+                       size={this.props.size}
+                       coordinates={this.props.coordinates}
+                       widthCols={this.props.widthCols}
+                       hideXAxis={true}
+                       alignYTicks={false}
+                       yTickPositioner={this.yTickPositioner}
+                       showLegend={false}
+                       gridLineWidth="0"
+                       yLabelStyle={{
+                         color: "#bbb",
+                         "font-size": "0.55rem",
+                       }}>
+                  {this.getSeries().map(({field, maxValue, data}, idx) => (
+                    <ChartSeries
+                      key={field}
+                      id={field}
+                      title={SUPPORTED_CHART_SERIES[field].label}
+                      data={data}
+                      yField="value"
+                      type="column"
+                      pointPadding={0}
+                      groupPadding={0}
+                      borderWidth={0} />
+                  ))}
+                </Chart>
+              </Col>
+            </Row>
+            <Row className="c-tnd-overview__drag-label-">
+              <Col s={6} className="c-tnd-overview__drag-label-left">
+                24 hours ago
+              </Col>
+              <Col s={6} className="c-tnd-overview__drag-label-right">
+                Now
+              </Col>
+            </Row>
+          </div>:
+          <LoadingIndicator />}
       </div>
     );
   }
 
-  renderApp() {
-    return <div>
-      <Row>
-        <Col s={6} className="c-tnd-overview__gauge">
-          <h4 className="c-tnd-overview__gauge-title">Weight Transfer</h4>
-          <Gauge widthCols={this.props.widthCols}
-                  bands={this.getGaugeBands()}
-                  value={this.getWeightTransferGaugeValue()} />
-        </Col>
-        <Col s={6} className="c-tnd-overview__gauge">
-          <h4 className="c-tnd-overview__gauge-title">Drag</h4>
-          <Gauge widthCols={this.props.widthCols}
-                  bands={this.getGaugeBands()}
-                  value={this.getDragGaugeValue()} />
-        </Col>
-      </Row>
-      <Row>
-        <Col s={12} className="c-tnd-overview__drag">
-          <h4 className="c-tnd-overview__drag-title">Drag Trend</h4>
-          <Chart horizontal={true}
-                  chartType="column"
-                  xField="time"
-                  size={this.props.size}
-                  widthCols={this.props.widthCols}
-                  hideXAxis={true}
-                  alignYTicks={false}
-                  yTickPositioner={this.yTickPositioner}
-                  showLegend={false}
-                  gridLineWidth="0"
-                  yLabelStyle={{
-                    color: "#bbb",
-                    "font-size": "0.55rem",
-                  }}>
-            {this.getSeries().map(({field, maxValue, data}, idx) => (
-              <ChartSeries
-                key={field}
-                id={field}
-                title={SUPPORTED_CHART_SERIES[field].label}
-                data={data}
-                yField="value"
-                type="column"
-                pointPadding={0}
-                groupPadding={0}
-                borderWidth={0} />
-            ))}
-          </Chart>
-        </Col>
-      </Row>
-      <Row className="c-tnd-overview__drag-label-">
-        <Col s={6} className="c-tnd-overview__drag-label-left">
-          24 hours ago
-        </Col>
-        <Col s={6} className="c-tnd-overview__drag-label-right">
-          Now
-        </Col>
-      </Row>
-    </div>;
-  }
-
-  getData() {
-    return subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS);
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextProps.data !== this.props.data || nextProps.coordinates !== this.props.coordinates);
   }
 
   yTickPositioner () {
@@ -97,7 +94,7 @@ class OverviewApp extends AppComponent {
   }
 
   getDataSeries(field) {
-    let seriesData = this.getData().getIn(['data', 'drag', 'points']);
+    let seriesData = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'drag', 'points']);
     seriesData = this.updatePointColor(seriesData);
 
     return {
