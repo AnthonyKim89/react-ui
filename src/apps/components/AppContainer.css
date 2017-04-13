@@ -170,3 +170,11 @@
     color: #FFFFFF;
     display: block;
 }
+
+.c-app-container__error a {
+    font-size: 1rem;
+    margin-top: 1rem;
+    color: #FFFFFF;
+    text-decoration: underline;
+    display: block;
+}

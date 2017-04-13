@@ -155,7 +155,7 @@ class AppContainer extends Component {
     switch(error_code) {
       case "config_missing_error":
         text = "Add well config";
-        url = "/data-settings";
+        url = "/assets/" + this.props.asset.get('id') + "/settings";
         break;
       default:
         text = "";
