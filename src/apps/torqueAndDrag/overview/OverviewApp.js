@@ -18,63 +18,63 @@ class OverviewApp extends Component {
     return (
       <div className="c-tnd-overview">
         {subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS) ?
-          <div>
-            <Row>
-              <Col s={6} className="c-tnd-overview__gauge">
-                <h4 className="c-tnd-overview__gauge-title">Weight Transfer</h4>
-                <Gauge widthCols={this.props.widthCols}
-                       bands={this.getGaugeBands()}
-                       value={this.getWeightTransferGaugeValue()} />
-              </Col>
-              <Col s={6} className="c-tnd-overview__gauge">
-                <h4 className="c-tnd-overview__gauge-title">Drag</h4>
-                <Gauge widthCols={this.props.widthCols}
-                       bands={this.getGaugeBands()}
-                       value={this.getDragGaugeValue()} />
-              </Col>
-            </Row>
-            <Row>
-              <Col s={12} className="c-tnd-overview__drag">
-                <h4 className="c-tnd-overview__drag-title">Drag Trend</h4>
-                <Chart horizontal={true}
-                       chartType="column"
-                       xField="time"
-                       size={this.props.size}
-                       coordinates={this.props.coordinates}
-                       widthCols={this.props.widthCols}
-                       hideXAxis={true}
-                       alignYTicks={false}
-                       yTickPositioner={this.yTickPositioner}
-                       showLegend={false}
-                       gridLineWidth="0"
-                       yLabelStyle={{
-                         color: "#bbb",
-                         "font-size": "0.55rem",
-                       }}>
-                  {this.getSeries().map(({field, maxValue, data}, idx) => (
-                    <ChartSeries
-                      key={field}
-                      id={field}
-                      title={SUPPORTED_CHART_SERIES[field].label}
-                      data={data}
-                      yField="value"
-                      type="column"
-                      pointPadding={0}
-                      groupPadding={0}
-                      borderWidth={0} />
-                  ))}
-                </Chart>
-              </Col>
-            </Row>
-            <Row className="c-tnd-overview__drag-label-">
-              <Col s={6} className="c-tnd-overview__drag-label-left">
-                24 hours ago
-              </Col>
-              <Col s={6} className="c-tnd-overview__drag-label-right">
-                Now
-              </Col>
-            </Row>
-          </div>:
+            <div>
+              <Row>
+                <Col s={6} className="c-tnd-overview__gauge">
+                  <h4 className="c-tnd-overview__gauge-title">Weight Transfer</h4>
+                  <Gauge widthCols={this.props.widthCols}
+                         bands={this.getGaugeBands()}
+                         value={this.getWeightTransferGaugeValue()} />
+                </Col>
+                <Col s={6} className="c-tnd-overview__gauge">
+                  <h4 className="c-tnd-overview__gauge-title">Drag</h4>
+                  <Gauge widthCols={this.props.widthCols}
+                         bands={this.getGaugeBands()}
+                         value={this.getDragGaugeValue()} />
+                </Col>
+              </Row>
+              <Row>
+                <Col s={12} className="c-tnd-overview__drag">
+                  <h4 className="c-tnd-overview__drag-title">Drag Trend</h4>
+                  <Chart horizontal={true}
+                         chartType="column"
+                         xField="time"
+                         size={this.props.size}
+                         coordinates={this.props.coordinates}
+                         widthCols={this.props.widthCols}
+                         hideXAxis={true}
+                         alignYTicks={false}
+                         yTickPositioner={this.yTickPositioner}
+                         showLegend={false}
+                         gridLineWidth="0"
+                         yLabelStyle={{
+                           color: "#bbb",
+                           "font-size": "0.55rem",
+                         }}>
+                    {this.getSeries().map(({field, maxValue, data}, idx) => (
+                      <ChartSeries
+                        key={field}
+                        id={field}
+                        title={SUPPORTED_CHART_SERIES[field].label}
+                        data={data}
+                        yField="value"
+                        type="column"
+                        pointPadding={0}
+                        groupPadding={0}
+                        borderWidth={0} />
+                    ))}
+                  </Chart>
+                </Col>
+              </Row>
+              <Row className="c-tnd-overview__drag-label-">
+                <Col s={6} className="c-tnd-overview__drag-label-left">
+                  24 hours ago
+                </Col>
+                <Col s={6} className="c-tnd-overview__drag-label-right">
+                  Now
+                </Col>
+              </Row>
+            </div>:
           <LoadingIndicator />}
       </div>
     );
