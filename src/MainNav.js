@@ -17,7 +17,12 @@ class MainNav extends Component {
           <RoutingNavItem to="/assets/well"><Icon left>dashboard</Icon>All Wells</RoutingNavItem>
           <RoutingNavItem to="/assets/rig"><Icon left>dashboard</Icon>All Rigs</RoutingNavItem>
           {this.props.recentAssets && this.props.recentAssets.map(asset =>
-            <RoutingNavItem key={asset.get('id')} to={`/assets/${asset.get('id')}/overview`}><Icon left>dashboard</Icon>{asset.get('name')}</RoutingNavItem>)}
+            <RoutingNavItem key={asset.get('id')} to={`/assets/${asset.get('id')}/overview`}>
+              <div className="c-main-nav__dropdown__outer-icon-circle">
+                {asset.get('status') === 'active' ? <div className="c-main-nav__dropdown__inner-icon-circle-active"></div> : <div className="c-main-nav__dropdown__inner-icon-circle-inactive"></div>}
+              </div>
+              <div className="c-main-nav__dropdown__spacer"></div>{asset.get('name')}
+            </RoutingNavItem>)}
         </Dropdown>
         {this.props.currentUser &&
           <Dropdown trigger={<NavItem className="c-user-menu"><Icon className="c-user-menu">perm_identity</Icon></NavItem>} className="c-user-menu">
