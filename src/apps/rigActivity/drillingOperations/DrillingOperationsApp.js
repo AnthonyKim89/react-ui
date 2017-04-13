@@ -10,7 +10,7 @@ import ColumnChart from '../../../common/ColumnChart';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './DrillingOperationsApp.css'
+import './DrillingOperationsApp.css';
 
 class DrillingOperationsApp extends Component {
 

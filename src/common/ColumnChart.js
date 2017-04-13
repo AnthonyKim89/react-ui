@@ -98,7 +98,7 @@ class ColumnChart extends Component {
   getSeries(data) {
     return data.map(m =>
       m.set('borderWidth', 0)
-    ).toJS()
+    ).toJS();
   }
 
   getPlotLine(data, options={}) {
