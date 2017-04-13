@@ -4,36 +4,60 @@
   left: 0;
   width: 100%;
   height: 100%;
-  overflow-y: auto;
+  
 }
 
-.c-di-surveys {
-	position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+.c-di-surveys-head {
+  overflow-x:hidden;  
 }
 
-.c-di-surveys thead {
+.c-di-surveys-head-inner {
+  width: calc(100% + 25px);
+  overflow-y: scroll;
+}
+
+
+.c-di-surveys-head thead {
 	padding-top: 0px;
 	padding-bottom: 5px;
 	border-bottom: none;
 }
 
-.c-di-surveys thead th {
+.c-di-surveys-head th {
+	padding-top: 5px;
 	padding-bottom: 5px;
 }
 
-.c-di-surveys tr{
+.c-di-surveys-head th span {
+	opacity: 0.5;
+	font-size: 0.8rem;
+}
+
+.c-di-surveys-body {
+	height: calc(100% - 25px);
+	overflow-x: hidden;
+}
+
+.c-di-surveys-body-inner {
+  height: calc(100% - 25px);
+  width: calc(100% + 25px);
+  overflow-y: scroll;
+  
+}
+
+.c-di-surveys-body tr{
 	border-bottom: 1px solid #fff;
 }
 
-.c-di-surveys tr:last-child{
+.c-di-surveys-body tr:nth-child(odd) {
+  background-color: #2e2e2e;
+}
+
+.c-di-surveys-body tr:last-child{
 	border-bottom: none;
 }
 
-.c-di-surveys tr td {
+.c-di-surveys-body tr td {
 	padding-top: 2px;
 	padding-bottom: 2px;
 }

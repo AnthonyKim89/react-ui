@@ -30,10 +30,11 @@ body {
 	color: black !important;
 }
 
-.rdtPicker td,th {
+.rdtPicker td {
 	padding: 3px 5px;
 	height: auto;  
 }
+
 .rdtPicker thead {
   border-bottom: none;
 }

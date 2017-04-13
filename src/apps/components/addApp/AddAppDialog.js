@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Button, Icon } from 'react-materialize';
+import { isEqual } from 'lodash';
 
 import AddAppDialogListing from './AddAppDialogListing';
 import AddAppDialogDetails from './AddAppDialogDetails';
@@ -47,6 +48,13 @@ class AddAppDialog extends Component {
   showAppDetails(selectedAppType) {
     this.setState({selectedAppType: selectedAppType});
     ReactDOM.findDOMNode(this).scrollIntoView();
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    // Only render when the state changes. shouldComponentUpdate will be called 
+    // frequently when the parent app receives new subscription data. But, we 
+    // don't want to update the settings page.
+    return !isEqual(nextState, this.state);
   }
 }
 
