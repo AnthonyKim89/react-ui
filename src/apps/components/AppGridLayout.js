@@ -133,9 +133,11 @@ class AppGridLayout extends Component {
     }
 
     const appData = this.props.appData.get(id);
+    const errorData = subscriptions.selectors.getSubErrors(appData, appType.constants.SUBSCRIPTIONS);
     const hasAppFooter = !!appType.AppComponentFooter;
     return <AppContainer id={id}
-                         appType={appType}                         
+                         errorData={errorData}
+                         appType={appType}
                          asset={this.props.appAssets.get(id)}
                          lastDataUpdate={subscriptions.selectors.lastDataUpdate(appData)}
                          hasAppFooter={hasAppFooter}
@@ -153,7 +155,7 @@ class AppGridLayout extends Component {
                          onAppUnsubscribe={(...args) => this.props.onAppUnsubscribe(...args)}
                          onAppRemove={() => this.props.onAppRemove(id)}
                          onAppSettingsUpdate={(settings) => this.props.onAppSettingsUpdate(id, settings)}>
-      <appType.AppComponent
+      {!errorData && <appType.AppComponent
         data={appData}
         asset={this.props.appAssets.get(id)}
         {...this.getPageParams().toJS()}
@@ -163,14 +165,14 @@ class AppGridLayout extends Component {
         widthCols={coordinates.get('w')}
         convert={this.props.convert}
         onAssetModified={asset => this.props.onAssetModified(asset)}
-        onSettingChange={(key, value) => this.props.onAppSettingsUpdate(id, settings.set(key, value))} />
+        onSettingChange={(key, value) => this.props.onAppSettingsUpdate(id, settings.set(key, value))} />}
 
-      {appType.AppComponentFooter &&
+      {!errorData && appType.AppComponentFooter &&
         <appType.AppComponentFooter
           data={appData}
           convert={this.props.convert}
           lastDataUpdate={subscriptions.selectors.lastDataUpdate(appData)}
-        /> 
+        />
       }
     </AppContainer>;
   }

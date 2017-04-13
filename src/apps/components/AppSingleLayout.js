@@ -33,7 +33,9 @@ class AppSingleLayout extends Component {
     const settings = app.get('settings');
     const appType = appRegistry.uiApps.getIn([category, 'appTypes', name]);
     const appData = this.props.appData.get(id);
+    const errorData = subscriptions.selectors.getSubErrors(appData, appType.constants.SUBSCRIPTIONS);
     return <AppContainer id={id}
+                         errorData={errorData}
                          appType={appType}
                          asset={this.props.appAssets.get(id)}
                          lastDataUpdate={subscriptions.selectors.lastDataUpdate(appData)}
@@ -49,7 +51,7 @@ class AppSingleLayout extends Component {
                          onAppUnsubscribe={(...args) => this.props.onAppUnsubscribe(...args)}
                          onAppRemove={() => this.props.onAppRemove(id)}
                          onAppSettingsUpdate={(settings) => this.props.onAppSettingsUpdate(id, settings)}>
-      <appType.AppComponent
+      {!errorData && <appType.AppComponent
         data={appData}
         asset={this.props.appAssets.get(id)}
         {...this.getPageParams().toJS()}
@@ -58,7 +60,7 @@ class AppSingleLayout extends Component {
         widthCols={12}
         convert={this.props.convert}
         onAssetModified={asset => this.props.onAssetModified(asset)}
-        onSettingChange={(key, value) => this.props.onAppSettingsUpdate(id, settings.set(key, value))} />
+        onSettingChange={(key, value) => this.props.onAppSettingsUpdate(id, settings.set(key, value))} />}
     </AppContainer>;
   }
 
