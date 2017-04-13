@@ -6,7 +6,6 @@ import { Icon } from 'react-materialize';
 import { List } from 'immutable';
 import { format as formatDate } from 'date-fns';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import _ from 'lodash';
 
 import AppSettingsDialog from './AppSettingsDialog';
 import common from '../../common';
@@ -75,7 +74,6 @@ class AppContainer extends Component {
   }
   
   render() {
-    let app_data = this.getAppData();
     const classes = {
       'c-app-container': true,
       'c-app-container--maximized': this.props.maximized,
@@ -92,7 +90,7 @@ class AppContainer extends Component {
         {this.props.availableAssets && this.props.layoutEnvironment && this.props.layoutEnvironment.get("type") === "general" &&
           <div className="c-app-container-asset-name">{this.getAppAssetName()}</div>}
         <div className="c-app-container__content">
-          { this.isErrorPresent(app_data) ? this.renderError(this.getErrorMesssage()) : this.props.children }
+          {this.props.errorData ? this.renderError() : this.props.children}
         </div>
         {this.isLastDataUpdateVisible() &&
           <div className="c-app-container__last-update">
@@ -138,7 +136,9 @@ class AppContainer extends Component {
   }
 
   // Render the Error Message
-  renderError(message = "An unknown error has occcured", error_code = "") {
+  renderError() {
+    let message = this.props.errorData.get('message');
+    let error_code = this.props.errorData.get('code');
     return (
       <div className="c-app-container__error">
         <div className="c-app-container__error-inner">
@@ -151,7 +151,7 @@ class AppContainer extends Component {
   }
 
   renderErrorLink(error_code) {
-    var text = "", url = "";
+    let text = "", url = "";
     switch(error_code) {
       case "config_missing_error":
         text = "Add well config";
@@ -165,10 +165,6 @@ class AppContainer extends Component {
     if (text !== "" && url !== "") {
       return <a href={url}>{text}</a>;
     }
-  }
-
-  getAppData() {
-    return this.props && this.props.subscriptions ? this.props.subscriptions.selectors.firstSubData(this.props.data, this.getSubscriptionKeys()) : null;
   }
 
   // Let the component implementation display the date and others info(if necessary)
@@ -204,33 +200,11 @@ class AppContainer extends Component {
     return this.props.appType.constants.SUBSCRIPTIONS;
   }
 
-    // Is there an Error key present in the data. 
-  isErrorPresent(data, error_key = "error") {
-    return data && true;
-    return data && typeof this.findKey(data, error_key) === "object";
-  }
-
-  // Try to get the error message automatically
-  getErrorMesssage(data, message_key = "error") {
-    return "An unknown error has occcured";
-    return this.findKey(data, message_key) || null;
-  }
-
-  // Find key in JSON object
-  // http://stackoverflow.com/questions/15642494/find-property-by-name-in-a-deep-object
-  findKey(obj, key) {
-      if (_.has(obj, key)) // or just (key in obj)
-          return [obj];
-
-      return _.flatten(_.map(obj, function(v) {
-          return typeof v === "object" ? this.findKey(v, key) : [];
-      }), true);
-  }
-
 }
 
 AppContainer.propTypes = {
   id: PropTypes.number.isRequired,
+  errorData: ImmutablePropTypes.map,
   asset: ImmutablePropTypes.map,
   appType: PropTypes.object.isRequired,
   //lastDataUpdate: PropTypes.number,
