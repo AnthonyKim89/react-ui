@@ -10,15 +10,16 @@ class TFOChart extends Component {
     this.canvasDimension = {};
     this.prevCanvasPosition = {};
     this.canvasPosition = {};
+    this.onResizing = this.onResizing.bind(this);
   }
 
   componentDidMount() {
     this.onResizing();
-    window.addEventListener("resize", this.onResizing.bind(this));
+    window.addEventListener("resize", this.onResizing,false);
   }
 
   componentWillUnmount() {
-    window.removeEventListener("resize", this.onResizing);
+    window.removeEventListener("resize", this.onResizing,false);
   }
   
   shouldComponentUpdate(nextProps,nextState) {        
