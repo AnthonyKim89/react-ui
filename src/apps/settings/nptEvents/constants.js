@@ -5,7 +5,7 @@ export const METADATA = {
   title: 'NPT Events',
   settingsTitle: 'NPT Events',
   subtitle: 'Non-Productive(NPT) events - equipment/critical failures and delays',
-  recordDevKey: 'corva',
+  recordProvider: 'corva',
   recordCollection:'data.nptEvents',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',

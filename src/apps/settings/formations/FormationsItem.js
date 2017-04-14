@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Input, Button} from 'react-materialize';
-import { Map } from 'immutable';
 
 import './FormationsItem.css';
 
@@ -27,8 +26,8 @@ class FormationsItem extends Component {
 
     if (!this.state.editing) return (
       <tr className="c-formations-item">
-        <td>{td}</td>
-        <td className="hide-on-med-and-down">{md}</td>
+        <td>{this.props.convert.convertValue(parseFloat(td), "length", "ft").fixFloat(2)}</td>
+        <td className="hide-on-med-and-down">{this.props.convert.convertValue(parseFloat(md), "length", "ft").fixFloat(2)}</td>
         <td>{formation_name}</td>
         <td className="hide-on-med-and-down">{lithology}</td>
         <td className="hide-on-med-and-down">
@@ -46,7 +45,7 @@ class FormationsItem extends Component {
             s={12}
             label="True Vertical Depth"
             error={this.state.errors.td}
-            defaultValue={td}
+            defaultValue={td? this.props.convert.convertValue(parseFloat(td), "length", "ft").fixFloat(2) : td}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{td:e.target.value})} )} />
         </td>
 
@@ -55,7 +54,7 @@ class FormationsItem extends Component {
             s={12}
             label="Measured Depth (ft)"
             error={this.state.errors.md}
-            defaultValue={md}
+            defaultValue={md? this.props.convert.convertValue(parseFloat(md), "length", "ft").fixFloat(2): md}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{md:e.target.value})} )} />
         </td>
 
@@ -85,7 +84,7 @@ class FormationsItem extends Component {
 
   save() {
 
-    let {td,md} = this.state.data;
+    let {td,md,formation_name,lithology} = this.state.data;
     let hasErrors = false;
     let errors = {};
     if (isNaN(parseFloat(td)) || parseFloat(td) <=0 ) {
@@ -107,7 +106,10 @@ class FormationsItem extends Component {
     }
 
     const record = this.props.record.update('data', (oldMap) => {
-      return Map(this.state.data);
+      return oldMap.set("td",this.props.convert.convertValue(td, "length", this.props.convert.getUnitPreference("length"), "ft"))
+        .set("md",this.props.convert.convertValue(md, "length", this.props.convert.getUnitPreference("length"), "ft"))
+        .set("formation_name", formation_name)
+        .set("lithology", lithology);
     });
 
     this.props.onSave(record);
