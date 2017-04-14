@@ -12,7 +12,7 @@ class TraceBoxes extends Component {
 
   render() {
     return <div className="c-trace-boxes">
-      <h5>Traces</h5>
+      <h5></h5>
       {this.props.traces.map((trace, idx) => this.renderBox(trace, idx))}
       <Button className="c-trace-boxes__add" onClick={() => this.props.onTraceAddRequested()}>
         Add Trace

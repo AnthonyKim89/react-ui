@@ -1,0 +1,39 @@
+.c-casing-item:nth-child(even) {
+  background-color: rgb(41,41,41);
+}
+
+.c-casing-item:hover {
+  background-color: rgb(96,91,91);
+}
+
+.c-casing-item .view-action {
+  display:none;
+}
+
+.c-casing-item:hover .view-action {
+  display: inline;  
+}
+
+.c-casing-item button {
+  margin-left: 10px;
+}
+
+ .c-casing-item .input-field{
+  margin-top: 0px;
+}
+
+.c-casing-item .input-field.col label{
+  left: 0;
+  width: 100%;
+}
+
+.c-casing-item .input-field.col label:after{
+  top:40px;
+}
+
+.c-casing-item td {
+  border-radius: 0px;
+  padding-top:12px;
+  padding-bottom:12px;
+  height:65px;
+}
