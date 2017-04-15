@@ -36,11 +36,11 @@ class DailyReportsSummary extends Component {
                     {this.props.recentRecords.map(record=> {
 
                       let {_id,timestamp,data:{file}} = record.toJS();
-                      let url = `https://s3.amazonaws.com/corva-files/${file}`;
+                      let url = `/v1/file/download/${file}`;
                       return (
                         <tr key={_id}>
                           <td style={{width: '55%'}}>
-                            <a href={url} target="_blank">{file.split("/")[1]}</a>
+                            <a href={url} target="_blank">{file}</a>
                           </td>
                           <td style={{width:'45%'}}>{moment.unix(timestamp).format('LLL')}</td>
                         </tr>
@@ -105,6 +105,8 @@ class DailyReportsSummary extends Component {
 
   async getSignedUrl(file,callback) {
     let data = await api.getS3SignedUrl(file.name,file.type);    
+    // Add node for 'signedUrl' which is the expected name by uploader component
+    data = data.set("signedUrl", data.get('signed_url'));
     callback(data.toJS());    
   }
 
@@ -126,9 +128,12 @@ class DailyReportsSummary extends Component {
 
   onFinish(urlObj) {
 
+
     const record = this.props.record.update('data',(oldMap) => {
-      return oldMap.set("file",urlObj.fileName);
+      return oldMap.set("file",urlObj.file_name);
     });
+
+    console.log(record);    
 
     this.props.onSave(record);
     this.setState({currentUpload:null});

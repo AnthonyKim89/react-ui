@@ -6,7 +6,7 @@ export const METADATA = {
   settingsTitle: 'Daily Reports',
   subtitle: 'Daily information reports',
   recordProvider: 'corva',
-  recordCollection:'data.dailyReports',
+  recordCollection:'data.daily-reports',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',
   publishedAt: '2017-03-21T00:00:00',

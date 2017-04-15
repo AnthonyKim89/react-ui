@@ -9,10 +9,10 @@ class DailyReportsItem extends Component {
   render() {
 
     let {timestamp,data:{file}} = this.props.record.toJS();
-    let url = `https://s3.amazonaws.com/corva-files/${file}`;
+    let url = `/v1/file/download/${file}`;
     return (
       <tr className="c-daily-reports-item">
-        <td><a href={url} target="_blank">{file.split("/")[1]}</a></td>
+        <td><a href={url} target="_blank">{file}</a></td>
         <td>{moment.unix(timestamp).format('LLL')}</td>
         <td className="hide-on-med-and-down"></td>
         <td className="hide-on-med-and-down">

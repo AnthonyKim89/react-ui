@@ -165,6 +165,10 @@ export async function getWellTimeline(wellId) {
 }
 
 export async function getS3SignedUrl(filename,contentType) {
-  const data = await get(`/v1/file/sign?objectName=${filename}&contentType=${contentType}`);  
+  const data = await get(`/v1/file/sign?file_name=${filename}&contentType=${contentType}`);  
   return fromJS(data);
+}
+
+export async function getFileDownload(filename) {
+  return await get(`/v1/file/download?file_name=${filename}`);  
 }
