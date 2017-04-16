@@ -35,12 +35,12 @@ class DailyReportsSummary extends Component {
                   <tbody>
                     {this.props.recentRecords.map(record=> {
 
-                      let {_id,timestamp,data:{file}} = record.toJS();
-                      let url = `/v1/file/download/${file}`;
+                      let {_id,timestamp,data:{file_name, display_name}} = record.toJS();
+                      let url = api.getFileDownloadLink(file_name);
                       return (
                         <tr key={_id}>
                           <td style={{width: '55%'}}>
-                            <a href={url} target="_blank">{file}</a>
+                            <a href={url} download={display_name}>{display_name}</a>
                           </td>
                           <td style={{width:'45%'}}>{moment.unix(timestamp).format('LLL')}</td>
                         </tr>
@@ -51,9 +51,9 @@ class DailyReportsSummary extends Component {
               </td>
               <td className="c-daily-reports-summary-action hide-on-med-and-down">
                 <div className="file-field input-field">
-                  <div className="btn">
+                  <div className="btn-floating btn-large c-daily-reports-summary-action__download-button">
                     <span>
-                      <i className="large material-icons">cloud</i>
+                      <i className="large material-icons">backup</i>
                     </span>
                     <input type="file" onChange={this.uploadFile} ref={(f)=>this.fileInput = f}/>
                   </div>
@@ -127,13 +127,9 @@ class DailyReportsSummary extends Component {
   }
 
   onFinish(urlObj) {
-
-
     const record = this.props.record.update('data',(oldMap) => {
-      return oldMap.set("file",urlObj.file_name);
+      return oldMap.set("file_name", urlObj.file_name).set("display_name", urlObj.display_name);
     });
-
-    console.log(record);    
 
     this.props.onSave(record);
     this.setState({currentUpload:null});

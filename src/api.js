@@ -169,6 +169,7 @@ export async function getS3SignedUrl(filename,contentType) {
   return fromJS(data);
 }
 
-export async function getFileDownload(filename) {
-  return await get(`/v1/file/download?file_name=${filename}`);  
+export function getFileDownloadLink(filename) {
+  const token = auth.getToken();
+  return `${baseUrl}/v1/file/download?file_name=${filename}&authorization=${token}`;  
 }

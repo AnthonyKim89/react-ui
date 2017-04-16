@@ -28,6 +28,16 @@
   width: 10%;
 }
 
+.c-daily-reports-summary-action .c-daily-reports-summary-action__download-button {
+  min-height: 56px;
+  width: 56px;
+} 
+
+.c-daily-reports-summary-action i {
+  font-size: 5rem;
+}
+
+
 @media(max-width: 768px) { 
   .c-daily-reports-summary-file {
     width: 100%;
