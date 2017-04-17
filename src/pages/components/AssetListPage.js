@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Row, Col, Table, Input, Icon, Dropdown, NavItem } from 'react-materialize';
+import { Row, Col, Table, Input, Icon, Dropdown, NavItem, Button } from 'react-materialize';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router';
 import { format as formatDate } from 'date-fns';
+import Modal from 'react-modal';
 
 import AssetListTabBar from './AssetListTabBar';
 import assets from '../../assets';
@@ -11,6 +12,15 @@ import assets from '../../assets';
 import './AssetListPage.css';
 
 class AssetListPage extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      assetDialogOpen: false,
+      assetDialogMode: 'Add', // or 'Edit'
+      assetDialogEditAsset: null,
+    };
+  }
 
   componentDidMount() {
     this.props.listAssets(this.props.params.assetType);
@@ -73,7 +83,7 @@ class AssetListPage extends Component {
                     </Link>
                   </th>
                   <th className="c-asset-list-page__add-asset-column">
-                    <a href="#" onClick={evt => this.addAsset(evt, this.props)} className="c-asset-list-page__add-asset-column__icon"><Icon>add_circle_outline</Icon></a>
+                    <NavItem onClick={() => this.openAssetDialog('Add')} className="c-asset-list-page__add-asset-column__icon"><Icon>add_circle_outline</Icon></NavItem>
                   </th>
                 </tr>
               </thead>
@@ -97,7 +107,7 @@ class AssetListPage extends Component {
                     <td>{this.formatDate(asset.get('date'))}</td>
                     <td className="c-asset-list-page__modify-asset-menu">
                       <Dropdown trigger={<NavItem><Icon>keyboard_arrow_down</Icon></NavItem>}>
-                        <NavItem>Edit</NavItem>
+                        <NavItem onClick={() => this.openAssetDialog('Edit', asset)}>Edit</NavItem>
                         <NavItem>Delete</NavItem>
                       </Dropdown>
                     </td>
@@ -109,12 +119,41 @@ class AssetListPage extends Component {
         <Col s={2}>
         </Col>
       </Row>
+      <Modal
+        isOpen={this.state.assetDialogOpen}
+        onRequestClose={() => this.closeAssetDialog()}
+        className='c-asset-list-page__edit-asset'
+        overlayClassName='c-asset-list-page__edit-asset__overlay'
+        contentLabel={this.state.assetDialogMode.toUpperCase() + " Asset"}>
+        <div className="c-asset-list-page__edit-asset__dialog">
+          <header>
+            <h4 className="c-asset-list-page__edit-asset__dialog__title">
+              {this.state.assetDialogMode + " Asset"}
+            </h4>
+          </header>
+          <Input label="Asset Name" defaultValue={this.state.assetDialogEditAsset && this.state.assetDialogEditAsset.get('name')}/>
+          <Button className="c-asset-list-page__edit-asset__dialog__done" onClick={() => this.saveAsset()}>
+            Save
+          </Button>
+        </div>
+      </Modal>
     </div>;
   }
 
-  addAsset(evt, props) {
-    console.log(props.params.assetType);
-    evt.preventDefault();
+  saveAsset() {
+    this.closeAssetDialog();
+  }
+
+  openAssetDialog(mode='Add', asset=null) {
+    this.setState({
+      assetDialogOpen: true,
+      assetDialogMode: mode,
+      assetDialogEditAsset: asset,
+    });
+  }
+
+  closeAssetDialog() {
+    this.setState({assetDialogOpen: false});
   }
 
   makeSortLink(sortField) {
