@@ -15,6 +15,7 @@ ChartSeries.propTypes = {
   color: PropTypes.string,
   dashStyle: PropTypes.string,
   lineSize: PropTypes.string,
+  fillOpacity: PropTypes.number,
   pointPadding: PropTypes.number,
   groupPadding: PropTypes.number,
   borderWidth: PropTypes.number,

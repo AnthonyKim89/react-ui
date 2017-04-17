@@ -161,10 +161,10 @@ class Chart extends Component {
   }
 
   getSeriesFromChild(child, props) {
-    const {type, title, data, color, id, yField, yAxis, yAxisTitle, yAxisOpposite, minValue, maxValue, dashStyle, lineWidth, pointPadding, groupPadding, borderWidth, marker} = child.props;
+    const {type, title, data, color, id, yField, yAxis, yAxisTitle, yAxisOpposite, minValue, maxValue, dashStyle, lineWidth, pointPadding, groupPadding, borderWidth, marker, fillOpacity, step} = child.props;
     return {
       id,
-      name: title, 
+      name: title,
       type: type || 'line',
       data: data.reduce((result, point) => {
         const x = point.get(props.xField);
@@ -179,12 +179,14 @@ class Chart extends Component {
       yAxisOpposite: yAxisOpposite,
       dashStyle: dashStyle || 'solid',
       color,
+      fillOpacity: fillOpacity || 0.75,
       marker: marker || {
         enabled: type === 'scatter',
         radius: 3,
         symbol: "circle"
       },
       lineWidth: lineWidth || (type === 'line' ? 3 : 0),
+      step: step || false,
       animation: false,
       showInLegend: this.isLegendVisible(props),
       minValue,
