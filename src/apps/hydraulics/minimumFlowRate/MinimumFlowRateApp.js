@@ -38,6 +38,7 @@ class MinimumFlowRateApp extends Component {
               yField="value"
               yAxisTitle={{text: `Flow Rate (${this.props.convert.getUnitDisplay('volume')}pm)`}}
               color={this.getSeriesColor('flow_rate')}
+              step={true}
             />
           </Chart> :
           <LoadingIndicator />}

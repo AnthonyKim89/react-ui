@@ -161,7 +161,7 @@ class Chart extends Component {
   }
 
   getSeriesFromChild(child, props) {
-    const {type, title, data, color, id, yField, yAxis, yAxisTitle, yAxisOpposite, minValue, maxValue, dashStyle, lineWidth, pointPadding, groupPadding, borderWidth, marker, fillOpacity} = child.props;
+    const {type, title, data, color, id, yField, yAxis, yAxisTitle, yAxisOpposite, minValue, maxValue, dashStyle, lineWidth, pointPadding, groupPadding, borderWidth, marker, fillOpacity, step} = child.props;
     return {
       id,
       name: title,
@@ -186,6 +186,7 @@ class Chart extends Component {
         symbol: "circle"
       },
       lineWidth: lineWidth || (type === 'line' ? 3 : 0),
+      step: step || false,
       animation: false,
       showInLegend: this.isLegendVisible(props),
       minValue,
