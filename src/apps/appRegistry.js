@@ -41,15 +41,22 @@ import planSurveys from './settings/surveys/plan';
 import fluidChecks from './settings/fluidChecks';
 import costs from './settings/costs';
 import map from './settings/map';
+import formations from './settings/formations';
+import crewsContact from './settings/crewsContact';
+import nptEvents from './settings/nptEvents';
 
 // CONTROL APPS
 import wellTimeline from './wellTimeline';
 
 // ANALYTICS APPS
 import raRigActivity from './rigActivity/rigActivity';
+import raDrillingOperations from './rigActivity/drillingOperations';
 
 // HYDRAULICS APPS
+import hydraulicsMinimumFlowRate from './hydraulics/minimumFlowRate';
+import hydraulicsOverview from './hydraulics/overview';
 import hydraulicsPressureLoss from './hydraulics/pressureLoss';
+import hydraulicsPressureTrend from './hydraulics/pressureTrend';
 
 // Apps that can be displayed on dashboard / asset pages, keyed by app type
 export const uiApps = Map({
@@ -112,21 +119,28 @@ export const uiApps = Map({
       planSurveys,
       fluidChecks,
       costs,
-      map
+      map,
+      formations,
+      crewsContact,
+      nptEvents
     })
   }),
   rigActivity: Map({
     title: 'Rig Activity',
     subtitle: '',
     appTypes: Map({
-      rigActivity: raRigActivity
+      rigActivity: raRigActivity,
+      drillingOperations: raDrillingOperations
     })
   }),
   hydraulics: Map({
     title: 'Hydraulics',
     subtitle: '',
     appTypes: Map({
-      pressureLoss: hydraulicsPressureLoss
+      minimumFlowRate: hydraulicsMinimumFlowRate,
+      overview: hydraulicsOverview,
+      pressureLoss: hydraulicsPressureLoss,
+      pressureTrend: hydraulicsPressureTrend,
     })
   })
 });

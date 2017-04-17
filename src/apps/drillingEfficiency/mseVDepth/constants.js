@@ -1,12 +1,12 @@
 export const CATEGORY = 'drillingEfficiency';
-export const NAME = 'mse';
+export const NAME = 'mseVDepth';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'drilling-efficiency.mse'}
+  {provider: 'corva', collection: 'drilling-efficiency.mse'}
 ];
 export const METADATA = {
   title: 'MSE v Depth',
   settingsTitle: 'MSE v Depth',
-  subtitle: '',
+  subtitle: 'Mechanical Specific Energy (MSE) compared to depth',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',
   publishedAt: '2016-07-01T00:00:00'

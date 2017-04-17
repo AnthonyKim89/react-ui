@@ -3,7 +3,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { find } from 'lodash';
 import numeral from 'numeral';
 import { distanceInWordsToNow } from 'date-fns';
-import { List } from 'immutable';
+import Immutable from 'immutable';
 
 import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
 import { SUPPORTED_TRACES } from '../constants';
@@ -19,31 +19,20 @@ const [ latestSubscription, summarySubscription ] = SUBSCRIPTIONS;
 
 class MultiTraceApp extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {summary: List()};
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (this.isSummaryChanged(newProps)) {
-      const summary = this.getTraceSummary(newProps);
-      this.setState({summary: this.addSummaryData(summary)});
+  shouldComponentUpdate(nextProps, nextState) {
+    if (Immutable.Iterable.isIterable(this.props.data)) {
+      return !this.props.data.equals(nextProps.data);
     }
+    return false;
   }
 
-  isSummaryChanged(newProps) {
-    return this.getTraceSummary(newProps) &&
-           !this.getTraceSummary(newProps).equals(this.getTraceSummary(this.props));
-  }
-
-  addSummaryData(summary) {
-    // The new data could by either a list of maps or a single map.
-    const newData = List.isList(summary) ?
-      summary.map(s => s.update('timestamp', t => new Date(t * 1000))) :
-      List.of(summary.update('timestamp', t => new Date(t * 1000)));
-    return this.state.summary
-      .concat(newData.map(itm => itm.merge(itm.get('data')).delete('data')))
-      .sortBy(s => s.get('timestamp'));
+  getSummaryData() {
+    let summary = this.getTraceSummary(this.props);
+    summary = summary.map(s => s.update('timestamp', t => new Date(t * 1000)));
+    summary = summary.sortBy(s => s.get('timestamp'));
+    summary = summary.map(itm => itm.merge(itm.get('data')).delete('data'));
+    summary = summary.sortBy(s => s.get('timestamp'));
+    return summary;
   }
 
   render() {
@@ -52,10 +41,10 @@ class MultiTraceApp extends Component {
         {this.getLatestTraceRecord() ?
           this.renderLatestTraces() :
           <LoadingIndicator />}
-        {this.state.summary.size > 0 ?
+        {this.getTraceSummary(this.props) ?
           this.renderTraceSummaryGraph() :
           <LoadingIndicator />}
-        {this.state.summary.size > 0 && this.renderTraceSummaryGraphRanges()}
+        {this.getTraceSummary(this.props) && this.renderTraceSummaryGraphRanges()}
       </div>
     );
   }
@@ -94,6 +83,7 @@ class MultiTraceApp extends Component {
   }
 
   renderTraceSummaryGraph() {
+    let summary = this.getSummaryData();
     return <div className="c-trace-multi__graph">
       <Chart
         multiAxis
@@ -104,11 +94,10 @@ class MultiTraceApp extends Component {
         xAxisLabelFormatter={(...a) => this.formatDate(...a)}>
         {this.getActiveTraceKeys().map(trace => {
           const spec = this.getTraceSpec(trace);
-          let convertedSummary = this.state.summary;
 
           // Performing unit conversion.
           if (spec.hasOwnProperty('unitType')) {
-            convertedSummary = this.props.convert.convertImmutables(convertedSummary, this.props[trace], spec.unitType, spec.cunit);
+            summary = this.props.convert.convertImmutables(summary, this.props[trace], spec.unitType, spec.cunit);
           }
 
           return <ChartSeries
@@ -119,7 +108,7 @@ class MultiTraceApp extends Component {
             title={spec.label}
             minValue={spec.min}
             maxValue={spec.max}
-            data={convertedSummary}
+            data={summary}
             yField={this.props[trace]}
             color={this.getSeriesColor(trace)} />;
         })}
@@ -165,7 +154,7 @@ class MultiTraceApp extends Component {
   }
 
   getTraceSummary(props) {
-    return subscriptions.selectors.getSubData(props.data, summarySubscription);
+    return subscriptions.selectors.getSubData(props.data, summarySubscription, false);
   }
 
   getSeriesColor(trace) {

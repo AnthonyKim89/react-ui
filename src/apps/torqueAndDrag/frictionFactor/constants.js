@@ -1,6 +1,6 @@
 export const CATEGORY = 'torqueAndDrag';
 export const NAME = 'frictionFactor';
-export const SUBSCRIPTIONS = [{devKey: 'corva', collection: 'torque-and-drag.friction-factor'}];
+export const SUBSCRIPTIONS = [{provider: 'corva', collection: 'torque-and-drag.friction-factor'}];
 export const METADATA = {
   title: 'Friction Factor',
   settingsTitle: 'Friction Factor',

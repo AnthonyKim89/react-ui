@@ -1,7 +1,7 @@
 export const CATEGORY = 'directional';
 export const NAME = 'wellPlan';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'directional.well-plan'}
+  {provider: 'corva', collection: 'directional.well-plan'}
 ];
 export const METADATA = {
   title: 'Directional Well Plan',

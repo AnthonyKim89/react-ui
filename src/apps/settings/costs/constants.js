@@ -5,7 +5,7 @@ export const METADATA = {
   title: 'Costs',
   settingsTitle: 'Costs',
   subtitle: 'Asset Costs',
-  recordDevKey: 'corva',
+  recordProvider: 'corva',
   recordCollection:'data.costs',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',

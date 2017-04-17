@@ -12,6 +12,7 @@ class DropdownEditor extends Component {
         type="select"
         value={this.props.currentValue}
         onChange={e => this.onChange(e)}>
+        { this.renderLabel() }
         {this.props.listDefinitions.map(item =>
           <option className="grey lighten-2 black-text" value={item.value} key={item.value}>
             {item.label}
@@ -19,6 +20,12 @@ class DropdownEditor extends Component {
         )}
       </Input>
     </div>;
+  }
+
+  renderLabel() {
+    return this.props.isLabelVisible ? 
+    <option value="" disabled defaultValue="true">{this.props.label}</option>
+    : "";
   }
 
   onChange(event) {
@@ -30,7 +37,14 @@ class DropdownEditor extends Component {
 DropdownEditor.propTypes = {
   listDefinitions: ImmutablePropTypes.list.isRequired,
   currentValue: PropTypes.number,
+  label: PropTypes.string,
+  isLabelVisible: PropTypes.bool,
   onChange: PropTypes.func.isRequired
+};
+
+DropdownEditor.defaultProps = {
+  label: "Choose An Option",
+  isLabelVisible: true,
 };
 
 export default DropdownEditor;

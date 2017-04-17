@@ -19,7 +19,6 @@ class AppTabLayout extends Component {
   constructor(props) {
     super(props);
     this.state = {selectedAppIdx: 0};
-    this.convert = new Convert();
   }
 
   render() {
@@ -62,11 +61,14 @@ class AppTabLayout extends Component {
     const category = app.get('category');
     const name = app.get('name');
     const id = app.get('id');
+    const coordinates = app.get('coordinates');
     const size = common.constants.Size.XLARGE;
     const settings = app.get('settings');
     const appType = appRegistry.uiApps.getIn([category, 'appTypes', name]);
     const appData = this.props.appData.get(id);
+    const errorData = subscriptions.selectors.getSubErrors(appData, appType.constants.SUBSCRIPTIONS);
     return (appType === undefined) ? "Not Found" : <AppContainer id={id}
+                         errorData={errorData}
                          appType={appType}
                          asset={this.props.appAssets.get(id)}
                          lastDataUpdate={subscriptions.selectors.lastDataUpdate(appData)}
@@ -74,6 +76,7 @@ class AppTabLayout extends Component {
                          isActionsDisabled={true}
                          isTitlesDisabled={true}
                          size={size}
+                         coordinates={coordinates}
                          appSettings={settings}
                          pageParams={this.getPageParams()}
                          commonSettingsEditors={this.props.commonSettingsEditors}
@@ -82,16 +85,16 @@ class AppTabLayout extends Component {
                          onAppUnsubscribe={(...args) => this.props.onAppUnsubscribe(...args)}
                          onAppRemove={() => this.props.onAppRemove(id)}
                          onAppSettingsUpdate={(settings) => this.props.onAppSettingsUpdate(id, settings)}>
-      <appType.AppComponent
+      {!errorData && <appType.AppComponent
         data={appData}
         asset={this.props.appAssets.get(id)}
         {...this.getPageParams().toJS()}
         {...settings.toObject()}
         size={size}
         widthCols={12}
-        convert={this.convert}
+        convert={this.props.convert}
         onAssetModified={asset => this.props.onAssetModified(asset)}
-        onSettingChange={(key, value) => this.props.onAppSettingsUpdate(id, settings.set(key, value))} />
+        onSettingChange={(key, value) => this.props.onAppSettingsUpdate(id, settings.set(key, value))} />}
     </AppContainer>;
   }
 
@@ -106,6 +109,7 @@ AppTabLayout.propTypes = {
   appData: ImmutablePropTypes.map.isRequired,
   appAssets: ImmutablePropTypes.map.isRequired,
   commonSettingsEditors: ImmutablePropTypes.list,
+  convert: React.PropTypes.instanceOf(Convert).isRequired,
   pageParams: ImmutablePropTypes.map,
   onAppSubscribe: PropTypes.func.isRequired,
   onAppUnsubscribe: PropTypes.func.isRequired,

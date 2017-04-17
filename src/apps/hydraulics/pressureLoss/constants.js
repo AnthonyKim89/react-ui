@@ -1,7 +1,7 @@
 export const CATEGORY = 'hydraulics';
 export const NAME = 'pressureLoss';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'hydraulics.pressure-loss'}
+  {provider: 'corva', collection: 'hydraulics.pressure-loss'}
 ];
 export const METADATA = {
   title: 'Pressure Loss',

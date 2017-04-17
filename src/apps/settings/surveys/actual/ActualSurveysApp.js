@@ -12,7 +12,7 @@ class ActualSurveysApp extends Component {
               {...this.props}
               recordNamePlural="Surveys"
               recordNameSingular="Survey"
-              dataCollectionConfig={{devKey: 'corva', collection: 'data.actual_survey'}}
+              dataCollectionConfig={{provider: 'corva', collection: 'data.actual_survey'}}
               parseCollectionConfig={parseSubscription}
               minimumCurvatureCollectionConfig={minimumCurvatureSubscription} />;
   }

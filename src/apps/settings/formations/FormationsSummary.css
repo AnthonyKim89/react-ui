@@ -1,0 +1,18 @@
+.c-formations-summary {
+  background-color: rgb(42, 41, 41);
+  margin: 10px 0;
+  padding: 10px 0;
+}
+
+.c-formations-summary table {
+	overflow-x: visible;
+}
+
+.c-formations-summary__layers {	
+	text-align: left;
+	padding-left: 15%;
+}
+
+.c-formations-summary__action{	
+	width: 15%;
+}

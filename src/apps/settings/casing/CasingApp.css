@@ -1,10 +1,35 @@
 .c-casing {
-  position: absolute;
+	position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   overflow-y: scroll;
 
-  padding: 30px;
+  padding: 20px 30px;
+}
+
+.c-casing h4 {
+  margin-bottom:0px;
+  margin-top: 0px;
+}
+
+.c-casing__id-header, .c-casing__od-header, .c-casing__td-header,.c-casing__bd-header, .c-casing__lm-header, .c-casing__action-header {
+  width: 14%;
+}
+
+.c-casing__length-header, .c-casing__grade-header {
+  width: 8%;
+}
+
+
+@media(max-width: 768px) {
+	.c-casing {
+		padding: 0px;
+	}
+
+  .c-casing__id-header, .c-casing__od-header, .c-casing__length-header{
+    width: 33%;
+  }
+   
 }

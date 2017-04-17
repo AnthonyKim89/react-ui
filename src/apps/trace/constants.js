@@ -10,9 +10,11 @@ export const SUPPORTED_TRACES = [
   {trace: 'mud_flow_out_percentage', label: 'Flow Out %', unit: '%', min: 0, max: 100},
   {trace: 'standpipe_pressure', label: 'Standpipe Pressure', unit: '{u}', unitType: 'pressure', cunit: 'psi', min: 0, max: 10000},
   {trace: 'pump_spm_total', label: 'SPM', unit: 'spm', min: 0, max: 250},
-  {trace: 'mud_volume', label: 'MV', unit: 'bbl', min: 0, max: 1000},
+  {trace: 'mud_volume', label: 'MV', unit: '{u}', unitType: 'oil', cunit: 'bbl', min: 0, max: 1000},
   {trace: 'diff_press', label: 'Diff Press', unit: '{u}', unitType: 'pressure', cunit: 'psi', min: 0, max: 1000},
-  {trace: 'block_height', label: 'BH', unit: '{u}', unitType: 'length', cunit: 'ft', min: 0, max: 100}
+  {trace: 'block_height', label: 'BH', unit: '{u}', unitType: 'length', cunit: 'ft', min: 0, max: 100},
+  {trace: 'bit_depth', label: 'Bit Depth', unit: '{u}', unitType: 'length', cunit: 'ft'},
+  {trace: 'hole_depth', label: 'Hole Depth', unit: '{u}', unitType: 'length', cunit: 'ft'},
 ];
 
 export const SUPPORTED_TIME_PERIODS = [

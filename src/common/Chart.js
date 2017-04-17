@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import Highcharts from 'highcharts';
-import { difference, find, intersection, differenceBy, values } from 'lodash';
+import { difference, find, intersection, differenceBy, values, uniqBy } from 'lodash';
 import { Size } from './constants';
 
 class Chart extends Component {
@@ -22,8 +22,19 @@ class Chart extends Component {
         zoomType: 'xy',
         panning: true,
         panKey: 'shift',
-        plotBackgroundColor: 'rgb(42, 46, 46)',
-        spacing: this.props.noSpacing ? [0, 0, 0, 0] : [10, 10, 15, 10]
+        plotBackgroundColor: this.props.plotBackgroundColor || 'rgb(42, 46, 46)',
+        spacing: this.props.noSpacing ? [0, 0, 0, 0] : [10, 10, 15, 10],
+        marginBottom: this.props.marginBottom,
+        marginLeft: this.props.marginLeft,
+        marginRight: this.props.marginRight,
+        marginTop: this.props.marginTop,
+      },
+      tooltip: {
+        formatter: this.props.tooltipFormatter,
+        pointFormat: this.props.tooltipPointFormat || `<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y}</b><br/>`,
+        pointFormatter: this.props.tooltipPointFormatter,
+        valuePrefix: this.props.tooltipValuePrefix,
+        valueSuffix: this.props.tooltipValueSuffix,
       },
       plotOptions: {
         series: {
@@ -31,7 +42,7 @@ class Chart extends Component {
         },
       },
       xAxis: {
-        title: this.props.xAxisTitle,
+        title: this.isAxisLabelsVisible(this.props) ? this.props.xAxisTitle : {text:null},
         gridLineWidth: this.props.gridLineWidth || 1,
         gridLineColor: 'rgb(47, 51, 51)',
         lineWidth: this.props.xAxisWidth || 0,
@@ -41,12 +52,15 @@ class Chart extends Component {
           enabled: this.isAxisLabelsVisible(this.props) && !this.props.hideXAxis,
           autoRotation: false,
           style: this.props.xLabelStyle || {color: '#fff'},
-          formatter: this.getXAxisLabelFormatter()
+          formatter: this.getXAxisLabelFormatter(),
+          reserveSpace: this.props.reserveXLabelSpace
         },
-
+        showFirstLabel: this.props.showFirstXLabel,
+        showLastLabel: this.props.showLastXLabel,
         opposite: this.props.xAxisOpposite,
         tickPositioner: this.props.xTickPositioner,
         plotLines: this.props.xPlotLines,
+        type: this.props.xAxisType
       },
       yAxis: this.getYAxes(series, this.props),
       title: {text: null},
@@ -79,7 +93,7 @@ class Chart extends Component {
       }, false);
       reflow = true;
       redraw = true;
-    } else if (newProps.widthCols !== this.props.widthCols) {
+    } else if (newProps.widthCols !== this.props.widthCols || (this.props.coordinates && (newProps.coordinates !== this.props.coordinates))) {
       reflow = true;
     }
     redraw = this.diffPatchSeries(newProps) || redraw;
@@ -146,11 +160,11 @@ class Chart extends Component {
     return React.Children.map(props.children, child => this.getSeriesFromChild(child, props));
   }
 
-   getSeriesFromChild(child, props) {
-    const {type, title, data, color, id, yField, minValue, maxValue, dashStyle, lineWidth, pointPadding, groupPadding, borderWidth, marker} = child.props;
+  getSeriesFromChild(child, props) {
+    const {type, title, data, color, id, yField, yAxis, yAxisTitle, yAxisOpposite, minValue, maxValue, dashStyle, lineWidth, pointPadding, groupPadding, borderWidth, marker} = child.props;
     return {
       id,
-      name: title,
+      name: title, 
       type: type || 'line',
       data: data.reduce((result, point) => {
         const x = point.get(props.xField);
@@ -160,12 +174,15 @@ class Chart extends Component {
         result.push({id: pointId, x, y, color});
         return result;
       }, []),
-      yAxis: props.multiAxis ? `${id}-axis` : 0,
-      dashStyle: dashStyle || 'ShortDot',
+      yAxis: props.multiAxis ? yAxis : 0,
+      yAxisTitle: yAxisTitle,
+      yAxisOpposite: yAxisOpposite,
+      dashStyle: dashStyle || 'solid',
       color,
       marker: marker || {
         enabled: type === 'scatter',
-        radius: 4
+        radius: 3,
+        symbol: "circle"
       },
       lineWidth: lineWidth || (type === 'line' ? 3 : 0),
       animation: false,
@@ -180,7 +197,7 @@ class Chart extends Component {
 
   getYAxes(allSeries, props) {
     if (props.multiAxis) {
-      return allSeries.map(s => this.getYAxis(s, props));
+      return uniqBy(allSeries.map(s => this.getYAxis(s, props)), 'id');
     } else if (allSeries.length) {
       return [this.getYAxis(allSeries[0], props)];
     } else {
@@ -190,43 +207,55 @@ class Chart extends Component {
 
   getYAxis(series, props) {
     return {
-      id: `${series.id}-axis`,
-      title: this.props.yAxisTitle || {text: null},
-      gridLineWidth: this.props.gridLineWidth || 1,
+      id: series.yAxis,
+      title: series.yAxisTitle || props.yAxisTitle || {text: null},
+      visible: this.isAxisLabelsVisible(props),
+      gridLineWidth: props.gridLineWidth || 1,
       gridLineColor: 'rgb(47, 51, 51)',
       labels: {
         enabled: this.isAxisLabelsVisible(props) && !props.hideYAxis,
-        style:  this.props.yLabelStyle || {color: '#fff'},
+        style:  props.yLabelStyle || {color: '#fff'},
+        formatter: props.yAxisLabelFormatter,
+        useHTML: true,
+        reserveSpace: props.reserveYLabelSpace
       },
-      opposite: props.yAxisOpposite,
+      opposite: series.yAxisOpposite ? series.yAxisOpposite : props.yAxisOpposite,
       min: series.minValue || null,
       max: series.maxValue || null,
       lineWidth: props.yAxisWidth || 0,
       lineColor:  props.yAxisColor || '',
-      tickPositioner: this.props.yTickPositioner,
-      plotLines: this.props.yPlotLines,
-      reversed: props.yAxisReversed || false
+      tickPositioner: props.yTickPositioner,
+      plotLines: props.yPlotLines,
+      reversed: props.yAxisReversed || false,
+      showFirstLabel: props.showFirstYLabel,
+      showLastLabel: props.showLastYLabel,
+      type: this.props.yAxisType
     };
   }
 
   getXAxisLabelFormatter() {
     const formatter = this.props.xAxisLabelFormatter;
     return formatter && function() {
-      return formatter(this.value, this.isFirst, this.isLast);
-    };
+        return formatter(this.value, this.isFirst, this.isLast);
+      };
   }
 
   isLegendVisible(props) {
-    return props.size === Size.XLARGE;
+    return props.showLegend && (props.size === Size.XLARGE);
   }
 
-  isAxisLabelsVisible(props) {    
+  isAxisLabelsVisible(props) {
     return props.size !== Size.SMALL;
   }
 }
 
+Chart.defaultProps = {
+  showLegend: true,
+};
+
 Chart.propTypes = {
   size: PropTypes.oneOf(values(Size)).isRequired,
+  coordinates: PropTypes.object,
   widthCols: PropTypes.number.isRequired,
   xField: PropTypes.string,
   horizontal: PropTypes.bool,
@@ -234,6 +263,7 @@ Chart.propTypes = {
   yAxisOpposite: PropTypes.bool,
   multiAxis: PropTypes.bool,
   xAxisLabelformatter: PropTypes.func,
+  showLegend: PropTypes.bool, 
   chartType: PropTypes.string,
   noSpacing: PropTypes.bool
 };

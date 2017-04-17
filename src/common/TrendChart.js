@@ -20,9 +20,12 @@ class TrendChart extends Component {
       credits: {enabled: false},
       title: "",
       legend:{
-      	itemStyle:{
-      		color:'#ffffff'
-      	}
+        itemStyle:{
+          color:'#ffffff',
+        },
+        itemHoverStyle:{
+          color:'#58c9c2',
+        }
       },
       plotOptions: {
         series: {
@@ -30,22 +33,22 @@ class TrendChart extends Component {
         }
       },
       xAxis: {
-          title: {
-              enabled: true,
-              text: 'Measure Depth ('+this.props.convert.getUnitDisplay('length')+')',
-              style: {
-              	color:'#ffffff'
-              }
-          },
-          labels:{
-          	style:{
-          		color:'#ffffff'
-          	}
-          },
-          gridLineWidth: 1,
-          gridLineColor: 'rgb(150, 150, 150)',
-          tickWidth: 0,
-      },      
+        title: {
+          enabled: true,
+          text: this.props.xAxisTitle,
+          style: {
+            color:'#ffffff'
+          }
+        },
+        labels:{
+          style:{
+            color:'#ffffff'
+          }
+        },
+        gridLineWidth: 1,
+        gridLineColor: 'rgb(150, 150, 150)',
+        tickWidth: 0,
+      },
       yAxis: this.generateYAxis(this.props.yAxes),
       series: this.props.series
     });
@@ -83,7 +86,7 @@ class TrendChart extends Component {
     if (typeof this.state.chart === 'undefined') {
       return;
     }
-    let updated = false;
+    let updated = false, reflow = false;
     const chart = this.state.chart;
 
     if (!isEqual(newProps.series, this.props.series)) {
@@ -98,6 +101,11 @@ class TrendChart extends Component {
       chart.yAxis.update(this.generateYAxis(newProps.yAxes), false);
     }
 
+    if (newProps.widthCols !== this.props.widthCols || (this.props.coordinates && (newProps.coordinates !== this.props.coordinates))) {
+      reflow = true;
+    }
+
+    if (reflow) { chart.reflow(); }
     if (updated) {
       chart.redraw(false);
     }
@@ -105,8 +113,10 @@ class TrendChart extends Component {
 }
 
 TrendChart.propTypes = {
-	series: PropTypes.array,
-	yAxes: PropTypes.array
+  coordinates: PropTypes.object,
+  series: PropTypes.array,
+  xAxisTitle: PropTypes.string.isRequired,
+  yAxes: PropTypes.array
 };
-export default TrendChart;
 
+export default TrendChart;

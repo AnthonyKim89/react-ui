@@ -5,7 +5,7 @@ export const METADATA = {
   title: 'Map',
   settingsTitle: 'Map',
   subtitle: 'Asset top and bottom hole location',
-  recordDevKey: 'corva',
+  recordProvider: 'corva',
   recordCollection:'data.map',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',

@@ -52,7 +52,7 @@ class SurveysApp extends Component {
     return <SettingsRecordManager
               asset={this.props.asset}
               convert={this.props.convert}
-              recordDevKey={this.props.dataCollectionConfig.devKey}
+              recordProvider={this.props.dataCollectionConfig.provider}
               recordCollection={this.props.dataCollectionConfig.collection}
               recordNamePlural={this.props.recordNamePlural}
               recordNameSingular={this.props.recordNameSingular}

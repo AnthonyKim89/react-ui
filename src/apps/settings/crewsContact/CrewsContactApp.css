@@ -1,0 +1,34 @@
+.c-crews {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+
+  padding: 20px 30px;
+}
+
+.c-crews h4 {
+  margin-top: 0px;
+  margin-bottom:0px;
+}
+
+.c-crews__name-header, .c-crews__phone-header, .c-crews__position-header, .c-crews__action-header {
+  width: 20%;
+}
+
+.c-crews__shift-header, .c-crews__rotation-header {
+  width: 10%;
+}
+
+@media(max-width: 768px) {
+  .c-crews {
+    padding:0px;
+  }
+
+  .c-crews__name-header, .c-crews__phone-header {
+    width: 50%;
+  }
+  
+}

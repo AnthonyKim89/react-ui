@@ -1,12 +1,12 @@
 export const CATEGORY = 'torqueAndDrag';
 export const NAME = 'stress';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'torque-and-drag.stress'}
+  {provider: 'corva', collection: 'torque-and-drag.stress'}
 ];
 export const METADATA = {
   title: 'Stress',
   settingsTitle: 'Stress',
-  subtitle: '',
+  subtitle: 'Stresses applied to drillstring',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',
   publishedAt: '2016-07-01T00:00:00'

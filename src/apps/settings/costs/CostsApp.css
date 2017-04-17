@@ -6,11 +6,28 @@
   height: 100%;
   overflow-y: scroll;
 
-  padding: 30px;
+  padding: 20px 30px;
+}
+
+.c-costs h4 {
+  margin-bottom:0px;
+  margin-top: 0px;
+}
+
+.c-costs__date-header, .c-costs__cost-header, .c-costs__action-header {
+  width: 20%;
+}
+.c-costs__description-header {
+  width: 40%;
 }
 
 @media(max-width: 768px) {
 	.c-costs {
-		padding:0px;
+		padding: 0px;
 	}
+
+  .c-costs__date-header, .c-costs__cost-header {
+    width: 50%;
+  }
+   
 }

@@ -1,12 +1,12 @@
 export const CATEGORY = 'torqueAndDrag';
 export const NAME = 'axialLoad';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'torque-and-drag.axial-load'}
+  {provider: 'corva', collection: 'torque-and-drag.axial-load'}
 ];
 export const METADATA = {
   title: 'Axial Load',
   settingsTitle: 'Axial Load',
-  subtitle: '',
+  subtitle: 'Buckling forces applied to drillstring',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',
   publishedAt: '2016-07-01T00:00:00'

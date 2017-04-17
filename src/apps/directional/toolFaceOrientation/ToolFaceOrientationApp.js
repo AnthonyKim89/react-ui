@@ -1,22 +1,42 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-import './ToolFaceOrientationApp.css';
+import { SUBSCRIPTIONS } from './constants';
+import LoadingIndicator from '../../../common/LoadingIndicator';
+import subscriptions from '../../../subscriptions';
 
-class ToolFaceOrientationApp extends Component {
-  render() {
-    return (
-      <div className="c-di-toolface">
-        <div className="gaps"></div>
-        <h1>Coming soon</h1>
+import './ToolFaceOrientationApp.css';
+import TFOChart from './TFOChart';
+
+class ToolFaceOrientationApp extends Component {  
+  render() {    
+    return (      
+      <div id="c-di-toolface">
+        { subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS) ?
+          <TFOChart
+            container="c-di-toolface"
+            convert={this.props.convert}
+            data={subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(["data","slides"])}
+          /> :
+          <LoadingIndicator/>
+        }
       </div>
     );
   } 
+
+  getSubscriptionData() {
+    return subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextProps.data !== this.props.data || nextProps.coordinates !== this.props.coordinates);
+  }
 }
 
 ToolFaceOrientationApp.propTypes = {
   data: ImmutablePropTypes.map,
   title: PropTypes.string,
 };
+
 
 export default ToolFaceOrientationApp;

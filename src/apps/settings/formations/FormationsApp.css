@@ -1,0 +1,34 @@
+.c-formations {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+
+  padding: 20px 30px;
+}
+
+.c-formations h4 {
+  margin-top: 0px;
+  margin-bottom:0px;
+}
+
+.c-formations__formations-table th{
+  width:20%;
+}
+
+
+@media(max-width: 768px) {
+  .c-formations {
+    padding:0px;
+  }
+
+  .c-formations__tvd-header {
+    width: 50%;
+  }
+  .c-formations__fm-header {
+    width: 50%;
+  }
+  
+}

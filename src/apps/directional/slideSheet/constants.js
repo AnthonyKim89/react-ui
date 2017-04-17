@@ -1,7 +1,7 @@
 export const CATEGORY = 'directional';
 export const NAME = 'slideSheet';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'directional.slide-sheet'}
+  {provider: 'corva', collection: 'directional.slide-sheet'}
 ];
 export const METADATA = {
   title: 'Slide Sheet',

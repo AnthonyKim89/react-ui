@@ -1,12 +1,12 @@
 export const CATEGORY = 'drillingEfficiency';
 export const NAME = 'mseHeatmap';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'drilling-efficiency.mse-heatmap'}
+  {provider: 'corva', collection: 'drilling-efficiency.mse-heatmap'}
 ];
 export const METADATA = {
-  title: '',
+  title: 'MSE Heatmap',
   settingsTitle: 'MSE Heatmap',
-  subtitle: '',
+  subtitle: 'Optimal run paramaters for MSE',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v0.1',
   publishedAt: '2017-02-23T00:00:00'

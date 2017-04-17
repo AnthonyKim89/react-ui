@@ -1,7 +1,7 @@
 export const CATEGORY = 'drillingEfficiency';
 export const NAME = 'dpFounder';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'drilling-efficiency.dp-founder'}
+  {provider: 'corva', collection: 'drilling-efficiency.dp-founder'}
 ];
 export const METADATA = {
   title: 'Diff Press Founder Point',

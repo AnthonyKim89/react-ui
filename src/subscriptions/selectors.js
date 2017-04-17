@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import { identity } from 'lodash';
 import { NAME } from './constants';
+import { List } from 'immutable';
 
 const stateSelector = state => state[NAME];
 
@@ -10,15 +11,43 @@ export const appData = createSelector(
 );
 
 
-export function firstSubData(data, [firstSub]) {
-  return getSubData(data, firstSub);
+export function firstSubData(data, [firstSub], latestItemOnly=true) {
+  let subData = getSubData(data, firstSub);
+
+  if (latestItemOnly && List.isList(subData)) {
+    subData = subData.last();
+  }
+
+  return subData;
 }
 
-export function getSubData(data, {devKey, collection, event = ''}) {
-  return data && data.getIn([devKey, collection, event]);
+export function getSubData(data, {provider, collection, event = ''}, latestItemOnly=true) {
+  let subData = data && data.getIn([provider, collection, event]);
+
+  if (latestItemOnly && List.isList(subData)) {
+    subData = subData.last();
+  }
+
+  return subData;
 }
 
-
+/**
+ * For each subscription, returning the first data error we find.
+ * @param data
+ * @param subscriptions
+ * @returns {any|T|*}
+ */
+export function getSubErrors(data, subscriptions) {
+  for (let i = 0; i < subscriptions.length; i++) {
+    let subData = getSubData(data, subscriptions[i]);
+    if (subData) {
+      let error = subData.getIn(['data', 'error']);
+      if (error) {
+        return error;
+      }
+    }
+  }
+}
 
 /**
  * Given all the data stored for an app, find the timestamp of the latest data
@@ -35,6 +64,7 @@ export function lastDataUpdate(appData) {
     .valueSeq()
     .map(coll => coll.valueSeq()
                      .map(evts => evts.valueSeq())
+                     .last()
                      .flatten(1)
                      .map(d => d.get('timestamp')))
     .flatten()

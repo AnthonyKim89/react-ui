@@ -6,7 +6,12 @@
   height: 100%;
   overflow-y: scroll;
 
-  padding: 30px;
+  padding: 20px 30px;
+}
+
+.c-map h4{
+  margin-top: 0px;
+  margin-bottom:0px;
 }
 
 .c-map-latlng {

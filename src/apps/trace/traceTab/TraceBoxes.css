@@ -1,0 +1,39 @@
+.c-trace-boxes {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: 0 10px 30px 0;
+  overflow-y: auto;
+}
+
+.c-trace-boxes__box {
+  border: 1px solid #354849;
+  margin-bottom: 10px;
+  padding: 5px;
+  position: relative;
+}
+.c-trace-boxes__label {
+  font-family: orgonBoldRegular;
+}
+.c-trace-boxes__value {
+  font-size: 2rem;
+}
+.c-trace-boxes__unit {
+  line-height: 100%;
+}
+.c-trace-boxes__remove {
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+}
+.c-trace-boxes__box:hover .c-trace-boxes__remove {
+  visibility: visible;
+}
+
+.c-trace-boxes__add {
+  width: 100%;
+}

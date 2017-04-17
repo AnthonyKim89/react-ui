@@ -16,7 +16,7 @@ class DrillstringsApp extends Component {
     return <SettingsRecordManager
               asset={this.props.asset}
               convert={this.props.convert}
-              recordDevKey="corva"
+              recordProvider="corva"
               recordCollection="data.drillstrings"
               recordNamePlural="Drillstrings"
               recordNameSingular="Drillstring"

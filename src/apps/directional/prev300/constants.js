@@ -1,7 +1,7 @@
 export const CATEGORY = 'directional';
 export const NAME = 'prev300';
 export const SUBSCRIPTIONS = [
-  {devKey: 'corva', collection: 'directional.prev300'}
+  {provider: 'corva', collection: 'directional.prev300'}
 ];
 export const METADATA = {
   title: 'Prev 300ft',

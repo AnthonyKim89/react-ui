@@ -32,7 +32,7 @@ class DashboardAppAssetSettingEditor extends Component {
         value={this.props.currentValue}
         disabled={this.state.loading}
         onChange={e => this.onChange(e)}>
-        <option value={undefined}> </option>
+        { this.renderLabel() }
         {this.state.assets.map(asset =>
           <option value={asset.get('id')} key={asset.get('id')}>
             {asset.get('name')}
@@ -51,6 +51,7 @@ class DashboardAppAssetSettingEditor extends Component {
         value={this.props.currentValue}
         disabled={this.state.loading}
         onChange={e => this.onChange(e)}>
+        { this.renderLabel() }
         {this.state.assets.map(asset =>
           <option className="grey lighten-2 black-text" value={asset.get('id')} key={asset.get('id')}>
             {asset.get('name')}
@@ -60,6 +61,12 @@ class DashboardAppAssetSettingEditor extends Component {
     );
   }
 
+  renderLabel() {
+    return this.props.isLabelVisible ? 
+    <option value="" disabled defaultValue="true">{this.props.label}</option>
+    : "";
+  }
+
   onChange(event) {
     const id = event.target.value && parseInt(event.target.value, 10);
     this.props.onChange(id);
@@ -67,11 +74,18 @@ class DashboardAppAssetSettingEditor extends Component {
 
 }
 
+DashboardAppAssetSettingEditor.defaultProps = {
+  label: "Choose An Asset",
+  isLabelVisible: true,
+};
+
 DashboardAppAssetSettingEditor.propTypes = {
   appType: PropTypes.object.isRequired,
   currentValue: PropTypes.number,
   onChange: PropTypes.func.isRequired,
   inSettingsEditor: PropTypes.bool,
+  label: PropTypes.string,
+  isLabelVisible: PropTypes.bool
 };
 
 export default DashboardAppAssetSettingEditor;

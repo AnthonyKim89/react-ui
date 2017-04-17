@@ -24,33 +24,38 @@ class Convert {
     this.units = {
       imperial: {
         length: 'ft',
+        shortLength: 'in',
         mass: 'lb',
         volume: 'gal',
         pressure: 'psi',
         temperature: 'F',
-        speed: 'm/h',
+        speed: 'ft/h',
         area: 'ft2',
         force: 'lbf',
         oil: 'bbl',
         yp: 'dsf',
+        density: 'ppg',
       },
       metric: {
         length: 'm',
+        shortLength: 'cm',
         mass: 'kg',
         volume: 'l',
         pressure: 'kPa',
         temperature: 'C',
-        speed: 'km/h',
+        speed: 'm/h',
         area: 'm2',
         force: 'nm',
         oil: 'm3',
         yp: 'Pa',
+        density: 'kg/m3',
       },
       custom: {},
     };
 
     this.units.custom = Object.assign(this.units.custom, {
       length: this._lookupCustomUserUnitPreference('length'),
+      shortLength: this._lookupCustomUserUnitPreference('shortLength'),
       mass: this._lookupCustomUserUnitPreference('mass'),
       volume: this._lookupCustomUserUnitPreference('volume'),
       pressure: this._lookupCustomUserUnitPreference('pressure'),
@@ -60,6 +65,7 @@ class Convert {
       force: this._lookupCustomUserUnitPreference('force'),
       oil: this._lookupCustomUserUnitPreference('oil'),
       yp: this._lookupCustomUserUnitPreference('yp'),
+      density: this._lookupCustomUserUnitPreference('density'),
     });
   }
 

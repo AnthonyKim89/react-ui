@@ -91,7 +91,7 @@ class AppContainer extends Component {
         {this.props.availableAssets && this.props.layoutEnvironment && this.props.layoutEnvironment.get("type") === "general" &&
           <div className="c-app-container-asset-name">{this.getAppAssetName()}</div>}
         <div className="c-app-container__content">
-          {this.props.children}
+          {this.props.errorData ? this.renderError() : this.props.children}
         </div>
         {this.isLastDataUpdateVisible() &&
           <div className="c-app-container__last-update">
@@ -110,11 +110,13 @@ class AppContainer extends Component {
                     to={{pathname: this.props.location.pathname, query: {maximize: this.props.id}}}
                     title="Full screen"
                     onClick={() => nativeMessages.notifyAppMaximized()}>
+                <Icon>launch</Icon>
               </Link>}
             {(!this.props.isNative || this.props.maximized) &&
               <button className="c-app-container__action c-app-container__action--settings"
                       title="Settings"
                       onClick={() => this.openSettingsDialog()}>
+                <Icon>settings</Icon>
               </button>}
           </div>}
         <Modal
@@ -132,6 +134,38 @@ class AppContainer extends Component {
         </Modal>
       </div>
     );
+  }
+
+  // Render the Error Message
+  renderError() {
+    let message = this.props.errorData.get('message');
+    let error_code = this.props.errorData.get('code');
+    return (
+      <div className="c-app-container__error">
+        <div className="c-app-container__error-inner">
+          <Icon style={this.props.size === common.constants.Size.SMALL ? "font-size: 2rem;" : ""}>error_outline</Icon>
+          <h1>{message}</h1>
+          {this.renderErrorLink(error_code)}
+        </div>
+      </div>
+    );
+  }
+
+  renderErrorLink(error_code) {
+    let text = "", url = "";
+    switch(error_code) {
+      case "config_missing_error":
+        text = "Add well config";
+        url = "/assets/" + this.props.asset.get('id') + "/settings";
+        break;
+      default:
+        text = "";
+        break;
+    }
+
+    if (text !== "" && url !== "") {
+      return <a href={url}>{text}</a>;
+    }
   }
 
   // Let the component implementation display the date and others info(if necessary)
@@ -171,6 +205,7 @@ class AppContainer extends Component {
 
 AppContainer.propTypes = {
   id: PropTypes.number.isRequired,
+  errorData: ImmutablePropTypes.map,
   asset: ImmutablePropTypes.map,
   appType: PropTypes.object.isRequired,
   //lastDataUpdate: PropTypes.number,
@@ -179,6 +214,7 @@ AppContainer.propTypes = {
   isActionsDisabled: PropTypes.bool,
   isTitlesDisabled: PropTypes.bool,
   size: PropTypes.string.isRequired,
+  coordinates: PropTypes.object.isRequired,
   maximized: PropTypes.bool,
   appSettings: ImmutablePropTypes.map.isRequired,
   pageParams: ImmutablePropTypes.map.isRequired,

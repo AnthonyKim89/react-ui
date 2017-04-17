@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Table, Button } from 'react-materialize';
+import moment from 'moment';
+
 import './CostsSummary.css';
 
 class CostsSummary extends Component { 
@@ -23,7 +25,6 @@ class CostsSummary extends Component {
     						<Button floating large className='lightblue' waves='light' icon='add' onClick={this.props.onAdd} />
     					</td>
     				</tr>
-
     			</tbody>
     		</Table>
       </div>
@@ -32,11 +33,18 @@ class CostsSummary extends Component {
 
   getTotalAndAverage() {
     let total = 0;
+    let days = 0;
+    let daysList = {};
     this.props.records.map((record)=> {
+        let dayKey = moment.unix(record.getIn(["data","date"])).format("MM/DD/YYYY");        
+        if (!daysList[dayKey]) {
+            daysList[dayKey] = 1;
+            days++;
+        }        
         total += parseFloat(record.getIn(["data","cost"]));
         return record;
     });
-    let average = (this.props.records.size>0) ? (total / this.props.records.size).toFixed(2) : 0;
+    let average = (days>0) ? (total / days).toFixed(2) : 0;
     return {total,average};
   }
 }

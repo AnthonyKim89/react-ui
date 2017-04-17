@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Button, Icon } from 'react-materialize';
 import { Map } from 'immutable';
+import { Platform } from 'react-native';
 
 import AppContainer from './AppContainer';
 import AddAppDialog from './addApp/AddAppDialog';
@@ -48,8 +49,7 @@ class AppGridLayout extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {addAppDialogOpen: false};
-    this.convert = new Convert();
+    this.state = {addAppDialogOpen: false, isTouchDevice: (Platform.OS === 'android' || Platform.OS === 'ios')};
   }
 
   async componentDidMount() {
@@ -64,6 +64,8 @@ class AppGridLayout extends Component {
                     cols={GRID_COLUMN_SIZES}
                     rowHeight={GRID_ROW_HEIGHT}
                     measureBeforeMount={true}
+                    isDraggable={!this.state.isTouchDevice}
+                    isResizable={!this.state.isTouchDevice}
                     onResizeStop={(...args) => this.onResizeStop(...args)}
                     onDragStop={(...args) => this.onDragStop(...args)}
                     draggableCancel={NON_DRAGGABLE_ELEMENT_SELECTOR}>
@@ -131,14 +133,17 @@ class AppGridLayout extends Component {
     }
 
     const appData = this.props.appData.get(id);
+    const errorData = subscriptions.selectors.getSubErrors(appData, appType.constants.SUBSCRIPTIONS);
     const hasAppFooter = !!appType.AppComponentFooter;
     return <AppContainer id={id}
-                         appType={appType}                         
+                         errorData={errorData}
+                         appType={appType}
                          asset={this.props.appAssets.get(id)}
                          lastDataUpdate={subscriptions.selectors.lastDataUpdate(appData)}
                          hasAppFooter={hasAppFooter}
                          isNative={this.props.isNative}
                          size={size}
+                         coordinates={coordinates}
                          maximized={maximized}
                          appSettings={settings}
                          pageParams={this.getPageParams()}
@@ -150,23 +155,24 @@ class AppGridLayout extends Component {
                          onAppUnsubscribe={(...args) => this.props.onAppUnsubscribe(...args)}
                          onAppRemove={() => this.props.onAppRemove(id)}
                          onAppSettingsUpdate={(settings) => this.props.onAppSettingsUpdate(id, settings)}>
-      <appType.AppComponent
+      {!errorData && <appType.AppComponent
         data={appData}
         asset={this.props.appAssets.get(id)}
         {...this.getPageParams().toJS()}
         {...settings.toObject()}
         size={size}
+        coordinates={coordinates}
         widthCols={coordinates.get('w')}
-        convert={this.convert}
+        convert={this.props.convert}
         onAssetModified={asset => this.props.onAssetModified(asset)}
-        onSettingChange={(key, value) => this.props.onAppSettingsUpdate(id, settings.set(key, value))} />
+        onSettingChange={(key, value) => this.props.onAppSettingsUpdate(id, settings.set(key, value))} />}
 
-      {appType.AppComponentFooter &&
+      {!errorData && appType.AppComponentFooter &&
         <appType.AppComponentFooter
           data={appData}
-          convert={this.convert}
+          convert={this.props.convert}
           lastDataUpdate={subscriptions.selectors.lastDataUpdate(appData)}
-        /> 
+        />
       }
     </AppContainer>;
   }
@@ -220,6 +226,7 @@ AppGridLayout.propTypes = {
   appData: ImmutablePropTypes.map.isRequired,
   appAssets: ImmutablePropTypes.map.isRequired,
   commonSettingsEditors: ImmutablePropTypes.list,
+  convert: React.PropTypes.instanceOf(Convert).isRequired,
   environment: ImmutablePropTypes.map,
   pageParams: ImmutablePropTypes.map,
   onAppSubscribe: PropTypes.func.isRequired,

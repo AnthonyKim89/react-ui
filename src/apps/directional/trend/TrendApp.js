@@ -1,11 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-import { SUBSCRIPTIONS,SUPPORTED_CHART_SERIES } from './constants';
+import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
+import TrendChart from '../../../common/TrendChart';
 import subscriptions from '../../../subscriptions';
-
-import TrendChart from './TrendChart';
 
 import './TrendApp.css';
 
@@ -16,10 +15,20 @@ class TrendApp extends Component {
       <div className="c-di-trend">
         <div className="gaps"></div>
         {subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS) ?
-          <TrendChart convert={this.props.convert} series={this.getSeries()} yAxes={this.getYAxes()} /> :
+          <TrendChart
+            convert={this.props.convert}
+            coordinates={this.props.coordinates}
+            series={this.getSeries()}
+            xAxisTitle={'Measured Depth ('+this.props.convert.getUnitDisplay('length')+')'}
+            yAxes={this.getYAxes()}
+          /> :
         <LoadingIndicator/> }
       </div>
     );
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextProps.data !== this.props.data || nextProps.coordinates !== this.props.coordinates || nextProps.graphColors !== this.props.graphColors);
   }
 
   getYAxes() {
@@ -56,7 +65,7 @@ class TrendApp extends Component {
       tfo: {yAxis:1, data: tfo},
       tvd_actual: {yAxis:0, data: tvdActual},
       tvd_plan: {yAxis:0,  data: tvdPlan},
-      drilling_window: {yAxis:0, data: drillingWindow, lineWidth:30},
+      drilling_window: {yAxis:0, data: drillingWindow, lineWidth:30, zIndex:-999},
       dls: {yAxis:2, data: dls},
     };
 

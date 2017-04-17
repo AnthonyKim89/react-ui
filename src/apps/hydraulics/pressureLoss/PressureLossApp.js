@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
+import { Size } from '../../../common/constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import PieChart from '../../../common/PieChart';
 import subscriptions from '../../../subscriptions';
@@ -21,7 +22,9 @@ class PressureLossApp extends Component {
                 data={this.graphData}
                 showTooltipInPercentage={this.showTooltipInPercentage()}
                 unit={this.displayUnit}
-                pieOptions={PIE_OPTIONS}
+                pieOptions={this.pieOptions}
+                size={this.props.size}
+                showLegend={true}
                 name='Pressure Loss'>
               </PieChart>
             </div>
@@ -29,6 +32,10 @@ class PressureLossApp extends Component {
         </div> :
         <LoadingIndicator />
     );
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextProps.data !== this.props.data || nextProps.coordinates !== this.props.coordinates || nextProps.graphColors !== this.props.graphColors);
   }
 
   get data() {
@@ -52,6 +59,48 @@ class PressureLossApp extends Component {
   get displayUnit() {
     return this.showTooltipInPercentage() ? '%' : ' ' + this.props.convert.getUnitDisplay("pressure");
   }
+
+  /**
+   * Get the pie options.
+   *
+   * The pie options are a combination of static and dynamic data.
+   */
+  get pieOptions() {
+    return Object.assign(PIE_OPTIONS, {
+      dataLabels: this.dataLabels,
+      showInLegend: this.showInLegend
+    });
+  }
+
+  /**
+   * Get the data labels for larger sizes.
+   *
+   * Data labels get clipped at smaller sizes so only show them when displayed
+   * in a larger mode.
+   */
+  get dataLabels() {
+    if (this.showInLegend) {
+      const format = this.showTooltipInPercentage() ? '{percentage:.1f}' : '{y}';
+      return {
+        enabled: true,
+        color: '#fff',
+        distance: 10,
+        format: format
+      };
+    } else {
+      return { enabled: false };
+    }
+  }
+
+  /**
+   * Decide when to show the legend.
+   *
+   * At smaller sizes, the legend would completely overlap the pie area.
+   */
+  get showInLegend() {
+    return this.props.size === Size.LARGE || this.props.size === Size.XLARGE;
+  }
+
 }
 
 PressureLossApp.propTypes = {
