@@ -12,7 +12,7 @@ class PlanSurveysApp extends Component {
               {...this.props}
               recordNamePlural="Well Plans"
               recordNameSingular="Well Plan"
-              dataCollectionConfig={{devKey: 'corva', collection: 'data.plan_survey'}}
+              dataCollectionConfig={{provider: 'corva', collection: 'data.plan_survey'}}
               parseCollectionConfig={parseSubscription}
               minimumCurvatureCollectionConfig={minimumCurvatureSubscription} />;
   }

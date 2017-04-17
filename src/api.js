@@ -149,15 +149,10 @@ export async function postAppStorage(provider, collection, item) {
   return fromJS(response);
 }
 
-export async function postTaskDocument(devKey, collection, file, params = Map()) {
-  const body = new FormData();
-  body.append('file', file);
+export async function postTaskDocument(provider, collection, file, params = Map()) {
+
   const qry = queryString(params.toJS());  
-  const response = await request(`/v1/tasks/${devKey}/${collection}?${qry}`, {
-    method: 'POST',
-    headers: {Accept: 'application/json'},
-    body
-  });
+  const response = await post(`/v1/tasks/${provider}/${collection}?${qry}`, {file});
   return fromJS(response);
 }
 
@@ -173,5 +168,10 @@ export async function deleteAppStorage(provider, collection, id) {
 
 export async function getWellTimeline(wellId) {
   const data = await get(`/v1/jobs/${wellId}/drill_view_timeline_slider`);
+  return fromJS(data);
+}
+
+export async function getS3SignedUrl(filename,contentType) {
+  const data = await get(`/v1/file/sign?file_name=${filename}&contentType=${contentType}`);  
   return fromJS(data);
 }

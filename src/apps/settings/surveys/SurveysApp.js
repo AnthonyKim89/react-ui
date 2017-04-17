@@ -70,7 +70,7 @@ class SurveysApp extends Component {
 
   async invokeParseTask(file) {
     const res = await api.postTaskDocument(
-      this.props.parseCollectionConfig.devKey,
+      this.props.parseCollectionConfig.provider,
       this.props.parseCollectionConfig.collection,
       file,
       Map({asset_id: this.props.asset.get('id')})
@@ -81,7 +81,7 @@ class SurveysApp extends Component {
   async invokeMinimumCurvatureTask(data) {
     const blob = new Blob([JSON.stringify(data.toJS())], {type: 'application/json'});
     const res = await api.postTaskDocument(
-      this.props.minimumCurvatureCollectionConfig.devKey,
+      this.props.minimumCurvatureCollectionConfig.provider,
       this.props.minimumCurvatureCollectionConfig.collection,
       blob,
       Map({asset_id: this.props.asset.get('id')})
