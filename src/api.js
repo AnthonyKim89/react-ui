@@ -163,3 +163,13 @@ export async function getWellTimeline(wellId) {
   const data = await get(`/v1/jobs/${wellId}/drill_view_timeline_slider`);
   return fromJS(data);
 }
+
+export async function getS3SignedUrl(filename,contentType) {
+  const data = await get(`/v1/file/sign?file_name=${filename}&contentType=${contentType}`);  
+  return fromJS(data);
+}
+
+export function getFileDownloadLink(filename) {
+  const token = auth.getToken();
+  return `${baseUrl}/v1/file/download?file_name=${filename}&authorization=${token}`;  
+}
