@@ -22,3 +22,28 @@
   margin-left: 10px;
   font-size: 1rem !important;
 }
+.c-asset-list-page__add-asset-column {
+  width: 45px;
+  text-align: center;
+}
+.c-asset-list-page__add-asset-column__icon {
+  cursor: pointer;
+  color: white;
+}
+.c-asset-list-page__modify-asset-menu {
+  text-align: center;
+  list-style-type: none;
+  cursor: pointer;
+}
+.c-asset-list-page__modify-asset-menu a {
+  color: white;
+}
+.c-asset-list-page__modify-asset-menu ul.dropdown-content li {
+  border-bottom: 1px solid #e0e0e0;
+}
+.c-asset-list-page__modify-asset-menu ul.dropdown-content li:last-child {
+  border-bottom: none;
+}
+.c-asset-list-page__modify-asset-menu ul.dropdown-content li a {
+  color: #1e1f1f;
+}

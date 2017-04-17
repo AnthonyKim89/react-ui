@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Table, Input, Icon } from 'react-materialize';
+import { Row, Col, Table, Input, Icon, Dropdown, NavItem } from 'react-materialize';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router';
@@ -72,6 +72,9 @@ class AssetListPage extends Component {
                       {this.renderSortIcon('date')}
                     </Link>
                   </th>
+                  <th className="c-asset-list-page__add-asset-column">
+                    <a href="#" onClick={evt => this.addAsset(evt, this.props)} className="c-asset-list-page__add-asset-column__icon"><Icon>add_circle_outline</Icon></a>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -92,14 +95,26 @@ class AssetListPage extends Component {
                     ))}
                     <td><assets.components.AssetStatus asset={asset} /></td>
                     <td>{this.formatDate(asset.get('date'))}</td>
+                    <td className="c-asset-list-page__modify-asset-menu">
+                      <Dropdown trigger={<NavItem><Icon>keyboard_arrow_down</Icon></NavItem>}>
+                        <NavItem>Edit</NavItem>
+                        <NavItem>Delete</NavItem>
+                      </Dropdown>
+                    </td>
                   </tr>
                 ))}
               </tbody>
           </Table>}
         </Col>
-        <Col s={2} />
+        <Col s={2}>
+        </Col>
       </Row>
     </div>;
+  }
+
+  addAsset(evt, props) {
+    console.log(props.params.assetType);
+    evt.preventDefault();
   }
 
   makeSortLink(sortField) {
