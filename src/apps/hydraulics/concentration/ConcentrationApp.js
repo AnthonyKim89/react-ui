@@ -24,7 +24,10 @@ class ConcentrationApp extends Component {
             xField="measured_depth"
             xAxisWidth="1"
             xAxisColor="white"
-            xAxisTitle={{text: `Measured Depth (${this.props.convert.getUnitDisplay('length')})`}}
+            xAxisTitle={{
+              text: `Measured Depth (${this.props.convert.getUnitDisplay('length')})`,
+              style: {color: '#fff'}
+            }}
             size={this.props.size}
             coordinates={this.props.coordinates}
             widthCols={this.props.widthCols}>
@@ -37,8 +40,13 @@ class ConcentrationApp extends Component {
               title={title}
               data={this.getSeriesData()}
               yField="cuttings_concentration"
-              yAxisTitle={{text: `Concentration (%)`}}
+              yAxisTitle={{
+                text: `Concentration (%)`,
+                style: {color: '#fff'}
+              }}
               color={this.getSeriesColor('concentration')}
+              minValue={0.0}
+              maxValue={100.0}
               step={true}
             />
           </Chart> :

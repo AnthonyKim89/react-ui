@@ -4,9 +4,9 @@ export const SUBSCRIPTIONS = [
   {provider: 'corva', collection: 'hydraulics.cuttings-transport'}
 ];
 export const METADATA = {
-  title: 'Cuttings Transport Concentration',
-  settingsTitle: 'Cuttings Transport Concentration',
-  subtitle: 'The cuttings transport concentration at each depth',
+  title: 'Cuttings Concentration',
+  settingsTitle: 'Cuttings Concentration',
+  subtitle: 'The cuttings concentration at each depth',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',
   publishedAt: '2016-07-01T00:00:00',
