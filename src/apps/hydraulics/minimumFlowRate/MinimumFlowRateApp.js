@@ -36,7 +36,7 @@ class MinimumFlowRateApp extends Component {
               lineWidth={2.0}
               title={title}
               data={this.getSeriesData()}
-              yField="value"
+              yField="recommended_minimum_flowrate"
               yAxisTitle={{text: `Flow Rate (${this.props.convert.getUnitDisplay('volume')}pm)`}}
               color={this.getSeriesColor('flow_rate')}
               step={true}
@@ -52,9 +52,9 @@ class MinimumFlowRateApp extends Component {
   }
 
   getSeriesData() {
-    let points = this.getData().getIn(['data', 'flow_rate']);
+    let points = this.getData().getIn(['data', 'sections']);
     points = this.props.convert.convertImmutables(points, 'measured_depth', 'length', 'ft');
-    points = this.props.convert.convertImmutables(points, 'value', 'volume', 'gal');
+    points = this.props.convert.convertImmutables(points, 'recommended_minimum_flowrate', 'volume', 'gal');
     return points;
   }
 
