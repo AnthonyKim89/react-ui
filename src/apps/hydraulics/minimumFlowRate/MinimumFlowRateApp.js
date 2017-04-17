@@ -33,6 +33,7 @@ class MinimumFlowRateApp extends Component {
               id={title}
               type="area"
               fillOpacity={0.5}
+              lineWidth={2.0}
               title={title}
               data={this.getSeriesData()}
               yField="value"
