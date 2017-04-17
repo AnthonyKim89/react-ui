@@ -31,7 +31,8 @@ class MinimumFlowRateApp extends Component {
             <ChartSeries
               key={title}
               id={title}
-              type="line"
+              type="area"
+              fillOpacity={0.5}
               title={title}
               data={this.getSeriesData()}
               yField="value"
