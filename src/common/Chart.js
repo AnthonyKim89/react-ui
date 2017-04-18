@@ -66,10 +66,14 @@ class Chart extends Component {
       title: {text: null},
       credits: {enabled: false},
       legend: {
-        align: 'right',
-        verticalAlign: 'middle',
-        layout: 'vertical',
-        itemStyle: {color: '#fff'},
+        align: this.props.legendAlign || 'right',
+        verticalAlign: this.props.legendVerticalAlign || 'middle',
+        layout: this.props.legendLayout || 'vertical',
+        itemStyle: {
+          color: '#bbb',
+          fontFamily: 'Open Sans',
+          fontWeight: 'regular'
+        },
         enabled: true,
       },
       series
@@ -243,7 +247,7 @@ class Chart extends Component {
   }
 
   isLegendVisible(props) {
-    return props.showLegend && (props.size === Size.XLARGE);
+    return props.showLegend || props.size === Size.XLARGE;
   }
 
   isAxisLabelsVisible(props) {
@@ -252,7 +256,7 @@ class Chart extends Component {
 }
 
 Chart.defaultProps = {
-  showLegend: true,
+  showLegend: false,
 };
 
 Chart.propTypes = {
