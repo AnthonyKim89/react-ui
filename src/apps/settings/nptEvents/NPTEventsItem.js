@@ -72,6 +72,7 @@ class NPTEventsItem extends Component {
             label="Depth"
             error={this.state.errors.depth}
             defaultValue={depth?this.props.convert.convertValue(parseFloat(depth), "length", "ft").fixFloat(2) : depth}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{depth: e.target.value})} )} />
         </td>
 
@@ -103,6 +104,7 @@ class NPTEventsItem extends Component {
           <Input type="text" 
             s={12}
             defaultValue={comment}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{comment: e.target.value})} )} />
         </td>
 
@@ -112,6 +114,12 @@ class NPTEventsItem extends Component {
         </td>
       </tr>
     );
+  }
+
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      this.save();
+    }
   }
 
   save() {

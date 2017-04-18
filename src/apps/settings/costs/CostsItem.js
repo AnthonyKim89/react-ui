@@ -56,6 +56,7 @@ class CostsItem extends Component {
             label="cost"
             error={this.state.errors.cost}
             defaultValue={cost}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{cost:e.target.value})} )} />
         </td>
         <td className="hide-on-med-and-down">
@@ -63,6 +64,7 @@ class CostsItem extends Component {
             s={12}
             label="description"
             defaultValue={description}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{description: e.target.value})} )} />
         </td>
         <td className="hide-on-med-and-down">
@@ -73,8 +75,13 @@ class CostsItem extends Component {
     );
   }
 
-  save() {
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      this.save();
+    }
+  }
 
+  save() {
     let {date,cost,description} = this.state.data;
     
     if (isNaN(parseFloat(cost)) || parseFloat(cost) <=0 ) {

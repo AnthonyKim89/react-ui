@@ -49,14 +49,17 @@ class SettingsRecordManager extends Component {
 
   render() {
     return <div className="c-settings-record-manager">
+      <h4>{this.props.title}</h4>
+      <div>{this.props.subtitle}</div>
       {this.state.editingRecord ?
         <SettingsRecordEditor
           convert={this.props.convert}
           recordNameSingular={this.props.recordNameSingular}
           RecordAttributeForm={this.props.RecordAttributeForm}
-          RecordSummary={this.props.RecordSummary}
+          RecordSummary={this.props.hideRecordSummaryInRecordEditor? null: this.props.RecordSummary}
           RecordDetails={this.props.RecordDetails}
           record={this.state.editingRecord}
+          recordValidator={this.props.recordValidator}
           onSave={record => this.saveRecord(record)}
           onCancel={() => this.setState({editingRecord: null})}
           onDeleteRecord={() => this.deleteRecord()} /> :
@@ -64,7 +67,7 @@ class SettingsRecordManager extends Component {
           convert={this.props.convert}
           recordNamePlural={this.props.recordNamePlural}
           recordNameSingular={this.props.recordNameSingular}
-          RecordSummary={this.props.RecordSummary}
+          RecordSummary={this.props.RecordSummary}          
           RecordDetails={this.props.RecordDetails}
           renderRecordListItem={this.props.renderRecordListItem}
           records={this.state.records}

@@ -49,6 +49,7 @@ class CrewsContactItem extends Component {
             label="Name"
             defaultValue={name}
             error={this.state.errors.name}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{name: e.target.value})} )} />
         </td>
 
@@ -57,6 +58,7 @@ class CrewsContactItem extends Component {
             s={12}
             label="Phone"
             defaultValue={phone}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{phone: e.target.value})} )} />
         </td>
 
@@ -77,6 +79,7 @@ class CrewsContactItem extends Component {
             s={12}
             label="Rotation"
             defaultValue={rotation}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{rotation: e.target.value})} )} />
         </td>
 
@@ -85,6 +88,7 @@ class CrewsContactItem extends Component {
             s={12}
             label="Position"            
             defaultValue={position}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{position: e.target.value})} )} />
         </td>
         
@@ -96,8 +100,13 @@ class CrewsContactItem extends Component {
     );
   }
 
-  save() {
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      this.save();
+    }
+  }
 
+  save() {
     let {name} = this.state.data;
     let hasErrors = false;
     let errors = {};

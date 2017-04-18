@@ -76,6 +76,7 @@ class CasingItem extends Component {
             label="I.D"
             defaultValue={id? this.props.convert.convertValue(parseFloat(id), "shortLength", "in").fixFloat(2): id}
             error={this.state.errors.id}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{id: e.target.value})} )} 
             onBlur={this.onCalcLinearMass}/>
         </td>
@@ -86,6 +87,7 @@ class CasingItem extends Component {
             label="O.D"
             defaultValue={od? this.props.convert.convertValue(parseFloat(od), "shortLength", "in").fixFloat(2): od}
             error={this.state.errors.od}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{od: e.target.value})} )} 
             onBlur={this.onCalcLinearMass}/>
         </td>
@@ -96,6 +98,7 @@ class CasingItem extends Component {
             label="Top Depth"
             defaultValue={top_depth? this.props.convert.convertValue(parseFloat(top_depth), "length", "ft").fixFloat(2): top_depth}
             error={this.state.errors.top_depth}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{top_depth: e.target.value})} )} 
             onBlur={this.onCalcLength}/>
         </td>
@@ -106,6 +109,7 @@ class CasingItem extends Component {
             label="Bottom Depth"
             defaultValue={bottom_depth? this.props.convert.convertValue(parseFloat(bottom_depth), "length", "ft").fixFloat(2): bottom_depth}
             error={this.state.errors.bottom_depth}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{bottom_depth: e.target.value})} )} 
             onBlur={this.onCalcLength}/>
         </td>
@@ -119,6 +123,7 @@ class CasingItem extends Component {
             defaultValue={linear_mass? this.props.convert.convertValue(parseFloat(linear_mass), "force", "lbf").fixFloat(2): linear_mass}
             ref="linearMassInput"
             error={this.state.errors.linear_mass}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{linear_mass: e.target.value})})} />
         </td>
 
@@ -127,6 +132,7 @@ class CasingItem extends Component {
             s={12}
             label="Grade"            
             defaultValue={grade}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{grade: e.target.value})} )} />
         </td>
         
@@ -186,7 +192,8 @@ class CasingItem extends Component {
 
   onCalcLength() {
     let {top_depth,bottom_depth} = this.state.data;
-
+    console.log(top_depth);
+    console.log(bottom_depth);
     if (this.isValidNumber(top_depth,this.U_MIN_TOP_DEPTH,this.U_MAX_TOP_DEPTH) && this.isValidNumber(bottom_depth,this.U_MIN_TOP_DEPTH,this.U_MAX_TOP_DEPTH) && this.isValidNumber(top_depth,this.U_MIN_TOP_DEPTH,bottom_depth)) {
       this.setState({data: Object.assign({},this.state.data,{length: bottom_depth-top_depth})});
     }
@@ -250,8 +257,17 @@ class CasingItem extends Component {
     
   }
   
-  save() {
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {      
+      setTimeout(()=>{
+        this.onCalcLength();
+        this.onCalcLinearMass();
+        this.save();
+      },0);
+    }
+  }
 
+  save() {
     if (this.hasFormErrors()) {
       return;
     }

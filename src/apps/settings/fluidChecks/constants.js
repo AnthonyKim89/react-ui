@@ -1,4 +1,4 @@
-import { Map } from 'immutable';
+import { List,Map } from 'immutable';
 
 export const CATEGORY = 'settings';
 export const NAME = 'fluidChecks';
@@ -13,4 +13,4 @@ export const METADATA = {
   isHiddenFromAddApp: true
 };
 export const SUPPORTED_ASSET_TYPES = ['well'];
-export const FLUID_CHECK_DATA_TEMPLATE = Map({});
+export const FLUID_CHECK_DATA_TEMPLATE = Map({viscocity: Map({rpm_readings: List()})});

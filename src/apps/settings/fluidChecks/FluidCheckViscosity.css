@@ -1,0 +1,33 @@
+.c-fluid-check-viscocity h5 {
+  margin-bottom: 5px;
+  margin-top: 5px;
+  font-size: 1.4rem;
+}
+.c-fluid-check-viscocity .row {
+  margin-bottom: 0px;
+}
+
+.c-fluid-check-viscocity .input-field.col label{
+  width: 100%;
+}
+
+.c-fluid-check-viscocity .input-field.col label:after{
+  top:40px;
+}
+
+
+.c-fluid-check-viscocity__rpm-readings table thead{
+  border: none;
+}
+
+.c-fluid-check-viscocity__rpm-readings table tr {
+  padding: 0px;
+}
+
+.c-fluid-check-viscocity__rpm-readings table th {
+  padding: 0px;
+}
+
+.c-fluid-check-viscocity__rpm-readings table td {
+  padding: 0px;
+}

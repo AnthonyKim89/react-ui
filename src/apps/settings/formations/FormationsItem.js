@@ -46,6 +46,7 @@ class FormationsItem extends Component {
             label="True Vertical Depth"
             error={this.state.errors.td}
             defaultValue={td? this.props.convert.convertValue(parseFloat(td), "length", "ft").fixFloat(2) : td}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{td:e.target.value})} )} />
         </td>
 
@@ -55,6 +56,7 @@ class FormationsItem extends Component {
             label="Measured Depth (ft)"
             error={this.state.errors.md}
             defaultValue={md? this.props.convert.convertValue(parseFloat(md), "length", "ft").fixFloat(2): md}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{md:e.target.value})} )} />
         </td>
 
@@ -63,14 +65,16 @@ class FormationsItem extends Component {
             s={12}
             label="Formation Name"
             defaultValue={formation_name}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{formation_name:e.target.value})} )} />
         </td>
 
         <td className="hide-on-med-and-down">
           <Input type="text" 
             s={12}
-            label="Lithology"            
+            label="Lithology"
             defaultValue={lithology}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{lithology:e.target.value})} )} />
         </td>
         
@@ -82,8 +86,13 @@ class FormationsItem extends Component {
     );
   }
 
-  save() {
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      this.save();
+    }
+  }
 
+  save() {
     let {td,md,formation_name,lithology} = this.state.data;
     let hasErrors = false;
     let errors = {};
