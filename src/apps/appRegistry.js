@@ -36,6 +36,8 @@ import traceTab from './trace/traceTab';
 import generalInfo from './settings/generalInfo';
 import drillstrings from './settings/drillstrings';
 import casing from './settings/casing';
+import actualSurveys from './settings/surveys/actual';
+import planSurveys from './settings/surveys/plan';
 import fluidChecks from './settings/fluidChecks';
 import costs from './settings/costs';
 import map from './settings/map';
@@ -116,6 +118,8 @@ export const uiApps = Map({
       generalInfo,
       drillstrings,
       casing,
+      actualSurveys,
+      planSurveys,
       fluidChecks,
       costs,
       map,

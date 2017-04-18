@@ -149,6 +149,12 @@ export async function postAppStorage(provider, collection, item) {
   return fromJS(response);
 }
 
+export async function postTaskDocument(provider, collection, data, params = Map()) {
+  const qry = queryString(params.toJS());  
+  const response = await post(`/v1/tasks/${provider}/${collection}?${qry}`, {data});
+  return fromJS(response);
+}
+
 export async function putAppStorage(provider, collection, id, item) {
   const response = await put(`/v1/data/${provider}/${collection}/${id}`, item.toJS());
   return fromJS(response);
