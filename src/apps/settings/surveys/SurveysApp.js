@@ -79,11 +79,11 @@ class SurveysApp extends Component {
   }
 
   async invokeMinimumCurvatureTask(data) {
-    const blob = new Blob([JSON.stringify(data.toJS())], {type: 'application/json'});
+    //const blob = new Blob([JSON.stringify(data.toJS())], {type: 'application/json'});
     const res = await api.postTaskDocument(
       this.props.minimumCurvatureCollectionConfig.provider,
       this.props.minimumCurvatureCollectionConfig.collection,
-      blob,
+      data,
       Map({asset_id: this.props.asset.get('id')})
     );
     this.setState({pendingMinimumCurvatureTaskId: res.get('task_id')});
