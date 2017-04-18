@@ -7,18 +7,18 @@ import ChartSeries from '../../../common/ChartSeries';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
-import './MinimumFlowRateApp.css';
+import './ConcentrationApp.css';
 
-class MinimumFlowRateApp extends Component {
+class ConcentrationApp extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     return (nextProps.data !== this.props.data || nextProps.coordinates !== this.props.coordinates || nextProps.graphColors !== this.props.graphColors);
   }
 
   render() {
-    let title = SUPPORTED_CHART_SERIES['flow_rate'].label;
+    let title = SUPPORTED_CHART_SERIES['concentration'].label;
     return (
-      <div className="c-hydraulics-minimum-flow-rate">
+      <div className="c-hydraulics-concentration">
         {this.getData() ?
           <Chart
             xField="measured_depth"
@@ -39,12 +39,14 @@ class MinimumFlowRateApp extends Component {
               lineWidth={2.0}
               title={title}
               data={this.getSeriesData()}
-              yField="recommended_minimum_flowrate"
+              yField="cuttings_concentration"
               yAxisTitle={{
-                text: `Flow Rate (${this.props.convert.getUnitDisplay('volume')}pm)`,
+                text: `Concentration (%)`,
                 style: {color: '#fff'}
               }}
-              color={this.getSeriesColor('flow_rate')}
+              color={this.getSeriesColor('concentration')}
+              minValue={0.0}
+              maxValue={100.0}
               step={true}
             />
           </Chart> :
@@ -60,7 +62,7 @@ class MinimumFlowRateApp extends Component {
   getSeriesData() {
     let points = this.getData().getIn(['data', 'sections']);
     points = this.props.convert.convertImmutables(points, 'measured_depth', 'length', 'ft');
-    points = this.props.convert.convertImmutables(points, 'recommended_minimum_flowrate', 'volume', 'gal');
+    points = this.props.convert.convertImmutables(points, 'cuttings_concentration', 'volume', 'gal');
     return points;
   }
 
@@ -74,7 +76,7 @@ class MinimumFlowRateApp extends Component {
 
 }
 
-MinimumFlowRateApp.propTypes = {
+ConcentrationApp.propTypes = {
   data: ImmutablePropTypes.map,
   graphColors: ImmutablePropTypes.map,
   size: PropTypes.string.isRequired,
@@ -82,4 +84,4 @@ MinimumFlowRateApp.propTypes = {
   widthCols: PropTypes.number.isRequired
 };
 
-export default MinimumFlowRateApp;
+export default ConcentrationApp;

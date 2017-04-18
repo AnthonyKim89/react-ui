@@ -52,6 +52,8 @@ import raRigActivity from './rigActivity/rigActivity';
 import raDrillingOperations from './rigActivity/drillingOperations';
 
 // HYDRAULICS APPS
+import hydraulicsBedHeight from './hydraulics/bedHeight';
+import hydraulicsConcentration from './hydraulics/concentration';
 import hydraulicsMinimumFlowRate from './hydraulics/minimumFlowRate';
 import hydraulicsOverview from './hydraulics/overview';
 import hydraulicsPressureLoss from './hydraulics/pressureLoss';
@@ -135,6 +137,8 @@ export const uiApps = Map({
     title: 'Hydraulics',
     subtitle: '',
     appTypes: Map({
+      bedHeight: hydraulicsBedHeight,
+      concentration: hydraulicsConcentration,
       minimumFlowRate: hydraulicsMinimumFlowRate,
       overview: hydraulicsOverview,
       pressureLoss: hydraulicsPressureLoss,
