@@ -6,6 +6,7 @@ import { ASSET_TYPES } from './constants';
 import { assets, isResolvableAsset, isResolvedAsset } from './selectors';
 
 export const LOAD_ASSETS = 'LOAD_ASSETS';
+export const UNLOAD_ASSET = 'UNLOAD_ASSET';
 
 export function loadAsset(assetId) {
   return async (dispatch, getState) => {
@@ -43,6 +44,12 @@ export function reloadAsset(assetId) {
     const loadedAsset = assets(getState()).get(assetId, Map());
     const refreshedAsset = loadedAsset.merge(await api.getAsset(assetId));
     dispatch({type: LOAD_ASSETS, assets: List.of(refreshedAsset)});
+  };
+}
+
+export function unloadAsset(assetId) {
+  return (dispatch, getState) => {
+    dispatch({type: UNLOAD_ASSET, assetId: assetId});
   };
 }
 

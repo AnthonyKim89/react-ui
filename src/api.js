@@ -133,8 +133,24 @@ export async function getActiveChildAsset(id) {
   return fromJS(data);
 }
 
+export async function postAsset(asset) {
+  if (Map.isMap(asset)) {
+    asset = asset.toJS();
+  }
+  const data = await post(`/v1/assets`, asset);
+  return fromJS(data);
+}
+
 export async function putAsset(id, asset) {
-  const data = await put(`/v1/assets/${id}`, asset.toJS());
+  if (Map.isMap(asset)) {
+    asset = asset.toJS();
+  }
+  const data = await put(`/v1/assets/${id}`, asset);
+  return fromJS(data);
+}
+
+export async function deleteAsset(id) {
+  const data = await del(`/v1/assets/${id}`);
   return fromJS(data);
 }
 
