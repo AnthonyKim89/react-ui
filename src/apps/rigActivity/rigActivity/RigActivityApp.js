@@ -14,6 +14,14 @@ import './RigActivityApp.css';
 
 class RigActivityApp extends Component {
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextProps.data !== this.props.data || 
+      nextProps.coordinates !== this.props.coordinates ||
+      nextProps.graphColors !== this.props.graphColors ||
+      nextProps.period !== this.props.period || 
+      nextProps.displayFormat !== this.props.displayFormat);
+  }
+
   render() {
     return (
       this.getData() ?

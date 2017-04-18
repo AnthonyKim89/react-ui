@@ -14,6 +14,14 @@ import './DrillingOperationsApp.css';
 
 class DrillingOperationsApp extends Component {
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextProps.data !== this.props.data || 
+      nextProps.coordinates !== this.props.coordinates ||
+      nextProps.graphColors !== this.props.graphColors ||
+      nextProps.period !== this.props.period || 
+      nextProps.operationType !== this.props.operationType);
+  }
+
   render() {
     return (
       this.getData() ?
