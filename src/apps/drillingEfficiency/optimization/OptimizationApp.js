@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Row, Col } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import numeral from 'numeral';
 
 import Gauge from '../../../common/Gauge';
 
@@ -14,23 +15,29 @@ class OptimizationApp extends Component {
   
   render() {
     let optimizationData = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[0]);
-    let actualData = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[1]);
+    let witsData = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[1]);
+    let actualData = (witsData && witsData.getIn(["data"])) || (optimizationData && optimizationData.getIn(["data", "actual"]));
 
     if (!optimizationData || !actualData) {
       return <LoadingIndicator />;
     }
-    
+
+    let gaugeValue = this.getGaugeValue(optimizationData.getIn(['data', 'efficiency']));  
+    let activity_state = optimizationData.getIn(['data', 'actual', 'state']);
+
     return (
       <div className="c-de-optimization">
         <Row>
             <Col s={12} m={4} className="c-de-optimization__gauge">
               <div className="c-de-optimization__gauge-title">Drilling Efficiency</div>
-              <Gauge widthCols={this.props.widthCols}
+              {gaugeValue !== null ? 
+                <Gauge widthCols={this.props.widthCols}
                      bands={this.getGaugeBands()}
-                     value={this.getGaugeValue(optimizationData.getIn(['data', 'efficiency']))} />
+                     value={gaugeValue} /> : ""}
             </Col>
             <Col m={8} className="c-de-optimization__info">
               <div className="c-de-optimization__gauge-title">Parameter Optimization</div>
+              {(activity_state !== "SlideDrilling" || activity_state !== "RotaryDrilling") ? <div className="c-de-optimization__off-botom">Current Activity: Off-bottom</div> : ""}
               <table>
                 <thead>
                   <tr>
@@ -49,46 +56,44 @@ class OptimizationApp extends Component {
                 <tbody>
                   <tr>
                     <td> Actual </td>
-                    <td style={this.getStyles(actualData,optimizationData,"wob")}> {this.props.convert.convertValue(actualData.getIn(["data",this.getParamKey("actual","wob")]), "mass", "lb").fixFloat(1)}</td>
-                    <td style={this.getStyles(actualData,optimizationData,"flow")}> {this.props.convert.convertValue(actualData.getIn(["data",this.getParamKey("actual","flow")]), "volume", "gal").fixFloat(1)}</td>
-                    <td style={this.getStyles(actualData,optimizationData,"rpm")}> {actualData.getIn(["data",this.getParamKey("actual","rpm")])}</td>
+                    <td style={this.getStyles(actualData,optimizationData,"wob", activity_state)}> {numeral(this.props.convert.convertValue(actualData.getIn([this.getParamKey("actual","wob")]), "force", "lbf")).format("0.0")}</td>
+                    { /* TODO: Add back in: this.getStyles(actualData,optimizationData,"mud_flow_in") */ }
+                    <td> {numeral(this.props.convert.convertValue(actualData.getIn([this.getParamKey("actual","flow")]), "volume", "gal")).format("0.0")}</td>
+                    <td style={this.getStyles(actualData, optimizationData, "rpm", activity_state)}>{numeral(actualData.getIn([this.getParamKey("actual","rpm")])).format("0")}</td>
                   </tr>
-                  <tr>
-                    <td> Rotary </td>
-                    <td> 
-                      {this.props.convert.convertValue(optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","min_wob")]), "mass", "lb").fixFloat(1)} -
-                      {this.props.convert.convertValue(optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","max_wob")]), "mass", "lb").fixFloat(1)}
-                    </td>
-                    <td>
-                      {this.props.convert.convertValue(optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","min_flow")]), "volume", "gal").fixFloat(1)} -
-                      {this.props.convert.convertValue(optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","max_flow")]), "volume", "gal").fixFloat(1)}
-                    </td>
-                    <td>
-                      {optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","min_rpm")])} - 
-                      {optimizationData.getIn(["data","recommended_rotary", this.getParamKey("optimization","max_rpm")])}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td> Slide </td>
-                    <td> 
-                      {this.props.convert.convertValue(optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","min_wob")]), "mass", "lb").fixFloat(1)} -
-                      {this.props.convert.convertValue(optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","max_wob")]), "mass", "lb").fixFloat(1)}
-                    </td>
-                    <td>
-                      {this.props.convert.convertValue(optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","min_flow")]), "volume", "gal").fixFloat(1)} -
-                      {this.props.convert.convertValue(optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","max_flow")]), "volume", "gal").fixFloat(1)}
-                    </td>
-                    <td>
-                      {optimizationData.getIn(["data","recommended_slide", this.getParamKey("optimization","min_rpm")])} -
-                      {optimizationData.getIn(["data","recommended_slide",this.getParamKey("optimization","max_rpm")])}
-                    </td>
-                  </tr>
+                  {this.renderSection(optimizationData, "Rotary", "recommended_rotary")}
+                  {this.renderSection(optimizationData, "Slide", "recommended_slide")}
                 </tbody>
               </table>
             </Col>  
           </Row>                
       </div>
     );
+  }
+
+  renderSection(optimizationData, title, section) {
+    let section_present = optimizationData.getIn(["data",section]) !== null && optimizationData.getIn(["data",section]).count() > 0;  
+    return (
+      <tr>
+        <td>{title}</td>
+        <td>
+          { 
+            section_present ? 
+            (numeral(this.props.convert.convertValue(optimizationData.getIn(["data",section, this.getParamKey("optimization","min_wob")]), "force", "lbf")).format("0.0") + " - " + numeral(this.props.convert.convertValue(optimizationData.getIn(["data",section,this.getParamKey("optimization","max_wob")]), "force", "lbf")).format("0.0")) 
+            : "-"}
+        </td>
+        <td>
+          { section_present && false ? 
+          (numeral(this.props.convert.convertValue(optimizationData.getIn(["data",section, this.getParamKey("optimization","min_flow")]), "volume", "gal")).format("0.0") -
+          numeral(this.props.convert.convertValue(optimizationData.getIn(["data",section, this.getParamKey("optimization","max_flow")]), "volume", "gal")).format("0.0")) : "-"}
+        </td>
+        <td>
+          { 
+            section_present ? 
+            (numeral(optimizationData.getIn(["data",section, this.getParamKey("optimization","min_rpm")])).format("0") + " - " + numeral(optimizationData.getIn(["data",section,this.getParamKey("optimization","max_rpm")])).format("0")) 
+            : "-"}
+        </td>
+    </tr>);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -107,7 +112,7 @@ class OptimizationApp extends Component {
     switch (severity) {
       case 'low': return 5;
       case 'moderate': return 15;
-      case 'high': return 25;
+      case 'optimal': return 25;
       default: return null;
     }
   }
@@ -116,7 +121,7 @@ class OptimizationApp extends Component {
     let keys ={
       "actual" : {
         "wob" : "weight_on_bit",
-        "flow" : "total_pump_output",
+        "flow" : "mud_flow_in",
         "rpm" : "rotary_rpm",
       }, 
       "optimization": {
@@ -131,10 +136,18 @@ class OptimizationApp extends Component {
     return keys[modeString][shortName];
   }
 
-  getStyles(actualData, optimizationData, param , activityState="recommended_rotary") {
-    let actualVal = actualData.getIn(["data",this.getParamKey("actual",param)]);
-    let optMinVal = optimizationData.getIn(["data",activityState,this.getParamKey("optimization","min_"+param)]);
-    let optMaxVal = optimizationData.getIn(["data",activityState,this.getParamKey("optimization","max_"+param)]);
+  getStyles(actualData, optimizationData, param, activity_state="RotaryDrilling") {
+    let activity_category = "recommended_rotary";
+    if(activity_state === "SlideDrilling") {
+        activity_category = "recommended_slide";
+    }
+    if(activity_state !== "SlideDrilling" || activity_state !== "RotaryDrilling") {
+      return {color: "#ffffff"};
+    }
+
+    let actualVal = actualData.getIn([this.getParamKey("actual", param)]);
+    let optMinVal = optimizationData.getIn(["data", activity_category, this.getParamKey("optimization","min_"+param)]);
+    let optMaxVal = optimizationData.getIn(["data", activity_category, this.getParamKey("optimization","max_"+param)]);
     
     if (actualVal > optMinVal && actualVal < optMaxVal ) {
       return {color: "#00ff00"};
