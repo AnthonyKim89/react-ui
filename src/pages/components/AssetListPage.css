@@ -59,7 +59,7 @@
   border: 1px solid #ccc;
   background: white;
   color: black;
-  overflow: auto;
+  overflow: visible;
   -webkit-overflow-scrolling: touch;
   outline: none;
   z-index: 4001;
@@ -109,6 +109,21 @@
   margin-top: 5px;
   vertical-align: bottom;
 }
+.c-asset-list-page__edit-asset__dialog__cancel {
+  float: right;
+  border-radius: 0 !important;
+  width: 100%;
+  height: 40px;
+  margin-top: 5px;
+  vertical-align: bottom;
+  background-color: #888 !important;
+}
+.c-asset-list-page__edit-asset__dialog__button-row {
+  margin: 0 !important;
+}
+.c-asset-list-page__edit-asset__bold {
+  font-weight: bold;
+}
 
 .c-asset-list-page__edit-asset__dialog .caret {
   border-color: transparent !important;
@@ -137,13 +152,6 @@
 .c-asset-list-page__edit-asset__dialog .select-wrapper li:hover span {
   background-color: #eeeeee;
   color: #000000;
-}
-
-.c-asset-list-page__edit-asset__dialog .select-wrapper input.select-dropdown {
-  font-size: 20px;
-  padding-left: 10px;
-  border-bottom: none;
-  height: 40px;
 }
 
 .c-asset-list-page__edit-asset__dialog .col.input-field label {
