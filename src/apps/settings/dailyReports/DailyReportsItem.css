@@ -1,0 +1,46 @@
+.c-daily-reports-item:nth-child(even) {
+  background-color: rgb(41,41,41);
+}
+
+.c-daily-reports-item:hover {
+  background-color: rgb(96,91,91);
+}
+
+.c-daily-reports-item .view-action {
+  width: 30px;
+  height:30px;
+  line-height:30px;
+  display:none;
+}
+
+.c-daily-reports-item .view-action i {
+  line-height: 30px;
+}
+
+.c-daily-reports-item:hover .view-action {
+  display: inline;  
+}
+
+.c-daily-reports-item button {
+  margin-left: 10px;
+}
+
+ .c-daily-reports-item .input-field{
+  margin-top: 0px;
+}
+
+.c-daily-reports-item .input-field.col label{
+  left: 0;
+  width: 100%;
+}
+
+.c-daily-reports-item .input-field.col label:after{
+  top:40px;
+}
+
+.c-daily-reports-item td {
+  border-radius: 0px;
+  padding-top:5px;
+  padding-bottom:5px;
+  height:41px;
+}

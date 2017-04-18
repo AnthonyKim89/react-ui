@@ -31,12 +31,15 @@ class MinimumFlowRateApp extends Component {
             <ChartSeries
               key={title}
               id={title}
-              type="line"
+              type="area"
+              fillOpacity={0.5}
+              lineWidth={2.0}
               title={title}
               data={this.getSeriesData()}
               yField="value"
               yAxisTitle={{text: `Flow Rate (${this.props.convert.getUnitDisplay('volume')}pm)`}}
               color={this.getSeriesColor('flow_rate')}
+              step={true}
             />
           </Chart> :
           <LoadingIndicator />}
