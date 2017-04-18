@@ -31,7 +31,7 @@ class SurveysApp extends Component {
   }
 
   receiveTaskData(props) {
-    const parseResult = subscriptions.selectors.getSubData(props.data, this.props.parseCollectionConfig);
+    const parseResult = subscriptions.selectors.getSubData(props.data, this.props.parseCollectionConfig); 
     if (parseResult && parseResult.get('task_id') === this.state.pendingParseTaskId) {
       this.setState({pendingParseTaskId: null});
       // Parsing done, invoke the second, minimum curvature task.
@@ -72,7 +72,7 @@ class SurveysApp extends Component {
     const res = await api.postTaskDocument(
       this.props.parseCollectionConfig.provider,
       this.props.parseCollectionConfig.collection,
-      file,
+      { file_name: file },
       Map({asset_id: this.props.asset.get('id')})
     );
     this.setState({pendingParseTaskId: res.get('task_id')});
