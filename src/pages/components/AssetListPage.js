@@ -180,11 +180,19 @@ class AssetListPage extends Component {
 
   async saveAsset() {
     let asset = {
-      name: this.assetNameInput.state.value,
+      name: this.assetNameInput.state.value.trim(),
       parent_asset_id: this.parentAssetSelector ? parseInt(this.parentAssetSelector.state.value, 10) : null,
     };
+
     if (this.props.params.assetType !== 'program' && !asset.parent_asset_id) {
       asset.parent_asset_id = this.props.possibleParentAssets.first().get("id");
+    }
+
+    if (asset.name === "") {
+      this.refs.notificationSystem.addNotification({
+        message: "'Asset Name' is a required field.",
+        level: 'error'
+      });
     }
 
     let response = null;
