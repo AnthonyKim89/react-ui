@@ -15,7 +15,7 @@ class PressureTrendApp extends Component {
   constructor(props) {
     super(props);
     this.state = {series: List()};
-  }
+  }  
 
   render() {
     return (
