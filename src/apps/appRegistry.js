@@ -130,6 +130,12 @@ export const uiApps = Map({
     appTypes: Map({
       rigActivity: raRigActivity,
       drillingOperations: raDrillingOperations,
+    })
+  }),
+  analytics: Map({
+    title: 'Analytics',
+    subtitle: '',
+    appTypes: Map({
       ropPerformance: raRopPerformance
     })
   }),

@@ -27,6 +27,16 @@ class RopPerformanceApp extends Component {
     }
   }
 
+  /*
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextProps.data !== this.props.data || 
+    nextProps.coordinates !== this.props.coordinates || 
+    nextProps.graphColors !== this.props.graphColors ||
+    nextProps.period !== this.props.period ||
+    nextProps.ropType !== this.props.ropType);
+  }
+  */
+
   render() {
     return (
       this.readyToRender() ?
@@ -37,7 +47,7 @@ class RopPerformanceApp extends Component {
                 xField="day"
                 xAxisType="datetime"
                 xAxisWidth="2"
-                xAxisColor="#bbb"
+                xAxisColor="#bbb"                
                 xLabelStyle={{color: '#bbb'}}
                 xAxisLabelFormatter={(value) => {
                   return Math.floor((Date.now() - value) / 1000 / 60 / 60 / 24);
@@ -48,6 +58,7 @@ class RopPerformanceApp extends Component {
                 horizontal={true}
                 multiAxis={false}
                 size={this.props.size}
+                coordinates={this.props.coordinates}
                 plotBackgroundColor='rgb(32, 31, 31)'
                 gridLineWidth='0px'
                 hideYAxis={true}

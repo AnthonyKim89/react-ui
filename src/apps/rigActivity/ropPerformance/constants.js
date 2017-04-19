@@ -1,4 +1,4 @@
-export const CATEGORY = 'rigActivity';
+export const CATEGORY = 'analytics';
 export const NAME = 'ropPerformance';
 export const SUBSCRIPTIONS = [];
 export const METADATA = {
