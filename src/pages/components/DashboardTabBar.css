@@ -14,7 +14,8 @@
   height: 60px;
   position: relative;
 }
-.c-dashboard-tab-bar a.c-dashboard-tab-bar__dashboard-link, .c-dashboard-tab-bar li.c-dashboard-tab-bar__dashboard-link a {
+.c-dashboard-tab-bar a.c-dashboard-tab-bar__dashboard-link,
+.c-dashboard-tab-bar li.c-dashboard-tab-bar__dashboard-link a {
   display: block;
   padding: 0 15px;
   float: left;
@@ -24,8 +25,49 @@
   font-size: 1rem;
   text-align: center;
   color: white;
-  transition: background-color 0.2s linear;
+  transition: all 0.2s linear;
   z-index: -1;
+}
+.c-dashboard-tab-bar li.c-dashboard-tab-bar__add-dashboard a {
+  opacity: 0.7;
+}
+.c-dashboard-tab-bar li.c-dashboard-tab-bar__add-dashboard a:hover {
+  opacity: 1;
+}
+.c-dashboard-tab-bar__settings-menu {
+  float: right !important;
+}
+.c-dashboard-tab-bar .c-dashboard-tab-bar__settings-menu ul li.dropdown-button a {
+  display: block;
+  padding: 0 15px;
+  width: auto;
+  height: 60px;
+  line-height: 60px;
+  font-size: 1rem;
+  text-align: center;
+  color: white;
+  transition: all 0.2s linear;
+  opacity: 0.7;
+}
+.c-dashboard-tab-bar .c-dashboard-tab-bar__settings-menu ul li.dropdown-button a:hover {
+  background-color: #777;
+  opacity: 1;
+}
+.c-dashboard-tab-bar .c-dashboard-tab-bar__settings-menu ul ul.dropdown-content {
+  margin-top: 60px;
+}
+.c-dashboard-tab-bar .c-dashboard-tab-bar__settings-menu ul ul.dropdown-content li {
+  height: 50px;
+  border-bottom: 1px solid #e0e0e0;
+}
+.c-dashboard-tab-bar .c-dashboard-tab-bar__settings-menu ul ul.dropdown-content li:last-child {
+  border-bottom: none;
+}
+.c-dashboard-tab-bar .c-dashboard-tab-bar__settings-menu ul ul.dropdown-content li a {
+  color: black;
+}
+.c-dashboard-tab-bar .c-dashboard-tab-bar__settings-menu ul ul.dropdown-content li a:hover {
+  color: white;
 }
 .c-dashboard-tab-bar i {
   line-height: inherit !important;
@@ -38,33 +80,12 @@
   text-decoration: none;
 }
 .c-dashboard-tab-bar a:hover {
-  background: transparent;
-  color: #57c9c2;
+  background-color: #777;
+  color: white;
 }
 .c-dashboard-tab-bar a.is-active {
   background-color: #58c9c2;
   color: white;
-}
-
-
-div.c-dashboard-tab-bar__dashboard-options {
-  position: absolute;
-  bottom: 1px;
-  right: 3px;
-  line-height: 1rem;
-  opacity: 0;
-  transition: all 0.2s linear;
-}
-.c-dashboard-tab-bar li:hover div.c-dashboard-tab-bar__dashboard-options {
-  opacity: 1;
-  transition: all 0.2s linear;
-}
-.c-dashboard-tab-bar__dashboard-options a {
-  color: white;
-  margin-left: 1px;
-}
-.c-dashboard-tab-bar__dashboard-options i {
-  font-size: 1rem;
 }
 
 .c-dashboard-tab-bar__edit-dashboard {

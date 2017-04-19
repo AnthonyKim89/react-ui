@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { store } from '../../store';
-import { dashboards } from '../selectors';
-import { Input, Icon, NavItem, Button, Row, Col } from 'react-materialize';
+import { Input, Icon, NavItem, Button, Row, Col, Dropdown } from 'react-materialize';
 import Modal from 'react-modal';
 import NotificationSystem from 'react-notification-system';
+import ImmutablePropTypes from 'react-immutable-proptypes';
+
+import { store } from '../../store';
+import { dashboards } from '../selectors';
 
 import './DashboardTabBar.css';
 
@@ -15,11 +17,10 @@ class DashboardTabBar extends Component {
     this.state = {
       dashboardDialogOpen: false,
       dashboardDialogMode: 'Add', // or 'Edit'
-      dashboardDialogEntity: null,
       deleteDialogOpen: false,
-      deleteDialogEntity: null,
     };
     this.saveDashboard = this.saveDashboard.bind(this);
+    this.currentDashboard = null;
   }
 
   render() {
@@ -30,12 +31,16 @@ class DashboardTabBar extends Component {
             <Link to={`/dashboards/${dashboard.get('id')}`} className="c-dashboard-tab-bar__dashboard-link" activeClassName="is-active">
               {dashboard.get('name')}
             </Link>
-            <div className="c-dashboard-tab-bar__dashboard-options">
-              <a onClick={() => this.openDashboardDialog('Edit', dashboard)}><Icon>settings</Icon></a>
-              <a onClick={() => this.openDeleteDialog(dashboard)}><Icon>delete</Icon></a>
-            </div>
           </li>)}
-        <NavItem className="c-dashboard-tab-bar__dashboard-link" onClick={() => this.openDashboardDialog()}><Icon>add_circle_outline</Icon></NavItem>
+        <NavItem className="c-dashboard-tab-bar__dashboard-link c-dashboard-tab-bar__add-dashboard" onClick={() => this.openDashboardDialog()}>
+          <Icon>add_circle_outline</Icon>
+        </NavItem>
+        <li className="c-dashboard-tab-bar__settings-menu"><ul>
+          <Dropdown trigger={<NavItem><Icon>settings</Icon></NavItem>}>
+            <NavItem onClick={() => this.openDashboardDialog('Edit')}>Edit</NavItem>
+            <NavItem onClick={() => this.openDeleteDialog()}>Delete</NavItem>
+          </Dropdown>
+        </ul></li>
       </ul>
       <Modal
         isOpen={this.state.dashboardDialogOpen}
@@ -50,7 +55,7 @@ class DashboardTabBar extends Component {
             </h4>
           </header>
           <Input label="Dashboard Name"
-                 defaultValue={this.state.dashboardDialogEntity && this.state.dashboardDialogEntity.get('name')}
+                 defaultValue={this.state.dashboardDialogMode === 'Edit' ? this.props.currentDashboard.get('name') : ""}
                  ref={(input) => this.dashboardNameInput = input} />
           <Button className="c-dashboard-tab-bar__edit-dashboard__dialog__done" onClick={() => this.saveDashboard()}>
             Save
@@ -70,7 +75,7 @@ class DashboardTabBar extends Component {
             </h4>
           </header>
           <h5>Do you wish to delete this dashboard?</h5>
-          <h5>Name: <span className="c-dashboard-tab-bar__edit-dashboard__bold">{this.state.deleteDialogEntity && this.state.deleteDialogEntity.get("name")}</span></h5>
+          <h5>Name: <span className="c-dashboard-tab-bar__edit-dashboard__bold">{this.props.currentDashboard && this.props.currentDashboard.get("name")}</span></h5>
           <Row className="c-dashboard-tab-bar__edit-dashboard__dialog__button-row">
             <Col s={6}>
               <Button className="c-dashboard-tab-bar__edit-dashboard__dialog__done" onClick={() => this.deleteDashboard()}>
@@ -115,11 +120,10 @@ class DashboardTabBar extends Component {
     this.closeDeleteDialog();
   }
 
-  openDashboardDialog(mode='Add', dashboard=null) {
+  openDashboardDialog(mode='Add') {
     this.setState({
       dashboardDialogOpen: true,
       dashboardDialogMode: mode,
-      dashboardDialogEntity: dashboard,
     });
   }
 
@@ -132,7 +136,6 @@ class DashboardTabBar extends Component {
   openDeleteDialog(dashboard) {
     this.setState({
       deleteDialogOpen: true,
-      deleteDialogEntity: dashboard,
     });
   }
 
@@ -140,5 +143,9 @@ class DashboardTabBar extends Component {
     this.setState({deleteDialogOpen: false});
   }
 }
+
+DashboardTabBar.propTypes = {
+  currentDashboard: ImmutablePropTypes.map.isRequired,
+};
 
 export default DashboardTabBar;
