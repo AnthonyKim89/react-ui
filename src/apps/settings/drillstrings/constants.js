@@ -15,17 +15,17 @@ export const METADATA = {
 export const SUPPORTED_ASSET_TYPES = ['well'];
 
 export const COMPONENT_FAMILIES = [
-  {name: 'bit', type: 'bit'},
-  {name: 'drill collar', type: 'drill_collar'},
-  {name: 'drill pipe', type: 'drill_pipe'},
-  {name: 'heavy weight drill pipe', type: 'heavy_weight_drill_pipe'},
-  {name: 'jar', type: 'jar'},
-  {name: 'motor', type: 'motor'},
-  {name: 'mwd', type: 'mwd'},
-  {name: 'spiral drill collar', type: 'spiral_drill_collar'},
-  {name: 'stabilizer', type: 'stabilizer'},
-  {name: 'sub', type: 'sub'},
-  {name: 'tail pipe', type: 'tail_pipe'}
+  {name: 'Bit', type: 'bit'},
+  {name: 'DC', type: 'dc'},
+  {name: 'DP', type: 'dp'},
+  {name: 'HWDP', type: 'hwdp'},
+  {name: 'Jar', type: 'jar'},
+  {name: 'PDM', type: 'pdm'},
+  {name: 'MWD', type: 'mwd'},
+  {name: 'Spiral drill collar', type: 'spiral_drill_collar'},
+  {name: 'Stabilizer', type: 'stabilizer'},
+  {name: 'Sub', type: 'sub'},
+  {name: 'Tail pipe', type: 'tail_pipe'}
 ];
 
 export const DRILLSTRING_DATA_TEMPLATE = Map({components: List()});

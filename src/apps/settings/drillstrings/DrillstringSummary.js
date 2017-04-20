@@ -87,7 +87,7 @@ export class DrillstringSummary extends Component {
   
   getComponentWeightSum() {
     return this.getComponents()
-      .map(c => c.get('linear_weight'))
+      .map(c => c.get('weight'))
       .filter(isNumber)
       .reduce((sum, weight) => sum + weight, 0);
   }

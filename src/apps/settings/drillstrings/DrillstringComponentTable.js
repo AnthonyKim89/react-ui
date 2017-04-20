@@ -13,24 +13,30 @@ class DrillstringComponentTable extends Component {
 
   render() {
     return <div className="c-drillstring-component-table">
+      {this.props.isEditable && this.props.errors && this.props.errors["bit_count"] ?
+        <div style={{color:'red'}}>
+          { this.props.errors["bit_count"] }
+        </div> : ''
+      }
       <Row>
-        <Col m={2}>
+        <Col m={1}>
           <DrillstringComponentSchematic
             drillstring={this.props.record}
             isEditable={this.props.isEditable}
-            onReorderComponents={this.onReorderComponents} />
+            onReorderComponents={this.onReorderComponents.bind(this)} />
         </Col>
-        <Col m={10}>
+        <Col m={11}>
           <table>
             <thead>
               <tr>
-                <th>Position</th>
                 <th>Name</th>
                 <th>Family</th>
                 <th>ID (in)</th>
                 <th>OD (in)</th>
+                <th>Linear Weight </th>
                 <th>Length ({this.props.convert.getUnitDisplay('length')})</th>
                 <th>Weight ({this.props.convert.getUnitDisplay('mass')})</th>
+                <th>Grade </th>
                 <th></th>
               </tr>
             </thead>
@@ -41,26 +47,30 @@ class DrillstringComponentTable extends Component {
                   key={idx}
                   index={idx}
                   component={cmp}
+                  errors={this.props.errors && this.props.errors["components"]? this.props.errors["components"][idx]: null}
                   isEditable={this.props.isEditable}
                   onComponentFieldChange={(field, value) => this.onComponentFieldChange(idx, field, value)}
+                  onComponentMultiFieldsChange={(nameValuePairs) => this.onComponentMultiFieldsChange(idx,nameValuePairs)}
                   onDeleteComponent={() => this.onDeleteComponent(idx)} />)}
             </tbody>
           </table>
         </Col>
       </Row>
       <Row>
-        <Col m={2}></Col>
+        <Col m={1}></Col>
         <Col m={10}>
           {this.props.isEditable &&
             <Button floating icon="add" onClick={() => this.onAddComponent()}></Button>}
         </Col>
       </Row>
-      {this.getComponentsOfFamily('bit').flatMap(({component, index}) =>
-        this.renderBitComponentHighlight(component, index))}
-      {this.getComponentsOfFamily('motor').flatMap(({component, index}) =>
-        this.renderMotorComponentHighlight(component, index))}
-      {this.getComponentsOfFamily('drill_pipe').flatMap(({component, index}) =>
-        this.renderDrillPipeComponentHighlight(component, index))}
+      <div className="c-drillstring-component-specific-data">
+        {this.getComponentsOfFamily('bit').flatMap(({component, index}) =>
+          this.renderBitComponentHighlight(component, index))}
+        {this.getComponentsOfFamily('pdm').flatMap(({component, index}) =>
+          this.renderPDMComponentHighlight(component, index))}
+        {this.getComponentsOfFamily('mwd').flatMap(({component, index}) =>
+          this.renderMWDComponentHighlight(component, index))}
+      </div>
     </div>;
   }
 
@@ -88,7 +98,7 @@ class DrillstringComponentTable extends Component {
     ];
   }
 
-  renderMotorComponentHighlight(motor, idx) {
+  renderPDMComponentHighlight(motor, idx) {
     return [
       <Row key={`motor-${idx}-title`}>
         <Col m={2}></Col>
@@ -105,7 +115,7 @@ class DrillstringComponentTable extends Component {
     ];
   }
 
-  renderDrillPipeComponentHighlight(pipe, idx) {
+  renderMWDComponentHighlight(pipe, idx) {
     return [
       <Row key={`drill-pipe-${idx}-title`}>
         <Col m={2}></Col>
@@ -115,7 +125,7 @@ class DrillstringComponentTable extends Component {
       </Row>,
       <Row key={`pipe-${idx}-fields`}>
         <Col m={2}></Col>
-        {this.renderHighlightTextField(pipe, idx, 'grade', 'Grade', 3)}
+        {this.renderHighlightTextField(pipe, idx, 'sensor_to_bit_distance', 'Sensor to bit distance', 3)}
       </Row>
     ];
   }
@@ -124,7 +134,7 @@ class DrillstringComponentTable extends Component {
     if (this.props.isEditable) {
       return <Input m={cols}
                     type="text"
-                    label={label}
+                    label={label}                    
                     defaultValue={component.get(field, '')}
                     onChange={e => this.onComponentFieldChange(idx, field, e.target.value)} />;
     } else {
@@ -136,10 +146,12 @@ class DrillstringComponentTable extends Component {
   }
 
   renderHighlightNumberField(component, idx, field, label, cols) {
+    let errors = this.props.errors;    
     if (this.props.isEditable) {
       return <Input m={cols}
                     type="number"
                     label={label}
+                    error={errors && errors["specificErrors"] && errors["specificErrors"][component.get("id")]? errors["specificErrors"][component.get("id")][field]: null}
                     defaultValue={component.get(field, '')}
                     onChange={e => this.onComponentFieldChange(idx, field, parseFloat(e.target.value))} />;
     } else {
@@ -171,6 +183,19 @@ class DrillstringComponentTable extends Component {
 
   onComponentFieldChange(idx, name, value) {
     this.props.onUpdateRecord(this.props.record.setIn(['data', 'components', idx, name], value));
+  }
+
+  onComponentMultiFieldsChange(idx,nameValuePairs) {    
+    let record = this.props.record;
+    nameValuePairs.map(nameValue=> {
+      let {name,value} = nameValue;
+      record = record.setIn(['data','components',idx,name],value);
+      return nameValue;
+    });
+
+    if (record) {
+      this.props.onUpdateRecord(record);
+    }    
   }
 
   onReorderComponents(newComponents) {

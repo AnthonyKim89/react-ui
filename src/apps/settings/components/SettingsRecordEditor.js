@@ -73,13 +73,16 @@ class SettingsRecordEditor extends Component {
     
   }
 
-  saveRecord() {
-      let errors = this.props.recordValidator(this.state.record);      
+  saveRecord() {    
+    console.log(this.state.record.toJS());
+    if (this.props.recordValidator) {
+      let errors = this.props.recordValidator(this.state.record);
       if (errors) {
         this.setState({errors:errors});
         return;        
-      }
-      this.props.onSave(this.state.record);
+      }      
+    }
+    this.props.onSave(this.state.record);
   }
 
   updateRecord(record) {

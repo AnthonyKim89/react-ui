@@ -77,8 +77,8 @@ class CasingItem extends Component {
             defaultValue={id? this.props.convert.convertValue(parseFloat(id), "shortLength", "in").fixFloat(2): id}
             error={this.state.errors.id}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{id: e.target.value})} )} 
-            onBlur={this.onCalcLinearMass}/>
+            onChange={e => this.setState({data: Object.assign({},this.state.data,{id: e.target.value})}, this.onCalcLinearMass )} 
+            />
         </td>
 
         <td>
@@ -88,8 +88,8 @@ class CasingItem extends Component {
             defaultValue={od? this.props.convert.convertValue(parseFloat(od), "shortLength", "in").fixFloat(2): od}
             error={this.state.errors.od}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{od: e.target.value})} )} 
-            onBlur={this.onCalcLinearMass}/>
+            onChange={e => this.setState({data: Object.assign({},this.state.data,{od: e.target.value})}, this.onCalcLinearMass )} 
+            />
         </td>
 
         <td className="hide-on-med-and-down">
@@ -99,8 +99,8 @@ class CasingItem extends Component {
             defaultValue={top_depth? this.props.convert.convertValue(parseFloat(top_depth), "length", "ft").fixFloat(2): top_depth}
             error={this.state.errors.top_depth}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{top_depth: e.target.value})} )} 
-            onBlur={this.onCalcLength}/>
+            onChange={e => this.setState({data: Object.assign({},this.state.data,{top_depth: e.target.value})}, this.onCalcLength) } 
+            />
         </td>
 
         <td className="hide-on-med-and-down">
@@ -110,8 +110,8 @@ class CasingItem extends Component {
             defaultValue={bottom_depth? this.props.convert.convertValue(parseFloat(bottom_depth), "length", "ft").fixFloat(2): bottom_depth}
             error={this.state.errors.bottom_depth}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{bottom_depth: e.target.value})} )} 
-            onBlur={this.onCalcLength}/>
+            onChange={e => this.setState({data: Object.assign({},this.state.data,{bottom_depth: e.target.value})}, this.onCalcLength )} 
+            />
         </td>
 
         <td>{length? this.props.convert.convertValue(parseFloat(length), "length", "ft").fixFloat(2): length}</td>
@@ -187,22 +187,27 @@ class CasingItem extends Component {
       ReactDOM.findDOMNode(this.refs.linearMassInput).children[0].value = calLW.fixFloat(2) ;
       ReactDOM.findDOMNode(this.refs.linearMassInput).children[1].className="active";
     }
+    else {
+      ReactDOM.findDOMNode(this.refs.linearMassInput).children[0].value = "";
+      ReactDOM.findDOMNode(this.refs.linearMassInput).children[1].className="";
+      this.setState({data: Object.assign({},this.state.data,{linear_mass: null})});
+    }
     
   }
 
   onCalcLength() {
-    let {top_depth,bottom_depth} = this.state.data;
-    console.log(top_depth);
-    console.log(bottom_depth);
+    let {top_depth,bottom_depth} = this.state.data;      
     if (this.isValidNumber(top_depth,this.U_MIN_TOP_DEPTH,this.U_MAX_TOP_DEPTH) && this.isValidNumber(bottom_depth,this.U_MIN_TOP_DEPTH,this.U_MAX_TOP_DEPTH) && this.isValidNumber(top_depth,this.U_MIN_TOP_DEPTH,bottom_depth)) {
       this.setState({data: Object.assign({},this.state.data,{length: bottom_depth-top_depth})});
     }
-
+    else {
+      this.setState({data: Object.assign({},this.state.data,{length: null})});    
+    }
   }
 
   hasFormErrors() {
 
-    let {id,od,top_depth,bottom_depth,linear_mass} = this.state.data;
+    let {id,od,top_depth,bottom_depth,length,linear_mass} = this.state.data;
 
     let hasErrors = false;
     let errors = {};
@@ -240,6 +245,11 @@ class CasingItem extends Component {
       hasErrors = true;      
     }
 
+    if (!this.isValidNumber(length,0)) {
+      errors["length"] = "Invalid Length";
+      hasErrors = true;
+    }
+
     if (!this.isValidNumber(linear_mass,0)) {
       errors["linear_mass"] = "Invalid Linear Mass";
       hasErrors = true;
@@ -258,12 +268,8 @@ class CasingItem extends Component {
   }
   
   handleKeyPress(e) {
-    if (e.key === 'Enter') {      
-      setTimeout(()=>{
-        this.onCalcLength();
-        this.onCalcLinearMass();
-        this.save();
-      },0);
+    if (e.key === 'Enter') {
+      this.save();
     }
   }
 

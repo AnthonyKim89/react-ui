@@ -4,17 +4,19 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import { COMPONENT_FAMILIES } from './constants';
 
-class DrillstringComponentTableRow extends Component {
+import './DrillstringComponentTableRow.css';
 
-  render() {
-    return <tr>
-      <td>{this.props.index + 1}</td>
+class DrillstringComponentTableRow extends Component {
+  render() {    
+    return <tr className="c-drillstring-component-table-row">
       <td>{this.renderComponentTextField('name')}</td>
       <td>{this.renderComponentSelectField('family', COMPONENT_FAMILIES)}</td>
       <td>{this.renderComponentNumberField('inner_diameter')}</td>
       <td>{this.renderComponentNumberField('outer_diameter')}</td>
-      <td>{this.renderComponentNumberField('length', 'length', 'ft')}</td>
-      <td>{this.renderComponentNumberField('linear_weight', 'mass', 'lb')}</td>
+      <td>{this.renderComponentNumberField('linear_weight')}</td>
+      <td>{this.renderComponentNumberField('length' )}</td>
+      <td>{this.renderComponentNumberField('weight')}</td>
+      <td>{this.renderComponentTextField('grade')}</td>
       <td>
         {this.props.isEditable &&
           <Button floating icon="delete" className="red" onClick={() => this.props.onDeleteComponent()}></Button>}
@@ -47,18 +49,98 @@ class DrillstringComponentTableRow extends Component {
 
   renderComponentNumberField(field, unitType=null, unit=null) {
     if (this.props.isEditable) {
+      let family = this.props.component.get("family");
       let value = this.props.component.get(field, '');
-      if (unitType !== null) {
-        value = this.props.convert.convertValue(parseFloat(value), unitType, unit).fixFloat(2);
+
+      if (family ==='bit') {
+        if (field === "linear_weight") {
+          return "";
+        }
+        if (field === 'inner_diameter' || field ==='outer_diameter') {
+          return <Input type="number"
+            label=" "
+            value={value}
+            error={this.props.errors? this.props.errors[field]: null}
+            onChange={e => this.props.onComponentFieldChange(field,e.target.value)}/>;
+        }
       }
+      else {
+        if (field==="weight") {
+          return <label>
+              {value}
+            </label>;
+        }
+      }
+
       return <Input type="number"
+                    label=" "
                     value={value}
-                    onChange={e => this.props.onComponentFieldChange(field, parseFloat(e.target.value))} />;
+                    error={this.props.errors? this.props.errors[field]: null}
+                    onChange={e => this.onNumberFieldChange.bind(this)(field,e.target.value)} />;
     } else {
       return this.props.component.get(field);
     }
   }
 
+  onNumberFieldChange(field,value) {
+    let id,od,linearWeight,length,weight;
+    let nameValuePairs=[];
+    value = isNaN(parseFloat(value))? value: parseFloat(value);    
+    switch(field) {
+      case 'inner_diameter':
+        id = value;
+        od = this.props.component.get('outer_diameter');
+        length = this.props.component.get('length');
+        linearWeight = this.calcLinearWeight(id,od);
+        weight = this.calcWeight(linearWeight,length);
+        break;
+      case 'outer_diameter':
+        id = this.props.component.get('inner_diameter');
+        od = value;        
+        length = this.props.component.get('length');
+        linearWeight = this.calcLinearWeight(id,od);
+        weight = this.calcWeight(linearWeight,length);
+        break;
+      case 'linear_weight':
+        length = this.props.component.get('length');
+        weight = this.calcWeight(value,length);
+        break;
+      case 'length':
+        linearWeight = this.props.component.get('linear_weight');
+        weight = this.calcWeight(linearWeight,value);
+        break;
+      default:
+        break;        
+    }
+    nameValuePairs=[{name:field,value}];
+
+    if (linearWeight>=0) {
+      nameValuePairs.push({name:"linear_weight", value: linearWeight});
+    }
+
+    if (weight) {
+     nameValuePairs.push({name:"weight", value: weight}); 
+    }
+    this.props.onComponentMultiFieldsChange(nameValuePairs); 
+  }
+
+  calcLinearWeight(id,od) {
+    id = parseFloat(id);
+    od = parseFloat(od);
+    if (isNaN(id) || isNaN(od) || od<id) {
+      return;
+    }
+    return 2.673*(od*od-id*id);
+  }
+
+  calcWeight(linearWeight,length) {
+    linearWeight = parseFloat(linearWeight);
+    length = parseFloat(length);
+    if (isNaN(linearWeight) || isNaN(length)) {
+      return;
+    }
+    return linearWeight*length;
+  }
 }
 
 DrillstringComponentTableRow.propTypes = {
