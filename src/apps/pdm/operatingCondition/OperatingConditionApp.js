@@ -30,6 +30,7 @@ class OperatingConditionApp extends Component {
             xAxisWidth="2"
             xAxisColor="white"
             xPlotLines={this.xPlotLines}
+            xPlotBands={this.xPlotBands}
             horizontal={true}
             multiAxis={true}
             size={this.props.size}
@@ -65,11 +66,35 @@ class OperatingConditionApp extends Component {
     return subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS);
   }
 
+  get xPlotBands() {
+    let data = subscriptions.selectors.firstSubData(
+      this.props.data, SUBSCRIPTIONS).getIn(['data', 'limits']).toJSON();
+    let transitionalDifferentialPressureLimit = this.props.convert.convertValue(
+        data.transitional_differential_pressure_limit, 'pressure', 'psi');
+    let maxDifferentialPressure = this.props.convert.convertValue(
+        data.max_differential_pressure, 'pressure', 'psi');
+    let transitionalDifferentialPressureLimitBand = {
+      color: 'rgba(255, 255, 0, 0.25)',
+      from: transitionalDifferentialPressureLimit,
+      to: maxDifferentialPressure,
+      zIndex: 2
+    };
+    let maxDifferentialPressureBand = {
+      color: 'rgba(255, 0, 0, 0.25)',
+      from: maxDifferentialPressure,
+      // This little hack ensures that the band extends beyond the plot area.
+      to: maxDifferentialPressure * 2,
+      zIndex: 2
+    };
+    let xPlotBands = [transitionalDifferentialPressureLimitBand, maxDifferentialPressureBand];
+    return xPlotBands;
+  }
+
   get xPlotLines() {
     let data = subscriptions.selectors.firstSubData(
       this.props.data, SUBSCRIPTIONS).getIn(['data', 'limits']).toJSON();
     let transitionalDifferentialPressureLimit = {
-      color: 'white',
+      color: 'rgba(0, 0, 0, 0)',
       dashStyle: 'dash',
       label: {text: 'Transitional Differential Pressure Limit', style: {color: 'white'}},
       value: this.props.convert.convertValue(data.transitional_differential_pressure_limit, 'pressure', 'psi'),
@@ -77,7 +102,7 @@ class OperatingConditionApp extends Component {
       zIndex: 5
     };
     let maxDifferentialPressure = {
-      color: 'white',
+      color: 'rgba(0, 0, 0, 0)',
       dashStyle: 'dash',
       label: {text: 'Max ODP', style: {color: 'white'}},
       value: this.props.convert.convertValue(data.max_differential_pressure, 'pressure', 'psi'),

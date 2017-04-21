@@ -60,6 +60,7 @@ class Chart extends Component {
         opposite: this.props.xAxisOpposite,
         tickPositioner: this.props.xTickPositioner,
         plotLines: this.props.xPlotLines,
+        plotBands: this.props.xPlotBands,
         type: this.props.xAxisType
       },
       yAxis: this.getYAxes(series, this.props),
