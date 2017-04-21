@@ -28,11 +28,11 @@ export const isNative = createSelector(
   state => state.get('isNative')
 );
 
-export const assetPageTabs = createSelector(
+export const assetDashboards = createSelector(
   stateSelector,
   state => state.get('appSets')
     .valueSeq()
-    .filter(w => w.get('type') === 'asset_page_tab')
+    .filter(w => w.get('type') === 'asset_dashboard')
 );
 
 export const pageParams = createSelector(
@@ -46,10 +46,10 @@ export const currentDashboard = createSelector(
   (dashboards, dashboardId) => dashboards.find(db => db.get('id') === dashboardId)
 );
 
-export const currentAssetPageTab = createSelector(
-  assetPageTabs,
-  (_, props) => props.params.category,
-  (assetPageTabs, category) => assetPageTabs.find(p => p.get('category') === category)
+export const currentAssetDashboards = createSelector(
+  assetDashboards,
+  (_, props) => props.params.slug,
+  (assetDashboards, slug) => assetDashboards.find(p => p.get('slug') === slug)
 );
 
 export const currentPageParams = createSelector(

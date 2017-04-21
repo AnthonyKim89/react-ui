@@ -11,7 +11,7 @@ class AssetTabBar extends Component {
     return (
       <ul className="c-asset-tab-bar">
         <li className="c-asset-tab-bar__Title-name"><span>Drilling</span><Icon>keyboard_arrow_right</Icon></li>
-        {this.props.assetPageTabs.map(tab => this.renderTab(tab))}
+        {this.props.assetDashboards.map(tab => this.renderTab(tab))}
         {this.renderCurrentTabName()}
       </ul>
     );
@@ -19,23 +19,24 @@ class AssetTabBar extends Component {
 
   renderTab(tab) {
     const id = tab.get('id');
-    const category = tab.get('category');
+    const icon = tab.get('icon');
+    const slug = tab.get('slug');
     const name = tab.get('name');
-    return <li key={id} className={`c-asset-tab-bar__${category}-tab`}>
-      <Link to={this.getLocation(category)} activeClassName="is-active">
+    return <li key={id} className={`c-asset-tab-bar__${icon}-tab`}>
+      <Link to={this.getLocation(slug)} activeClassName="is-active">
         {name}
       </Link>
     </li>;
   }
 
   renderCurrentTabName() {
-    const title = this.props.currentAssetPageTab && this.props.currentAssetPageTab.get('name');
+    const title = this.props.currentAssetDashboards && this.props.currentAssetDashboards.get('name');
     return <li className="c-asset-tab-bar__current-tab-name">{title}</li>;
   }
 
-  getLocation(category) {
+  getLocation(slug) {
     return {
-      pathname: `/assets/${this.props.assetId}/${category}`,
+      pathname: `/assets/${this.props.assetId}/${slug}`,
       query: this.props.pageParams && this.props.pageParams.toJS()
     };
   }
@@ -44,8 +45,8 @@ class AssetTabBar extends Component {
 
 AssetTabBar.propTypes = {
   assetId: PropTypes.number.isRequired,
-  assetPageTabs: ImmutablePropTypes.seq.isRequired,
-  currentAssetPageTab: ImmutablePropTypes.map,
+  assetDashboards: ImmutablePropTypes.seq.isRequired,
+  currentAssetDashboards: ImmutablePropTypes.map,
   pageParams: ImmutablePropTypes.map
 };
 
