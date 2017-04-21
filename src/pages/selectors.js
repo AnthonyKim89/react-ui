@@ -42,8 +42,8 @@ export const pageParams = createSelector(
 
 export const currentDashboard = createSelector(
   dashboards,
-  (_, props) => parseInt(props.params.dashboardId, 10),
-  (dashboards, dashboardId) => dashboards.find(db => db.get('id') === dashboardId)
+  (_, props) => props.params.slug,
+  (dashboards, slug) => dashboards.find(db => db.get('slug') === slug)
 );
 
 export const currentAssetDashboards = createSelector(

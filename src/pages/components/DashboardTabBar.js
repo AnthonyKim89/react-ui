@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { Input, Icon, NavItem, Button, Row, Col, Dropdown } from 'react-materialize';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import Modal from 'react-modal';
 import NotificationSystem from 'react-notification-system';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import { store } from '../../store';
+import login from '../../login';
+import pages from '../../pages';
 import { dashboards } from '../selectors';
+import * as api from '../../api';
 
 import './DashboardTabBar.css';
 
@@ -27,7 +32,7 @@ class DashboardTabBar extends Component {
       <ul className="c-dashboard-tab-bar">
         {dashboards(store.getState()).map(dashboard =>
           <li key={dashboard.get('id')}>
-            <Link to={`/dashboards/${dashboard.get('id')}`} className="c-dashboard-tab-bar__dashboard-link" activeClassName="is-active">
+            <Link to={`/dashboards/${dashboard.get('slug')}`} className="c-dashboard-tab-bar__dashboard-link" activeClassName="is-active">
               {dashboard.get('name')}
             </Link>
           </li>)}
@@ -93,9 +98,39 @@ class DashboardTabBar extends Component {
     </div>;
   }
 
+  getUniqueSlug(name) {
+    let slug = name.toString().toLowerCase()
+      .replace(/\s+/g, '-')           // Replace spaces with -
+      .replace(/[^\w-]+/g, '')        // Remove all non-word chars
+      .replace(/--+/g, '-')           // Replace multiple - with single -
+      .replace(/^-+/, '')             // Trim - from start of text
+      .replace(/-+$/, '');            // Trim - from end of text
+
+    let existingSlug = this.props.dashboards.find(db => db.get('slug') === slug);
+    if (!existingSlug) {
+      return slug;
+    }
+
+    let slugAppend = 1;
+    while (true) {
+      if (this.props.dashboards.find(db => db.get('slug') === slug + "-" + slugAppend) === undefined) {
+        slug = slug + "-" + slugAppend;
+        break;
+      }
+      slugAppend++;
+    }
+    return slug;
+  }
+
   async saveDashboard() {
+    let userId = this.props.currentUser.get('id');
     let dashboard = {
       name: this.dashboardNameInput.state.value ? this.dashboardNameInput.state.value.trim() : "",
+      type: 'dashboard',
+      layout: 'grid',
+      settings: {},
+      app_set_owner_id: userId,
+      app_set_owner_type: 'User',
     };
 
     if (dashboard.name === "") {
@@ -106,12 +141,17 @@ class DashboardTabBar extends Component {
       return;
     }
 
+    dashboard.slug = this.getUniqueSlug(dashboard.name);
+
+    let response;
     if (this.state.dashboardDialogMode === 'Edit') {
       //let dashboardId = this.state.deleteDialogEntity.get("id");
     } else {
+      response = await api.postAppSet(userId, dashboard);
     }
 
     this.closeDashboardDialog();
+    this.props.initNewDashboard(response);
   }
 
   async deleteDashboard() {
@@ -120,6 +160,8 @@ class DashboardTabBar extends Component {
   }
 
   openDashboardDialog(mode='Add') {
+    console.log(this.props.dashboards.toJS());
+
     this.setState({
       dashboardDialogOpen: true,
       dashboardDialogMode: mode,
@@ -147,4 +189,12 @@ DashboardTabBar.propTypes = {
   currentDashboard: ImmutablePropTypes.map,
 };
 
-export default DashboardTabBar;
+export default connect(
+  createStructuredSelector({
+    currentUser: login.selectors.currentUser,
+    dashboards: pages.selectors.dashboards,
+  }),
+  {
+    initNewDashboard: pages.actions.initNewDashboard,
+  }
+)(DashboardTabBar);

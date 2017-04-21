@@ -12,13 +12,20 @@ function startLoad(isNative) {
 }
 
 export const FINISH_LOAD = 'FINISH_LOAD';
-function finishLoad(appSets) {
+function finishLoad(appSets, overrideDashboard=null) {
   return (dispatch, getState) => {
     dispatch({type: FINISH_LOAD, appSets});
-    const dashboard = dashboards(getState()).first();
+
+    let dashboard;
+    if (overrideDashboard === null) {
+      dashboard = dashboards(getState()).first();
+    } else {
+      dashboard = overrideDashboard;
+    }
+
     const currentPath = getState().routing.locationBeforeTransitions.pathname;
-    if (currentPath === '/') {
-      dispatch(push(`/dashboards/${dashboard.get('id')}`));
+    if (currentPath === '/' || overrideDashboard !== null) {
+      dispatch(push(`/dashboards/${dashboard.get('slug')}`));
     }
     nativeMessages.notifyPageLoaded();
   };
@@ -41,6 +48,15 @@ export function moveApp(appSet, id, coordinates) {
     const user = login.selectors.currentUser(getState());
     const app = allAppSets(getState()).getIn([appSet.get('id'), 'apps', id]);
     api.updateApp(user.get('id'), appSet.get('id'), app);
+  };
+}
+
+export const INIT_NEW_DASHBOARD = 'INIT_NEW_DASHBOARD';
+export function initNewDashboard(dashboard) {
+  return async (dispatch, getState) => {
+    const user = login.selectors.currentUser(getState());
+    const appSets = await api.getAppSets(user.get('id'));
+    dispatch(finishLoad(appSets, dashboard));
   };
 }
 
