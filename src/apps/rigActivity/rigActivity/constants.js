@@ -13,7 +13,15 @@ export const METADATA = {
   subtitle: 'Automatic rig time calculation based on sensor data',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',
-  publishedAt: '2016-07-01T00:00:00'
+  publishedAt: '2016-07-01T00:00:00',
+  provider: 'corva',
+  collections: [
+    'activities.summary-2tours',
+    'activities.summary-continuous',
+    'activities.summary-1w',
+    'activities.summary-1m',
+    'activities.summary-3m'
+  ]
 };
 export const SUPPORTED_ASSET_TYPES = ['rig'];
 export const INITIAL_SIZE = {w: 4, h: 10};
