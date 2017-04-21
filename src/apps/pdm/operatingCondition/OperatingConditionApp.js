@@ -68,10 +68,34 @@ class OperatingConditionApp extends Component {
     return subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS);
   }
 
+  /**
+   * Get the max visible differential pressure.
+   *
+   * The API returns a max differential pressure that is domain focused.
+   * This getter returns a value intended to bound the visible plot area.
+   */
   get maxVisibleDifferentialPressure() {
     let data = subscriptions.selectors.firstSubData(
       this.props.data, SUBSCRIPTIONS).getIn(['data', 'torque_line']);
     return data.last().get('differential_pressure');
+  }
+
+  /**
+   * Get the actual differential pressure in the proper unit.
+   */
+  get actualDifferentialPressure() {
+    let differentialPressure = subscriptions.selectors.firstSubData(
+      this.props.data, SUBSCRIPTIONS).getIn(['data', 'differential_pressure']);
+    return this.props.convert.convertValue(differentialPressure, 'pressure', 'psi');
+  }
+
+  /**
+   * Get the actual torque in the proper unit.
+   */
+  get actualTorque() {
+    let torque = subscriptions.selectors.firstSubData(
+      this.props.data, SUBSCRIPTIONS).getIn(['data', 'torque']);
+    return this.props.convert.convertValue(torque, 'force', 'lbf');
   }
 
   get xPlotBands() {
@@ -162,6 +186,7 @@ class OperatingConditionApp extends Component {
         dashStyle: 'Solid'
     };
   }
+
   getFlowRateSeries() {
     let data = subscriptions.selectors.firstSubData(
       this.props.data, SUBSCRIPTIONS).getIn(['data', 'flow_rate_lines']).toJSON();
@@ -197,10 +222,12 @@ class OperatingConditionApp extends Component {
   }
 
   getActualRpmSeries() {
+    let rpm = subscriptions.selectors.firstSubData(
+      this.props.data, SUBSCRIPTIONS).getIn(['data', 'rpm']);
     return Object.assign(this.flowRateAxis, {
       data: List([
-        Map({differential_pressure: 0.0, value: 300.0}),
-        Map({differential_pressure: 200.0, value: 300.0})
+        Map({differential_pressure: 0.0, value: rpm}),
+        Map({differential_pressure: this.actualDifferentialPressure, value: rpm})
       ]),
       title: 'Actual RPM',
       type: 'actual',
@@ -211,14 +238,13 @@ class OperatingConditionApp extends Component {
   getActualTorqueSeries() {
     return Object.assign(this.torqueAxis, {
       data: List([
-        Map({differential_pressure: 200.0, value: 77.0}),
-        Map({differential_pressure: 350.0, value: 77.0})
+        Map({differential_pressure: this.actualDifferentialPressure, value: this.actualTorque}),
+        Map({differential_pressure: this.maxVisibleDifferentialPressure, value: this.actualTorque})
       ]),
       title: 'Actual Torque',
       type: 'actual'
     });
   }
-
 
   formatSeriesData(data, valueName, valueCategory, valueUnit) {
     data = this.props.convert.convertArray(data, 'differential_pressure', 'pressure', 'psi');
