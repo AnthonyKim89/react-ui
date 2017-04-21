@@ -22,7 +22,7 @@ class OperatingConditionApp extends Component {
       <div className="c-pdm-operating-condition">
         {this.getData() ?
           <Chart
-            xField="measured_depth"
+            xField="differential_pressure"
             xAxisTitle={{
               text: `Operating Differential Pressure Across Motor (${this.props.convert.getUnitDisplay('pressure')})`,
               style: { color: "#fff" }
@@ -31,6 +31,7 @@ class OperatingConditionApp extends Component {
             xAxisColor="white"
             xPlotLines={this.xPlotLines}
             xPlotBands={this.xPlotBands}
+            xMaxValue={this.maxVisibleDifferentialPressure}
             horizontal={true}
             multiAxis={true}
             size={this.props.size}
@@ -67,6 +68,12 @@ class OperatingConditionApp extends Component {
     return subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS);
   }
 
+  get maxVisibleDifferentialPressure() {
+    let data = subscriptions.selectors.firstSubData(
+      this.props.data, SUBSCRIPTIONS).getIn(['data', 'torque_line']);
+    return data.last().get('differential_pressure');
+  }
+
   get xPlotBands() {
     let data = subscriptions.selectors.firstSubData(
       this.props.data, SUBSCRIPTIONS).getIn(['data', 'limits']).toJSON();
@@ -93,12 +100,19 @@ class OperatingConditionApp extends Component {
 
   get xPlotLines() {
     let data = subscriptions.selectors.firstSubData(
-      this.props.data, SUBSCRIPTIONS).getIn(['data', 'limits']).toJSON();
+      this.props.data, SUBSCRIPTIONS).get('data').toJSON();
+    let actualDifferentialPressure = {
+      color: 'white',
+      label: {text: 'Actual ODP', style: {color: 'white'}},
+      value: this.props.convert.convertValue(data.differential_pressure, 'pressure', 'psi'),
+      width: 3,
+      zIndex: 5
+    };
     let transitionalDifferentialPressureLimit = {
       color: 'rgba(0, 0, 0, 0)',
       dashStyle: 'dash',
       label: {text: 'Transitional Differential Pressure Limit', style: {color: 'white'}},
-      value: this.props.convert.convertValue(data.transitional_differential_pressure_limit, 'pressure', 'psi'),
+      value: this.props.convert.convertValue(data.limits.transitional_differential_pressure_limit, 'pressure', 'psi'),
       width: 2,
       zIndex: 5
     };
@@ -106,24 +120,38 @@ class OperatingConditionApp extends Component {
       color: 'rgba(0, 0, 0, 0)',
       dashStyle: 'dash',
       label: {text: 'Max ODP', style: {color: 'white'}},
-      value: this.props.convert.convertValue(data.max_differential_pressure, 'pressure', 'psi'),
+      value: this.props.convert.convertValue(data.limits.max_differential_pressure, 'pressure', 'psi'),
       width: 2,
       zIndex: 5
     };
-    let xPlotLines = [transitionalDifferentialPressureLimit, maxDifferentialPressure];
+    let xPlotLines = [
+      actualDifferentialPressure,
+      transitionalDifferentialPressureLimit,
+      maxDifferentialPressure
+    ];
     return xPlotLines;
   }
 
   getSeries() {
     let dataList = [this.getTorqueSeries()];
     dataList = dataList.concat(this.getFlowRateSeries());
+    dataList = dataList.concat([
+      this.getActualRpmSeries(),
+      this.getActualTorqueSeries()
+    ]);
     return List(dataList);
   }
 
   getTorqueSeries() {
-    const type = 'torque';
     let data = subscriptions.selectors.firstSubData(
       this.props.data, SUBSCRIPTIONS).getIn(['data', 'torque_line']).toJSON();
+    return Object.assign(this.torqueAxis, {
+      data: List(this.formatSeriesData(data, 'torque', 'force', 'lbf'))
+    });
+  }
+
+  get torqueAxis() {
+    const type = 'torque';
     return {
         renderType: SUPPORTED_CHART_SERIES[type].type,
         title: SUPPORTED_CHART_SERIES[type].label,
@@ -131,13 +159,10 @@ class OperatingConditionApp extends Component {
         yAxis: 0,
         yAxisOpposite: true,
         yAxisTitle: `Torque (${this.props.convert.getUnitDisplay('force')})`,
-        data: List(this.formatSeriesData(data, 'torque', 'force', 'lbf')),
         dashStyle: 'Solid'
     };
   }
-
   getFlowRateSeries() {
-    const type = 'rpm';
     let data = subscriptions.selectors.firstSubData(
       this.props.data, SUBSCRIPTIONS).getIn(['data', 'flow_rate_lines']).toJSON();
     return data.map((flowRateSeries) => {
@@ -145,31 +170,62 @@ class OperatingConditionApp extends Component {
         flowRateSeries.curve, 'differential_pressure', 'pressure', 'psi');
       flowRateSeries.curve = flowRateSeries.curve.map((datum) => {
         return Map({
-          measured_depth: datum.differential_pressure,
+          differential_pressure: datum.differential_pressure,
           value: datum.rpm
         });
       });
       let flowRate = this.props.convert.convertValue(flowRateSeries.flow_rate, 'volume', 'gal');
       let title = `RPM @ ${flowRate} ${this.props.convert.getUnitDisplay('volume')}pm`;
-      return {
-          renderType: SUPPORTED_CHART_SERIES[type].type,
-          title: title,
-          type: type,
-          yAxis: 1,
-          yAxisOpposite: false,
-          yAxisTitle: 'RPM',
-          data: List(flowRateSeries.curve),
-          dashStyle: 'ShortDot'
-      };
+      return Object.assign(this.flowRateAxis, {
+        data: List(flowRateSeries.curve),
+        title: title
+      });
     });
   }
+
+  get flowRateAxis() {
+    const type = 'rpm';
+    return {
+      renderType: SUPPORTED_CHART_SERIES[type].type,
+      title: 'RPM',
+      type: type,
+      yAxis: 1,
+      yAxisOpposite: false,
+      yAxisTitle: 'RPM',
+      dashStyle: 'ShortDot'
+    };
+  }
+
+  getActualRpmSeries() {
+    return Object.assign(this.flowRateAxis, {
+      data: List([
+        Map({differential_pressure: 0.0, value: 300.0}),
+        Map({differential_pressure: 200.0, value: 300.0})
+      ]),
+      title: 'Actual RPM',
+      type: 'actual',
+      dashStyle: 'Solid'
+    });
+  }
+
+  getActualTorqueSeries() {
+    return Object.assign(this.torqueAxis, {
+      data: List([
+        Map({differential_pressure: 200.0, value: 77.0}),
+        Map({differential_pressure: 350.0, value: 77.0})
+      ]),
+      title: 'Actual Torque',
+      type: 'actual'
+    });
+  }
+
 
   formatSeriesData(data, valueName, valueCategory, valueUnit) {
     data = this.props.convert.convertArray(data, 'differential_pressure', 'pressure', 'psi');
     data = this.props.convert.convertArray(data, valueName, valueCategory, valueUnit);
     data = data.map((datum) => {
       return Map({
-        measured_depth: datum.differential_pressure,
+        differential_pressure: datum.differential_pressure,
         value: datum[valueName]
       });
     });

@@ -24,5 +24,10 @@ export const SUPPORTED_CHART_SERIES = {
      label: 'RPM',
      defaultColor: '#add8e6',
      type: 'line'
+   },
+   actual: {
+     label: 'Actual',
+     defaultColor: '#ffffff',
+     type: 'line'
    }
 };

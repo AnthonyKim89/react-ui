@@ -57,6 +57,7 @@ class Chart extends Component {
         },
         showFirstLabel: this.props.showFirstXLabel,
         showLastLabel: this.props.showLastXLabel,
+        max: this.props.xMaxValue || null,
         opposite: this.props.xAxisOpposite,
         tickPositioner: this.props.xTickPositioner,
         plotLines: this.props.xPlotLines,
