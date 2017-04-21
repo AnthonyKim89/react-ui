@@ -111,15 +111,14 @@ class DashboardTabBar extends Component {
       return slug;
     }
 
-    let slugAppend = 1;
-    while (true) {
-      if (this.props.dashboards.find(db => db.get('slug') === slug + "-" + slugAppend) === undefined) {
-        slug = slug + "-" + slugAppend;
-        break;
-      }
-      slugAppend++;
+    return this.findUniqueSlug(slug, 1);
+  }
+
+  findUniqueSlug(slug, slugAppend) {
+    if (this.props.dashboards.find(db => db.get('slug') === slug + "-" + slugAppend) === undefined) {
+      return slug + "-" + slugAppend;
     }
-    return slug;
+    return this.findUniqueSlug(slug, slugAppend);
   }
 
   async saveDashboard() {
