@@ -20,7 +20,6 @@ class DashboardTabBar extends Component {
       deleteDialogOpen: false,
     };
     this.saveDashboard = this.saveDashboard.bind(this);
-    this.currentDashboard = null;
   }
 
   render() {
@@ -145,7 +144,7 @@ class DashboardTabBar extends Component {
 }
 
 DashboardTabBar.propTypes = {
-  currentDashboard: ImmutablePropTypes.map.isRequired,
+  currentDashboard: ImmutablePropTypes.map,
 };
 
 export default DashboardTabBar;
