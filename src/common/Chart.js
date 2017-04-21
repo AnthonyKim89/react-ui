@@ -222,7 +222,7 @@ class Chart extends Component {
         reserveSpace: props.reserveYLabelSpace
       },
       opposite: series.yAxisOpposite ? series.yAxisOpposite : props.yAxisOpposite,
-      min: series.minValue || null,
+      min: series.minValue !== undefined ? series.minValue : null,
       max: series.maxValue || null,
       lineWidth: props.yAxisWidth || 0,
       lineColor:  props.yAxisColor || '',

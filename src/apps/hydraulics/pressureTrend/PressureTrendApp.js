@@ -106,11 +106,8 @@ class PressureTrendApp extends Component {
         this.props.data, SUBSCRIPTIONS).getIn(['data', serieName]).toJSON();
     data = this.props.convert.convertImmutables(data, 'measured_depth', 'length', 'ft');
     data = this.props.convert.convertImmutables(data, 'value', valueCategory, valueUnit);
-    data = data.map(({measuredDepth, value}) => {
-        return Map({
-          measured_depth: measuredDepth,
-          value: value
-        });
+    data = data.map((datum) => {
+      return Map(datum);
     });
     return data;
   }

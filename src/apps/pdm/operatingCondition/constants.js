@@ -1,7 +1,7 @@
 export const CATEGORY = 'pdm';
 export const NAME = 'operatingCondition';
 export const SUBSCRIPTIONS = [
-  {provider: 'corva', collection: 'hydraulics.pressure-trend'}
+  {provider: 'corva', collection: 'pdm.operating-condition'}
 ];
 export const METADATA = {
   title: 'Motor Torque Output',
@@ -15,18 +15,13 @@ export const SUPPORTED_ASSET_TYPES = ['rig'];
 export const INITIAL_SIZE = {w: 8, h: 10};
 
 export const SUPPORTED_CHART_SERIES = {
-   mudWeight: {
-     label: 'Mud Weight',
+   torque: {
+     label: 'Torque',
      defaultColor: '#add8e6',
      type: 'line'
    },
-   equivalentCirculatingDensity: {
-     label: 'ECD',
-     defaultColor: '#00ff00',
-     type: 'line'
-   },
-   standpipePressure: {
-     label: 'SPP',
+   rpm: {
+     label: 'RPM',
      defaultColor: '#ff0000',
      type: 'line'
    }

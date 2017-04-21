@@ -23,7 +23,10 @@ class OperatingConditionApp extends Component {
         {this.getData() ?
           <Chart
             xField="measured_depth"
-            xAxisTitle={{text:`Measured Depth (${this.props.convert.getUnitDisplay('length')})`, style: { color: "#fff" }}}
+            xAxisTitle={{
+              text: `Operating Differential Pressure Across Motor (${this.props.convert.getUnitDisplay('pressure')})`,
+              style: { color: "#fff" }
+            }}
             xAxisWidth="2"
             xAxisColor="white"
             horizontal={true}
@@ -39,8 +42,12 @@ class OperatingConditionApp extends Component {
                 data={data}
                 yField="value"
                 yAxis={yAxis}
-                yAxisTitle={{text:yAxisTitle, style: { color: "#fff" }}}
+                yAxisTitle={{
+                  text: yAxisTitle,
+                  style: { color: "#fff" }
+                }}
                 yAxisOpposite={yAxisOpposite}
+                minValue={0.0}
                 color={this.getSeriesColor(type)} />
             )).toJS()}
           </Chart> :
@@ -59,66 +66,62 @@ class OperatingConditionApp extends Component {
 
 
   getSeries() {
-    return List([this.getMudWeightSeries(), this.getECDSeries(), this.getStandpipePressureSeries()]);
+    let dataList = [this.getTorqueSeries()];
+    dataList = dataList.concat(this.getGpmSeries());
+    return List(dataList);
   }
 
-  getMudWeightSeries() {
-    const type = 'mudWeight';
-    return {
-        renderType: `${SUPPORTED_CHART_SERIES[type].type}`,
-        title: `${SUPPORTED_CHART_SERIES[type].label}`,
-        type: type,
-        yAxis: 0,
-        yAxisOpposite: false,
-        yAxisTitle: `Mud Weight (${this.props.convert.getUnitDisplay('pressure')})`,
-        data: List(this.getSeriesData('mud_weight', 'pressure', 'psi'))
-    };
-  }
-
-  getECDSeries() {
-    const type = 'equivalentCirculatingDensity';
-    return {
-        renderType: `${SUPPORTED_CHART_SERIES[type].type}`,
-        title: `${SUPPORTED_CHART_SERIES[type].label}`,
-        type: type,
-        yAxis: 0,
-        yAxisOpposite: false,
-        yAxisTitle: `Mud Weight (${this.props.convert.getUnitDisplay('pressure')})`,
-        data: List(this.getSeriesData('equivalent_circulating_density', 'pressure', 'psi'))
-    };
-  }
-
-  getStandpipePressureSeries() {
-    const type = 'standpipePressure';
-    return {
-        renderType: `${SUPPORTED_CHART_SERIES[type].type}`,
-        title: `${SUPPORTED_CHART_SERIES[type].label}`,
-        type: type,
-        yAxis: 1,
-        yAxisOpposite: true,
-        yAxisTitle: `Pressure (${this.props.convert.getUnitDisplay('pressure')})`,
-        data: List(this.getSeriesData('standpipe_pressure', 'pressure', 'psi'))
-    };
-  }
-
-
-
-  getSeriesData(serieName, value_category, value_unit) {
+  getTorqueSeries() {
+    const type = 'torque';
     let data = subscriptions.selectors.firstSubData(
-        this.props.data, SUBSCRIPTIONS).getIn(['data', serieName]).toJSON();
-    data = this.props.convert.convertImmutables(data, 'measured_depth', 'length', 'ft'); 
-    data = this.props.convert.convertImmutables(data, 'value', 'volume', 'gal'); 
-    data = data.map(({measure_depth, value})  =>  
-    {
+      this.props.data, SUBSCRIPTIONS).getIn(['data', 'torque_line']).toJSON();
+    return {
+        renderType: SUPPORTED_CHART_SERIES[type].type,
+        title: SUPPORTED_CHART_SERIES[type].label,
+        type: type,
+        yAxis: 0,
+        yAxisOpposite: true,
+        yAxisTitle: `Torque (${this.props.convert.getUnitDisplay('force')})`,
+        data: List(this.formatSeriesData(data, 'torque', 'force', 'lbf'))
+    };
+  }
+
+  getGpmSeries() {
+    const type = 'rpm';
+    let data = subscriptions.selectors.firstSubData(
+      this.props.data, SUBSCRIPTIONS).getIn(['data', 'gpm_lines']).toJSON();
+    return data.map((gpmSeries) => {
+      gpmSeries.curve = this.props.convert.convertArray(
+        gpmSeries.curve, 'differential_pressure', 'pressure', 'psi');
+      gpmSeries.curve = gpmSeries.curve.map((datum) => {
         return Map({
-          measure_depth: measure_depth,
-          value: value
+          measured_depth: datum.differential_pressure,
+          value: datum.rpm
         });
+      });
+      return {
+          renderType: SUPPORTED_CHART_SERIES[type].type,
+          title: SUPPORTED_CHART_SERIES[type].label,
+          type: type,
+          yAxis: 1,
+          yAxisOpposite: false,
+          yAxisTitle: 'RPM',
+          data: List(gpmSeries.curve)
+      };
+    });
+  }
+
+  formatSeriesData(data, valueName, valueCategory, valueUnit) {
+    data = this.props.convert.convertArray(data, 'differential_pressure', 'pressure', 'psi');
+    data = this.props.convert.convertArray(data, valueName, valueCategory, valueUnit);
+    data = data.map((datum) => {
+      return Map({
+        measured_depth: datum.differential_pressure,
+        value: datum[valueName]
+      });
     });
     return data;
   }
-
-
 
   getSeriesColor(seriesType) {
     if (this.props.graphColors && this.props.graphColors.has(seriesType)) {
