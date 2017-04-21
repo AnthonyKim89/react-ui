@@ -1,21 +1,23 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import { Button, Input } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import numeral from 'numeral';
 
 import { COMPONENT_FAMILIES } from './constants';
 
 import './DrillstringComponentTableRow.css';
 
 class DrillstringComponentTableRow extends Component {
-  render() {    
+  render() {        
     return <tr className="c-drillstring-component-table-row">
       <td>{this.renderComponentTextField('name')}</td>
       <td>{this.renderComponentSelectField('family', COMPONENT_FAMILIES)}</td>
-      <td>{this.renderComponentNumberField('inner_diameter')}</td>
-      <td>{this.renderComponentNumberField('outer_diameter')}</td>
-      <td>{this.renderComponentNumberField('linear_weight')}</td>
-      <td>{this.renderComponentNumberField('length' )}</td>
-      <td>{this.renderComponentNumberField('weight')}</td>
+      <td>{this.renderComponentNumberField('inner_diameter','shortLength','in')}</td>
+      <td>{this.renderComponentNumberField('outer_diameter','shortLength','in')}</td>
+      <td>{this.renderComponentNumberField('linear_weight','force','lbf')}</td>
+      <td>{this.renderComponentNumberField('length','length','ft' )}</td>
+      <td>{this.renderComponentNumberField('weight','mass','lb')}</td>
       <td>{this.renderComponentTextField('grade')}</td>
       <td>
         {this.props.isEditable &&
@@ -28,6 +30,7 @@ class DrillstringComponentTableRow extends Component {
     if (this.props.isEditable) {
       return <Input type="text"
                     value={this.props.component.get(field, '')}
+                    onKeyPress={this.handleKeyPress.bind(this)}
                     onChange={e => this.props.onComponentFieldChange(field, e.target.value)} />;
     } else {
       return this.props.component.get(field);
@@ -38,6 +41,7 @@ class DrillstringComponentTableRow extends Component {
     if (this.props.isEditable) {
       return <Input type="select"
                     value={this.props.component.get(field, '')}
+                    onKeyPress={this.handleKeyPress.bind(this)}
                     onChange={e => this.props.onComponentFieldChange(field, e.target.value)}>
         {options.map(({name, type}) =>
           <option key={type} value={type}>{name}</option>)}
@@ -48,10 +52,13 @@ class DrillstringComponentTableRow extends Component {
   }
 
   renderComponentNumberField(field, unitType=null, unit=null) {
-    if (this.props.isEditable) {
-      let family = this.props.component.get("family");
-      let value = this.props.component.get(field, '');
+    let value = this.props.component.get(field, '');
+    if (value!=='' && unitType && unit) {        
+      value = numeral(this.props.convert.convertValue(value,unitType,unit)).format('0,0.0');
+    }
 
+    if (this.props.isEditable) {
+      let family = this.props.component.get("family");      
       if (family ==='bit') {
         if (field === "linear_weight") {
           return "";
@@ -59,9 +66,10 @@ class DrillstringComponentTableRow extends Component {
         if (field === 'inner_diameter' || field ==='outer_diameter') {
           return <Input type="number"
             label=" "
-            value={value}
+            defaultValue={value}
             error={this.props.errors? this.props.errors[field]: null}
-            onChange={e => this.props.onComponentFieldChange(field,e.target.value)}/>;
+            onKeyPress={this.handleKeyPress.bind(this)}
+            onChange={e => this.props.onComponentFieldChange(field,parseFloat(e.target.value))}/>;
         }
       }
       else {
@@ -74,12 +82,32 @@ class DrillstringComponentTableRow extends Component {
 
       return <Input type="number"
                     label=" "
-                    value={value}
+                    defaultValue={value}
+                    ref={field}
                     error={this.props.errors? this.props.errors[field]: null}
-                    onChange={e => this.onNumberFieldChange.bind(this)(field,e.target.value)} />;
+                    onKeyPress={this.handleKeyPress.bind(this)}
+                    onChange={e => this.onNumberFieldChange.bind(this)(field,parseFloat(e.target.value))} />;
     } else {
-      return this.props.component.get(field);
+      return value;
     }
+  }
+
+  calcLinearWeight(id,od) {
+    id = parseFloat(id);
+    od = parseFloat(od);
+    if (isNaN(id) || isNaN(od) || od<id) {
+      return;
+    }
+    return 2.673*(od*od-id*id);
+  }
+
+  calcWeight(linearWeight,length) {
+    linearWeight = parseFloat(linearWeight);
+    length = parseFloat(length);
+    if (isNaN(linearWeight) || isNaN(length)) {
+      return;
+    }
+    return linearWeight*length;
   }
 
   onNumberFieldChange(field,value) {
@@ -116,6 +144,8 @@ class DrillstringComponentTableRow extends Component {
 
     if (linearWeight>=0) {
       nameValuePairs.push({name:"linear_weight", value: linearWeight});
+      ReactDOM.findDOMNode(this.refs.linear_weight).children[0].value = numeral(linearWeight).format('0,0.0');
+      ReactDOM.findDOMNode(this.refs.linear_weight).children[1].className="active";
     }
 
     if (weight) {
@@ -124,23 +154,12 @@ class DrillstringComponentTableRow extends Component {
     this.props.onComponentMultiFieldsChange(nameValuePairs); 
   }
 
-  calcLinearWeight(id,od) {
-    id = parseFloat(id);
-    od = parseFloat(od);
-    if (isNaN(id) || isNaN(od) || od<id) {
-      return;
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {      
+      this.props.onSave();
     }
-    return 2.673*(od*od-id*id);
   }
 
-  calcWeight(linearWeight,length) {
-    linearWeight = parseFloat(linearWeight);
-    length = parseFloat(length);
-    if (isNaN(linearWeight) || isNaN(length)) {
-      return;
-    }
-    return linearWeight*length;
-  }
 }
 
 DrillstringComponentTableRow.propTypes = {

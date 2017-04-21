@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { Row, Input } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import numeral from 'numeral';
 
 import './DrillstringAttributeForm.css';
 
@@ -21,9 +22,10 @@ class DrillstringAttributeForm extends Component {
           m={4}
           label="Drillstring/BHA Number"          
           type="number"
-          error={this.props.errors["id"]}
+          error={this.props.errors["id"]}          
           ref="bha_number"
           defaultValue={this.getAttr('id', '')}
+          onKeyPress={this.handleKeyPress.bind(this)}
           onChange={e => this.updateAttr('id', e.target.value,true)}/>
         <Input
           m={4}
@@ -38,15 +40,17 @@ class DrillstringAttributeForm extends Component {
           label="Depth In"
           m={4}
           type="number"
-          ref="start_depth"
-          defaultValue={this.getAttr('start_depth', 0)}
+          ref="start_depth"          
+          defaultValue={numeral(this.props.convert.convertValue(this.getAttr('start_depth', 0), 'length', 'ft')).format('0,0')}
+          onKeyPress={this.handleKeyPress.bind(this)}
           onChange={e => this.updateAttr('start_depth', e.target.value,true)}/>
         <Input
           m={4}
           label="Depth Out"
           type="number"
           ref="end_depth"
-          defaultValue={this.getAttr('end_depth', 0)}
+          defaultValue={numeral(this.props.convert.convertValue(this.getAttr('end_depth', 0), 'length', 'ft')).format('0,0')}
+          onKeyPress={this.handleKeyPress.bind(this)}
           onChange={e => this.updateAttr('end_depth', e.target.value,true)}/>
       </Row>
       <Row key="attributes3" className="c-drillstring-editor__attributes">
@@ -56,6 +60,7 @@ class DrillstringAttributeForm extends Component {
           type="number"
           ref="start_timestamp"
           defaultValue={this.getAttr('start_timestamp', 0)}
+          onKeyPress={this.handleKeyPress.bind(this)}
           onChange={e => this.updateAttr('start_timestamp', e.target.value,true)}/>
         <Input
           m={4}
@@ -63,6 +68,7 @@ class DrillstringAttributeForm extends Component {
           type="text"
           ref="end_timestamp"
           defaultValue={this.getAttr('end_timestamp', 0)}
+          onKeyPress={this.handleKeyPress.bind(this)}
           onChange={e => this.updateAttr('end_timestamp', e.target.value,true)}/>
       </Row>
     </div>;
@@ -74,6 +80,12 @@ class DrillstringAttributeForm extends Component {
       if (refDom.children[0].value === '0') {
         refDom.children[1].className="active";
       }      
+    }
+  }
+
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {      
+      this.props.onSave();
     }
   }
 

@@ -38,7 +38,7 @@ export class DrillstringSummary extends Component {
           </div>
         </Col>
         <Col m={2}>
-          <div className="c-drillstring-summary__label">Weight (k{this.props.convert.getUnitDisplay('mass')})</div>
+          <div className="c-drillstring-summary__label">Weight ({this.props.convert.getUnitDisplay('mass')})</div>
           <div className="c-drillstring-summary__value c-drillstring-summary__value--is-long">
             {numeral(this.props.convert.convertValue(this.getComponentWeightSum(), 'mass', 'lb')).format('0,0')}
           </div>
@@ -70,7 +70,7 @@ export class DrillstringSummary extends Component {
 
   getBitSize() {
     return this.getComponents()
-      .find(c => c.get('name') === 'Bit', null, Map())
+      .find(c => c.get('family') === 'bit', null, Map())
       .get('size');
   }
 
@@ -97,9 +97,9 @@ export class DrillstringSummary extends Component {
   }
 
   getDepths() {
-    const start = this.props.record.getIn(['data', 'start_depth']);
-    const end   = this.props.record.getIn(['data', 'end_depth']);
-    return `${numeral(start).format('0,0')} - ${numeral(end).format('0,0')} ft`;
+    const start = numeral(this.props.convert.convertValue(this.props.record.getIn(['data', 'start_depth']),'length','ft')).format('0,0');
+    const end = numeral(this.props.convert.convertValue(this.props.record.getIn(['data', 'end_depth']),'length','ft')).format('0,0');
+    return `${numeral(start).format('0,0')} - ${numeral(end).format('0,0')} ${this.props.convert.getUnitDisplay('length')}`;
   }
 
   getTimestamp() {

@@ -3,6 +3,7 @@ import { Row, Col, Button, Input } from 'react-materialize';
 import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import uuidV1 from 'uuid/v1';
+import numeral from 'numeral';
 
 import DrillstringComponentSchematic from './DrillstringComponentSchematic';
 import DrillstringComponentTableRow from './DrillstringComponentTableRow';
@@ -30,10 +31,10 @@ class DrillstringComponentTable extends Component {
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Family</th>
-                <th>ID (in)</th>
-                <th>OD (in)</th>
-                <th>Linear Weight </th>
+                <th>Category</th>
+                <th>ID ({this.props.convert.getUnitDisplay('shortLength')})</th>
+                <th>OD ({this.props.convert.getUnitDisplay('shortLength')})</th>
+                <th>Linear Weight ({this.props.convert.getUnitDisplay('force')}) </th>
                 <th>Length ({this.props.convert.getUnitDisplay('length')})</th>
                 <th>Weight ({this.props.convert.getUnitDisplay('mass')})</th>
                 <th>Grade </th>
@@ -49,6 +50,7 @@ class DrillstringComponentTable extends Component {
                   component={cmp}
                   errors={this.props.errors && this.props.errors["components"]? this.props.errors["components"][idx]: null}
                   isEditable={this.props.isEditable}
+                  onSave={this.props.onSave}
                   onComponentFieldChange={(field, value) => this.onComponentFieldChange(idx, field, value)}
                   onComponentMultiFieldsChange={(nameValuePairs) => this.onComponentMultiFieldsChange(idx,nameValuePairs)}
                   onDeleteComponent={() => this.onDeleteComponent(idx)} />)}
@@ -93,7 +95,7 @@ class DrillstringComponentTable extends Component {
         <Col m={2}></Col>
         {this.renderHighlightNumberField(bit, idx, 'bit_wear', 'Bit wear', 3)}
         {this.renderHighlightNumberField(bit, idx, 'tfa', 'TFA', 3)}
-        {this.renderHighlightNumberField(bit, idx, 'size', 'Size', 3)}
+        {this.renderHighlightNumberField(bit, idx, 'size', 'Size', 3,'shortLength','in')}
       </Row>
     ];
   }
@@ -134,8 +136,9 @@ class DrillstringComponentTable extends Component {
     if (this.props.isEditable) {
       return <Input m={cols}
                     type="text"
-                    label={label}                    
+                    label={label}
                     defaultValue={component.get(field, '')}
+                    onKeyPress={this.handleKeyPress.bind(this)}
                     onChange={e => this.onComponentFieldChange(idx, field, e.target.value)} />;
     } else {
       return <Col m={cols}>
@@ -145,19 +148,24 @@ class DrillstringComponentTable extends Component {
     }
   }
 
-  renderHighlightNumberField(component, idx, field, label, cols) {
-    let errors = this.props.errors;    
+  renderHighlightNumberField(component, idx, field, label, cols, unitType,unit) {
+    let errors = this.props.errors;
+    let value = component.get(field, '');
+    if (value!=='' && unitType && unit) {        
+      value = numeral(this.props.convert.convertValue(value,unitType,unit)).format('0,0.0');
+    }
     if (this.props.isEditable) {
       return <Input m={cols}
                     type="number"
                     label={label}
                     error={errors && errors["specificErrors"] && errors["specificErrors"][component.get("id")]? errors["specificErrors"][component.get("id")][field]: null}
-                    defaultValue={component.get(field, '')}
+                    defaultValue={value}
+                    onKeyPress={this.handleKeyPress.bind(this)}
                     onChange={e => this.onComponentFieldChange(idx, field, parseFloat(e.target.value))} />;
     } else {
       return <Col m={cols}>
         <div>{label}</div>
-        <div>{component.get(field)}</div>
+        <div>{value}</div>
       </Col>;
     }
   }
@@ -201,6 +209,12 @@ class DrillstringComponentTable extends Component {
   onReorderComponents(newComponents) {
     const withNewIndexes = newComponents.map((comp, idx) => comp.set('order', idx));
     this.props.onUpdateRecord(this.props.record.setIn(['data', 'components'], withNewIndexes));
+  }
+
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {      
+      this.props.onSave();
+    }
   }
 
 }

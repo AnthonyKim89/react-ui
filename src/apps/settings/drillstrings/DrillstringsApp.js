@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import {fromJS} from 'immutable';
 
 import SettingsRecordManager from '../components/SettingsRecordManager';
 
@@ -21,7 +22,7 @@ const PDM_MIN_STATOR = 2, PDM_MAX_STATOR = 8, PDM_MIN_ROTOR = 1, PDM_MAX_ROTOR =
 
 class DrillstringsApp extends Component {
 
-  render() {
+  render() {    
     return <SettingsRecordManager
               asset={this.props.asset}
               convert={this.props.convert}
@@ -30,6 +31,7 @@ class DrillstringsApp extends Component {
               recordNamePlural="Drillstrings"
               recordNameSingular="Drillstring"
               recordValidator={this.validator.bind(this)}
+              convertRecordBackToImperialUnit={this.convertRecordBackToImperialUnit.bind(this)}
               hideRecordSummaryInRecordEditor={false}
               title={METADATA.title}
               subtitle={METADATA.subtitle}
@@ -250,7 +252,7 @@ class DrillstringsApp extends Component {
     }
 
     if (bitFamilyCount>1) {
-      errors["bit_count"] = "Only 1 bit family allowed.";
+      errors["bit_count"] = 'Only 1 "Bit" category allowed.';
       hasFormErrors = true;
     }
 
@@ -260,7 +262,27 @@ class DrillstringsApp extends Component {
     return null;
   }  
 
+  convertRecordBackToImperialUnit(record) {
+    let convert = this.props.convert;
+    let {data} = record.toJS();
+    data.start_depth = convert.convertValue(data.start_depth, "length", convert.getUnitPreference("length"),"ft");
+    data.start_depth = convert.convertValue(data.end_depth, "length", convert.getUnitPreference("length"),"ft");
+    data.components.map((component)=>{
+      component.inner_diameter = convert.convertValue(component.inner_diameter, "shortLength", convert.getUnitPreference("shortLength"),"in");
+      component.outer_diameter = convert.convertValue(component.outer_diameter, "shortLength", convert.getUnitPreference("shortLength"),"in");
+      if (component.linear_weight) { // bit family doesn't have linear weight
+        component.linear_weight = convert.convertValue(component.linear_weight, "force", convert.getUnitPreference("force"),"lbf");
+      }
+      component.weight = convert.convertValue(component.weight, "mass", convert.getUnitPreference("mass"),"lb");
+      component.length = convert.convertValue(component.length, "length", convert.getUnitPreference("length"),"ft");
+      if (component.family === 'bit') {
+        component.size = convert.convertValue(component.size, "shortLength", convert.getUnitPreference("shortLength"),"in");
+      }
+      return component;
+    });
 
+    return record.set("data", fromJS(data));    
+  }
 }
 
 DrillstringsApp.propTypes = {
