@@ -245,7 +245,7 @@ class Chart extends Component {
   }
 
   isLegendVisible(props) {
-    return props.showLegend && (props.size === Size.XLARGE);
+    return props.forceLegend || (props.showLegend && (props.size === Size.XLARGE));
   }
 
   isAxisLabelsVisible(props) {
@@ -254,6 +254,7 @@ class Chart extends Component {
 }
 
 Chart.defaultProps = {
+  forceLegend: false,
   showLegend: true,
 };
 
@@ -267,7 +268,8 @@ Chart.propTypes = {
   yAxisOpposite: PropTypes.bool,
   multiAxis: PropTypes.bool,
   xAxisLabelformatter: PropTypes.func,
-  showLegend: PropTypes.bool, 
+  forceLegend: PropTypes.bool,
+  showLegend: PropTypes.bool,
   chartType: PropTypes.string,
   noSpacing: PropTypes.bool
 };

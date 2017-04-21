@@ -34,6 +34,7 @@ class OperatingConditionApp extends Component {
             xMaxValue={this.maxVisibleDifferentialPressure}
             horizontal={true}
             multiAxis={true}
+            forceLegend={true}
             size={this.props.size}
             widthCols={this.props.widthCols}>
             {this.getSeries().map(({renderType, title, type, yAxis, yAxisTitle, yAxisOpposite, data, dashStyle}) => (
