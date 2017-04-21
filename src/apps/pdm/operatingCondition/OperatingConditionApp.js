@@ -29,6 +29,7 @@ class OperatingConditionApp extends Component {
             }}
             xAxisWidth="2"
             xAxisColor="white"
+            xPlotLines={this.xPlotLines}
             horizontal={true}
             multiAxis={true}
             size={this.props.size}
@@ -64,10 +65,32 @@ class OperatingConditionApp extends Component {
     return subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS);
   }
 
+  get xPlotLines() {
+    let data = subscriptions.selectors.firstSubData(
+      this.props.data, SUBSCRIPTIONS).getIn(['data', 'limits']).toJSON();
+    let transitionalDifferentialPressureLimit = {
+      color: 'white',
+      dashStyle: 'dash',
+      label: {text: 'Transitional Differential Pressure Limit', style: {color: 'white'}},
+      value: this.props.convert.convertValue(data.transitional_differential_pressure_limit, 'pressure', 'psi'),
+      width: 2,
+      zIndex: 5
+    };
+    let maxDifferentialPressure = {
+      color: 'white',
+      dashStyle: 'dash',
+      label: {text: 'Max ODP', style: {color: 'white'}},
+      value: this.props.convert.convertValue(data.max_differential_pressure, 'pressure', 'psi'),
+      width: 2,
+      zIndex: 5
+    };
+    let xPlotLines = [transitionalDifferentialPressureLimit, maxDifferentialPressure];
+    return xPlotLines;
+  }
 
   getSeries() {
     let dataList = [this.getTorqueSeries()];
-    dataList = dataList.concat(this.getGpmSeries());
+    dataList = dataList.concat(this.getFlowRateSeries());
     return List(dataList);
   }
 
@@ -86,27 +109,29 @@ class OperatingConditionApp extends Component {
     };
   }
 
-  getGpmSeries() {
+  getFlowRateSeries() {
     const type = 'rpm';
     let data = subscriptions.selectors.firstSubData(
-      this.props.data, SUBSCRIPTIONS).getIn(['data', 'gpm_lines']).toJSON();
-    return data.map((gpmSeries) => {
-      gpmSeries.curve = this.props.convert.convertArray(
-        gpmSeries.curve, 'differential_pressure', 'pressure', 'psi');
-      gpmSeries.curve = gpmSeries.curve.map((datum) => {
+      this.props.data, SUBSCRIPTIONS).getIn(['data', 'flow_rate_lines']).toJSON();
+    return data.map((flowRateSeries) => {
+      flowRateSeries.curve = this.props.convert.convertArray(
+        flowRateSeries.curve, 'differential_pressure', 'pressure', 'psi');
+      flowRateSeries.curve = flowRateSeries.curve.map((datum) => {
         return Map({
           measured_depth: datum.differential_pressure,
           value: datum.rpm
         });
       });
+      let flowRate = this.props.convert.convertValue(flowRateSeries.flow_rate, 'volume', 'gal');
+      let title = `RPM @ ${flowRate} ${this.props.convert.getUnitDisplay('volume')}pm`;
       return {
           renderType: SUPPORTED_CHART_SERIES[type].type,
-          title: SUPPORTED_CHART_SERIES[type].label,
+          title: title,
           type: type,
           yAxis: 1,
           yAxisOpposite: false,
           yAxisTitle: 'RPM',
-          data: List(gpmSeries.curve)
+          data: List(flowRateSeries.curve)
       };
     });
   }
