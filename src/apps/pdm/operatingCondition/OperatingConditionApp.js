@@ -35,13 +35,14 @@ class OperatingConditionApp extends Component {
             multiAxis={true}
             size={this.props.size}
             widthCols={this.props.widthCols}>
-            {this.getSeries().map(({renderType, title, type, yAxis, yAxisTitle, yAxisOpposite, data}) => (
+            {this.getSeries().map(({renderType, title, type, yAxis, yAxisTitle, yAxisOpposite, data, dashStyle}) => (
               <ChartSeries
                 key={title}
                 id={title}
                 type={renderType}
                 title={title}
                 data={data}
+                dashStyle={dashStyle}
                 yField="value"
                 yAxis={yAxis}
                 yAxisTitle={{
@@ -130,7 +131,8 @@ class OperatingConditionApp extends Component {
         yAxis: 0,
         yAxisOpposite: true,
         yAxisTitle: `Torque (${this.props.convert.getUnitDisplay('force')})`,
-        data: List(this.formatSeriesData(data, 'torque', 'force', 'lbf'))
+        data: List(this.formatSeriesData(data, 'torque', 'force', 'lbf')),
+        dashStyle: 'Solid'
     };
   }
 
@@ -156,7 +158,8 @@ class OperatingConditionApp extends Component {
           yAxis: 1,
           yAxisOpposite: false,
           yAxisTitle: 'RPM',
-          data: List(flowRateSeries.curve)
+          data: List(flowRateSeries.curve),
+          dashStyle: 'ShortDot'
       };
     });
   }
