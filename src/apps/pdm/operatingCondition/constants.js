@@ -17,12 +17,12 @@ export const INITIAL_SIZE = {w: 8, h: 10};
 export const SUPPORTED_CHART_SERIES = {
    torque: {
      label: 'Torque',
-     defaultColor: '#add8e6',
+     defaultColor: '#ff0000',
      type: 'line'
    },
    rpm: {
      label: 'RPM',
-     defaultColor: '#ff0000',
+     defaultColor: '#add8e6',
      type: 'line'
    }
 };
