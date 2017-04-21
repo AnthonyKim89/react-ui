@@ -99,6 +99,33 @@ export async function getAppSets(userId) {
   return fromJS(data);
 }
 
+export async function getAppSet(userId, id) {
+  const data = await get(`/v1/users/${userId}/app_sets/${id}`);
+  return fromJS(data);
+}
+
+export async function postAppSet(userId, app_set) {
+  if (Map.isMap(app_set)) {
+    app_set = app_set.toJS();
+  }
+  const data = await post(`/v1/users/${userId}/app_sets`, app_set);
+  return fromJS(data);
+}
+
+export async function putAppSet(userId, id, app_set) {
+  if (Map.isMap(app_set)) {
+    app_set = app_set.toJS();
+  }
+  const data = await put(`/v1/users/${userId}/app_sets/${id}`, app_set);
+  return fromJS(data);
+}
+
+export async function deleteAppSet(userId, id) {
+  const data = await del(`/v1/users/${userId}/app_sets/${id}`);
+  return fromJS(data);
+}
+
+
 export async function createApp(userId, appSetId, app) {
   return await post(
     `/v1/users/${userId}/app_sets/${appSetId}/apps`,
