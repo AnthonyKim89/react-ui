@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Row, Col, Input, Button} from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import {List, Map } from 'immutable';
+import uuidV1 from 'uuid/v1';
 
 import './FluidCheckViscosity.css';
 class FluidCheckViscosity extends Component {
@@ -50,6 +51,8 @@ class FluidCheckViscosity extends Component {
   }
 
   renderRpmReadingTable() {
+
+
     return (
       <div className="c-fluid-check-viscocity__rpm-readings">
         <table>
@@ -66,10 +69,10 @@ class FluidCheckViscosity extends Component {
           <tbody>
             {this.props.record.getIn(['data','viscocity','rpm_readings'],List()).map((r,idx)=> {
               return (                
-                <tr key={idx}>
+                <tr key={r.get("id")}>
                   { this.props.isEditable?
                     
-                    <td>
+                    <td>                      
                       <Row>
                         <Input m={4}
                           label="rpm"
@@ -88,7 +91,12 @@ class FluidCheckViscosity extends Component {
                           defaultValue={this.getReadingValue(idx,'dial_reading', '')}
                           onKeyPress={this.handleKeyPress.bind(this)}
                           onChange={e => this.onReadingValueChange(idx,'dial_reading', e.target.value,true)}  />
-                        </Row>
+
+                        <Col m={2}>
+                          <Button floating icon="delete" className="red" onClick={() => this.onDeleteComponent.bind(this)(idx)}></Button>
+                        </Col>
+
+                        </Row>                        
                     </td>
                     :
                     <td>
@@ -129,10 +137,16 @@ class FluidCheckViscosity extends Component {
   onAddReading() {
     const newRpmReading = Map({
       rpm: '',
+      id: uuidV1(),
       dial_reading:'',
       order: this.props.record.getIn(['data', 'viscocity','rpm_readings']).size
     });
+
     this.props.onUpdateRecord(this.props.record.updateIn(['data', 'viscocity','rpm_readings'], c => c.push(newRpmReading)));
+  }
+
+  onDeleteComponent(index) {  
+    this.props.onUpdateRecord(this.props.record.deleteIn(['data', 'viscocity', 'rpm_readings', index]));
   }
 
   getValue(name, notSetValue) {
