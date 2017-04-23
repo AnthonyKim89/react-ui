@@ -72,7 +72,6 @@ class ColumnChart extends Component {
       },
       series: this.getSeries(this.props.data) || []
     });
-    console.log(this.getSeries(this.props.data));
     this.setState({chart});
   }
 

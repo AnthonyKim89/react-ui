@@ -40,6 +40,7 @@ class DrillingOperationsApp extends Component {
     }
   }
 
+
   render() {
     return (
       this.readyToRender() ?
