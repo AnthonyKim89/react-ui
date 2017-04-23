@@ -266,7 +266,7 @@ class DrillstringsApp extends Component {
     let convert = this.props.convert;
     let {data} = record.toJS();
     data.start_depth = convert.convertValue(data.start_depth, "length", convert.getUnitPreference("length"),"ft");
-    data.start_depth = convert.convertValue(data.end_depth, "length", convert.getUnitPreference("length"),"ft");
+    data.end_depth = convert.convertValue(data.end_depth, "length", convert.getUnitPreference("length"),"ft");
     data.components.map((component)=>{
       component.inner_diameter = convert.convertValue(component.inner_diameter, "shortLength", convert.getUnitPreference("shortLength"),"in");
       component.outer_diameter = convert.convertValue(component.outer_diameter, "shortLength", convert.getUnitPreference("shortLength"),"in");

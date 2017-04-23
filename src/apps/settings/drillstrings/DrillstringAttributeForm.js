@@ -41,7 +41,7 @@ class DrillstringAttributeForm extends Component {
           m={4}
           type="number"
           ref="start_depth"          
-          defaultValue={numeral(this.props.convert.convertValue(this.getAttr('start_depth', 0), 'length', 'ft')).format('0,0')}
+          defaultValue={numeral(this.props.convert.convertValue(this.getAttr('start_depth', 0), 'length', 'ft')).format('0')}
           onKeyPress={this.handleKeyPress.bind(this)}
           onChange={e => this.updateAttr('start_depth', e.target.value,true)}/>
         <Input
@@ -49,7 +49,7 @@ class DrillstringAttributeForm extends Component {
           label="Depth Out"
           type="number"
           ref="end_depth"
-          defaultValue={numeral(this.props.convert.convertValue(this.getAttr('end_depth', 0), 'length', 'ft')).format('0,0')}
+          defaultValue={numeral(this.props.convert.convertValue(this.getAttr('end_depth', 0), 'length', 'ft')).format('0')}
           onKeyPress={this.handleKeyPress.bind(this)}
           onChange={e => this.updateAttr('end_depth', e.target.value,true)}/>
       </Row>

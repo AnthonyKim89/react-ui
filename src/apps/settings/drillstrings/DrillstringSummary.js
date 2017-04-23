@@ -99,7 +99,7 @@ export class DrillstringSummary extends Component {
   getDepths() {
     const start = numeral(this.props.convert.convertValue(this.props.record.getIn(['data', 'start_depth']),'length','ft')).format('0,0');
     const end = numeral(this.props.convert.convertValue(this.props.record.getIn(['data', 'end_depth']),'length','ft')).format('0,0');
-    return `${numeral(start).format('0,0')} - ${numeral(end).format('0,0')} ${this.props.convert.getUnitDisplay('length')}`;
+    return `${start} - ${end} ${this.props.convert.getUnitDisplay('length')}`;
   }
 
   getTimestamp() {

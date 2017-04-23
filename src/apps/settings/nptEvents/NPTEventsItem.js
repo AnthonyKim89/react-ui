@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Input, Button} from 'react-materialize';
 import moment from 'moment';
-
+import numeral from 'numeral';
 import Datetime from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
 
@@ -38,7 +38,7 @@ class NPTEventsItem extends Component {
         <td>
           {this.getTimeDiff()}
         </td>
-        <td className="hide-on-med-and-down">{this.props.convert.convertValue(parseFloat(depth), "length", "ft").fixFloat(2)}</td>
+        <td className="hide-on-med-and-down">{numeral(this.props.convert.convertValue(parseFloat(depth), "length", "ft")).format('0,0.00')}</td>
         <td>{type}</td>
         <td className="hide-on-med-and-down">{comment}</td>
         <td className="hide-on-med-and-down">
@@ -71,7 +71,7 @@ class NPTEventsItem extends Component {
             s={12}
             label="Depth"
             error={this.state.errors.depth}
-            defaultValue={depth?this.props.convert.convertValue(parseFloat(depth), "length", "ft").fixFloat(2) : depth}
+            defaultValue={depth? numeral(this.props.convert.convertValue(parseFloat(depth), "length", "ft")).format('0.00') : depth}
             onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{depth: e.target.value})} )} />
         </td>

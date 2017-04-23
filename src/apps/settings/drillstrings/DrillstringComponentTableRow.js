@@ -54,7 +54,7 @@ class DrillstringComponentTableRow extends Component {
   renderComponentNumberField(field, unitType=null, unit=null) {
     let value = this.props.component.get(field, '');
     if (value!=='' && unitType && unit) {        
-      value = numeral(this.props.convert.convertValue(value,unitType,unit)).format('0,0.0');
+      value = numeral(this.props.convert.convertValue(value,unitType,unit)).format('0.0');
     }
 
     if (this.props.isEditable) {
@@ -144,7 +144,7 @@ class DrillstringComponentTableRow extends Component {
 
     if (linearWeight>=0) {
       nameValuePairs.push({name:"linear_weight", value: linearWeight});
-      ReactDOM.findDOMNode(this.refs.linear_weight).children[0].value = numeral(linearWeight).format('0,0.0');
+      ReactDOM.findDOMNode(this.refs.linear_weight).children[0].value = numeral(linearWeight).format('0.0');
       ReactDOM.findDOMNode(this.refs.linear_weight).children[1].className="active";
     }
 

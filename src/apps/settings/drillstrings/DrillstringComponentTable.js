@@ -152,7 +152,7 @@ class DrillstringComponentTable extends Component {
     let errors = this.props.errors;
     let value = component.get(field, '');
     if (value!=='' && unitType && unit) {        
-      value = numeral(this.props.convert.convertValue(value,unitType,unit)).format('0,0.0');
+      value = numeral(this.props.convert.convertValue(value,unitType,unit)).format('0.0');
     }
     if (this.props.isEditable) {
       return <Input m={cols}
