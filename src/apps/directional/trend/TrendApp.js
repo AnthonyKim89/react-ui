@@ -12,18 +12,17 @@ class TrendApp extends Component {
 
   render() {
     return (
+      subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS) ?      
       <div className="c-di-trend">
         <div className="gaps"></div>
-        {subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS) ?
           <TrendChart
             convert={this.props.convert}
             coordinates={this.props.coordinates}
             series={this.getSeries()}
             xAxisTitle={'Measured Depth ('+this.props.convert.getUnitDisplay('length')+')'}
             yAxes={this.getYAxes()}
-          /> :
-        <LoadingIndicator/> }
-      </div>
+          />
+      </div> : <LoadingIndicator/>
     );
   }
 
@@ -99,6 +98,10 @@ class TrendApp extends Component {
 TrendApp.propTypes = {
   data: ImmutablePropTypes.map,
   title: PropTypes.string,
+  graphColors: ImmutablePropTypes.map,
+  size: PropTypes.string.isRequired,
+  coordinates: PropTypes.object.isRequired,
+  widthCols: PropTypes.number.isRequired
 };
 
 export default TrendApp;
