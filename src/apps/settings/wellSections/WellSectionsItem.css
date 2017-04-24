@@ -1,0 +1,39 @@
+.c-wellsections-item:nth-child(even) {
+  background-color: rgb(41,41,41);
+}
+
+.c-wellsections-item:hover {
+  background-color: rgb(96,91,91);
+}
+
+.c-wellsections-item .view-action {
+  display:none;
+}
+
+.c-wellsections-item:hover .view-action {
+  display: inline;  
+}
+
+.c-wellsections-item button {
+  margin-left: 10px;
+}
+
+ .c-wellsections-item .input-field{
+  margin-top: 0px;
+}
+
+.c-wellsections-item .input-field.col label{
+  left: 0;
+  width: 100%;
+}
+
+.c-wellsections-item .input-field.col label:after{
+  top:40px;
+}
+
+.c-wellsections-item td {
+  border-radius: 0px;
+  padding-top:12px;
+  padding-bottom:12px;
+  height:65px;
+}
