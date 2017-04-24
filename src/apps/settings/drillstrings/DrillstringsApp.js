@@ -27,7 +27,7 @@ class DrillstringsApp extends Component {
               asset={this.props.asset}
               convert={this.props.convert}
               recordProvider="corva"
-              recordCollection="data.drillstrings"
+              recordCollection="data.drillstring"
               recordNamePlural="Drillstrings"
               recordNameSingular="Drillstring"
               recordValidator={this.validator.bind(this)}
