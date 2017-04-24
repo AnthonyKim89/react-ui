@@ -7,11 +7,10 @@ import Modal from 'react-modal';
 import NotificationSystem from 'react-notification-system';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-import { store } from '../../store';
 import login from '../../login';
 import pages from '../../pages';
-import { dashboards } from '../selectors';
 import * as api from '../../api';
+import SortableComponent from '../../common/SortableComponent';
 
 import './DashboardTabBar.css';
 
@@ -23,14 +22,16 @@ class DashboardTabBar extends Component {
       dashboardDialogOpen: false,
       dashboardDialogMode: 'Add', // or 'Edit'
       deleteDialogOpen: false,
+      sortDialogOpen: false,
     };
     this.saveDashboard = this.saveDashboard.bind(this);
+    this.saveOrdering = this.saveOrdering.bind(this);
   }
 
   render() {
     return <div>
       <ul className="c-dashboard-tab-bar">
-        {dashboards(store.getState()).map(dashboard =>
+        {this.props.dashboards.map(dashboard =>
           <li key={dashboard.get('id')}>
             <Link to={`/dashboards/${dashboard.get('slug')}`} className="c-dashboard-tab-bar__dashboard-link" activeClassName="is-active">
               {dashboard.get('name')}
@@ -43,6 +44,7 @@ class DashboardTabBar extends Component {
           <Dropdown trigger={<NavItem><Icon>settings</Icon></NavItem>}>
             <NavItem onClick={() => this.openDashboardDialog('Edit')}>Edit</NavItem>
             <NavItem onClick={() => this.openDeleteDialog()}>Delete</NavItem>
+            <NavItem onClick={() => this.openSortDialog()}>Sort</NavItem>
           </Dropdown>
         </ul></li>
       </ul>
@@ -62,6 +64,24 @@ class DashboardTabBar extends Component {
                  defaultValue={this.state.dashboardDialogMode === 'Edit' ? this.props.currentDashboard.get('name') : ""}
                  ref={(input) => this.dashboardNameInput = input} />
           <Button className="c-dashboard-tab-bar__edit-dashboard__dialog__done" onClick={() => this.saveDashboard()}>
+            Save
+          </Button>
+        </div>
+      </Modal>
+      <Modal
+        isOpen={this.state.sortDialogOpen}
+        onRequestClose={() => this.closeSortDialog()}
+        className='c-dashboard-tab-bar__edit-dashboard'
+        overlayClassName='c-dashboard-tab-bar__edit-dashboard__overlay'
+        contentLabel="Sort Dashboards">
+        <div className="c-dashboard-tab-bar__edit-dashboard__dialog">
+          <header>
+            <h4 className="c-dashboard-tab-bar__edit-dashboard__dialog__title">
+              Sort Dashboards
+            </h4>
+          </header>
+          <SortableComponent ref={(input) => this.dashboardList = input} items={this.props.dashboards} />
+          <Button className="c-dashboard-tab-bar__edit-dashboard__dialog__done" onClick={() => this.saveOrdering()}>
             Save
           </Button>
         </div>
@@ -98,6 +118,27 @@ class DashboardTabBar extends Component {
     </div>;
   }
 
+  async saveOrdering() {
+    let items = this.dashboardList.state.items;
+
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].order === i) {
+        continue;
+      }
+
+      let dashboardId = items[i].id;
+      let userId = this.props.currentUser.get('id');
+      let dashboard = {
+        order: i
+      };
+
+      await api.putAppSet(userId, dashboardId, dashboard);
+    }
+
+    this.closeSortDialog();
+    this.props.updateDashboards(this.props.currentDashboard);
+  }
+
   getUniqueSlug(name) {
     let slug = name.toString().toLowerCase()
       .replace(/\s+/g, '-')           // Replace spaces with -
@@ -121,46 +162,59 @@ class DashboardTabBar extends Component {
     return this.findUniqueSlug(slug, slugAppend);
   }
 
+  getNextOrder() {
+    let highest = 0;
+    this.props.dashboards.valueSeq().forEach(value => highest = Math.max(highest, value.get('order')));
+    return highest+1;
+  }
+
   async saveDashboard() {
     let userId = this.props.currentUser.get('id');
-    let dashboard = {
-      name: this.dashboardNameInput.state.value ? this.dashboardNameInput.state.value.trim() : "",
-      type: 'dashboard',
-      layout: 'grid',
-      settings: {},
-      app_set_owner_id: userId,
-      app_set_owner_type: 'User',
-    };
-
-    if (dashboard.name === "") {
-      this.refs.notificationSystem.addNotification({
-        message: "'Dashboard Name' is a required field.",
-        level: 'error'
-      });
-      return;
-    }
-
-    dashboard.slug = this.getUniqueSlug(dashboard.name);
 
     let response;
     if (this.state.dashboardDialogMode === 'Edit') {
-      //let dashboardId = this.state.deleteDialogEntity.get("id");
+      let dashboard = {
+        name: this.dashboardNameInput.state.value ? this.dashboardNameInput.state.value.trim() : "",
+      };
+      response = await api.putAppSet(userId, this.props.currentDashboard.get('id'), dashboard);
+
     } else {
+      let dashboard = {
+        name: this.dashboardNameInput.state.value ? this.dashboardNameInput.state.value.trim() : "",
+        type: 'dashboard',
+        layout: 'grid',
+        settings: {},
+        app_set_owner_id: userId,
+        app_set_owner_type: 'User',
+        order: this.getNextOrder(),
+      };
+
+      if (dashboard.name === "") {
+        this.refs.notificationSystem.addNotification({
+          message: "'Dashboard Name' is a required field.",
+          level: 'error'
+        });
+        return;
+      }
+
+      dashboard.slug = this.getUniqueSlug(dashboard.name);
       response = await api.postAppSet(userId, dashboard);
     }
 
     this.closeDashboardDialog();
-    this.props.initNewDashboard(response);
+    this.props.updateDashboards(response);
   }
 
   async deleteDashboard() {
-    //let dashboardId = this.state.deleteDialogEntity.get("id");
+    let userId = this.props.currentUser.get('id');
+    let dashboardId = this.props.currentDashboard.get('id');
+    await api.deleteAppSet(userId, dashboardId);
+
     this.closeDeleteDialog();
+    this.props.updateDashboards();
   }
 
   openDashboardDialog(mode='Add') {
-    console.log(this.props.dashboards.toJS());
-
     this.setState({
       dashboardDialogOpen: true,
       dashboardDialogMode: mode,
@@ -173,14 +227,28 @@ class DashboardTabBar extends Component {
     });
   }
 
-  openDeleteDialog(dashboard) {
+  openSortDialog() {
+    this.setState({
+      sortDialogOpen: true,
+    });
+  }
+
+  closeSortDialog() {
+    this.setState({
+      sortDialogOpen: false
+    });
+  }
+
+  openDeleteDialog() {
     this.setState({
       deleteDialogOpen: true,
     });
   }
 
   closeDeleteDialog() {
-    this.setState({deleteDialogOpen: false});
+    this.setState({
+      deleteDialogOpen: false
+    });
   }
 }
 
@@ -194,6 +262,6 @@ export default connect(
     dashboards: pages.selectors.dashboards,
   }),
   {
-    initNewDashboard: pages.actions.initNewDashboard,
+    updateDashboards: pages.actions.updateDashboards,
   }
 )(DashboardTabBar);

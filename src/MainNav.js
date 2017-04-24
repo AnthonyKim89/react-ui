@@ -31,7 +31,6 @@ class MainNav extends Component {
         }
       </Navbar>
       /*
-        This doesn't currently seem to do anything when added, but I'm leaving it here just in case Tero has more insight into it.
         {this.props.currentUser &&
           <NavItem className="c-main-nav__current-user">
             {this.props.currentUser.getIn(['company', 'name'])}
@@ -40,24 +39,13 @@ class MainNav extends Component {
     );
   }
 
-  // This takes a click event on a navitem and loads the link without a reload of the page.
-  navLoad(event) {
-    event.preventDefault();
-
-    let to = event.target.href;
-    to = to.replace("https://", "").replace("http://", "");
-    to = to.split("/").splice(1).join("/");
-    to = "/" + to;
-    this.context.router["push"](to);
-  }
-
   hasDashboards() {
     return !this.props.dashboards.isEmpty();
   }
 
   getPathToFirstDashboard() {
     if (this.hasDashboards()) {
-      const id = this.props.dashboards.first().get('id');
+      const id = this.props.dashboards.first().get('slug');
       return `/dashboards/${id}`;
     } else {
       return '/';

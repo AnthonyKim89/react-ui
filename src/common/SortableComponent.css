@@ -1,0 +1,19 @@
+.c-sortable-component {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.c-sortable-component__item {
+    cursor: ns-resize;
+    padding: 10px 5px;
+    border-top: 1px solid #e0e0e0;
+    line-height: 1rem;
+}
+
+.c-sortable-component__item i {
+    color: #777;
+}
+
+.c-sortable-component__item span {
+    vertical-align: super;
+    margin-left: 8px;
+}

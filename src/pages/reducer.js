@@ -43,7 +43,17 @@ export default function(state = initialState, action) {
         isLoading: true,
         isNative: action.isNative || false
       });
+    case t.UPDATE_DASHBOARDS:
+      return state.merge({
+        isLoading: true,
+        isNative: action.isNative || false
+      });
     case t.FINISH_LOAD:
+      return state.merge({
+        isLoading: false,
+        appSets: appSetsById(action.appSets)
+      });
+    case t.FINISH_RELOAD:
       return state.merge({
         isLoading: false,
         appSets: appSetsById(action.appSets)

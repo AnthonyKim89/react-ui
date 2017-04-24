@@ -15,7 +15,13 @@ export const dashboards = createSelector(
   stateSelector,
   state => state.get('appSets')
     .valueSeq()
-    .filter(w => w.get('type') === 'dashboard')
+    .filter(w => w.get('type') === 'dashboard').sort((a, b) => {
+      let ao = a.get("order");
+      let bo = b.get("order");
+      if (ao < bo) { return -1; }
+      if (ao > bo) { return 1; }
+      return 0;
+    })
 );
 
 export const isLoading = createSelector(
