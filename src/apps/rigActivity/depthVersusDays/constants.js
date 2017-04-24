@@ -1,5 +1,5 @@
 export const CATEGORY = 'rigActivity';
-export const NAME = 'drillingOperations';
+export const NAME = 'depthVersusDays';
 export const SUBSCRIPTIONS = [];
 export const METADATA = {
   title: 'Depth V Days',
