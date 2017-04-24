@@ -88,7 +88,7 @@ class AppContainer extends Component {
           <h4 className="c-app-container__title">{this.props.appType.constants.METADATA.title}</h4>}
         {!this.props.isTitlesDisabled && this.props.appType.constants.METADATA.subtitle &&
           <h5 className="c-app-container__subtitle">{this.props.appType.constants.METADATA.subtitle}</h5>}
-        {this.props.availableAssets && this.props.layoutEnvironment && this.props.layoutEnvironment.get("type") === "general" &&
+        {!this.props.appType.constants.METADATA.multiRig && this.props.availableAssets && this.props.layoutEnvironment && this.props.layoutEnvironment.get("type") === "general" &&
           <div className="c-app-container-asset-name">{this.getAppAssetName()}</div>}
         <div className="c-app-container__content">
           {this.props.errorData ? this.renderError() : this.props.children}
@@ -179,7 +179,10 @@ class AppContainer extends Component {
   }
 
   getSettingsEditors() {
-    const common = this.props.commonSettingsEditors || List();
+    let common = this.props.commonSettingsEditors || List();
+    if (this.props.appType.constants.METADATA.multiRig) {
+      common = common.filter(x => x.get('name') !== 'assetId');
+    }
     const forAppType = this.props.appType.settings || List();
     return common.concat(forAppType);
   }

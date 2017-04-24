@@ -61,8 +61,13 @@ class Chart extends Component {
         opposite: this.props.xAxisOpposite,
         tickPositioner: this.props.xTickPositioner,
         plotLines: this.props.xPlotLines,
+        type: this.props.xAxisType,
+        minorTickInterval: this.props.xAxisMinorTickInterval,
+        minorGridLineColor: this.props.xAxisMinorGridLineColor || 'rgb(47, 51, 51)',
+        tickInterval: this.props.xAxisTickInterval,
+        minorGridLineDashStyle: this.props.xAxisMinorGridLineDashStyle,
+        gridLineDashStyle: this.props.xAxisGridLineDashStyle,
         plotBands: this.props.xPlotBands,
-        type: this.props.xAxisType
       },
       yAxis: this.getYAxes(series, this.props),
       title: {text: null},
@@ -210,16 +215,18 @@ class Chart extends Component {
   }
 
   getYAxis(series, props) {
+    console.log(series.yAxisTitle);
     return {
       id: series.yAxis,
       title: series.yAxisTitle || props.yAxisTitle || {text: null},
       visible: this.isAxisLabelsVisible(props),
-      gridLineWidth: props.gridLineWidth || 1,
+      gridLineWidth: props.yGridLineWidth || props.gridLineWidth || 1,
       gridLineColor: 'rgb(47, 51, 51)',
       labels: {
         enabled: this.isAxisLabelsVisible(props) && !props.hideYAxis,
         style:  props.yLabelStyle || {color: '#fff'},
         formatter: props.yAxisLabelFormatter,
+        format: "{value}",
         useHTML: true,
         reserveSpace: props.reserveYLabelSpace
       },
