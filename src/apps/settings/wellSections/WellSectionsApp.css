@@ -1,0 +1,39 @@
+.c-wellsections {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+
+  padding: 20px 30px;
+}
+
+.c-wellsections h4 {
+  margin-top: 0px;
+  margin-bottom:0px;
+}
+
+
+.c-wellsections__name-header {
+  width: 30%;
+}
+
+.c-wellsections__action-header {
+  width: 20%;
+}
+
+.c-wellsections__td-header , .c-wellsections__bd-header{
+  width: 25%;
+}
+
+@media(max-width: 768px) {
+  .c-wellsections {
+    padding:0px;
+  }
+
+  .c-wellsections__name-header, .c-wellsections__td-header, .c-wellsections__bd-header {
+    width: 33.3%;
+  }
+  
+}
