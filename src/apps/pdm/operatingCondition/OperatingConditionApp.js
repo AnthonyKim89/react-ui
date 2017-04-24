@@ -36,6 +36,7 @@ class OperatingConditionApp extends Component {
             multiAxis={true}
             forceLegend={true}
             size={this.props.size}
+            coordinates={this.props.coordinates}
             widthCols={this.props.widthCols}>
             {this.getSeries().map(({renderType, title, type, yAxis, yAxisTitle, yAxisOpposite, data, dashStyle}) => (
               <ChartSeries
@@ -273,6 +274,7 @@ OperatingConditionApp.propTypes = {
   data: ImmutablePropTypes.map,
   graphColors: ImmutablePropTypes.map,
   size: PropTypes.string.isRequired,
+  coordinates: PropTypes.string,
   widthCols: PropTypes.number.isRequired
 };
 
