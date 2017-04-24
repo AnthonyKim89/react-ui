@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Input, Button} from 'react-materialize';
 import numeral from 'numeral';
@@ -18,6 +19,13 @@ class WellSectionsItem extends Component {
       editing: record.has("_id")? false : true,
       errors:{}
     };
+  }
+
+  componentDidMount() {
+    if (this.state.editing) {
+      ReactDOM.findDOMNode(this.refs["name"]).children[0].focus();
+      this.fixPlaceholderIssue();
+    }
   }
   
   render() {
@@ -44,6 +52,8 @@ class WellSectionsItem extends Component {
             s={12}
             label="Name"
             defaultValue={name}
+            ref="name"
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{name:e.target.value})} )} />
         </td> 
 
@@ -53,6 +63,8 @@ class WellSectionsItem extends Component {
             label="Top Depth"
             error={this.state.errors.top_depth}
             defaultValue={top_depth? numeral(this.props.convert.convertValue(parseFloat(top_depth), "length", "ft")).format('0,0.00') : top_depth}
+            ref="top_depth"
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{top_depth:e.target.value})} )} />
         </td>
 
@@ -62,6 +74,8 @@ class WellSectionsItem extends Component {
             label="Bottom Depth"
             error={this.state.errors.bottom_depth}
             defaultValue={bottom_depth? numeral(this.props.convert.convertValue(parseFloat(bottom_depth), "length", "ft")).format('0,0.00'): bottom_depth}
+            ref="bottom_depth"
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{bottom_depth:e.target.value})} )} />
         </td>
             
@@ -73,17 +87,32 @@ class WellSectionsItem extends Component {
     );
   }
 
-  save() {
+  fixPlaceholderIssue() {    
+    for (let ref in this.refs) {
+      let refDom = ReactDOM.findDOMNode(this.refs[ref]);
+      if (refDom.children[0].value === '0') {
+        refDom.children[1].className="active";
+      }      
+    }
+  }
 
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {      
+      this.save(true);
+    }
+  }
+
+  save(byKeyBoard) {
     let {name, top_depth, bottom_depth} = this.state.data;
     let hasErrors = false;
     let errors = {};
-    if (isNaN(parseFloat(top_depth)) || parseFloat(top_depth) <=0 ) {
+
+    if (isNaN(parseFloat(top_depth)) || parseFloat(top_depth) <0 ) {
       errors["top_depth"] = "Invalid Number";
       hasErrors = true;
     }
 
-    if (isNaN(parseFloat(bottom_depth)) || parseFloat(bottom_depth) <=0 ) {
+    if (isNaN(parseFloat(bottom_depth)) || parseFloat(bottom_depth) <0 ) {
       errors["bottom_depth"] = "Invalid Number";
       hasErrors = true;
     }
@@ -102,7 +131,8 @@ class WellSectionsItem extends Component {
         .set("name", name);
     });
 
-    this.props.onSave(record);
+    this.props.onSave(record, (!this.props.record.has("_id") && byKeyBoard));
+
     if (this.props.record.has("_id")) {
       this.setState({editing:false});
     }

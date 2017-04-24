@@ -78,7 +78,7 @@ class WellSectionsApp extends Component {
                   key={record.get("_pre_id")}
                   record={record}
                   convert={this.props.convert}
-                  onSave={(record)=>this.saveRecord(record)}
+                  onSave={(record,continuousAdd)=>this.saveRecord(record,continuousAdd)}
                   onCancel={(preRecord)=>this.cancelAdd(preRecord)} />;
               })}
             </tbody>
@@ -113,7 +113,7 @@ class WellSectionsApp extends Component {
     });
   }
 
-  async saveRecord(record) {
+  async saveRecord(record,continuousAdd) {
     let savedRecord;
     try {
       savedRecord = record.has('_id')? 
@@ -130,14 +130,13 @@ class WellSectionsApp extends Component {
     if (!savedRecord) {
       return;
     }
-    let index = this.state.records.findIndex(r=>r.get("_id")===savedRecord.get("_id"));                  
 
+    let index = this.state.records.findIndex(r=>r.get("_id")===savedRecord.get("_id"));                  
     if (index!==-1) { //update record
       this.setState({
         records: this.state.records.delete(index).insert(index,savedRecord)});
     }
-    else { //create record id
-      
+    else { //create record id      
       let recordsAfterSave = this.state.records.push(savedRecord);
       let preRecordsAfterSave = this.state.preRecords.filterNot(r => r.get('_pre_id') === record.get('_pre_id'));
 
@@ -145,13 +144,16 @@ class WellSectionsApp extends Component {
         records: recordsAfterSave,
         preRecords: preRecordsAfterSave
       });
-
     }
 
     this._notificationSystem.addNotification({
       message: 'The record has been saved successfully.',
       level: 'success'
     });
+
+    if (continuousAdd) {
+      this.add();
+    }
   }
 
   async removeRecord(record) {    
