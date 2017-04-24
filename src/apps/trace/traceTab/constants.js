@@ -4,7 +4,7 @@ export const CATEGORY = 'trace';
 export const NAME = 'traceTab';
 export const SUBSCRIPTIONS = [
   {provider: 'corva', collection: 'wits'},
-  {provider: 'corva', collection: 'wits-summary-30s', params: {limit: 240, behavior: "turnover"}}
+  {provider: 'corva', collection: 'wits-summary-1m', params: {limit: 240, behavior: "turnover"}}
 ];
 export const METADATA = {
   settingsTitle: 'Trace Curves',
