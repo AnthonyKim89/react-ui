@@ -57,6 +57,7 @@ class Chart extends Component {
         },
         showFirstLabel: this.props.showFirstXLabel,
         showLastLabel: this.props.showLastXLabel,
+        max: this.props.xMaxValue || null,
         opposite: this.props.xAxisOpposite,
         tickPositioner: this.props.xTickPositioner,
         plotLines: this.props.xPlotLines,
@@ -65,7 +66,8 @@ class Chart extends Component {
         minorGridLineColor: this.props.xAxisMinorGridLineColor || 'rgb(47, 51, 51)',
         tickInterval: this.props.xAxisTickInterval,
         minorGridLineDashStyle: this.props.xAxisMinorGridLineDashStyle,
-        gridLineDashStyle: this.props.xAxisGridLineDashStyle
+        gridLineDashStyle: this.props.xAxisGridLineDashStyle,
+        plotBands: this.props.xPlotBands,
       },
       yAxis: this.getYAxes(series, this.props),
       title: {text: null},
@@ -229,7 +231,7 @@ class Chart extends Component {
         reserveSpace: props.reserveYLabelSpace
       },
       opposite: series.yAxisOpposite ? series.yAxisOpposite : props.yAxisOpposite,
-      min: series.minValue || null,
+      min: series.minValue !== undefined ? series.minValue : null,
       max: series.maxValue || null,
       lineWidth: props.yAxisWidth || 0,
       lineColor:  props.yAxisColor || '',
@@ -250,7 +252,7 @@ class Chart extends Component {
   }
 
   isLegendVisible(props) {
-    return props.showLegend && (props.size === Size.XLARGE);
+    return props.forceLegend || (props.showLegend && (props.size === Size.XLARGE));
   }
 
   isAxisLabelsVisible(props) {
@@ -259,6 +261,7 @@ class Chart extends Component {
 }
 
 Chart.defaultProps = {
+  forceLegend: false,
   showLegend: true,
 };
 
@@ -272,7 +275,8 @@ Chart.propTypes = {
   yAxisOpposite: PropTypes.bool,
   multiAxis: PropTypes.bool,
   xAxisLabelformatter: PropTypes.func,
-  showLegend: PropTypes.bool, 
+  forceLegend: PropTypes.bool,
+  showLegend: PropTypes.bool,
   chartType: PropTypes.string,
   noSpacing: PropTypes.bool
 };

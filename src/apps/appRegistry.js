@@ -63,6 +63,9 @@ import hydraulicsOverview from './hydraulics/overview';
 import hydraulicsPressureLoss from './hydraulics/pressureLoss';
 import hydraulicsPressureTrend from './hydraulics/pressureTrend';
 
+// PDM
+import pdmOperatingCondition from './pdm/operatingCondition';
+
 // Apps that can be displayed on dashboard / asset pages, keyed by app type
 export const uiApps = Map({
   torqueAndDrag: Map({
@@ -150,7 +153,14 @@ export const uiApps = Map({
       minimumFlowRate: hydraulicsMinimumFlowRate,
       overview: hydraulicsOverview,
       pressureLoss: hydraulicsPressureLoss,
-      pressureTrend: hydraulicsPressureTrend,
+      pressureTrend: hydraulicsPressureTrend
+    })
+  }),
+  pdm: Map({
+    title: 'PDM',
+    subtitle: '',
+    appTypes: Map({
+      operatingCondition: pdmOperatingCondition
     })
   })
 });
