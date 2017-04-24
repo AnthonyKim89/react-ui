@@ -31,3 +31,12 @@
 .c-fluid-check-viscocity__rpm-readings table td {
   padding: 0px;
 }
+
+.c-fluid-check-viscocity__rpm-readings-header {
+  margin-top: 15px;
+}
+
+.c-fluid-check-viscocity__rpm-readings-header .col {
+  opacity: 0.5;
+  font-style: italic;
+}

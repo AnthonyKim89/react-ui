@@ -18,7 +18,7 @@ class FluidCheckViscosity extends Component {
       <h5>Viscocity</h5>
       {this.props.isEditable && this.props.errors["rpm_readings_required"]?
         <div style={{color:'red'}}>
-          Please input PV and YP or at least 2 paris of rpm and dial_readings are required.
+          Please input PV and YP or at least 2 pairs of rpm and dial_readings, which are required.
         </div> 
         : ''
       }
@@ -59,9 +59,9 @@ class FluidCheckViscosity extends Component {
           <thead>
             <tr> 
               <th>
-                <Row>
-                  <Col m={4}>rpm</Col>
-                  <Col m={4}>dial reading</Col>
+                <Row className="c-fluid-check-viscocity__rpm-readings-header">
+                  <Col m={4}>RPM</Col>
+                  <Col m={4}>Dial Reading</Col>
                 </Row>
               </th>
             </tr>
