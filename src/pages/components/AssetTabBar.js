@@ -160,7 +160,7 @@ class AssetTabBar extends Component {
 
   renderTab(tab) {
     const icon = tab.get('icon');
-    let className = icon ? `c-asset-tab-bar__${icon}-tab` : 'c-asset-tab-bar__first-letter-tab'
+    let className = icon ? `c-asset-tab-bar__${icon}-tab` : 'c-asset-tab-bar__first-letter-tab';
 
     return <li key={tab.get('id')} className={className}>
       <Link to={this.getLocation(tab.get('slug'))} activeClassName="is-active">
