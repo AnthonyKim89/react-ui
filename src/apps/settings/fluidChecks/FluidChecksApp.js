@@ -31,7 +31,7 @@ class FluidChecksApp extends Component {
   }
 
   validator(recordData) {
-    let {data: {mud_density, mud_cake_thickness, filterate, ph, marsh_funnel, viscocity:{pv,yp,rpm_readings}}} = recordData.toJS();
+    let {data: {mud_density, mud_cake_thickness, filterate, ph, marsh_viscocity, viscocity:{pv,yp,rpm_readings}}} = recordData.toJS();
     let hasFormErrors = false;
     let errors = {};
     if (!this.isValueValid(mud_density,5,20,false)) {
@@ -45,7 +45,6 @@ class FluidChecksApp extends Component {
     }
 
     if (!this.isValueValid(filterate,0,1000,true)) {
-      console.log(filterate);
       hasFormErrors = true;
       errors["filterate"] = this.generateRangeErrorMessage(0,1000);
     }
@@ -55,10 +54,10 @@ class FluidChecksApp extends Component {
       errors["ph"] = this.generateRangeErrorMessage(5,10);
     }
 
-    if (!this.isValueValid(marsh_funnel,5,150,true)) {
+    if (!this.isValueValid(marsh_viscocity,5,150,true)) {
       hasFormErrors = true;
-      errors["marsh_funnel"] = this.generateRangeErrorMessage(5,150);
-    }    
+      errors["marsh_viscocity"] = this.generateRangeErrorMessage(5,150);
+    }
 
     if (this.isValueEmpty(pv) && this.isValueEmpty(yp) && rpm_readings.length<2) {
       hasFormErrors = true;

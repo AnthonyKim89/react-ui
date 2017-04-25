@@ -71,13 +71,13 @@ class FluidCheckAttributeForm extends Component {
         
         <Input
           m={4}
-          label="Marsh Funnel"
-          error={this.props.errors["marsh_funnel"]}
+          label="Marsh Viscocity"
+          error={this.props.errors["marsh_viscocity"]}
           type="number"
-          ref="marsh_funnel"
-          defaultValue={this.getAttr('marsh_funnel', '')}
+          ref="marsh_viscocity"
+          defaultValue={this.getAttr('marsh_viscocity', '')}
           onKeyPress={this.handleKeyPress.bind(this)}
-          onChange={e => this.updateAttr('marsh_funnel',e.target.value,true)} />
+          onChange={e => this.updateAttr('marsh_viscocity',e.target.value,true)} />
 
       </Row>
     </div>;

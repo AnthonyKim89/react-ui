@@ -15,6 +15,10 @@
   top:40px;
 }
 
+.c-fluid-check-viscocity hr {
+  margin: 15px 0px;
+  opacity: .2;
+}
 
 .c-fluid-check-viscocity__rpm-readings table thead{
   border: none;

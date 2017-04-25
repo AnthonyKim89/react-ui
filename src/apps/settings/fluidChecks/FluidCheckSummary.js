@@ -10,42 +10,19 @@ export class FluidCheckSummary extends Component {
   render() {
     return <div className="c-fluid-check-summary">
       <Row>
-        <Col l={4} m={6} s={12}>
+        <Col m={6} s={12}>
           <div className="c-fluid-check-summary__label">Mud type</div>
           <div className="c-fluid-check-summary__value--is-long">
             {this.props.record.getIn(['data', 'mud_type'])}
           </div>
         </Col>
-        <Col l={4} m={6} s={12}>
+
+        <Col m={6} s={12}>
           <div className="c-fluid-check-summary__label">Density</div>
           <div className="c-fluid-check-summary__value">
             {this.props.record.getIn(['data', 'mud_density'])}
           </div>
-        </Col>
-        <Col l={4} m={6} s={12}>
-          <div className="c-fluid-check-summary__label">Mud cake thickness (30 min)</div>
-          <div className="c-fluid-check-summary__value">
-            {this.props.record.getIn(['data', 'mud_cake_thickness'])}
-          </div>
-        </Col>
-        <Col l={4} m={6} s={12}>
-          <div className="c-fluid-check-summary__label">Filterate (30 min)</div>
-          <div className="c-fluid-check-summary__value">
-            {this.props.record.getIn(['data', 'filterate'])}
-          </div>
-        </Col>
-        <Col l={4} m={6} s={12}>
-          <div className="c-fluid-check-summary__label">PH</div>
-          <div className="c-fluid-check-summary__value">
-            {this.props.record.getIn(['data', 'ph'])}
-          </div>
-        </Col>
-        <Col l={4} m={6} s={12}>
-          <div className="c-fluid-check-summary__label">Marsh Funnel</div>
-          <div className="c-fluid-check-summary__value">
-            {this.props.record.getIn(['data', 'marsh_funnel'])}
-          </div>
-        </Col>        
+        </Col>              
       </Row>
 
       <div className="c-fluid-check-summary__actions">

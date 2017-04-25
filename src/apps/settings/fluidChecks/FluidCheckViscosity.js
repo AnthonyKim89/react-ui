@@ -26,7 +26,43 @@ class FluidCheckViscosity extends Component {
         {this.renderField('pv', 'PV')}
         {this.renderField('yp', 'YP')}
       </Row>
+
       {this.renderRpmReadingTable()}
+
+      {!this.props.isEditable? 
+        <div>
+          <hr style={{opacity:0.2}}/>
+          <Row>
+            <Col l={4} m={6} s={12}>
+              <div>Mud cake thickness (30 min)</div>
+              <div>
+                {this.props.record.getIn(['data', 'mud_cake_thickness'])}
+              </div>
+            </Col>
+            <Col l={4} m={6} s={12}>
+              <div>Filterate (30 min)</div>
+              <div>
+                {this.props.record.getIn(['data', 'filterate'])}
+              </div>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col l={4} m={6} s={12}>
+              <div>PH</div>
+              <div>
+                {this.props.record.getIn(['data', 'ph'])}
+              </div>
+            </Col>
+            <Col l={4} m={6} s={12}>
+              <div>Marsh Viscocity</div>
+              <div>
+                {this.props.record.getIn(['data', 'marsh_viscocity'])}
+              </div>
+            </Col>
+          </Row>
+        </div> : ''
+      }
     </div>;
   }
 
@@ -51,17 +87,16 @@ class FluidCheckViscosity extends Component {
   }
 
   renderRpmReadingTable() {
-
-
-    return (
+    return (      
       <div className="c-fluid-check-viscocity__rpm-readings">
+        { this.props.record.getIn(['data','viscocity','rpm_readings'],List()).size>0 ? 
         <table>
           <thead>
             <tr> 
               <th>
                 <Row className="c-fluid-check-viscocity__rpm-readings-header">
-                  <Col m={4}>RPM</Col>
-                  <Col m={4}>Dial Reading</Col>
+                  <Col l={4} m={5} s={12}>RPM</Col>
+                  <Col l={4} m={5} s={12}>Dial Reading</Col>
                 </Row>
               </th>
             </tr>
@@ -74,7 +109,7 @@ class FluidCheckViscosity extends Component {
                     
                     <td>                      
                       <Row>
-                        <Input m={4}
+                        <Input l={4} m={5} s={12}
                           label="rpm"
                           error={this.props.errors["rpm_readings"] && this.props.errors["rpm_readings"][idx] ? this.props.errors["rpm_readings"][idx]["rpm"]:''}
                           type="number"
@@ -83,7 +118,7 @@ class FluidCheckViscosity extends Component {
                           onKeyPress={this.handleKeyPress.bind(this)}
                           onChange={e => this.onReadingValueChange(idx,'rpm', e.target.value,true)} />
                       
-                        <Input m={4}
+                        <Input l={4} m={5} s={12}
                           label="dial reading"
                           error={this.props.errors["rpm_readings"] && this.props.errors["rpm_readings"][idx]? this.props.errors["rpm_readings"][idx]["dial_reading"]:''}
                           type="number"
@@ -92,7 +127,7 @@ class FluidCheckViscosity extends Component {
                           onKeyPress={this.handleKeyPress.bind(this)}
                           onChange={e => this.onReadingValueChange(idx,'dial_reading', e.target.value,true)}  />
 
-                        <Col m={2}>
+                        <Col l={4} m={2} s={12}>
                           <Button floating icon="delete" className="red" onClick={() => this.onDeleteComponent.bind(this)(idx)}></Button>
                         </Col>
 
@@ -101,8 +136,8 @@ class FluidCheckViscosity extends Component {
                     :
                     <td>
                       <Row>
-                        <Col m={4}>{this.getReadingValue(idx,'rpm', '')}</Col>
-                        <Col m={4}>{this.getReadingValue(idx,'dial_reading', '')}</Col>
+                        <Col l={4} m={5} s={12}>{this.getReadingValue(idx,'rpm', '')}</Col>
+                        <Col l={4} m={5} s={12}>{this.getReadingValue(idx,'dial_reading', '')}</Col>
                       </Row>
                     </td>
                   }
@@ -110,7 +145,7 @@ class FluidCheckViscosity extends Component {
               );
             })}
           </tbody>
-        </table>      
+        </table> : ''}
         { this.props.isEditable?
           <div>
             <Button floating icon="add" onClick={() => this.onAddReading()}></Button>
