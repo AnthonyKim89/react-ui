@@ -45,6 +45,7 @@ import formations from './settings/formations';
 import crewsContact from './settings/crewsContact';
 import nptEvents from './settings/nptEvents';
 import dailyReports from './settings/dailyReports';
+import wellSections from './settings/wellSections';
 
 // CONTROL APPS
 import wellTimeline from './wellTimeline';
@@ -52,6 +53,8 @@ import wellTimeline from './wellTimeline';
 // ANALYTICS APPS
 import raRigActivity from './rigActivity/rigActivity';
 import raDrillingOperations from './rigActivity/drillingOperations';
+import raDepthVersusDays from './rigActivity/depthVersusDays';
+import raRigScorecard from './rigActivity/rigScorecard';
 
 // HYDRAULICS APPS
 import hydraulicsBedHeight from './hydraulics/bedHeight';
@@ -60,6 +63,9 @@ import hydraulicsMinimumFlowRate from './hydraulics/minimumFlowRate';
 import hydraulicsOverview from './hydraulics/overview';
 import hydraulicsPressureLoss from './hydraulics/pressureLoss';
 import hydraulicsPressureTrend from './hydraulics/pressureTrend';
+
+// PDM
+import pdmOperatingCondition from './pdm/operatingCondition';
 
 // Apps that can be displayed on dashboard / asset pages, keyed by app type
 export const uiApps = Map({
@@ -126,7 +132,8 @@ export const uiApps = Map({
       formations,
       crewsContact,
       nptEvents,
-      dailyReports
+      dailyReports,
+      wellSections
     })
   }),
   rigActivity: Map({
@@ -134,7 +141,9 @@ export const uiApps = Map({
     subtitle: '',
     appTypes: Map({
       rigActivity: raRigActivity,
-      drillingOperations: raDrillingOperations
+      drillingOperations: raDrillingOperations,
+      depthVersusDays: raDepthVersusDays,
+      rigScorecard: raRigScorecard
     })
   }),
   hydraulics: Map({
@@ -146,7 +155,14 @@ export const uiApps = Map({
       minimumFlowRate: hydraulicsMinimumFlowRate,
       overview: hydraulicsOverview,
       pressureLoss: hydraulicsPressureLoss,
-      pressureTrend: hydraulicsPressureTrend,
+      pressureTrend: hydraulicsPressureTrend
+    })
+  }),
+  pdm: Map({
+    title: 'PDM',
+    subtitle: '',
+    appTypes: Map({
+      operatingCondition: pdmOperatingCondition
     })
   })
 });

@@ -20,7 +20,8 @@ class ColumnChart extends Component {
         plotBorderWidth: null
       },
       title: {
-        text: null
+        text: this.props.title || null,
+        style: this.props.titleStyle
       },
       xAxis: {
         visible: true,
@@ -32,20 +33,22 @@ class ColumnChart extends Component {
         minorTickLength: 0,
         minorGridLineWidth: 0,
         lineWidth: 0, 
-        plotLines: this.props.xAxisLines.map(line => this.getPlotLine(line, {label: {rotation: 0}})).toJS()
+        plotLines: this.props.xAxisLines ? this.props.xAxisLines.map(line => this.getPlotLine(line, {label: {rotation: 0}})).toJS() : []
       },
       yAxis: {
         visible: true,
         labels: {
-          enabled: false
+          enabled: this.props.yAxisLabelsEnabled || false,
+          style: this.props.yAxisLabelsStyle || {color: '#fff'}
         },
-        title: null,
+        title: this.props.yAxisTitle || null,
         gridLineWidth: 0,
-        lineWidth: 0, 
+        lineWidth: this.props.yAxisLineWidth || 0, 
         tickLength: 0,
         minorTickLength: 0,
         minorGridLineWidth: 0,
-        plotLines: this.props.yAxisLines.map(line => this.getPlotLine(line, {label: {align: 'right'}})).toJS()        
+        plotLines: this.props.yAxisLines ? this.props.yAxisLines.map(line => this.getPlotLine(line, {label: {align: 'right'}})).toJS() : [],
+        reversed: this.props.yAxisReversed || false
       },
       legend: {
         align: 'center',
@@ -56,11 +59,12 @@ class ColumnChart extends Component {
           color: '#bbb',
           fontWeight: 'regular',
           fontSize: '11px'
-        }
+        },
+        enabled: this.props.legendEnabled || false
       },
       tooltip: {
         headerFormat: '<b>{point.key}</b><br/>',
-        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+        pointFormat: this.props.tooltipPointFormat || '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
       },
       plotOptions: {
         column: {

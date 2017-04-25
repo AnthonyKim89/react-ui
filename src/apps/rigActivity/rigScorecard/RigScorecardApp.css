@@ -1,0 +1,85 @@
+.c-ra-rig-scorecard {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.c-ra-rig-scorecard .chart-table {
+	font-size: 14px;
+	color: white;
+	font-weight: bold;
+}
+
+.c-ra-rig-scorecard .chart-table thead {
+	border: none;
+}
+
+.c-ra-rig-scorecard .chart-table th {
+	color: #bbb;
+}
+
+.c-ra-rig-scorecard .chart-table td {
+	font-size: 1.25rem;
+	font-weight: bold;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	line-height: 2.5rem;
+}
+
+.c-ra-rig-scorecard .chart-table td.rank {
+	font-size: 2rem;
+}
+
+.c-ra-rig-scorecard .chart-table td.green-text {
+	color: #70d032;
+}
+
+.c-ra-rig-scorecard .chart-table td .square {
+	width: 11px;
+	height: 11px;
+	background: white;
+	display: inline-block;
+	float: left;
+	margin-top: 4px;
+	margin-right: 5px;
+}
+
+.c-ra-rig-scorecard .chart-panel {
+	height: 250px;
+	width: 100%;
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+
+.c-ra-rig-scorecard .chart-panel .col {
+	height: 100%;
+	top: 0;
+}
+
+.c-ra-rig-scorecard .action-panel {
+	bottom: 0;
+	margin: 0;
+}
+
+.c-ra-rig-scorecard .action-panel .select-period input {
+	height: 30px;
+	width: 140px;
+	margin: 0;
+	border: none;
+	font-weight: bold;
+}
+
+.c-ra-rig-scorecard .action-panel .select-period .caret {
+	color: #bbb;
+}
+
+.c-ra-rig-scorecard .action-panel .text-info {
+	color: #bbb;
+	line-height: 30px;
+	margin-top: 1rem;
+	margin-left: 1rem;
+	font-size: 0.815rem;
+	float: left;
+}

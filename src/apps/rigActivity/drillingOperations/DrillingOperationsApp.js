@@ -52,7 +52,9 @@ class DrillingOperationsApp extends Component {
               <ColumnChart
                 data={this.getGraphData()}
                 xAxisLines={this.getXAxisLines()}
-                yAxisLines={this.getYAxisLines()}>
+                yAxisLines={this.getYAxisLines()}
+                legendEnabled={true}
+                tooltipPointFormat="{series.name}: {point.y}<br/>Total: {point.stackTotal}">
               </ColumnChart>  
             </div>
           </div>

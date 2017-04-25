@@ -1,0 +1,18 @@
+.c-wellsections-summary {
+  background-color: rgb(42, 41, 41);
+  margin: 10px 0;
+  padding: 10px 0;
+}
+
+.c-wellsections-summary table {
+  overflow-x: visible;
+}
+
+.c-wellsections-summary__layers { 
+  text-align: left;
+  padding-left: 15%;
+}
+
+.c-wellsections-summary__action{  
+  width: 15%;
+}
