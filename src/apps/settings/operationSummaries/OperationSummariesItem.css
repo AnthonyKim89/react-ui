@@ -1,0 +1,39 @@
+.c-op-summaries-item:nth-child(even) {
+  background-color: rgb(41,41,41);
+}
+
+.c-op-summaries-item:hover {
+  background-color: rgb(96,91,91);
+}
+
+.c-op-summaries-item .view-action {
+  display:none;
+}
+
+.c-op-summaries-item:hover .view-action {
+  display: inline;  
+}
+
+.c-op-summaries-item button {
+  margin-left: 10px;
+}
+
+ .c-op-summaries-item .input-field{
+  margin-top: 0px;
+}
+
+.c-op-summaries-item .input-field.col label{
+  left: 0;
+  width: 100%;
+}
+
+.c-op-summaries-item .input-field.col label:after{
+  top:40px;
+}
+
+.c-op-summaries-item td {
+  border-radius: 0px;
+  padding-top:12px;
+  padding-bottom:12px;
+  height:65px;
+}

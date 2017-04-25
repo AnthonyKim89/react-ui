@@ -25,15 +25,17 @@ class AppTabLayout extends Component {
     return (
       <div className="c-app-tab-layout">
         <div className="c-app-tab-layout__tab-bar">
-          <h5>Sections</h5>
-          <ul>
-            {this.props.apps.map((app, idx) =>
-              <li key={idx}
-                  className={idx === this.state.selectedAppIdx ? 'c-app-tab-layout__tab--selected' : ''}
-                  onClick={() => this.selectApp(idx)}>
-                {this.renderAppTabContent(app)}
-              </li>)}
-          </ul>
+          <div className="c-app-tab-layout__tab-bar-inner">
+            <h5>Sections</h5>
+            <ul>
+              {this.props.apps.map((app, idx) =>
+                <li key={idx}
+                    className={idx === this.state.selectedAppIdx ? 'c-app-tab-layout__tab--selected' : ''}
+                    onClick={() => this.selectApp(idx)}>
+                  {this.renderAppTabContent(app)}
+                </li>)}
+            </ul>
+          </div>
         </div>
         <div className="c-app-tab-layout__app">
           {this.renderSelectedApp()}

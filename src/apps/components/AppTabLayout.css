@@ -11,6 +11,14 @@
   background-color: rgb(96, 91, 91);
   flex: 1;
   padding: 0;
+  overflow-x: hidden;
+}
+
+.c-app-tab-layout__tab-bar-inner {
+  height: calc(100% - 25px);
+  width: calc(100% + 25px);
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 

@@ -46,6 +46,7 @@ import crewsContact from './settings/crewsContact';
 import nptEvents from './settings/nptEvents';
 import dailyReports from './settings/dailyReports';
 import wellSections from './settings/wellSections';
+import operationSummaries from './settings/operationSummaries';
 
 // CONTROL APPS
 import wellTimeline from './wellTimeline';
@@ -133,7 +134,8 @@ export const uiApps = Map({
       crewsContact,
       nptEvents,
       dailyReports,
-      wellSections
+      wellSections,
+      operationSummaries
     })
   }),
   rigActivity: Map({

@@ -1,0 +1,42 @@
+.c-op-summaries {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+
+  padding: 20px 30px;
+}
+
+.c-op-summaries h4 {
+  margin-top: 0px;
+  margin-bottom:0px;
+}
+
+.c-op-summaries__date-header {
+  width: 30%;
+}
+
+.c-op-summaries__summary-header {
+  width: 40%;
+}
+
+.c-op-summaries__action-header, .c-op-summaries__user-header{
+  width: 15%;
+}
+
+@media(max-width: 768px) {
+  .c-op-summaries {
+    padding:0px;
+  }
+  
+  .c-op-summaries__date-header {
+    width: 50%;
+  }
+
+  .c-op-summaries__summary-header {
+    width: 50%;
+  }  
+  
+}
