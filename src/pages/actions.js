@@ -27,7 +27,7 @@ function finishLoad(appSets) {
 }
 
 export const FINISH_RELOAD = 'FINISH_RELOAD';
-function finishReload(appSets, overrideDashboard=null) {
+function finishReload(appSets, overrideDashboard=null, assetId=null) {
   return (dispatch, getState) => {
     dispatch({type: FINISH_RELOAD, appSets});
 
@@ -38,7 +38,11 @@ function finishReload(appSets, overrideDashboard=null) {
       dashboard = overrideDashboard;
     }
 
-    dispatch(push(`/dashboards/${dashboard.get('slug')}`));
+    if (assetId === null) {
+      dispatch(push(`/dashboards/${dashboard.get('slug')}`));
+    } else {
+      dispatch(push(`/assets/${assetId}/${dashboard}`));
+    }
     nativeMessages.notifyPageLoaded();
   };
 }
@@ -64,11 +68,11 @@ export function moveApp(appSet, id, coordinates) {
 }
 
 export const UPDATE_DASHBOARDS = 'UPDATE_DASHBOARDS';
-export function updateDashboards(dashboard=null) {
+export function updateDashboards(dashboard=null, assetId=null) {
   return async (dispatch, getState) => {
     const user = login.selectors.currentUser(getState());
     const appSets = await api.getAppSets(user.get('id'));
-    dispatch(finishReload(appSets, dashboard));
+    dispatch(finishReload(appSets, dashboard, assetId));
   };
 }
 

@@ -61,7 +61,7 @@ class DashboardTabBar extends Component {
             </h4>
           </header>
           <Input label="Dashboard Name"
-                 defaultValue={this.state.dashboardDialogMode === 'Edit' ? this.props.currentDashboard.get('name') : ""}
+                 defaultValue={this.props.currentDashboard && this.state.dashboardDialogMode === 'Edit' ? this.props.currentDashboard.get('name') : ""}
                  ref={(input) => this.dashboardNameInput = input} />
           <Button className="c-dashboard-tab-bar__edit-dashboard__dialog__done" onClick={() => this.saveDashboard()}>
             Save

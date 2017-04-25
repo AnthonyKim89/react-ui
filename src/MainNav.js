@@ -17,7 +17,7 @@ class MainNav extends Component {
           <RoutingNavItem to="/assets/well"><Icon left>dashboard</Icon>All Wells</RoutingNavItem>
           <RoutingNavItem to="/assets/rig"><Icon left>dashboard</Icon>All Rigs</RoutingNavItem>
           {this.props.recentAssets && this.props.recentAssets.map(asset =>
-            <RoutingNavItem key={asset.get('id')} to={`/assets/${asset.get('id')}/overview`}>
+            <RoutingNavItem key={asset.get('id')} to={`/assets/${asset.get('id')}/traces`}>
               <div className="c-main-nav__dropdown__outer-icon-circle">
                 {asset.get('status') === 'active' ? <div className="c-main-nav__dropdown__inner-icon-circle-active"></div> : <div className="c-main-nav__dropdown__inner-icon-circle-inactive"></div>}
               </div>

@@ -13,7 +13,7 @@ import Convert from '../../common/Convert';
 import {
   isNative,
   assetDashboards,
-  currentAssetDashboards,
+  currentAssetDashboard,
   currentPageParams
 } from '../selectors';
 import {
@@ -58,16 +58,16 @@ class AssetPage extends Component {
   }
 
   render() {
-    const AppLayout = this.props.currentAssetDashboards && apps.layouts[this.props.currentAssetDashboards.get('layout', 'grid')];
+    const AppLayout = this.props.currentAssetDashboard && apps.layouts[this.props.currentAssetDashboard.get('layout', 'grid')];
     return (
       <div className="c-asset-page" >
         {!this.props.isNative &&
         <AssetTabBar assetId={this.getAssetId()}
                      assetDashboards={this.props.assetDashboards}
-                     currentAssetDashboards={this.props.currentAssetDashboards}
+                     currentAssetDashboard={this.props.currentAssetDashboard}
                      pageParams={this.props.currentPageParams} />}
-        {this.props.currentAssetDashboards &&
-          <AppLayout apps={this.props.currentAssetDashboards.get('apps').valueSeq()}
+        {this.props.currentAssetDashboard &&
+          <AppLayout apps={this.props.currentAssetDashboard.get('apps').valueSeq()}
                      appData={this.props.appData}
                      appAssets={this.getAppAssets()}
                      convert={this.convert}
@@ -88,7 +88,7 @@ class AssetPage extends Component {
   }
 
   shouldRenderControlApps() {
-    return !this.props.isNative && this.props.currentAssetDashboards && this.props.currentAssetDashboards.get('settings').get('show_control_apps', true);
+    return !this.props.isNative && this.props.currentAssetDashboard && this.props.currentAssetDashboard.get('settings').get('show_control_apps', true);
   }
 
   renderControlApps() {
@@ -110,8 +110,8 @@ class AssetPage extends Component {
   }
 
   getAppAssets() {
-    if (this.props.currentAssetDashboards) {
-      return Map(this.props.currentAssetDashboards.get('apps').map(() => this.props.currentAsset));
+    if (this.props.currentAssetDashboard) {
+      return Map(this.props.currentAssetDashboard.get('apps').map(() => this.props.currentAsset));
     } else {
       return Map();
     }
@@ -122,19 +122,19 @@ class AssetPage extends Component {
   }
 
   onAppMove(id, newCoordinates) {
-    this.props.moveApp(this.props.currentAssetDashboards, id, newCoordinates);
+    this.props.moveApp(this.props.currentAssetDashboard, id, newCoordinates);
   }
 
   onAppSettingsUpdate(id, newSettings) {
-    this.props.updateAppSettings(this.props.currentAssetDashboards, id, newSettings);
+    this.props.updateAppSettings(this.props.currentAssetDashboard, id, newSettings);
   }
 
   onAppAdd(appType, appSettings) {
-    this.props.addApp(this.props.currentAssetDashboards, appType, appSettings);
+    this.props.addApp(this.props.currentAssetDashboard, appType, appSettings);
   }
 
   onAppRemove(id) {
-    this.props.removeApp(this.props.currentAssetDashboards, id);
+    this.props.removeApp(this.props.currentAssetDashboard, id);
   }
 
   onPageParamsUpdate(newParams) {
@@ -154,7 +154,7 @@ export default connect(
   createStructuredSelector({
     isNative,
     assetDashboards,
-    currentAssetDashboards,
+    currentAssetDashboard,
     currentPageParams,
     currentAsset: assets.selectors.currentAsset,
     appData: subscriptions.selectors.appData

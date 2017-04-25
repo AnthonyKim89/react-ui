@@ -38,7 +38,13 @@ export const assetDashboards = createSelector(
   stateSelector,
   state => state.get('appSets')
     .valueSeq()
-    .filter(w => w.get('type') === 'asset_dashboard')
+    .filter(w => w.get('type') === 'asset_dashboard').sort((a, b) => {
+      let ao = a.get("order");
+      let bo = b.get("order");
+      if (ao < bo) { return -1; }
+      if (ao > bo) { return 1; }
+      return 0;
+    })
 );
 
 export const pageParams = createSelector(
@@ -52,7 +58,7 @@ export const currentDashboard = createSelector(
   (dashboards, slug) => dashboards.find(db => db.get('slug') === slug)
 );
 
-export const currentAssetDashboards = createSelector(
+export const currentAssetDashboard = createSelector(
   assetDashboards,
   (_, props) => props.params.slug,
   (assetDashboards, slug) => assetDashboards.find(p => p.get('slug') === slug)
