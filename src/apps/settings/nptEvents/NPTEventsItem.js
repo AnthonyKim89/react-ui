@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Input, Button} from 'react-materialize';
 import moment from 'moment';
@@ -28,6 +29,12 @@ class NPTEventsItem extends Component {
     this.endTimeChanged = this.endTimeChanged.bind(this); 
   }
   
+  componentDidMount() {
+    if (this.state.editing) {
+      ReactDOM.findDOMNode(this.refs["depth"]).children[0].focus();
+    }
+  }
+
   render() {
 
     let {start_time,end_time,depth,type,comment} = this.state.data;
@@ -71,6 +78,7 @@ class NPTEventsItem extends Component {
             s={12}
             label="Depth"
             error={this.state.errors.depth}
+            ref="depth"
             defaultValue={depth? numeral(this.props.convert.convertValue(parseFloat(depth), "length", "ft")).format('0.00') : depth}
             onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{depth: e.target.value})} )} />
@@ -118,11 +126,11 @@ class NPTEventsItem extends Component {
 
   handleKeyPress(e) {
     if (e.key === 'Enter') {
-      this.save();
+      this.save(true);
     }
   }
 
-  save() {
+  save(byKeyBoard) {
     let {start_time,end_time,depth,type,comment} = this.state.data;
     let hasErrors = false;
     let errors = {};
@@ -152,7 +160,7 @@ class NPTEventsItem extends Component {
         .set("depth",this.props.convert.convertValue(depth, "length", this.props.convert.getUnitPreference("length"), "ft"));
     });
 
-    this.props.onSave(record);
+    this.props.onSave(record, (!this.props.record.has("_id") && byKeyBoard));
 
     if (this.props.record.has("_id")) {
       this.setState({editing:false});

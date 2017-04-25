@@ -78,7 +78,7 @@ class CrewsContactApp extends Component {
                 return <CrewsContactItem
                   key={record.get("_pre_id")}
                   record={record}
-                  onSave={(record)=>this.saveRecord(record)}
+                  onSave={(record,continuousAdd)=>this.saveRecord(record,continuousAdd)}
                   onCancel={(preRecord)=>this.cancelAdd(preRecord)} />;
               })}
             </tbody>
@@ -113,7 +113,7 @@ class CrewsContactApp extends Component {
     });
   }
 
-  async saveRecord(record) {
+  async saveRecord(record,continuousAdd) {
     let savedRecord;
     try {
       savedRecord = record.has('_id')? 
@@ -122,7 +122,7 @@ class CrewsContactApp extends Component {
     }
     catch(error) {
       this._notificationSystem.addNotification({
-        message: 'Error when creating a record.',
+        message: 'Error when saving a record.',
         level: 'error'
       });
     }
@@ -152,6 +152,10 @@ class CrewsContactApp extends Component {
       message: 'The record has been saved successfully.',
       level: 'success'
     });
+
+    if (continuousAdd) {
+      this.add();
+    }
   }
 
   async removeRecord(record) {    

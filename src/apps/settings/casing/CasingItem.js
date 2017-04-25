@@ -48,6 +48,12 @@ class CasingItem extends Component {
     this.onCalcLength = this.onCalcLength.bind(this);
   }
   
+  componentDidMount() {
+    if (this.state.editing) {
+      ReactDOM.findDOMNode(this.refs["i_d"]).children[0].focus();
+    }
+  }
+
   render() {
 
     let {id,od,top_depth,bottom_depth,length,linear_mass,grade} = this.state.data;
@@ -76,6 +82,7 @@ class CasingItem extends Component {
             s={12}
             label="I.D"
             defaultValue={id? numeral(this.props.convert.convertValue(parseFloat(id), "shortLength", "in")).format('0.00'): id}
+            ref="i_d"
             error={this.state.errors.id}
             onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{id: e.target.value})}, this.onCalcLinearMass )} 
@@ -270,11 +277,11 @@ class CasingItem extends Component {
   
   handleKeyPress(e) {
     if (e.key === 'Enter') {
-      this.save();
+      this.save(true);
     }
   }
 
-  save() {
+  save(byKeyBoard) {
     if (this.hasFormErrors()) {
       return;
     }
@@ -291,7 +298,8 @@ class CasingItem extends Component {
         .set("grade",grade);
     });
 
-    this.props.onSave(record);
+    this.props.onSave(record, (!this.props.record.has("_id") && byKeyBoard));
+    
     if (this.props.record.has("_id")) {
       this.setState({editing:false});
     }

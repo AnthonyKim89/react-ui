@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Input, Button} from 'react-materialize';
 import numeral from 'numeral';
@@ -21,6 +22,12 @@ class FormationsItem extends Component {
     };
   }
   
+  componentDidMount() {
+    if (this.state.editing) {
+      ReactDOM.findDOMNode(this.refs["td"]).children[0].focus();
+    }
+  }
+
   render() {
 
     let {td,md,formation_name,lithology} = this.state.data;
@@ -47,6 +54,7 @@ class FormationsItem extends Component {
             label="True Vertical Depth"
             error={this.state.errors.td}
             defaultValue={td? numeral(this.props.convert.convertValue(parseFloat(td), "length", "ft")).format('0.00') : td}
+            ref="td"
             onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{td:e.target.value})} )} />
         </td>
@@ -89,20 +97,20 @@ class FormationsItem extends Component {
 
   handleKeyPress(e) {
     if (e.key === 'Enter') {
-      this.save();
+      this.save(true);
     }
   }
 
-  save() {
+  save(byKeyBoard) {
     let {td,md,formation_name,lithology} = this.state.data;
     let hasErrors = false;
     let errors = {};
-    if (isNaN(parseFloat(td)) || parseFloat(td) <=0 ) {
+    if (isNaN(parseFloat(td)) || parseFloat(td) <0 ) {
       errors["td"] = "Invalid Number";
       hasErrors = true;
     }
 
-    if (isNaN(parseFloat(md)) || parseFloat(md) <=0 ) {
+    if (isNaN(parseFloat(md)) || parseFloat(md) <0 ) {
       errors["md"] = "Invalid Number";
       hasErrors = true;
     }
@@ -122,7 +130,8 @@ class FormationsItem extends Component {
         .set("lithology", lithology);
     });
 
-    this.props.onSave(record);
+    this.props.onSave(record, (!this.props.record.has("_id") && byKeyBoard));
+    
     if (this.props.record.has("_id")) {
       this.setState({editing:false});
     }
