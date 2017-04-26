@@ -56,6 +56,7 @@ import raRigActivity from './rigActivity/rigActivity';
 import raDrillingOperations from './rigActivity/drillingOperations';
 import raDepthVersusDays from './rigActivity/depthVersusDays';
 import raRigScorecard from './rigActivity/rigScorecard';
+import raRopPerformance from './rigActivity/ropPerformance';
 
 // HYDRAULICS APPS
 import hydraulicsBedHeight from './hydraulics/bedHeight';
@@ -147,6 +148,13 @@ export const uiApps = Map({
       drillingOperations: raDrillingOperations,
       depthVersusDays: raDepthVersusDays,
       rigScorecard: raRigScorecard
+    })
+  }),
+  analytics: Map({
+    title: 'Analytics',
+    subtitle: '',
+    appTypes: Map({
+      ropPerformance: raRopPerformance
     })
   }),
   hydraulics: Map({

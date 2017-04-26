@@ -73,10 +73,14 @@ class Chart extends Component {
       title: {text: null},
       credits: {enabled: false},
       legend: {
-        align: 'right',
-        verticalAlign: 'middle',
-        layout: 'vertical',
-        itemStyle: {color: '#fff'},
+        align: this.props.legendAlign || 'right',
+        verticalAlign: this.props.legendVerticalAlign || 'middle',
+        layout: this.props.legendLayout || 'vertical',
+        itemStyle: {
+          color: '#bbb',
+          fontFamily: 'Open Sans',
+          fontWeight: 'regular'
+        },
         enabled: true,
       },
       series

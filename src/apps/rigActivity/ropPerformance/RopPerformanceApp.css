@@ -1,0 +1,62 @@
+.c-ra-rop-performance {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.c-ra-rop-performance h4 {
+    font-weight: 900;
+    margin: 10px 0 5px 3px;
+    font-size: 1.45rem;
+    font-family: 'Open Sans';
+    letter-spacing: 0.5px;
+}
+
+.c-ra-rop-performance h5 {
+    color: #bbb;
+    margin: 0;
+    font-size: 0.815rem;
+    margin-left: 3px;
+}
+
+.c-ra-rop-performance .chart-panel {
+	height: 100%;
+	width: 100%;
+	padding-bottom: 30px;
+	padding-top: 0px;
+	position: absolute;
+}
+
+.c-ra-rop-performance .chart-panel .col {
+	height: 100%;
+	top: 0;
+}
+
+.c-ra-rop-performance .action-panel {
+	position: absolute;
+	bottom: 0;
+	margin: 0;
+}
+
+.c-ra-rop-performance .action-panel .select-period input {
+	height: 30px;
+	width: 140px;
+	margin: 0;
+	border: none;
+	font-weight: bold;
+}
+
+.c-ra-rop-performance .action-panel .select-period .caret {
+	color: #bbb;
+}
+
+.c-ra-rop-performance .action-panel .text-info {
+	color: #bbb;
+	line-height: 30px;
+	margin-top: 1rem;
+	margin-left: 1rem;
+	font-size: 0.815rem;
+	float: left;
+}
