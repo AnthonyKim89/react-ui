@@ -103,7 +103,7 @@ class AssetTabBar extends Component {
             </h4>
           </header>
           <SortableComponent ref={(input) => this.dashboardList = input} items={this.props.assetDashboards.filter(w => !this.dashboardIsRestricted(w))} />
-          <Button className="c-asset-tab-bar__edit-dashboard__dialog__done" onClick={() => this.saveOrdering()}>
+          <Button className="c-asset-tab-bar__sort-dashboard__dialog__done" onClick={() => this.saveOrdering()}>
             Save
           </Button>
         </div>
@@ -124,12 +124,12 @@ class AssetTabBar extends Component {
           <h5>Name: <span className="c-asset-tab-bar__edit-dashboard__bold">{this.props.currentAssetDashboard && this.props.currentAssetDashboard.get("name")}</span></h5>
           <Row className="c-asset-tab-bar__edit-dashboard__dialog__button-row">
             <Col s={6}>
-              <Button className="c-asset-tab-bar__edit-dashboard__dialog__done" onClick={() => this.deleteDashboard()}>
+              <Button className="c-asset-tab-bar__delete-dashboard__dialog__done" onClick={() => this.deleteDashboard()}>
                 Delete
               </Button>
             </Col>
             <Col s={6}>
-              <Button className="c-asset-tab-bar__edit-dashboard__dialog__cancel" onClick={() => this.closeDeleteDialog()}>
+              <Button className="c-asset-tab-bar__delete-dashboard__dialog__cancel" onClick={() => this.closeDeleteDialog()}>
                 Cancel
               </Button>
             </Col>
