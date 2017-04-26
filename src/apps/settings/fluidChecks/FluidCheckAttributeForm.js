@@ -1,7 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import { Row, Input } from 'react-materialize';
+import { Row, Col, Input } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import moment from 'moment';
+import Datetime from 'react-datetime';
+import 'react-datetime/css/react-datetime.css';
 
 import './FluidCheckAttributeForm.css';
 
@@ -25,6 +28,7 @@ class FluidCheckAttributeForm extends Component {
           <option value="Oil-base">Oil-base</option>
           <option value="Synthetic-base">Synthetic-base</option>
         </Input>
+
         <Input
           m={4}
           label="Density"
@@ -37,6 +41,26 @@ class FluidCheckAttributeForm extends Component {
       </Row>
 
       <Row key="attributes2" className="c-fluid-checks-editor__attributes">
+        <Col m={4}>
+          <label> Date </label>
+          <Datetime 
+            defaultValue={this.getAttr('date')? moment.unix(this.getAttr('date')): moment()} 
+            onChange={this.selectDate.bind(this)} 
+            timeFormat={false}/>
+        </Col>
+
+        <Input
+          m={4}
+          label="Depth"
+          error={this.props.errors["depth"]}
+          type="number"
+          ref="depth"
+          defaultValue={this.getAttr('depth', '')}
+          onKeyPress={this.handleKeyPress.bind(this)}
+          onChange={e => this.updateAttr('depth', e.target.value,true)} />        
+      </Row>
+
+      <Row key="attributes3" className="c-fluid-checks-editor__attributes">
         <Input
           m={4}
           label="Mud cake thickness (30 min)"
@@ -58,7 +82,7 @@ class FluidCheckAttributeForm extends Component {
           onChange={e => this.updateAttr('filterate', e.target.value,true)} />
       </Row>
 
-      <Row key="attributes3" className="c-fluid-checks-editor__attributes">
+      <Row key="attributes4" className="c-fluid-checks-editor__attributes">
         <Input
           m={4}
           label="PH"
@@ -68,17 +92,6 @@ class FluidCheckAttributeForm extends Component {
           defaultValue={this.getAttr('ph', '')}
           onKeyPress={this.handleKeyPress.bind(this)}
           onChange={e => this.updateAttr('ph', e.target.value,true)} />
-        
-        <Input
-          m={4}
-          label="Marsh Viscocity"
-          error={this.props.errors["marsh_viscocity"]}
-          type="number"
-          ref="marsh_viscocity"
-          defaultValue={this.getAttr('marsh_viscocity', '')}
-          onKeyPress={this.handleKeyPress.bind(this)}
-          onChange={e => this.updateAttr('marsh_viscocity',e.target.value,true)} />
-
       </Row>
     </div>;
   }
@@ -96,6 +109,10 @@ class FluidCheckAttributeForm extends Component {
     if (e.key === 'Enter') {      
       this.props.onSave();
     }
+  }
+
+  selectDate(newDateTime) {
+    this.updateAttr('date',newDateTime.unix());    
   }
 
   getAttr(name, notSetValue) {

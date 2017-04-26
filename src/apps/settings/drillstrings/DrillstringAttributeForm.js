@@ -1,8 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import { Row, Input } from 'react-materialize';
+import { Row, Col,Input } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import numeral from 'numeral';
+import moment from 'moment';
+import Datetime from 'react-datetime';
+import 'react-datetime/css/react-datetime.css';
 
 import './DrillstringAttributeForm.css';
 
@@ -54,22 +57,21 @@ class DrillstringAttributeForm extends Component {
           onChange={e => this.updateAttr('end_depth', e.target.value,true)}/>
       </Row>
       <Row key="attributes3" className="c-drillstring-editor__attributes">
-        <Input
-          m={4}
-          label="Time In"
-          type="number"
-          ref="start_timestamp"
-          defaultValue={this.getAttr('start_timestamp', 0)}
-          onKeyPress={this.handleKeyPress.bind(this)}
-          onChange={e => this.updateAttr('start_timestamp', e.target.value,true)}/>
-        <Input
-          m={4}
-          label="Time Out"
-          type="text"
-          ref="end_timestamp"
-          defaultValue={this.getAttr('end_timestamp', 0)}
-          onKeyPress={this.handleKeyPress.bind(this)}
-          onChange={e => this.updateAttr('end_timestamp', e.target.value,true)}/>
+        <Col m={4}>
+          <label> Time In </label>
+          <Datetime 
+            defaultValue={this.getAttr('start_timestamp')? moment.unix(this.getAttr('start_timestamp')): moment()} 
+            onChange={this.startTimeChanged.bind(this)} />
+        </Col>
+
+        <Col m={4}>
+          <label> Time Out </label>
+          <Datetime 
+            defaultValue={this.getAttr('end_timestamp')? moment.unix(this.getAttr('end_timestamp')): moment()} 
+            onChange={this.endTimeChanged.bind(this)} />
+        </Col>
+
+       
       </Row>
     </div>;
   }
@@ -87,6 +89,14 @@ class DrillstringAttributeForm extends Component {
     if (e.key === 'Enter') {      
       this.props.onSave();
     }
+  }
+
+  startTimeChanged(newDateTime) {
+    this.updateAttr('start_timestamp',newDateTime.unix());    
+  }
+
+  endTimeChanged(newDateTime) {
+    this.updateAttr('end_timestamp',newDateTime.unix());    
   }
 
   getAttr(name, notSetValue) {

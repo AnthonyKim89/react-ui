@@ -4,6 +4,7 @@ import { Row, Col, Input, Button} from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import {List, Map } from 'immutable';
 import uuidV1 from 'uuid/v1';
+import moment from 'moment';
 
 import './FluidCheckViscosity.css';
 class FluidCheckViscosity extends Component {
@@ -25,13 +26,30 @@ class FluidCheckViscosity extends Component {
       <Row>
         {this.renderField('pv', 'PV')}
         {this.renderField('yp', 'YP')}
+        {this.renderField('marsh_funnel', 'Marsh Funnel')}
       </Row>
 
       {this.renderRpmReadingTable()}
 
       {!this.props.isEditable? 
         <div>
-          <hr style={{opacity:0.2}}/>
+          <hr/>
+
+          <Row>
+            <Col l={4} m={6} s={12}>
+              <div>Date</div>
+              <div>
+                {moment.unix(this.props.record.getIn(['data', 'date'])).format('LL')}
+              </div>
+            </Col>
+            <Col l={4} m={6} s={12}>
+              <div>Depth</div>
+              <div>
+                {this.props.record.getIn(['data', 'depth'])}
+              </div>
+            </Col>
+          </Row>
+
           <Row>
             <Col l={4} m={6} s={12}>
               <div>Mud cake thickness (30 min)</div>
@@ -45,7 +63,7 @@ class FluidCheckViscosity extends Component {
                 {this.props.record.getIn(['data', 'filterate'])}
               </div>
             </Col>
-          </Row>
+          </Row>          
 
           <Row>
             <Col l={4} m={6} s={12}>
@@ -54,12 +72,7 @@ class FluidCheckViscosity extends Component {
                 {this.props.record.getIn(['data', 'ph'])}
               </div>
             </Col>
-            <Col l={4} m={6} s={12}>
-              <div>Marsh Viscocity</div>
-              <div>
-                {this.props.record.getIn(['data', 'marsh_viscocity'])}
-              </div>
-            </Col>
+            
           </Row>
         </div> : ''
       }
@@ -81,7 +94,7 @@ class FluidCheckViscosity extends Component {
         <Col l={2} m={4} s={12} key={`${name}-label`}>
           {label}<br/>
           {this.getValue(name, '')}
-        </Col>        
+        </Col>
       ];
     }
   }
@@ -89,6 +102,8 @@ class FluidCheckViscosity extends Component {
   renderRpmReadingTable() {
     return (      
       <div className="c-fluid-check-viscocity__rpm-readings">
+        <hr/>
+        <h6>Rheometer Readings</h6>
         { this.props.record.getIn(['data','viscocity','rpm_readings'],List()).size>0 ? 
         <table>
           <thead>

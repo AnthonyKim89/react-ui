@@ -31,7 +31,7 @@ class FluidChecksApp extends Component {
   }
 
   validator(recordData) {
-    let {data: {mud_density, mud_cake_thickness, filterate, ph, marsh_viscocity, viscocity:{pv,yp,rpm_readings}}} = recordData.toJS();
+    let {data: {mud_density, mud_cake_thickness, filterate, ph, viscocity:{pv,yp,marsh_funnel,rpm_readings}}} = recordData.toJS();
     let hasFormErrors = false;
     let errors = {};
     if (!this.isValueValid(mud_density,5,20,false)) {
@@ -54,16 +54,10 @@ class FluidChecksApp extends Component {
       errors["ph"] = this.generateRangeErrorMessage(5,10);
     }
 
-    if (!this.isValueValid(marsh_viscocity,5,150,true)) {
-      hasFormErrors = true;
-      errors["marsh_viscocity"] = this.generateRangeErrorMessage(5,150);
-    }
-
-    if (this.isValueEmpty(pv) && this.isValueEmpty(yp) && rpm_readings.length<2) {
+    if ((this.isValueEmpty(pv) || this.isValueEmpty(yp)) && rpm_readings.length<2) {
       hasFormErrors = true;
       errors["rpm_readings_required"] = "At least 2 paris of rpm and dial_reading required.";
     }
-
 
     if (!this.isValueValid(pv,0,200,!errors["rpm_readings_required"])) {
       hasFormErrors = true;
@@ -75,7 +69,13 @@ class FluidChecksApp extends Component {
       errors["yp"] = this.generateRangeErrorMessage(0,100);
     }
 
+    if (!this.isValueValid(marsh_funnel,5,150,true)) {
+      hasFormErrors = true;
+      errors["marsh_funnel"] = this.generateRangeErrorMessage(5,150);
+    }
+
     errors["rpm_readings"] = [];
+
     for (let i=0; i<rpm_readings.length; i++) {
       errors["rpm_readings"][i] = {};
       if (!this.isValueValid(rpm_readings[i].rpm,0,1000,true)) {
