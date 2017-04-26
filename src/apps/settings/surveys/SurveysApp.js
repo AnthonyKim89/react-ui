@@ -37,13 +37,13 @@ class SurveysApp extends Component {
       // Parsing done, invoke the second, minimum curvature task.
       // (This chaining should be done automatically by Lambda function composition in the long run,
       // instead of having the frontend do it.)
-      this.invokeMinimumCurvatureTask(parseResult.get('data'));
+      this.invokeMinimumCurvatureTask(parseResult.getIn(['data', 'data']));
     }
     const minimumCurvatureResult = subscriptions.selectors.getSubData(props.data, this.props.minimumCurvatureCollectionConfig);
     if (minimumCurvatureResult && minimumCurvatureResult.get('task_id') === this.state.pendingMinimumCurvatureTaskId) {
       this.setState({
         pendingMinimumCurvatureTaskId: null,
-        lastTaskResult: minimumCurvatureResult.getIn(['data', 'data'])
+        lastTaskResult: minimumCurvatureResult.getIn(['data'])
       });
     }
   }
