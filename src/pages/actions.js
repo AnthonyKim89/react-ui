@@ -41,7 +41,7 @@ function finishReload(appSets, overrideDashboard=null, assetId=null) {
     if (assetId === null) {
       dispatch(push(`/dashboards/${dashboard.get('slug')}`));
     } else {
-      dispatch(push(`/assets/${assetId}/${dashboard}`));
+      dispatch(push(`/assets/${assetId}/${dashboard.get('slug')}`));
     }
     nativeMessages.notifyPageLoaded();
   };

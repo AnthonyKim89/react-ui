@@ -102,7 +102,7 @@ class AssetTabBar extends Component {
               Sort Dashboards
             </h4>
           </header>
-          <SortableComponent ref={(input) => this.dashboardList = input} items={this.props.assetDashboards.filter(w => !this.dashboardIsRestricted(w))} />
+          <SortableComponent ref={(input) => this.dashboardList = input} items={this.props.assetDashboards} />
           <Button className="c-asset-tab-bar__sort-dashboard__dialog__done" onClick={() => this.saveOrdering()}>
             Save
           </Button>
@@ -141,8 +141,8 @@ class AssetTabBar extends Component {
   }
 
   showControlAppsCheckedValue(asBoolean=false) {
-    if (this.state.dashboardDialogMode !== 'Edit') {
-      return asBoolean ? false : '';
+    if (this.state.dashboardDialogMode !== 'Edit' || !this.props.currentAssetDashboard) {
+      return asBoolean ? true : 'checked';
     }
     let currentValue = this.props.currentAssetDashboard.getIn(['settings', 'show_control_apps']) ? 'checked' : '';
     if (asBoolean) {
@@ -185,21 +185,21 @@ class AssetTabBar extends Component {
     let items = this.dashboardList.state.items;
 
     for (let i = 0; i < items.length; i++) {
-      if (items[i].order === i+2) {
+      if (items[i].order === i) {
         continue;
       }
 
       let dashboardId = items[i].id;
       let userId = this.props.currentUser.get('id');
       let dashboard = {
-        order: i+2
+        order: i
       };
 
       await api.putAppSet(userId, dashboardId, dashboard);
     }
 
     this.closeSortDialog();
-    this.props.updateDashboards(this.props.currentAssetDashboard.get("slug"), this.props.assetId);
+    this.props.updateDashboards(this.props.currentAssetDashboard, this.props.assetId);
   }
 
   getUniqueSlug(name) {
@@ -268,7 +268,7 @@ class AssetTabBar extends Component {
     }
 
     this.closeDashboardDialog();
-    this.props.updateDashboards(response.get("slug"), this.props.assetId);
+    this.props.updateDashboards(response, this.props.assetId);
   }
 
   async deleteDashboard() {
@@ -277,7 +277,7 @@ class AssetTabBar extends Component {
     await api.deleteAppSet(userId, dashboardId);
 
     this.closeDeleteDialog();
-    this.props.updateDashboards('traces', this.props.assetId);
+    this.props.updateDashboards(this.props.assetDashboards.first(), this.props.assetId);
   }
 
   openDashboardDialog(mode='Add') {
