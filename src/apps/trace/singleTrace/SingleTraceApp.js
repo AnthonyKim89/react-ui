@@ -19,7 +19,11 @@ const [ latestSubscription, summarySubscription ] = SUBSCRIPTIONS;
 class SingleTraceApp extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
-    return this.getTraceSummary(this.props) !== this.getTraceSummary(nextProps);
+    return (this.getTraceSummary(this.props) !== this.getTraceSummary(nextProps) ||
+            nextProps.trace !== this.props.trace ||
+            nextProps.data !== this.props.data || 
+            nextProps.coordinates !== this.props.coordinates || 
+            nextProps.graphColors !== this.props.graphColors);
   }
 
   getSummaryData() {
@@ -37,7 +41,7 @@ class SingleTraceApp extends Component {
         <h4>{this.getTrace().label}</h4>
         {this.hasLatestTrace() ?
           this.renderLatestTrace() :
-          <LoadingIndicator />}
+          <div className="c-trace-single__loading"><LoadingIndicator /></div>}
         {this.getTraceSummary(this.props) ?
           this.renderTraceSummaryGraph() :
           <LoadingIndicator />}

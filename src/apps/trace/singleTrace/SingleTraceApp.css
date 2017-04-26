@@ -23,3 +23,8 @@
   font-size: 3rem;
   padding-right: 20px;
 }
+
+
+.c-trace-single .c-trace-single__loading {
+  margin-top: -54px;
+}
