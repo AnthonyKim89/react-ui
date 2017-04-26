@@ -1,7 +1,7 @@
 export const CATEGORY = 'hydraulics';
 export const NAME = 'minimumFlowRate';
 export const SUBSCRIPTIONS = [
-  {provider: 'corva', collection: 'hydraulics.minimum-flow-rate'}
+  {provider: 'corva', collection: 'hydraulics.cuttings-transport'}
 ];
 export const METADATA = {
   title: 'Required Minimum Flow Rate',

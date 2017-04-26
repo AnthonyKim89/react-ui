@@ -66,6 +66,7 @@ class RopPerformanceApp extends Component {
                 legendVerticalAlign='bottom'
                 legendLayout='horizontal'
                 showLegend={true}
+                forceLegend={true}
                 widthCols={this.props.widthCols}>
                 {this.getSeries().map(({renderType, key, title, data}) => (
                   <ChartSeries

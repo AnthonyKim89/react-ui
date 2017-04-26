@@ -12,10 +12,16 @@ function addAssets(assets, newAssets) {
   );
 }
 
+function unloadAsset(assets, assetId) {
+  return assets.delete(assetId);
+}
+
 export default function(state = initialState, action) {
   switch (action.type) {
     case t.LOAD_ASSETS:
       return addAssets(state, action.assets);
+    case t.UNLOAD_ASSET:
+      return unloadAsset(state, action.assetId);
     default:
       return state;
   }

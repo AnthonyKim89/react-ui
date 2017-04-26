@@ -44,18 +44,19 @@ class AppContainer extends Component {
   subscribe(props) {
     props.onAppSubscribe(
       props.id,
-      this.getSubscriptionKeys(),
+      this.getSubscriptionKeys(props),
       props.asset.get('id'),
       this.getSubscriptionParams(props)
     );
   }
 
   unsubscribe(props) {
-    props.onAppUnsubscribe(props.id, this.getSubscriptionKeys());
+    props.onAppUnsubscribe(props.id, this.getSubscriptionKeys(props));
   }
 
   isSubscriptionChanged(newProps) {
-    return !newProps.asset ||
+    return newProps.id !== this.props.id ||
+           !newProps.asset ||
            !newProps.asset.equals(this.props.asset) ||
            !this.getSubscriptionParams(newProps).equals(this.getSubscriptionParams(this.props));
   }
@@ -87,7 +88,7 @@ class AppContainer extends Component {
           <h4 className="c-app-container__title">{this.props.appType.constants.METADATA.title}</h4>}
         {!this.props.isTitlesDisabled && this.props.appType.constants.METADATA.subtitle &&
           <h5 className="c-app-container__subtitle">{this.props.appType.constants.METADATA.subtitle}</h5>}
-        {this.props.availableAssets && this.props.layoutEnvironment && this.props.layoutEnvironment.get("type") === "general" &&
+        {!this.props.appType.constants.METADATA.multiRig && this.props.availableAssets && this.props.layoutEnvironment && this.props.layoutEnvironment.get("type") === "general" &&
           <div className="c-app-container-asset-name">{this.getAppAssetName()}</div>}
         <div className="c-app-container__content">
           {this.props.errorData ? this.renderError() : this.props.children}
@@ -178,7 +179,10 @@ class AppContainer extends Component {
   }
 
   getSettingsEditors() {
-    const common = this.props.commonSettingsEditors || List();
+    let common = this.props.commonSettingsEditors || List();
+    if (this.props.appType.constants.METADATA.multiRig) {
+      common = common.filter(x => x.get('name') !== 'assetId');
+    }
     const forAppType = this.props.appType.settings || List();
     return common.concat(forAppType);
   }
@@ -196,8 +200,8 @@ class AppContainer extends Component {
     this.props.onAppSettingsUpdate(newSettings);
   }
 
-  getSubscriptionKeys() {
-    return this.props.appType.constants.SUBSCRIPTIONS;
+  getSubscriptionKeys(props) {
+    return props.appType.constants.SUBSCRIPTIONS;
   }
 
 }

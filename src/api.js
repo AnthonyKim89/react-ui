@@ -133,8 +133,24 @@ export async function getActiveChildAsset(id) {
   return fromJS(data);
 }
 
+export async function postAsset(asset) {
+  if (Map.isMap(asset)) {
+    asset = asset.toJS();
+  }
+  const data = await post(`/v1/assets`, asset);
+  return fromJS(data);
+}
+
 export async function putAsset(id, asset) {
-  const data = await put(`/v1/assets/${id}`, asset.toJS());
+  if (Map.isMap(asset)) {
+    asset = asset.toJS();
+  }
+  const data = await put(`/v1/assets/${id}`, asset);
+  return fromJS(data);
+}
+
+export async function deleteAsset(id) {
+  const data = await del(`/v1/assets/${id}`);
   return fromJS(data);
 }
 
@@ -146,6 +162,12 @@ export async function getAppStorage(provider, collection, assetId, params = Map(
 
 export async function postAppStorage(provider, collection, item) {
   const response = await post(`/v1/data/${provider}/${collection}`, item.toJS());
+  return fromJS(response);
+}
+
+export async function postTaskDocument(provider, collection, data, params = Map()) {
+  const qry = queryString(params.toJS());  
+  const response = await post(`/v1/tasks/${provider}/${collection}?${qry}`, {data});
   return fromJS(response);
 }
 

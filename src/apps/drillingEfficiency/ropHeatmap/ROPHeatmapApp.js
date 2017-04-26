@@ -63,8 +63,8 @@ class ROPHeatmapApp extends Component {
   getSeries(data) {
     let toUnit = this.props.convert.getUnitPreference('length');
     let series = [];
-    let rows = data.get("y_axis").get("rows");
-    let columns = data.get("x_axis").get("columns");
+    let rows = data.get("x_axis").get("rows");
+    let columns = data.get("y_axis").get("columns");
     for (let y = 0; y < rows; y++) {
       let row = data.get("rotary").get(y);
       for (let x = 0; x < columns; x++) {

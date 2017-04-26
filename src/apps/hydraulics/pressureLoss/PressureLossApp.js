@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import numeral from 'numeral';
 
 import { Size } from '../../../common/constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
@@ -47,7 +48,7 @@ class PressureLossApp extends Component {
       .getIn(['data', 'percentages'])
       .map(datum => ({
         name: LABELS[datum.get('type')],
-        y: this.props.convert.convertValue(datum.get('pressure_loss'), 'pressure', 'psi').fixFloat(1),
+        y: Number(numeral(this.props.convert.convertValue(datum.get('pressure_loss'), 'pressure', 'psi')).format("0.0")),
         color: COLORS[datum.get('type')]
       }));
   }

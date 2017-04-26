@@ -1,32 +1,21 @@
 export const CATEGORY = 'rigActivity';
 export const NAME = 'drillingOperations';
-export const SUBSCRIPTIONS = [
-  {provider: 'corva', collection: 'operations.tripping-in-connection'},
-  {provider: 'corva', collection: 'operations.tripping-in-running'},
-  {provider: 'corva', collection: 'operations.tripping-out-connection'},
-  {provider: 'corva', collection: 'operations.tripping-out-running'},
-  {provider: 'corva', collection: 'operations.drilling-connection'},
-  {provider: 'corva', collection: 'operations.weight-to-weight'},
-  {provider: 'corva', collection: 'operations.treatment'},
-  {provider: 'corva', collection: 'operations.drilling-joint'},
-  {provider: 'corva', collection: 'operations.running-casing-setting'},
-  {provider: 'corva', collection: 'operations.running-casing'},
-  {provider: 'corva', collection: 'operations.cementing'},
-  {provider: 'corva', collection: 'operations.total-casing-time'},
-  {provider: 'corva', collection: 'operations.total-trip-time'},
-  {provider: 'corva', collection: 'operations.full-trip-in'},
-  {provider: 'corva', collection: 'operations.full-trip-out'},
-  {provider: 'corva', collection: 'operations.change-bha'},
-  {provider: 'corva', collection: 'operations.on-bottom-to-slips'},
-  {provider: 'corva', collection: 'operations.slips-to-on-bottom'}
-];
+export const SUBSCRIPTIONS = [];
 export const METADATA = {
   title: '',
   settingsTitle: 'Drilling Operations',
   subtitle: '',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',
-  publishedAt: '2016-07-01T00:00:00'
+  publishedAt: '2016-07-01T00:00:00',
+  provider: 'corva',
+  collections: [
+    'operations.summary-2tours',
+    'operations.summary-continuous',
+    'operations.summary-1w',
+    'operations.summary-1m',
+    'operations.summary-3m'
+  ]
 };
 export const SUPPORTED_ASSET_TYPES = ['rig'];
 export const INITIAL_SIZE = {w: 4, h: 10};
@@ -34,23 +23,23 @@ export const TARGET = 80;
 export const PERIOD_TYPES = [
   {
     label: 'Last 2 tours',
-    value: 1
+    value: 0
   },
   {
     label: 'Continuous',
-    value: -1
+    value: 1
   },
   {
     label: 'Last Week',
-    value: 7
+    value: 2
   },
   {
     label: 'Last Month',
-    value: 30
+    value: 3
   },
   {
     label: 'Last 3 months',
-    value: 90
+    value: 4
   }
 ];
 export const ACTIVITY_COLORS = {

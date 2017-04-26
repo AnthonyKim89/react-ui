@@ -61,7 +61,7 @@
 .c-asset-tab-bar .c-asset-tab-bar__bit-tab a {
   background-image: url('../../images/icon-vibration.png');
 }
-.c-asset-tab-bar .c-asset-tab-bar__motor-tab a {
+.c-asset-tab-bar .c-asset-tab-bar__pdm-tab a {
   background-image: url('../../images/icon-motor.png');
 }
 .c-asset-tab-bar .c-asset-tab-bar__losses-tab a {

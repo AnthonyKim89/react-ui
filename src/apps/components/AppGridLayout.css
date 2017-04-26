@@ -1,5 +1,5 @@
 .c-app-grid-layout .react-grid-item {
-  overflow: hidden;
+  overflow: visible;
 }
 
 button.c-app-grid__add-app {
