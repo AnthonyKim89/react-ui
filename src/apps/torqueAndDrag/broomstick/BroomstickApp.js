@@ -70,7 +70,7 @@ class BroomstickApp extends Component {
             renderType: 'line',
             title: `${SUPPORTED_CHART_SERIES[curveType].label} ${curve.get('openhole_friction_factor')}`,
             type: curveType,
-            data: points,
+            data: points
           };
         })
       );

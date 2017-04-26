@@ -52,11 +52,8 @@ class MSEVDepthApp extends Component {
   getSeries() {
     let series = [];
     for (let prop in SUPPORTED_CHART_SERIES) {
-      if (SUPPORTED_CHART_SERIES.hasOwnProperty(prop)) {
-        var s = this.getDataSeries(prop);
-        if(s) {
-          series.push(s);
-        }
+      if (SUPPORTED_CHART_SERIES.hasOwnProperty(prop) && this.getDataSeries(prop)) {
+        series.push(this.getDataSeries(prop));
       }
     }
     return series;

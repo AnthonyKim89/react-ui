@@ -21,7 +21,6 @@
     "font-awesome": "^4.7.0",
     "highcharts": "^5.0.7",
     "immutable": "^3.8.1",
-    "is-path-in-cwd": "^1.0.0",
     "lodash": "^4.17.4",
     "mapbox.js": "^3.0.1",
     "materialize-css": "0.98.0",
