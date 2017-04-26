@@ -215,7 +215,6 @@ class Chart extends Component {
   }
 
   getYAxis(series, props) {
-    console.log(series.yAxisTitle);
     return {
       id: series.yAxis,
       title: series.yAxisTitle || props.yAxisTitle || {text: null},
