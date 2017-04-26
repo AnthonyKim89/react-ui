@@ -274,7 +274,7 @@ OperatingConditionApp.propTypes = {
   data: ImmutablePropTypes.map,
   graphColors: ImmutablePropTypes.map,
   size: PropTypes.string.isRequired,
-  coordinates: PropTypes.string,
+  coordinates: PropTypes.object,
   widthCols: PropTypes.number.isRequired
 };
 

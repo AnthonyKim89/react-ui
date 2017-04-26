@@ -67,6 +67,7 @@ import hydraulicsPressureTrend from './hydraulics/pressureTrend';
 
 // PDM
 import pdmOperatingCondition from './pdm/operatingCondition';
+import pdmStallsHistory from './pdm/stallsHistory';
 
 // Apps that can be displayed on dashboard / asset pages, keyed by app type
 export const uiApps = Map({
@@ -164,7 +165,8 @@ export const uiApps = Map({
     title: 'PDM',
     subtitle: '',
     appTypes: Map({
-      operatingCondition: pdmOperatingCondition
+      operatingCondition: pdmOperatingCondition,
+      stallsHistory: pdmStallsHistory
     })
   })
 });
