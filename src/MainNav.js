@@ -2,12 +2,16 @@ import React, { Component, PropTypes } from 'react';
 import { NavItem, Navbar, Dropdown, Icon } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import RoutingNavItem from './common/RoutingNavItem';
+import { assetDashboards } from './pages/selectors';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import './MainNav.css';
 
 class MainNav extends Component {
 
   render() {
+    let assetDashboardSlug = this.props.assetDashboards.count() > 0 ? this.props.assetDashboards.first().get('slug') : '';
     return (
       <Navbar href={this.getPathToFirstDashboard()} className="c-main-nav">
         <RoutingNavItem className="navbar-brand" to={this.getPathToFirstDashboard()}>Corva</RoutingNavItem>
@@ -17,7 +21,7 @@ class MainNav extends Component {
           <RoutingNavItem to="/assets/well"><Icon left>dashboard</Icon>All Wells</RoutingNavItem>
           <RoutingNavItem to="/assets/rig"><Icon left>dashboard</Icon>All Rigs</RoutingNavItem>
           {this.props.recentAssets && this.props.recentAssets.map(asset =>
-            <RoutingNavItem key={asset.get('id')} to={`/assets/${asset.get('id')}/overview`}>
+            <RoutingNavItem key={asset.get('id')} to={`/assets/${asset.get('id')}/${assetDashboardSlug}`}>
               <div className="c-main-nav__dropdown__outer-icon-circle">
                 {asset.get('status') === 'active' ? <div className="c-main-nav__dropdown__inner-icon-circle-active"></div> : <div className="c-main-nav__dropdown__inner-icon-circle-inactive"></div>}
               </div>
@@ -31,7 +35,6 @@ class MainNav extends Component {
         }
       </Navbar>
       /*
-        This doesn't currently seem to do anything when added, but I'm leaving it here just in case Tero has more insight into it.
         {this.props.currentUser &&
           <NavItem className="c-main-nav__current-user">
             {this.props.currentUser.getIn(['company', 'name'])}
@@ -40,24 +43,13 @@ class MainNav extends Component {
     );
   }
 
-  // This takes a click event on a navitem and loads the link without a reload of the page.
-  navLoad(event) {
-    event.preventDefault();
-
-    let to = event.target.href;
-    to = to.replace("https://", "").replace("http://", "");
-    to = to.split("/").splice(1).join("/");
-    to = "/" + to;
-    this.context.router["push"](to);
-  }
-
   hasDashboards() {
     return !this.props.dashboards.isEmpty();
   }
 
   getPathToFirstDashboard() {
     if (this.hasDashboards()) {
-      const id = this.props.dashboards.first().get('id');
+      const id = this.props.dashboards.first().get('slug');
       return `/dashboards/${id}`;
     } else {
       return '/';
@@ -81,4 +73,8 @@ MainNav.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default MainNav;
+export default connect(
+  createStructuredSelector({
+    assetDashboards,
+  })
+)(MainNav);

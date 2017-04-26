@@ -7,7 +7,15 @@
   background-color: #4E4A49;
   margin-bottom: 0;
 }
-.c-dashboard-tab-bar a {
+.c-dashboard-tab-bar li {
+  display: block;
+  float: left;
+  width: auto;
+  height: 60px;
+  position: relative;
+}
+.c-dashboard-tab-bar a.c-dashboard-tab-bar__dashboard-link,
+.c-dashboard-tab-bar li.c-dashboard-tab-bar__dashboard-link a {
   display: block;
   padding: 0 15px;
   float: left;
@@ -17,16 +25,173 @@
   font-size: 1rem;
   text-align: center;
   color: white;
-  transition: background-color 0.2s linear;
+  transition: all 0.2s linear;
+  z-index: -1;
+}
+.c-dashboard-tab-bar li.c-dashboard-tab-bar__add-dashboard a {
+  opacity: 0.6;
+}
+.c-dashboard-tab-bar li.c-dashboard-tab-bar__add-dashboard a:hover {
+  opacity: 1;
+}
+.c-dashboard-tab-bar__settings-menu {
+  float: right !important;
+}
+.c-dashboard-tab-bar .c-dashboard-tab-bar__settings-menu ul li.dropdown-button a {
+  display: block;
+  padding: 0 15px;
+  width: auto;
+  height: 60px;
+  line-height: 60px;
+  font-size: 1rem;
+  text-align: center;
+  color: white;
+  transition: all 0.2s linear;
+  opacity: 0.6;
+}
+.c-dashboard-tab-bar .c-dashboard-tab-bar__settings-menu ul li.dropdown-button a:hover {
+  background-color: #777;
+  opacity: 1;
+}
+.c-dashboard-tab-bar .c-dashboard-tab-bar__settings-menu ul ul.dropdown-content {
+  margin-top: 60px;
+}
+.c-dashboard-tab-bar .c-dashboard-tab-bar__settings-menu ul ul.dropdown-content li {
+  height: 50px;
+  border-bottom: 1px solid #e0e0e0;
+}
+.c-dashboard-tab-bar .c-dashboard-tab-bar__settings-menu ul ul.dropdown-content li:last-child {
+  border-bottom: none;
+}
+.c-dashboard-tab-bar .c-dashboard-tab-bar__settings-menu ul ul.dropdown-content li a {
+  color: black;
+}
+.c-dashboard-tab-bar .c-dashboard-tab-bar__settings-menu ul ul.dropdown-content li a:hover {
+  color: white;
+}
+.c-dashboard-tab-bar i {
+  line-height: inherit !important;
+  cursor: pointer;
+}
+.c-dashboard-tab-bar a:hover i {
+  color: white;
 }
 .c-dashboard-tab-bar a, .c-dashboard-tab-bar a:hover, .c-dashboard-tab-bar a.is-active, .c-dashboard-tab-bar a:visited {
   text-decoration: none;
 }
 .c-dashboard-tab-bar a:hover {
-  background: transparent;
-  color: #57c9c2;
+  background-color: #777;
+  color: white;
 }
 .c-dashboard-tab-bar a.is-active {
   background-color: #58c9c2;
   color: white;
+}
+
+.c-dashboard-tab-bar__edit-dashboard {
+  position: absolute;
+  top: 30%;
+  left: 40%;
+  right: 40%;
+  border-radius: 0;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background: white;
+  color: black;
+  overflow: visible;
+  -webkit-overflow-scrolling: touch;
+  outline: none;
+  z-index: 4001;
+}
+
+@media(max-width: 768px) {
+  .c-dashboard-tab-bar__edit-dashboard {
+    left: 10px;
+    right: 10px;
+    top: 60px;
+    bottom: 10px;
+  }
+}
+.c-dashboard-tab-bar__edit-dashboard__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 4000;
+}
+
+.c-dashboard-tab-bar__edit-dashboard__dialog {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.c-dashboard-tab-bar__edit-dashboard__dialog header {
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #888;
+}
+.c-dashboard-tab-bar__edit-dashboard__dialog__title {
+  font-weight: bold;
+  font-size: 28px;
+}
+.c-dashboard-tab-bar__edit-dashboard__dialog__title, .c-dashboard-tab-bar__edit-dashboard__dialog__subtitle {
+  margin: 0;
+}
+.c-dashboard-tab-bar__edit-dashboard__dialog__done {
+  float: right;
+  border-radius: 0 !important;
+  width: 100%;
+  height: 40px;
+  margin-top: 5px;
+  vertical-align: bottom;
+}
+.c-dashboard-tab-bar__edit-dashboard__dialog__cancel {
+  float: right;
+  border-radius: 0 !important;
+  width: 100%;
+  height: 40px;
+  margin-top: 5px;
+  vertical-align: bottom;
+  background-color: #888 !important;
+}
+.c-dashboard-tab-bar__edit-dashboard__dialog__button-row {
+  margin: 5px 0 0 0 !important;
+}
+.c-dashboard-tab-bar__edit-dashboard__bold {
+  font-weight: bold;
+}
+
+.c-dashboard-tab-bar__edit-dashboard__dialog .caret {
+  border-color: transparent !important;
+  margin: auto 15px 18px auto !important;
+}
+
+.c-dashboard-tab-bar__edit-dashboard__dialog .btn {
+  border-radius: 0;
+  width: 100%;
+  height: 35px;
+}
+
+.c-dashboard-tab-bar__edit-dashboard__dialog .btn span {
+  vertical-align: top;
+}
+
+.c-dashboard-tab-bar__edit-dashboard__dialog h5 {
+  font-size: 20px !important;
+}
+
+.c-dashboard-tab-bar__edit-dashboard__dialog .select-wrapper li span {
+  background-color: #e0e0e0;
+  color: #000000;
+}
+
+.c-dashboard-tab-bar__edit-dashboard__dialog .select-wrapper li:hover span {
+  background-color: #eeeeee;
+  color: #000000;
+}
+
+.c-dashboard-tab-bar__edit-dashboard__dialog .col.input-field label {
+  left: 0;
 }

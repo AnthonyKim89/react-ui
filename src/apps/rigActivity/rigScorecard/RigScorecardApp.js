@@ -106,7 +106,6 @@ class RigScorecardApp extends Component {
       return h;
     });
     data = data.sortBy(h => h.getIn(['data', 'score']));
-    console.log(data.toJS());
     return data;
   }
 

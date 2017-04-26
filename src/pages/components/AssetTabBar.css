@@ -18,6 +18,9 @@
   text-indent: -9999px;
   transition: background-color 0.2s linear;
 }
+.c-asset-tab-bar a:hover {
+  background-color: #777;
+}
 .c-asset-tab-bar li span {
   display: block;
   float: left;
@@ -27,7 +30,7 @@
   font-size: 1.15rem;
   margin-left: 14px;
 }
-.c-asset-tab-bar li i {
+.c-asset-tab-bar li i.c-asset-tab-bar__right-arrow {
   display: block;
   float: left;
   width: 37px;
@@ -40,7 +43,7 @@
 .c-asset-tab-bar a.is-active, .TabBar a:hover {
   background-color: #58c9c2;
 }
-.c-asset-tab-bar .c-asset-tab-bar__overview-tab a {
+.c-asset-tab-bar .c-asset-tab-bar__overview-tab a, div.c-asset-tab-bar__overview-tab {
   background-image: url('../../images/icon-overview.png');
 }
 .c-asset-tab-bar .c-asset-tab-bar__torqueAndDrag-tab a {
@@ -74,12 +77,200 @@
   background-image: url('../../images/icon-settings.png');
   background-size: 41px 37px; /* Settings icon image has different dimensions than the others; adjust */
 }
-
+.c-asset-tab-bar .c-asset-tab-bar__first-letter-tab {
+  text-align: center;
+}
+.c-asset-tab-bar .c-asset-tab-bar__first-letter-tab a {
+  text-indent: 0;
+  margin: auto;
+  color: white;
+  line-height: 60px;
+  font-size: 2.4rem;
+}
 .c-asset-tab-bar__current-tab-name {
   float: right;
   height: 60px;
   line-height: 60px;
-  margin-right: 23px;
   font-size: 1.5em;
   color: white;
+}
+.c-asset-tab-bar li.c-asset-tab-bar__add-dashboard a {
+  text-indent: 0;
+  color: white;
+  opacity: 0.6;
+  text-align: center;
+  cursor: pointer;
+}
+.c-asset-tab-bar li.c-asset-tab-bar__add-dashboard a:hover {
+  opacity: 1;
+}
+.c-asset-tab-bar li.c-asset-tab-bar__add-dashboard a i {
+  line-height: 60px;
+}
+
+.c-asset-tab-bar__settings-menu {
+  text-indent: 0;
+  float: right !important;
+}
+.c-asset-tab-bar .c-asset-tab-bar__settings-menu ul li.dropdown-button a {
+  text-indent: 0;
+  display: block;
+  padding: 0 15px;
+  width: auto;
+  height: 60px;
+  line-height: 60px;
+  font-size: 1rem;
+  text-align: center;
+  color: white;
+  transition: all 0.2s linear;
+  opacity: 0.6;
+  cursor: pointer;
+}
+.c-asset-tab-bar .c-asset-tab-bar__settings-menu ul li.dropdown-button a:hover {
+  background-color: #777;
+  opacity: 1;
+}
+.c-asset-tab-bar .c-asset-tab-bar__settings-menu ul li.dropdown-button a i {
+  line-height: 60px;
+}
+.c-asset-tab-bar .c-asset-tab-bar__settings-menu ul ul.dropdown-content {
+  text-indent: 0;
+  margin-top: 60px;
+}
+.c-asset-tab-bar .c-asset-tab-bar__settings-menu ul ul.dropdown-content li {
+  text-indent: 0;
+  height: 50px;
+  border-bottom: 1px solid #e0e0e0;
+}
+.c-asset-tab-bar .c-asset-tab-bar__settings-menu ul ul.dropdown-content li:last-child {
+  border-bottom: none;
+}
+.c-asset-tab-bar .c-asset-tab-bar__settings-menu ul ul.dropdown-content li a {
+  text-indent: 0;
+  width: 100%;
+  height: auto;
+  color: black;
+}
+.c-asset-tab-bar .c-asset-tab-bar__settings-menu ul ul.dropdown-content li a:hover {
+  color: white;
+}
+
+.c-asset-tab-bar__edit-dashboard {
+  position: absolute;
+  top: 30%;
+  left: 40%;
+  right: 40%;
+  border-radius: 0;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background: white;
+  color: black;
+  overflow: visible;
+  -webkit-overflow-scrolling: touch;
+  outline: none;
+  z-index: 4001;
+}
+
+@media(max-width: 768px) {
+  .c-asset-tab-bar__edit-dashboard {
+    left: 10px;
+    right: 10px;
+    top: 60px;
+    bottom: 10px;
+  }
+}
+.c-asset-tab-bar__edit-dashboard__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 4000;
+  overflow: scroll;
+}
+
+.c-asset-tab-bar__edit-dashboard__dialog {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.c-asset-tab-bar__edit-dashboard__dialog header {
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #888;
+}
+.c-asset-tab-bar__edit-dashboard__dialog__title {
+  font-weight: bold;
+  font-size: 28px;
+}
+.c-asset-tab-bar__edit-dashboard__dialog__title, .c-asset-tab-bar__edit-dashboard__dialog__subtitle {
+  margin: 0;
+}
+.c-asset-tab-bar__edit-dashboard__dialog__checkbox {
+
+}
+.c-asset-tab-bar__edit-dashboard__dialog__done {
+  float: right;
+  border-radius: 0 !important;
+  width: 100%;
+  height: 40px;
+  margin-top: 15px;
+  vertical-align: bottom;
+}
+.c-asset-tab-bar__delete-dashboard__dialog__done, .c-asset-tab-bar__sort-dashboard__dialog__done {
+  float: right;
+  border-radius: 0 !important;
+  width: 100%;
+  height: 40px;
+  margin-top: 5px;
+  vertical-align: bottom;
+}
+.c-asset-tab-bar__delete-dashboard__dialog__cancel {
+  float: right;
+  border-radius: 0 !important;
+  width: 100%;
+  height: 40px;
+  margin-top: 5px;
+  vertical-align: bottom;
+  background-color: #888 !important;
+}
+.c-asset-tab-bar__edit-dashboard__dialog__button-row {
+  margin: 5px 0 0 0 !important;
+}
+.c-asset-tab-bar__edit-dashboard__bold {
+  font-weight: bold;
+}
+
+.c-asset-tab-bar__edit-dashboard__dialog .caret {
+  border-color: transparent !important;
+  margin: auto 15px 18px auto !important;
+}
+
+.c-asset-tab-bar__edit-dashboard__dialog .btn {
+  border-radius: 0;
+  width: 100%;
+  height: 35px;
+}
+
+.c-asset-tab-bar__edit-dashboard__dialog .btn span {
+  vertical-align: top;
+}
+
+.c-asset-tab-bar__edit-dashboard__dialog h5 {
+  font-size: 20px !important;
+}
+
+.c-asset-tab-bar__edit-dashboard__dialog .select-wrapper li span {
+  background-color: #e0e0e0;
+  color: #000000;
+}
+
+.c-asset-tab-bar__edit-dashboard__dialog .select-wrapper li:hover span {
+  background-color: #eeeeee;
+  color: #000000;
+}
+
+.c-asset-tab-bar__edit-dashboard__dialog .col.input-field label {
+  left: 0;
 }

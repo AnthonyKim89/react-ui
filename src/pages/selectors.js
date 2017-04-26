@@ -15,7 +15,13 @@ export const dashboards = createSelector(
   stateSelector,
   state => state.get('appSets')
     .valueSeq()
-    .filter(w => w.get('type') === 'dashboard')
+    .filter(w => w.get('type') === 'dashboard').sort((a, b) => {
+      let ao = a.get("order");
+      let bo = b.get("order");
+      if (ao < bo) { return -1; }
+      if (ao > bo) { return 1; }
+      return 0;
+    })
 );
 
 export const isLoading = createSelector(
@@ -28,11 +34,17 @@ export const isNative = createSelector(
   state => state.get('isNative')
 );
 
-export const assetPageTabs = createSelector(
+export const assetDashboards = createSelector(
   stateSelector,
   state => state.get('appSets')
     .valueSeq()
-    .filter(w => w.get('type') === 'asset_page_tab')
+    .filter(w => w.get('type') === 'asset_dashboard').sort((a, b) => {
+      let ao = a.get("order");
+      let bo = b.get("order");
+      if (ao < bo) { return -1; }
+      if (ao > bo) { return 1; }
+      return 0;
+    })
 );
 
 export const pageParams = createSelector(
@@ -42,14 +54,14 @@ export const pageParams = createSelector(
 
 export const currentDashboard = createSelector(
   dashboards,
-  (_, props) => parseInt(props.params.dashboardId, 10),
-  (dashboards, dashboardId) => dashboards.find(db => db.get('id') === dashboardId)
+  (_, props) => props.params.slug,
+  (dashboards, slug) => dashboards.find(db => db.get('slug') === slug)
 );
 
-export const currentAssetPageTab = createSelector(
-  assetPageTabs,
-  (_, props) => props.params.category,
-  (assetPageTabs, category) => assetPageTabs.find(p => p.get('category') === category)
+export const currentAssetDashboard = createSelector(
+  assetDashboards,
+  (_, props) => props.params.slug,
+  (assetDashboards, slug) => assetDashboards.find(p => p.get('slug') === slug)
 );
 
 export const currentPageParams = createSelector(
