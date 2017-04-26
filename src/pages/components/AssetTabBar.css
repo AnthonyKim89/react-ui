@@ -187,6 +187,7 @@
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 4000;
+  overflow: scroll;
 }
 
 .c-asset-tab-bar__edit-dashboard__dialog {
