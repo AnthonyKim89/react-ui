@@ -5,6 +5,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { SUBSCRIPTIONS } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
+import numeral from 'numeral';
 
 import './FrictionFactorApp.css';
 
@@ -14,7 +15,7 @@ class FrictionFactorApp extends Component {
     return (
       <div className="c-tnd-friction-factor">
         {this.getData() ?
-          <div>
+          <div className="c-tnd-friction-factor__factor-box">
             {this.renderFactor('Casing', 'casing')}
             {this.renderFactor('Open Hole Slackoff', 'open_hole_slackoff')}
             {this.renderFactor('Open Hole Pickup', 'open_hole_pickup')}
@@ -31,11 +32,11 @@ class FrictionFactorApp extends Component {
       </Col>
       <Col s={3}>
         <input type="number" className="c-tnd-friction-factor__input"
-               value={this.getData().getIn(['data', 'current_usage', fieldName])}
+               value={numeral(this.getData().getIn(['data', 'current_usage', fieldName])).format("0.00")}
                onChange={() => {}}/>
       </Col>
       <Col s={4} className="c-tnd-friction-factor__predicted">
-        *predicted {this.getData().getIn(['data', 'predicted', fieldName])}
+        *predicted {numeral(this.getData().getIn(['data', 'predicted', fieldName])).format("0.00")}
       </Col>
     </Row>;
   }

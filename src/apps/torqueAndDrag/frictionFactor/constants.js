@@ -4,7 +4,7 @@ export const SUBSCRIPTIONS = [{provider: 'corva', collection: 'torque-and-drag.f
 export const METADATA = {
   title: 'Friction Factor',
   settingsTitle: 'Friction Factor',
-  subtitle: 'Drillstring and borehole friction coefficient',
+  subtitle: 'Override automatic borehole friction coefficient',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',
   publishedAt: '2016-07-01T00:00:00'

@@ -141,11 +141,13 @@ class AppContainer extends Component {
     let message = this.props.errorData.get('message');
     let error_code = this.props.errorData.get('code');
     return (
-      <div className="c-app-container__error">
-        <div className="c-app-container__error-inner">
-          <Icon style={this.props.size === common.constants.Size.SMALL ? "font-size: 2rem;" : ""}>error_outline</Icon>
-          <h1>{message}</h1>
-          {this.renderErrorLink(error_code)}
+      <div className="c-app-container__error" title={message}>
+        <div className="c-app-container__error-grid">
+          <div className="c-app-container__error-inner">
+            <Icon style={this.props.size === common.constants.Size.SMALL ? "font-size: 2rem;" : ""}>error_outline</Icon>
+            <h1>{message}</h1>
+            {this.renderErrorLink(error_code)}
+          </div>
         </div>
       </div>
     );

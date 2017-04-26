@@ -145,6 +145,11 @@
     width: 100%;
     height: 100%;
     padding: 10px;
+    overflow: hidden;
+}
+
+.c-app-container__error-grid {
+    height: 100%;
     text-align: center;
     display: table;
 }
