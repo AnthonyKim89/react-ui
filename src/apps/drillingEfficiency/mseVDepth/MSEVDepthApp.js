@@ -53,7 +53,10 @@ class MSEVDepthApp extends Component {
     let series = [];
     for (let prop in SUPPORTED_CHART_SERIES) {
       if (SUPPORTED_CHART_SERIES.hasOwnProperty(prop)) {
-        series.push(this.getDataSeries(prop));
+        var s = this.getDataSeries(prop);
+        if(s) {
+          series.push(s);
+        }
       }
     }
     return series;
@@ -61,6 +64,7 @@ class MSEVDepthApp extends Component {
 
   getDataSeries(field) {
     let rawData = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', field]);
+    if (!rawData) return null;    
     let subtype = SUPPORTED_CHART_SERIES[field].subType;
     let unitType = SUPPORTED_CHART_SERIES[field].unitType;
     let unit = SUPPORTED_CHART_SERIES[field].unit;
