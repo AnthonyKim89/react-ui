@@ -1,0 +1,17 @@
+.c-pdm-operating-condition {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+.c-pdm-operating-condition div.row.chart-panel {
+  height: 100%;
+  padding-top: 10px;
+}
+
+.c-pdm-operating-condition .chart-panel div.col {
+  height: 100%;
+}

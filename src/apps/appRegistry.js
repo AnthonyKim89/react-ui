@@ -36,24 +36,39 @@ import traceTab from './trace/traceTab';
 import generalInfo from './settings/generalInfo';
 import drillstrings from './settings/drillstrings';
 import casing from './settings/casing';
+import actualSurveys from './settings/surveys/actual';
+import planSurveys from './settings/surveys/plan';
 import fluidChecks from './settings/fluidChecks';
 import costs from './settings/costs';
 import map from './settings/map';
 import formations from './settings/formations';
 import crewsContact from './settings/crewsContact';
 import nptEvents from './settings/nptEvents';
+import dailyReports from './settings/dailyReports';
+import wellSections from './settings/wellSections';
+import operationSummaries from './settings/operationSummaries';
 
 // CONTROL APPS
 import wellTimeline from './wellTimeline';
 
 // ANALYTICS APPS
 import raRigActivity from './rigActivity/rigActivity';
+import raDrillingOperations from './rigActivity/drillingOperations';
+import raDepthVersusDays from './rigActivity/depthVersusDays';
+import raRigScorecard from './rigActivity/rigScorecard';
+import raRopPerformance from './rigActivity/ropPerformance';
 
 // HYDRAULICS APPS
+import hydraulicsBedHeight from './hydraulics/bedHeight';
+import hydraulicsConcentration from './hydraulics/concentration';
 import hydraulicsMinimumFlowRate from './hydraulics/minimumFlowRate';
 import hydraulicsOverview from './hydraulics/overview';
 import hydraulicsPressureLoss from './hydraulics/pressureLoss';
 import hydraulicsPressureTrend from './hydraulics/pressureTrend';
+
+// PDM
+import pdmOperatingCondition from './pdm/operatingCondition';
+import pdmStallsHistory from './pdm/stallsHistory';
 
 // Apps that can be displayed on dashboard / asset pages, keyed by app type
 export const uiApps = Map({
@@ -112,29 +127,54 @@ export const uiApps = Map({
       generalInfo,
       drillstrings,
       casing,
+      actualSurveys,
+      planSurveys,
       fluidChecks,
       costs,
       map,
       formations,
       crewsContact,
-      nptEvents
+      nptEvents,
+      dailyReports,
+      wellSections,
+      operationSummaries
     })
   }),
   rigActivity: Map({
     title: 'Rig Activity',
     subtitle: '',
     appTypes: Map({
-      rigActivity: raRigActivity
+      rigActivity: raRigActivity,
+      drillingOperations: raDrillingOperations,
+      depthVersusDays: raDepthVersusDays,
+      rigScorecard: raRigScorecard
+    })
+  }),
+  analytics: Map({
+    title: 'Analytics',
+    subtitle: '',
+    appTypes: Map({
+      ropPerformance: raRopPerformance
     })
   }),
   hydraulics: Map({
     title: 'Hydraulics',
     subtitle: '',
     appTypes: Map({
+      bedHeight: hydraulicsBedHeight,
+      concentration: hydraulicsConcentration,
       minimumFlowRate: hydraulicsMinimumFlowRate,
       overview: hydraulicsOverview,
       pressureLoss: hydraulicsPressureLoss,
-      pressureTrend: hydraulicsPressureTrend,
+      pressureTrend: hydraulicsPressureTrend
+    })
+  }),
+  pdm: Map({
+    title: 'PDM',
+    subtitle: '',
+    appTypes: Map({
+      operatingCondition: pdmOperatingCondition,
+      stallsHistory: pdmStallsHistory
     })
   })
 });

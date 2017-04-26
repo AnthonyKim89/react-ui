@@ -11,10 +11,10 @@ import AssetPage from './pages/components/AssetPage';
 export const routes =
   <Route path="/" component={App}>
     <Route name="login" path="login" component={Login} />
-    <Route path="dashboards/:dashboardId" component={Dashboard} />
+    <Route path="dashboards/:slug" component={Dashboard} />
     <Route path="assets">
       <IndexRedirect to={assets.constants.ASSET_TYPES.keySeq().first()} />
       <Route path=":assetType" component={AssetListPage} />
-      <Route path=":assetId/:category" component={AssetPage} />
+      <Route path=":assetId/:slug" component={AssetPage} />
     </Route>
   </Route>;

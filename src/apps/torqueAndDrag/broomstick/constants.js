@@ -1,7 +1,7 @@
 export const CATEGORY = 'torqueAndDrag';
 export const NAME = 'broomstick';
 export const SUBSCRIPTIONS = [
-  {provider: 'corva', collection: 'torque-and-drag.broomstick'}
+  {provider: 'corva', collection: 'torque-and-drag.hookload-trend'}
 ];
 export const METADATA = {
   title: 'Hookload Trend Broomstick',

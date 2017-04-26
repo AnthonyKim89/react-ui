@@ -99,6 +99,33 @@ export async function getAppSets(userId) {
   return fromJS(data);
 }
 
+export async function getAppSet(userId, id) {
+  const data = await get(`/v1/users/${userId}/app_sets/${id}`);
+  return fromJS(data);
+}
+
+export async function postAppSet(userId, app_set) {
+  if (Map.isMap(app_set)) {
+    app_set = app_set.toJS();
+  }
+  const data = await post(`/v1/users/${userId}/app_sets`, app_set);
+  return fromJS(data);
+}
+
+export async function putAppSet(userId, id, app_set) {
+  if (Map.isMap(app_set)) {
+    app_set = app_set.toJS();
+  }
+  const data = await put(`/v1/users/${userId}/app_sets/${id}`, app_set);
+  return fromJS(data);
+}
+
+export async function deleteAppSet(userId, id) {
+  const data = await del(`/v1/users/${userId}/app_sets/${id}`);
+  return fromJS(data);
+}
+
+
 export async function createApp(userId, appSetId, app) {
   return await post(
     `/v1/users/${userId}/app_sets/${appSetId}/apps`,
@@ -133,8 +160,24 @@ export async function getActiveChildAsset(id) {
   return fromJS(data);
 }
 
+export async function postAsset(asset) {
+  if (Map.isMap(asset)) {
+    asset = asset.toJS();
+  }
+  const data = await post(`/v1/assets`, asset);
+  return fromJS(data);
+}
+
 export async function putAsset(id, asset) {
-  const data = await put(`/v1/assets/${id}`, asset.toJS());
+  if (Map.isMap(asset)) {
+    asset = asset.toJS();
+  }
+  const data = await put(`/v1/assets/${id}`, asset);
+  return fromJS(data);
+}
+
+export async function deleteAsset(id) {
+  const data = await del(`/v1/assets/${id}`);
   return fromJS(data);
 }
 
@@ -146,6 +189,12 @@ export async function getAppStorage(provider, collection, assetId, params = Map(
 
 export async function postAppStorage(provider, collection, item) {
   const response = await post(`/v1/data/${provider}/${collection}`, item.toJS());
+  return fromJS(response);
+}
+
+export async function postTaskDocument(provider, collection, data, params = Map()) {
+  const qry = queryString(params.toJS());  
+  const response = await post(`/v1/tasks/${provider}/${collection}?${qry}`, {data});
   return fromJS(response);
 }
 
@@ -162,4 +211,14 @@ export async function deleteAppStorage(provider, collection, id) {
 export async function getWellTimeline(wellId) {
   const data = await get(`/v1/jobs/${wellId}/drill_view_timeline_slider`);
   return fromJS(data);
+}
+
+export async function getS3SignedUrl(filename,contentType) {
+  const data = await get(`/v1/file/sign?file_name=${filename}&contentType=${contentType}`);  
+  return fromJS(data);
+}
+
+export function getFileDownloadLink(filename) {
+  const token = auth.getToken();
+  return `${baseUrl}/v1/file/download?file_name=${filename}&authorization=${token}`;  
 }

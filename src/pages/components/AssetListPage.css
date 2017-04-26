@@ -22,3 +22,138 @@
   margin-left: 10px;
   font-size: 1rem !important;
 }
+.c-asset-list-page__add-asset-column {
+  width: 45px;
+  list-style-type: none;
+  text-align: center;
+}
+.c-asset-list-page__add-asset-column a {
+  cursor: pointer;
+  color: white;
+}
+.c-asset-list-page__modify-asset-menu {
+  text-align: center;
+  list-style-type: none;
+  cursor: pointer;
+}
+.c-asset-list-page__modify-asset-menu a {
+  color: white;
+}
+.c-asset-list-page__modify-asset-menu ul.dropdown-content li {
+  border-bottom: 1px solid #e0e0e0;
+}
+.c-asset-list-page__modify-asset-menu ul.dropdown-content li:last-child {
+  border-bottom: none;
+}
+.c-asset-list-page__modify-asset-menu ul.dropdown-content li a {
+  color: #1e1f1f;
+}
+
+.c-asset-list-page__edit-asset {
+  position: absolute;
+  top: 30%;
+  left: 40%;
+  right: 40%;
+  border-radius: 0;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background: white;
+  color: black;
+  overflow: visible;
+  -webkit-overflow-scrolling: touch;
+  outline: none;
+  z-index: 4001;
+}
+
+@media(max-width: 768px) {
+  .c-asset-list-page__edit-asset {
+    left: 10px;
+    right: 10px;
+    top: 60px;
+    bottom: 10px;
+  }
+}
+
+.c-asset-list-page__edit-asset__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 4000;
+}
+
+.c-asset-list-page__edit-asset__dialog {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.c-asset-list-page__edit-asset__dialog header {
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #888;
+}
+.c-asset-list-page__edit-asset__dialog__title {
+  font-weight: bold;
+  font-size: 28px;
+}
+.c-asset-list-page__edit-asset__dialog__title, .c-asset-list-page__edit-asset__dialog__subtitle {
+  margin: 0;
+}
+.c-asset-list-page__edit-asset__dialog__done {
+  float: right;
+  border-radius: 0 !important;
+  width: 100%;
+  height: 40px;
+  margin-top: 5px;
+  vertical-align: bottom;
+}
+.c-asset-list-page__edit-asset__dialog__cancel {
+  float: right;
+  border-radius: 0 !important;
+  width: 100%;
+  height: 40px;
+  margin-top: 5px;
+  vertical-align: bottom;
+  background-color: #888 !important;
+}
+.c-asset-list-page__edit-asset__dialog__button-row {
+  margin: 5px 0 0 0 !important;
+}
+.c-asset-list-page__edit-asset__bold {
+  font-weight: bold;
+}
+
+.c-asset-list-page__edit-asset__dialog .caret {
+  border-color: transparent !important;
+  margin: auto 15px 18px auto !important;
+}
+
+.c-asset-list-page__edit-asset__dialog .btn {
+  border-radius: 0;
+  width: 100%;
+  height: 35px;
+}
+
+.c-asset-list-page__edit-asset__dialog .btn span {
+  vertical-align: top;
+}
+
+.c-asset-list-page__edit-asset__dialog h5 {
+  font-size: 20px !important;
+}
+
+.c-asset-list-page__edit-asset__dialog .select-wrapper li span {
+  background-color: #e0e0e0;
+  color: #000000;
+}
+
+.c-asset-list-page__edit-asset__dialog .select-wrapper li:hover span {
+  background-color: #eeeeee;
+  color: #000000;
+}
+
+.c-asset-list-page__edit-asset__dialog .col.input-field label {
+  left: 0;
+}

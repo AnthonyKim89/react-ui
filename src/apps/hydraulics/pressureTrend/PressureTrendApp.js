@@ -15,7 +15,7 @@ class PressureTrendApp extends Component {
   constructor(props) {
     super(props);
     this.state = {series: List()};
-  }
+  }  
 
   render() {
     return (
@@ -70,8 +70,8 @@ class PressureTrendApp extends Component {
         type: type,
         yAxis: 0,
         yAxisOpposite: false,
-        yAxisTitle: `Mud Weight (${this.props.convert.getUnitDisplay('pressure')})`,
-        data: List(this.getSeriesData('mud_weight', 'pressure', 'psi'))
+        yAxisTitle: `Mud Weight (${this.props.convert.getUnitDisplay('volume')}pm)`,
+        data: List(this.getSeriesData('mud_weight', 'volume', 'gal'))
     };
   }
 
@@ -83,8 +83,8 @@ class PressureTrendApp extends Component {
         type: type,
         yAxis: 0,
         yAxisOpposite: false,
-        yAxisTitle: `Mud Weight (${this.props.convert.getUnitDisplay('pressure')})`,
-        data: List(this.getSeriesData('equivalent_circulating_density', 'pressure', 'psi'))
+        yAxisTitle: `Mud Weight (${this.props.convert.getUnitDisplay('volume')}pm)`,
+        data: List(this.getSeriesData('equivalent_circulating_density', 'volume', 'gal'))
     };
   }
 
@@ -101,24 +101,16 @@ class PressureTrendApp extends Component {
     };
   }
 
-
-
-  getSeriesData(serieName, value_category, value_unit) {
+  getSeriesData(serieName, valueCategory, valueUnit) {
     let data = subscriptions.selectors.firstSubData(
         this.props.data, SUBSCRIPTIONS).getIn(['data', serieName]).toJSON();
-    data = this.props.convert.convertImmutables(data, 'measured_depth', 'length', 'ft'); 
-    data = this.props.convert.convertImmutables(data, 'value', 'volume', 'gal'); 
-    data = data.map(({measure_depth, value})  =>  
-    {
-        return Map({
-          measure_depth: measure_depth,
-          value: value
-        });
+    data = this.props.convert.convertImmutables(data, 'measured_depth', 'length', 'ft');
+    data = this.props.convert.convertImmutables(data, 'value', valueCategory, valueUnit);
+    data = data.map((datum) => {
+      return Map(datum);
     });
     return data;
   }
-
-
 
   getSeriesColor(seriesType) {
     if (this.props.graphColors && this.props.graphColors.has(seriesType)) {

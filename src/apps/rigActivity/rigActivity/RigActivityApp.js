@@ -2,21 +2,55 @@ import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Input } from 'react-materialize';
 import { format as formatDate } from 'date-fns';
+import { fromJS, Map } from 'immutable';
 
+import * as api from '../../../api';
 
-import { SUBSCRIPTIONS, ACTIVITY_COLORS, PERIOD_TYPES, DISPLAY_FORMATS } from './constants';
+import { ACTIVITY_COLORS, PERIOD_TYPES, DISPLAY_FORMATS, METADATA } from './constants';
 import PieChart from '../../../common/PieChart';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import common from '../../../common';
-import subscriptions from '../../../subscriptions';
 
 import './RigActivityApp.css';
 
 class RigActivityApp extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: Map()
+    };
+  }
+
+  componentDidMount() {
+    if (this.props.asset) {
+      this.getData();
+      var intervalId = setInterval(this.getData.bind(this), 60*60*1000);
+      this.setState({intervalId: intervalId});
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.intervalId);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.period !== nextProps.period || this.props.asset !== nextProps.asset) {
+      this.getData();
+    }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextProps.data !== this.props.data || 
+      nextProps.coordinates !== this.props.coordinates ||
+      nextProps.graphColors !== this.props.graphColors ||
+      nextProps.period !== this.props.period || 
+      nextProps.displayFormat !== this.props.displayFormat);
+  }
+
   render() {
     return (
-      this.getData() ?
+      this.readyToRender() ?
         <div className="c-ra-rig-activity">
           <div className="row">
             <div className={"col " + (this.isExpanded() ? "s6" : "s12")}>
@@ -59,6 +93,10 @@ class RigActivityApp extends Component {
     );
   }
 
+  readyToRender() {
+    return this.state.data && this.state.data.count() > 0;
+  }
+
   renderTable() {
     if (this.isExpanded()) {
       return (<div className="col s6">
@@ -72,7 +110,7 @@ class RigActivityApp extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.getData().getIn(['data', 'activities']).map(h =>
+            {this.state.data.getIn(['data', 'activities']).map(h =>
               <tr key={h.get('name')}>
                 <td><div className="square" style={{background: ACTIVITY_COLORS[h.get('name')]}}></div>{h.get('name')}</td>
                 <td>{this.roundNumber(h.get('day') + h.get('night'))}</td>
@@ -94,13 +132,64 @@ class RigActivityApp extends Component {
     return this.props.size === common.constants.Size.XLARGE || this.props.widthCols >= 6;
   }
 
-  getData() {
-    return subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS);
+  getFakeData() {
+    let data = {
+      "app": "ai.corva.rig_activity.rig_activity",
+      "timestamp": 1474347110,
+      "data": {
+        "start_timestamp": 1474347110,
+        "end_timestamp": 1474347110,
+        "activities": [{
+          "name": "Drilling Slide",
+          "day": 86.1,
+          "night": 43.3
+        },{
+          "name": "Drilling Rotary",
+          "day": 76.1,
+          "night": 67.3
+        },{
+          "name": "Connection",
+          "day": 3.1,
+          "night": 3.3
+        },{
+          "name": "Circulating",
+          "day": 77.1,
+          "night": 45.3
+        },{
+          "name": "Reaming Upwards",
+          "day": 3.1,
+          "night": 3.3
+        },{
+          "name": "Reaming Downwards",
+          "day": 3.1,
+          "night": 3.3
+        }]
+      }
+    };
+    data.timestamp = Math.floor(Date.now() / 1000);
+    data.data.start_timestamp = Math.floor(Date.now() / 1000 - 24*60*60);
+    data.data.end_timestamp = Math.floor(Date.now() / 1000);
+    data.data.activities.forEach(h => {
+      h.day *= Math.random()*0.2 + 0.8;
+      h.night *= Math.random()*0.2 + 0.8;
+    });
+    return fromJS(data);
+  }
+
+
+  async getData() {
+    let data = await api.getAppStorage(METADATA.provider, METADATA.collections[this.props.period], this.props.asset.get('id'), Map({
+      limit: 1
+    }));
+    data = this.getFakeData();
+    this.setState({
+      data: data
+    });
   }
 
   formatDatePeriod() {
-    const start_date = new Date(this.getData().getIn(['data', 'start_timestamp']) * 1000);
-    const end_date = new Date(this.getData().getIn(['data', 'end_timestamp']) * 1000);
+    const start_date = new Date(this.state.data.getIn(['data', 'start_timestamp']) * 1000);
+    const end_date = new Date(this.state.data.getIn(['data', 'end_timestamp']) * 1000);
     return formatDate(start_date, 'M/D h:mm') + " - " + formatDate(end_date, 'M/D h:mm');
   }
 
@@ -110,7 +199,7 @@ class RigActivityApp extends Component {
   }
 
   getGraphData(shift) {
-    return this.getData()
+    return this.state.data
     .getIn(['data', 'activities'])
     .map(h => ({
       "name": h.get('name'),

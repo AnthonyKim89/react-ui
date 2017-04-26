@@ -9,7 +9,7 @@
   border: 1px solid #ccc;
   background: white;
   color: black;
-  overflow: auto;
+  overflow: visible;
   -webkit-overflow-scrolling: touch;
   outline: none;
   z-index: 4001;

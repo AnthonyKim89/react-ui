@@ -60,13 +60,13 @@ export function lastDataUpdate(appData) {
   if (!appData) {
     return null;
   }
+
   return appData
     .valueSeq()
-    .map(coll => coll.valueSeq()
-                     .map(evts => evts.valueSeq())
-                     .last()
-                     .flatten(1)
-                     .map(d => d.get('timestamp')))
+    .map(collection => collection.valueSeq())
+      .last()
+      .flatten(1)
+      .map(d => d.get('timestamp'))
     .flatten()
     .filter(identity)
     .max();

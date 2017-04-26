@@ -1,0 +1,38 @@
+.c-pdm-stalls-history {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.c-pdm-stalls-history p {
+    padding: 0px;
+    margin: 0px;
+}
+.c-pdm-stalls-history .gaps {
+    margin-top: 15px;
+}
+
+.c-pdm-stalls-history .row .col {
+    padding-left: 3px;
+}
+
+.c-pdm-stalls-history-progress {
+    position: absolute;
+    bottom: 10px;
+    left: 3px;
+    right:0px;
+}
+
+.c-pdm-stalls-history-progress-label {
+    border-bottom: 1px solid #eee;
+    height:25px;
+    margin: 10px 0px;
+
+}
+
+.c-pdm-stalls-history-progress .overview-progress-item {
+    float: left;
+    height: 30px;
+}

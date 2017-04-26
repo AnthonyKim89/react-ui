@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 import { isEmpty, trim } from 'lodash';
 import { NAME, ASSET_TYPES } from './constants';
 
@@ -27,7 +27,36 @@ export const assetList = createSelector(
       );
     return Map({assets, parentTypes});
   }
-  
+);
+
+
+// A list of possible parent assets of the current asset (type is retrieved from params)
+export const possibleParentAssets = createSelector(
+  assets,
+  (_, props) => props.params.assetType,
+  (allAssets, assetTypeCode) => {
+    let possibleParents = new List();
+
+    if (assetTypeCode === 'program') {
+      return possibleParents; // Programs have no possible parents. Top of the tree.
+    } else if (assetTypeCode === 'rig') {
+      assetTypeCode = 'program'; // Parents of Rigs.
+    } else {
+      assetTypeCode = 'rig'; // Parents of Wells; default
+    }
+
+    // Adding each parent of the type we want to the list of possible parents.
+    allAssets.valueSeq().forEach((asset) => {
+      if (asset.get("asset_type") === assetTypeCode) {
+        possibleParents = possibleParents.push(asset);
+      }
+    });
+
+    return possibleParents.sortBy(
+      a => a.get('name'),
+      makeAssetComparator(false)
+    );
+  }
 );
 
 // The asset currently shown on the page, based on the params prop, usually coming from a route.

@@ -57,19 +57,30 @@ class Chart extends Component {
         },
         showFirstLabel: this.props.showFirstXLabel,
         showLastLabel: this.props.showLastXLabel,
+        max: this.props.xMaxValue || null,
         opposite: this.props.xAxisOpposite,
         tickPositioner: this.props.xTickPositioner,
         plotLines: this.props.xPlotLines,
-        type: this.props.xAxisType
+        type: this.props.xAxisType,
+        minorTickInterval: this.props.xAxisMinorTickInterval,
+        minorGridLineColor: this.props.xAxisMinorGridLineColor || 'rgb(47, 51, 51)',
+        tickInterval: this.props.xAxisTickInterval,
+        minorGridLineDashStyle: this.props.xAxisMinorGridLineDashStyle,
+        gridLineDashStyle: this.props.xAxisGridLineDashStyle,
+        plotBands: this.props.xPlotBands,
       },
       yAxis: this.getYAxes(series, this.props),
       title: {text: null},
       credits: {enabled: false},
       legend: {
-        align: 'right',
-        verticalAlign: 'middle',
-        layout: 'vertical',
-        itemStyle: {color: '#fff'},
+        align: this.props.legendAlign || 'right',
+        verticalAlign: this.props.legendVerticalAlign || 'middle',
+        layout: this.props.legendLayout || 'vertical',
+        itemStyle: {
+          color: '#bbb',
+          fontFamily: 'Open Sans',
+          fontWeight: 'regular'
+        },
         enabled: true,
       },
       series
@@ -161,10 +172,10 @@ class Chart extends Component {
   }
 
   getSeriesFromChild(child, props) {
-    const {type, title, data, color, id, yField, yAxis, yAxisTitle, yAxisOpposite, minValue, maxValue, dashStyle, lineWidth, pointPadding, groupPadding, borderWidth, marker} = child.props;
+    const {type, title, data, color, id, yField, yAxis, yAxisTitle, yAxisOpposite, minValue, maxValue, dashStyle, lineWidth, pointPadding, groupPadding, borderWidth, marker, fillOpacity, step} = child.props;
     return {
       id,
-      name: title, 
+      name: title,
       type: type || 'line',
       data: data.reduce((result, point) => {
         const x = point.get(props.xField);
@@ -179,12 +190,14 @@ class Chart extends Component {
       yAxisOpposite: yAxisOpposite,
       dashStyle: dashStyle || 'solid',
       color,
+      fillOpacity: fillOpacity || 0.75,
       marker: marker || {
         enabled: type === 'scatter',
         radius: 3,
         symbol: "circle"
       },
       lineWidth: lineWidth || (type === 'line' ? 3 : 0),
+      step: step || false,
       animation: false,
       showInLegend: this.isLegendVisible(props),
       minValue,
@@ -210,17 +223,18 @@ class Chart extends Component {
       id: series.yAxis,
       title: series.yAxisTitle || props.yAxisTitle || {text: null},
       visible: this.isAxisLabelsVisible(props),
-      gridLineWidth: props.gridLineWidth || 1,
+      gridLineWidth: props.yGridLineWidth || props.gridLineWidth || 1,
       gridLineColor: 'rgb(47, 51, 51)',
       labels: {
         enabled: this.isAxisLabelsVisible(props) && !props.hideYAxis,
         style:  props.yLabelStyle || {color: '#fff'},
         formatter: props.yAxisLabelFormatter,
+        format: "{value}",
         useHTML: true,
         reserveSpace: props.reserveYLabelSpace
       },
       opposite: series.yAxisOpposite ? series.yAxisOpposite : props.yAxisOpposite,
-      min: series.minValue || null,
+      min: series.minValue !== undefined ? series.minValue : null,
       max: series.maxValue || null,
       lineWidth: props.yAxisWidth || 0,
       lineColor:  props.yAxisColor || '',
@@ -241,7 +255,7 @@ class Chart extends Component {
   }
 
   isLegendVisible(props) {
-    return props.showLegend && (props.size === Size.XLARGE);
+    return props.forceLegend || (props.showLegend && (props.size === Size.XLARGE));
   }
 
   isAxisLabelsVisible(props) {
@@ -250,6 +264,7 @@ class Chart extends Component {
 }
 
 Chart.defaultProps = {
+  forceLegend: false,
   showLegend: true,
 };
 
@@ -263,7 +278,8 @@ Chart.propTypes = {
   yAxisOpposite: PropTypes.bool,
   multiAxis: PropTypes.bool,
   xAxisLabelformatter: PropTypes.func,
-  showLegend: PropTypes.bool, 
+  forceLegend: PropTypes.bool,
+  showLegend: PropTypes.bool,
   chartType: PropTypes.string,
   noSpacing: PropTypes.bool
 };
