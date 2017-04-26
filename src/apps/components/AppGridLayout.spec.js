@@ -2,11 +2,13 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { Map, Seq } from 'immutable';
 
+import Convert from '../../common/Convert';
 import AppGridLayout from './AppGridLayout';
 
 it('renders a fallback when mismatching app registry state exists', () => {
   global.console.log = jest.fn();
   const noop = () => {};
+  const convert = new Convert();
   const fakeCoordinates = Map({
     x: 1,
     y: 2
@@ -32,7 +34,7 @@ it('renders a fallback when mismatching app registry state exists', () => {
       onAppAdd={noop}
       onAppRemove={noop}
       onAssetModified={noop}
-      convert={noop}
+      convert={convert}
       isNative={true}
       location={location}
     />);

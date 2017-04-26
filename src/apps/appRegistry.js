@@ -46,6 +46,7 @@ import crewsContact from './settings/crewsContact';
 import nptEvents from './settings/nptEvents';
 import dailyReports from './settings/dailyReports';
 import wellSections from './settings/wellSections';
+import operationSummaries from './settings/operationSummaries';
 
 // CONTROL APPS
 import wellTimeline from './wellTimeline';
@@ -55,6 +56,7 @@ import raRigActivity from './rigActivity/rigActivity';
 import raDrillingOperations from './rigActivity/drillingOperations';
 import raDepthVersusDays from './rigActivity/depthVersusDays';
 import raRigScorecard from './rigActivity/rigScorecard';
+import raRopPerformance from './rigActivity/ropPerformance';
 
 // HYDRAULICS APPS
 import hydraulicsBedHeight from './hydraulics/bedHeight';
@@ -66,6 +68,7 @@ import hydraulicsPressureTrend from './hydraulics/pressureTrend';
 
 // PDM
 import pdmOperatingCondition from './pdm/operatingCondition';
+import pdmStallsHistory from './pdm/stallsHistory';
 
 // Apps that can be displayed on dashboard / asset pages, keyed by app type
 export const uiApps = Map({
@@ -133,7 +136,8 @@ export const uiApps = Map({
       crewsContact,
       nptEvents,
       dailyReports,
-      wellSections
+      wellSections,
+      operationSummaries
     })
   }),
   rigActivity: Map({
@@ -144,6 +148,13 @@ export const uiApps = Map({
       drillingOperations: raDrillingOperations,
       depthVersusDays: raDepthVersusDays,
       rigScorecard: raRigScorecard
+    })
+  }),
+  analytics: Map({
+    title: 'Analytics',
+    subtitle: '',
+    appTypes: Map({
+      ropPerformance: raRopPerformance
     })
   }),
   hydraulics: Map({
@@ -162,7 +173,8 @@ export const uiApps = Map({
     title: 'PDM',
     subtitle: '',
     appTypes: Map({
-      operatingCondition: pdmOperatingCondition
+      operatingCondition: pdmOperatingCondition,
+      stallsHistory: pdmStallsHistory
     })
   })
 });
