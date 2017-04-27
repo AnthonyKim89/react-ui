@@ -11,6 +11,20 @@ import './DrillstringAttributeForm.css';
 
 class DrillstringAttributeForm extends Component {
 
+  constructor(props) {
+    super(props);
+    this.initialDate = moment().unix();    
+  }
+
+  componentWillMount() {
+    if (!this.getAttr('start_timestamp')) {
+      this.updateAttrs([
+        {name:"start_timestamp",value:this.initialDate},
+        {name:"end_timestamp", value:this.initialDate}]
+      );
+    }
+  }
+
   componentDidMount() {
     // this is hack code to fix the known placeholder bug in materialize
     // this should be the global solution by forking the react-materialize repo
@@ -60,14 +74,14 @@ class DrillstringAttributeForm extends Component {
         <Col m={4}>
           <label> Time In </label>
           <Datetime 
-            defaultValue={this.getAttr('start_timestamp')? moment.unix(this.getAttr('start_timestamp')): moment()} 
+            defaultValue={this.getAttr('start_timestamp')? moment.unix(this.getAttr('start_timestamp')): moment.unix(this.initialDate)} 
             onChange={this.startTimeChanged.bind(this)} />
         </Col>
 
         <Col m={4}>
           <label> Time Out </label>
           <Datetime 
-            defaultValue={this.getAttr('end_timestamp')? moment.unix(this.getAttr('end_timestamp')): moment()} 
+            defaultValue={this.getAttr('end_timestamp')? moment.unix(this.getAttr('end_timestamp')): moment.unix(this.initialDate)} 
             onChange={this.endTimeChanged.bind(this)} />
         </Col>
 
@@ -110,6 +124,18 @@ class DrillstringAttributeForm extends Component {
     this.props.onUpdateRecord(this.props.record.setIn(['data', name], value));
   }
 
+  updateAttrs(nameValuePairs) {    
+    let record = this.props.record;
+    nameValuePairs.map(nameValue=> {
+      let {name,value} = nameValue;
+      record = record.setIn(['data', name], value);
+      return nameValue;
+    });
+
+    if (record) {
+      this.props.onUpdateRecord(record);
+    }    
+  }
 }
 
 DrillstringAttributeForm.propTypes = {

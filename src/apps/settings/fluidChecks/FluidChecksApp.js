@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { format as formatTime } from 'date-fns';
+import moment from 'moment';
+import numeral from 'numeral';
 
 import SettingsRecordManager from '../components/SettingsRecordManager';
 
@@ -135,8 +136,10 @@ class FluidChecksApp extends Component {
   }
 
   renderFluidCheckListItem(fluidCheck) {
-    const timestamp = formatTime(fluidCheck.get('timestamp') * 1000, 'ddd MMM Do YYYY');
-    return `Date ${timestamp}`;
+    const dateString =  moment.unix(fluidCheck.getIn(['data','date'])).format('LL');
+    const depth = fluidCheck.getIn(['data','depth']);
+    const depthString = depth? ` - (${numeral(depth).format('0,0')} ${this.props.convert.getUnitDisplay('length')})`: "";
+    return `Date ${dateString}${depthString}`;
   }
 }
 

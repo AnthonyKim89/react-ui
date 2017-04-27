@@ -4,7 +4,6 @@ import { Row, Col, Input, Button} from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import {List, Map } from 'immutable';
 import uuidV1 from 'uuid/v1';
-import moment from 'moment';
 
 import './FluidCheckViscosity.css';
 class FluidCheckViscosity extends Component {
@@ -34,22 +33,7 @@ class FluidCheckViscosity extends Component {
       {!this.props.isEditable? 
         <div>
           <hr/>
-
-          <Row>
-            <Col l={4} m={6} s={12}>
-              <div>Date</div>
-              <div>
-                {moment.unix(this.props.record.getIn(['data', 'date'])).format('LL')}
-              </div>
-            </Col>
-            <Col l={4} m={6} s={12}>
-              <div>Depth</div>
-              <div>
-                {this.props.record.getIn(['data', 'depth'])}
-              </div>
-            </Col>
-          </Row>
-
+                  
           <Row>
             <Col l={4} m={6} s={12}>
               <div>Mud cake thickness (30 min)</div>

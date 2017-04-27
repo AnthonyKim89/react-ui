@@ -73,7 +73,7 @@ class SettingsRecordEditor extends Component {
     
   }
 
-  saveRecord() {    
+  saveRecord() {
     if (this.props.recordValidator) {
       let errors = this.props.recordValidator(this.state.record);
       if (errors) {
@@ -85,9 +85,9 @@ class SettingsRecordEditor extends Component {
       let convertedRecord = this.props.convertRecordBackToImperialUnit(this.state.record);
       this.props.onSave(convertedRecord);
     }
-    else {
+    else {      
       this.props.onSave(this.state.record);
-    }    
+    }
   }
 
   updateRecord(record) {

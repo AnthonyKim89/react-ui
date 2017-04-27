@@ -9,11 +9,24 @@ import 'react-datetime/css/react-datetime.css';
 import './FluidCheckAttributeForm.css';
 
 class FluidCheckAttributeForm extends Component {
+  constructor(props) {
+    super(props);
+    this.initialDate = moment().unix();    
+  }
+
+  componentWillMount() {
+    if (!this.getAttr('date')) {      
+      this.updateAttr('date',this.initialDate);
+    }
+  }
+ 
   componentDidMount() {
     // this is hack code to fix the known placeholder bug in materialize
     // this should be the global solution by forking the react-materialize repo
     // or we should consider using other materialize library.
     this.fixPlaceholderIssue();
+    
+    
   }
   render() {
     return <div>
@@ -44,7 +57,7 @@ class FluidCheckAttributeForm extends Component {
         <Col m={4}>
           <label> Date </label>
           <Datetime 
-            defaultValue={this.getAttr('date')? moment.unix(this.getAttr('date')): moment()} 
+            defaultValue={this.getAttr('date')? moment.unix(this.getAttr('date')): moment.unix(this.initialDate)} 
             onChange={this.selectDate.bind(this)} 
             timeFormat={false}/>
         </Col>
@@ -111,7 +124,7 @@ class FluidCheckAttributeForm extends Component {
     }
   }
 
-  selectDate(newDateTime) {
+  selectDate(newDateTime) {    
     this.updateAttr('date',newDateTime.unix());    
   }
 

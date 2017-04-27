@@ -6,11 +6,12 @@ import Convert from '../../../common/Convert';
 import './SettingsRecordBrowser.css';
 class SettingsRecordBrowser extends Component {
 
-  render() {
+  render() {    
     return <div className="c-settings-record-browser">      
       <Row className="c-settings-record-browser__filter">
         <Input m={11}                
                type="select"
+               defaultValue={this.props.displayingRecord? this.props.displayingRecord.get('_id'): ''}
                onChange={evt => this.onSelectChange(evt.target.value)}>
             {this.props.records.map(r =>
               <option key={r.get('_id')} value={r.get('_id')}>
