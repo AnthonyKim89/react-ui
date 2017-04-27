@@ -42,7 +42,8 @@ class RigActivityApp extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return (nextProps.data !== this.props.data || 
+    return (nextState.data !== this.props.data || 
+      nextProps.data !== this.props.data || 
       nextProps.coordinates !== this.props.coordinates ||
       nextProps.graphColors !== this.props.graphColors ||
       nextProps.period !== this.props.period || 
@@ -185,6 +186,10 @@ class RigActivityApp extends Component {
 
 
   async getData() {
+    // Reset state
+    this.setState({
+      data: null
+    });
     let data = await api.getAppStorage(METADATA.provider, METADATA.collections[this.props.period], this.props.asset.get('id'), Map({
       limit: 1
     }));
