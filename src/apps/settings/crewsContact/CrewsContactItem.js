@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Input, Button} from 'react-materialize';
 import { Map } from 'immutable';
@@ -22,6 +23,12 @@ class CrewsContactItem extends Component {
     };
   }
   
+  componentDidMount() {
+    if (this.state.editing) {
+      ReactDOM.findDOMNode(this.refs["name"]).children[0].focus();
+    }
+  }
+
   render() {
 
     let {name,phone,shift,rotation,position} = this.state.data;
@@ -48,7 +55,9 @@ class CrewsContactItem extends Component {
             s={12}
             label="Name"
             defaultValue={name}
+            ref="name"
             error={this.state.errors.name}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{name: e.target.value})} )} />
         </td>
 
@@ -57,6 +66,7 @@ class CrewsContactItem extends Component {
             s={12}
             label="Phone"
             defaultValue={phone}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{phone: e.target.value})} )} />
         </td>
 
@@ -77,6 +87,7 @@ class CrewsContactItem extends Component {
             s={12}
             label="Rotation"
             defaultValue={rotation}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{rotation: e.target.value})} )} />
         </td>
 
@@ -85,6 +96,7 @@ class CrewsContactItem extends Component {
             s={12}
             label="Position"            
             defaultValue={position}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{position: e.target.value})} )} />
         </td>
         
@@ -96,8 +108,13 @@ class CrewsContactItem extends Component {
     );
   }
 
-  save() {
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      this.save(true);
+    }
+  }
 
+  save(byKeyBoard) {
     let {name} = this.state.data;
     let hasErrors = false;
     let errors = {};
@@ -118,7 +135,8 @@ class CrewsContactItem extends Component {
       return Map(this.state.data);
     });
 
-    this.props.onSave(record);
+    this.props.onSave(record, (!this.props.record.has("_id") && byKeyBoard));
+    
     if (this.props.record.has("_id")) {
       this.setState({editing:false});
     }

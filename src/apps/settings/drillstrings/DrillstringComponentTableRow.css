@@ -1,0 +1,16 @@
+.c-drillstring-component-table-row td,
+.c-drillstring-component-table-row td .col {
+  margin: 0;
+}
+
+.c-drillstring-component-table-row .input-field.col label{
+  width: 100%;
+}
+
+.c-drillstring-component-table-row .input-field.col label:after{
+  top:40px;
+}
+
+.c-drillstring-component-table-row .select-wrapper ul {
+  width: 160px !important;
+}

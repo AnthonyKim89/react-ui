@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Input, Button} from 'react-materialize';
+import numeral from 'numeral';
 
 import './CasingItem.css';
 
@@ -47,18 +48,24 @@ class CasingItem extends Component {
     this.onCalcLength = this.onCalcLength.bind(this);
   }
   
+  componentDidMount() {
+    if (this.state.editing) {
+      ReactDOM.findDOMNode(this.refs["i_d"]).children[0].focus();
+    }
+  }
+
   render() {
 
     let {id,od,top_depth,bottom_depth,length,linear_mass,grade} = this.state.data;
     
     if (!this.state.editing) return (
       <tr className="c-casing-item">
-        <td>{this.props.convert.convertValue(parseFloat(id), "shortLength", "in").fixFloat(2)}</td>
-        <td>{this.props.convert.convertValue(parseFloat(od), "shortLength", "in").fixFloat(2)}</td>
-        <td className="hide-on-med-and-down">{this.props.convert.convertValue(parseFloat(top_depth), "length", "ft").fixFloat(2)}</td>
-        <td className="hide-on-med-and-down">{this.props.convert.convertValue(parseFloat(bottom_depth), "length", "ft").fixFloat(2)}</td>
-        <td>{this.props.convert.convertValue(parseFloat(length), "length", "ft").fixFloat(2)}</td>
-        <td className="hide-on-med-and-down">{this.props.convert.convertValue(parseFloat(linear_mass), "force", "lbf").fixFloat(2)}</td>
+        <td>{numeral(this.props.convert.convertValue(parseFloat(id), "shortLength", "in")).format('0,0.00')}</td>
+        <td>{numeral(this.props.convert.convertValue(parseFloat(od), "shortLength", "in")).format('0,0.00')}</td>
+        <td className="hide-on-med-and-down">{numeral(this.props.convert.convertValue(parseFloat(top_depth), "length", "ft")).format('0,0.00')}</td>        
+        <td className="hide-on-med-and-down">{numeral(this.props.convert.convertValue(parseFloat(bottom_depth), "length", "ft")).format('0,0.00')}</td>        
+        <td>{numeral(this.props.convert.convertValue(parseFloat(length), "length", "ft")).format('0,0.00')}</td>
+        <td className="hide-on-med-and-down">{numeral(this.props.convert.convertValue(parseFloat(linear_mass), "force", "lbf")).format('0,0.00')}</td>
         <td className="hide-on-med-and-down">{grade}</td>
         <td className="hide-on-med-and-down">
           <Button floating className='lightblue view-action' waves='light' icon='edit'
@@ -74,51 +81,57 @@ class CasingItem extends Component {
           <Input type="number"
             s={12}
             label="I.D"
-            defaultValue={id? this.props.convert.convertValue(parseFloat(id), "shortLength", "in").fixFloat(2): id}
+            defaultValue={id? numeral(this.props.convert.convertValue(parseFloat(id), "shortLength", "in")).format('0.00'): id}
+            ref="i_d"
             error={this.state.errors.id}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{id: e.target.value})} )} 
-            onBlur={this.onCalcLinearMass}/>
+            onKeyPress={this.handleKeyPress.bind(this)}
+            onChange={e => this.setState({data: Object.assign({},this.state.data,{id: e.target.value})}, this.onCalcLinearMass )} 
+            />
         </td>
 
         <td>
           <Input type="number"
             s={12}
             label="O.D"
-            defaultValue={od? this.props.convert.convertValue(parseFloat(od), "shortLength", "in").fixFloat(2): od}
+            defaultValue={od? numeral(this.props.convert.convertValue(parseFloat(od), "shortLength", "in")).format('0.00'): od}
             error={this.state.errors.od}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{od: e.target.value})} )} 
-            onBlur={this.onCalcLinearMass}/>
+            onKeyPress={this.handleKeyPress.bind(this)}
+            onChange={e => this.setState({data: Object.assign({},this.state.data,{od: e.target.value})}, this.onCalcLinearMass )} 
+            />
         </td>
 
         <td className="hide-on-med-and-down">
           <Input type="number"
             s={12}
             label="Top Depth"
-            defaultValue={top_depth? this.props.convert.convertValue(parseFloat(top_depth), "length", "ft").fixFloat(2): top_depth}
+            defaultValue={top_depth? numeral(this.props.convert.convertValue(parseFloat(top_depth), "length", "ft")).format('0.00') : top_depth}
             error={this.state.errors.top_depth}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{top_depth: e.target.value})} )} 
-            onBlur={this.onCalcLength}/>
+            onKeyPress={this.handleKeyPress.bind(this)}
+            onChange={e => this.setState({data: Object.assign({},this.state.data,{top_depth: e.target.value})}, this.onCalcLength) } 
+            />
         </td>
 
         <td className="hide-on-med-and-down">
           <Input type="number"
             s={12}
             label="Bottom Depth"
-            defaultValue={bottom_depth? this.props.convert.convertValue(parseFloat(bottom_depth), "length", "ft").fixFloat(2): bottom_depth}
+            defaultValue={bottom_depth? numeral(this.props.convert.convertValue(parseFloat(bottom_depth), "length", "ft")).format('0.00'): bottom_depth}
             error={this.state.errors.bottom_depth}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{bottom_depth: e.target.value})} )} 
-            onBlur={this.onCalcLength}/>
+            onKeyPress={this.handleKeyPress.bind(this)}
+            onChange={e => this.setState({data: Object.assign({},this.state.data,{bottom_depth: e.target.value})}, this.onCalcLength )} 
+            />
         </td>
 
-        <td>{length? this.props.convert.convertValue(parseFloat(length), "length", "ft").fixFloat(2): length}</td>
+        <td>{length? numeral(this.props.convert.convertValue(parseFloat(length), "length", "ft")).format('0,0.00'): length}</td>
 
         <td className="hide-on-med-and-down">
           <Input type="number"
             s={12}
             label="Linear Mass"
-            defaultValue={linear_mass? this.props.convert.convertValue(parseFloat(linear_mass), "force", "lbf").fixFloat(2): linear_mass}
+            defaultValue={linear_mass? numeral(this.props.convert.convertValue(parseFloat(linear_mass), "force", "lbf")).format('0.00'): linear_mass}
             ref="linearMassInput"
             error={this.state.errors.linear_mass}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{linear_mass: e.target.value})})} />
         </td>
 
@@ -127,6 +140,7 @@ class CasingItem extends Component {
             s={12}
             label="Grade"            
             defaultValue={grade}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{grade: e.target.value})} )} />
         </td>
         
@@ -178,24 +192,30 @@ class CasingItem extends Component {
     if (this.isValidNumber(id,this.U_MIN_ID,this.U_MAX_ID) && this.isValidNumber(od,this.U_MIN_OD,this.U_MAX_OD) && this.isValidNumber(id,this.U_MIN_ID,od)) {
       let calLW = this.deriveLinearMass(id,od);
       this.setState({data: Object.assign({},this.state.data,{linear_mass: calLW})});
-      ReactDOM.findDOMNode(this.refs.linearMassInput).children[0].value = calLW.fixFloat(2) ;
+      ReactDOM.findDOMNode(this.refs.linearMassInput).children[0].value = numeral(calLW).format('0.00');
       ReactDOM.findDOMNode(this.refs.linearMassInput).children[1].className="active";
+    }
+    else {
+      ReactDOM.findDOMNode(this.refs.linearMassInput).children[0].value = "";
+      ReactDOM.findDOMNode(this.refs.linearMassInput).children[1].className="";
+      this.setState({data: Object.assign({},this.state.data,{linear_mass: null})});
     }
     
   }
 
   onCalcLength() {
-    let {top_depth,bottom_depth} = this.state.data;
-
+    let {top_depth,bottom_depth} = this.state.data;      
     if (this.isValidNumber(top_depth,this.U_MIN_TOP_DEPTH,this.U_MAX_TOP_DEPTH) && this.isValidNumber(bottom_depth,this.U_MIN_TOP_DEPTH,this.U_MAX_TOP_DEPTH) && this.isValidNumber(top_depth,this.U_MIN_TOP_DEPTH,bottom_depth)) {
       this.setState({data: Object.assign({},this.state.data,{length: bottom_depth-top_depth})});
     }
-
+    else {
+      this.setState({data: Object.assign({},this.state.data,{length: null})});    
+    }
   }
 
   hasFormErrors() {
 
-    let {id,od,top_depth,bottom_depth,linear_mass} = this.state.data;
+    let {id,od,top_depth,bottom_depth,length,linear_mass} = this.state.data;
 
     let hasErrors = false;
     let errors = {};
@@ -233,6 +253,11 @@ class CasingItem extends Component {
       hasErrors = true;      
     }
 
+    if (!this.isValidNumber(length,0)) {
+      errors["length"] = "Invalid Length";
+      hasErrors = true;
+    }
+
     if (!this.isValidNumber(linear_mass,0)) {
       errors["linear_mass"] = "Invalid Linear Mass";
       hasErrors = true;
@@ -250,8 +275,13 @@ class CasingItem extends Component {
     
   }
   
-  save() {
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      this.save(true);
+    }
+  }
 
+  save(byKeyBoard) {
     if (this.hasFormErrors()) {
       return;
     }
@@ -268,7 +298,8 @@ class CasingItem extends Component {
         .set("grade",grade);
     });
 
-    this.props.onSave(record);
+    this.props.onSave(record, (!this.props.record.has("_id") && byKeyBoard));
+    
     if (this.props.record.has("_id")) {
       this.setState({editing:false});
     }

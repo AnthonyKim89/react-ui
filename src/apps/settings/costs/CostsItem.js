@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Input, Button} from 'react-materialize';
 import moment from 'moment';
@@ -23,6 +24,12 @@ class CostsItem extends Component {
     };
    
     this.selectDate = this.selectDate.bind(this); 
+  }
+
+  componentDidMount() {
+    if (this.state.editing) {
+      ReactDOM.findDOMNode(this.refs["cost"]).children[0].focus();
+    }
   }
   
   render() {
@@ -55,14 +62,18 @@ class CostsItem extends Component {
             s={12}
             label="cost"
             error={this.state.errors.cost}
+            ref="cost"
             defaultValue={cost}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{cost:e.target.value})} )} />
         </td>
         <td className="hide-on-med-and-down">
           <Input type="text" 
             s={12}
             label="description"
+            ref="description"
             defaultValue={description}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{description: e.target.value})} )} />
         </td>
         <td className="hide-on-med-and-down">
@@ -73,8 +84,14 @@ class CostsItem extends Component {
     );
   }
 
-  save() {
 
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      this.save(true);
+    }
+  }
+
+  save(byKeyBoard) {
     let {date,cost,description} = this.state.data;
     
     if (isNaN(parseFloat(cost)) || parseFloat(cost) <=0 ) {
@@ -90,7 +107,7 @@ class CostsItem extends Component {
         .set("description",description);
     });
 
-    this.props.onSave(record);
+    this.props.onSave(record, (!this.props.record.has("_id") && byKeyBoard));
 
     if (this.props.record.has("_id")) {
       this.setState({editing:false});

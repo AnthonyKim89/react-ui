@@ -1,0 +1,11 @@
+.c-fluid-checks-editor__attributes.row {
+  margin-bottom: 0px;
+}
+
+.c-fluid-checks-editor__attributes .input-field.col label{
+  width: 100%;
+}
+
+.c-fluid-checks-editor__attributes .input-field.col label:after{
+  top:40px;
+}

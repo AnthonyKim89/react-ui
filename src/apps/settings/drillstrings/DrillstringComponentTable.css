@@ -10,9 +10,23 @@
   background-color: rgb(42, 41, 41);
 }
 
-.c-drillstring-component-table th,
-.c-drillstring-component-table td,
-.c-drillstring-component-table td .col {
+.c-drillstring-component-table th {
   margin: 0;
-  padding: 0 5px;
+  padding: 0 5px;  
+}
+
+.c-drillstring-component-specific-data .row {
+  margin-bottom: 0px;
+}
+
+.c-drillstring-component-specific-data h5 {
+  margin: 0px;
+}
+
+.c-drillstring-component-specific-data .input-field.col label{
+  width: 100%;
+}
+
+.c-drillstring-component-specific-data .input-field.col label:after{
+  top:40px;
 }

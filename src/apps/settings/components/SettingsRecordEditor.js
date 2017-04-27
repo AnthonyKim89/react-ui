@@ -9,12 +9,11 @@ class SettingsRecordEditor extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {record: props.record};
+    this.state = {record: props.record,errors:{}};
   }
 
   render() {
     return <div className="c-settings-record-editor">
-      {this.renderTitle()}
       {this.renderAttributeForm()}
       {this.renderSummary()}
       {this.renderRecordDetails()}
@@ -22,22 +21,20 @@ class SettingsRecordEditor extends Component {
     </div>;
   }
 
-  renderTitle() {
-    if (this.props.record.get('_id')) {
-      return <Row><Col m={12}><h4>Edit {this.props.recordNameSingular}</h4></Col></Row>;
-    } else {
-      return <Row><Col m={12}><h4>Add {this.props.recordNameSingular}</h4></Col></Row>;
-    }
-  }
-
   renderAttributeForm() {
-    return <this.props.RecordAttributeForm
+    return <this.props.RecordAttributeForm              
               record={this.state.record}
+              errors={this.state.errors}
               convert={this.props.convert}
+              onSave={this.saveRecord.bind(this)}
               onUpdateRecord={r => this.updateRecord(r)} />;
   }
 
   renderSummary() {
+    if (!this.props.RecordSummary) {
+      return '';
+    }
+
     return <Row>
       <Col m={12}>
         <this.props.RecordSummary
@@ -50,29 +47,47 @@ class SettingsRecordEditor extends Component {
   }
 
   renderRecordDetails() {
-    return <Row>
-      <Col m={12}>
-        <this.props.RecordDetails
-          record={this.state.record}
-          convert={this.props.convert}
-          isEditable={true}
-          onUpdateRecord={r => this.updateRecord(r)}/>
-      </Col>
-    </Row>;
+    return (
+      <this.props.RecordDetails
+        record={this.state.record}
+        errors={this.state.errors}
+        convert={this.props.convert}
+        isEditable={true}
+        onSave={this.saveRecord.bind(this)}
+        onUpdateRecord={r => this.updateRecord(r)}/>
+    );      
   }
 
   renderActions() {
-    return <Row className="c-settings-record-editor__actions">
-      <Col m={12}>
-        <Button onClick={() => this.props.onSave(this.state.record)}>
+    return (
+      <div className="c-settings-record-editor__actions">      
+        <Button onClick={() => this.saveRecord()}>
           Save
         </Button>
-        &nbsp;or&nbsp;
         <a onClick={() => this.props.onCancel()}>
           Cancel
         </a>
-      </Col>
-    </Row>;
+      </div>
+    );
+      
+    
+  }
+
+  saveRecord() {
+    if (this.props.recordValidator) {
+      let errors = this.props.recordValidator(this.state.record);
+      if (errors) {
+        this.setState({errors:errors});
+        return;        
+      }      
+    }
+    if (this.props.convertRecordBackToImperialUnit) {
+      let convertedRecord = this.props.convertRecordBackToImperialUnit(this.state.record);
+      this.props.onSave(convertedRecord);
+    }
+    else {      
+      this.props.onSave(this.state.record);
+    }
   }
 
   updateRecord(record) {
@@ -84,7 +99,6 @@ class SettingsRecordEditor extends Component {
 SettingsRecordEditor.propTypes = {
   recordNameSingular: PropTypes.string.isRequired,
   RecordAttributeForm: PropTypes.func.isRequired,
-  RecordSummary: PropTypes.func.isRequired,
   RecordDetails: PropTypes.func.isRequired,
   record: ImmutablePropTypes.map.isRequired,
   onSave: PropTypes.func.isRequired,
