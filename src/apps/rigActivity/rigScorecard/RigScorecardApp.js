@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import * as _ from 'lodash';
 import { fromJS, Map, List } from 'immutable';
+import { Size } from '../../../common/constants';
 
 import * as api from '../../../api';
 
@@ -43,7 +44,7 @@ class RigScorecardApp extends Component {
               </ColumnChart>
             </div>
           </div>
-          <div className="row action-panel">
+          <div className={(this.props.size !== Size.XLARGE) ? 'row action-panel action-panel-clipped' : 'row action-panel action-panel-scroll'}>
             <div className="col s12">
               <table className="chart-table">
                 <thead>
@@ -56,7 +57,7 @@ class RigScorecardApp extends Component {
                     <th data-field="score">Score</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody class="c-ra-rig-scorecard__rows">
                   {this.state.data.map((h, order) =>
                     <tr key={h.get('asset_id')}>
                       <td className="rank">{order + 1}</td>

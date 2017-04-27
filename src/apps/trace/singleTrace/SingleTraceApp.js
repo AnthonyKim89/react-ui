@@ -10,6 +10,7 @@ import { SUPPORTED_TRACES } from '../constants';
 import Chart from '../../../common/Chart';
 import ChartSeries from '../../../common/ChartSeries';
 import LoadingIndicator from '../../../common/LoadingIndicator';
+import { Size } from '../../../common/constants';
 import subscriptions from '../../../subscriptions';
 
 import './SingleTraceApp.css';
@@ -42,11 +43,9 @@ class SingleTraceApp extends Component {
         {this.hasLatestTrace() ?
           this.renderLatestTrace() :
           <div className="c-trace-single__loading"><LoadingIndicator /></div>}
-        {this.getTraceSummary(this.props) ?
-          this.renderTraceSummaryGraph() :
-          <LoadingIndicator />}
+        {this.renderTraceSummaryGraphArea()}
       </div>
-    );
+    ); 
   }
 
   renderLatestTrace() {
@@ -69,7 +68,14 @@ class SingleTraceApp extends Component {
     );
   }
 
+  renderTraceSummaryGraphArea() {
+    if(this.props.size && this.props.size !== Size.SMALL) {
+      return this.getTraceSummary(this.props) ? this.renderTraceSummaryGraph() : <LoadingIndicator />;
+    }
+  }
+
   renderTraceSummaryGraph() {
+
     let summary = this.getSummaryData();
     let traceSpec = this.getTrace();
 

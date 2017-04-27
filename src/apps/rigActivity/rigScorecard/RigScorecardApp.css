@@ -61,6 +61,15 @@
 .c-ra-rig-scorecard .action-panel {
 	bottom: 0;
 	margin: 0;
+	height: calc(100% - 250px);	
+}
+
+.c-ra-rig-scorecard .action-panel-scroll {
+	overflow: auto;	
+}
+
+.c-ra-rig-scorecard .action-panel-clipped {
+	overflow: hidden;	
 }
 
 .c-ra-rig-scorecard .action-panel .select-period input {
@@ -82,4 +91,8 @@
 	margin-left: 1rem;
 	font-size: 0.815rem;
 	float: left;
+}
+
+
+.c-ra-rig-scorecard__rows {
 }

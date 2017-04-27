@@ -80,7 +80,7 @@ class BroomstickApp extends Component {
     return this.getData().getIn(['data', 'actual'], List())
       .entrySeq()
       .map(([curveType, points]) => {
-        points = points.length > 0 ? this.props.convert.convertImmutables(points, 'hookload', 'mass', 'lb') : new List([]);
+        points = this.props.convert.convertImmutables(points, 'hookload', 'mass', 'lb');
         return {
           renderType: 'scatter',
           title: SUPPORTED_CHART_SERIES[curveType].label,

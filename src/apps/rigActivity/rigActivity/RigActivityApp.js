@@ -25,7 +25,8 @@ class RigActivityApp extends Component {
   componentDidMount() {
     if (this.props.asset) {
       this.getData();
-      var intervalId = setInterval(this.getData.bind(this), 60*60*1000);
+      // Update every 5 minutes
+      var intervalId = setInterval(this.getData.bind(this), 60*60*5);
       this.setState({intervalId: intervalId});
     }
   }
@@ -41,7 +42,8 @@ class RigActivityApp extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return (nextProps.data !== this.props.data || 
+    return (nextState.data !== this.props.data || 
+      nextProps.data !== this.props.data || 
       nextProps.coordinates !== this.props.coordinates ||
       nextProps.graphColors !== this.props.graphColors ||
       nextProps.period !== this.props.period || 
@@ -104,18 +106,18 @@ class RigActivityApp extends Component {
           <thead>
             <tr>
                 <th data-field="activity">Activity</th>
-                <th data-field="total">Total</th>
-                <th data-field="day">Day</th>
-                <th data-field="night">Night</th>
+                <th data-field="total">Total (hr)</th>
+                <th data-field="day">Day (hr)</th>
+                <th data-field="night">Night (hr)</th>
             </tr>
           </thead>
           <tbody>
             {this.state.data.getIn(['data', 'activities']).map(h =>
               <tr key={h.get('name')}>
                 <td><div className="square" style={{background: ACTIVITY_COLORS[h.get('name')]}}></div>{h.get('name')}</td>
-                <td>{this.roundNumber(h.get('day') + h.get('night'))}</td>
-                <td>{this.roundNumber(h.get('day'))}</td>
-                <td>{this.roundNumber(h.get('night'))}</td>
+                <td>{this.roundNumber(this.getTimeComponent(h.get('day')) + this.getTimeComponent(h.get('night')))}</td>
+                <td>{this.getTimeComponent(h.get('day'))}</td>
+                <td>{this.getTimeComponent(h.get('night'))}</td>
               </tr>
             )}
           </tbody>
@@ -124,8 +126,14 @@ class RigActivityApp extends Component {
     }
   }
 
+  // Get in hours for now
+  // Data is specified in seconds
+  getTimeComponent(value) {
+    return this.roundNumber((value || 0) / 60.0 / 60.0);
+  }
+
   roundNumber(n) {
-    return Math.round(n*10)/10;
+    return Math.round(n*100)/100;
   }
 
   isExpanded() {
@@ -178,10 +186,18 @@ class RigActivityApp extends Component {
 
 
   async getData() {
+    // Reset state
+    this.setState({
+      data: null
+    });
     let data = await api.getAppStorage(METADATA.provider, METADATA.collections[this.props.period], this.props.asset.get('id'), Map({
       limit: 1
     }));
-    data = this.getFakeData();
+    // UI is expecting single item, but API returns array
+    if(data) {
+      data = data.get(0);
+    }
+    //data = this.getFakeData();
     this.setState({
       data: data
     });
@@ -203,7 +219,7 @@ class RigActivityApp extends Component {
     .getIn(['data', 'activities'])
     .map(h => ({
       "name": h.get('name'),
-      "y": this.roundNumber(shift === 'combined' ? h.get('day') + h.get('night') : h.get(shift)),
+      "y": this.roundNumber(shift === 'combined' ? (this.getTimeComponent(h.get('day')) + this.getTimeComponent(h.get('night'))) : this.getTimeComponent(h.get(shift))),
       "color": ACTIVITY_COLORS[h.get('name')]
     }));
   }
