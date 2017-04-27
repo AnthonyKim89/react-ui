@@ -2,9 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { List, Map } from 'immutable';
 import { isNumber } from 'lodash';
 import numeral from 'numeral';
-import { format as formatDate } from 'date-fns';
 import { Row, Col, Button } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import moment from 'moment';
 
 import './DrillstringSummary.css';
 
@@ -57,8 +57,8 @@ export class DrillstringSummary extends Component {
           <Col m={2} className="c-drillstring-summary__footer-value">
             {this.getDepths()}
           </Col>
-          <Col m={2} className="c-drillstring-summary__footer-value">
-            {this.getTimestamp()}
+          <Col m={7} className="c-drillstring-summary__footer-value">
+            {this.getTimeData()}
           </Col>
           {this.props.record.getIn(['data', 'planning']) &&
             <Col m={3} className="c-drillstring-summary__footer-value c-drillstring-summary__footer-value--planning">
@@ -102,8 +102,10 @@ export class DrillstringSummary extends Component {
     return `${start} - ${end} ${this.props.convert.getUnitDisplay('length')}`;
   }
 
-  getTimestamp() {
-    return formatDate(this.props.record.get('timestamp') * 1000, 'ddd MMM Do YYYY');
+  getTimeData() {
+    let start = moment.unix(this.props.record.getIn(["data","start_timestamp"])).format('LL');
+    let end = moment.unix(this.props.record.getIn(["data","end_timestamp"])).format('LL');
+    return `${start} - ${end}`;
   }
 
   getEndDepth() {
