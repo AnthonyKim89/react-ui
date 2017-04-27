@@ -25,7 +25,8 @@ class RigActivityApp extends Component {
   componentDidMount() {
     if (this.props.asset) {
       this.getData();
-      var intervalId = setInterval(this.getData.bind(this), 60*60*1000);
+      // Update every 5 minutes
+      var intervalId = setInterval(this.getData.bind(this), 60*60*5);
       this.setState({intervalId: intervalId});
     }
   }
