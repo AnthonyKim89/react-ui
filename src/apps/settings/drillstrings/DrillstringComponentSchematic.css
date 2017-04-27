@@ -1,31 +1,44 @@
+.c-drillstring-component-schematic {
+  margin-top: 25px;
+}
+
 .c-drillstring-component-schematic__component {
-  max-height: 100%;
+  max-height: 100%;  
   display: flex;
   justify-content: space-around;
 }
 
 .c-drillstring-component-schematic__number {
   font-size: 1.2rem;
-  width: 30px;
+  width: 30px;  
+}
+
+.c-drillstring-component-schematic__number-edit {
+  margin-top: 30px;
 }
 
 .c-drillstring-component-schematic__component-image {
   width: 48px;
   background-size: contain;
 }
+
+.c-drillstring-component-schematic__component-image-edit {
+  margin-top: 30px;
+}
+
 .c-drillstring-component-schematic__component-image--bit {
   height: 61px;
   background-image: url('../../../images/drillstrings/bit.png');
 }
-.c-drillstring-component-schematic__component-image--drill_collar {
+.c-drillstring-component-schematic__component-image--dc {
   height: 55px;
   background-image: url('../../../images/drillstrings/drill_collar.png');
 }
-.c-drillstring-component-schematic__component-image--drill_pipe {
+.c-drillstring-component-schematic__component-image--dp {
   height: 56px;
   background-image: url('../../../images/drillstrings/drill_pipe.png');
 }
-.c-drillstring-component-schematic__component-image--heavy_weight_drill_pipe {
+.c-drillstring-component-schematic__component-image--hwdp {
   height: 56px;
   background-image: url('../../../images/drillstrings/heavy_weight_drill_pipe.png');
 }
@@ -33,7 +46,7 @@
   height: 58px;
   background-image: url('../../../images/drillstrings/jar.png');
 }
-.c-drillstring-component-schematic__component-image--motor {
+.c-drillstring-component-schematic__component-image--pdm {
   height: 56px;
   background-image: url('../../../images/drillstrings/motor.png');
 }

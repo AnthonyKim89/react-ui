@@ -10,17 +10,16 @@ const makeSchematicComponent = (isEditable) => {
     render() {
       return <div className="c-drillstring-component-schematic__component"
                   key={this.props.item.get('order')}>
-        <div className="c-drillstring-component-schematic__number">
-          {this.props.item.get('order') + 1}
-        </div>
+        
         {isEditable ?
-          this.props.dragHandle(this.renderImage()) :
+          this.props.dragHandle(this.renderImage("edit")) :
           this.renderImage()}
       </div>;
     }
 
-    renderImage() {
+    renderImage(imageClass) {
       return <div className={`c-drillstring-component-schematic__component-image
+                              c-drillstring-component-schematic__component-image-${imageClass}
                               c-drillstring-component-schematic__component-image--${this.props.item.get('family')}`}>
       </div>;
     }

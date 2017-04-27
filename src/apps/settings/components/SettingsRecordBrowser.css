@@ -1,0 +1,10 @@
+.c-settings-record-browser__filter.row .col{
+  padding:0px;
+}
+
+.c-settings-record-browser__filter.row .col.m1 {
+  margin-top: 15px;
+  text-align: right;
+  padding-right: 10px;
+}
+

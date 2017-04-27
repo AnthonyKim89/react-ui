@@ -4,5 +4,15 @@
 }
 
 .c-settings-record-editor__actions {
-  padding-top: 5rem;
+  padding-top: 3rem;
+}
+
+.c-settings-record-editor__actions a {  
+  cursor:pointer;
+  font-size: 1.2rem;
+  margin-left: 10px;
+}
+
+.c-settings-record-editor__actions a:hover {
+  color: white;
 }

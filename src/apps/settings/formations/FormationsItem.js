@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Input, Button} from 'react-materialize';
+import numeral from 'numeral';
 
 import './FormationsItem.css';
 
@@ -20,14 +22,20 @@ class FormationsItem extends Component {
     };
   }
   
+  componentDidMount() {
+    if (this.state.editing) {
+      ReactDOM.findDOMNode(this.refs["td"]).children[0].focus();
+    }
+  }
+
   render() {
 
     let {td,md,formation_name,lithology} = this.state.data;
 
     if (!this.state.editing) return (
       <tr className="c-formations-item">
-        <td>{this.props.convert.convertValue(parseFloat(td), "length", "ft").fixFloat(2)}</td>
-        <td className="hide-on-med-and-down">{this.props.convert.convertValue(parseFloat(md), "length", "ft").fixFloat(2)}</td>
+        <td>{numeral(this.props.convert.convertValue(parseFloat(td), "length", "ft")).format('0,0.00')}</td>
+        <td className="hide-on-med-and-down">{numeral(this.props.convert.convertValue(parseFloat(md), "length", "ft")).format('0,0.00')}</td>
         <td>{formation_name}</td>
         <td className="hide-on-med-and-down">{lithology}</td>
         <td className="hide-on-med-and-down">
@@ -45,7 +53,9 @@ class FormationsItem extends Component {
             s={12}
             label="True Vertical Depth"
             error={this.state.errors.td}
-            defaultValue={td? this.props.convert.convertValue(parseFloat(td), "length", "ft").fixFloat(2) : td}
+            defaultValue={td? numeral(this.props.convert.convertValue(parseFloat(td), "length", "ft")).format('0.00') : td}
+            ref="td"
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{td:e.target.value})} )} />
         </td>
 
@@ -54,7 +64,8 @@ class FormationsItem extends Component {
             s={12}
             label="Measured Depth (ft)"
             error={this.state.errors.md}
-            defaultValue={md? this.props.convert.convertValue(parseFloat(md), "length", "ft").fixFloat(2): md}
+            defaultValue={md? numeral(this.props.convert.convertValue(parseFloat(md), "length", "ft")).format('0.00'): md}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{md:e.target.value})} )} />
         </td>
 
@@ -63,14 +74,16 @@ class FormationsItem extends Component {
             s={12}
             label="Formation Name"
             defaultValue={formation_name}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{formation_name:e.target.value})} )} />
         </td>
 
         <td className="hide-on-med-and-down">
           <Input type="text" 
             s={12}
-            label="Lithology"            
+            label="Lithology"
             defaultValue={lithology}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{lithology:e.target.value})} )} />
         </td>
         
@@ -82,17 +95,22 @@ class FormationsItem extends Component {
     );
   }
 
-  save() {
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      this.save(true);
+    }
+  }
 
+  save(byKeyBoard) {
     let {td,md,formation_name,lithology} = this.state.data;
     let hasErrors = false;
     let errors = {};
-    if (isNaN(parseFloat(td)) || parseFloat(td) <=0 ) {
+    if (isNaN(parseFloat(td)) || parseFloat(td) <0 ) {
       errors["td"] = "Invalid Number";
       hasErrors = true;
     }
 
-    if (isNaN(parseFloat(md)) || parseFloat(md) <=0 ) {
+    if (isNaN(parseFloat(md)) || parseFloat(md) <0 ) {
       errors["md"] = "Invalid Number";
       hasErrors = true;
     }
@@ -112,7 +130,8 @@ class FormationsItem extends Component {
         .set("lithology", lithology);
     });
 
-    this.props.onSave(record);
+    this.props.onSave(record, (!this.props.record.has("_id") && byKeyBoard));
+    
     if (this.props.record.has("_id")) {
       this.setState({editing:false});
     }

@@ -3,15 +3,15 @@ import { Button, Row, Col, Input } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Convert from '../../../common/Convert';
 
+import './SettingsRecordBrowser.css';
 class SettingsRecordBrowser extends Component {
 
-  render() {
-    return <div className="c-settings-record-browser">
-      <h4>{this.props.recordNamePlural}</h4>
-      <Row>
-        <Input m={11}
-               label={this.props.recordNameSingular}
+  render() {    
+    return <div className="c-settings-record-browser">      
+      <Row className="c-settings-record-browser__filter">
+        <Input m={11}                
                type="select"
+               defaultValue={this.props.displayingRecord? this.props.displayingRecord.get('_id'): ''}
                onChange={evt => this.onSelectChange(evt.target.value)}>
             {this.props.records.map(r =>
               <option key={r.get('_id')} value={r.get('_id')}>
@@ -20,7 +20,7 @@ class SettingsRecordBrowser extends Component {
             )}
         </Input>
         <Col m={1}>
-          <Button floating large icon="add" onClick={() => this.props.onNewRecord()} />
+          <Button floating icon="add" onClick={() => this.props.onNewRecord()} />
         </Col>
       </Row>
       {this.props.displayingRecord &&

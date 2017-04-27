@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Input, Button} from 'react-materialize';
 import moment from 'moment';
-
+import numeral from 'numeral';
 import Datetime from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
 
@@ -28,6 +29,12 @@ class NPTEventsItem extends Component {
     this.endTimeChanged = this.endTimeChanged.bind(this); 
   }
   
+  componentDidMount() {
+    if (this.state.editing) {
+      ReactDOM.findDOMNode(this.refs["depth"]).children[0].focus();
+    }
+  }
+
   render() {
 
     let {start_time,end_time,depth,type,comment} = this.state.data;
@@ -38,7 +45,7 @@ class NPTEventsItem extends Component {
         <td>
           {this.getTimeDiff()}
         </td>
-        <td className="hide-on-med-and-down">{this.props.convert.convertValue(parseFloat(depth), "length", "ft").fixFloat(2)}</td>
+        <td className="hide-on-med-and-down">{numeral(this.props.convert.convertValue(parseFloat(depth), "length", "ft")).format('0,0.00')}</td>
         <td>{type}</td>
         <td className="hide-on-med-and-down">{comment}</td>
         <td className="hide-on-med-and-down">
@@ -71,7 +78,9 @@ class NPTEventsItem extends Component {
             s={12}
             label="Depth"
             error={this.state.errors.depth}
-            defaultValue={depth?this.props.convert.convertValue(parseFloat(depth), "length", "ft").fixFloat(2) : depth}
+            ref="depth"
+            defaultValue={depth? numeral(this.props.convert.convertValue(parseFloat(depth), "length", "ft")).format('0.00') : depth}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{depth: e.target.value})} )} />
         </td>
 
@@ -103,6 +112,7 @@ class NPTEventsItem extends Component {
           <Input type="text" 
             s={12}
             defaultValue={comment}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{comment: e.target.value})} )} />
         </td>
 
@@ -114,7 +124,13 @@ class NPTEventsItem extends Component {
     );
   }
 
-  save() {
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      this.save(true);
+    }
+  }
+
+  save(byKeyBoard) {
     let {start_time,end_time,depth,type,comment} = this.state.data;
     let hasErrors = false;
     let errors = {};
@@ -144,7 +160,7 @@ class NPTEventsItem extends Component {
         .set("depth",this.props.convert.convertValue(depth, "length", this.props.convert.getUnitPreference("length"), "ft"));
     });
 
-    this.props.onSave(record);
+    this.props.onSave(record, (!this.props.record.has("_id") && byKeyBoard));
 
     if (this.props.record.has("_id")) {
       this.setState({editing:false});

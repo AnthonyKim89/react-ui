@@ -2,18 +2,33 @@
   background-color: rgb(42, 41, 41);
   margin: 10px 0;
   padding: 10px 0;
+  position: relative;
+}
+
+.c-fluid-check-summary__actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.c-fluid-check-summary__actions button {
+  margin-top: 10px;
+  display: block;
 }
 
 .c-fluid-check-summary__label,
 .c-fluid-check-summary__value {
   margin: 5px;
-  text-align: center;
+  
 }
 
 .c-fluid-check-summary__value {
   font-size: 3rem;
 }
+
 .c-fluid-check-summary__value--is-long {
+  margin-left: 5px;
+  margin-top: 10px;
   font-size: 2rem;
 }
 
@@ -25,4 +40,24 @@
 
 .c-fluid-check-summary__footer-value--planning { 
   color: rgb(222, 174, 44);
+}
+
+@media(max-width: 768px) {  
+  .c-fluid-check-summary__actions {
+    position: initial;
+    
+  }
+
+  .c-fluid-check-summary__actions button {
+    display: inline-block;
+    margin-left:10px;
+  }
+
+  .c-fluid-check-summary__value {
+    font-size: 1.5rem;
+  }
+
+  .c-fluid-check-summary__value--is-long {
+    font-size: 1rem;
+  }
 }
