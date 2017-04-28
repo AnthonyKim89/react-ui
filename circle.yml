@@ -14,15 +14,15 @@ deployment:
   test:
     branch: master
     commands:
-      - REACT_APP_API_URL=http://api.qa.corva.ai REACT_APP_SUBSCRIPTIONS_URL=subscriptions.qa.corva.ai npm run build
+      - REACT_APP_API_URL=https://api.qa.corva.ai REACT_APP_SUBSCRIPTIONS_URL=subscriptions.qa.corva.ai npm run build
       - aws s3 sync ./build/ s3://app.qa.corva.ai/ --delete
   staging:
     branch: /release\/.*/
     commands:
-      - REACT_APP_API_URL=http://api.staging.corva.ai REACT_APP_SUBSCRIPTIONS_URL=subscriptions.staging.corva.ai npm run build
+      - REACT_APP_API_URL=https://api.staging.corva.ai REACT_APP_SUBSCRIPTIONS_URL=subscriptions.staging.corva.ai npm run build
       - aws s3 sync ./build/ s3://app.staging.corva.ai/ --delete
   production:
     tag: /v[0-9]+(\.[0-9]+)+/
     commands:
-      - REACT_APP_API_URL=http://api.corva.ai REACT_APP_SUBSCRIPTIONS_URL=subscriptions.corva.ai npm run build
+      - REACT_APP_API_URL=https://api.corva.ai REACT_APP_SUBSCRIPTIONS_URL=subscriptions.corva.ai npm run build
       - aws s3 sync ./build/ s3://app.corva.ai/ --delete
