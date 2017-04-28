@@ -100,6 +100,9 @@ class Heatmap extends Component {
   }
 
   getSeriesMinMax(series) {
+    if (series.data.length === 0) {
+      return {min: 0, max: 0};
+    }
     let min = series.data[0][2] || 0;
     let max = series.data[0][2] || 0;
     for (let i = 1; i < series.data.length; i++) {
