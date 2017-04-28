@@ -8,15 +8,14 @@
   margin-bottom: 0;
 }
 .c-dashboard-tab-bar li {
-  display: block;
+  display: list-item;
   float: left;
   width: auto;
   height: 60px;
-  position: relative;
 }
 .c-dashboard-tab-bar a.c-dashboard-tab-bar__dashboard-link,
 .c-dashboard-tab-bar li.c-dashboard-tab-bar__dashboard-link a {
-  display: block;
+  display: list-item;
   padding: 0 15px;
   float: left;
   width: auto;
@@ -26,7 +25,6 @@
   text-align: center;
   color: white;
   transition: all 0.2s linear;
-  z-index: -1;
 }
 .c-dashboard-tab-bar li.c-dashboard-tab-bar__add-dashboard a {
   opacity: 0.6;

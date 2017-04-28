@@ -61,7 +61,7 @@ class DrillingOperationsApp extends Component {
           <div className="row action-panel">
             <div className="col s12">
               <Input
-                className="select-period"
+                className="select-period dropdown-editor"
                 type="select"
                 value={this.props.period}
                 onChange={e => this.onChangePeriod(e)}>

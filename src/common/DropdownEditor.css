@@ -1,0 +1,7 @@
+.dropdown-editor {
+  z-index: 5000 !important;
+}
+
+.select { background-color: red; z-index: 1000; }
+
+

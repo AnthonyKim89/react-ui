@@ -57,7 +57,7 @@ class RigScorecardApp extends Component {
                     <th data-field="score">Score</th>
                   </tr>
                 </thead>
-                <tbody class="c-ra-rig-scorecard__rows">
+                <tbody className="c-ra-rig-scorecard__rows">
                   {this.state.data.map((h, order) =>
                     <tr key={h.get('asset_id')}>
                       <td className="rank">{order + 1}</td>

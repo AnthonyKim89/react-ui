@@ -8,7 +8,7 @@ class DropdownEditor extends Component {
   render() {
     return <div className="">
       <Input
-        className="grey lighten-2 black-text"
+        className="dropdown-editor grey lighten-2 black-text"
         type="select"
         value={this.props.currentValue}
         onChange={e => this.onChange(e)}>
