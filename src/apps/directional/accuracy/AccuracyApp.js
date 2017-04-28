@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Row, Col } from 'react-materialize';
+import numeral from 'numeral';
 
 import { SUBSCRIPTIONS } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
@@ -75,10 +76,10 @@ class AccuracyApp extends Component {
         </div>
 
         <div className="recomm-below">
-          Left/Right plan <span>{this.props.convert.convertValue(recommendedData.get('right_left'), 'length', 'ft').fixFloat(2)}{this.props.convert.getUnitDisplay('length')}</span>
+          Left/Right plan <span>{numeral(this.props.convert.convertValue(recommendedData.get('right'), 'length', 'ft')).format("0.0")}{this.props.convert.getUnitDisplay('length')}</span>
         </div>
         <div className="recomm-below">
-          High/Row plan <span>{this.props.convert.convertValue(recommendedData.get('high_low'), 'length', 'ft').fixFloat(2)}{this.props.convert.getUnitDisplay('length')}</span>
+          High/Row plan <span>{numeral(this.props.convert.convertValue(recommendedData.get('high'), 'length', 'ft')).format("0.0")}{this.props.convert.getUnitDisplay('length')}</span>
         </div>
       </div>
     );
@@ -86,19 +87,20 @@ class AccuracyApp extends Component {
 
   renderAccuracyProgress() {
     let pointsData = subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS).getIn(["data","points"]);
-    let itemWidth = 100 / pointsData.size -1;
-    let style = {
-      marginRight: "1%",
-      width: itemWidth + "%"
-    };
+    if(pointsData) {
+      let itemWidth = 100 / pointsData.size -1;
+      let style = {
+        marginRight: "1%",
+        width: itemWidth + "%"
+      };
 
-    return pointsData.map( (t,index) => {
-      return (
-        <div key={index} className="accuracy-progress-item" style={Object.assign({},style,this.getAccuracyBackColorStyle(t))}>
-        </div>
-      );
-    });
-    
+      return pointsData.map( (t,index) => {
+        return (
+          <div key={index} className="accuracy-progress-item" style={Object.assign({},style,this.getAccuracyBackColorStyle(t))}>
+          </div>
+        );
+      });
+    }
   }
 
   getAccuracyColorStyle(accuracyData) {
