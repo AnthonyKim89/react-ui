@@ -128,7 +128,7 @@ class OverviewApp extends Component {
   getColorStyle(point) {
     let severity = point.get("severity");
     switch (severity) {
-      case 'low': return {backgroundColor: "#00ff"};
+      case 'low': return {backgroundColor: "#00ff00"};
       case 'moderate': return {backgroundColor: "#ffff00"};
       case 'high': return {backgroundColor: "#ff0000"};
       default: return {backgroundColor: "#00ff00"};
