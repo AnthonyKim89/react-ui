@@ -36,20 +36,12 @@ class ROPHeatmapApp extends Component {
   getAxis(axis, axisType, unitType=null, unit=null) {
     let max = axis.get("maximum");
     let min = axis.get("minimum");
-    console.log(axisType);
     let axisLength = axis.get(axisType);
 
     if (unitType !== null) {
       max = this.props.convert.convertValue(max, unitType, unit);
       min = this.props.convert.convertValue(min, unitType, unit);
     }
-
-    console.log(JSON.stringify(axis));
-
-    console.log(min);
-    console.log(max);
-    console.log(axisLength);
-    
 
     let unitSize = (max - min)/axisLength;
     return {
