@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { List, Map } from 'immutable';
 import { isNumber } from 'lodash';
-import numeral from 'numeral';
 import { Row, Col, Button } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import moment from 'moment';
@@ -34,13 +33,13 @@ export class DrillstringSummary extends Component {
         <Col m={2}>
           <div className="c-drillstring-summary__label">Length ({this.props.convert.getUnitDisplay('length')})</div>
           <div className="c-drillstring-summary__value c-drillstring-summary__value--is-long">
-            {numeral(this.props.convert.convertValue(this.getComponentLengthSum(), 'length', 'ft')).format('0,0')}
+            {this.props.convert.convertValue(this.getComponentLengthSum(), 'length', 'ft').formatNumeral('0,0')}
           </div>
         </Col>
         <Col m={2}>
           <div className="c-drillstring-summary__label">Weight ({this.props.convert.getUnitDisplay('mass')})</div>
           <div className="c-drillstring-summary__value c-drillstring-summary__value--is-long">
-            {numeral(this.props.convert.convertValue(this.getComponentWeightSum(), 'mass', 'lb')).format('0,0')}
+            {this.props.convert.convertValue(this.getComponentWeightSum(), 'mass', 'lb').formatNumeral('0,0')}
           </div>
         </Col>
         <Col m={1}>
@@ -97,8 +96,8 @@ export class DrillstringSummary extends Component {
   }
 
   getDepths() {
-    const start = numeral(this.props.convert.convertValue(this.props.record.getIn(['data', 'start_depth']),'length','ft')).format('0,0');
-    const end = numeral(this.props.convert.convertValue(this.props.record.getIn(['data', 'end_depth']),'length','ft')).format('0,0');
+    const start = this.props.convert.convertValue(this.props.record.getIn(['data', 'start_depth']),'length','ft').formatNumeral('0,0');
+    const end = this.props.convert.convertValue(this.props.record.getIn(['data', 'end_depth']),'length','ft').formatNumeral('0,0');
     return `${start} - ${end} ${this.props.convert.getUnitDisplay('length')}`;
   }
 

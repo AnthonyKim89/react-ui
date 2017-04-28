@@ -56,9 +56,9 @@ class OptimizationApp extends Component {
                 <tbody>
                   <tr>
                     <td> Actual </td>
-                    <td style={this.getStyles(actualData,optimizationData,"wob", activity_state)}> {numeral(this.props.convert.convertValue(actualData.getIn([this.getParamKey("actual","wob")]), "force", "lbf")).format("0.0")}</td>
+                    <td style={this.getStyles(actualData,optimizationData,"wob", activity_state)}> {this.props.convert.convertValue(actualData.getIn([this.getParamKey("actual","wob")]), "force", "klbf").formatNumeral("0.0")}</td>
                     { /* TODO: Add back in: this.getStyles(actualData,optimizationData,"mud_flow_in") */ }
-                    <td> {numeral(this.props.convert.convertValue(actualData.getIn([this.getParamKey("actual","flow")]), "volume", "gal")).format("0.0")}</td>
+                    <td> {this.props.convert.convertValue(parseFloat(actualData.getIn([this.getParamKey("actual","flow")])), "volume", "gal").formatNumeral("0.0")}</td>
                     <td style={this.getStyles(actualData, optimizationData, "rpm", activity_state)}>{numeral(actualData.getIn([this.getParamKey("actual","rpm")])).format("0")}</td>
                   </tr>
                   {this.renderSection(optimizationData, "Rotary", "recommended_rotary")}
@@ -79,18 +79,18 @@ class OptimizationApp extends Component {
         <td>
           { 
             section_present ? 
-            (numeral(this.props.convert.convertValue(optimizationData.getIn(["data",section, this.getParamKey("optimization","min_wob")]), "force", "lbf")).format("0.0") + " - " + numeral(this.props.convert.convertValue(optimizationData.getIn(["data",section,this.getParamKey("optimization","max_wob")]), "force", "lbf")).format("0.0")) 
+            (this.props.convert.convertValue(optimizationData.getIn(["data",section, this.getParamKey("optimization","min_wob")]), "force", "klbf").formatNumeral("0.0") + " - " + this.props.convert.convertValue(optimizationData.getIn(["data",section,this.getParamKey("optimization","max_wob")]), "force", "klbf").formatNumeral("0.0"))
             : "-"}
         </td>
         <td>
           { section_present && false ? 
-          (numeral(this.props.convert.convertValue(optimizationData.getIn(["data",section, this.getParamKey("optimization","min_flow")]), "volume", "gal")).format("0.0") -
-          numeral(this.props.convert.convertValue(optimizationData.getIn(["data",section, this.getParamKey("optimization","max_flow")]), "volume", "gal")).format("0.0")) : "-"}
+          (this.props.convert.convertValue(optimizationData.getIn(["data",section, this.getParamKey("optimization","min_flow")]), "volume", "gal").formatNumeral("0.0") -
+          this.props.convert.convertValue(optimizationData.getIn(["data",section, this.getParamKey("optimization","max_flow")]), "volume", "gal").formatNumeral("0.0")) : "-"}
         </td>
         <td>
           { 
             section_present ? 
-            (numeral(optimizationData.getIn(["data",section, this.getParamKey("optimization","min_rpm")])).format("0") + " - " + numeral(optimizationData.getIn(["data",section,this.getParamKey("optimization","max_rpm")])).format("0")) 
+            (numeral(optimizationData.getIn(["data",section, this.getParamKey("optimization","min_rpm")])).format("0") + " - " + numeral(optimizationData.getIn(["data",section,this.getParamKey("optimization","max_rpm")])).format("0"))
             : "-"}
         </td>
     </tr>);

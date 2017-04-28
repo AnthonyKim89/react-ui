@@ -83,7 +83,7 @@ class Heatmap extends Component {
 
   componentWillReceiveProps(newProps) {
 
-    if (typeof this.state.heatmap === 'undefined') {
+    if (this.state && typeof this.state.heatmap === 'undefined') {
       return;
     }
     if (!isEqual(newProps.series, this.props.series)) {

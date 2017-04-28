@@ -96,8 +96,10 @@ class OperatingConditionApp extends Component {
    */
   get actualTorque() {
     let torque = subscriptions.selectors.firstSubData(
-      this.props.data, SUBSCRIPTIONS).getIn(['data', 'torque']);
-    return this.props.convert.convertValue(torque, 'force', 'lbf');
+      this.props.data,
+      SUBSCRIPTIONS).getIn(['data', 'torque']
+    );
+    return this.props.convert.convertValue(torque, 'torque', 'ft-lb');
   }
 
   get xPlotBands() {
@@ -172,7 +174,7 @@ class OperatingConditionApp extends Component {
     let data = subscriptions.selectors.firstSubData(
       this.props.data, SUBSCRIPTIONS).getIn(['data', 'torque_line']).toJSON();
     return Object.assign(this.torqueAxis, {
-      data: List(this.formatSeriesData(data, 'torque', 'force', 'lbf'))
+      data: List(this.formatSeriesData(data, 'torque', 'torque', 'ft-lb'))
     });
   }
 
@@ -184,7 +186,7 @@ class OperatingConditionApp extends Component {
         type: type,
         yAxis: 0,
         yAxisOpposite: true,
-        yAxisTitle: `Torque (${this.props.convert.getUnitDisplay('force')})`,
+        yAxisTitle: `Torque (${this.props.convert.getUnitDisplay('torque')})`,
         dashStyle: 'Solid'
     };
   }

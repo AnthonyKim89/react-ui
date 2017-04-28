@@ -1,3 +1,4 @@
+import numeral from 'numeral';
 /**
  * BE CAREFUL using this file.
  * There is risk introduced by extending native components.
@@ -8,4 +9,7 @@
 /*eslint no-extend-native: ["error", { "exceptions": ["Number"] }]*/
 Number.prototype.fixFloat = function(digits) {
   return parseFloat(this.toFixed(digits));
+};
+Number.prototype.formatNumeral = function(fmt) {
+  return numeral(this).format(fmt);
 };

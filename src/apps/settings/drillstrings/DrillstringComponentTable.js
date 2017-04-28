@@ -3,7 +3,6 @@ import { Row, Col, Button, Input } from 'react-materialize';
 import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import uuidV1 from 'uuid/v1';
-import numeral from 'numeral';
 
 import DrillstringComponentSchematic from './DrillstringComponentSchematic';
 import DrillstringComponentTableRow from './DrillstringComponentTableRow';
@@ -152,7 +151,7 @@ class DrillstringComponentTable extends Component {
     let errors = this.props.errors;
     let value = component.get(field, '');
     if (value!=='' && unitType && unit) {        
-      value = numeral(this.props.convert.convertValue(value,unitType,unit)).format('0.0');
+      value = this.props.convert.convertValue(value,unitType,unit).formatNumeral('0.0');
     }
     if (this.props.isEditable) {
       return <Input m={cols}

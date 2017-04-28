@@ -5,7 +5,6 @@ import format from 'date-fns/format';
 import isEqual from 'date-fns/is_equal';
 import parse from 'date-fns/parse';
 import { fromJS } from 'immutable';
-import numeral from 'numeral';
 
 import { Size } from '../../common/constants';
 import Chart from '../../common/Chart';
@@ -106,7 +105,7 @@ class WellTimelineScrollBar extends Component {
   }
 
   yAxisLabelFormatter() {
-    return numeral(this.value).format('0a');
+    return this.value.formatNumeral('0a');
   }
 
   getSeries() {
