@@ -81,6 +81,11 @@ class Chart extends Component {
           fontFamily: 'Open Sans',
           fontWeight: 'regular'
         },
+        itemHoverStyle: {
+          color: '#FFFFFF',
+          fontFamily: 'Open Sans',
+          fontWeight: 'regular'
+        },
         enabled: true,
       },
       series
