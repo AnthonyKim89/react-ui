@@ -53,7 +53,7 @@ class AppTabLayout extends Component {
     if (this.props.apps.isEmpty()) {
       return;
     }
-    const app = this.props.subSlug? this.props.apps.filter(app=>app.get('name')).get(0) : this.props.apps.get(0);
+    const app = this.props.subSlug? this.props.apps.filter(app=>app.get('name')===this.props.subSlug).get(0) : this.props.apps.get(0);
     if (!app) {
       return;
     }
