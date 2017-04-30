@@ -20,8 +20,8 @@ class ROPHeatmapApp extends Component {
           <Heatmap series={this.getSeries(rawData)}
                     size={this.props.size}
                     coordinates={this.props.coordinates}
-                   xAxis={this.getAxis(rawData.get("x_axis"), 'columns')}
-                   yAxis={this.getAxis(rawData.get("y_axis"), 'rows', 'mass', 'lb')} />
+                   xAxis={this.getAxis(rawData.get("x_axis"), 'rows')}
+                   yAxis={this.getAxis(rawData.get("y_axis"), 'columns', 'mass', 'lb')} />
         </div>
       );
     }
@@ -56,7 +56,7 @@ class ROPHeatmapApp extends Component {
       let nextStart = start + unitSize;
       data.push(Math.round(start));
       start = nextStart;
-    }
+    }    
     return data;
   }
 
@@ -73,6 +73,7 @@ class ROPHeatmapApp extends Component {
         series.push([y, x, z]);
       }
     }
+    
     return {
       name: "ROP",
       data: series,

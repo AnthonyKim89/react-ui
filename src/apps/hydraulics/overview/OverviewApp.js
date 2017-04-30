@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Row, Col } from 'react-materialize';
+import numeral from 'numeral';
 
 import { SUBSCRIPTIONS } from './constants';
 import Gauge from '../../../common/Gauge';
@@ -67,24 +68,31 @@ class OverviewApp extends Component {
 
   getGaugeValue(severity) {
     switch (severity) {
-      case 'low': return 5;
+      case 'low': return 25;
       case 'moderate': return 15;
-      case 'high': return 25;
+      case 'high': return 5;
       default: return null;
     }
   }
 
   renderStatistics() {
-    let recommendedFlowRate = this.data.getIn(["data", "recommended_flow_rate"]);
-    recommendedFlowRate = this.props.convert.convertValue(
-        recommendedFlowRate, "volume", "gal").fixFloat(1);
-
-    let staticHoleCleaningDuration = this.data.getIn(["data", "static_hole_cleaning", "duration"]);
-    let staticHoleCleaningFlowRate = this.data.getIn(["data", "static_hole_cleaning", "mud_flow_rate"]);
-    staticHoleCleaningFlowRate = this.props.convert.convertValue(
-        staticHoleCleaningFlowRate, "volume", "gal").fixFloat(1);
+    let recommendedFlowRate = this.data.getIn(["data", "recommended_minimum_flowrate"]);
+    recommendedFlowRate = this.props.convert.convertValue(recommendedFlowRate, "volume", "gal").fixFloat(1);
 
     let flowRateUnit = `${this.props.convert.getUnitDisplay('volume')}pm`;
+        
+
+    let staticHoleCleaning = this.data.getIn(["data", "static_hole_cleaning"]);
+    let statisHoleCleaningHtml = <div>-</div>;
+    if(staticHoleCleaning) {
+      let staticHoleCleaningDuration = this.data.getIn(["data", "static_hole_cleaning", "duration"]);
+      let staticHoleCleaningFlowRate = this.data.getIn(["data", "static_hole_cleaning", "mud_flow_rate"]);
+      staticHoleCleaningFlowRate = numeral(this.props.convert.convertValue(
+          staticHoleCleaningFlowRate, "volume", "gal")).parse("0.0");
+          statisHoleCleaningHtml = <div>{staticHoleCleaningDuration} min <span>@ {staticHoleCleaningFlowRate} {flowRateUnit}</span></div>;
+          
+    }
+
 
     return (
       <div className="c-hydraulics-overview-statistics">
@@ -94,7 +102,7 @@ class OverviewApp extends Component {
         </div>
         <p>Recommended Static Circulation</p>
         <div className="static-circulation">
-          {staticHoleCleaningDuration} min <span>@ {staticHoleCleaningFlowRate} {flowRateUnit}</span>
+          {statisHoleCleaningHtml}
         </div>
       </div>
     );
@@ -102,7 +110,7 @@ class OverviewApp extends Component {
 
   renderProgress() {
     let pointsData = this.data.getIn(["data", "hole_cleaning", "points"]);
-    let itemWidth = 100 / pointsData.size - 1;
+    let itemWidth = 100.0 / (pointsData.size - 1);
     let style = {
       marginRight: "1%",
       width: itemWidth + "%"
@@ -120,9 +128,9 @@ class OverviewApp extends Component {
   getColorStyle(point) {
     let severity = point.get("severity");
     switch (severity) {
-      case 'low': return {backgroundColor: "#ff0000"};
+      case 'low': return {backgroundColor: "#00ff00"};
       case 'moderate': return {backgroundColor: "#ffff00"};
-      case 'high': return {backgroundColor: "#00ff00"};
+      case 'high': return {backgroundColor: "#ff0000"};
       default: return {backgroundColor: "#00ff00"};
     }
   }
