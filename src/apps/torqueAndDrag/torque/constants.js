@@ -14,6 +14,6 @@ export const METADATA = {
 export const SUPPORTED_ASSET_TYPES = ['rig'];
 export const INITIAL_SIZE = {w: 2, h: 10};
 export const SUPPORTED_CHART_SERIES = {
-  torsional_yield: {label: 'Torsional Yield', defaultColor: '#f7e47a', unitType: "torque", unit: "ft-lb"},
-  torque: {label: 'Torque', defaultColor: '#78905f', unitType: "torque", unit: "ft-lb"}
+  torsional_yield: {label: 'Torsional Yield', defaultColor: '#f7e47a', unitType: "torque", unit: "ft-lbf"},
+  torque: {label: 'Torque', defaultColor: '#78905f', unitType: "torque", unit: "ft-lbf"}
 };

@@ -44,7 +44,7 @@ class DownholeTransferApp extends Component {
             TOR
             <div className="c-tnd-downhole-transfer__unit">{this.props.convert.getUnitDisplay('force')}</div>
           </th>
-          <td>{this.props.convert.convertValue(data.getIn(['surface', 'torque']), 'torque', 'ft-lb').formatNumeral("0.0")}</td>
+          <td>{this.props.convert.convertValue(data.getIn(['surface', 'torque']), 'torque', 'ft-lbf').formatNumeral("0.0")}</td>
           <td className={`c-tnd-downhole-transfer__efficiency
                           c-tnd-downhole-transfer--${data.get('torque_efficiency')}`}>
             <Icon>play_arrow</Icon>
@@ -53,7 +53,7 @@ class DownholeTransferApp extends Component {
             </div>
           </td>
           <td className={`c-tnd-downhole-transfer--${data.get('torque_efficiency')}`}>
-            {this.props.convert.convertValue(data.getIn(['downhole', 'torque']), 'torque', 'ft-lb').formatNumeral("0.0")}
+            {this.props.convert.convertValue(data.getIn(['downhole', 'torque']), 'torque', 'ft-lbf').formatNumeral("0.0")}
           </td>
         </tr>
         <tr>

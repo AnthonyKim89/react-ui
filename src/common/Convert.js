@@ -31,11 +31,12 @@ class Convert {
         temperature: 'F',
         speed: 'ft/h',
         area: 'ft2',
-        torque: 'ft-lb',
+        torque: 'ft-lbf',
         force: 'klbf',
         oil: 'bbl',
         yp: 'dsf',
         density: 'ppg',
+        massPerLength: 'lb-ft',
       },
       metric: {
         length: 'm',
@@ -51,6 +52,7 @@ class Convert {
         oil: 'm3',
         yp: 'Pa',
         density: 'kg/m3',
+        massPerLength: 'kg-m',
       },
       custom: {},
     };
