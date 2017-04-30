@@ -80,7 +80,7 @@ class WellTimelineScrollBar extends Component {
           </button>
 
           <div className="c-well-timeline-scroll-bar__bar">
-              {this.renderLegend(series)}
+            {this.renderLegend(series)}
             <div className="c-well-timeline-scroll-bar__slider">
               <TooltipSlider
                 min={0}
