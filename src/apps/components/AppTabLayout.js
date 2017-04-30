@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Map } from 'immutable';
 
@@ -16,11 +17,6 @@ import './AppTabLayout.css';
  */
 class AppTabLayout extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {selectedAppIdx: 0};
-  }
-
   render() {
     return (
       <div className="c-app-tab-layout">
@@ -30,9 +26,11 @@ class AppTabLayout extends Component {
             <ul>
               {this.props.apps.map((app, idx) =>
                 <li key={idx}
-                    className={idx === this.state.selectedAppIdx ? 'c-app-tab-layout__tab--selected' : ''}
-                    onClick={() => this.selectApp(idx)}>
-                  {this.renderAppTabContent(app)}
+                  className={(this.props.subSlug === app.get('name') || (!this.props.subSlug && idx===0)) ? 'c-app-tab-layout__tab--selected' : ''}
+                >
+                  <Link to={this.getLocation(app)}>
+                    {this.renderAppTabContent(app)}
+                  </Link>
                 </li>)}
             </ul>
           </div>
@@ -42,10 +40,6 @@ class AppTabLayout extends Component {
         </div>
       </div>
     );
-  }
-
-  selectApp(selectedAppIdx) {
-    this.setState({selectedAppIdx});
   }
 
   renderAppTabContent(app) {
@@ -59,7 +53,10 @@ class AppTabLayout extends Component {
     if (this.props.apps.isEmpty()) {
       return;
     }
-    const app = this.props.apps.get(this.state.selectedAppIdx);
+    const app = this.props.subSlug? this.props.apps.filter(app=>app.get('name')).get(0) : this.props.apps.get(0);
+    if (!app) {
+      return;
+    }
     const category = app.get('category');
     const name = app.get('name');
     const id = app.get('id');
@@ -104,6 +101,13 @@ class AppTabLayout extends Component {
     return this.props.pageParams || Map();
   }
 
+  getLocation(app) {
+    const {assetId, slug} = this.props.params;
+    return {
+      pathname: `/assets/${assetId}/${slug}/${app.get('name')}`,
+      query: this.props.pageParams && this.props.pageParams.toJS()
+    };
+  }
 }
 
 AppTabLayout.propTypes = {
