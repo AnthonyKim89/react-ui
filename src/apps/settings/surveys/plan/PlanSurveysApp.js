@@ -8,6 +8,9 @@ const [ parseSubscription, minimumCurvatureSubscription ] = SUBSCRIPTIONS;
 class PlanSurveysApp extends Component {
 
   render() {
+    if (!this.props.asset) {
+      return null;
+    }
     return <SurveysApp
               {...this.props}
               recordNamePlural="Well Plans"
