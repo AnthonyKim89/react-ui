@@ -54,7 +54,7 @@ class DrillingOperationsApp extends Component {
                 xAxisLines={this.getXAxisLines()}
                 yAxisLines={this.getYAxisLines()}
                 legendEnabled={true}
-                tooltipPointFormat="{series.name}: {point.y}<br/>Total: {point.stackTotal}">
+                tooltipPointFormat="{series.name}: {point.y} min">
               </ColumnChart>  
             </div>
           </div>
@@ -240,30 +240,45 @@ class DrillingOperationsApp extends Component {
   }
 
   async getData() {
+    this.setState({
+      data: null
+    });
+
     let data = await api.getAppStorage(METADATA.provider, METADATA.collections[this.props.period || 0], this.props.asset.get('id'), Map({
-      query: '{data.operation_type#eq#' + (this.props.operationType || 0) + '}',
+      query: `{data.operation#eq#'${this.props.operationType || 0}'}`,
       limit: 1
     }));
-    data = this.getFakeData();
+    //data = this.getFakeData();
+    // UI is expecting single item, but API returns array
+    if(data) {
+      data = data.get(0);
+    }
     this.setState({
       data: data
     });
   }
 
   getGraphData() {
-    const keys = _.pull(this.state.data
-      .getIn(['data', 'operations']).first().keySeq().toArray(), 'from', 'to', 'shift');
+    //const keys = _.pull(this.state.data
+    //  .getIn(['data', 'operations']).first().keySeq().toArray(), 'from', 'to', 'shift');
+    //const keys = this.state.data
+    //  .getIn(['data', 'operations']).first().keySeq().toArray();
+    const keys  = [SUPPORTED_OPERATIONS[this.props.operationType || 0].title];
     const sorted = this.state.data.getIn(['data', 'operations']).sort((a, b) =>
         a.get('shift').localeCompare(b.get('shift'))
       ).toJS();
-    return fromJS(keys.map(key => ({
+
+    var graph_data =  fromJS(keys.map(key => ({
         name: key,
         data: _.map(sorted, h => ({
-          y: Math.round(h[key]), 
+          y: ((h['to'] - h['from']) / 60.0).fixFloat(1), 
           name: formatDate(h.from*1000, 'M/D h:mm') + ' - ' + formatDate(h.to*1000, 'M/D h:mm')
         })),
         color: ACTIVITY_COLORS[key]
       })));
+
+    return graph_data;
+      
   }
 }
 
