@@ -83,7 +83,7 @@ class SettingsRecordEditor extends Component {
     }
 
     if (this.props.preSaveHandler) {
-      this.props.preSaveHandler(this.state.record, this.saveRecordAfterProcessing);
+      this.props.preSaveHandler(this.state.record, this.saveRecordAfterProcessing.bind(this));
     }
     else {
       if (this.props.convertRecordBackToImperialUnit) {
@@ -97,8 +97,7 @@ class SettingsRecordEditor extends Component {
   }
 
   saveRecordAfterProcessing(data) {
-    console.log(data.toJS());
-    //this.props.onSave(postProcessingRecord);
+    this.props.onSave(this.props.record.update("data",old=>data));
   }
 
   updateRecord(record) {

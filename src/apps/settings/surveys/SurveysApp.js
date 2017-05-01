@@ -27,8 +27,6 @@ class SurveysApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pendingParseTaskId: null,
-      pendingMinimumCurvatureTaskId: null,
       parsingTaskResult: null
     };
   }
@@ -39,36 +37,47 @@ class SurveysApp extends Component {
 
   receiveTaskData(props,temp) {
     if (props) {
-      const parseResult = subscriptions.selectors.getSubData(props.data, this.props.parseCollectionConfig); 
-      if (parseResult && parseResult.get('task_id') === this.state.pendingParseTaskId) {
-        this.setState({pendingParseTaskId: null});       
-        //this.invokeMinimumCurvatureTask(parseResult.getIn(['data', 'data']));
+      if (this.pendingParseTaskId) {      
+        const parseResult = subscriptions.selectors.getSubData(props.data, this.props.parseCollectionConfig); 
+        if (parseResult && parseResult.get('task_id') === this.pendingParseTaskId) {
+          this.pendingParseTaskId = null;
+          this.setState({parsingTaskResult: parseResult.getIn(['data','data'])});
+        }
       }
-      const minimumCurvatureResult = subscriptions.selectors.getSubData(props.data, this.props.minimumCurvatureCollectionConfig);
-      if (minimumCurvatureResult && minimumCurvatureResult.get('task_id') === this.state.pendingMinimumCurvatureTaskId) {
-        this.setState({
-          pendingMinimumCurvatureTaskId: null,
-          lastTaskResult: minimumCurvatureResult.getIn(['data'])
-        });
+
+      if (this.pendingMinimumCurvatureTaskId) {
+        const minimumCurvatureResult = subscriptions.selectors.getSubData(props.data, this.props.minimumCurvatureCollectionConfig);
+        if (minimumCurvatureResult && minimumCurvatureResult.get('task_id') === this.pendingMinimumCurvatureTaskId) {
+          this.pendingMinimumCurvatureTaskId = null;
+
+          if (this.afterProcessingHandler) {
+            this.afterProcessingHandler(minimumCurvatureResult.getIn(['data']));
+          } 
+        }
       }
     }
-    else {
+    
+    else { // --temp , should get removed before pushing to QA.
 
-      //all temporary , but some logic should be fed into real logic.
-      const parseResult = temp;
-      if (parseResult && parseResult.get('task_id') === this.state.pendingParseTaskId) {
-        this.setState({pendingParseTaskId: null, parsingTaskResult: parseResult.getIn(['data','data'])});
+      if (this.pendingParseTaskId) {
+        const parseResult = temp;
+        if (parseResult && parseResult.get('task_id') === this.pendingParseTaskId) {
+          this.pendingParseTaskId = null;
+          this.setState({parsingTaskResult: parseResult.getIn(['data','data'])});
+        }
       }
 
-      const minimumCurvatureResult = temp;
-      if (minimumCurvatureResult && minimumCurvatureResult.get('task_id') === this.state.pendingMinimumCurvatureTaskId) {
-        this.setState({
-          pendingMinimumCurvatureTaskId: null          
-        });
-        if (this.afterProcessingHandler) {
-          this.afterProcessingHandler(minimumCurvatureResult.getIn(['data']));
-        }        
+      if (this.pendingMinimumCurvatureTaskId) {
+        const minimumCurvatureResult = temp;
+        if (minimumCurvatureResult && minimumCurvatureResult.get('task_id') === this.pendingMinimumCurvatureTaskId) {
+          this.pendingMinimumCurvatureTaskId = null;
+
+          if (this.afterProcessingHandler) {
+            this.afterProcessingHandler(minimumCurvatureResult.getIn(['data']));
+          }        
+        }
       }
+
     }
 
   }
@@ -114,12 +123,12 @@ class SurveysApp extends Component {
     },1000);
     //-- temp code end
 
-    this.setState({pendingParseTaskId: res.get('task_id')});
+    this.pendingParseTaskId = res.get('task_id');
+
   }
   
   async invokeMinimumCurvatureTask(record, afterProcessingHandler) {
-    
-    //const blob = new Blob([JSON.stringify(data.toJS())], {type: 'application/json'});
+
     this.afterProcessingHandler = afterProcessingHandler;
     const res = await api.postTaskDocument(
       this.props.minimumCurvatureCollectionConfig.provider,
@@ -139,7 +148,7 @@ class SurveysApp extends Component {
     },2000);
     //-- temp code end
 
-    this.setState({pendingMinimumCurvatureTaskId: res.get('task_id')});
+    this.pendingMinimumCurvatureTaskId = res.get('task_id');
   }
 
 }
