@@ -60,6 +60,8 @@ class SettingsRecordManager extends Component {
           RecordDetails={this.props.RecordDetails}
           record={this.state.editingRecord}
           recordValidator={this.props.recordValidator}
+          preSaveHandler={this.props.preSaveHandler}
+          isProcessing={this.props.isProcessing}
           convertRecordBackToImperialUnit={this.props.convertRecordBackToImperialUnit}
           onSave={record => this.saveRecord(record)}
           onCancel={() => this.setState({editingRecord: null})}

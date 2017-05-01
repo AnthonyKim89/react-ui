@@ -1,0 +1,67 @@
+{
+  "asset_id": 29,
+  "data": {
+    "stations": [
+      {
+        "measured_depth": 0,
+        "inclination": 0,
+        "azimuth": 0,
+        "tvd": 0,
+        "vertical_section": 0,
+        "northing": 0,
+        "easting": 0,
+        "dls": 0
+      },
+      {
+        "measured_depth": 156,
+        "inclination": 0.3,
+        "azimuth": 341,
+        "tvd": 156,
+        "vertical_section": -0.41,
+        "northing": 0.39,
+        "easting": -0.13,
+        "dls": 0.19
+      },
+      {
+        "measured_depth": 272,
+        "inclination": 0.2,
+        "azimuth": 136,
+        "tvd": 272,
+        "vertical_section": -0.53,
+        "northing": 0.53,
+        "easting": -0.09,
+        "dls": 0.42
+      },
+      {
+        "measured_depth": 446,
+        "inclination": 0.3,
+        "azimuth": 68,
+        "tvd": 446,
+        "vertical_section": -0.33,
+        "northing": 0.48,
+        "easting": 0.54,
+        "dls": 0.17
+      },
+      {
+        "measured_depth": 616,
+        "inclination": 0.3,
+        "azimuth": 81,
+        "tvd": 616,
+        "vertical_section": -0.36,
+        "northing": 0.72,
+        "easting": 1.39,
+        "dls": 0.04
+      },
+      {
+        "measured_depth": 783,
+        "inclination": 0.3,
+        "azimuth": 115,
+        "tvd": 782.99,
+        "vertical_section": -0.04,
+        "northing": 0.6,
+        "easting": 2.22,
+        "dls": 0.11
+      }
+    ]
+  }
+}

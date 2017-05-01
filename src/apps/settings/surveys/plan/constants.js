@@ -7,7 +7,7 @@ export const SUBSCRIPTIONS = [
 export const METADATA = {
   title: 'Well Plan',
   settingsTitle: 'Well Plan',
-  subTitle: 'Drilling trajectory planned well path',
+  subtitle: 'Drilling trajectory planned well path',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',
   publishedAt: '2016-07-01T00:00:00',

@@ -71,7 +71,12 @@ class AppContainer extends Component {
   getAppAssetName() {
     let assetId = this.props.appSettings.get("assetId");
     let asset = this.props.availableAssets.find(a => a.get("id") === assetId);
-    return asset.get("name", "");
+    if(asset){
+      return asset.get("name", "");
+    }
+    else {
+      return "Rig";
+    }
   }
   
   render() {

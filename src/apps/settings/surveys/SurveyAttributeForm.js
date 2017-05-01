@@ -93,17 +93,17 @@ class SurveyAttributeForm extends Component {
     })});
   }
 
-  onFinish(urlObj) {    
-    this.props.onUpload(urlObj.file_name);
-    this.setState({currentUpload:null});
+  onFinish(urlObj) {
+    this.setState({currentUpload: null});
+    this.props.onUpload(urlObj.file_name);    
   }
 
   onError() {
   }
 
   onAbort() {
-    this.clearUpload();
-    this.setState({currentUpload:null});
+    this.setState({currentUpload: null});
+    this.clearUpload();    
   }
 
 }
@@ -118,9 +118,17 @@ export function attributeFormWithUpload(uploadResult, onUpload) {
 
     componentWillMount() {
       // If there's a new uploadResult, pass it into the record editor through the attribute form's
-      // regular onUpdateRecord callback.
+      // regular onUpdateRecord callback.      
       if (uploadResult) {
-        this.props.onUpdateRecord(this.props.record.mergeIn(['data'], uploadResult));
+        let record = this.props.record;
+        if (record.getIn(['data','stations'])) {
+          record = record.updateIn(['data','stations'], old => old.concat(uploadResult.get('stations')));
+        }
+        else {
+          record = record.mergeIn(['data'], uploadResult);
+        }
+
+        this.props.onUpdateRecord(record);
       }
     }
 

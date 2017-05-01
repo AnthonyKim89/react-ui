@@ -1,0 +1,28 @@
+{
+  "asset_id": 1,
+  "company_id": 2,
+  "data": {
+    "stations": [
+      {
+        "inclination": 0.0,
+        "azimuth": 0.0,
+        "measured_depth": 0.0
+      },
+      {
+        "inclination": 0.0,
+        "azimuth": 0.0,
+        "measured_depth": 2700.0
+      },
+      {
+        "inclination": 1.0,
+        "azimuth": 134.43,
+        "measured_depth": 2800.0
+      },
+      {
+        "inclination": 2.0,
+        "azimuth": 134.43,
+        "measured_depth": 2900.0
+      }      
+    ]
+  }
+}
