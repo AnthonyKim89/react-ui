@@ -40,6 +40,11 @@ class DailyReportsApp extends Component {
   }
 
   render() {
+
+    if (!this.props.asset) {
+      return null;
+    }    
+
     const record = Map({
       asset_id: this.props.asset.get('id'),      
       data: Map({})

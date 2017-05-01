@@ -15,6 +15,6 @@ export const routes =
     <Route path="assets">
       <IndexRedirect to={assets.constants.ASSET_TYPES.keySeq().first()} />
       <Route path=":assetType" component={AssetListPage} />
-      <Route path=":assetId/:slug" component={AssetPage} />
+      <Route path=":assetId/:slug(/:subSlug)" component={AssetPage} />
     </Route>
   </Route>;

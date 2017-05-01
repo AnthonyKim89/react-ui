@@ -70,6 +70,8 @@ class AssetPage extends Component {
           <AppLayout apps={this.props.currentAssetDashboard.get('apps').valueSeq()}
                      appData={this.props.appData}
                      appAssets={this.getAppAssets()}
+                     params={this.props.params}
+                     subSlug={this.props.params.subSlug}
                      convert={this.convert}
                      onAppSubscribe={(...a) => this.props.subscribeApp(...a)}
                      onAppUnsubscribe={(...a) => this.props.unsubscribeApp(...a)}
