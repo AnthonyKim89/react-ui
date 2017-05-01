@@ -24,7 +24,7 @@ class AppTabLayout extends Component {
           <div className="c-app-tab-layout__tab-bar-inner">
             <h5>Sections</h5>
             <ul>
-              {this.props.apps.map((app, idx) =>
+              {this.props.apps.sortBy(app=>(app.getIn(['coordinates','y']) || 0)).map((app, idx) =>
                 <li key={idx}
                   className={(this.props.subSlug === app.get('name') || (!this.props.subSlug && idx===0)) ? 'c-app-tab-layout__tab--selected' : ''}
                 >
