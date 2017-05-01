@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { Input } from 'react-materialize';
 import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
@@ -6,11 +7,12 @@ class SurveyDetails extends Component {
 
   render() {
     return <div className="c-survey-details">
-      { this.editable ? this.renderEditable() : this.renderDetailed()}
+      { this.props.isEditable ? this.renderEditable() : this.renderDetailed()}
     </div>;
   }
 
   renderEditable() {
+    console.log(this.props.record.toJS());
     return <table>
         <thead>
           <tr>
@@ -22,9 +24,31 @@ class SurveyDetails extends Component {
         <tbody>
           {this.props.record.getIn(['data', 'stations'], List()).map((station, index) => 
             <tr key={index}>
-              <td>{station.get('measured_depth')}</td>
-              <td>{station.get('inclination')}</td>
-              <td>{station.get('azimuth')}</td>
+              <td>
+                <Input type="number" 
+                  s={12}
+                  label="M.Depth"
+                  defaultValue={station.get('measured_depth')}
+                  onChange={e => this.onValueChange(index,'measured_depth', e.target.value,true)}
+                />
+              </td>
+
+              <td>
+                <Input type="number" 
+                  s={12}
+                  label="M.Depth"
+                  defaultValue={station.get('inclination')}
+                  onChange={e => this.onValueChange(index,'inclination', e.target.value,true)}
+                />              
+              </td>
+              <td>
+                <Input type="number" 
+                  s={12}
+                  label="M.Depth"
+                  defaultValue={station.get('azimuth')}
+                  onChange={e => this.onValueChange(index,'azimuth', e.target.value,true)}
+                />
+              </td>
             </tr>
           )}
         </tbody>
@@ -62,11 +86,18 @@ class SurveyDetails extends Component {
       </table>;
   }
 
+  onValueChange(idx,name, value,isNumber) {
+    if (isNumber) {
+      value = isNaN(parseFloat(value))? value: parseFloat(value);
+    }
+    this.props.onUpdateRecord(this.props.record.setIn(['data', 'stations', idx, name], value));
+  }
+
 }
 
 SurveyDetails.propTypes = {
   record: ImmutablePropTypes.map.isRequired,
-  editable: ImmutablePropTypes.bool
+  isEditable: PropTypes.bool.isRequired,
 };
 
 export default SurveyDetails;

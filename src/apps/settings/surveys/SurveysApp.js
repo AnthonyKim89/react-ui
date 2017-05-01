@@ -11,6 +11,13 @@ import SettingsRecordManager from '../components/SettingsRecordManager';
 import subscriptions from '../../../subscriptions';
 import * as api from '../../../api';
 
+// --temp code start
+import {fromJS} from 'immutable';
+import tempParsed from './temp/parse.json';
+import tempMinimum from './temp/minimum.json';
+// --temp code end
+
+
 /**
  * Common app component used by both ActualSurveysApp and PlanSurveysApp because their
  * functionality is identical. They just manage different data collections
@@ -22,7 +29,7 @@ class SurveysApp extends Component {
     this.state = {
       pendingParseTaskId: null,
       pendingMinimumCurvatureTaskId: null,
-      lastTaskResult: null
+      parsingTaskResult: null
     };
   }
 
@@ -30,22 +37,40 @@ class SurveysApp extends Component {
     this.receiveTaskData(newProps);
   }
 
-  receiveTaskData(props) {
-    const parseResult = subscriptions.selectors.getSubData(props.data, this.props.parseCollectionConfig); 
-    if (parseResult && parseResult.get('task_id') === this.state.pendingParseTaskId) {
-      this.setState({pendingParseTaskId: null});
-      // Parsing done, invoke the second, minimum curvature task.
-      // (This chaining should be done automatically by Lambda function composition in the long run,
-      // instead of having the frontend do it.)
-      this.invokeMinimumCurvatureTask(parseResult.getIn(['data', 'data']));
+  receiveTaskData(props,temp) {
+    if (props) {
+      const parseResult = subscriptions.selectors.getSubData(props.data, this.props.parseCollectionConfig); 
+      if (parseResult && parseResult.get('task_id') === this.state.pendingParseTaskId) {
+        this.setState({pendingParseTaskId: null});       
+        //this.invokeMinimumCurvatureTask(parseResult.getIn(['data', 'data']));
+      }
+      const minimumCurvatureResult = subscriptions.selectors.getSubData(props.data, this.props.minimumCurvatureCollectionConfig);
+      if (minimumCurvatureResult && minimumCurvatureResult.get('task_id') === this.state.pendingMinimumCurvatureTaskId) {
+        this.setState({
+          pendingMinimumCurvatureTaskId: null,
+          lastTaskResult: minimumCurvatureResult.getIn(['data'])
+        });
+      }
     }
-    const minimumCurvatureResult = subscriptions.selectors.getSubData(props.data, this.props.minimumCurvatureCollectionConfig);
-    if (minimumCurvatureResult && minimumCurvatureResult.get('task_id') === this.state.pendingMinimumCurvatureTaskId) {
-      this.setState({
-        pendingMinimumCurvatureTaskId: null,
-        lastTaskResult: minimumCurvatureResult.getIn(['data'])
-      });
+    else {
+
+      //all temporary , but some logic should be fed into real logic.
+      const parseResult = temp;
+      if (parseResult && parseResult.get('task_id') === this.state.pendingParseTaskId) {
+        this.setState({pendingParseTaskId: null, parsingTaskResult: parseResult.getIn(['data','data'])});
+      }
+
+      const minimumCurvatureResult = temp;
+      if (minimumCurvatureResult && minimumCurvatureResult.get('task_id') === this.state.pendingMinimumCurvatureTaskId) {
+        this.setState({
+          pendingMinimumCurvatureTaskId: null          
+        });
+        if (this.afterProcessingHandler) {
+          this.afterProcessingHandler(minimumCurvatureResult.getIn(['data']));
+        }        
+      }
     }
+
   }
 
   render() {
@@ -57,8 +82,10 @@ class SurveysApp extends Component {
               recordNamePlural={this.props.recordNamePlural}
               recordNameSingular={this.props.recordNameSingular}
               recordDataTemplate={SURVEY_DATA_TEMPLATE}
+              hideRecordSummaryInRecordEditor={true}
+              preSaveHandler={this.invokeMinimumCurvatureTask.bind(this)}
               RecordSummary={SurveySummary}
-              RecordAttributeForm={attributeFormWithUpload(this.state.lastTaskResult, (...a) => this.invokeParseTask(...a))}
+              RecordAttributeForm={attributeFormWithUpload(this.state.parsingTaskResult, (...a) => this.invokeParseTask(...a))}
               RecordDetails={SurveyDetails}
               renderRecordListItem={s => this.renderSurveyListItem(s)} />;
   }
@@ -75,17 +102,43 @@ class SurveysApp extends Component {
       { file_name: file },
       Map({asset_id: this.props.asset.get('id')})
     );
+
+    //-- temp code start
+    let tempParsedWrap =fromJS({
+      task_id: res.get('task_id'),
+      data: tempParsed
+    });
+
+    setTimeout(_=> {
+      this.receiveTaskData(null,tempParsedWrap);
+    },1000);
+    //-- temp code end
+
     this.setState({pendingParseTaskId: res.get('task_id')});
   }
-
-  async invokeMinimumCurvatureTask(data) {
+  
+  async invokeMinimumCurvatureTask(record, afterProcessingHandler) {
+    
     //const blob = new Blob([JSON.stringify(data.toJS())], {type: 'application/json'});
+    this.afterProcessingHandler = afterProcessingHandler;
     const res = await api.postTaskDocument(
       this.props.minimumCurvatureCollectionConfig.provider,
       this.props.minimumCurvatureCollectionConfig.collection,
-      data,
+      record.getIn(["data"]),
       Map({asset_id: this.props.asset.get('id')})
     );
+
+    console.log("Got the minimum task id");
+
+    //-- temp code start
+    tempMinimum.task_id = res.get('task_id');
+    let tempMinimumWrap = fromJS(tempMinimum);
+
+    setTimeout(_=> {
+      this.receiveTaskData(null,tempMinimumWrap);
+    },2000);
+    //-- temp code end
+
     this.setState({pendingMinimumCurvatureTaskId: res.get('task_id')});
   }
 

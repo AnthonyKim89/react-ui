@@ -81,13 +81,24 @@ class SettingsRecordEditor extends Component {
         return;        
       }      
     }
-    if (this.props.convertRecordBackToImperialUnit) {
-      let convertedRecord = this.props.convertRecordBackToImperialUnit(this.state.record);
-      this.props.onSave(convertedRecord);
+
+    if (this.props.preSaveHandler) {
+      this.props.preSaveHandler(this.state.record, this.saveRecordAfterProcessing);
     }
-    else {      
-      this.props.onSave(this.state.record);
-    }
+    else {
+      if (this.props.convertRecordBackToImperialUnit) {
+        let convertedRecord = this.props.convertRecordBackToImperialUnit(this.state.record);
+        this.props.onSave(convertedRecord);
+      }
+      else {      
+        this.props.onSave(this.state.record);
+      }
+    }    
+  }
+
+  saveRecordAfterProcessing(data) {
+    console.log(data.toJS());
+    //this.props.onSave(postProcessingRecord);
   }
 
   updateRecord(record) {
