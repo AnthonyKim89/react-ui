@@ -20,9 +20,9 @@ class SurveyDetails extends Component {
       <table>
         <thead>
           <tr>
-            <th>M. Depth</th>
-            <th>Inc</th>
-            <th>Azi</th>
+            <th>Measured Depth</th>
+            <th>Inclination</th>
+            <th>Azimuth</th>
           </tr>
         </thead>
         <tbody>
@@ -31,7 +31,7 @@ class SurveyDetails extends Component {
               <td>
                 <Input type="number" 
                   s={12}
-                  label="M.Depth"
+                  label="Measured Depth"
                   defaultValue={numeral(station.get('measured_depth')).format('0.0')}
                   onChange={e => this.onValueChange(index,'measured_depth', e.target.value,true)}
                 />
@@ -40,7 +40,7 @@ class SurveyDetails extends Component {
               <td>
                 <Input type="number" 
                   s={12}
-                  label="M.Depth"
+                  label="Inclination"
                   defaultValue={numeral(station.get('inclination')).format('0.0')}
                   onChange={e => this.onValueChange(index,'inclination', e.target.value,true)}
                 />              
@@ -48,7 +48,7 @@ class SurveyDetails extends Component {
               <td>
                 <Input type="number" 
                   s={12}
-                  label="M.Depth"
+                  label="Azimuth"
                   defaultValue={numeral(station.get('azimuth')).format('0.0')}
                   onChange={e => this.onValueChange(index,'azimuth', e.target.value,true)}
                 />
