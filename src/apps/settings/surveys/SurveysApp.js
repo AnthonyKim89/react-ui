@@ -12,9 +12,9 @@ import subscriptions from '../../../subscriptions';
 import * as api from '../../../api';
 
 //-- temp code start
-import {fromJS} from 'immutable';
+/*import {fromJS} from 'immutable';
 import tempParsed from './temp/parse.json';
-import tempMinimum from './temp/minimum.json';
+import tempMinimum from './temp/minimum.json';*/
 //-- temp code end
 
 
@@ -60,7 +60,7 @@ class SurveysApp extends Component {
     }
 
     //-- temp code start
-    if (!props && temp) {
+    /*if (!props && temp) {
 
       if (this.pendingParseTaskId) {
         const parseResult = temp;
@@ -82,7 +82,7 @@ class SurveysApp extends Component {
         }
       }
 
-    }
+    }*/
 
     //-- temp code end
 
@@ -126,14 +126,14 @@ class SurveysApp extends Component {
     );
 
     //-- temp code start
-    let tempParsedWrap =fromJS({
+    /*let tempParsedWrap =fromJS({
       task_id: res.get('task_id'),
       data: tempParsed
     });
 
     setTimeout(_=> {
       this.receiveTaskData(null,tempParsedWrap);
-    },1000);
+    },1000);*/
     
     //-- temp code end
 
@@ -156,12 +156,12 @@ class SurveysApp extends Component {
     console.log("Got the minimumcurvature task id");
 
     //-- temp code start
-    tempMinimum.task_id = res.get('task_id');
+    /*tempMinimum.task_id = res.get('task_id');
     let tempMinimumWrap = fromJS(tempMinimum);
 
     setTimeout(_=> {
       this.receiveTaskData(null,tempMinimumWrap);
-    },2000);
+    },2000);*/
     //-- temp code end
 
     this.pendingMinimumCurvatureTaskId = res.get('task_id');
