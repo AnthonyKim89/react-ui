@@ -15,7 +15,6 @@ class SurveyDetails extends Component {
   }
 
   renderEditable() {
-    console.log(this.props.record.toJS());
     return <div className="c-survey-details__edit-table">
       <table>
         <thead>
@@ -65,7 +64,8 @@ class SurveyDetails extends Component {
   }
 
   renderDetailed() {
-    return <table>
+    return <div className="c-survey-details__detail-table">
+      <table>
         <thead>
           <tr>
             <th>M. Depth</th>
@@ -83,7 +83,7 @@ class SurveyDetails extends Component {
             <tr key={index}>
               <td>{numeral(station.get('measured_depth')).format('0,0.00')}</td>
               <td>{numeral(station.get('inclination')).format('0,0.00')}</td>
-              <td>{numeral(station.get('azimuth')).format('0,0.00')}{station.get('azimuth')}</td>
+              <td>{numeral(station.get('azimuth')).format('0,0.00')}</td>
               <td>{numeral(station.get('tvd')).format('0,0.00')}</td>
               <td>{numeral(station.get('vertical_section')).format('0,0.00')}</td>
               <td>{numeral(station.get('northing')).format('0,0.00')}</td>
@@ -92,7 +92,12 @@ class SurveyDetails extends Component {
             </tr>
           )}
         </tbody>
-      </table>;
+      </table>
+      
+      <div>
+        <Button floating icon="edit" onClick={() => this.props.onEditRecord()}></Button>
+      </div>
+    </div>;
   }
 
   onAddSurveyItem() {
@@ -103,7 +108,6 @@ class SurveyDetails extends Component {
     });
 
     let record = this.props.record;
-    console.log(record.toJS());
     if (!record.getIn(['data','stations'])) {
       record = this.props.record.update('data', old => old.set('stations', List()));
     }

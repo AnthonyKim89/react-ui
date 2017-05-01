@@ -34,7 +34,8 @@ class SettingsRecordBrowser extends Component {
           <this.props.RecordDetails
             record={this.props.displayingRecord}
             convert={this.props.convert}
-            isEditable={false} />
+            isEditable={false} 
+            onEditRecord={this.props.onEditRecord}/>
         </div>}
     </div>;
   }

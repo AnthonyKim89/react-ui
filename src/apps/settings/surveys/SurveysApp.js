@@ -8,14 +8,14 @@ import { attributeFormWithUpload } from './SurveyAttributeForm';
 import SurveyDetails from './SurveyDetails';
 import { SURVEY_DATA_TEMPLATE } from './constants';
 import SettingsRecordManager from '../components/SettingsRecordManager';
-// import subscriptions from '../../../subscriptions';
+import subscriptions from '../../../subscriptions';
 import * as api from '../../../api';
 
-// --temp code start
+//-- temp code start
 import {fromJS} from 'immutable';
 import tempParsed from './temp/parse.json';
 import tempMinimum from './temp/minimum.json';
-// --temp code end
+//-- temp code end
 
 
 /**
@@ -37,7 +37,7 @@ class SurveysApp extends Component {
   }
 
   receiveTaskData(props,temp) {
-    /*if (props) {
+    if (props && !temp) {
       if (this.pendingParseTaskId) {      
         const parseResult = subscriptions.selectors.getSubData(props.data, this.props.parseCollectionConfig); 
         if (parseResult && parseResult.get('task_id') === this.pendingParseTaskId) {
@@ -57,9 +57,10 @@ class SurveysApp extends Component {
           } 
         }
       }
-    }*/
+    }
 
-    if (!props && temp) { // --temp , should get removed before pushing to QA.
+    //-- temp code start
+    if (!props && temp) {
 
       if (this.pendingParseTaskId) {
         const parseResult = temp;
@@ -82,6 +83,8 @@ class SurveysApp extends Component {
       }
 
     }
+
+    //-- temp code end
 
   }
 
@@ -150,7 +153,7 @@ class SurveysApp extends Component {
       Map({asset_id: this.props.asset.get('id')})
     );
 
-    console.log("Got the minimum task id");
+    console.log("Got the minimumcurvature task id");
 
     //-- temp code start
     tempMinimum.task_id = res.get('task_id');
