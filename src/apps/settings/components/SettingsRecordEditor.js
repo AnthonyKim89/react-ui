@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Row, Col, Button } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Convert from '../../../common/Convert';
+import LoadingIndicator from '../../../common/LoadingIndicator';
 
 import './SettingsRecordEditor.css';
 
@@ -13,6 +14,10 @@ class SettingsRecordEditor extends Component {
   }
 
   render() {
+    if (this.props.isProcessing) {
+      return <LoadingIndicator/>;
+    }
+
     return <div className="c-settings-record-editor">
       {this.renderAttributeForm()}
       {this.renderSummary()}
@@ -81,13 +86,23 @@ class SettingsRecordEditor extends Component {
         return;        
       }      
     }
-    if (this.props.convertRecordBackToImperialUnit) {
-      let convertedRecord = this.props.convertRecordBackToImperialUnit(this.state.record);
-      this.props.onSave(convertedRecord);
+
+    if (this.props.preSaveHandler) {
+      this.props.preSaveHandler(this.state.record, this.saveRecordAfterProcessing.bind(this));
     }
-    else {      
-      this.props.onSave(this.state.record);
-    }
+    else {
+      if (this.props.convertRecordBackToImperialUnit) {
+        let convertedRecord = this.props.convertRecordBackToImperialUnit(this.state.record);
+        this.props.onSave(convertedRecord);
+      }
+      else {      
+        this.props.onSave(this.state.record);
+      }
+    }    
+  }
+
+  saveRecordAfterProcessing(data) {
+    this.props.onSave(this.props.record.update("data",old=>data));
   }
 
   updateRecord(record) {

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import { format as formatTime } from 'date-fns';
 import { Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import moment from 'moment';
 
 import SurveySummary from './SurveySummary';
 import { attributeFormWithUpload } from './SurveyAttributeForm';
@@ -10,6 +10,13 @@ import { SURVEY_DATA_TEMPLATE } from './constants';
 import SettingsRecordManager from '../components/SettingsRecordManager';
 import subscriptions from '../../../subscriptions';
 import * as api from '../../../api';
+
+//-- temp code start
+/*import {fromJS} from 'immutable';
+import tempParsed from './temp/parse.json';
+import tempMinimum from './temp/minimum.json';*/
+//-- temp code end
+
 
 /**
  * Common app component used by both ActualSurveysApp and PlanSurveysApp because their
@@ -20,9 +27,8 @@ class SurveysApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pendingParseTaskId: null,
-      pendingMinimumCurvatureTaskId: null,
-      lastTaskResult: null
+      parsingTaskResult: null,
+      isProcessing: false
     };
   }
 
@@ -30,63 +36,135 @@ class SurveysApp extends Component {
     this.receiveTaskData(newProps);
   }
 
-  receiveTaskData(props) {
-    const parseResult = subscriptions.selectors.getSubData(props.data, this.props.parseCollectionConfig); 
-    if (parseResult && parseResult.get('task_id') === this.state.pendingParseTaskId) {
-      this.setState({pendingParseTaskId: null});
-      // Parsing done, invoke the second, minimum curvature task.
-      // (This chaining should be done automatically by Lambda function composition in the long run,
-      // instead of having the frontend do it.)
-      this.invokeMinimumCurvatureTask(parseResult.getIn(['data', 'data']));
+  receiveTaskData(props,temp) {
+    if (props && !temp) {
+      if (this.pendingParseTaskId) {      
+        const parseResult = subscriptions.selectors.getSubData(props.data, this.props.parseCollectionConfig); 
+        if (parseResult && parseResult.get('task_id') === this.pendingParseTaskId) {
+          this.pendingParseTaskId = null;
+          this.setState({isProcessing: false,parsingTaskResult: parseResult.getIn(['data','data'])});
+        }
+      }
+
+      if (this.pendingMinimumCurvatureTaskId) {
+        const minimumCurvatureResult = subscriptions.selectors.getSubData(props.data, this.props.minimumCurvatureCollectionConfig);
+        if (minimumCurvatureResult && minimumCurvatureResult.get('task_id') === this.pendingMinimumCurvatureTaskId) {
+          this.pendingMinimumCurvatureTaskId = null;
+
+          if (this.afterProcessingHandler) {
+            this.afterProcessingHandler(minimumCurvatureResult.getIn(['data']));
+            this.setState({isProcessing: false, parsingTaskResult: null});
+          } 
+        }
+      }
     }
-    const minimumCurvatureResult = subscriptions.selectors.getSubData(props.data, this.props.minimumCurvatureCollectionConfig);
-    if (minimumCurvatureResult && minimumCurvatureResult.get('task_id') === this.state.pendingMinimumCurvatureTaskId) {
-      this.setState({
-        pendingMinimumCurvatureTaskId: null,
-        lastTaskResult: minimumCurvatureResult.getIn(['data'])
-      });
-    }
+
+    //-- temp code start
+    /*if (!props && temp) {
+
+      if (this.pendingParseTaskId) {
+        const parseResult = temp;
+        if (parseResult && parseResult.get('task_id') === this.pendingParseTaskId) {
+          this.pendingParseTaskId = null;
+          this.setState({isProcessing: false,parsingTaskResult: parseResult.getIn(['data','data'])});
+        }
+      }
+
+      if (this.pendingMinimumCurvatureTaskId) {
+        const minimumCurvatureResult = temp;
+        if (minimumCurvatureResult && minimumCurvatureResult.get('task_id') === this.pendingMinimumCurvatureTaskId) {
+          this.pendingMinimumCurvatureTaskId = null;
+
+          if (this.afterProcessingHandler) {
+            this.afterProcessingHandler(minimumCurvatureResult.getIn(['data']));
+            this.setState({isProcessing: false, parsingTaskResult: null});
+          }        
+        }
+      }
+
+    }*/
+
+    //-- temp code end
+
   }
 
   render() {
     return <SettingsRecordManager
               asset={this.props.asset}
+              title={this.props.title}
+              subtitle={this.props.subtitle}
               convert={this.props.convert}
               recordProvider={this.props.dataCollectionConfig.provider}
               recordCollection={this.props.dataCollectionConfig.collection}
               recordNamePlural={this.props.recordNamePlural}
               recordNameSingular={this.props.recordNameSingular}
               recordDataTemplate={SURVEY_DATA_TEMPLATE}
+              isProcessing={this.state.isProcessing}
+              hideRecordSummaryInRecordEditor={true}
+              preSaveHandler={this.invokeMinimumCurvatureTask.bind(this)}
               RecordSummary={SurveySummary}
-              RecordAttributeForm={attributeFormWithUpload(this.state.lastTaskResult, (...a) => this.invokeParseTask(...a))}
+              RecordAttributeForm={attributeFormWithUpload(this.state.parsingTaskResult, (...a) => this.invokeParseTask(...a))}
               RecordDetails={SurveyDetails}
               renderRecordListItem={s => this.renderSurveyListItem(s)} />;
   }
 
   renderSurveyListItem(survey) {
-    const timestamp = formatTime(survey.get('timestamp') * 1000, 'ddd MMM Do YYYY');
-    return `Date ${timestamp}`;
+    // we should be consistent in timestamp , ms, or seconds. 
+    const dateString =  moment.unix(survey.get('timestamp')).format('LLL');
+    return `Date ${dateString}`;
   }
 
   async invokeParseTask(file) {
+
+    this.setState({isProcessing: true});
+
     const res = await api.postTaskDocument(
       this.props.parseCollectionConfig.provider,
       this.props.parseCollectionConfig.collection,
       { file_name: file },
       Map({asset_id: this.props.asset.get('id')})
     );
-    this.setState({pendingParseTaskId: res.get('task_id')});
-  }
 
-  async invokeMinimumCurvatureTask(data) {
-    //const blob = new Blob([JSON.stringify(data.toJS())], {type: 'application/json'});
+    //-- temp code start
+    /*let tempParsedWrap =fromJS({
+      task_id: res.get('task_id'),
+      data: tempParsed
+    });
+
+    setTimeout(_=> {
+      this.receiveTaskData(null,tempParsedWrap);
+    },1000);*/
+    
+    //-- temp code end
+
+    this.pendingParseTaskId = res.get('task_id');
+
+  }
+  
+  async invokeMinimumCurvatureTask(record, afterProcessingHandler) {
+
+    this.setState({isProcessing: true});
+
+    this.afterProcessingHandler = afterProcessingHandler;
     const res = await api.postTaskDocument(
       this.props.minimumCurvatureCollectionConfig.provider,
       this.props.minimumCurvatureCollectionConfig.collection,
-      data,
+      record.getIn(["data"]),
       Map({asset_id: this.props.asset.get('id')})
     );
-    this.setState({pendingMinimumCurvatureTaskId: res.get('task_id')});
+
+    console.log("Got the minimumcurvature task id");
+
+    //-- temp code start
+    /*tempMinimum.task_id = res.get('task_id');
+    let tempMinimumWrap = fromJS(tempMinimum);
+
+    setTimeout(_=> {
+      this.receiveTaskData(null,tempMinimumWrap);
+    },2000);*/
+    //-- temp code end
+
+    this.pendingMinimumCurvatureTaskId = res.get('task_id');
   }
 
 }
