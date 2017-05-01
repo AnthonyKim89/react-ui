@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import { format as formatTime } from 'date-fns';
 import { Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import moment from 'moment';
 
 import SurveySummary from './SurveySummary';
 import { attributeFormWithUpload } from './SurveyAttributeForm';
@@ -27,7 +27,8 @@ class SurveysApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      parsingTaskResult: null
+      parsingTaskResult: null,
+      isProcessing: false
     };
   }
 
@@ -41,7 +42,7 @@ class SurveysApp extends Component {
         const parseResult = subscriptions.selectors.getSubData(props.data, this.props.parseCollectionConfig); 
         if (parseResult && parseResult.get('task_id') === this.pendingParseTaskId) {
           this.pendingParseTaskId = null;
-          this.setState({parsingTaskResult: parseResult.getIn(['data','data'])});
+          this.setState({isProcessing: false,parsingTaskResult: parseResult.getIn(['data','data'])});
         }
       }
 
@@ -52,6 +53,7 @@ class SurveysApp extends Component {
 
           if (this.afterProcessingHandler) {
             this.afterProcessingHandler(minimumCurvatureResult.getIn(['data']));
+            this.setState({isProcessing: false, parsingTaskResult: null});
           } 
         }
       }
@@ -63,7 +65,7 @@ class SurveysApp extends Component {
         const parseResult = temp;
         if (parseResult && parseResult.get('task_id') === this.pendingParseTaskId) {
           this.pendingParseTaskId = null;
-          this.setState({parsingTaskResult: parseResult.getIn(['data','data'])});
+          this.setState({isProcessing: false,parsingTaskResult: parseResult.getIn(['data','data'])});
         }
       }
 
@@ -74,6 +76,7 @@ class SurveysApp extends Component {
 
           if (this.afterProcessingHandler) {
             this.afterProcessingHandler(minimumCurvatureResult.getIn(['data']));
+            this.setState({isProcessing: false, parsingTaskResult: null});
           }        
         }
       }
@@ -85,12 +88,15 @@ class SurveysApp extends Component {
   render() {
     return <SettingsRecordManager
               asset={this.props.asset}
+              title={this.props.title}
+              subtitle={this.props.subtitle}
               convert={this.props.convert}
               recordProvider={this.props.dataCollectionConfig.provider}
               recordCollection={this.props.dataCollectionConfig.collection}
               recordNamePlural={this.props.recordNamePlural}
               recordNameSingular={this.props.recordNameSingular}
               recordDataTemplate={SURVEY_DATA_TEMPLATE}
+              isProcessing={this.state.isProcessing}
               hideRecordSummaryInRecordEditor={true}
               preSaveHandler={this.invokeMinimumCurvatureTask.bind(this)}
               RecordSummary={SurveySummary}
@@ -100,11 +106,15 @@ class SurveysApp extends Component {
   }
 
   renderSurveyListItem(survey) {
-    const timestamp = formatTime(survey.get('timestamp') * 1000, 'ddd MMM Do YYYY');
-    return `Date ${timestamp}`;
+    // we should be consistent in timestamp , ms, or seconds. 
+    const dateString =  moment.unix(survey.get('timestamp') / 1000).format('LLL');
+    return `Date ${dateString}`;
   }
 
   async invokeParseTask(file) {
+
+    this.setState({isProcessing: true});
+
     const res = await api.postTaskDocument(
       this.props.parseCollectionConfig.provider,
       this.props.parseCollectionConfig.collection,
@@ -121,6 +131,7 @@ class SurveysApp extends Component {
     setTimeout(_=> {
       this.receiveTaskData(null,tempParsedWrap);
     },1000);
+    
     //-- temp code end
 
     this.pendingParseTaskId = res.get('task_id');
@@ -128,6 +139,8 @@ class SurveysApp extends Component {
   }
   
   async invokeMinimumCurvatureTask(record, afterProcessingHandler) {
+
+    this.setState({isProcessing: true});
 
     this.afterProcessingHandler = afterProcessingHandler;
     const res = await api.postTaskDocument(

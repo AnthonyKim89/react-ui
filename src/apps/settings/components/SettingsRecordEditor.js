@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Row, Col, Button } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Convert from '../../../common/Convert';
+import LoadingIndicator from '../../../common/LoadingIndicator';
 
 import './SettingsRecordEditor.css';
 
@@ -13,6 +14,10 @@ class SettingsRecordEditor extends Component {
   }
 
   render() {
+    if (this.props.isProcessing) {
+      return <LoadingIndicator/>;
+    }
+
     return <div className="c-settings-record-editor">
       {this.renderAttributeForm()}
       {this.renderSummary()}
