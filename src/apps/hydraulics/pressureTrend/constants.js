@@ -29,5 +29,10 @@ export const SUPPORTED_CHART_SERIES = {
      label: 'SPP',
      defaultColor: '#ff0000',
      type: 'line'
+   },
+  mudFlowIn: {
+     label: 'Mud Flow In',
+     defaultColor: '#5dd0fa',
+     type: 'line'
    }
 };

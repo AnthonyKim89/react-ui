@@ -28,16 +28,21 @@ class PressureTrendApp extends Component {
             xAxisColor="white"
             horizontal={true}
             multiAxis={true}
+            legendAlign='center'
+            legendVerticalAlign='bottom'
+            legendLayout='horizontal'
+            showLegend={true}
+            forceLegend={true}
             size={this.props.size}
             widthCols={this.props.widthCols}>
-            {this.getSeries().map(({renderType, title, type, yAxis, yAxisTitle, yAxisOpposite, data}) => (
+            {this.getSeries().map(({renderType, title, type, yAxis, yAxisTitle, yAxisOpposite, yField, data}) => (
               <ChartSeries
                 key={title}
                 id={title}
                 type={renderType}
                 title={title}
                 data={data}
-                yField="value"
+                yField={yField}
                 yAxis={yAxis}
                 yAxisTitle={{text:yAxisTitle, style: { color: "#fff" }}}
                 yAxisOpposite={yAxisOpposite}
@@ -59,7 +64,7 @@ class PressureTrendApp extends Component {
 
 
   getSeries() {
-    return List([this.getMudWeightSeries(), this.getECDSeries(), this.getStandpipePressureSeries()]);
+    return List([this.getMudWeightSeries(), this.getECDSeries(), this.getStandpipePressureSeries(), this.getMudFlowInSeries()]);
   }
 
   getMudWeightSeries() {
@@ -69,9 +74,24 @@ class PressureTrendApp extends Component {
         title: `${SUPPORTED_CHART_SERIES[type].label}`,
         type: type,
         yAxis: 0,
+        yField: "mud_weight",
         yAxisOpposite: false,
-        yAxisTitle: `Mud Weight (${this.props.convert.getUnitDisplay('volume')}pm)`,
-        data: List(this.getSeriesData('mud_weight', 'volume', 'gal'))
+        yAxisTitle: `Mud Weight (${this.props.convert.getUnitDisplay('density')})`,
+        data: List(this.getSeriesData('mud_weight', 'density', 'ppg'))
+    };
+  }
+
+  getMudFlowInSeries() {
+    const type = 'mudFlowIn';
+    return {
+        renderType: `${SUPPORTED_CHART_SERIES[type].type}`,
+        title: `${SUPPORTED_CHART_SERIES[type].label}`,
+        type: type,
+        yAxis: 2,
+        yField: "mud_flow_in",
+        yAxisOpposite: true,
+        yAxisTitle: `Mud Flow In (${this.props.convert.getUnitDisplay('volume')}pm)`,
+        data: List(this.getSeriesData('mud_flow_in', 'volume', 'gal'))
     };
   }
 
@@ -82,9 +102,10 @@ class PressureTrendApp extends Component {
         title: `${SUPPORTED_CHART_SERIES[type].label}`,
         type: type,
         yAxis: 0,
+        yField: "ecd",
         yAxisOpposite: false,
-        yAxisTitle: `Mud Weight (${this.props.convert.getUnitDisplay('volume')}pm)`,
-        data: List(this.getSeriesData('equivalent_circulating_density', 'volume', 'gal'))
+        yAxisTitle: `Mud Weight (${this.props.convert.getUnitDisplay('density')})`,
+        data: List(this.getSeriesData('ecd', 'density', 'ppg'))
     };
   }
 
@@ -95,17 +116,18 @@ class PressureTrendApp extends Component {
         title: `${SUPPORTED_CHART_SERIES[type].label}`,
         type: type,
         yAxis: 1,
+        yField: "standpipe_pressure",
         yAxisOpposite: true,
         yAxisTitle: `Pressure (${this.props.convert.getUnitDisplay('pressure')})`,
         data: List(this.getSeriesData('standpipe_pressure', 'pressure', 'psi'))
     };
   }
 
-  getSeriesData(serieName, valueCategory, valueUnit) {
+  getSeriesData(seriesName, valueCategory, valueUnit) {
     let data = subscriptions.selectors.firstSubData(
-        this.props.data, SUBSCRIPTIONS).getIn(['data', serieName]).toJSON();
+        this.props.data, SUBSCRIPTIONS).getIn(['data', seriesName]).toJSON();
     data = this.props.convert.convertImmutables(data, 'measured_depth', 'length', 'ft');
-    data = this.props.convert.convertImmutables(data, 'value', valueCategory, valueUnit);
+    data = this.props.convert.convertImmutables(data, seriesName, valueCategory, valueUnit);
     data = data.map((datum) => {
       return Map(datum);
     });
