@@ -110,7 +110,7 @@ class SurveysApp extends Component {
 
   renderSurveyListItem(survey) {
     // we should be consistent in timestamp , ms, or seconds. 
-    const dateString =  moment.unix(survey.get('timestamp') / 1000).format('LLL');
+    const dateString =  moment.unix(survey.get('timestamp')).format('LLL');
     return `Date ${dateString}`;
   }
 
