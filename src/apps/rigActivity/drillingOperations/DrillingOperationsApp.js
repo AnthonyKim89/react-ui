@@ -4,7 +4,6 @@ import { Input } from 'react-materialize';
 import { format as formatDate } from 'date-fns';
 import * as _ from 'lodash';
 import { fromJS, Map } from 'immutable';
-import numeral from 'numeral';
 
 import * as api from '../../../api';
 
@@ -269,8 +268,6 @@ class DrillingOperationsApp extends Component {
         a.get('shift').localeCompare(b.get('shift'))
       ).toJS();
 
-    console.log(sorted);
-
     var graph_data =  fromJS(keys.map(key => ({
         name: key,
         data: _.map(sorted, h => ({
@@ -280,7 +277,6 @@ class DrillingOperationsApp extends Component {
         color: ACTIVITY_COLORS[key]
       })));
 
-    console.log(JSON.stringify(graph_data));
     return graph_data;
       
   }
