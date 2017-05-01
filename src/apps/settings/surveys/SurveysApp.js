@@ -8,7 +8,7 @@ import { attributeFormWithUpload } from './SurveyAttributeForm';
 import SurveyDetails from './SurveyDetails';
 import { SURVEY_DATA_TEMPLATE } from './constants';
 import SettingsRecordManager from '../components/SettingsRecordManager';
-import subscriptions from '../../../subscriptions';
+// import subscriptions from '../../../subscriptions';
 import * as api from '../../../api';
 
 // --temp code start
@@ -36,7 +36,7 @@ class SurveysApp extends Component {
   }
 
   receiveTaskData(props,temp) {
-    if (props) {
+    /*if (props) {
       if (this.pendingParseTaskId) {      
         const parseResult = subscriptions.selectors.getSubData(props.data, this.props.parseCollectionConfig); 
         if (parseResult && parseResult.get('task_id') === this.pendingParseTaskId) {
@@ -55,9 +55,9 @@ class SurveysApp extends Component {
           } 
         }
       }
-    }
-    
-    else { // --temp , should get removed before pushing to QA.
+    }*/
+
+    if (!props && temp) { // --temp , should get removed before pushing to QA.
 
       if (this.pendingParseTaskId) {
         const parseResult = temp;
