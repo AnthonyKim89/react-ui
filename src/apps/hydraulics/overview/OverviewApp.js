@@ -76,11 +76,10 @@ class OverviewApp extends Component {
   }
 
   renderStatistics() {
-    let recommendedFlowRate = this.data.getIn(["data", "recommended_minimum_flowrate"]);
+    let recommendedFlowRate = this.data.getIn(["data", "static_hole_cleaning", "recommended_minimum_flowrate"]);
     recommendedFlowRate = this.props.convert.convertValue(recommendedFlowRate, "volume", "gal").fixFloat(1);
 
     let flowRateUnit = `${this.props.convert.getUnitDisplay('volume')}pm`;
-        
 
     let staticHoleCleaning = this.data.getIn(["data", "static_hole_cleaning"]);
     let statisHoleCleaningHtml = <div>-</div>;
@@ -88,9 +87,8 @@ class OverviewApp extends Component {
       let staticHoleCleaningDuration = this.data.getIn(["data", "static_hole_cleaning", "duration"]);
       let staticHoleCleaningFlowRate = this.data.getIn(["data", "static_hole_cleaning", "mud_flow_rate"]);
       staticHoleCleaningFlowRate = numeral(this.props.convert.convertValue(
-          staticHoleCleaningFlowRate, "volume", "gal")).parse("0.0");
+          staticHoleCleaningFlowRate, "volume", "gal")).format("0.0");
           statisHoleCleaningHtml = <div>{staticHoleCleaningDuration} min <span>@ {staticHoleCleaningFlowRate} {flowRateUnit}</span></div>;
-          
     }
 
 
