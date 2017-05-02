@@ -137,7 +137,6 @@ class RopPerformanceApp extends Component {
     let data = await api.getAppStorage(METADATA.provider, METADATA.collection, asset.get('id'), Map({
       query: '{timestamp#gte#' + from + '}AND{timestamp#lte#' + to + '}'
     }));
-    data = this.getFakeData();
     this.setState({
       data: data
     });
@@ -156,7 +155,7 @@ class RopPerformanceApp extends Component {
       data: List(this.state.data.map(record => {
         return Map({
           day: record.get('timestamp'),
-          value: record.getIn(['data', shift, ropType || 'total_rop'])
+          value: (record.getIn(['data', shift, "total", ropType || 'gross']) || 0).fixFloat(2)
         });
       }))
     };
