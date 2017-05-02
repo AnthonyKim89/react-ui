@@ -27,6 +27,12 @@ class RopPerformanceApp extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.asset && nextProps.asset && (this.props.period !== nextProps.period || this.props.ropType !== nextProps.ropType || this.props.asset.get("id") !== nextProps.asset.get("id"))) {
+      this.getData(nextProps.asset, nextProps.period);
+    }
+  }
+
   /*
   shouldComponentUpdate(nextProps, nextState) {
     return (nextProps.data !== this.props.data || 
@@ -50,7 +56,11 @@ class RopPerformanceApp extends Component {
                 xAxisColor="#bbb"                
                 xLabelStyle={{color: '#bbb'}}
                 xAxisLabelFormatter={(value) => {
-                  return Math.floor((Date.now() - value) / 1000 / 60 / 60 / 24);
+                  if (this.props.period === 30) {
+                    return Math.floor((Date.now() - value) / 1000 / 60 / 60 / 24);
+                  } else {
+                    return Math.floor((Date.now() - value) / 1000 / 60 / 60);
+                  }
                 }}
                 showFirstXLabel={true}
                 showLastXLabel={true}
@@ -131,11 +141,12 @@ class RopPerformanceApp extends Component {
     return fromJS(data);
   }
 
-  async getData(asset) {
+  async getData(asset=this.props.asset, period=this.props.period) {
     const to = Math.floor(Date.now() / 1000);
-    const from = to - this.props.period*24*60*60;
-    let data = await api.getAppStorage(METADATA.provider, METADATA.collection, asset.get('id'), Map({
-      query: '{timestamp#gte#' + from + '}AND{timestamp#lte#' + to + '}'
+    const from = to - period*24*60*60;
+    let data = await api.getAppStorage(METADATA.provider, METADATA.collections[period], asset.get('id'), Map({
+      query: '{timestamp#gte#' + from + '}AND{timestamp#lte#' + to + '}',
+      limit: 1000
     }));
     this.setState({
       data: data
@@ -154,7 +165,7 @@ class RopPerformanceApp extends Component {
       title: SUPPORTED_CHART_SERIES[shift].label,
       data: List(this.state.data.map(record => {
         return Map({
-          day: record.get('timestamp'),
+          day: record.get('timestamp') * 1000,
           value: (record.getIn(['data', shift, "rop", ropType || 'gross']) || 0).fixFloat(2)
         });
       }))
