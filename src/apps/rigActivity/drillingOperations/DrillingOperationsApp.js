@@ -7,7 +7,7 @@ import { fromJS, Map } from 'immutable';
 
 import * as api from '../../../api';
 
-import { ACTIVITY_COLORS, PERIOD_TYPES, TARGET, SUPPORTED_OPERATIONS, METADATA } from './constants';
+import { ACTIVITY_COLORS, PERIOD_TYPES, SUPPORTED_OPERATIONS, METADATA } from './constants';
 import ColumnChart from '../../../common/ColumnChart';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 
@@ -35,11 +35,10 @@ class DrillingOperationsApp extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.period !== nextProps.period || this.props.operationType !== nextProps.operationType || this.props.asset !== nextProps.asset) {
-      this.getData();
+    if (this.props.asset && (this.props.period !== nextProps.period || this.props.operationType !== nextProps.operationType || this.props.asset !== nextProps.asset)) {
+      this.getData(nextProps.asset, nextProps.period, nextProps.operationType);
     }
   }
-
 
   render() {
     return (
@@ -54,7 +53,7 @@ class DrillingOperationsApp extends Component {
                 xAxisLines={this.getXAxisLines()}
                 yAxisLines={this.getYAxisLines()}
                 legendEnabled={true}
-                tooltipPointFormat="{series.name}: {point.y} min">
+                tooltipPointFormat="{series.name}: {point.y} secs">
               </ColumnChart>  
             </div>
           </div>
@@ -101,20 +100,77 @@ class DrillingOperationsApp extends Component {
   }
 
   getXAxisLines() {
-    const x = this.state.data.getIn(['data', 'operations']).filter(c => c.get('shift') === 'day').count() - 0.5;
-    return fromJS([{
-      value: x,
-      text: 'Day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Night',
-      color: '#bbb'
-    }]);
+    let shift;
+    let lines = [];
+    let i = 0;
+    this.state.data.getIn(['data', 'operations']).forEach(h => {
+      i ++;
+      if (shift && shift !== 'day&night' && shift !== h.get('shift') && h.get('shift') !== 'day&night') {
+        lines.push({
+          values: i - 0.5,
+          text: 'Day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Night',
+          color: '#bbb'
+        });
+      } else if (h.get('shift') === 'day&night') {
+        lines.push({
+          values: i - 1,
+          text: 'Day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Night',
+          color: '#bbb'
+        });
+      }
+      shift = h.get('shift');
+    });
+    return fromJS(lines);
   }
 
   getYAxisLines() {
-    return fromJS([{
-      value: TARGET,
-      text: 'Target',
-      color: '#fff'
-    }]);
+    if (this.props.target) {
+      return fromJS([{
+        value: parseFloat(this.props.target),
+        text: 'Target',
+        color: '#fff'
+      }]);
+    } else {
+      return fromJS([]);
+    }
+  }
+
+  async getData(asset=this.props.asset, period=this.props.period, operationType=this.props.operationType) {
+    this.setState({
+      data: null
+    });
+    let data = await api.getAppStorage(METADATA.provider, METADATA.collections[period || 0], asset.get('id'), Map({
+      query: `{data.operation#eq#'${operationType || 0}'}`,
+      limit: 1
+    }));
+    if (data) {
+      data = data.get(0);
+    }
+    this.setState({
+      data: data
+    });
+  }
+
+  getGraphData() {
+    let keys = [];
+    this.state.data.getIn(['data', 'operations']).forEach(h => {
+      _.pull(h.keySeq().toArray(), 'from', 'to', 'shift').forEach(v => {
+        keys.push(v);
+      });
+    });
+    keys = _.uniq(keys);
+    const sorted = this.state.data.getIn(['data', 'operations']).toJS();
+
+    var graph_data =  fromJS(keys.map(key => ({
+        name: key,
+        data: _.map(sorted, h => ({
+          y: parseFloat(h[key]).fixFloat(1), 
+          name: formatDate(h.from*1000, 'M/D h:mm') + ' - ' + formatDate(h.to*1000, 'M/D h:mm')
+        })),
+        color: ACTIVITY_COLORS[key]
+      })));
+
+    return graph_data;
   }
 
   getFakeData() {
@@ -237,48 +293,6 @@ class DrillingOperationsApp extends Component {
       i++;
     });
     return fromJS(data);
-  }
-
-  async getData() {
-    this.setState({
-      data: null
-    });
-
-    let data = await api.getAppStorage(METADATA.provider, METADATA.collections[this.props.period || 0], this.props.asset.get('id'), Map({
-      query: `{data.operation#eq#'${this.props.operationType || 0}'}`,
-      limit: 1
-    }));
-    //data = this.getFakeData();
-    // UI is expecting single item, but API returns array
-    if(data) {
-      data = data.get(0);
-    }
-    this.setState({
-      data: data
-    });
-  }
-
-  getGraphData() {
-    //const keys = _.pull(this.state.data
-    //  .getIn(['data', 'operations']).first().keySeq().toArray(), 'from', 'to', 'shift');
-    //const keys = this.state.data
-    //  .getIn(['data', 'operations']).first().keySeq().toArray();
-    const keys  = [SUPPORTED_OPERATIONS[this.props.operationType || 0].title];
-    const sorted = this.state.data.getIn(['data', 'operations']).sort((a, b) =>
-        a.get('shift').localeCompare(b.get('shift'))
-      ).toJS();
-
-    var graph_data =  fromJS(keys.map(key => ({
-        name: key,
-        data: _.map(sorted, h => ({
-          y: ((h['to'] - h['from']) / 60.0).fixFloat(1), 
-          name: formatDate(h.from*1000, 'M/D h:mm') + ' - ' + formatDate(h.to*1000, 'M/D h:mm')
-        })),
-        color: ACTIVITY_COLORS[key]
-      })));
-
-    return graph_data;
-      
   }
 }
 

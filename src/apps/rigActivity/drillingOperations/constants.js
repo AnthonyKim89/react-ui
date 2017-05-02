@@ -19,7 +19,7 @@ export const METADATA = {
 };
 export const SUPPORTED_ASSET_TYPES = ['rig'];
 export const INITIAL_SIZE = {w: 4, h: 10};
-export const TARGET = 80;
+export const DEFAULT_TARGET = 80;
 export const PERIOD_TYPES = [
   {
     label: 'Last 2 tours',
@@ -28,19 +28,19 @@ export const PERIOD_TYPES = [
   {
     label: 'Continuous',
     value: 1
-  },
-  {
-    label: 'Last Week',
-    value: 2
-  },
-  {
-    label: 'Last Month',
-    value: 3
-  },
-  {
-    label: 'Last 3 months',
-    value: 4
   }
+  // {
+  //   label: 'Last Week',
+  //   value: 2
+  // },
+  // {
+  //   label: 'Last Month',
+  //   value: 3
+  // },
+  // {
+  //   label: 'Last 3 months',
+  //   value: 4
+  // }
 ];
 export const ACTIVITY_COLORS = {
   'Drilling Slide': '#0085e3',
