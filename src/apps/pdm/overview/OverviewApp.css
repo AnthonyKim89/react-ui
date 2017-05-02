@@ -25,7 +25,7 @@
   color: #bbb;
 }
 
-.c-pdm-overview-statistics .flow-rate {
+.c-pdm-overview-statistics .pressure {
   font-weight: bold;
   font-size: 4vw;
   line-height: 1;
@@ -33,7 +33,7 @@
   margin-bottom: 40px;
 }
 
-.c-pdm-overview-statistics .flow-rate span {
+.c-pdm-overview-statistics .pressure span {
     font-size: .5em;
 }
 

@@ -23,7 +23,7 @@ class OverviewApp extends Component {
         {this.data ?
           <Row>
             <Col m={6} s={12}>
-              <h4 className="c-pdm-overview__gauge-title">Hole Cleaning</h4>
+              <h4 className="c-pdm-overview__gauge-title">Yield Efficiency</h4>
               <Gauge widthCols={this.props.widthCols}
                      bands={this.gaugeBands}
                      value={this.holeCleaningSeverity} />
@@ -78,13 +78,13 @@ class OverviewApp extends Component {
   renderStatistics() {
     let recommendedFlowRate = this.data.getIn(["data", "static_hole_cleaning", "recommended_minimum_flowrate"]);
     recommendedFlowRate = this.props.convert.convertValue(recommendedFlowRate, "volume", "gal").fixFloat(1);
-    let flowRateUnit = `${this.props.convert.getUnitDisplay('volume')}pm`;
+    let pressureUnit = `${this.props.convert.getUnitDisplay('pressure')}`;
 
     return (
       <div className="c-pdm-overview-statistics">
-        <p>Recommended Flow Rate</p>
-        <div className="flow-rate">
-          {recommendedFlowRate} <span>{flowRateUnit}</span>
+        <p>Recommended Differential Pressure</p>
+        <div className="pressure">
+          {recommendedFlowRate} <span>{pressureUnit}</span>
         </div>
       </div>
     );
