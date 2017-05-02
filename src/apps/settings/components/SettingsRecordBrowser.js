@@ -11,6 +11,7 @@ class SettingsRecordBrowser extends Component {
       <Row className="c-settings-record-browser__filter">
         <Input m={11}                
                type="select"
+               key={this.props.displayingRecord? this.props.displayingRecord.get('_id'): ''}
                defaultValue={this.props.displayingRecord? this.props.displayingRecord.get('_id'): ''}
                onChange={evt => this.onSelectChange(evt.target.value)}>
             {this.props.records.map(r =>
