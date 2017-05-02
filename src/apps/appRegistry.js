@@ -48,6 +48,7 @@ import nptEvents from './settings/nptEvents';
 import dailyReports from './settings/dailyReports';
 import wellSections from './settings/wellSections';
 import operationSummaries from './settings/operationSummaries';
+import surfaceEquipment from './settings/surfaceEquipment';
 
 // CONTROL APPS
 import wellTimeline from './wellTimeline';
@@ -139,7 +140,8 @@ export const uiApps = Map({
       nptEvents,
       dailyReports,
       wellSections,
-      operationSummaries
+      operationSummaries,
+      surfaceEquipment
     })
   }),
   rigActivity: Map({

@@ -36,7 +36,7 @@ class RigActivityApp extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.period !== nextProps.period || this.props.asset !== nextProps.asset) {
+    if (this.props.asset && (this.props.period !== nextProps.period || this.props.asset !== nextProps.asset)) {
       this.getData();
     }
   }
