@@ -1,0 +1,57 @@
+.c-pdm-overview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.c-pdm-overview p {
+    padding: 0px;
+    margin: 0px;
+}
+.c-pdm-overview .gaps {
+    margin-top: 15px;
+}
+
+.c-pdm-overview .row .col {
+    padding-left: 3px;
+}
+
+.c-pdm-overview__gauge-title {
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0rem 0 .5rem;
+  color: #bbb;
+}
+
+.c-pdm-overview-statistics .flow-rate {
+  font-weight: bold;
+  font-size: 4vw;
+  line-height: 1;
+  margin-top: 5px;
+  margin-bottom: 40px;
+}
+
+.c-pdm-overview-statistics .flow-rate span {
+    font-size: .5em;
+}
+
+.c-pdm-overview-progress {
+    position: absolute;
+    bottom: 10px;
+    left: 3px;
+    right:0px;
+}
+
+.c-pdm-overview-progress-label {
+    border-bottom: 1px solid #eee;
+    height:25px;
+    margin: 10px 0px;
+
+}
+
+.c-pdm-overview-progress .overview-progress-item {
+    float: left;
+    height: 30px;
+}
