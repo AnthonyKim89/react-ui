@@ -94,6 +94,18 @@ class ColumnChart extends Component {
       //   chart.addSeries(s, false);
       // });
     }
+    if (!newProps.xAxisLines.equals(this.props.xAxisLines)) {
+      const axis = chart.xAxis[0];
+      axis.update({
+        plotLines: newProps.xAxisLines ? newProps.xAxisLines.map(line => this.getPlotLine(line, {label: {rotation: 0}})).toJS() : []
+      }, false);
+    }
+    if (!newProps.yAxisLines.equals(this.props.yAxisLines)) {
+      const axis = chart.yAxis[0];
+      axis.update({
+        plotLines: newProps.yAxisLines ? newProps.yAxisLines.map(line => this.getPlotLine(line, {label: {align: 'right'}})).toJS() : []
+      }, false);
+    }
     chart.reflow();
     chart.redraw(false);
   }
