@@ -18,7 +18,7 @@ class Chart extends Component {
       chart: {
         type: this.props.chartType || 'line',
         inverted: !this.props.horizontal,
-        backgroundColor: null,
+        backgroundColor: this.props.backgroundColor || null,
         zoomType: 'xy',
         panning: true,
         panKey: 'shift',

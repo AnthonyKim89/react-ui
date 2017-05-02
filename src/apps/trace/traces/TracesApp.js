@@ -31,15 +31,15 @@ class TracesApp extends Component {
     }
 
     return <div className="c-traces">
-      <TracesSlider summaryData={summaryData} widthCols={this.props.widthCols} rangeChanged={(start, end) => this.updateFilteredData(start, end)}/>
-      <TracesChartContainer data={this.state.filteredData} widthCols={this.props.widthCols}/>
+      <TracesSlider
+        summaryData={summaryData}
+        filteredData={this.state.filteredData}
+        widthCols={this.props.widthCols}
+        onRangeChanged={(start, end) => this.updateFilteredData(start, end)} />
+      <TracesChartContainer
+        data={this.state.filteredData}
+        widthCols={this.props.widthCols} />
     </div>;
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (subscriptions.selectors.getSubData(this.props.data, summarySubscription, false)) {
-      this.updateFilteredData();
-    }
   }
 
   updateFilteredData(start=null, end=null) {
