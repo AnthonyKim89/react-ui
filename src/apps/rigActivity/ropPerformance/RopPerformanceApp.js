@@ -155,7 +155,7 @@ class RopPerformanceApp extends Component {
       data: List(this.state.data.map(record => {
         return Map({
           day: record.get('timestamp'),
-          value: (record.getIn(['data', shift, "total", ropType || 'gross']) || 0).fixFloat(2)
+          value: (record.getIn(['data', shift, "rop", ropType || 'gross']) || 0).fixFloat(2)
         });
       }))
     };
