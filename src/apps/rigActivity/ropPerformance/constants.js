@@ -9,7 +9,10 @@ export const METADATA = {
   version: 'v2.1',
   publishedAt: '2016-07-01T00:00:00',
   provider: 'corva',
-  collection: 'metrics.rop-1d'
+  collections: {
+    30: 'metrics.rop-1d',
+    1: 'metrics.rop-1h'
+  }
 };
 export const SUPPORTED_ASSET_TYPES = ['rig'];
 export const INITIAL_SIZE = {w: 6, h: 5};
