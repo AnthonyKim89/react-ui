@@ -104,21 +104,21 @@ class DrillingOperationsApp extends Component {
     let lines = [];
     let i = 0;
     this.state.data.getIn(['data', 'operations']).forEach(h => {
-      i ++;
-      if (shift && shift !== 'day&night' && shift !== h.get('shift') && h.get('shift') !== 'day&night') {
+      if (shift && shift !== 'day & night' && shift !== h.get('shift') && h.get('shift') !== 'day & night') {
         lines.push({
-          values: i - 0.5,
-          text: 'Day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Night',
+          value: i - 0.5,
+          text: shift === 'day' ? 'Day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Night' : 'Night&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Day',
           color: '#bbb'
         });
-      } else if (h.get('shift') === 'day&night') {
+      } else if (h.get('shift') === 'day & night' && i !== 0) {
         lines.push({
-          values: i - 1,
-          text: 'Day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Night',
+          value: i,
+          text: shift === 'day' ? 'Day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Night' : 'Night&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Day',
           color: '#bbb'
         });
       }
       shift = h.get('shift');
+      i ++;
     });
     return fromJS(lines);
   }
