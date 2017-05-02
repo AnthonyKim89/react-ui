@@ -1,7 +1,7 @@
 export const CATEGORY = 'pdm';
 export const NAME = 'overview';
 export const SUBSCRIPTIONS = [
-  {provider: 'corva', collection: 'hydraulics.overview'}
+  {provider: 'corva', collection: 'pdm.overview'}
 ];
 export const METADATA = {
   title: 'PDM Power Output',
@@ -13,3 +13,6 @@ export const METADATA = {
 };
 export const SUPPORTED_ASSET_TYPES = ['rig'];
 export const INITIAL_SIZE = {w: 5, h: 11};
+export const SUPPORTED_CHART_SERIES = {
+  torque: {label: 'Torque', defaultColor: '#f7e47a'}
+};

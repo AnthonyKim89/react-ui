@@ -14,6 +14,10 @@
     margin-top: 15px;
 }
 
+.c-pdm-overview .row {
+    margin: 0;
+}
+
 .c-pdm-overview .row .col {
     padding-left: 3px;
 }
@@ -21,7 +25,7 @@
 .c-pdm-overview__gauge-title {
   font-size: 1rem;
   font-weight: bold;
-  margin: 0rem 0 .5rem;
+  margin: 0rem 0 .1rem;
   color: #bbb;
 }
 
@@ -37,21 +41,26 @@
     font-size: .5em;
 }
 
-.c-pdm-overview-progress {
-    position: absolute;
-    bottom: 10px;
-    left: 3px;
-    right:0px;
+.c-pdm-overview__torque {
+  height: 100px;
+  margin-bottom: 10px;
 }
 
-.c-pdm-overview-progress-label {
-    border-bottom: 1px solid #eee;
-    height:25px;
-    margin: 10px 0px;
-
+.c-pdm-overview__torque-label-left {
+  padding-left: 51px !important;
+  color: #bbb;
 }
 
-.c-pdm-overview-progress .overview-progress-item {
-    float: left;
-    height: 30px;
+.c-pdm-overview__torque-label-right {
+  padding-right: 22px !important;
+  text-align: right;
+  color: #bbb;
+}
+
+.c-pdm-overview__torque-title {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0;
+  color: #bbb;
 }
