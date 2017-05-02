@@ -16,18 +16,18 @@ deployment:
     branch: master
     commands:
       - REACT_APP_API_URL=https://api.qa.corva.ai REACT_APP_SUBSCRIPTIONS_URL=subscriptions.qa.corva.ai npm run build
-      - aws s3 sync ./build/ s3://app.qa.corva.ai/ --delete
-      - aws cloudfront create-invalidation --distribution-id E330PXNSOIHLBW --paths /*
+      - aws s3 sync ./build/ s3://app.qa.corva.ai/
+      - aws cloudfront create-invalidation --distribution-id E330PXNSOIHLBW --paths /
 
   staging:
     branch: /release\/.*/
     commands:
       - REACT_APP_API_URL=https://api.staging.corva.ai REACT_APP_SUBSCRIPTIONS_URL=subscriptions.staging.corva.ai npm run build
-      - aws s3 sync ./build/ s3://app.staging.corva.ai/ --delete
-      - aws cloudfront create-invalidation --distribution-id E1DR8DG6WW25DB --paths /*
+      - aws s3 sync ./build/ s3://app.staging.corva.ai/
+      - aws cloudfront create-invalidation --distribution-id E1DR8DG6WW25DB --paths /
   production:
     tag: /v[0-9]+(\.[0-9]+)+/
     commands:
       - REACT_APP_API_URL=https://api.corva.ai REACT_APP_SUBSCRIPTIONS_URL=subscriptions.corva.ai npm run build
-      - aws s3 sync ./build/ s3://app.corva.ai/ --delete
-      - aws cloudfront create-invalidation --distribution-id E120ASI3UXGIBE --paths /*
+      - aws s3 sync ./build/ s3://app.corva.ai/
+      - aws cloudfront create-invalidation --distribution-id E120ASI3UXGIBE --paths /
