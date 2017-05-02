@@ -1,0 +1,39 @@
+.c-surface-equipment-item:nth-child(even) {
+  background-color: rgb(41,41,41);
+}
+
+.c-surface-equipment-item:hover {
+  background-color: rgb(96,91,91);
+}
+
+.c-surface-equipment-item .view-action {
+  display:none;
+}
+
+.c-surface-equipment-item:hover .view-action {
+  display: inline;  
+}
+
+.c-surface-equipment-item button {
+  margin-left: 10px;
+}
+
+ .c-surface-equipment-item .input-field{
+  margin-top: 0px;
+}
+
+.c-surface-equipment-item .input-field.col label{
+  left: 0;
+  width: 100%;
+}
+
+.c-surface-equipment-item .input-field.col label:after{
+  top:40px;
+}
+
+.c-surface-equipment-item td {
+  border-radius: 0px;
+  padding-top:12px;
+  padding-bottom:12px;
+  height:65px;
+}

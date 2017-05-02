@@ -1,0 +1,42 @@
+.c-surface-equipment {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+
+  padding: 20px 30px;
+}
+
+.c-surface-equipment h4 {
+  margin-top: 0px;
+  margin-bottom:0px;
+}
+
+.c-surface-equipment__type-header {
+  width: 40%;
+}
+
+.c-surface-equipment__blockweight-header {
+  width: 40%;
+}
+
+.c-surface-equipment__action-header {
+  width: 20%;
+}
+
+@media(max-width: 768px) {
+  .c-surface-equipment {
+    padding:0px;
+  }
+  
+  .c-surface-equipment__type-header {
+    width: 50%;
+  }
+
+  .c-surface-equipment__blockweight-header {
+    width: 50%;
+  }  
+  
+}
