@@ -1,0 +1,7 @@
+.c-traces__container {
+  height: 100%;
+  width: calc(100% - 200px);
+  position: absolute;
+  top: 0;
+  margin-left: 200px;
+}

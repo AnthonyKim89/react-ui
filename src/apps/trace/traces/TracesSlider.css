@@ -1,10 +1,18 @@
+.c-traces__slider {
+  height: 100%;
+  width: 200px;
+  display: inline-block;
+}
+
+
 .c-traces__slider-chart {
   display: inline-block;
   width: 200px;
   height: 100%;
+  padding-top: 13px
 }
 
-.c-traces__slider {
+.c-traces__slider-interaction {
   width: 200px;
   height: 100%;
   display: flex;
@@ -12,19 +20,25 @@
   position: absolute;
   top: 0;
   background: transparent;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
 }
 
-.c-traces__slider__top-slider {
+.c-traces__slider-interaction__top-slider {
   background-color: rgba(60,60,60,.6);
   border-bottom: 2px solid #f18c21;
   min-height: 28px;
 }
 
-.c-traces__slider__top-slider div:last-child {
+.c-traces__slider-interaction__top-slider div:last-child {
   height: 31px !important;
 }
 
-.c-traces__slider__top-info {
+.c-traces__slider-interaction__top-info {
   position: absolute;
   bottom: 0;
   border: 2px solid #f18c21;
@@ -38,21 +52,22 @@
   background-color: #000;
 }
 
-.c-traces__slider__middle-slider {
+.c-traces__slider-interaction__middle-slider {
   flex-grow: 1;
+  min-height: 5px;
 }
 
-.c-traces__slider__bottom-slider {
+.c-traces__slider-interaction__bottom-slider {
   background-color: rgba(60,60,60,.6);
   border-top: 2px solid #f18c21;
   min-height: 28px;
 }
 
-.c-traces__slider__bottom-slider div:last-child {
+.c-traces__slider-interaction__bottom-slider div:last-child {
   height: 31px !important;
 }
 
-.c-traces__slider__bottom-info {
+.c-traces__slider-interaction__bottom-info {
   position: absolute;
   top: 0;
   border: 2px solid #f18c21;

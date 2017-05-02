@@ -4,6 +4,7 @@ import { List } from 'immutable';
 
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import TracesSlider from './TracesSlider';
+import TracesChartContainer from './TracesChartContainer';
 import subscriptions from '../../../subscriptions';
 import { SUBSCRIPTIONS } from './constants';
 
@@ -18,7 +19,7 @@ class TracesApp extends Component {
 
     this.state = {
       start: 0,
-      end: 0,
+      end: 1,
       filteredData: new List()
     };
   }
@@ -31,12 +32,19 @@ class TracesApp extends Component {
 
     return <div className="c-traces">
       <TracesSlider summaryData={summaryData} widthCols={this.props.widthCols} rangeChanged={(start, end) => this.updateFilteredData(start, end)}/>
+      <TracesChartContainer data={this.state.filteredData} widthCols={this.props.widthCols}/>
     </div>;
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (subscriptions.selectors.getSubData(this.props.data, summarySubscription, false)) {
+      this.updateFilteredData();
+    }
+  }
+
   updateFilteredData(start=null, end=null) {
-    start = start || this.state.start;
-    end = end || this.state.end;
+    start = start !== null ? start : this.state.start;
+    end = end !== null ? end : this.state.end;
     let summaryData = subscriptions.selectors.getSubData(this.props.data, summarySubscription, false);
 
     let firstTimestamp = summaryData.first().get("timestamp");
@@ -55,12 +63,6 @@ class TracesApp extends Component {
       end,
       filteredData
     });
-
-    console.log(filteredData);
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return (nextProps.data !== this.props.data || nextProps.coordinates !== this.props.coordinates || nextProps.graphColors !== this.props.graphColors);
   }
 }
 

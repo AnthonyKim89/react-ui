@@ -16,7 +16,7 @@ class TracesSlider extends Component {
   }
 
   render() {
-    return <div className="c-traces">
+    return <div className="c-traces__slider">
       <div className="c-traces__slider-chart">
         <Chart
           xField="timestamp"
@@ -33,25 +33,27 @@ class TracesSlider extends Component {
             color={"#fff"} />
         </Chart>
       </div>
-      <div className="c-traces__slider" ref={c => { this.sliderContainer = c; }}>
+      <div className="c-traces__slider-interaction" ref={c => { this.sliderContainer = c; }}>
         <Resizable
-          className="c-traces__slider__top-slider"
+          className="c-traces__slider-interaction__top-slider"
           onResizeStop={this.updateSelectedRange}
+          onResize={this.updateSelectedRange}
           ref={c => { this.topSlider = c; }}
           width={200}
-          height={100}
+          height={28}
           enable={{top: false, right: false, bottom: true, left: false}}>
-          <div className="c-traces__slider__top-info">Start</div>
+          <div className="c-traces__slider-interaction__top-info">Start</div>
         </Resizable>
-        <div className="c-traces__slider__middle-slider"> </div>
+        <div className="c-traces__slider-interaction__middle-slider"> </div>
         <Resizable
-          className="c-traces__slider__bottom-slider"
+          className="c-traces__slider-interaction__bottom-slider"
           onResizeStop={this.updateSelectedRange}
+          onResize={this.updateSelectedRange}
           ref={c => { this.bottomSlider = c; }}
           width={200}
-          height={100}
+          height={28}
           enable={{top: true, right: false, bottom: false, left: false}}>
-          <div className="c-traces__slider__bottom-info">End</div>
+          <div className="c-traces__slider-interaction__bottom-info">End</div>
         </Resizable>
       </div>
     </div>;

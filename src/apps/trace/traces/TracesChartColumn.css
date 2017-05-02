@@ -1,0 +1,17 @@
+.c-traces__chart-column {
+  height: 100%;
+  width: calc(100% / 3);
+  display: inline-block;
+  flex-direction: column;
+  padding:10px;
+}
+
+.c-traces__chart-column__chart {
+  height: calc(100% - 210px);
+}
+
+.c-traces__chart-column__values {
+  height: 210px;
+  border: 1px solid #333;
+  text-align: center;
+}
