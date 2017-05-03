@@ -100,7 +100,7 @@ TrendApp.propTypes = {
   title: PropTypes.string,
   graphColors: ImmutablePropTypes.map,
   size: PropTypes.string.isRequired,
-  coordinates: PropTypes.object.isRequired,
+  coordinates: PropTypes.object,
   widthCols: PropTypes.number.isRequired
 };
 

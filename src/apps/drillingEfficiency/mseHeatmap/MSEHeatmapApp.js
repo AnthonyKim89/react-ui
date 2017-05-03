@@ -86,7 +86,7 @@ class MSEHeatmapApp extends Component {
 
 MSEHeatmapApp.propTypes = {
   size: PropTypes.string.isRequired,
-  coordinates: PropTypes.object.isRequired,
+  coordinates: PropTypes.object,
   appSettings: PropTypes.object,
   data: ImmutablePropTypes.map,
   title: PropTypes.string

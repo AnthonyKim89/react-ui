@@ -78,7 +78,7 @@ MinimumFlowRateApp.propTypes = {
   data: ImmutablePropTypes.map,
   graphColors: ImmutablePropTypes.map,
   size: PropTypes.string.isRequired,
-  coordinates: PropTypes.object.isRequired,
+  coordinates: PropTypes.object,
   widthCols: PropTypes.number.isRequired
 };
 
