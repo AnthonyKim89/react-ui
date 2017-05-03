@@ -2,7 +2,7 @@ export const SUPPORTED_TRACES = [
   {trace: 'weight_on_bit', label: 'Weight on Bit', unit: 'k{u}m', unitType: 'mass', cunit: 'lb', min: 0, max: 150},
   {trace: 'hook_load', label: 'Hookload', unit: 'k{u}m', unitType: 'mass', cunit: 'lb', min: 0, max: 250},
   {trace: 'rotary_rpm', label: 'RPM', unit: 'rpm', min: 0, max: 150},
-  {trace: 'rotary_torque', label: 'Rotary Torque', unit: 'k{u}', unitType: 'torque', cunit: 'ft-lbf', min: 0, max: 50},
+  {trace: 'rotary_torque', label: 'Rotary Torque', unit: 'k{u}', unitType: 'torque', cunit: 'ft-klbf', min: 0, max: 50},
   {trace: 'rop', label: 'ROP', unit: '{u}-hr', unitType: 'length', cunit: 'ft', min: 0, max: 500},
   {trace: 'rop_average', label: 'ROP (Avg)', unit: '{u}-hr', unitType: 'length', cunit: 'ft', min: 0, max: 500},
   {trace: 'mud_flow_in', label: 'Flow In', unit: '{u}pm', unitType: 'volume', cunit: 'gal', min: 0, max: 1000},
