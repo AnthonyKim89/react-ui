@@ -22,6 +22,7 @@ class TracesApp extends Component {
       end: 1,
       filteredData: new List()
     };
+    this.render = this.render.bind(this);
   }
 
   render() {
@@ -30,11 +31,12 @@ class TracesApp extends Component {
       return <LoadingIndicator/>;
     }
 
-    return <div className="c-traces">
+    return <div className="c-traces" onWheel={e => this.tracesSlider.scrollRange(e)}>
       <TracesSlider
         summaryData={summaryData}
         filteredData={this.state.filteredData}
         widthCols={this.props.widthCols}
+        ref={c => { this.tracesSlider = c; }}
         onRangeChanged={(start, end) => this.updateFilteredData(start, end)} />
       <TracesChartContainer
         data={this.state.filteredData}

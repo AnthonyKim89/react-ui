@@ -10,6 +10,10 @@ import ChartSeries from '../../../common/ChartSeries';
 
 import './TracesSlider.css';
 
+const handleHeight = 28;
+const handleBorderWidth = 2;
+const paddingHeight = 10;
+
 class TracesSlider extends Component {
 
   constructor(props) {
@@ -27,8 +31,8 @@ class TracesSlider extends Component {
           plotBackgroundColor="rgb(32, 31, 31)"
           marginLeft={0}
           marginRight={0}
-          marginTop={24}
-          marginBottom={24}
+          marginTop={0}
+          marginBottom={0}
           widthCols={this.props.widthCols}>
           <ChartSeries
             dashStyle='Solid'
@@ -67,8 +71,48 @@ class TracesSlider extends Component {
     </div>;
   }
 
+  scrollRange(event) {
+    let scrollAmount = (event.deltaY / 10) / 1.5;
+    scrollAmount = scrollAmount > 0 ? Math.ceil(scrollAmount) : Math.floor(scrollAmount);
+    let topHeight = this.topSlider.resizable.clientHeight + handleBorderWidth - handleHeight;
+    let bottomHeight = this.bottomSlider.resizable.clientHeight + handleBorderWidth - handleHeight;
+
+    if (scrollAmount > 0) {
+      scrollAmount = bottomHeight < scrollAmount ? bottomHeight : scrollAmount;
+    } else if (scrollAmount < 0) {
+      scrollAmount = topHeight < Math.abs(scrollAmount) ? -topHeight : scrollAmount;
+    }
+
+    if (scrollAmount === 0) return;
+
+    /*
+      We have to add the handle border to these measurements because the Resizable component gets confused
+      about the 2px border. It sets it to the height we specify and then subtracts the size of the border.
+     */
+    let newTopHeight = this.topSlider.resizable.clientHeight + scrollAmount + handleBorderWidth;
+    let newBottomHeight = this.bottomSlider.resizable.clientHeight - scrollAmount + handleBorderWidth;
+
+    this.topSlider.setState({
+      height: newTopHeight,
+    },
+    this.updateSelectedRange);
+
+    this.bottomSlider.setState({
+      height: newBottomHeight,
+    },
+    this.updateSelectedRange);
+  }
+
   getRangeHeight() {
-    return this.sliderContainer.clientHeight - 66;
+    return this.sliderContainer.clientHeight - paddingHeight - (2 * handleHeight);
+  }
+
+  getTopHeight() {
+    return this.topSlider.resizable.clientHeight - handleHeight;
+  }
+
+  getBottomHeight() {
+    return this.bottomSlider.resizable.clientHeight - handleHeight;
   }
 
   componentDidMount() {
@@ -80,9 +124,8 @@ class TracesSlider extends Component {
 
   updateSelectedRange() {
     let totalHeight = this.getRangeHeight();
-    let start = (this.topSlider.resizable.clientHeight - 26)/totalHeight;
-    let bottomHeight = this.bottomSlider.resizable.clientHeight - 26;
-    let end = (totalHeight - bottomHeight)/totalHeight;
+    let start = (this.getTopHeight())/totalHeight;
+    let end = (totalHeight - this.getBottomHeight())/totalHeight;
 
     this.props.onRangeChanged(start, end);
   }
