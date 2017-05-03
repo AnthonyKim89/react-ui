@@ -15,10 +15,10 @@ export const METADATA = {
 export const SUPPORTED_ASSET_TYPES = ['well'];
 
 export const COMPONENT_FAMILIES = [
-  {name: 'Bit', type: 'bit'},
-  {name: 'DC', type: 'dc'},
   {name: 'DP', type: 'dp'},
   {name: 'HWDP', type: 'hwdp'},
+  {name: 'Bit', type: 'bit'},
+  {name: 'DC', type: 'dc'},    
   {name: 'Jar', type: 'jar'},
   {name: 'PDM', type: 'pdm'},
   {name: 'MWD', type: 'mwd'},

@@ -11,9 +11,10 @@ class WellSectionsItem extends Component {
     const record = props.record;
     this.state = {
       data: {
-        name: record.getIn(["data","name"]) || "",
-        top_depth: record.getIn(["data","top_depth"]),
-        bottom_depth: record.getIn(["data","bottom_depth"])        
+        name: record.getIn(["data", "name"]) || "",
+        top_depth: record.getIn(["data", "top_depth"]),
+        bottom_depth: record.getIn(["data", "bottom_depth"]),
+        diameter: record.getIn(["data", "diameter"])
       },
       editing: record.has("_id")? false : true,
       errors:{}
@@ -29,13 +30,14 @@ class WellSectionsItem extends Component {
   
   render() {
 
-    let {name, top_depth, bottom_depth} = this.state.data;
+    let {name, top_depth, bottom_depth, diameter} = this.state.data;
 
     if (!this.state.editing) return (
       <tr className="c-wellsections-item">
         <td>{name}</td>
         <td>{this.props.convert.convertValue(parseFloat(top_depth), "length", "ft").formatNumeral('0,0.00')}</td>
         <td>{this.props.convert.convertValue(parseFloat(bottom_depth), "length", "ft").formatNumeral('0,0.00')}</td>
+        <td>{this.props.convert.convertValue(parseFloat(diameter), "shortLength", "in").formatNumeral('0,0.00')}</td>
         <td className="hide-on-med-and-down">
           <Button floating className='lightblue view-action' waves='light' icon='edit'
                   onClick={() => this.setState({editing: true})}/>
@@ -77,6 +79,17 @@ class WellSectionsItem extends Component {
             onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{bottom_depth:e.target.value})} )} />
         </td>
+
+        <td>
+          <Input type="number"
+            s={12}
+            label="Diameter"
+            error={this.state.errors.diameter}
+            defaultValue={diameter? this.props.convert.convertValue(parseFloat(diameter), "shortLength", "in").formatNumeral('0,0.00'): diameter}
+            ref="diameter"
+            onKeyPress={this.handleKeyPress.bind(this)}
+            onChange={e => this.setState({data: Object.assign({},this.state.data,{diameter:e.target.value})} )} />
+        </td>
             
         <td className="hide-on-med-and-down">
           <Button floating className='lightblue' waves='light' icon='save' onClick={()=>this.save()} />
@@ -102,7 +115,7 @@ class WellSectionsItem extends Component {
   }
 
   save(byKeyBoard) {
-    let {name, top_depth, bottom_depth} = this.state.data;
+    let {name, top_depth, bottom_depth, diameter} = this.state.data;
     let hasErrors = false;
     let errors = {};
 
@@ -116,6 +129,11 @@ class WellSectionsItem extends Component {
       hasErrors = true;
     }
     
+    if (isNaN(parseFloat(diameter)) || parseFloat(diameter) <0 ) {
+      errors["diameter"] = "Invalid Number";
+      hasErrors = true;
+    }
+
     if (hasErrors) {
       this.setState({errors: errors});
       return;    
@@ -127,6 +145,7 @@ class WellSectionsItem extends Component {
     const record = this.props.record.update('data', (oldMap) => {
       return oldMap.set("top_depth",this.props.convert.convertValue(top_depth, "length", this.props.convert.getUnitPreference("length"), "ft"))
         .set("bottom_depth",this.props.convert.convertValue(bottom_depth, "length", this.props.convert.getUnitPreference("length"), "ft"))
+        .set("diameter",this.props.convert.convertValue(diameter, "shortLength", this.props.convert.getUnitPreference("shortLength"), "in"))
         .set("name", name);
     });
 

@@ -251,8 +251,18 @@ class DrillstringsApp extends Component {
       errors["components"][i] = error;
     }
 
-    if (bitFamilyCount>1) {
-      errors["bit_count"] = 'Only 1 "Bit" category allowed.';
+    if (bitFamilyCount > 1) {
+      errors["bit_count"] = 'There should be only one "BIT" category.';
+      hasFormErrors = true;
+    }
+
+    if (bitFamilyCount < 1) {
+      errors["bit_count"] = 'There should be at least one "BIT" category.';
+      hasFormErrors = true;
+    }
+
+    if (bitFamilyCount ===1 && components[components.length-1].family !== 'bit') {
+      errors["bit_count"] = '"BIT" category should be on the bottom of the list.';
       hasFormErrors = true;
     }
 
