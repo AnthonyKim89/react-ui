@@ -107,14 +107,6 @@ class TracesSlider extends Component {
     return this.sliderContainer.clientHeight - paddingHeight - (2 * handleHeight);
   }
 
-  getTopHeight() {
-    return this.topSlider.resizable.clientHeight - handleHeight;
-  }
-
-  getBottomHeight() {
-    return this.bottomSlider.resizable.clientHeight - handleHeight;
-  }
-
   componentDidMount() {
     this.topSlider.setState({
       height: Math.floor(this.getRangeHeight() * 0.9),
@@ -124,8 +116,8 @@ class TracesSlider extends Component {
 
   updateSelectedRange() {
     let totalHeight = this.getRangeHeight();
-    let start = (this.getTopHeight())/totalHeight;
-    let end = (totalHeight - this.getBottomHeight())/totalHeight;
+    let start = (this.topSlider.resizable.clientHeight - handleHeight)/totalHeight;
+    let end = (totalHeight - (this.bottomSlider.resizable.clientHeight - handleHeight))/totalHeight;
 
     this.props.onRangeChanged(start, end);
   }
