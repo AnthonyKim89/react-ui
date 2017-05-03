@@ -24,6 +24,7 @@ class PressureTrendApp extends Component {
           <Chart
             xField="measured_depth"
             xAxisTitle={{text:`Measured Depth (${this.props.convert.getUnitDisplay('length')})`, style: { color: "#fff" }}}
+            coordinates={this.props.coordinates}
             xAxisWidth="2"
             xAxisColor="white"
             horizontal={true}

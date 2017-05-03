@@ -106,6 +106,7 @@ class MultiTraceApp extends Component {
             lineWidth={1}
             key={trace}
             id={trace}
+            yAxis={trace}
             title={spec.label}
             minValue={spec.min}
             maxValue={spec.max}
