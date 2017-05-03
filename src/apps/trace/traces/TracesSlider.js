@@ -74,8 +74,8 @@ class TracesSlider extends Component {
   scrollRange(event) {
     let scrollAmount = (event.deltaY / 10) / 1.5;
     scrollAmount = scrollAmount > 0 ? Math.ceil(scrollAmount) : Math.floor(scrollAmount);
-    let topHeight = this.topSlider.resizable.clientHeight + handleBorderWidth - handleHeight;
-    let bottomHeight = this.bottomSlider.resizable.clientHeight + handleBorderWidth - handleHeight;
+    let topHeight = (this.topSlider.resizable.clientHeight + handleBorderWidth) - handleHeight;
+    let bottomHeight = (this.bottomSlider.resizable.clientHeight + handleBorderWidth) - handleHeight;
 
     if (scrollAmount > 0) {
       scrollAmount = bottomHeight < scrollAmount ? bottomHeight : scrollAmount;
@@ -119,7 +119,7 @@ class TracesSlider extends Component {
     let start = (this.topSlider.resizable.clientHeight - handleHeight)/totalHeight;
     let end = (totalHeight - (this.bottomSlider.resizable.clientHeight - handleHeight))/totalHeight;
 
-    this.props.onRangeChanged(start, end);
+    this.props.onRangeChanged(Math.max(start, 0), Math.min(end, 1));
   }
 
   componentWillReceiveProps(nextProps) {
