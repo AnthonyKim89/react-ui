@@ -1,7 +1,7 @@
 export const SUPPORTED_TRACES = [
   {trace: 'weight_on_bit', label: 'Weight on Bit', unit: '{u}', unitType: 'force', cunit: 'klbf', min: 0, max: 150},
-  {trace: 'hook_load', label: 'Hookload', unit: '{u}', unitType: 'force', cunit: 'klbf', min: 0, max: 250},
-  {trace: 'rotary_rpm', label: 'RPM', unit: 'rpm', min: 0, max: 150},
+  {trace: 'hook_load', label: 'Hookload', unit: '{u}', unitType: 'force', cunit: 'klbf', min: 0, max: 500},
+  {trace: 'rotary_rpm', label: 'RPM', unit: 'rpm', min: 0, max: 250},
   {trace: 'rotary_torque', label: 'Rotary Torque', unit: '{u}', unitType: 'torque', cunit: 'ft-klbf', min: 0, max: 50},
   {trace: 'rop', label: 'ROP', unit: '{u}/hr', unitType: 'length', cunit: 'ft', min: 0, max: 500},
   {trace: 'rop_average', label: 'ROP (Avg)', unit: '{u}/hr', unitType: 'length', cunit: 'ft', min: 0, max: 500},

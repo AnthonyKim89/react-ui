@@ -133,10 +133,10 @@ class TraceTimeline extends Component {
 
     // Add the new series. Once there is actual summary data to play with,
     // this should construct the stack of blocks from it.
+   // console.log(summary.getIn(['data', 'state']));
     chart.addSeries({
       id: 'series',
-      data: [maxTime],
-      color: 'rgb(5, 71, 170)',
+      data: [],
       animation: false
     });
   }
