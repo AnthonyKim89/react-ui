@@ -20,7 +20,7 @@ ChartSeries.propTypes = {
   groupPadding: PropTypes.number,
   borderWidth: PropTypes.number,
   marker: PropTypes.object,
-  yAxis: PropTypes.number,
+  yAxis: PropTypes.string,
   yAxisOpposite: PropTypes.bool,
   yAxisTitle: PropTypes.object
 };

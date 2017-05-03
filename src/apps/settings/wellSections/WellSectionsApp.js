@@ -60,6 +60,7 @@ class WellSectionsApp extends Component {
                 <th className="c-wellsections__name-header"> Name </th>
                 <th className="c-wellsections__td-header"> Top Depth ({this.props.convert.getUnitDisplay('length')}) </th>
                 <th className="c-wellsections__bd-header"> Bottom Depth ({this.props.convert.getUnitDisplay('length')}) </th>
+                <th className="c-wellsections__diameter-header hide-on-med-and-down"> Diameter ({this.props.convert.getUnitDisplay('shortLength')}) </th>
                 <th className="c-wellsections__action-header hide-on-med-and-down"> </th>
               </tr>
             </thead>

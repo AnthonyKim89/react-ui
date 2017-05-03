@@ -269,7 +269,7 @@ class Chart extends Component {
    * Control whether x and y axes are inverted.
    */
   isInverted(props) {
-    if (props.automaticOrientation) {
+    if (props.automaticOrientation && props.coordinates) {
       return props.coordinates.get('pixelWidth') < props.coordinates.get('pixelHeight');
     }
 

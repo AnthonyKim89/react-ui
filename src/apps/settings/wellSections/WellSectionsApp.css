@@ -14,17 +14,12 @@
   margin-bottom:0px;
 }
 
-
-.c-wellsections__name-header {
-  width: 30%;
-}
-
+.c-wellsections__name-header,
+.c-wellsections__td-header ,
+.c-wellsections__bd-header,
+.c-wellsections__diameter-header,
 .c-wellsections__action-header {
   width: 20%;
-}
-
-.c-wellsections__td-header , .c-wellsections__bd-header{
-  width: 25%;
 }
 
 @media(max-width: 768px) {

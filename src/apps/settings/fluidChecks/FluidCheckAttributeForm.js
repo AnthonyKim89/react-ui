@@ -59,7 +59,7 @@ class FluidCheckAttributeForm extends Component {
           <Datetime 
             defaultValue={this.getAttr('date')? moment.unix(this.getAttr('date')): moment.unix(this.initialDate)} 
             onChange={this.selectDate.bind(this)} 
-            timeFormat={false}/>
+          />
         </Col>
 
         <Input

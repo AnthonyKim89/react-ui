@@ -1,7 +1,7 @@
 .c-app-single-layout {
   position: fixed;
   top: 105px;
-  bottom: 40px;
+  bottom: 0px;
   left: 0;
   right: 0;
 }

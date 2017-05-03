@@ -32,8 +32,13 @@
   right: 0;
   padding-right: 30px;
 
-  font-size: 2rem;
+  font-size: 1.5rem;
   text-align: right;
+}
+
+.c-trace-multi__latest__trace-unit{
+  font-size: 0.75rem;
+  opacity: 0.6;
 }
 
 .c-trace-multi__latest__color-indicator {
