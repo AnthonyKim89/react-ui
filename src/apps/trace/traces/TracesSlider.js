@@ -56,7 +56,11 @@ class TracesSlider extends Component {
           enable={{top: false, right: false, bottom: true, left: false}}>
           <div className="c-traces__slider-interaction__top-info c-traces__slider-interaction__info"><Icon>menu</Icon><span>{this.getStartLabel()}</span></div>
         </Resizable>
-        <div className="c-traces__slider-interaction__middle-slider"> </div>
+        <div className="c-traces__slider-interaction__middle-slider">
+          <div className="c-traces__slider-interaction__middle-slider__resizer" onMouseDown={e => this.middleScroll(e)}>
+            <Icon>format_line_spacing</Icon>
+          </div>
+        </div>
         <Resizable
           className="c-traces__slider-interaction__bottom-slider"
           onResizeStop={this.updateSelectedRange}
@@ -69,6 +73,11 @@ class TracesSlider extends Component {
         </Resizable>
       </div>
     </div>;
+  }
+
+  middleScroll(e) {
+    this.topSlider.onResizeStart(e, "bottom");
+    this.bottomSlider.onResizeStart(e, "top");
   }
 
   scrollRange(event) {

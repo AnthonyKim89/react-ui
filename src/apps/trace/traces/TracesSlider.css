@@ -69,6 +69,27 @@
 .c-traces__slider-interaction__middle-slider {
   flex-grow: 1;
   min-height: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.c-traces__slider-interaction__middle-slider__resizer {
+  width: 26px;
+  height: 26px;
+  border: 2px solid #f18c21;
+  background-color: rgba(241,140,33,0.2);
+  margin-left: calc(100% - 26px);
+  cursor: row-resize;
+  text-align: center;
+}
+
+.c-traces__slider-interaction__middle-slider__resizer i {
+  color: #f18c21;
+  line-height: 23px;
+  font-size: 1.1rem;
+  margin: 0;
+  padding: 0;
 }
 
 .c-traces__slider-interaction__bottom-slider {
