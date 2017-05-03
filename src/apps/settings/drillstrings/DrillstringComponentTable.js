@@ -64,13 +64,13 @@ class DrillstringComponentTable extends Component {
             <Button floating icon="add" onClick={() => this.onAddComponent()}></Button>}
         </Col>
       </Row>
-      <div className="c-drillstring-component-specific-data">
-        {this.getComponentsOfFamily('bit').flatMap(({component, index}) =>
-          this.renderBitComponentHighlight(component, index))}
+      <div className="c-drillstring-component-specific-data">        
         {this.getComponentsOfFamily('pdm').flatMap(({component, index}) =>
           this.renderPDMComponentHighlight(component, index))}
         {this.getComponentsOfFamily('mwd').flatMap(({component, index}) =>
           this.renderMWDComponentHighlight(component, index))}
+        {this.getComponentsOfFamily('bit').flatMap(({component, index}) =>
+          this.renderBitComponentHighlight(component, index))}
       </div>
     </div>;
   }
@@ -178,7 +178,7 @@ class DrillstringComponentTable extends Component {
   onAddComponent() {
     const newComponent = Map({
       id: uuidV1(),
-      family: 'bit',
+      family: 'dp',
       order: this.props.record.getIn(['data', 'components']).size
     });
     this.props.onUpdateRecord(this.props.record.updateIn(['data', 'components'], c => c.push(newComponent)));
