@@ -99,7 +99,7 @@ class OperatingConditionApp extends Component {
       this.props.data,
       SUBSCRIPTIONS).getIn(['data', 'torque']
     );
-    return this.props.convert.convertValue(torque, 'torque', 'ft-lbf');
+    return this.props.convert.convertValue(torque, 'torque', 'ft-klbf');
   }
 
   get xPlotBands() {
@@ -174,7 +174,7 @@ class OperatingConditionApp extends Component {
     let data = subscriptions.selectors.firstSubData(
       this.props.data, SUBSCRIPTIONS).getIn(['data', 'torque_line']).toJSON();
     return Object.assign(this.torqueAxis, {
-      data: List(this.formatSeriesData(data, 'torque', 'torque', 'ft-lbf'))
+      data: List(this.formatSeriesData(data, 'torque', 'torque', 'ft-klbf'))
     });
   }
 

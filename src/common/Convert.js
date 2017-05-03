@@ -31,7 +31,7 @@ class Convert {
         temperature: 'F',
         speed: 'ft/h',
         area: 'ft2',
-        torque: 'ft-lbf',
+        torque: 'ft-klbf',
         force: 'klbf',
         oil: 'bbl',
         yp: 'dsf',

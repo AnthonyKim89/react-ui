@@ -9,7 +9,10 @@ export const METADATA = {
   version: 'v2.1',
   publishedAt: '2016-07-01T00:00:00',
   provider: 'corva',
-  collection: 'metrics.rop-1d'
+  collections: {
+    30: 'metrics.rop-1d',
+    1: 'metrics.rop-1h'
+  }
 };
 export const SUPPORTED_ASSET_TYPES = ['rig'];
 export const INITIAL_SIZE = {w: 6, h: 5};
@@ -20,15 +23,16 @@ export const PERIOD_TYPES = [
     value: 30
   },
   {
-    label: 'Last 60 days',
-    value: 60
-  },
-  {
-    label: 'Last year',
-    value: 360
+    label: 'Last 24 hours',
+    value: 1
   }
 ];
 export const SUPPORTED_CHART_SERIES = {
+  total: {
+     label: 'Total',
+     defaultColor: '#d236ba',
+     type: 'line'
+   },
    day: {
      label: 'Day',
      defaultColor: '#6bc2fc',
@@ -42,11 +46,19 @@ export const SUPPORTED_CHART_SERIES = {
 };
 export const ROP_TYPES = [
   {
-    label: 'Total ROP',
-    value: 'total_rop'
+    label: 'Gross',
+    value: 'gross'
   },
   {
-    label: 'Drilling ROP',
-    value: 'drilling_rop'
+    label: 'On Bottom',
+    value: 'on_bottom'
+  },
+  {
+    label: 'Rotary',
+    value: 'rotary'
+  },
+  {
+    label: 'Slide',
+    value: 'slide'
   }
 ];

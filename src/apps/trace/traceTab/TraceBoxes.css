@@ -16,12 +16,15 @@
 }
 .c-trace-boxes__label {
   font-family: orgonBoldRegular;
+  font-size: 1rem;
 }
 .c-trace-boxes__value {
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 .c-trace-boxes__unit {
   line-height: 100%;
+  font-size: 0.75rem;
+  opacity: 0.6;
 }
 .c-trace-boxes__remove {
   visibility: hidden;
