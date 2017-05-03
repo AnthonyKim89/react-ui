@@ -1443,9 +1443,9 @@ corslite@0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/corslite/-/corslite-0.0.6.tgz#622954e14c33852123c4c68fa3deffa9e2d1c896"
 
-corva-convert-units@^1.7.0:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/corva-convert-units/-/corva-convert-units-1.7.0.tgz#af0575e8dd153c8052433b57080567bd81e9a859"
+corva-convert-units@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/corva-convert-units/-/corva-convert-units-1.8.0.tgz#6946d7438216afff2b8d921c7700c5bac0907321"
   dependencies:
     lodash.foreach "2.3.x"
     lodash.keys "2.3.x"
