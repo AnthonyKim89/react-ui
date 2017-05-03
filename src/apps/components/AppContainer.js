@@ -78,8 +78,20 @@ class AppContainer extends Component {
       return "Rig";
     }
   }
-  
+
   render() {
+    // Coordinates are injected after the grid lays out the apps.
+    // This constraint comes from the react-grid-layout modules
+    // where the pixel dimensions are calculated.
+    const children = React.Children.map(this.props.children, (child) => {
+      if (child !== null) {
+        return React.cloneElement(child, {
+          coordinates: this.props.coordinates
+        });
+      }
+      return child;
+    });
+
     const classes = {
       'c-app-container': true,
       'c-app-container--maximized': this.props.maximized,
@@ -96,7 +108,7 @@ class AppContainer extends Component {
         {!this.props.appType.constants.METADATA.multiRig && this.props.availableAssets && this.props.layoutEnvironment && this.props.layoutEnvironment.get("type") === "general" &&
           <div className="c-app-container-asset-name">{this.getAppAssetName()}</div>}
         <div className="c-app-container__content">
-          {this.props.errorData ? this.renderError() : this.props.children}
+          {this.props.errorData ? this.renderError() : children}
         </div>
         {this.isLastDataUpdateVisible() &&
           <div className="c-app-container__last-update">
@@ -224,7 +236,7 @@ AppContainer.propTypes = {
   isActionsDisabled: PropTypes.bool,
   isTitlesDisabled: PropTypes.bool,
   size: PropTypes.string.isRequired,
-  coordinates: PropTypes.object.isRequired,
+  coordinates: PropTypes.object,
   maximized: PropTypes.bool,
   appSettings: ImmutablePropTypes.map.isRequired,
   pageParams: ImmutablePropTypes.map.isRequired,

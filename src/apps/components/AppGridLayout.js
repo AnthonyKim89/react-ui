@@ -42,6 +42,33 @@ const addAppModalStyles = {
 };
 
 /**
+ * Wrap a grid item to extract pixel dimensions.
+ *
+ * Automatic orientation needs actual pixel sizes for calculation
+ * and the GridItem is the component that has it. This wrapper
+ * pulls that information out of the GridItem's style information.
+ */
+class GridItemWrapper extends Component {
+    render() {
+      const {app, ...props} = this.props;
+      const children = React.Children.map(this.props.children, (child) => {
+        const coordinates = app.get('coordinates').merge({
+          pixelWidth: parseInt(this.props.style.width, 10),
+          pixelHeight: parseInt(this.props.style.height, 10)
+        });
+        return React.cloneElement(child, {
+          coordinates: coordinates
+        });
+      });
+      return (
+        <div {...props}>
+          {children}
+        </div>
+      );
+    }
+}
+
+/**
  * Render an app set in a "grid layout" - a two-dimensional grid of user-adjustable app boxes,
  * implemented using react-grid-layout.
  */
@@ -100,9 +127,15 @@ class AppGridLayout extends Component {
         const id = app.get('id');
         const coordinates = app.get('coordinates')
           .set('isDraggable', !this.props.isNative);
-        return <div key={id} data-grid={coordinates.toJS()}>
-          {this.renderApp(app)}
-        </div>;
+        return (
+          <GridItemWrapper
+            key={id}
+            data-grid={coordinates.toJS()}
+            app={app}
+            >
+            {this.renderApp(app)}
+          </GridItemWrapper>
+        );
       });
   }
 
@@ -143,7 +176,6 @@ class AppGridLayout extends Component {
                          hasAppFooter={hasAppFooter}
                          isNative={this.props.isNative}
                          size={size}
-                         coordinates={coordinates}
                          maximized={maximized}
                          appSettings={settings}
                          pageParams={this.getPageParams()}
@@ -161,7 +193,6 @@ class AppGridLayout extends Component {
         {...this.getPageParams().toJS()}
         {...settings.toObject()}
         size={size}
-        coordinates={coordinates}
         widthCols={coordinates.get('w')}
         convert={this.props.convert}
         onAssetModified={asset => this.props.onAssetModified(asset)}

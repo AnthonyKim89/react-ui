@@ -15,7 +15,7 @@ class PressureTrendApp extends Component {
   constructor(props) {
     super(props);
     this.state = {series: List()};
-  }  
+  }
 
   render() {
     return (
@@ -34,6 +34,7 @@ class PressureTrendApp extends Component {
             showLegend={true}
             forceLegend={true}
             size={this.props.size}
+            coordinates={this.props.coordinates}
             widthCols={this.props.widthCols}>
             {this.getSeries().map(({renderType, title, type, yAxis, yAxisTitle, yAxisOpposite, yField, data}) => (
               <ChartSeries
