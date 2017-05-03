@@ -39,6 +39,7 @@ class OverviewApp extends Component {
                   <Chart horizontal={true}
                          chartType="column"
                          xField="time"
+                         automaticOrientation={false}
                          size={this.props.size}
                          coordinates={this.props.coordinates}
                          widthCols={this.props.widthCols}

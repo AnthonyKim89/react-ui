@@ -17,7 +17,7 @@ class Chart extends Component {
     const chart = Highcharts.chart(this.container, {
       chart: {
         type: this.props.chartType || 'line',
-        inverted: !this.props.horizontal,
+        inverted: this.isInverted(this.props),
         backgroundColor: null,
         zoomType: 'xy',
         panning: true,
@@ -110,6 +110,12 @@ class Chart extends Component {
       reflow = true;
       redraw = true;
     } else if (newProps.widthCols !== this.props.widthCols || (this.props.coordinates && (newProps.coordinates !== this.props.coordinates))) {
+      const newInverted = this.isInverted(newProps);
+      if (chart.inverted !== newInverted) {
+        chart.update({chart: {inverted: newInverted}}, false);
+        redraw = true;
+      }
+
       reflow = true;
     }
     redraw = this.diffPatchSeries(newProps) || redraw;
@@ -259,6 +265,18 @@ class Chart extends Component {
       };
   }
 
+  /**
+   * Control whether x and y axes are inverted.
+   */
+  isInverted(props) {
+    if (props.automaticOrientation) {
+      return props.coordinates.get('w') < props.coordinates.get('h');
+    }
+
+    // Only flip the axes for a vertical app.
+    return !props.horizontal;
+  }
+
   isLegendVisible(props) {
     return props.forceLegend || (props.showLegend && (props.size === Size.XLARGE));
   }
@@ -271,6 +289,7 @@ class Chart extends Component {
 Chart.defaultProps = {
   forceLegend: false,
   showLegend: true,
+  automaticOrientation: true
 };
 
 Chart.propTypes = {
@@ -286,7 +305,8 @@ Chart.propTypes = {
   forceLegend: PropTypes.bool,
   showLegend: PropTypes.bool,
   chartType: PropTypes.string,
-  noSpacing: PropTypes.bool
+  noSpacing: PropTypes.bool,
+  automaticOrientation: PropTypes.bool
 };
 
 export default Chart;
