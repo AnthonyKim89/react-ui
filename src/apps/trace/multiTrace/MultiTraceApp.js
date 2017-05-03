@@ -88,6 +88,7 @@ class MultiTraceApp extends Component {
       <Chart
         multiAxis
         xField="timestamp"
+        automaticOrientation={false}
         size={this.props.size}
         widthCols={this.props.widthCols}
         noSpacing={this.props.noSpacing}
