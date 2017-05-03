@@ -47,7 +47,7 @@ class PressureLossApp extends Component {
       .getIn(['data', 'percentages'])
       .map(datum => ({
         name: LABELS[datum.get('type')],
-        y: Number(this.props.convert.convertValue(datum.get('pressure_loss'), 'pressure', 'psi').formatNumeral("0.0")),
+        y: Number(this.props.convert.convertValue(datum.get('pressure_loss'), 'pressure', 'psi')),
         color: COLORS[datum.get('type')]
       }));
   }
