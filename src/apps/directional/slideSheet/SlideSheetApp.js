@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import numeral from 'numeral';
 
 import { SUBSCRIPTIONS } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
@@ -48,7 +47,7 @@ class SlideSheetApp extends Component {
                 { data.map( (t,index)=> {
                   return (
                   <tr key={index}>
-                    <td style={this.getCellStyle()}>{numeral(this.props.convert.convertValue(t.get("measured_depth"), 'length', 'ft')).format('0,0.0')}</td>
+                    <td style={this.getCellStyle()}>{this.props.convert.convertValue(t.get("measured_depth"), 'length', 'ft').formatNumeral('0,0.0')}</td>
                     <td style={this.getCellStyle()}>{this.props.convert.convertValue(t.get("length"), 'length', 'ft').fixFloat(1)}</td>
                     <td style={this.getCellStyle()}>{t.get("inclination").fixFloat(2)}</td>
                     <td style={this.getCellStyle()}>{t.get("azimuth").fixFloat(2)}</td>

@@ -14,7 +14,7 @@ export const METADATA = {
 export const SUPPORTED_ASSET_TYPES = ['rig'];
 export const INITIAL_SIZE = {w: 2, h: 10};
 export const SUPPORTED_CHART_SERIES = {
-  helical_buckling_force: {label: 'Helical buckling force', defaultColor: '#f7e47a', unitType: 'force', unit: 'lbf'},
-  sinusoidal_buckling_force: {label: 'Sinusoidal buckling force', defaultColor: '#5f7f90', unitType: 'force', unit: 'lbf'},
-  axial_load: {label: 'Axial load', defaultColor: '#24baea', unitType: 'force', unit: 'lbf'}
+  helical_buckling_force: {label: 'Helical buckling force', defaultColor: '#f7e47a', unitType: 'force', unit: 'klbf'},
+  sinusoidal_buckling_force: {label: 'Sinusoidal buckling force', defaultColor: '#5f7f90', unitType: 'force', unit: 'klbf'},
+  axial_load: {label: 'Axial load', defaultColor: '#24baea', unitType: 'force', unit: 'klbf'}
 };

@@ -271,7 +271,7 @@ class DrillstringsApp extends Component {
       component.inner_diameter = convert.convertValue(component.inner_diameter, "shortLength", convert.getUnitPreference("shortLength"),"in");
       component.outer_diameter = convert.convertValue(component.outer_diameter, "shortLength", convert.getUnitPreference("shortLength"),"in");
       if (component.linear_weight) { // bit family doesn't have linear weight
-        component.linear_weight = convert.convertValue(component.linear_weight, "force", convert.getUnitPreference("force"),"lbf");
+        component.linear_weight = convert.convertValue(component.linear_weight, "force", convert.getUnitPreference("force"), "klbf");
       }
       component.weight = convert.convertValue(component.weight, "mass", convert.getUnitPreference("mass"),"lb");
       component.length = convert.convertValue(component.length, "length", convert.getUnitPreference("length"),"ft");

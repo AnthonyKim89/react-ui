@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Icon } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import numeral from 'numeral';
 
 import { SUBSCRIPTIONS } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
@@ -43,9 +42,9 @@ class DownholeTransferApp extends Component {
         <tr>
           <th>
             TOR
-            <div className="c-tnd-downhole-transfer__unit">k{this.props.convert.getUnitDisplay('force')}</div>
+            <div className="c-tnd-downhole-transfer__unit">{this.props.convert.getUnitDisplay('force')}</div>
           </th>
-          <td>{numeral(this.props.convert.convertValue(data.getIn(['surface', 'torque']), 'force', 'lbf')).format("0.0")}</td>
+          <td>{this.props.convert.convertValue(data.getIn(['surface', 'torque']), 'torque', 'ft-klbf').formatNumeral("0.0")}</td>
           <td className={`c-tnd-downhole-transfer__efficiency
                           c-tnd-downhole-transfer--${data.get('torque_efficiency')}`}>
             <Icon>play_arrow</Icon>
@@ -54,7 +53,7 @@ class DownholeTransferApp extends Component {
             </div>
           </td>
           <td className={`c-tnd-downhole-transfer--${data.get('torque_efficiency')}`}>
-            {numeral(this.props.convert.convertValue(data.getIn(['downhole', 'torque']), 'force', 'lbf')).format("0.0")}
+            {this.props.convert.convertValue(data.getIn(['downhole', 'torque']), 'torque', 'ft-klbf').formatNumeral("0.0")}
           </td>
         </tr>
         <tr>
@@ -62,7 +61,7 @@ class DownholeTransferApp extends Component {
             WOB
             <div className="c-tnd-downhole-transfer__unit">k{this.props.convert.getUnitDisplay('mass')}</div>
           </th>
-          <td>{numeral(this.props.convert.convertValue(data.getIn(['surface', 'weight_on_bit']), 'force', 'lbf')).format("0.0")}</td>
+          <td>{this.props.convert.convertValue(data.getIn(['surface', 'weight_on_bit']), 'force', 'klbf').formatNumeral("0.0")}</td>
           <td className={`c-tnd-downhole-transfer__efficiency
                           c-tnd-downhole-transfer--${data.get('weight_on_bit_efficiency')}`}>
             <Icon>play_arrow</Icon>
@@ -71,7 +70,7 @@ class DownholeTransferApp extends Component {
             </div>
           </td>
           <td className={`c-tnd-downhole-transfer--${data.getIn(['weight_on_bit_efficiency'])}`}>
-            {numeral(this.props.convert.convertValue(data.getIn(['downhole', 'weight_on_bit']), 'force', 'lbf')).format("0.0")}
+            {this.props.convert.convertValue(data.getIn(['downhole', 'weight_on_bit']), 'force', 'klbf').formatNumeral("0.0")}
           </td>
         </tr>
       </tbody>

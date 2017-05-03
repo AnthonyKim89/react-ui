@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Input, Button} from 'react-materialize';
-import numeral from 'numeral';
 
 import './FormationsItem.css';
 
@@ -34,8 +33,8 @@ class FormationsItem extends Component {
 
     if (!this.state.editing) return (
       <tr className="c-formations-item">
-        <td>{numeral(this.props.convert.convertValue(parseFloat(td), "length", "ft")).format('0,0.00')}</td>
-        <td className="hide-on-med-and-down">{numeral(this.props.convert.convertValue(parseFloat(md), "length", "ft")).format('0,0.00')}</td>
+        <td>{this.props.convert.convertValue(parseFloat(td), "length", "ft").formatNumeral('0,0.00')}</td>
+        <td className="hide-on-med-and-down">{this.props.convert.convertValue(parseFloat(md), "length", "ft").formatNumeral('0,0.00')}</td>
         <td>{formation_name}</td>
         <td className="hide-on-med-and-down">{lithology}</td>
         <td className="hide-on-med-and-down">
@@ -53,7 +52,7 @@ class FormationsItem extends Component {
             s={12}
             label="True Vertical Depth"
             error={this.state.errors.td}
-            defaultValue={td? numeral(this.props.convert.convertValue(parseFloat(td), "length", "ft")).format('0.00') : td}
+            defaultValue={td? this.props.convert.convertValue(parseFloat(td), "length", "ft").formatNumeral('0.00') : td}
             ref="td"
             onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{td:e.target.value})} )} />
@@ -64,7 +63,7 @@ class FormationsItem extends Component {
             s={12}
             label="Measured Depth (ft)"
             error={this.state.errors.md}
-            defaultValue={md? numeral(this.props.convert.convertValue(parseFloat(md), "length", "ft")).format('0.00'): md}
+            defaultValue={md? this.props.convert.convertValue(parseFloat(md), "length", "ft").formatNumeral('0.00'): md}
             onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{md:e.target.value})} )} />
         </td>

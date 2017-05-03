@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { Row, Col,Input } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import numeral from 'numeral';
 import moment from 'moment';
 import Datetime from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
@@ -58,7 +57,7 @@ class DrillstringAttributeForm extends Component {
           m={4}
           type="number"
           ref="start_depth"          
-          defaultValue={numeral(this.props.convert.convertValue(this.getAttr('start_depth', 0), 'length', 'ft')).format('0')}
+          defaultValue={this.props.convert.convertValue(this.getAttr('start_depth', 0), 'length', 'ft').formatNumeral('0')}
           onKeyPress={this.handleKeyPress.bind(this)}
           onChange={e => this.updateAttr('start_depth', e.target.value,true)}/>
         <Input
@@ -66,7 +65,7 @@ class DrillstringAttributeForm extends Component {
           label="Depth Out"
           type="number"
           ref="end_depth"
-          defaultValue={numeral(this.props.convert.convertValue(this.getAttr('end_depth', 0), 'length', 'ft')).format('0')}
+          defaultValue={this.props.convert.convertValue(this.getAttr('end_depth', 0), 'length', 'ft').formatNumeral('0')}
           onKeyPress={this.handleKeyPress.bind(this)}
           onChange={e => this.updateAttr('end_depth', e.target.value,true)}/>
       </Row>
