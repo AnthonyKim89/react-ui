@@ -27,12 +27,17 @@ class TracesSlider extends Component {
       <div className="c-traces__slider-chart">
         <Chart
           xField="timestamp"
-          size="SMALL"
+          size="MEDIUM"
           plotBackgroundColor="rgb(32, 31, 31)"
           marginLeft={0}
           marginRight={0}
           marginTop={0}
           marginBottom={0}
+          xAxisGridLineDashStyle="longdash"
+          yAxisGridLineDashStyle="longdash"
+          xAxisGridLineColor="rgb(70, 70, 70)"
+          yAxisGridLineColor="rgb(70, 70, 70)"
+          xAxisTickInterval={100}
           widthCols={this.props.widthCols}>
           <ChartSeries
             dashStyle='Solid'

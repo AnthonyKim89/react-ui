@@ -44,7 +44,7 @@ class Chart extends Component {
       xAxis: {
         title: this.isAxisLabelsVisible(this.props) ? this.props.xAxisTitle : {text:null},
         gridLineWidth: this.props.gridLineWidth || 1,
-        gridLineColor: 'rgb(47, 51, 51)',
+        gridLineColor: this.props.xAxisGridLineColor || 'rgb(47, 51, 51)',
         lineWidth: this.props.xAxisWidth || 0,
         lineColor:  this.props.xAxisColor || '',
         tickWidth: 0,
@@ -235,7 +235,8 @@ class Chart extends Component {
       title: series.yAxisTitle || props.yAxisTitle || {text: null},
       visible: this.isAxisLabelsVisible(props),
       gridLineWidth: props.yGridLineWidth || props.gridLineWidth || 1,
-      gridLineColor: 'rgb(47, 51, 51)',
+      gridLineColor: this.props.yAxisGridLineColor || 'rgb(47, 51, 51)',
+      gridLineDashStyle: this.props.yAxisGridLineDashStyle,
       labels: {
         enabled: this.isAxisLabelsVisible(props) && !props.hideYAxis,
         style:  props.yLabelStyle || {color: '#fff'},
@@ -254,7 +255,8 @@ class Chart extends Component {
       reversed: props.yAxisReversed || false,
       showFirstLabel: props.showFirstYLabel,
       showLastLabel: props.showLastYLabel,
-      type: this.props.yAxisType
+      type: this.props.yAxisType,
+      tickInterval: this.props.yAxisTickInterval,
     };
   }
 
