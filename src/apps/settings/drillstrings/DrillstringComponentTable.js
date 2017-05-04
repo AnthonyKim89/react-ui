@@ -33,7 +33,7 @@ class DrillstringComponentTable extends Component {
                 <th>Category</th>
                 <th>ID ({this.props.convert.getUnitDisplay('shortLength')})</th>
                 <th>OD ({this.props.convert.getUnitDisplay('shortLength')})</th>
-                <th>Linear Weight ({this.props.convert.getUnitDisplay('force')}) </th>
+                <th>Linear Weight ({this.props.convert.getUnitDisplay('massPerLength')}) </th>
                 <th>Length ({this.props.convert.getUnitDisplay('length')})</th>
                 <th>Weight ({this.props.convert.getUnitDisplay('mass')})</th>
                 <th>Grade </th>
