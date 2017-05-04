@@ -56,6 +56,7 @@ class WellPlanApp extends Component {
             size={this.props.size}
             coordinates={this.props.coordinates}
             widthCols={this.props.widthCols}
+            automaticOrientation={false}
             gridLineWidth="1"
             xAxisWidth={2}
             xAxisColor="#fff"
@@ -72,7 +73,7 @@ class WellPlanApp extends Component {
               style: {
                 color: "#fff"
               }
-            }}
+            }}            
             yAxisReversed={true}>
 
             {this.getSeries().map(({renderType, title, field, data}, idx) => (
