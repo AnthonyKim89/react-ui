@@ -28,7 +28,7 @@ class TracesSlider extends Component {
         <Chart
           xField="timestamp"
           size="MEDIUM"
-          plotBackgroundColor="rgb(32, 31, 31)"
+          plotBackgroundColor="#000"
           marginLeft={0}
           marginRight={0}
           marginTop={0}

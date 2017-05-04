@@ -14,7 +14,17 @@ class TracesChartColumn extends Component {
       <div className="c-traces__chart-column__chart">
         <Chart
           xField="timestamp"
-          size="SMALL"
+          size="MEDIUM"
+          plotBackgroundColor="#000"
+          marginLeft={0}
+          marginRight={0}
+          marginTop={0}
+          marginBottom={0}
+          xAxisGridLineDashStyle="longdash"
+          yAxisGridLineDashStyle="longdash"
+          xAxisGridLineColor="rgb(70, 70, 70)"
+          yAxisGridLineColor="rgb(70, 70, 70)"
+          xAxisTickInterval={100}
           widthCols={this.props.widthCols}>
           <ChartSeries
             dashStyle='Solid'

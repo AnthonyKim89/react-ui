@@ -4,24 +4,25 @@
   display: inline-block;
 }
 
-
 .c-traces__slider-chart {
   display: inline-block;
   width: 200px;
   height: 100%;
   padding-top: 21px;
   padding-bottom: 31px;
+  background-color: #000;
 }
 
 .c-traces__slider-interaction {
   width: 200px;
-  height: 100%;
+  height: calc(100% - 10px);
   display: flex;
   flex-direction: column;
   position: absolute;
   top: 0;
   background: transparent;
-  padding-bottom: 10px;
+  border-right: 1px solid #333;
+  border-left: 1px solid #333;
 }
 
 .c-traces__slider-interaction__info {
