@@ -11,6 +11,7 @@ class TracesChartContainer extends Component {
       <TracesChartColumn data={this.props.data} widthCols={this.props.widthCols}/>
       <TracesChartColumn data={this.props.data} widthCols={this.props.widthCols}/>
       <TracesChartColumn data={this.props.data} widthCols={this.props.widthCols}/>
+      <TracesChartColumn data={this.props.data} widthCols={this.props.widthCols}/>
     </div>;
   }
 }
