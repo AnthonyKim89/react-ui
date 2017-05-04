@@ -1,7 +1,8 @@
 import { List, Map } from 'immutable';
 
+import { dropdownEditorForDefinitions } from '../../../common/DropdownEditor';
 import { chartColorsEditorForDefinitions } from '../../../common/ChartColorsEditor';
-import { SUPPORTED_CHART_SERIES } from './constants';
+import { SUPPORTED_CHART_SERIES, GRAPH_TYPES } from './constants';
 
 export default List([
   Map({
@@ -9,5 +10,16 @@ export default List([
     title: 'Graph Colors',
     required: false,
     Editor: chartColorsEditorForDefinitions(SUPPORTED_CHART_SERIES)
-  })
+  }),
+  Map({
+    name: 'graphType',
+    title: 'Graph Type',
+    required: true,
+    includeInSubscriptionParams: false,
+    default: GRAPH_TYPES[0].type,
+    Editor: dropdownEditorForDefinitions(GRAPH_TYPES.map(h => ({
+      label: h.title,
+      value: h.type
+    })))
+  }),
 ]);
