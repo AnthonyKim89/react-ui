@@ -6,7 +6,8 @@ import LoadingIndicator from '../../../common/LoadingIndicator';
 import TracesSlider from './TracesSlider';
 import TracesChartContainer from './TracesChartContainer';
 import subscriptions from '../../../subscriptions';
-import { SUBSCRIPTIONS } from './constants';
+import { SUBSCRIPTIONS, DEFAULT_TRACE_GRAPHS } from './constants';
+import { SUPPORTED_TRACES } from '../constants';
 
 import './TracesApp.css';
 
@@ -40,7 +41,9 @@ class TracesApp extends Component {
         onRangeChanged={(start, end) => this.updateFilteredData(start, end)} />
       <TracesChartContainer
         data={this.state.filteredData}
-        widthCols={this.props.widthCols} />
+        widthCols={this.props.widthCols}
+        traceGraphs={this.props.traceGraphs || DEFAULT_TRACE_GRAPHS}
+        supportedTraces={SUPPORTED_TRACES} />
     </div>;
   }
 
@@ -63,12 +66,13 @@ class TracesApp extends Component {
     this.setState({
       start,
       end,
-      filteredData
+      filteredData: filteredData.map(value => value.flatten())
     });
   }
 }
 
 TracesApp.propTypes = {
+  traceGraphs: ImmutablePropTypes.list,
   data: ImmutablePropTypes.map,
   size: PropTypes.string.isRequired,
   widthCols: PropTypes.number.isRequired,

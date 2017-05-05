@@ -1,5 +1,5 @@
 .c-traces__chart-column {
-  height: 100%;
+  height: calc(100% - 10px);
   width: calc(100% / 4);
   display: inline-block;
   flex-direction: column;
@@ -16,4 +16,19 @@
   height: 200px;
   text-align: center;
   border-top: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+}
+
+.c-traces__chart-column__values__item {
+  height: calc(200px / 3);
+  border-bottom: 1px solid #333;
+}
+
+.c-traces__chart-column__values__item:nth-child(3) {
+  border-bottom: none;
+}
+
+.c-traces__chart-column__values__item span {
+  line-height: calc(200px / 3);;
 }
