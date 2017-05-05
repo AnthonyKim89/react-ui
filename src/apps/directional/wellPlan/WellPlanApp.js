@@ -40,6 +40,7 @@ class WellPlanApp extends Component {
               this.state.actualData !== nextState.actualData ||
               this.state.planData !== nextState.planData ||
               this.props.graphType !== nextProps.graphType ||
+              nextProps.autoZoom !== this.props.autoZoom ||
               nextProps.coordinates !== this.props.coordinates || 
               nextProps.graphColors !== this.props.graphColors
             );
@@ -63,6 +64,8 @@ class WellPlanApp extends Component {
             xAxisColor="#fff"
             yAxisWidth={2}
             yAxisColor="#fff"
+            xMinValue={this.props.autoZoom? this.getLastActualPoint().get((this.getGraphType()===1)? "vertical_section": "easting")-1000 : null}
+            xMaxValue={this.props.autoZoom? this.getLastActualPoint().get((this.getGraphType()===1)? "vertical_section": "easting")+1000: null}
             xAxisTitle={{
               text: (this.getGraphType()===1) ? "Vertical Section": "Easting",
               style: {
@@ -77,13 +80,15 @@ class WellPlanApp extends Component {
             }}            
             yAxisReversed={true}>
 
-            {this.getSeries().map(({renderType, title, field, data}, idx) => (
+            {this.getSeries().map(({renderType, title, field, data,minValue,maxValue}, idx) => (
               <ChartSeries
                 type={renderType}
                 key={field}
                 id={field}
                 title={title}
                 data={data}
+                minValue={minValue}
+                maxValue={maxValue}
                 yField={ (this.getGraphType()===1)? "tvd": "northing"}
                 dashStyle={"Solid"}
                 color={this.getSeriesColor(field)}
@@ -130,13 +135,30 @@ class WellPlanApp extends Component {
     // let data = [];
     // data = this.props.convert.convertImmutables(data, "tvd", "length", "ft");
     // data = this.props.convert.convertImmutables(data, "vertical_section", "length", "ft");
-
-    return {
+    
+    let seriesProps = {
       renderType: SUPPORTED_CHART_SERIES[field].chartType,
       title: field,
-      field,
+      field,      
       data: (field==="actual")? this.state.actualData: this.state.planData
     };
+
+    if (this.props.autoZoom) {
+      const lastActualPoint = this.getLastActualPoint();
+      seriesProps = Object.assign({}, seriesProps, {
+        minValue: lastActualPoint.get((this.getGraphType()===1)? "tvd": "northing")-1000,
+        maxValue: lastActualPoint.get((this.getGraphType()===1)? "tvd": "northing")+1000
+      });
+    }
+
+    return seriesProps;
+  }
+
+  getLastActualPoint() {
+    if (!this.state.actualData)
+      return;
+
+    return this.state.actualData.get(this.state.actualData.size-1);
   }
 
   getSeriesColor(field) {

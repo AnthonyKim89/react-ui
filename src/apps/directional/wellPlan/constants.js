@@ -16,9 +16,9 @@ export const METADATA = {
 };
 export const SUPPORTED_ASSET_TYPES = ['rig'];
 export const INITIAL_SIZE = {w: 4, h: 10};
-export const SUPPORTED_CHART_SERIES = {
-	 actual: {label: 'Actual', defaultColor: '#ff0000', chartType: 'line'},
+export const SUPPORTED_CHART_SERIES = {	 
 	 plan: {label: 'Plan', defaultColor: '#add8e6', chartType: 'line'},
+   actual: {label: 'Actual', defaultColor: '#ff0000', chartType: 'line'}
 };
 
 export const GRAPH_TYPES = [
