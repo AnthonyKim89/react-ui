@@ -79,7 +79,7 @@
   height: 26px;
   border: 2px solid #f18c21;
   background-color: rgba(241,140,33,0.2);
-  margin-left: calc(100% - 26px);
+  margin-left: calc(100% - 27px);
   cursor: row-resize;
   text-align: center;
 }

@@ -30,7 +30,7 @@ class TracesChartColumn extends Component {
           {series.map(({field, title, color}) => (
             <ChartSeries
               dashStyle='Solid'
-              lineWidth={1}
+              lineWidth={2}
               key={field}
               id={field}
               title={title}

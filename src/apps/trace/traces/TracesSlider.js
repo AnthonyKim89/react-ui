@@ -41,7 +41,7 @@ class TracesSlider extends Component {
           widthCols={this.props.widthCols}>
           <ChartSeries
             dashStyle='Solid'
-            lineWidth={1}
+            lineWidth={2}
             key={"measured_depth"}
             id={"measured_depth"}
             title={"Depth"}
