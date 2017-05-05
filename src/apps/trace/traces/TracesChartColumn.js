@@ -44,7 +44,7 @@ class TracesChartColumn extends Component {
       </div>
       <div className="c-traces__chart-column__values">
         {series.map(({field, title, color, unit}, idx) => (
-          <div className="c-traces__chart-column__values__item" key={idx}>
+          <div className="c-traces__chart-column__values__item" key={idx} onClick={() => this.props.editTraceGraph(idx + (3 * this.props.columnNumber))}>
             <div className="c-traces__chart-column__values__item__meta-row">
               <div className="c-traces__left">&nbsp;</div>
               <div className="c-traces__center"><span>{title}</span></div>
@@ -93,6 +93,8 @@ TracesChartColumn.propTypes = {
   supportedTraces: PropTypes.array.isRequired,
   traceGraphs: ImmutablePropTypes.list.isRequired,
   data: ImmutablePropTypes.list.isRequired,
+  columnNumber: PropTypes.number.isRequired,
+  editTraceGraph: PropTypes.func.isRequired,
   widthCols: PropTypes.number.isRequired,
 };
 
