@@ -57,6 +57,7 @@ class WellPlanApp extends Component {
             coordinates={this.props.coordinates}
             widthCols={this.props.widthCols}
             automaticOrientation={false}
+            forceLegend={true}
             gridLineWidth="1"
             xAxisWidth={2}
             xAxisColor="#fff"
