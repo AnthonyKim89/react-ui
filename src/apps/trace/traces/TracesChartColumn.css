@@ -8,11 +8,10 @@
 }
 
 .c-traces__chart-column__chart {
-  height: calc(100% - 211px);
+  height: calc(100% - 201px);
 }
 
 .c-traces__chart-column__values {
-  padding-top: 10px;
   height: 200px;
   text-align: center;
   border-top: 1px solid #333;
@@ -23,12 +22,45 @@
 .c-traces__chart-column__values__item {
   height: calc(200px / 3);
   border-bottom: 1px solid #333;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
 }
 
 .c-traces__chart-column__values__item:nth-child(3) {
   border-bottom: none;
 }
 
-.c-traces__chart-column__values__item span {
-  line-height: calc(200px / 3);;
+.c-traces__chart-column__values__item__meta-row {
+  line-height: calc(200px / 9);
+  height: calc(200px / 9);
+}
+
+.c-traces__chart-column__values__item__meta-row div {
+  display: inline-block;
+  width: calc(100% / 3);
+}
+
+.c-traces__left {
+  float: left;
+  text-align: left;
+}
+
+.c-traces__center {
+  text-align: center;
+}
+
+.c-traces__right {
+  float: right;
+  text-align: right;
+}
+
+.c-traces__right i {
+  -ms-transform: rotate(270deg); /* IE 9 */
+  -webkit-transform: rotate(270deg); /* Chrome, Safari, Opera */
+  transform: rotate(270deg);
+  margin: 0;
+  padding: 0;
+  position: relative;
+  right: 0;
 }

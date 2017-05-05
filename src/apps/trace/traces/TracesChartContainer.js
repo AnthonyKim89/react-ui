@@ -3,6 +3,7 @@ import { List, Range } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import TracesChartColumn from './TracesChartColumn';
+import Convert from '../../../common/Convert';
 
 import './TracesChartContainer.css';
 
@@ -16,6 +17,7 @@ class TracesChartContainer extends Component {
           data={this.props.data}
           traceGraphs={this.getTraceGraphGroup(group)}
           supportedTraces={this.props.supportedTraces}
+          convert={this.props.convert}
           widthCols={this.props.widthCols} />
       ))}
     </div>;
@@ -29,6 +31,7 @@ class TracesChartContainer extends Component {
 }
 
 TracesChartContainer.propTypes = {
+  convert: React.PropTypes.instanceOf(Convert).isRequired,
   supportedTraces: PropTypes.array.isRequired,
   traceGraphs: ImmutablePropTypes.list.isRequired,
   data: ImmutablePropTypes.list.isRequired,

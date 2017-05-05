@@ -1,9 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { find } from 'lodash';
+import { Icon } from 'react-materialize';
 
 import Chart from '../../../common/Chart';
 import ChartSeries from '../../../common/ChartSeries';
+import Convert from '../../../common/Convert';
 
 import './TracesChartColumn.css';
 
@@ -41,9 +43,23 @@ class TracesChartColumn extends Component {
         </Chart>
       </div>
       <div className="c-traces__chart-column__values">
-        {series.map(({field, title, color}, idx) => (
+        {series.map(({field, title, color, unit}, idx) => (
           <div className="c-traces__chart-column__values__item" key={idx}>
-            <span>{title}</span>
+            <div className="c-traces__chart-column__values__item__meta-row">
+              <div className="c-traces__left">&nbsp;</div>
+              <div className="c-traces__center"><span>{title}</span></div>
+              <div className="c-traces__right" style={{color}}><Icon>network_cell</Icon></div>
+            </div>
+            <div className="c-traces__chart-column__values__item__meta-row">
+              <div className="c-traces__left">&nbsp;</div>
+              <div className="c-traces__center">--</div>
+              <div className="c-traces__right">&nbsp;</div>
+            </div>
+            <div className="c-traces__chart-column__values__item__meta-row">
+              <div className="c-traces__left">&nbsp;</div>
+              <div className="c-traces__center">{unit}</div>
+              <div className="c-traces__right">&nbsp;</div>
+            </div>
           </div>
         ))}
       </div>
@@ -64,6 +80,7 @@ class TracesChartColumn extends Component {
         field: trace.trace,
         title: trace.label,
         color: value.get('color'),
+        unit: trace.hasOwnProperty("unitType") ? this.props.convert.getUnitDisplay(trace.unitType) : trace.unit,
       });
     });
 
@@ -73,6 +90,7 @@ class TracesChartColumn extends Component {
 }
 
 TracesChartColumn.propTypes = {
+  convert: React.PropTypes.instanceOf(Convert).isRequired,
   supportedTraces: PropTypes.array.isRequired,
   traceGraphs: ImmutablePropTypes.list.isRequired,
   data: ImmutablePropTypes.list.isRequired,

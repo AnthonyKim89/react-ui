@@ -43,6 +43,7 @@ class TracesApp extends Component {
         data={this.state.filteredData}
         widthCols={this.props.widthCols}
         traceGraphs={this.props.traceGraphs || DEFAULT_TRACE_GRAPHS}
+        convert={this.props.convert}
         supportedTraces={SUPPORTED_TRACES} />
     </div>;
   }

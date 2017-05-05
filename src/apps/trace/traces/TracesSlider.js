@@ -38,7 +38,7 @@ class TracesSlider extends Component {
           xAxisGridLineColor="rgb(70, 70, 70)"
           yAxisGridLineColor="rgb(70, 70, 70)"
           xAxisTickInterval={100}
-          widthCols={this.props.widthCols}>
+          widthCols={this.props.widthCols} >
           <ChartSeries
             dashStyle='Solid'
             lineWidth={2}
