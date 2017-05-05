@@ -6,7 +6,7 @@ import { fromJS, Map } from 'immutable';
 
 import * as api from '../../../api';
 
-import { GRAPH_TYPES/*, METADATA*/ } from './constants';
+import { GRAPH_TYPES, METADATA } from './constants';
 import Chart from '../../../common/Chart';
 import ChartSeries from '../../../common/ChartSeries';
 import LoadingIndicator from '../../../common/LoadingIndicator';
@@ -126,26 +126,36 @@ class DepthVersusDaysApp extends Component {
   }
 
   async getData() {
-    let rigs = await api.getAssets(['rig']);
-    let data;
-    // let data = await api.getAppStorage(METADATA.provider, METADATA.collection, null, Map({
-    //   query: '{asset_id#in#[' + rigs.map(x => x.get('id')).toArray().toString() + ']}',
-    //   limit: 1000
-    // }));
-    [data, rigs] = this.getFakeData();
+    let rigs = await api.getAssets(['well']);
+    let data = await api.getAppStorage(METADATA.provider, METADATA.collection, null, Map({
+      query: '{asset_id#in#[' + rigs.map(x => x.get('id')).toArray().toString() + ']}',
+      limit: 10000
+    }));
+    // [data, rigs] = this.getFakeData();
     this.setState({data, rigs});
   }
 
   getSeries() {
     let series = [];
-    for (let asset_id=1;asset_id<=3;asset_id++) {
-      let asset_data = this.state.data.filter(x => x.get('asset_id') === asset_id).map(x => (
+    this.state.rigs.forEach(rig => {
+      const asset_id = rig.get('id');
+      const title = rig.get('name');
+      const asset_data = this.state.data.filter(x => x.get('asset_id') === asset_id);
+      const first_data = asset_data.sortBy(x => x.get('timestamp')).first();
+      if (!first_data) return;
+      const start_date = first_data.get('timestamp') - 6*60*60;
+      let graph_data = asset_data.map(x => (
         Map({
-          day: x.getIn(['data', 'day']),
-          depth: x.getIn(['data', 'depth'])
+          day: ((x.get('timestamp') - start_date) / 86400).fixFloat(1),
+          depth: x.getIn(['data', 'hole_depth'])
         })
       ));
-      const title = this.state.rigs.find((x) => x.get('id') === asset_id).get('name');
+      graph_data = graph_data.push(
+        Map({
+          day: 0,
+          depth: 0
+        })
+      );
       series.push({
         renderType: 'line',
         key: 'rig' + asset_id,
@@ -154,9 +164,9 @@ class DepthVersusDaysApp extends Component {
           text: "Depth(HD-ft)", 
           style: { color: '#fff' } 
         },
-        data: asset_data
+        data: graph_data
       });
-    }
+    });
     return series;
   }
 }
