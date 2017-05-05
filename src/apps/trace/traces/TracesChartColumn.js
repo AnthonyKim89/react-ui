@@ -86,7 +86,6 @@ class TracesChartColumn extends Component {
 
     return series;
   }
-
 }
 
 TracesChartColumn.propTypes = {

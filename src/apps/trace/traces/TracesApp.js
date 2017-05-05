@@ -42,6 +42,7 @@ class TracesApp extends Component {
       <TracesChartContainer
         data={this.state.filteredData}
         widthCols={this.props.widthCols}
+        onSettingChange={this.props.onSettingChange}
         traceGraphs={this.props.traceGraphs || DEFAULT_TRACE_GRAPHS}
         convert={this.props.convert}
         supportedTraces={SUPPORTED_TRACES} />
@@ -77,6 +78,7 @@ TracesApp.propTypes = {
   data: ImmutablePropTypes.map,
   size: PropTypes.string.isRequired,
   widthCols: PropTypes.number.isRequired,
+  onSettingChange: PropTypes.func.isRequired,
 };
 
 export default TracesApp;

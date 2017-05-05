@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { List, Range } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { Input, Button } from 'react-materialize';
+import Modal from 'react-modal';
 
 import TracesChartColumn from './TracesChartColumn';
 import Convert from '../../../common/Convert';
@@ -8,6 +10,15 @@ import Convert from '../../../common/Convert';
 import './TracesChartContainer.css';
 
 class TracesChartContainer extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      dialogOpen: false,
+      traceEditIndex: null,
+    };
+    this.updateTraceGraph = this.updateTraceGraph.bind(this);
+  }
 
   render() {
     return <div className="c-traces__container">
@@ -20,6 +31,29 @@ class TracesChartContainer extends Component {
           convert={this.props.convert}
           widthCols={this.props.widthCols} />
       ))}
+      <Modal
+        isOpen={this.state.dialogOpen}
+        onRequestClose={() => this.closeDialog()}
+        className='c-traces__container__edit-trace'
+        overlayClassName='c-traces__container__edit-trace__overlay'
+        contentLabel="Trace Graph">
+        <div className="c-traces__container__edit-trace__dialog">
+          <header>
+            <h4 className="c-traces__container__edit-trace__dialog__title">
+              Trace Graph
+            </h4>
+          </header>
+          <Input label="Trace"
+                 defaultValue={this.state.traceEditIndex !== null ? this.state.traceEditIndex : 0}
+                 ref={(input) => this.traceInput = input} />
+          <Button className="c-traces__container__edit-trace__dialog__done" onClick={() => this.saveTrace()}>
+            Save
+          </Button>
+          <Button className="c-traces__container__edit-trace__dialog__done" onClick={() => this.clearTrace()}>
+            Clear
+          </Button>
+        </div>
+      </Modal>
     </div>;
   }
 
@@ -27,6 +61,22 @@ class TracesChartContainer extends Component {
     return Range(0, this.props.traceGraphs.size, 3)
       .map(chunkStart => this.props.traceGraphs.slice(chunkStart, chunkStart + 3))
       .get(number, List());
+  }
+
+  updateTraceGraph() {
+
+  }
+
+  openDialog() {
+    this.setState({
+      dialogOpen: true,
+    });
+  }
+
+  closeDialog() {
+    this.setState({
+      dialogOpen: false
+    });
   }
 }
 
@@ -36,6 +86,7 @@ TracesChartContainer.propTypes = {
   traceGraphs: ImmutablePropTypes.list.isRequired,
   data: ImmutablePropTypes.list.isRequired,
   widthCols: PropTypes.number.isRequired,
+  onSettingChange: PropTypes.func.isRequired,
 };
 
 export default TracesChartContainer;
