@@ -66,7 +66,7 @@ class TracesChartColumn extends Component {
               </div>
               <div className="c-traces__chart-column__values__item__meta-row">
                 <div className="c-traces__left">&nbsp;</div>
-                <div className="c-traces__center"><Icon>add</Icon></div>
+                <div className="c-traces__center"><Icon>add_circle_outline</Icon></div>
                 <div className="c-traces__right">&nbsp;</div>
               </div>
               <div className="c-traces__chart-column__values__item__meta-row">
