@@ -1,12 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { List, Range } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Input, Button } from 'react-materialize';
-import Modal from 'react-modal';
 
 import TracesChartColumn from './TracesChartColumn';
 import Convert from '../../../common/Convert';
-import { MaterialPicker } from 'react-color';
+import TracesSettingsDialog from './TracesSettingsDialog';
 
 import './TracesChartContainer.css';
 
@@ -14,11 +12,7 @@ class TracesChartContainer extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      dialogOpen: false,
-      traceEditIndex: null,
-    };
-    this.updateTraceGraph = this.updateTraceGraph.bind(this);
+    this.openSettingsDialog = this.openSettingsDialog.bind(this);
   }
 
   render() {
@@ -31,38 +25,14 @@ class TracesChartContainer extends Component {
           supportedTraces={this.props.supportedTraces}
           convert={this.props.convert}
           columnNumber={group}
-          editTraceGraph={(traceEditIndex) => this.openDialog(traceEditIndex)}
+          editTraceGraph={(traceEditIndex) => this.openSettingsDialog(traceEditIndex)}
           widthCols={this.props.widthCols} />
       ))}
-      <Modal
-        isOpen={this.state.dialogOpen}
-        onRequestClose={() => this.closeDialog()}
-        className='c-traces__container__edit-trace'
-        overlayClassName='c-traces__container__edit-trace__overlay'
-        contentLabel="Trace Graph">
-        {this.state.dialogOpen && // We don't want to render this at all if it's not even open, especially with all the re-renders happening here.
-        <div className="c-traces__container__edit-trace__dialog">
-          <header>
-            <h4 className="c-traces__container__edit-trace__dialog__title">
-              Trace Graph
-            </h4>
-          </header>
-          <Input type='select' label="Trace"
-                 defaultValue={this.props.traceGraphs.getIn([this.state.traceEditIndex, 'trace'])}
-                 ref={(input) => this.traceChooserInput = input}>
-            {this.props.supportedTraces.map((trace, idx) => {
-              return <option key={idx} value={trace.trace}>{trace.label}</option>;
-            })}
-          </Input>
-          <MaterialPicker color={this.props.traceGraphs.getIn([this.state.traceEditIndex, 'color'])} />
-          <Button className="c-traces__container__edit-trace__dialog__done" onClick={() => this.saveTrace()}>
-            Save
-          </Button>
-          <Button className="c-traces__container__edit-trace__dialog__done" onClick={() => this.clearTrace()}>
-            Clear
-          </Button>
-        </div>}
-      </Modal>
+      <TracesSettingsDialog
+        ref={(input) => this.traceSettingsDialog = input}
+        supportedTraces={this.props.supportedTraces}
+        traceGraphs={this.props.traceGraphs}
+        onSettingChange={this.props.onSettingChange} />
     </div>;
   }
 
@@ -72,21 +42,8 @@ class TracesChartContainer extends Component {
       .get(number, List());
   }
 
-  updateTraceGraph() {
-    this.closeDialog();
-  }
-
-  openDialog(traceEditIndex) {
-    this.setState({
-      dialogOpen: true,
-      traceEditIndex: traceEditIndex,
-    });
-  }
-
-  closeDialog() {
-    this.setState({
-      dialogOpen: false
-    });
+  openSettingsDialog(traceEditIndex) {
+    this.traceSettingsDialog.openDialog(traceEditIndex);
   }
 }
 

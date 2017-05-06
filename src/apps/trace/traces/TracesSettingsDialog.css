@@ -1,0 +1,110 @@
+.c-traces__container__edit-trace {
+    position: absolute;
+    top: 30%;
+    left: 40%;
+    right: 40%;
+    border-radius: 0;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background: white;
+    color: black;
+    overflow: visible;
+    -webkit-overflow-scrolling: touch;
+    outline: none;
+    z-index: 4001;
+}
+
+@media(max-width: 768px) {
+    .c-traces__container__edit-trace {
+        left: 10px;
+        right: 10px;
+        top: 60px;
+        bottom: 10px;
+    }
+}
+.c-traces__container__edit-trace__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 4000;
+}
+
+.c-traces__container__edit-trace__dialog {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.c-traces__container__edit-trace__dialog header {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #888;
+}
+.c-traces__container__edit-trace__dialog__title {
+    font-weight: bold;
+    font-size: 28px;
+}
+.c-traces__container__edit-trace__dialog__title, .c-traces__container__edit-trace__dialog__subtitle {
+    margin: 0;
+}
+.c-traces__container__edit-trace__overlay .slider-picker {
+    margin-top: 5px;
+}
+.c-traces__container__edit-trace__dialog__done {
+    float: right;
+    border-radius: 0 !important;
+    width: 100%;
+    height: 40px;
+    margin-top: 5px;
+    vertical-align: bottom;
+}
+.c-traces__container__edit-trace__dialog__cancel {
+    float: right;
+    border-radius: 0 !important;
+    width: 100%;
+    height: 40px;
+    margin-top: 5px;
+    vertical-align: bottom;
+    background-color: #888 !important;
+}
+.c-traces__container__edit-trace__dialog__button-row {
+    margin: 20px 0 0 0 !important;
+}
+.c-traces__container__edit-trace__bold {
+    font-weight: bold;
+}
+
+.c-traces__container__edit-trace__dialog .caret {
+    border-color: transparent !important;
+    margin: auto 15px 18px auto !important;
+}
+
+.c-traces__container__edit-trace__dialog .btn {
+    border-radius: 0;
+    width: 100%;
+    height: 35px;
+}
+
+.c-traces__container__edit-trace__dialog .btn span {
+    vertical-align: top;
+}
+
+.c-traces__container__edit-trace__dialog h5 {
+    font-size: 20px !important;
+}
+
+.c-traces__container__edit-trace__dialog .select-wrapper li span {
+    background-color: #e0e0e0;
+    color: #000000;
+}
+
+.c-traces__container__edit-trace__dialog .select-wrapper li:hover span {
+    background-color: #eeeeee;
+    color: #000000;
+}
+
+.c-traces__container__edit-trace__dialog .col.input-field label {
+    left: 0;
+}
