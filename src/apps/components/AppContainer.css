@@ -112,6 +112,16 @@
   bottom: auto;
 }
 
+@media(max-width: 768px) {
+  .c-app-container--maximized .c-app-container__actions a {
+    background-color: rgb(32, 31, 31);
+  }
+
+   .c-app-container--maximized .c-app-container__actions a i {
+    font-size: 2rem;
+  }
+}
+
 .c-app-container__action {
   float: right;
   width: 40px;
