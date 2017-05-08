@@ -113,14 +113,12 @@ class WellPlanApp extends Component {
     }));
 
     actualData = (actualData && actualData.get(0)) ? actualData.get(0).getIn(["data","stations"], List()) : List();
-    console.log(JSON.stringify(actualData));
 
     let planData = await api.getAppStorage(METADATA.provider, METADATA.collections[1], asset.get('id'), Map({
       limit: 1
     }));
 
     planData = (planData && planData.get(0)) ? planData.get(0).getIn(["data","stations"], List()) : List();
-    console.log(JSON.stringify(planData));
 
     this.setState({
       actualData: actualData,

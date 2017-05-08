@@ -16,12 +16,13 @@ class SurveysApp extends Component {
       );
     }
 
-    let data = json.getIn(["data","actual"]).slice(0,5);
+    let data = null;
     if (this.props.maximize) {
       data = json.getIn(["data","actual"]);
     }
     else {
-      data = json.getIn(["data","actual"]).slice(0,5);
+      data = json.getIn(["data","actual"]);
+      data = data ? data.slice(0,5) : [];      
     }
     
     return (
