@@ -106,7 +106,6 @@ class SurfaceEquipmentItem extends Component {
         .set("block_weight",block_weight);
     });
 
-    console.log(record.toJS());
 
     this.props.onSave(record, false);
 
