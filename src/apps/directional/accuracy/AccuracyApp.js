@@ -81,15 +81,16 @@ class AccuracyApp extends Component {
   renderAccuracyProgress() {
     let pointsData = subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS).getIn(["data","points"]);
     if(pointsData) {
-      let itemWidth = 100 / pointsData.size -1;
+      let itemWidth = 100 / pointsData.size;
       let style = {
-        marginRight: "1%",
         width: itemWidth + "%"
       };
 
       return pointsData.map( (t,index) => {
         return (
-          <div key={index} className="accuracy-progress-item" style={Object.assign({},style,this.getAccuracyBackColorStyle(t))}>
+          <div key={index} 
+            className="accuracy-progress-item" 
+            style={Object.assign({},style,this.getAccuracyBackColorStyle(t))}>
           </div>
         );
       });
