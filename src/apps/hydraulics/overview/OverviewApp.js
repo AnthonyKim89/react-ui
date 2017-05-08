@@ -108,9 +108,9 @@ class OverviewApp extends Component {
 
   renderProgress() {
     let pointsData = this.data.getIn(["data", "hole_cleaning", "points"]);
-    let itemWidth = 100 / pointsData.size - 1;
+    console.log(pointsData.size);
+    let itemWidth = 100 / pointsData.size;
     let style = {
-      marginRight: "1%",
       width: itemWidth + "%"
     };
 
