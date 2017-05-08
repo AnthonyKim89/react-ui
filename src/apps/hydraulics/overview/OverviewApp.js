@@ -76,8 +76,8 @@ class OverviewApp extends Component {
   }
 
   renderStatistics() {
-    let recommendedFlowRate = this.data.getIn(["data", "static_hole_cleaning", "recommended_minimum_flowrate"]);
-    recommendedFlowRate = this.props.convert.convertValue(recommendedFlowRate, "volume", "gal").fixFloat(1);
+    let recommendedFlowRate = this.data.getIn(["data", "recommended_minimum_flowrate"]);
+    recommendedFlowRate = recommendedFlowRate ? this.props.convert.convertValue(recommendedFlowRate, "volume", "gal").fixFloat(1) : "-";
 
     let flowRateUnit = `${this.props.convert.getUnitDisplay('volume')}pm`;
 
@@ -94,7 +94,7 @@ class OverviewApp extends Component {
 
     return (
       <div className="c-hydraulics-overview-statistics">
-        <p>Recommended Flow Rate</p>
+        <p>Recommended Min Flow Rate</p>
         <div className="flow-rate">
           {recommendedFlowRate} <span>{flowRateUnit}</span>
         </div>
