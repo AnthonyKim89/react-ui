@@ -73,6 +73,11 @@
   top: 0;
   bottom: 30px;
 }
+
+.c-app-container--full-height .c-app-container__content {
+  bottom: 0px;
+}
+
 .c-app-container--with-title .c-app-container__content {
   top: 32px;
 }

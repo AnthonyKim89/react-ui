@@ -83,6 +83,7 @@ class AppContainer extends Component {
     const classes = {
       'c-app-container': true,
       'c-app-container--maximized': this.props.maximized,
+      'c-app-container--full-height': this.props.appType.constants.METADATA.fullHeight,
       'c-app-container--with-title': !this.props.isTitlesDisabled && this.props.appType.constants.METADATA.title,
       'c-app-container--with-subtitle': !this.props.isTitlesDisabled  && this.props.appType.constants.METADATA.subtitle,
       'c-app-container--movable': !this.props.isNative
@@ -93,7 +94,7 @@ class AppContainer extends Component {
           <h4 className="c-app-container__title">{this.props.appType.constants.METADATA.title}</h4>}
         {!this.props.isTitlesDisabled && this.props.appType.constants.METADATA.subtitle &&
           <h5 className="c-app-container__subtitle">{this.props.appType.constants.METADATA.subtitle}</h5>}
-        {!this.props.appType.constants.METADATA.multiRig && this.props.availableAssets && this.props.layoutEnvironment && this.props.layoutEnvironment.get("type") === "general" &&
+        {!this.props.appType.constants.METADATA.multiRig && this.props.availableAssets && !this.props.appType.constants.METADATA.disableDisplayAssetName && this.props.layoutEnvironment && this.props.layoutEnvironment.get("type") === "general" &&
           <div className="c-app-container-asset-name">{this.getAppAssetName()}</div>}
         <div className="c-app-container__content">
           {this.props.errorData ? this.renderError() : this.props.children}
