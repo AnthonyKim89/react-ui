@@ -10,12 +10,10 @@ import tndStress from './torqueAndDrag/stress';
 import tndTorque from './torqueAndDrag/torque';
 
 // DRILLING EFFICIENCY APPS
-import deDPFounder from './drillingEfficiency/dpFounder';
 import deMSEHeatmap from './drillingEfficiency/mseHeatmap';
 import deMSEVDepth from './drillingEfficiency/mseVDepth';
 import deOptimization from './drillingEfficiency/optimization';
 import deROPHeatmap from './drillingEfficiency/ropHeatmap';
-import deWOBFounder from './drillingEfficiency/wobFounder';
 
 // DIRECTIONAL APPS
 import diTrend from './directional/trend';
@@ -23,9 +21,7 @@ import diAccuracy from './directional/accuracy';
 import diWellPlan from './directional/wellPlan';
 import diToolFaceOrientation from './directional/toolFaceOrientation';
 import diSlideSheet from './directional/slideSheet';
-import diTortuosityIndex from './directional/tortuosityIndex';
 import diSurveys from './directional/surveys';
-import diPrev300 from './directional/prev300';
 
 // TRACE APPS
 import singleTrace from './trace/singleTrace';
@@ -56,7 +52,6 @@ import wellTimeline from './wellTimeline';
 import raRigActivity from './rigActivity/rigActivity';
 import raDrillingOperations from './rigActivity/drillingOperations';
 import raDepthVersusDays from './rigActivity/depthVersusDays';
-import raRigScorecard from './rigActivity/rigScorecard';
 import raRopPerformance from './rigActivity/ropPerformance';
 
 // HYDRAULICS APPS
@@ -67,10 +62,7 @@ import hydraulicsOverview from './hydraulics/overview';
 import hydraulicsPressureLoss from './hydraulics/pressureLoss';
 import hydraulicsPressureTrend from './hydraulics/pressureTrend';
 
-// PDM
-import pdmOperatingCondition from './pdm/operatingCondition';
-import pdmOverview from './pdm/overview';
-import pdmStallsHistory from './pdm/stallsHistory';
+
 
 // Apps that can be displayed on dashboard / asset pages, keyed by app type
 export const uiApps = Map({
@@ -91,12 +83,10 @@ export const uiApps = Map({
     title: 'Drilling Efficiency',
     subtitle: 'Downhole drilling efficiency',
     appTypes: Map({
-      //dpFounder: deDPFounder,
       mseHeatmap: deMSEHeatmap,
       mseVDepth: deMSEVDepth,
       optimization: deOptimization,
-      ropHeatmap: deROPHeatmap,
-      //wobFounder: deWOBFounder,
+      ropHeatmap: deROPHeatmap
     })
   }),
   directional: Map({
@@ -108,9 +98,7 @@ export const uiApps = Map({
       wellPlan: diWellPlan,
       toolFaceOrientation: diToolFaceOrientation,
       slideSheet: diSlideSheet,
-      surveys: diSurveys,
-      //prev300: diPrev300,
-      //tortuosityIndex: diTortuosityIndex
+      surveys: diSurveys
     })
   }),
   trace: Map({
@@ -149,8 +137,7 @@ export const uiApps = Map({
     appTypes: Map({
       rigActivity: raRigActivity,
       drillingOperations: raDrillingOperations,
-      depthVersusDays: raDepthVersusDays,
-      //rigScorecard: raRigScorecard
+      depthVersusDays: raDepthVersusDays
     })
   }),
   analytics: Map({
@@ -171,16 +158,7 @@ export const uiApps = Map({
       pressureLoss: hydraulicsPressureLoss,
       pressureTrend: hydraulicsPressureTrend
     })
-  }),
-  /*pdm: Map({
-    title: 'PDM',
-    subtitle: '',
-    appTypes: Map({
-      operatingCondition: pdmOperatingCondition,
-      overview: pdmOverview,
-      stallsHistory: pdmStallsHistory
-    })
-  })*/
+  })
 });
 
 // Apps that are used as control UIs on asset pages, keyed by asset type
