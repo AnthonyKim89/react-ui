@@ -13,9 +13,11 @@ class TracesChartColumn extends Component {
 
   render() {
     let series = this.getSeries();
+
     return <div className="c-traces__chart-column">
       <div className="c-traces__chart-column__chart">
         <Chart
+          chartType="area"
           xField="timestamp"
           size="MEDIUM"
           plotBackgroundColor="#000"
@@ -28,18 +30,23 @@ class TracesChartColumn extends Component {
           xAxisGridLineColor="rgb(70, 70, 70)"
           yAxisGridLineColor="rgb(70, 70, 70)"
           xAxisTickInterval={100}
-          widthCols={this.props.widthCols}>
-          {series.map(({field, title, color}) => (
-            <ChartSeries
+          widthCols={this.props.widthCols} >
+          {series.filter(value => value.field !== '').map(({field, title, color}) => {
+            let minValue = (this.props.data.minBy(x => x.get(field)) || new Map()).get(field);
+
+            return <ChartSeries
+              minValue={minValue ? minValue - minValue / 100 : minValue}
+              type="area"
               dashStyle='Solid'
+              fillOpacity={0.5}
               lineWidth={2}
               key={field}
               id={field}
               title={title}
               data={this.props.data}
               yField={field}
-              color={color} />
-          ))}
+              color={color}/>;
+          })}
         </Chart>
       </div>
       <div className="c-traces__chart-column__values">

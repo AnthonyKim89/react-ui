@@ -23,9 +23,13 @@ class TracesSlider extends Component {
   }
 
   render() {
+    let series = this.getSeries();
+    let minValue = series.minBy(x => x.get('hole_depth')).get('hole_depth');
+    minValue -= minValue / 1000;
     return <div className="c-traces__slider">
       <div className="c-traces__slider-chart">
         <Chart
+          chartType="area"
           xField="timestamp"
           size="MEDIUM"
           plotBackgroundColor="#000"
@@ -40,14 +44,29 @@ class TracesSlider extends Component {
           xAxisTickInterval={100}
           widthCols={this.props.widthCols} >
           <ChartSeries
+            type="area"
+            minValue={minValue}
+            fillOpacity={0.5}
             dashStyle='Solid'
             lineWidth={2}
-            key={"measured_depth"}
-            id={"measured_depth"}
+            key={"hole_depth"}
+            id={"hole_depth"}
             title={"Depth"}
-            data={this.getSeries()}
-            yField={"measured_depth"}
+            data={series}
+            yField={"hole_depth"}
             color={"#fff"} />
+          <ChartSeries
+            type="area"
+            minValue={minValue}
+            fillOpacity={0.15}
+            dashStyle='Solid'
+            lineWidth={2}
+            key={"bit_depth"}
+            id={"bit_depth"}
+            title={"Depth"}
+            data={series}
+            yField={"bit_depth"}
+            color={"#333"} />
         </Chart>
       </div>
       <div className="c-traces__slider-interaction" ref={c => { this.sliderContainer = c; }}>
@@ -161,7 +180,8 @@ class TracesSlider extends Component {
 
     this.props.summaryData.valueSeq().forEach(value => {
       data.push({
-        measured_depth: value.getIn(["data", "hole_depth"]),
+        hole_depth: value.getIn(["data", "hole_depth"]),
+        bit_depth: value.getIn(["data", "bit_depth"]),
         timestamp: value.get("timestamp"),
       });
     });

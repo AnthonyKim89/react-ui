@@ -146,6 +146,7 @@ class Chart extends Component {
       const oldVersion = chart.get(seriesId);
       const newVersion = this.getSeries(newProps, seriesId);
       const colorChange = oldVersion.options.color !== newVersion.color;
+      const minmaxValueChange = oldVersion.options.minValue !== newVersion.minValue || oldVersion.options.maxValue !== newVersion.maxValue;
       const addedPoints = differenceBy(newVersion.data, oldVersion.data, p => p.id);
       const removedPoints = differenceBy(oldVersion.data, newVersion.data, p => p.id);
       for (const point of removedPoints) {
@@ -157,7 +158,13 @@ class Chart extends Component {
       if (colorChange) {
         oldVersion.update({color: newVersion.color}, false);
       }
-      redraw = redraw || addedPoints.length || removedPoints.length || colorChange;
+      if (minmaxValueChange) {
+        oldVersion.yAxis.update({
+          min: newVersion.minValue,
+          max: newVersion.maxValue,
+        }, false);
+      }
+      redraw = redraw || addedPoints.length || removedPoints.length || colorChange || minmaxValueChange;
     }
     return redraw;
   }
