@@ -52,6 +52,7 @@ class WellTimelineScrollBar extends Component {
             hideXAxis={true}
             showFirstYLabel={false}
             showLastYLabel={false}
+            yAxisReversed={true}
             reserveYLabelSpace={false}
             marginBottom={0}
             marginLeft={20}
