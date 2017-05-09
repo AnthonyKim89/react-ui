@@ -16,28 +16,28 @@
   border-radius: 10px;
   background-color: rgb(120,120,120);
   color: white;
-  font-size: 1.2rem;
-  line-height: 20px;
-  padding: 5px 10px;    
+  font-size: .815rem;
+  line-height: 22px;
+  padding: 0 12px;    
   position: absolute;
   right: 10px;
-  top: 20px;
+  top: 15px;
 }
 
 .c-asset-status-bar {   
   background-color: blue;
   float:left;
-  width: 15%;
+  width: 40px;
   height: 100%;
 }
 
 .c-asset-status-bar:after {  
   content: '✓';  
-  font-size: 30px;
+  font-size: 1.5rem;
   font-weight: bold;
   display: block;
-  margin-top: 20px;
-  padding-left: 35%;
+  margin-top: 10px; 
+  padding-left: 10px;
 }
 
 .c-asset-status-bar.asset-status-optimal {
@@ -54,25 +54,25 @@
 
 .c-asset-status-content {
   float:left;
-  width: 85%;
+  width: calc(100% - 40px);
   padding: 0 0 0 15px;
   height: calc(100% - 30px);
   overflow-y: hidden;
 }
 
 .c-asset-status-content__title {
-  font-size: 2rem;
+  font-size: 1.45rem;
   font-weight: bold;
-  margin-top: 15px;
+  margin-top: 12px;
 }
 
 .c-asset-status-content__subtitle {
-  font-size: 1.3rem;
+  font-size: 0.815rem;
 }
 
 .c-asset-status-content__depth {
-  font-size: 1.6rem;
-  margin-top: 15px;
+  font-size: 1.2rem;
+  margin-top: 10px;
 }
 
 .c-asset-status-content__depth span:nth-child(2) {
@@ -85,8 +85,7 @@
 }
 
 .c-asset-status-content__general-activity {
-  font-size: 1.6rem;
-  margin-top: 5px; 
+  font-size: 1.2rem;
 }
 
 .c-asset-status-content__general-activity span:first-child{
@@ -99,18 +98,18 @@
 }
 
 .c-asset-status-content__general-activity span.activity-drilling {
-  font-size: 2rem;
+  font-size: 1.45rem;
   color: green;
 }
 
 .c-asset-status-content__general-activity span.activity-other {
-  font-size: 2rem;
+  font-size: 1.45rem;
   color: orange;
 }
 
 .c-asset-status-content__status-message {
-  font-size: 1.2rem;
-  margin-top: 5px;
+  font-size: 0.815rem;
+  margin-top: 3px;
 }
 
 .c-asset-status-content__status-message.asset-status-optimal {
@@ -126,14 +125,14 @@
 }
 
 .c-asset-status-content__when {
-  font-size: 1rem;
-  margin-top: 5px;
+  font-size: 0.815rem;
+  margin-top:3px;
   opacity: .7;
   font-style: italic;
 }
 
 .c-asset-status-content__summary {  
-  font-size: 1.2rem;
+  font-size: 0.815rem;
   margin-top: 5px;
 }
 
@@ -141,7 +140,7 @@
   bottom: 10px;
   color: #999;
   font-size: 0.7rem;
-  left: 15%;  
+  left: 40px;  
   right: 0px;
   padding-left: 15px;
   position: absolute;

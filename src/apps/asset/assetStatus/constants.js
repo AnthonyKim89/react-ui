@@ -5,7 +5,7 @@ export const SUBSCRIPTIONS = [
 ];
 export const METADATA = {
   settingsTitle: 'Asset Status',
-  fullHeight: true,
+  fullSize: true,
   disableDisplayAssetName: true,
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v0.1',

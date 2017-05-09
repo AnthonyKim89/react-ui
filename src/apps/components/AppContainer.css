@@ -74,8 +74,14 @@
   bottom: 30px;
 }
 
-.c-app-container--full-height .c-app-container__content {
+.c-app-container--full-size {
+  padding: 0px;
+}
+
+.c-app-container--full-size .c-app-container__content {
   bottom: 0px;
+  left: 0px;
+  right: 0px;
 }
 
 .c-app-container--with-title .c-app-container__content {

@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { Link } from 'react-router';
 
 import { SUBSCRIPTIONS } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
@@ -18,7 +19,9 @@ class AssetStatusApp extends Component {
       <div className="c-asset-status">
         {subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS) ?
           <div className="c-asset-status-container">
-            <a className="c-asset-status__asset-link">View Asset &gt;</a>
+            <Link to={`/assets/${this.props.asset.get("id")}/settings`} className="c-asset-status__asset-link">
+              View Asset &gt;
+            </Link>            
             <div className={"c-asset-status-bar "+this.getAssetStatusColorClass()}></div>
             <div className="c-asset-status-content">
               <div className="c-asset-status-content__title">Rig ABC 123</div>

@@ -12,13 +12,15 @@ class AssetStatusAppFooter extends Component {
     if (!subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS)) {
       return null;
     }
+
+    const timestamp = subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS).get("timestamp");
     return (
       <div className="c-asset-status__footer">
         { lastDataUpdate &&
           <span>Last update: {this.formatLastDataUpdate(lastDataUpdate)}</span>
         }
-        { !lastDataUpdate && 
-          <span> No last update date available </span>
+        { !lastDataUpdate && timestamp &&
+          <span>Last update: {this.formatLastDataUpdate(timestamp)}</span>
         }
       </div>
     );    

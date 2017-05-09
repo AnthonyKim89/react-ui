@@ -83,7 +83,7 @@ class AppContainer extends Component {
     const classes = {
       'c-app-container': true,
       'c-app-container--maximized': this.props.maximized,
-      'c-app-container--full-height': this.props.appType.constants.METADATA.fullHeight,
+      'c-app-container--full-size': this.props.appType.constants.METADATA.fullSize,
       'c-app-container--with-title': !this.props.isTitlesDisabled && this.props.appType.constants.METADATA.title,
       'c-app-container--with-subtitle': !this.props.isTitlesDisabled  && this.props.appType.constants.METADATA.subtitle,
       'c-app-container--movable': !this.props.isNative
