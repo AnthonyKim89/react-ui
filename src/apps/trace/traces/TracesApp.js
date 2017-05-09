@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { find } from 'lodash';
 import { List } from 'immutable';
 
 import LoadingIndicator from '../../../common/LoadingIndicator';
@@ -65,11 +66,46 @@ class TracesApp extends Component {
       return ts >= Math.round(startTS) && ts <= Math.round(endTS);
     });
 
+    // Flattening the data out
+    filteredData = filteredData.map(value => value.flatten());
+
+    // Converting the units based on what the user has for prefs and settings
+    filteredData = this.convertUnits(filteredData);
+
     this.setState({
       start,
       end,
-      filteredData: filteredData.map(value => value.flatten())
+      filteredData
     });
+  }
+
+  convertUnits(filteredData) {
+    let traceGraphs = this.props.traceGraphs || DEFAULT_TRACE_GRAPHS;
+
+    traceGraphs.valueSeq().forEach(traceGraph => {
+      let traceKey = traceGraph.get('trace');
+      if (!traceKey) {
+        return;
+      }
+
+      let unitType = traceGraph.get('unitType');
+      let unitFrom = traceGraph.get('unitFrom');
+      let unitTo = traceGraph.get('unitTo', null);
+
+      // Typically we will fall into this if-statement because common selections won't have a unit type chosen.
+      if (!unitType) {
+        let trace = find(SUPPORTED_TRACES, {trace: traceKey});
+        if (!trace || !traceKey.hasOwnProperty('unitType') || !traceKey.hasOwnProperty('cunit')) {
+          return;
+        }
+        unitType = trace.unitType;
+        unitFrom = trace.cunit;
+      }
+
+      filteredData = this.props.convert.convertImmutables(filteredData, traceKey, unitType, unitFrom, unitTo);
+    });
+
+    return filteredData;
   }
 }
 
