@@ -132,7 +132,7 @@ Heatmap.propTypes = {
   series: PropTypes.object.isRequired,
   yAxis: PropTypes.object.isRequired,
   xAxis: PropTypes.object.isRequired,
-  colorStops: PropTypes.object.isRequired,
+  colorStops: PropTypes.array,
 };
 
 export default Heatmap;

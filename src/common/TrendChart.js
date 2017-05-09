@@ -49,6 +49,13 @@ class TrendChart extends Component {
         gridLineColor: 'rgb(150, 150, 150)',
         tickWidth: 0,
       },
+      tooltip: {
+        formatter: this.props.tooltipFormatter,
+        pointFormatter: this.props.tooltipPointFormatter,
+        valuePrefix: this.props.tooltipValuePrefix,
+        valueSuffix: this.props.tooltipValueSuffix,
+        valueDecimals: 2
+      },
       yAxis: this.generateYAxis(this.props.yAxes),
       series: this.props.series
     });

@@ -15,7 +15,6 @@ class ROPHeatmapApp extends Component {
 
     if (rawData) {
       rawData = rawData.get("data");
-      console.log(rawData);
       return (
         <div className="c-de-ropheatmap">
           <Heatmap series={this.getSeries(rawData)}
