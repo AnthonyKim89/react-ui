@@ -35,6 +35,7 @@ class Chart extends Component {
         pointFormatter: this.props.tooltipPointFormatter,
         valuePrefix: this.props.tooltipValuePrefix,
         valueSuffix: this.props.tooltipValueSuffix,
+        valueDecimals: 2
       },
       plotOptions: {
         series: {
