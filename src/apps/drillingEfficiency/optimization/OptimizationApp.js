@@ -23,7 +23,8 @@ class OptimizationApp extends Component {
     }
 
     let gaugeValue = this.getGaugeValue(optimizationData.getIn(['data', 'efficiency']));  
-    let activity_state = optimizationData.getIn(['data', 'actual', 'state']);
+    let activity_state = actualData.getIn(['state']);
+    let drilling_state = (activity_state === "SlideDrilling" || activity_state === "DrillSlide(Slide mode drilling)" || activity_state === "RotaryDrilling" || activity_state === "DrillRot(Rotary mode drilling)");
 
     return (
       <div className="c-de-optimization">
@@ -37,7 +38,7 @@ class OptimizationApp extends Component {
             </Col>
             <Col m={8} className="c-de-optimization__info">
               <div className="c-de-optimization__gauge-title">Parameter Optimization</div>
-              {(activity_state !== "SlideDrilling" || activity_state !== "DrillSlide(Slide mode drilling)" || activity_state !== "RotaryDrilling" || activity_state !== "DrillRot(Rotary mode drilling)") ? <div className="c-de-optimization__off-botom">Current Activity: Off-bottom</div> : ""}
+              {!drilling_state ? <div className="c-de-optimization__off-botom">Current Activity: Off-bottom</div> : ""}
               <table>
                 <thead>
                   <tr>
