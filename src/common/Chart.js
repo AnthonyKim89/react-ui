@@ -146,25 +146,36 @@ class Chart extends Component {
       const oldVersion = chart.get(seriesId);
       const newVersion = this.getSeries(newProps, seriesId);
       const colorChange = oldVersion.options.color !== newVersion.color;
+      const dashStyleChange = oldVersion.options.dashStyle !== newVersion.dashStyle;
+      const typeChange = oldVersion.options.type !== newVersion.type;
+      const lineWidthChange = oldVersion.options.lineWidth !== newVersion.lineWidth;
       const minmaxValueChange = oldVersion.options.minValue !== newVersion.minValue || oldVersion.options.maxValue !== newVersion.maxValue;
       const addedPoints = differenceBy(newVersion.data, oldVersion.data, p => p.id);
       const removedPoints = differenceBy(oldVersion.data, newVersion.data, p => p.id);
       for (const point of removedPoints) {
         point.remove(false);
+        redraw = true;
       }
       for (const point of addedPoints) {
         oldVersion.addPoint(point, false);
+        redraw = true;
       }
-      if (colorChange) {
-        oldVersion.update({color: newVersion.color}, false);
+      if (colorChange || dashStyleChange || typeChange || lineWidthChange) {
+        oldVersion.update({
+          color: newVersion.color,
+          dashStyle: newVersion.dashStyle,
+          type: newVersion.type,
+          lineWidth: newVersion.lineWidth,
+        }, false);
+        redraw = true;
       }
       if (minmaxValueChange) {
         oldVersion.yAxis.update({
           min: newVersion.minValue,
           max: newVersion.maxValue,
         }, false);
+        redraw = true;
       }
-      redraw = redraw || addedPoints.length || removedPoints.length || colorChange || minmaxValueChange;
     }
     return redraw;
   }

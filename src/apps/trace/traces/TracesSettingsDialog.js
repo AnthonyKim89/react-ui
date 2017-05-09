@@ -32,17 +32,54 @@ class TracesSettingsDialog extends Component {
             Trace Graph
           </h4>
         </header>
+
         <Input type='select' label="Trace"
                defaultValue={this.props.traceGraphs.getIn([this.state.traceEditIndex, 'trace'])}
-               ref={(input) => this.traceEditorInput = input}>
+               ref={(input) => this.traceEditorGraph = input}>
           <option value="">&nbsp;</option>
           {this.props.supportedTraces.map((trace, idx) => {
             return <option key={idx} value={trace.trace}>{trace.label}</option>;
           })}
         </Input>
+
+        <Input type='select' label="Line Style"
+               defaultValue={this.props.traceGraphs.getIn([this.state.traceEditIndex, 'dashStyle'], 'Solid')}
+               ref={(input) => this.traceEditorDashStyle = input}>
+          <option value="Solid">Solid</option>
+          <option value="ShortDash">Short Dash</option>
+          <option value="ShortDot">Short Dot</option>
+          <option value="ShortDashDot">Short Dash Dot</option>
+          <option value="ShortDashDotDot">Short Dash Dot Dot</option>
+          <option value="Dot">Dot</option>
+          <option value="Dash">Dash</option>
+          <option value="LongDash">Long Dash</option>
+          <option value="DashDot">Dash Dot</option>
+          <option value="LongDashDot">Long Dash Dot</option>
+          <option value="LongDashDotDot">Long Dash Dot Dot</option>
+        </Input>
+
+        <Input type='select' label="Line Width"
+               defaultValue={this.props.traceGraphs.getIn([this.state.traceEditIndex, 'lineWidth'], 2)}
+               ref={(input) => this.traceEditorLineWidth = input}>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </Input>
+
+        <Input
+          type="checkbox"
+          label="Fill Graph"
+          className="filled-in"
+          defaultValue={this.getFillGraphCheckboxValue(this.props.traceGraphs.get(this.state.traceEditIndex), true)}
+          defaultChecked={this.getFillGraphCheckboxValue(this.props.traceGraphs.get(this.state.traceEditIndex))}
+          ref={(input) => this.traceEditorType = input} />
+
         <SliderPicker
           ref={(input) => this.traceEditorPicker = input}
           color={this.props.traceGraphs.getIn([this.state.traceEditIndex, 'color'])} />
+
         <Row className="c-traces__container__edit-trace__dialog__button-row">
           <Col s={6}>
             <Button className="c-traces__container__edit-trace__dialog__done" onClick={() => this.updateTraceGraph()}>
@@ -59,6 +96,14 @@ class TracesSettingsDialog extends Component {
     </Modal>;
   }
 
+  getFillGraphCheckboxValue(traceGraph, asBoolean=false) {
+    let currentValue = traceGraph.get('type', 'line') === 'area' ? 'checked' : '';
+    if (asBoolean) {
+      return (currentValue === 'checked');
+    }
+    return currentValue;
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     return !nextProps.traceGraphs.equals(this.props.traceGraphs) ||  this.state.dialogOpen !== nextState.dialogOpen;
   }
@@ -67,8 +112,11 @@ class TracesSettingsDialog extends Component {
     this.props.onSettingChange(
       'traceGraphs',
       this.props.traceGraphs.set(this.state.traceEditIndex, Map({
-        trace: this.traceEditorInput.state.value,
+        trace: this.traceEditorGraph.state.value,
         color: this.traceEditorPicker.state.hex,
+        type: this.traceEditorType.state.value === true ? 'area' : 'line',
+        dashStyle: this.traceEditorDashStyle.state.value,
+        lineWidth: parseInt(this.traceEditorLineWidth.state.value, 10),
       }))
     );
     this.closeDialog();

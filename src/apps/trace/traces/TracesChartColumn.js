@@ -16,13 +16,13 @@ class TracesChartColumn extends Component {
 
     // Calculating the minimum value in our graph.
     let minValue = undefined;
-    let minValues = series.filter(value => value.field !== '').map(({field, title, color}) => {
+    let minValues = series.filter(value => value.field !== '').map(({field}) => {
       return (this.props.data.minBy(x => x.get(field)) || new Map()).get(field);
     }).filter(x => typeof x === 'number');
 
     if (minValues.length !== 0) {
       minValue = Math.min(...minValues);
-      minValue -= minValue / 1000;
+      minValue -= minValue / 100;
     }
 
     return <div className="c-traces__chart-column">
@@ -42,19 +42,19 @@ class TracesChartColumn extends Component {
           yAxisGridLineColor="rgb(70, 70, 70)"
           xAxisTickInterval={100}
           widthCols={this.props.widthCols} >
-          {series.filter(value => value.field !== '').map(({field, title, color}) => {
+          {series.filter(value => value.field !== '').map(({field, title, color, type, dashStyle, lineWidth}) => {
             return <ChartSeries
               minValue={minValue}
-              type="area"
-              dashStyle='Solid'
+              type={type}
+              dashStyle={dashStyle}
               fillOpacity={0.5}
-              lineWidth={2}
+              lineWidth={lineWidth}
               key={field}
               id={field}
               title={title}
               data={this.props.data}
               yField={field}
-              color={color}/>;
+              color={color} />;
           })}
         </Chart>
       </div>
@@ -97,15 +97,18 @@ class TracesChartColumn extends Component {
   getSeries() {
     let series = [];
 
-    this.props.traceGraphs.valueSeq().forEach(value => {
-      let trace = find(this.props.supportedTraces, {trace: value.get('trace')}) || null;
+    this.props.traceGraphs.valueSeq().forEach(traceGraph => {
+      let trace = find(this.props.supportedTraces, {trace: traceGraph.get('trace')}) || null;
 
       if (!trace) {
         series.push({
           field: '',
           title: '',
-          color: value.get('color'),
+          color: traceGraph.get('color'),
           unit: '',
+          type: 'line',
+          dashStyle: 'Solid',
+          lineWidth: 2,
         });
         return;
       }
@@ -113,8 +116,11 @@ class TracesChartColumn extends Component {
       series.push({
         field: trace.trace,
         title: trace.label,
-        color: value.get('color'),
+        color: traceGraph.get('color'),
         unit: trace.hasOwnProperty("unitType") ? this.props.convert.getUnitDisplay(trace.unitType) : trace.unit,
+        type: traceGraph.get('type', 'line'), // area or line
+        dashStyle: traceGraph.get('dashStyle', 'Solid'), // http://api.highcharts.com/highcharts/plotOptions.line.dashStyle
+        lineWidth: traceGraph.get('lineWidth', 2), // 1, 2, or 3
       });
     });
 
