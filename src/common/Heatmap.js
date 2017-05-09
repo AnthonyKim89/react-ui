@@ -52,13 +52,20 @@ class Heatmap extends Component {
       title: {text: null},
       credits: {enabled: false},
       colorAxis: {
-        stops: [
+        stops: this.props.colorStops || [
           [0, '#ff0000'],
           [0.5, '#ffff00'],
           [1, '#00ff00']
         ],
         min: seriesMinMax.min,
         max: seriesMinMax.max,
+      },
+      tooltip: {
+        formatter: this.props.tooltipFormatter,
+        pointFormatter: this.props.tooltipPointFormatter,
+        valuePrefix: this.props.tooltipValuePrefix,
+        valueSuffix: this.props.tooltipValueSuffix,
+        valueDecimals: 2
       },
       legend: {
         itemWidth: 200,
@@ -125,6 +132,7 @@ Heatmap.propTypes = {
   series: PropTypes.object.isRequired,
   yAxis: PropTypes.object.isRequired,
   xAxis: PropTypes.object.isRequired,
+  colorStops: PropTypes.object.isRequired,
 };
 
 export default Heatmap;

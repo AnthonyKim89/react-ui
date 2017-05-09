@@ -15,13 +15,14 @@ class ROPHeatmapApp extends Component {
 
     if (rawData) {
       rawData = rawData.get("data");
+      console.log(rawData);
       return (
         <div className="c-de-ropheatmap">
           <Heatmap series={this.getSeries(rawData)}
                     size={this.props.size}
                     coordinates={this.props.coordinates}
-                   xAxis={this.getAxis(rawData.get("x_axis"), 'rows')}
-                   yAxis={this.getAxis(rawData.get("y_axis"), 'columns', 'mass', 'lb')} />
+                    xAxis={this.getAxis(rawData.get("x_axis"), 'rows')}
+                    yAxis={this.getAxis(rawData.get("y_axis"), 'columns', 'mass', 'lb')} />
         </div>
       );
     }
