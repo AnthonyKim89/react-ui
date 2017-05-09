@@ -14,6 +14,17 @@ class TracesChartColumn extends Component {
   render() {
     let series = this.getSeries();
 
+    // Calculating the minimum value in our graph.
+    let minValue = undefined;
+    let minValues = series.filter(value => value.field !== '').map(({field, title, color}) => {
+      return (this.props.data.minBy(x => x.get(field)) || new Map()).get(field);
+    }).filter(x => typeof x === 'number');
+
+    if (minValues.length !== 0) {
+      minValue = Math.min(...minValues);
+      minValue -= minValue / 1000;
+    }
+
     return <div className="c-traces__chart-column">
       <div className="c-traces__chart-column__chart">
         <Chart
@@ -32,10 +43,8 @@ class TracesChartColumn extends Component {
           xAxisTickInterval={100}
           widthCols={this.props.widthCols} >
           {series.filter(value => value.field !== '').map(({field, title, color}) => {
-            let minValue = (this.props.data.minBy(x => x.get(field)) || new Map()).get(field);
-
             return <ChartSeries
-              minValue={minValue ? minValue - minValue / 100 : minValue}
+              minValue={minValue}
               type="area"
               dashStyle='Solid'
               fillOpacity={0.5}
