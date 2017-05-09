@@ -37,7 +37,7 @@ class OptimizationApp extends Component {
             </Col>
             <Col m={8} className="c-de-optimization__info">
               <div className="c-de-optimization__gauge-title">Parameter Optimization</div>
-              {(activity_state !== "SlideDrilling" || activity_state !== "RotaryDrilling") ? <div className="c-de-optimization__off-botom">Current Activity: Off-bottom</div> : ""}
+              {(activity_state !== "SlideDrilling" || activity_state !== "DrillSlide(Slide mode drilling)" || activity_state !== "RotaryDrilling" || activity_state !== "DrillRot(Rotary mode drilling)") ? <div className="c-de-optimization__off-botom">Current Activity: Off-bottom</div> : ""}
               <table>
                 <thead>
                   <tr>
