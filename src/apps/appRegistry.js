@@ -91,12 +91,12 @@ export const uiApps = Map({
     title: 'Drilling Efficiency',
     subtitle: 'Downhole drilling efficiency',
     appTypes: Map({
-      dpFounder: deDPFounder,
+      //dpFounder: deDPFounder,
       mseHeatmap: deMSEHeatmap,
       mseVDepth: deMSEVDepth,
       optimization: deOptimization,
       ropHeatmap: deROPHeatmap,
-      wobFounder: deWOBFounder,
+      //wobFounder: deWOBFounder,
     })
   }),
   directional: Map({
@@ -109,8 +109,8 @@ export const uiApps = Map({
       toolFaceOrientation: diToolFaceOrientation,
       slideSheet: diSlideSheet,
       surveys: diSurveys,
-      prev300: diPrev300,
-      tortuosityIndex: diTortuosityIndex
+      //prev300: diPrev300,
+      //tortuosityIndex: diTortuosityIndex
     })
   }),
   trace: Map({
@@ -150,7 +150,7 @@ export const uiApps = Map({
       rigActivity: raRigActivity,
       drillingOperations: raDrillingOperations,
       depthVersusDays: raDepthVersusDays,
-      rigScorecard: raRigScorecard
+      //rigScorecard: raRigScorecard
     })
   }),
   analytics: Map({
@@ -172,7 +172,7 @@ export const uiApps = Map({
       pressureTrend: hydraulicsPressureTrend
     })
   }),
-  pdm: Map({
+  /*pdm: Map({
     title: 'PDM',
     subtitle: '',
     appTypes: Map({
@@ -180,7 +180,7 @@ export const uiApps = Map({
       overview: pdmOverview,
       stallsHistory: pdmStallsHistory
     })
-  })
+  })*/
 });
 
 // Apps that are used as control UIs on asset pages, keyed by asset type
