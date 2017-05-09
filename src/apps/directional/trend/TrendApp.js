@@ -11,8 +11,11 @@ import './TrendApp.css';
 class TrendApp extends Component {
 
   render() {
+    let actualData = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[0]);
+    let planData = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[1]);
+
     return (
-      subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS) ?      
+      actualData && planData ?
       <div className="c-di-trend">
         <div className="gaps"></div>
           <TrendChart
@@ -34,15 +37,12 @@ class TrendApp extends Component {
     return  [{
       titleText: 'TVD('+this.props.convert.getUnitDisplay('length')+')', color:'#ffffff', others: { min:0, reversed:true }
     }, {
-      titleText: 'GTF', color:'#add8e6' , others: { opposite:true }
-    }, {
       titleText: 'DLS', color:'#0000ff', others: { opposite:true }
     }];
   }
 
   getSeries() {
-    let tfo = this.getSeriesData("tfo",["measured_depth","tfo"]);
-    tfo = this.props.convert.convertArray(tfo, 0, 'length', 'ft');
+    
 
     let tvdActual = this.getSeriesData("tvd_actual",["measured_depth","tvd"]);
     tvdActual = this.props.convert.convertArray(tvdActual, 0, 'length', 'ft');
@@ -61,11 +61,10 @@ class TrendApp extends Component {
     dls = this.props.convert.convertArray(dls, 0, 'length', 'ft');
 
     let seriesSetting = {
-      tfo: {yAxis:1, data: tfo},
       tvd_actual: {yAxis:0, data: tvdActual},
       tvd_plan: {yAxis:0,  data: tvdPlan},
       drilling_window: {yAxis:0, data: drillingWindow, lineWidth:30, zIndex:-999},
-      dls: {yAxis:2, data: dls},
+      dls: {yAxis:1, data: dls},
     };
 
     return Object.keys(SUPPORTED_CHART_SERIES).map( (field) => {
@@ -86,11 +85,33 @@ class TrendApp extends Component {
   }
 
   getSeriesData(serieName, keys) {
-    let rawData = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', serieName]).toJSON();
+    let subscriptionIndex; //actual by default;
+    switch(serieName) {
+      case 'tvd_actual':
+        subscriptionIndex = 0;
+        break;
+      case 'tvd_plan':
+        subscriptionIndex = 1;
+        break;
+      case 'drilling_window':
+        subscriptionIndex = 1;
+        break;
+      case 'dls':
+        subscriptionIndex = 0;
+        break;
+      default:
+        subscriptionIndex = 0;
+    }
+    let rawData = subscriptions.selectors.getSubData(this.props.data, SUBSCRIPTIONS[subscriptionIndex]).getIn(['data', 'stations']).toJSON();
     return rawData.map((t) => {
-      return keys.map(key => {
-        return t[key];
-      });
+      if (serieName === 'drilling_window') {
+        return [t["measured_depth"], Math.max(t["tvd"]-10,0), t["tvd"]+10];
+      }
+      else {
+        return keys.map(key => {        
+          return t[key];
+        });
+      }
     });
   }
 }
