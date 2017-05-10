@@ -1,16 +1,17 @@
 .c-well-timeline-status-bar {
   width: 100%;
-  height: 30px;
   box-sizing: border-box;
+  height: 30px;
+
 
   user-select: none;
   z-index: 1100;
 
   font-size: 12px;
 
-  background-color: #1f2020;
+  background-color: #303131;
   color: #eee;
-  border-top: 1px solid #eee;
+  border-top: 1px solid #8d8a8a;
   cursor: pointer;
 }
 .c-well-timeline-status-bar:hover {
@@ -35,7 +36,7 @@
 }
 
 .c-well-timeline-status-bar__stats-box {
-  line-height: 42px;
+  line-height: 30px;
   font-size: 12px;
 }
 
@@ -74,7 +75,7 @@
 }
 .c-well-timeline-status-bar__status_mark {
   font-size: 3rem;
-  line-height: .275rem;
+  line-height: 12px;
   margin-right: 11px;
 }
 
@@ -89,8 +90,8 @@
 }
 
 .c-well-timeline-status-bar__timeline-toggle {
-  line-height: 42px;
-  font-size: 16px;
+  line-height: 30px;
+  font-size: 0.8rem;
   border: 0;
   background: transparent;
   width: 150px;

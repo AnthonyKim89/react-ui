@@ -9,7 +9,7 @@ export const METADATA = {
   version: 'v2.1',
   publishedAt: '2016-07-01T00:00:00',
   provider: 'corva',
-  collection: 'depthVersusDays',
+  collection: 'wits.summary-6h',
   multiRig: true
 };
 export const SUPPORTED_ASSET_TYPES = [];

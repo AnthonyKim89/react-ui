@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { Map, List } from 'immutable';
 
 import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
-import ObjectGraph from '../../../common/ObjectGraph';
+import Chart from '../../../common/Chart';
+import ChartSeries from '../../../common/ChartSeries';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
@@ -14,23 +16,35 @@ class MSEVDepthApp extends Component {
     return (
       <div className="c-de-mse-v-depth">
         {subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS) ?
-          <ObjectGraph  series={this.getSeries()} 
-                        size={this.props.size}
-                        coordinates={this.props.coordinates}
-                        yAxisTitle={{text:`Pressure (${this.props.convert.getUnitDisplay('pressure')})`, style: { color: "#fff" }}}
-                        xAxisTitle={{text:`Measure Depth (${this.props.convert.getUnitDisplay('length')})`, style: { color: "#fff" }}}
-                        inverted={true} 
-                        marginBottom={80}
-                        legend={{
-                          align: 'bottom',
-                          verticalAlign: 'bottom',
-                          layout: 'horizontal',
-                          itemStyle: {color: '#fff'},
-                          itemHoverStyle: {color: '#58c9c2'},
-                          enabled: true,
-                          y: 15
-                        }}
-                        xAxisLabelFormatter={this.formatYLabel()} /> :
+          <Chart
+            xField="measured_depth"
+            xAxisTitle={{text:`Measured Depth (${this.props.convert.getUnitDisplay('length')})`, style: { color: "#fff" }}}
+            coordinates={this.props.coordinates}
+            xAxisWidth="2"
+            xAxisColor="white"
+            horizontal={true}
+            multiAxis={true}
+            legendAlign='center'
+            legendVerticalAlign='bottom'
+            legendLayout='horizontal'
+            showLegend={true}
+            forceLegend={true}
+            size={this.props.size}
+            widthCols={this.props.widthCols}>
+            {this.getSeries().map(({renderType, title, type, yAxis, yAxisTitle, yAxisOpposite, yField, data}) => (
+              <ChartSeries
+                key={title}
+                id={title}
+                type={renderType}
+                title={title}
+                data={data}
+                yField={yField}
+                yAxis={yAxis}
+                yAxisTitle={{text:yAxisTitle, style: { color: "#fff" }}}
+                yAxisOpposite={yAxisOpposite}
+                color={this.getSeriesColor(type)} />
+            )).toJS()}
+          </Chart> :
           <LoadingIndicator />}
       </div>
     );
@@ -49,43 +63,76 @@ class MSEVDepthApp extends Component {
     );
   }
 
+
   getSeries() {
-    let series = [];
-    for (let prop in SUPPORTED_CHART_SERIES) {
-      if (SUPPORTED_CHART_SERIES.hasOwnProperty(prop) && this.getDataSeries(prop)) {
-        series.push(this.getDataSeries(prop));
-      }
-    }
-    return series;
+    return List([this.getSurfaceMSESeries(), this.getDownholeMSESeries(), this.getUCSSeries(), this.getROPSeries()]);
   }
 
-  getDataSeries(field) {
-    let rawData = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', field]);
-    if (!rawData) return null;    
-    let subtype = SUPPORTED_CHART_SERIES[field].subType;
-    let unitType = SUPPORTED_CHART_SERIES[field].unitType;
-    let unit = SUPPORTED_CHART_SERIES[field].unit;
-    let processedData = [];
-    rawData.valueSeq().forEach((value) => {
-      processedData.push([
-        value.get("measured_depth"),
-        value.get(subtype)
-      ]);
-    });
-
-    // Measured Depth is in index 0
-    processedData = this.props.convert.convertArray(processedData, 0, 'length', 'ft');
-
-    if (unitType) {
-      processedData = this.props.convert.convertArray(processedData, 1, unitType, unit);
-    }
-
+  getSurfaceMSESeries() {
+    const type = 'surface';
     return {
-      name: SUPPORTED_CHART_SERIES[field].label,
-      data: processedData,
-      color: this.getSeriesColor(field),
-      animation: false
+        renderType: `${SUPPORTED_CHART_SERIES[type].type}`,
+        title: `${SUPPORTED_CHART_SERIES[type].label}`,
+        type: type,
+        yAxis: "0",
+        yField: "mse",
+        yAxisOpposite: false,
+        yAxisTitle: `Pressure (${this.props.convert.getUnitDisplay('pressure')})`,
+        data: List(this.getSeriesData('surface', 'pressure', 'psi'))
     };
+  }
+
+  getDownholeMSESeries() {
+    const type = 'downhole';
+    return {
+        renderType: `${SUPPORTED_CHART_SERIES[type].type}`,
+        title: `${SUPPORTED_CHART_SERIES[type].label}`,
+        type: type,
+        yAxis: "0",
+        yField: "mse",
+        yAxisOpposite: false,
+        yAxisTitle: `Pressure (${this.props.convert.getUnitDisplay('pressure')})`,
+        data: List(this.getSeriesData('downhole', 'pressure', 'psi'))
+    };
+  }
+
+  getUCSSeries() {
+    const type = 'ucs';
+    return {
+        renderType: `${SUPPORTED_CHART_SERIES[type].type}`,
+        title: `${SUPPORTED_CHART_SERIES[type].label}`,
+        type: type,
+        yAxis: "0",
+        yField: "ucs",
+        yAxisOpposite: false,
+        yAxisTitle: `Pressure (${this.props.convert.getUnitDisplay('pressure')})`,
+        data: List(this.getSeriesData('ucs', 'pressure', 'psi'))
+    };
+  }
+
+  getROPSeries() {
+    const type = 'rop';
+    return {
+        renderType: `${SUPPORTED_CHART_SERIES[type].type}`,
+        title: `${SUPPORTED_CHART_SERIES[type].label}`,
+        type: type,
+        yAxis: "1",
+        yField: "rop",
+        yAxisOpposite: false,
+        yAxisTitle: `ROP (${this.props.convert.getUnitDisplay('length')}/hr)`,
+        data: List(this.getSeriesData('rop', 'pressure', 'psi'))
+    };
+  }
+
+  getSeriesData(seriesName, valueCategory, valueUnit) {
+    let data = subscriptions.selectors.firstSubData(
+        this.props.data, SUBSCRIPTIONS).getIn(['data', seriesName]).toJSON();
+    data = this.props.convert.convertImmutables(data, 'measured_depth', 'length', 'ft');
+    data = this.props.convert.convertImmutables(data, seriesName, valueCategory, valueUnit);
+    data = data.map((datum) => {
+      return Map(datum);
+    });
+    return data;
   }
 
   getSeriesColor(field) {

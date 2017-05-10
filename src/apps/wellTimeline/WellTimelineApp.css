@@ -1,8 +1,7 @@
 .c-well-timeline {
   position: fixed;
-  bottom: 0;
+  bottom: -1px;
   width: 100%;
   box-sizing: border-box;
   border: none;
-  background-color: red;
 }

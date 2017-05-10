@@ -3,9 +3,9 @@ export const NAME = 'rigActivity';
 export const SUBSCRIPTIONS = [
   {provider: 'corva', collection: 'activities.summary-2tours'},
   {provider: 'corva', collection: 'activities.summary-continuous'},
-  {provider: 'corva', collection: 'activities.summary-1w'},
-  {provider: 'corva', collection: 'activities.summary-1m'},
-  {provider: 'corva', collection: 'activities.summary-3m'}
+  //{provider: 'corva', collection: 'activities.summary-1w'},
+  //{provider: 'corva', collection: 'activities.summary-1m'},
+  //{provider: 'corva', collection: 'activities.summary-3m'}
 ];
 export const METADATA = {
   title: 'Rig Activity',
@@ -18,9 +18,9 @@ export const METADATA = {
   collections: [
     'activities.summary-2tours',
     'activities.summary-continuous',
-    'activities.summary-1w',
-    'activities.summary-1m',
-    'activities.summary-3m'
+    //'activities.summary-1w',
+    //'activities.summary-1m',
+    //'activities.summary-3m'
   ]
 };
 export const SUPPORTED_ASSET_TYPES = ['rig'];
@@ -50,7 +50,7 @@ export const PERIOD_TYPES = [
     label: 'Continuous',
     value: 1
   },
-  {
+  /*{
     label: 'Last Week',
     value: 2
   },
@@ -61,7 +61,7 @@ export const PERIOD_TYPES = [
   {
     label: 'Last 3 months',
     value: 4
-  }
+  }*/
 ];
 export const DISPLAY_FORMATS = [
   {

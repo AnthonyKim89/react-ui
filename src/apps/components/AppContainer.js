@@ -129,7 +129,7 @@ class AppContainer extends Component {
                     onClick={() => nativeMessages.notifyAppMaximized()}>
                 <Icon>launch</Icon>
               </Link>}
-            {(!this.props.isNative || this.props.maximized) &&
+            {(!this.props.isNative) &&
               <button className="c-app-container__action c-app-container__action--settings"
                       title="Settings"
                       onClick={() => this.openSettingsDialog()}>

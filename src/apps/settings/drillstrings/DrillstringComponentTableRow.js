@@ -15,7 +15,7 @@ class DrillstringComponentTableRow extends Component {
       <td>{this.renderComponentSelectField('family', COMPONENT_FAMILIES)}</td>
       <td>{this.renderComponentNumberField('inner_diameter','shortLength','in')}</td>
       <td>{this.renderComponentNumberField('outer_diameter','shortLength','in')}</td>
-      <td>{this.renderComponentNumberField('linear_weight','force','klbf')}</td>
+      <td>{this.renderComponentNumberField('linear_weight','massPerLength','lb-ft')}</td>
       <td>{this.renderComponentNumberField('length','length','ft' )}</td>
       <td>{this.renderComponentNumberField('weight','mass','lb')}</td>
       <td>{this.renderComponentTextField('grade')}</td>

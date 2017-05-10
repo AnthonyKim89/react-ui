@@ -20,8 +20,14 @@ class MSEHeatmapApp extends Component {
                     size={this.props.size}
                     coordinates={this.props.coordinates}
                     appSettings={this.props.appSettings}
-                    xAxis={this.getAxis(rawData.get("x_axis"), 'columns')}
-                    yAxis={this.getAxis(rawData.get("y_axis"), 'rows', 'mass', 'lb')} />
+                    colorStops={[
+                      [0, '#00ff00'],                         
+                      [0.5, '#ffff00'],
+                      [1, '#ff0000']
+                                       
+                    ]}
+                    xAxis={this.getAxis(rawData.get("x_axis"), 'rows')}
+                    yAxis={this.getAxis(rawData.get("y_axis"), 'columns', 'mass', 'lb')} />
         </div>
       );
     }

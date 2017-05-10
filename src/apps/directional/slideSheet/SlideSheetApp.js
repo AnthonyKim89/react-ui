@@ -1,24 +1,51 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-
-import { SUBSCRIPTIONS } from './constants';
+import { fromJS, Map } from 'immutable';
+import * as api from '../../../api';
 import LoadingIndicator from '../../../common/LoadingIndicator';
-import subscriptions from '../../../subscriptions';
-
+import {METADATA} from './constants';
 import './SlideSheetApp.css';
 
+import fakeData from './temp.json';
+
 class SlideSheetApp extends Component {
-  render() {
-    let json = subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS);
-    if (!json) {
-      return (        
-        <LoadingIndicator/>        
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: null,
+    };
+  }
+
+  componentDidMount() {
+    if (this.props.asset) {
+      this.getData();      
+    }
+  }
+  
+  componentWillReceiveProps(nextProps) {
+    if ( (!this.props.asset && nextProps.asset) || (this.props.asset && nextProps.asset && (this.props.asset.get("id") !== nextProps.asset.get("id")))) {
+      this.getData(nextProps.asset);
+    }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return  (
+              this.state.data !== nextState.data ||
+              !nextProps.coordinates.equals(this.props.coordinates)
+            );
+  }
+
+  render() {    
+    if (!this.state.data) {
+      return (
+        <LoadingIndicator/>
       );
     }
 
-    let data = json.getIn(["data","intervals"]).slice(0,5);
+    let data = this.state.data.slice(0,15);
     if (this.props.maximize) {
-      data = json.getIn(["data","intervals"]);
+      data = this.state.data;
     }
 
     return (
@@ -30,10 +57,7 @@ class SlideSheetApp extends Component {
               <thead>
                 <tr>
                   <th style={this.getCellStyle()}>Depth <span>({this.props.convert.getUnitDisplay('length')})</span></th>
-                  <th style={this.getCellStyle()}>Length <span>({this.props.convert.getUnitDisplay('length')})</span></th>              
-                  <th style={this.getCellStyle()}>Inc <span>(°)</span></th>
-                  <th style={this.getCellStyle()}>Azi <span>(°)</span></th>
-                  <th style={this.getCellStyle()}>DLS <span>(°/{this.props.convert.convertValue(100, 'length', 'ft').fixFloat(1)}{this.props.convert.getUnitDisplay('length')})</span></th>
+                  <th style={this.getCellStyle()}>Length <span>({this.props.convert.getUnitDisplay('length')})</span></th>
                 </tr>
               </thead>
             </table>
@@ -47,11 +71,8 @@ class SlideSheetApp extends Component {
                 { data.map( (t,index)=> {
                   return (
                   <tr key={index}>
-                    <td style={this.getCellStyle()}>{this.props.convert.convertValue(t.get("measured_depth"), 'length', 'ft').formatNumeral('0,0.0')}</td>
-                    <td style={this.getCellStyle()}>{this.props.convert.convertValue(t.get("length"), 'length', 'ft').fixFloat(1)}</td>
-                    <td style={this.getCellStyle()}>{t.get("inclination").fixFloat(2)}</td>
-                    <td style={this.getCellStyle()}>{t.get("azimuth").fixFloat(2)}</td>
-                    <td style={this.getCellStyle()}>{t.get("dls").fixFloat(2)}</td>
+                    <td style={this.getCellStyle()}>{this.props.convert.convertValue(t.getIn(["data","hole_depth"]), 'length', 'ft').formatNumeral('0,0.0')}</td>
+                    <td style={this.getCellStyle()}>{this.props.convert.convertValue(t.getIn(["data","hole_depth_change"]), 'length', 'ft').formatNumeral('0,0.0')}</td>
                   </tr>
                   );
                 })}
@@ -63,13 +84,23 @@ class SlideSheetApp extends Component {
     );
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return (nextProps.data !== this.props.data || !nextProps.coordinates.equals(this.props.coordinates));
+  async getData(asset=this.props.asset) {
+    let data = await api.getAppStorage(METADATA.provider, METADATA.collection, asset.get('id'), Map({
+      query: '{data.activity_name#eq#"Drilling Slide"}AND{data.hole_depth_change#gte#1}',
+      sort: '{data.hole_depth:-1}'
+    }));
+
+    //data = this.getFakeData();
+    this.setState({data});
   }
 
+  getFakeData() {
+    return fromJS(fakeData);
+  }
+  
   getCellStyle() {
     return {
-      width: '20%'
+      width: '50%'
     };
   }
 }

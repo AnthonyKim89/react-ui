@@ -56,7 +56,7 @@ class AccuracyApp extends Component {
           Accuracy to Plan
         </p>
         <div style={Object.assign({marginLeft:"-5px"},this.getAccuracyColorStyle(accuracyData))}>
-          {this.props.convert.convertValue(accuracyData.get("distance_to_plan"), 'length', 'ft').fixFloat(2)} <span>{this.props.convert.getUnitDisplay('length')}</span>
+          {this.props.convert.convertValue(accuracyData.get("distance_to_plan"), 'length', 'ft').fixFloat(1)} <span>{this.props.convert.getUnitDisplay('length')}</span>
         </div>
       </div>
     );
@@ -67,14 +67,7 @@ class AccuracyApp extends Component {
 
     return (
       <div className="c-di-back-to-plan">
-        <p>Back-to-Plan Turn</p>
-        <div className="recomm-upper">
-          {recommendedData.get("inclination")} <span>Inc</span>
-        </div>
-        <div className="recomm-upper">
-          {recommendedData.get("azimuth")} <span>Azi</span>
-        </div>
-
+        <p>Back-to-Plan</p>
         <div className="recomm-below">
           Left/Right plan <span>{numeral(this.props.convert.convertValue(recommendedData.get('right'), 'length', 'ft')).format("0.0")}{this.props.convert.getUnitDisplay('length')}</span>
         </div>
@@ -88,15 +81,16 @@ class AccuracyApp extends Component {
   renderAccuracyProgress() {
     let pointsData = subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS).getIn(["data","points"]);
     if(pointsData) {
-      let itemWidth = 100 / pointsData.size -1;
+      let itemWidth = 100 / pointsData.size;
       let style = {
-        marginRight: "1%",
         width: itemWidth + "%"
       };
 
       return pointsData.map( (t,index) => {
         return (
-          <div key={index} className="accuracy-progress-item" style={Object.assign({},style,this.getAccuracyBackColorStyle(t))}>
+          <div key={index} 
+            className="accuracy-progress-item" 
+            style={Object.assign({},style,this.getAccuracyBackColorStyle(t))}>
           </div>
         );
       });
