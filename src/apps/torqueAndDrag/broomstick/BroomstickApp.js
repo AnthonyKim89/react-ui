@@ -35,7 +35,7 @@ class BroomstickApp extends Component {
                 type={renderType}
                 title={title}
                 data={data}
-                dashStyle={"ShortDot"}                
+                dashStyle={"ShortDot"}
                 yField="hookload"
                 lineWidth={renderType === 'line' ? 2 : 0}
                 color={this.getSeriesColor(type)} />
@@ -47,7 +47,11 @@ class BroomstickApp extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return (nextProps.data !== this.props.data || !nextProps.coordinates.equals(this.props.coordinates) || nextProps.graphColors !== this.props.graphColors);
+    return !!(
+        (nextProps.data && !nextProps.data.equals(this.props.data)) ||
+        (nextProps.coordinates && !nextProps.coordinates.equals(this.props.coordinates)) ||
+        (nextProps.graphColors && !nextProps.graphColors.equals(this.props.graphColors))
+    );
   }
 
   getData() {

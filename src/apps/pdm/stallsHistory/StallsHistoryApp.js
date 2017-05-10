@@ -11,7 +11,10 @@ import './StallsHistoryApp.css';
 class StallsHistoryApp extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
-    return (nextProps.data !== this.props.data || !nextProps.coordinates.equals(this.props.coordinates));
+    return !!(
+        (nextProps.data && !nextProps.data.equals(this.props.data)) ||
+        (nextProps.coordinates && !nextProps.coordinates.equals(this.props.coordinates))
+    );
   }
 
   render() {

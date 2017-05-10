@@ -38,12 +38,17 @@ class AxialLoadApp extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return (nextProps.data !== this.props.data || !nextProps.coordinates.equals(this.props.coordinates) || nextProps.graphColors !== this.props.graphColors);
+    return !!(
+        (nextProps.data && !nextProps.data.equals(this.props.data)) ||
+        (nextProps.coordinates && !nextProps.coordinates.equals(this.props.coordinates)) ||
+        (nextProps.graphColors && !nextProps.graphColors.equals(this.props.graphColors))
+    );
   }
 
   getSeries() {
     let data = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'points']);
-    data = this.props.convert.convertImmutables(data, 'measured_depth', 'length', 'ft');
+    data = this.props.convert.convertImmutables(data, 'measured_depth', 'length', 'ft')
+      .sortBy(d => d.get('measured_depth'));
     // Converting each of our y-axis values to their target unit.
     for (let property in SUPPORTED_CHART_SERIES) {
       if (SUPPORTED_CHART_SERIES.hasOwnProperty(property)) {
