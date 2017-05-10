@@ -142,6 +142,9 @@ class RopPerformanceApp extends Component {
   }
 
   async getData(asset=this.props.asset, period=this.props.period) {
+    this.setState({
+      data: List()
+    });
     const to = Math.floor(Date.now() / 1000);
     const from = to - period*24*60*60;
     let data = await api.getAppStorage(METADATA.provider, METADATA.collections[period], asset.get('id'), Map({

@@ -36,8 +36,8 @@ class RigActivityApp extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.asset && (this.props.period !== nextProps.period || this.props.asset !== nextProps.asset)) {
-      this.getData();
+    if (this.props.asset && nextProps.asset && (this.props.period !== nextProps.period || this.props.asset !== nextProps.asset)) {
+      this.getData(nextProps.asset, nextProps.period);
     }
   }
 
@@ -185,12 +185,12 @@ class RigActivityApp extends Component {
   }
 
 
-  async getData() {
+  async getData(asset=this.props.asset, period=this.props.period) {
     // Reset state
     this.setState({
-      data: null
+      data: Map()
     });
-    let data = await api.getAppStorage(METADATA.provider, METADATA.collections[this.props.period], this.props.asset.get('id'), Map({
+    let data = await api.getAppStorage(METADATA.provider, METADATA.collections[period], asset.get('id'), Map({
       limit: 1
     }));
     // UI is expecting single item, but API returns array
