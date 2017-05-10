@@ -28,7 +28,7 @@ class RopPerformanceApp extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.asset && nextProps.asset && (this.props.period !== nextProps.period || this.props.ropType !== nextProps.ropType || this.props.asset.get("id") !== nextProps.asset.get("id"))) {
+    if (nextProps.asset && (this.props.period !== nextProps.period || this.props.ropType !== nextProps.ropType || (this.props.asset && this.props.asset.get("id") !== nextProps.asset.get("id")) || !this.props.asset)) {
       this.getData(nextProps.asset, nextProps.period);
     }
   }
@@ -142,6 +142,9 @@ class RopPerformanceApp extends Component {
   }
 
   async getData(asset=this.props.asset, period=this.props.period) {
+    this.setState({
+      data: List()
+    });
     const to = Math.floor(Date.now() / 1000);
     const from = to - period*24*60*60;
     let data = await api.getAppStorage(METADATA.provider, METADATA.collections[period], asset.get('id'), Map({

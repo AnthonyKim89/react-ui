@@ -35,7 +35,7 @@ class DrillingOperationsApp extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.asset && nextProps.asset && (this.props.period !== nextProps.period || this.props.operationType !== nextProps.operationType || this.props.asset.get("id") !== nextProps.asset.get("id"))) {
+    if (nextProps.asset && (this.props.period !== nextProps.period || this.props.operationType !== nextProps.operationType || (this.props.asset && this.props.asset.get("id") !== nextProps.asset.get("id")) || !this.props.asset)) {
       this.getData(nextProps.asset, nextProps.period, nextProps.operationType);
     }
   }
