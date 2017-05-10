@@ -51,10 +51,10 @@ class SurfaceEquipmentItem extends Component {
             defaultValue={type}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{type: e.target.value})} )} >
             <option value="">Select Type</option>
-            <option value="Type 1">Type 1</option>
-            <option value="Type 2">Type 2</option>
-            <option value="Type 3">Type 3</option>
-            <option value="Type 4">Type 4</option>            
+            <option value="type1">Type 1</option>
+            <option value="type2">Type 2</option>
+            <option value="type3">Type 3</option>
+            <option value="type4">Type 4</option>            
           </Input>
         </td>
 
