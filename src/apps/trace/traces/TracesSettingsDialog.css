@@ -1,6 +1,6 @@
 .c-traces__container__edit-trace {
     position: absolute;
-    top: 30%;
+    top: 25%;
     left: 40%;
     right: 40%;
     border-radius: 0;
@@ -12,6 +12,11 @@
     -webkit-overflow-scrolling: touch;
     outline: none;
     z-index: 4001;
+}
+
+.c-traces__container__edit-trace.shouldDisplayUnitOptions {
+    left: 30%;
+    right: 30%;
 }
 
 @media(max-width: 768px) {

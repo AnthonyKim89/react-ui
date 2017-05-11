@@ -70,6 +70,7 @@ class TracesApp extends Component {
     filteredData = filteredData.map(value => value.flatten());
 
     // Converting the units based on what the user has for prefs and settings
+    // TODO: We may want to process all the data when it comes in instead of on updating of the range.
     filteredData = this.convertUnits(filteredData);
 
     this.setState({

@@ -113,11 +113,18 @@ class TracesChartColumn extends Component {
         return;
       }
 
+      let unitType = traceGraph.get('unitType');
+      if (unitType) {
+        unitType = this.props.convert.getUnitDisplay(unitType, traceGraph.get('unitTo', null));
+      } else {
+        unitType = trace.hasOwnProperty("unitType") ? this.props.convert.getUnitDisplay(trace.unitType) : trace.unit;
+      }
+
       series.push({
         field: trace.trace,
         title: trace.label,
         color: traceGraph.get('color'),
-        unit: trace.hasOwnProperty("unitType") ? this.props.convert.getUnitDisplay(trace.unitType) : trace.unit,
+        unit: unitType,
         type: traceGraph.get('type', 'line'), // area or line
         dashStyle: traceGraph.get('dashStyle', 'Solid'), // http://api.highcharts.com/highcharts/plotOptions.line.dashStyle
         lineWidth: traceGraph.get('lineWidth', 2), // 1, 2, or 3

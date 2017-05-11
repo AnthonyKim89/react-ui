@@ -32,6 +32,7 @@ class TracesChartContainer extends Component {
         ref={(input) => this.traceSettingsDialog = input}
         supportedTraces={this.props.supportedTraces}
         traceGraphs={this.props.traceGraphs}
+        convert={this.props.convert}
         onSettingChange={this.props.onSettingChange} />
     </div>;
   }
