@@ -71,6 +71,7 @@ class Convert {
       oil: this._lookupCustomUserUnitPreference('oil'),
       yp: this._lookupCustomUserUnitPreference('yp'),
       density: this._lookupCustomUserUnitPreference('density'),
+      massPerLength: this._lookupCustomUserUnitPreference('massPerLength'),
     });
   }
 
