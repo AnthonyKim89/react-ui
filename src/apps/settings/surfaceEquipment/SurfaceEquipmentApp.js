@@ -51,7 +51,7 @@ class SurfaceEquipmentApp extends Component {
             <thead>
               <tr>
                 <th className="c-surface-equipment__type-header"> Surface Equipment Type </th>
-                <th className="c-surface-equipment__blockweight-header"> Block Weight </th>
+                <th className="c-surface-equipment__blockweight-header"> Block Weight ({this.props.convert.getUnitDisplay('force')}) </th>
                 <th className="c-surface-equipment__action-header hide-on-med-and-down"> </th>
               </tr>
             </thead>

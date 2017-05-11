@@ -12,7 +12,7 @@ class SurfaceEquipmentItem extends Component {
     const record = props.record;
     this.state = {
       data: {
-        type: record.getIn(["data","type"]),
+        type: record.getIn(["data","surface_circulation_system"]),
         block_weight: record.getIn(["data","block_weight"]),
       },
       editing: record.has("_id")? false : true,
@@ -51,10 +51,10 @@ class SurfaceEquipmentItem extends Component {
             defaultValue={type}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{type: e.target.value})} )} >
             <option value="">Select Type</option>
-            <option value="Type 1">Type 1</option>
-            <option value="Type 2">Type 2</option>
-            <option value="Type 3">Type 3</option>
-            <option value="Type 4">Type 4</option>            
+            <option value="type1">Type 1</option>
+            <option value="type2">Type 2</option>
+            <option value="type3">Type 3</option>
+            <option value="type4">Type 4</option>            
           </Input>
         </td>
 
@@ -102,7 +102,7 @@ class SurfaceEquipmentItem extends Component {
     }
 
     const record = this.props.record.update('data',(oldMap) => {
-      return oldMap.set("type",type)
+      return oldMap.set("surface_circulation_system",type)
         .set("block_weight",block_weight);
     });
 
