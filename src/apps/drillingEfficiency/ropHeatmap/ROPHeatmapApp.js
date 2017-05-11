@@ -87,7 +87,7 @@ class ROPHeatmapApp extends Component {
 
 ROPHeatmapApp.propTypes = {
   size: PropTypes.string.isRequired,
-  coordinates: PropTypes.object,
+  coordinates: PropTypes.object.isRequired,
   data: ImmutablePropTypes.map,
   title: PropTypes.string
 };

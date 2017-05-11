@@ -97,7 +97,7 @@ class DPFounder extends Component {
 
 DPFounder.propTypes = {
   data: ImmutablePropTypes.map,
-  coordinates: PropTypes.object,
+  coordinates: PropTypes.object.isRequired,
 };
 
 export default DPFounder;

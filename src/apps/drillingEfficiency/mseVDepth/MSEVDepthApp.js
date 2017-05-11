@@ -147,7 +147,7 @@ class MSEVDepthApp extends Component {
 MSEVDepthApp.propTypes = {
   graphColors: ImmutablePropTypes.map,
   size: PropTypes.string.isRequired,
-  coordinates: PropTypes.object,
+  coordinates: PropTypes.object.isRequired,
 };
 
 export default MSEVDepthApp;
