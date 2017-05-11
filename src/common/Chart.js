@@ -295,7 +295,7 @@ Chart.defaultProps = {
 
 Chart.propTypes = {
   size: PropTypes.oneOf(values(Size)).isRequired,
-  coordinates: PropTypes.object.isRequired,
+  coordinates: PropTypes.object,
   widthCols: PropTypes.number.isRequired,
   xField: PropTypes.string,
   horizontal: PropTypes.bool,
