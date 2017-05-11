@@ -20,6 +20,7 @@ class ROPHeatmapApp extends Component {
           <Heatmap series={this.getSeries(rawData)}
                     size={this.props.size}
                     coordinates={this.props.coordinates}
+                    tooltipPointFormatter={this.getPointFormat}
                     xAxis={this.getAxis(rawData.get("x_axis"), 'rows')}
                     yAxis={this.getAxis(rawData.get("y_axis"), 'columns', 'mass', 'lb')} />
         </div>
@@ -31,6 +32,12 @@ class ROPHeatmapApp extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     return (nextProps.data !== this.props.data || nextProps.coordinates !== this.props.coordinates);
+  }
+
+  getPointFormat(point) {
+    var x = this.series.xAxis.userOptions.categories[this.x || 0];
+    var y = this.series.yAxis.userOptions.categories[this.y || 0];
+    return `RPM: <b>${x}</b><br/>Weight on Bit: <b>${y}</b><br/>ROP: <b>${this.value.formatNumeral('0,0.00')}</b><br/>`;
   }
 
   getAxis(axis, axisType, unitType=null, unit=null) {

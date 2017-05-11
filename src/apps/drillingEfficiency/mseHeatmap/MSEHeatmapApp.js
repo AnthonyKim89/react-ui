@@ -20,6 +20,7 @@ class MSEHeatmapApp extends Component {
                     size={this.props.size}
                     coordinates={this.props.coordinates}
                     appSettings={this.props.appSettings}
+                    tooltipPointFormatter={this.getPointFormat}
                     colorStops={[
                       [0, '#00ff00'],                         
                       [0.5, '#ffff00'],
@@ -37,6 +38,12 @@ class MSEHeatmapApp extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     return (nextProps.data !== this.props.data || nextProps.coordinates !== this.props.coordinates);
+  }
+
+  getPointFormat(point) {
+    var x = this.series.xAxis.userOptions.categories[this.x || 0];
+    var y = this.series.yAxis.userOptions.categories[this.y || 0];
+    return `RPM: <b>${x}</b><br/>Weight on Bit: <b>${y}</b><br/>MSE: <b>${this.value.formatNumeral('0,0.00')}</b><br/>`;
   }
 
   getAxis(axis, axisType, unitType=null, unit=null) {
