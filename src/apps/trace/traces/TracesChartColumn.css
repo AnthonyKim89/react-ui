@@ -9,6 +9,7 @@
 
 .c-traces__chart-column__chart {
   height: calc(100% - 201px);
+  background-color: #000;
 }
 
 .c-traces__chart-column__values {

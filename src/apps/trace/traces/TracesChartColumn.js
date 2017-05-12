@@ -27,42 +27,43 @@ class TracesChartColumn extends Component {
 
     return <div className="c-traces__chart-column">
       <div className="c-traces__chart-column__chart">
-        <Chart
-          chartType="area"
-          xField="timestamp"
-          size="MEDIUM"
-          plotBackgroundColor="#000"
-          marginLeft={0}
-          marginRight={0}
-          marginTop={0}
-          marginBottom={0}
-          xAxisGridLineDashStyle="longdash"
-          yAxisGridLineDashStyle="longdash"
-          xAxisGridLineColor="rgb(70, 70, 70)"
-          yAxisGridLineColor="rgb(70, 70, 70)"
-          xAxisTickInterval={100}
-          widthCols={this.props.widthCols} >
-          {series.filter((value, idx) => value.field !== '').map(({field, title, color, type, dashStyle, lineWidth}, idx) => {
-            return <ChartSeries
-              minValue={minValue}
-              type={type}
-              dashStyle={dashStyle}
-              fillOpacity={0.5}
-              lineWidth={lineWidth}
-              key={field}
-              id={field}
-              title={title}
-              data={this.props.data}
-              yAxis={idx}
-              yField={field}
-              color={color} />;
-          })}
-        </Chart>
+        {find(series, {valid: true}) &&
+          <Chart
+            chartType="area"
+            xField="timestamp"
+            size="MEDIUM"
+            plotBackgroundColor="#000"
+            marginLeft={0}
+            marginRight={0}
+            marginTop={0}
+            marginBottom={0}
+            xAxisGridLineDashStyle="longdash"
+            yAxisGridLineDashStyle="longdash"
+            xAxisGridLineColor="rgb(70, 70, 70)"
+            yAxisGridLineColor="rgb(70, 70, 70)"
+            xAxisTickInterval={100}
+            widthCols={this.props.widthCols} >
+            {series.filter((value, idx) => value.field !== '').map(({field, title, color, type, dashStyle, lineWidth}, idx) => {
+              return <ChartSeries
+                minValue={minValue}
+                type={type}
+                dashStyle={dashStyle}
+                fillOpacity={0.5}
+                lineWidth={lineWidth}
+                key={field}
+                id={field}
+                title={title}
+                data={this.props.data}
+                yAxis={idx}
+                yField={field}
+                color={color} />;
+            })}
+          </Chart>}
       </div>
       <div className="c-traces__chart-column__values">
-        {series.map(({field, title, color, unit}, idx) => (
+        {series.map(({valid, field, title, color, unit}, idx) => (
           <div className="c-traces__chart-column__values__item" key={idx} onClick={() => this.props.editTraceGraph(idx + (3 * this.props.columnNumber))}>
-            {field ? <div>
+            {valid ? <div>
               <div className="c-traces__chart-column__values__item__meta-row">
                 <div className="c-traces__left">&nbsp;</div>
                 <div className="c-traces__center"><span>{title}</span></div>
@@ -101,6 +102,7 @@ class TracesChartColumn extends Component {
 
       if (!trace) {
         series.push({
+          valid: false,
           field: '',
           title: '',
           color: traceGraph.get('color'),
@@ -122,6 +124,7 @@ class TracesChartColumn extends Component {
       }
 
       series.push({
+        valid: true,
         field: trace.trace,
         title: trace.label,
         color: traceGraph.get('color'),
