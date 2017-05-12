@@ -12,7 +12,7 @@ import { SUPPORTED_TRACES } from '../constants';
 
 import './TracesApp.css';
 
-const [ _, summarySubscription ] = SUBSCRIPTIONS;
+const [ latestSubscription, summarySubscription ] = SUBSCRIPTIONS;
 
 class TracesApp extends Component {
 
@@ -46,8 +46,29 @@ class TracesApp extends Component {
         onSettingChange={this.props.onSettingChange}
         traceGraphs={this.props.traceGraphs || DEFAULT_TRACE_GRAPHS}
         convert={this.props.convert}
-        supportedTraces={SUPPORTED_TRACES} />
+        supportedTraces={this.mergeSupportedTraces()} />
     </div>;
+  }
+
+  mergeSupportedTraces() {
+    let latestData = subscriptions.selectors.getSubData(this.props.data, latestSubscription);
+    console.log();
+
+    let witsSupportedTraces = latestData.get('data').toJS();
+
+    for (let property in witsSupportedTraces) {
+      if (!witsSupportedTraces.hasOwnProperty(property)) {
+        continue;
+      }
+      if (!find(SUPPORTED_TRACES, {trace: property})) {
+        SUPPORTED_TRACES.push({
+          trace: property,
+          label: property.split('_').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" "),
+        });
+      }
+    }
+
+    return SUPPORTED_TRACES;
   }
 
   updateFilteredData(start=null, end=null) {

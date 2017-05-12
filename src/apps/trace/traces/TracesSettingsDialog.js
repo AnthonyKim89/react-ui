@@ -95,7 +95,7 @@ class TracesSettingsDialog extends Component {
               ref={(input) => this.traceEditorType = input} />
           </Col>
 
-          {shouldDisplayUnitOptions && <Col s={6} ref={(input) => this.traceEditorUnitColumn = input}>
+          {shouldDisplayUnitOptions && <Col s={6}>
 
             <Input type='select' label="Unit Type" s={12}
                    defaultValue={this.props.traceGraphs.getIn([this.state.traceEditIndex, 'unitType'])}
@@ -191,7 +191,7 @@ class TracesSettingsDialog extends Component {
       lineWidth: parseInt(this.traceEditorLineWidth.state.value, 10),
     };
 
-    if (this.traceEditorUnitColumn) {
+    if (this.shouldDisplayUnitOptions()) {
       if (this.traceEditorUnitType.state.value !== '' && this.traceEditorUnitFrom.state.value !== '') {
         updatedSettings.unitType = this.traceEditorUnitType.state.value;
         updatedSettings.unitFrom = this.traceEditorUnitFrom.state.value;

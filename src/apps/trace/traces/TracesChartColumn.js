@@ -113,11 +113,13 @@ class TracesChartColumn extends Component {
         return;
       }
 
-      let unitType = traceGraph.get('unitType');
-      if (unitType) {
+      let unitType = traceGraph.get('unitType', '');
+      if (unitType !== '') {
         unitType = this.props.convert.getUnitDisplay(unitType, traceGraph.get('unitTo', null));
-      } else {
-        unitType = trace.hasOwnProperty("unitType") ? this.props.convert.getUnitDisplay(trace.unitType) : trace.unit;
+      } else if (trace.hasOwnProperty("unitType")) {
+        unitType = this.props.convert.getUnitDisplay(trace.unitType);
+      } else if (trace.hasOwnProperty('unit')) {
+        unitType = trace.unit;
       }
 
       series.push({
