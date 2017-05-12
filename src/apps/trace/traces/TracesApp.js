@@ -29,14 +29,13 @@ class TracesApp extends Component {
   }
 
   render() {
-    let summaryData = subscriptions.selectors.getSubData(this.props.data, summarySubscription, false);
-    if (!summaryData) {
+    if (!this.summaryData.size > 0) {
       return <LoadingIndicator/>;
     }
 
     return <div className="c-traces" onWheel={e => this.tracesSlider.scrollRange(e)}>
       <TracesSlider
-        summaryData={summaryData}
+        summaryData={this.summaryData}
         filteredData={this.state.filteredData}
         widthCols={this.props.widthCols}
         ref={c => { this.tracesSlider = c; }}

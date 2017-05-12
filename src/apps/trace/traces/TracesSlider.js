@@ -57,7 +57,7 @@ class TracesSlider extends Component {
           <ChartSeries
             type="area"
             minValue={minValue}
-            fillOpacity={0.15}
+            fillOpacity={0.2}
             dashStyle='Solid'
             lineWidth={2}
             key={"bit_depth"}
@@ -74,7 +74,7 @@ class TracesSlider extends Component {
           onResizeStop={this.updateSelectedRange}
           onResize={this.updateSelectedRange}
           ref={c => { this.topSlider = c; }}
-          width={300}
+          width={250}
           height={28}
           enable={{top: false, right: false, bottom: true, left: false}}>
           <div className="c-traces__slider-interaction__top-info c-traces__slider-interaction__info"><Icon>menu</Icon><span>{this.getStartLabel()}</span></div>
@@ -89,7 +89,7 @@ class TracesSlider extends Component {
           onResizeStop={this.updateSelectedRange}
           onResize={this.updateSelectedRange}
           ref={c => { this.bottomSlider = c; }}
-          width={300}
+          width={250}
           height={28}
           enable={{top: true, right: false, bottom: false, left: false}}>
           <div className="c-traces__slider-interaction__bottom-info c-traces__slider-interaction__info"><Icon>menu</Icon><span>{this.getEndLabel()}</span></div>
