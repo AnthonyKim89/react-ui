@@ -25,6 +25,7 @@ class TracesApp extends Component {
       filteredData: new List()
     };
     this.render = this.render.bind(this);
+    this.summaryData = new List();
   }
 
   render() {
@@ -52,8 +53,6 @@ class TracesApp extends Component {
 
   mergeSupportedTraces() {
     let latestData = subscriptions.selectors.getSubData(this.props.data, latestSubscription);
-    console.log();
-
     let witsSupportedTraces = latestData.get('data').toJS();
 
     for (let property in witsSupportedTraces) {
@@ -71,28 +70,32 @@ class TracesApp extends Component {
     return SUPPORTED_TRACES;
   }
 
+  componentWillUpdate(nextProps) {
+    let summaryData = subscriptions.selectors.getSubData(nextProps.data, summarySubscription, false);
+    if (!summaryData) {
+      return;
+    }
+
+    this.summaryData = this.convertUnits(summaryData);
+  }
+
   updateFilteredData(start=null, end=null) {
     start = start !== null ? start : this.state.start;
     end = end !== null ? end : this.state.end;
-    let summaryData = subscriptions.selectors.getSubData(this.props.data, summarySubscription, false);
 
-    let firstTimestamp = summaryData.first().get("timestamp");
-    let lastTimestamp = summaryData.last().get("timestamp");
+    let firstTimestamp = this.summaryData.first().get("timestamp");
+    let lastTimestamp = this.summaryData.last().get("timestamp");
 
     let startTS = firstTimestamp + start * (lastTimestamp - firstTimestamp);
     let endTS = firstTimestamp + end * (lastTimestamp - firstTimestamp);
 
-    let filteredData = summaryData.filter(point => {
+    let filteredData = this.summaryData.filter(point => {
       let ts = point.get('timestamp');
       return ts >= Math.round(startTS) && ts <= Math.round(endTS);
     });
 
     // Flattening the data out
     filteredData = filteredData.map(value => value.flatten());
-
-    // Converting the units based on what the user has for prefs and settings
-    // TODO: We may want to process all the data when it comes in instead of on updating of the range.
-    filteredData = this.convertUnits(filteredData);
 
     this.setState({
       start,
