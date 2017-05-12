@@ -1,8 +1,8 @@
 export const CATEGORY = 'rigActivity';
 export const NAME = 'rigActivity';
 export const SUBSCRIPTIONS = [
-  {provider: 'corva', collection: 'activities.summary-2tours'},
-  {provider: 'corva', collection: 'activities.summary-continuous'},
+  // {provider: 'corva', collection: 'activities.summary-2tours'},
+  // {provider: 'corva', collection: 'activities.summary-continuous'},
   //{provider: 'corva', collection: 'activities.summary-1w'},
   //{provider: 'corva', collection: 'activities.summary-1m'},
   //{provider: 'corva', collection: 'activities.summary-3m'}
