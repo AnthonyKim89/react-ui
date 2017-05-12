@@ -5,7 +5,6 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { SUBSCRIPTIONS } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
-import numeral from 'numeral';
 
 import './FrictionFactorApp.css';
 
@@ -26,17 +25,18 @@ class FrictionFactorApp extends Component {
   }
 
   renderFactor(label, fieldName) {
+    let current = this.getData().getIn(['data', 'current_usage', fieldName]) || 0;
+    let predicted = this.getData().getIn(['data', 'predicted', fieldName]) || 0;
     return <Row className="c-tnd-friction-factor__factor">
       <Col s={5} className="c-tnd-friction-factor__label">
         <label>{label}</label>
       </Col>
       <Col s={3}>
         <input type="number" className="c-tnd-friction-factor__input"
-               value={numeral(this.getData().getIn(['data', 'current_usage', fieldName])).format("0.00")}
-               onChange={() => {}}/>
+               defaultValue={current.formatNumeral("0.00")}/>
       </Col>
       <Col s={4} className="c-tnd-friction-factor__predicted">
-        *predicted {numeral(this.getData().getIn(['data', 'predicted', fieldName])).format("0.00")}
+        *predicted {predicted.formatNumeral("0.00")}
       </Col>
     </Row>;
   }
