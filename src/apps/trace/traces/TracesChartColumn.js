@@ -42,7 +42,7 @@ class TracesChartColumn extends Component {
           yAxisGridLineColor="rgb(70, 70, 70)"
           xAxisTickInterval={100}
           widthCols={this.props.widthCols} >
-          {series.filter(value => value.field !== '').map(({field, title, color, type, dashStyle, lineWidth}) => {
+          {series.filter((value, idx) => value.field !== '').map(({field, title, color, type, dashStyle, lineWidth}, idx) => {
             return <ChartSeries
               minValue={minValue}
               type={type}
@@ -53,6 +53,7 @@ class TracesChartColumn extends Component {
               id={field}
               title={title}
               data={this.props.data}
+              yAxis={idx}
               yField={field}
               color={color} />;
           })}
@@ -78,15 +79,13 @@ class TracesChartColumn extends Component {
                 <div className="c-traces__right">&nbsp;</div>
               </div>
             </div> : <div>
-              <div className="c-traces__chart-column__values__item__meta-row">
-              </div>
+              <div className="c-traces__chart-column__values__item__meta-row">&nbsp;</div>
               <div className="c-traces__chart-column__values__item__meta-row">
                 <div className="c-traces__left">&nbsp;</div>
                 <div className="c-traces__center"><Icon>add_circle_outline</Icon></div>
                 <div className="c-traces__right">&nbsp;</div>
               </div>
-              <div className="c-traces__chart-column__values__item__meta-row">
-              </div>
+              <div className="c-traces__chart-column__values__item__meta-row">&nbsp;</div>
             </div>}
           </div>
         ))}
