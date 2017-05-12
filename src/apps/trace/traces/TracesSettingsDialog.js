@@ -191,7 +191,7 @@ class TracesSettingsDialog extends Component {
       lineWidth: parseInt(this.traceEditorLineWidth.state.value, 10),
     };
 
-    if (this.shouldDisplayUnitOptions()) {
+    if (this.shouldDisplayUnitOptions() && updatedSettings.trace !== "") {
       if (this.traceEditorUnitType.state.value !== '' && this.traceEditorUnitFrom.state.value !== '') {
         updatedSettings.unitType = this.traceEditorUnitType.state.value;
         updatedSettings.unitFrom = this.traceEditorUnitFrom.state.value;
