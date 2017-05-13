@@ -175,7 +175,10 @@ class Chart extends Component {
           min: newVersion.min,
           max: newVersion.max,
         }, false);
-        oldVersion.yAxis.setExtremes(newVersion.min || null, newVersion.max || null, false);
+        oldVersion.yAxis.update({
+          min: newVersion.min,
+          max: newVersion.max,
+        }, false);
         redraw = true;
       }
     }
