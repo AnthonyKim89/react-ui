@@ -154,7 +154,7 @@ class WellTimelineScrollBar extends Component {
     } else {
       const item = this.props.data.get(idx);
       if (item) {
-        this.props.onChangeTime(parse(item.get("timestamp")*1000));
+        this.props.onChangeTime(item.get("timestamp"));
       }
     }
   }
