@@ -43,7 +43,7 @@ class TracesChartColumn extends Component {
                 id={field}
                 title={title}
                 data={this.props.data}
-                yAxis={field + '-' + idx}
+                yAxis={field + "-axis"}
                 yField={field}
                 color={color}
                 minValue={minValue}
@@ -120,6 +120,11 @@ class TracesChartColumn extends Component {
       if (!traceGraph.get('autoScale')) {
         minValue = traceGraph.get('minValue');
         maxValue = traceGraph.get('maxValue');
+      } else if (traceGraph.get('type') === 'area') {
+        // If the graph type is area, and the user didn't set a min/max, we need to manually set a min here.
+        // If we don't, it will automatically set the min value at 0 instead of auto-calculating it.
+        minValue = (this.props.data.minBy(x => x.get(trace.trace)) || new Map()).get(trace.trace, 0);
+        minValue -= minValue / 1000;
       }
 
       series.push({
