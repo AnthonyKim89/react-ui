@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import format from 'date-fns/format';
+import parse from 'date-fns/parse';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import { SUBSCRIPTIONS } from './constants';
@@ -67,7 +67,12 @@ class WellTimelineApp extends Component {
   }
 
   updateParams(time) {
-    this.props.onUpdateParams({time: time && format(time)});
+    if(time) {
+      this.props.onUpdateParams({time: parse(time * 1000), query: `{timestamp#lte#${time}}`});
+    }
+    else {
+      this.props.onUpdateParams({});
+    }
   }
 }
 
