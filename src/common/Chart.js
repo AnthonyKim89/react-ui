@@ -150,9 +150,6 @@ class Chart extends Component {
       const dashStyleChange = oldVersion.options.dashStyle !== newVersion.dashStyle;
       const typeChange = oldVersion.options.type !== newVersion.type;
       const lineWidthChange = oldVersion.options.lineWidth !== newVersion.lineWidth;
-      if (seriesId === 'inclination') {
-        console.log(newVersion);
-      }
       const minmaxValueChange = oldVersion.options.min !== newVersion.min || oldVersion.options.max !== newVersion.max;
       const addedPoints = differenceBy(newVersion.data, oldVersion.data, p => p.id);
       const removedPoints = differenceBy(oldVersion.data, newVersion.data, p => p.id);
