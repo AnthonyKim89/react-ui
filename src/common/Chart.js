@@ -150,7 +150,10 @@ class Chart extends Component {
       const dashStyleChange = oldVersion.options.dashStyle !== newVersion.dashStyle;
       const typeChange = oldVersion.options.type !== newVersion.type;
       const lineWidthChange = oldVersion.options.lineWidth !== newVersion.lineWidth;
-      const minmaxValueChange = oldVersion.options.minValue !== newVersion.minValue || oldVersion.options.maxValue !== newVersion.maxValue;
+      if (seriesId === 'inclination') {
+        console.log(newVersion);
+      }
+      const minmaxValueChange = oldVersion.options.min !== newVersion.min || oldVersion.options.max !== newVersion.max;
       const addedPoints = differenceBy(newVersion.data, oldVersion.data, p => p.id);
       const removedPoints = differenceBy(oldVersion.data, newVersion.data, p => p.id);
       for (const point of removedPoints) {
@@ -171,10 +174,11 @@ class Chart extends Component {
         redraw = true;
       }
       if (minmaxValueChange) {
-        oldVersion.yAxis.update({
-          min: newVersion.minValue,
-          max: newVersion.maxValue,
+        oldVersion.update({
+          min: newVersion.min,
+          max: newVersion.max,
         }, false);
+        oldVersion.yAxis.setExtremes(newVersion.min || null, newVersion.max || null, false);
         redraw = true;
       }
     }
@@ -230,8 +234,8 @@ class Chart extends Component {
       step: step || false,
       animation: false,
       showInLegend: this.isLegendVisible(props),
-      minValue,
-      maxValue,
+      min: minValue,
+      max: maxValue,
       pointPadding: typeof pointPadding !== "undefined" ? pointPadding : 0.1,
       groupPadding: typeof groupPadding !== "undefined" ? groupPadding : 0.2,
       borderWidth
@@ -265,8 +269,8 @@ class Chart extends Component {
         reserveSpace: props.reserveYLabelSpace
       },
       opposite: series.yAxisOpposite ? series.yAxisOpposite : props.yAxisOpposite,
-      min: series.minValue !== undefined ? series.minValue : null,
-      max: series.maxValue || null,
+      min: series.min !== undefined ? series.min : null,
+      max: series.max || null,
       lineWidth: props.yAxisWidth || 0,
       lineColor:  props.yAxisColor || '',
       tickPositioner: props.yTickPositioner,

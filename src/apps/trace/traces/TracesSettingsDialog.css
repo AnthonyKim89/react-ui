@@ -1,6 +1,6 @@
 .c-traces__container__edit-trace {
     position: absolute;
-    top: 25%;
+    top: 20%;
     left: 40%;
     right: 40%;
     border-radius: 0;
@@ -55,7 +55,7 @@
     margin: 0;
 }
 .c-traces__container__edit-trace__overlay .slider-picker {
-    margin-top: 20px;
+    margin-top: 0;
 }
 .c-traces__container__edit-trace__dialog__done {
     float: right;
@@ -112,4 +112,18 @@
 
 .c-traces__container__edit-trace__dialog .col.input-field label {
     left: 0;
+}
+
+.c-traces__container__edit-trace__checkboxes {
+    clear: both;
+    padding-top: 10px !important;
+    margin-bottom: 10px !important;
+}
+
+.c-traces__container__edit-trace__scaling-values {
+    margin-bottom: 0 !important;
+}
+
+.c-traces__container__edit-trace__checkboxes div div, .c-traces__container__edit-trace__scaling-values div div {
+    padding: 0 !important;
 }

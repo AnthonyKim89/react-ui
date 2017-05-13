@@ -33,7 +33,7 @@ class TracesChartColumn extends Component {
             yAxisGridLineColor="rgb(70, 70, 70)"
             xAxisTickInterval={100}
             widthCols={this.props.widthCols} >
-            {series.filter((value, idx) => value.field !== '').map(({field, title, color, type, dashStyle, lineWidth}, idx) => {
+            {series.filter((value, idx) => value.field !== '').map(({field, title, color, type, dashStyle, lineWidth, minValue, maxValue}, idx) => {
               return <ChartSeries
                 type={type}
                 dashStyle={dashStyle}
@@ -43,9 +43,11 @@ class TracesChartColumn extends Component {
                 id={field}
                 title={title}
                 data={this.props.data}
-                yAxis={idx}
+                yAxis={field + '-' + idx}
                 yField={field}
-                color={color} />;
+                color={color}
+                minValue={minValue}
+                maxValue={maxValue} />;
             })}
           </Chart>}
       </div>
@@ -99,6 +101,8 @@ class TracesChartColumn extends Component {
           type: 'line',
           dashStyle: 'Solid',
           lineWidth: 2,
+          minValue: undefined,
+          maxValue: undefined,
         });
         return;
       }
@@ -112,6 +116,12 @@ class TracesChartColumn extends Component {
         unitType = trace.unit;
       }
 
+      let minValue, maxValue;
+      if (!traceGraph.get('autoScale')) {
+        minValue = traceGraph.get('minValue');
+        maxValue = traceGraph.get('maxValue');
+      }
+
       series.push({
         valid: true,
         field: trace.trace,
@@ -121,6 +131,8 @@ class TracesChartColumn extends Component {
         type: traceGraph.get('type', 'line'), // area or line
         dashStyle: traceGraph.get('dashStyle', 'Solid'), // http://api.highcharts.com/highcharts/plotOptions.line.dashStyle
         lineWidth: traceGraph.get('lineWidth', 2), // 1, 2, or 3
+        minValue,
+        maxValue,
       });
     });
 
