@@ -60,7 +60,7 @@ class TracesBoxColumn extends Component {
           </header>
 
           <Row s={12}>
-            <Col s={shouldDisplayUnitOptions ? 6 : 12}>
+            <Col s={12}>
               <Input type='select' label="Trace" s={12}
                      defaultValue={this.props.traceBoxes.getIn([this.state.traceEditIndex, 'trace'])}
                      ref={(input) => this.traceEditorGraph = input}>
@@ -115,17 +115,12 @@ class TracesBoxColumn extends Component {
           </Row>
 
           <Row className="c-traces__box-column__edit-trace__dialog__button-row">
-            <Col s={4}>
+            <Col s={6}>
               <Button className="c-traces__box-column__edit-trace__dialog__done" onClick={() => this.updateTraceGraph()}>
                 Save
               </Button>
             </Col>
-            <Col s={4}>
-              <Button className="c-traces__box-column__edit-trace__dialog__cancel" onClick={() => this.closeDialog()}>
-                Delete
-              </Button>
-            </Col>
-            <Col s={4}>
+            <Col s={6}>
               <Button className="c-traces__box-column__edit-trace__dialog__cancel" onClick={() => this.closeDialog()}>
                 Cancel
               </Button>
