@@ -151,6 +151,7 @@ TracesChartColumn.propTypes = {
   traceGraphs: ImmutablePropTypes.list.isRequired,
   data: ImmutablePropTypes.list.isRequired,
   columnNumber: PropTypes.number.isRequired,
+  totalColumns: PropTypes.number.isRequired,
   editTraceGraph: PropTypes.func.isRequired,
   widthCols: PropTypes.number.isRequired,
 };

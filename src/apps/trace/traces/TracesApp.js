@@ -6,6 +6,7 @@ import { List } from 'immutable';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import TracesSlider from './TracesSlider';
 import TracesChartContainer from './TracesChartContainer';
+import TracesBoxColumn from "./TracesBoxColumn";
 import subscriptions from '../../../subscriptions';
 import { SUBSCRIPTIONS, DEFAULT_TRACE_GRAPHS } from './constants';
 import { SUPPORTED_TRACES } from '../constants';
@@ -33,6 +34,9 @@ class TracesApp extends Component {
       return <LoadingIndicator/>;
     }
 
+    let latestData = subscriptions.selectors.getSubData(this.props.data, latestSubscription);
+    let supportedTraces = this.mergeSupportedTraces(latestData);
+
     return <div className="c-traces" onWheel={e => this.tracesSlider.scrollRange(e)}>
       <TracesSlider
         summaryData={this.summaryData}
@@ -46,12 +50,16 @@ class TracesApp extends Component {
         onSettingChange={this.props.onSettingChange}
         traceGraphs={this.props.traceGraphs || DEFAULT_TRACE_GRAPHS}
         convert={this.props.convert}
-        supportedTraces={this.mergeSupportedTraces()} />
+        supportedTraces={supportedTraces} />
+      <TracesBoxColumn
+        convert={this.props.convert}
+        supportedTraces={supportedTraces}
+        data={latestData}
+        onSettingChange={this.props.onSettingChange} />
     </div>;
   }
 
-  mergeSupportedTraces() {
-    let latestData = subscriptions.selectors.getSubData(this.props.data, latestSubscription);
+  mergeSupportedTraces(latestData) {
     let witsSupportedTraces = latestData.get('data').toJS();
 
     for (let property in witsSupportedTraces) {
