@@ -54,6 +54,7 @@ class TracesApp extends Component {
       <TracesBoxColumn
         convert={this.props.convert}
         supportedTraces={supportedTraces}
+        traceBoxes={this.props.traceBoxes || new List()}
         data={latestData}
         onSettingChange={this.props.onSettingChange} />
     </div>;
@@ -86,6 +87,47 @@ class TracesApp extends Component {
     this.summaryData = this.convertUnits(summaryData);
   }
 
+  convertUnits(filteredData) {
+    let traceGraphs = this.props.traceGraphs || DEFAULT_TRACE_GRAPHS;
+
+    traceGraphs.valueSeq().forEach(traceGraph => {
+      filteredData = this.convertUnitField(traceGraph, filteredData);
+    });
+
+    let traceBoxes = this.props.traceBoxes || new List();
+
+    traceBoxes.valueSeq().forEach(traceBox => {
+      if (!traceGraphs.find(value => value.get('trace') === traceBox.get('trace')) ) {
+        filteredData = this.convertUnitField(traceBox, filteredData);
+      }
+    });
+
+    return filteredData;
+  }
+
+  convertUnitField(traceEntry, filteredData) {
+    let traceKey = traceEntry.get('trace');
+    if (!traceKey) {
+      return filteredData;
+    }
+
+    let unitType = traceEntry.get('unitType');
+    let unitFrom = traceEntry.get('unitFrom');
+    let unitTo = traceEntry.get('unitTo', null);
+
+    // Typically we will fall into this if-statement because common selections won't have a unit type chosen.
+    if (!unitType) {
+      let trace = find(SUPPORTED_TRACES, {trace: traceKey});
+      if (!trace || !traceKey.hasOwnProperty('unitType') || !traceKey.hasOwnProperty('cunit')) {
+        return filteredData;
+      }
+      unitType = trace.unitType;
+      unitFrom = trace.cunit;
+    }
+
+    return this.props.convert.convertImmutables(filteredData, traceKey, unitType, unitFrom, unitTo);
+  }
+
   updateFilteredData(start=null, end=null) {
     start = start !== null ? start : this.state.start;
     end = end !== null ? end : this.state.end;
@@ -110,39 +152,11 @@ class TracesApp extends Component {
       filteredData
     });
   }
-
-  convertUnits(filteredData) {
-    let traceGraphs = this.props.traceGraphs || DEFAULT_TRACE_GRAPHS;
-
-    traceGraphs.valueSeq().forEach(traceGraph => {
-      let traceKey = traceGraph.get('trace');
-      if (!traceKey) {
-        return;
-      }
-
-      let unitType = traceGraph.get('unitType');
-      let unitFrom = traceGraph.get('unitFrom');
-      let unitTo = traceGraph.get('unitTo', null);
-
-      // Typically we will fall into this if-statement because common selections won't have a unit type chosen.
-      if (!unitType) {
-        let trace = find(SUPPORTED_TRACES, {trace: traceKey});
-        if (!trace || !traceKey.hasOwnProperty('unitType') || !traceKey.hasOwnProperty('cunit')) {
-          return;
-        }
-        unitType = trace.unitType;
-        unitFrom = trace.cunit;
-      }
-
-      filteredData = this.props.convert.convertImmutables(filteredData, traceKey, unitType, unitFrom, unitTo);
-    });
-
-    return filteredData;
-  }
 }
 
 TracesApp.propTypes = {
   traceGraphs: ImmutablePropTypes.list,
+  traceBoxes: ImmutablePropTypes.list,
   data: ImmutablePropTypes.map,
   size: PropTypes.string.isRequired,
   widthCols: PropTypes.number.isRequired,
