@@ -153,7 +153,7 @@ class OverviewApp extends Component {
   }
 
   getDragGaugeValue() {
-    return this.getGaugeValue(subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'drag', 'severity']));
+    return this.getGaugeValueForDrag(subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'drag', 'severity']));
   }
 
   getGaugeValue(severity) {
@@ -161,6 +161,15 @@ class OverviewApp extends Component {
       case 'low': return 5;
       case 'moderate': return 15;
       case 'high': return 25;
+      default: return null;
+    }
+  }
+
+  getGaugeValueForDrag(severity) {
+    switch (severity) {
+      case 'low': return 25;
+      case 'moderate': return 15;
+      case 'high': return 5;
       default: return null;
     }
   }
