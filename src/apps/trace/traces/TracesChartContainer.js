@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { List, Range } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { Row } from 'react-materialize';
 
 import TracesChartColumn from './TracesChartColumn';
 import Convert from '../../../common/Convert';
@@ -16,8 +17,8 @@ class TracesChartContainer extends Component {
   }
 
   render() {
-    return <div className="c-traces__container">
-      {[0,1,2,3].map((group) => (
+    return <Row s={12} className="c-traces__container">
+      {[0,1,2].map((group) => (
         <TracesChartColumn
           key={group}
           data={this.props.data}
@@ -25,6 +26,7 @@ class TracesChartContainer extends Component {
           supportedTraces={this.props.supportedTraces}
           convert={this.props.convert}
           columnNumber={group}
+          totalColumns={3}
           editTraceGraph={(traceEditIndex) => this.openSettingsDialog(traceEditIndex)}
           widthCols={this.props.widthCols} />
       ))}
@@ -34,7 +36,7 @@ class TracesChartContainer extends Component {
         traceGraphs={this.props.traceGraphs}
         convert={this.props.convert}
         onSettingChange={this.props.onSettingChange} />
-    </div>;
+    </Row>;
   }
 
   getTraceGraphGroup(number) {

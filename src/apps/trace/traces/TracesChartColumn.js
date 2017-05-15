@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { find } from 'lodash';
-import { Icon } from 'react-materialize';
+import { Icon, Col } from 'react-materialize';
 
 import Chart from '../../../common/Chart';
 import ChartSeries from '../../../common/ChartSeries';
@@ -14,7 +14,7 @@ class TracesChartColumn extends Component {
   render() {
     let series = this.getSeries();
 
-    return <div className="c-traces__chart-column">
+    return <Col s={12/this.props.totalColumns} className="c-traces__chart-column">
       <div className="c-traces__chart-column__chart">
         {find(series, {valid: true}) &&
           <Chart
@@ -82,7 +82,7 @@ class TracesChartColumn extends Component {
           </div>
         ))}
       </div>
-    </div>;
+    </Col>;
   }
 
   getSeries() {
