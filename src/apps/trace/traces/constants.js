@@ -4,7 +4,7 @@ export const CATEGORY = 'trace';
 export const NAME = 'traces';
 export const SUBSCRIPTIONS = [
   {provider: 'corva', collection: 'wits'},
-  {provider: 'corva', collection: 'wits.summary-1m', params: {limit: 240, behavior: "turnover"}}
+  {provider: 'corva', collection: 'wits.summary-1m', params: {limit: 240, behavior: "accumulate"}}
 ];
 export const METADATA = {
   settingsTitle: 'Corva-Traces',
