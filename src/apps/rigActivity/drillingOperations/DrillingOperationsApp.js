@@ -124,11 +124,12 @@ class DrillingOperationsApp extends Component {
   }
 
   getYAxisLines() {
-    if (this.props.target) {
+    if (this.props.target !== null && typeof this.props.target !== undefined) {
       return fromJS([{
         value: parseFloat(this.props.target),
         text: 'Target',
-        color: '#fff'
+        color: '#fff',
+        width: 1
       }]);
     } else {
       return fromJS([]);
@@ -299,6 +300,7 @@ class DrillingOperationsApp extends Component {
 DrillingOperationsApp.propTypes = {
   data: ImmutablePropTypes.map,
   period: PropTypes.number,
+  target: PropTypes.number,
   size: PropTypes.string.isRequired,
   widthCols: PropTypes.number.isRequired,
   operationType: PropTypes.number.isRequired
