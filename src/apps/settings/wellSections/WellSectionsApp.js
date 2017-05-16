@@ -53,7 +53,7 @@ class WellSectionsApp extends Component {
           records={this.state.records} 
           onAdd={()=>this.add()}/>
               
-        {this.state.records?
+        {(this.state.records.size > 0 || this.state.preRecords.size > 0)?
           <table className="c-wellsections__wellsections-table">
             <thead>
               <tr>
@@ -83,7 +83,12 @@ class WellSectionsApp extends Component {
                   onCancel={(preRecord)=>this.cancelAdd(preRecord)} />;
               })}
             </tbody>
-          </table> : '' }
+          </table> : 
+          <div className="c-wellsections__no-data">            
+            <div>No Existing Well Section</div>
+            <div className="c-wellsections__no-data-description">Create a new one to begin</div>
+          </div>
+        }
           <Button floating large className='lightblue' style={{marginTop:10}} waves='light' icon='add'  onClick={(e)=>{this.add();}} />
           
           <a ref="scrollHelperAnchor"></a>

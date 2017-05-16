@@ -51,7 +51,7 @@ class FormationsApp extends Component {
           records={this.state.records} 
           onAdd={()=>this.add()}/>
 
-        {this.state.records?
+        {(this.state.records.size > 0 || this.state.preRecords.size > 0)?
           <table className="c-formations__formations-table">
             <thead>
               <tr>
@@ -81,7 +81,12 @@ class FormationsApp extends Component {
                   onCancel={(preRecord)=>this.cancelAdd(preRecord)} />;
               })}
             </tbody>
-          </table> : '' }
+          </table> :  
+          <div className="c-formations__no-data">            
+            <div>No Existing Formation</div>
+            <div className="c-formations__no-data-description">Create a new one to begin</div>
+          </div>
+        }
           <Button floating large className='lightblue' style={{marginTop:10}} waves='light' icon='add' onClick={(e)=>{this.add();}} />
           <a ref="scrollHelperAnchor"></a>
         <NotificationSystem ref="notificationSystem" noAnimation={true} />

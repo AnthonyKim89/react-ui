@@ -53,7 +53,7 @@ class CrewsContactApp extends Component {
           records={this.state.records} 
           onAdd={()=>this.add()}/>
 
-        {this.state.records?
+        {(this.state.records.size > 0 || this.state.preRecords.size > 0)?
           <table className="c-crews__crews-table">
             <thead>
               <tr>
@@ -82,7 +82,12 @@ class CrewsContactApp extends Component {
                   onCancel={(preRecord)=>this.cancelAdd(preRecord)} />;
               })}
             </tbody>
-          </table> : '' }
+          </table> : 
+          <div className="c-crews__no-data">            
+            <div>No Existing Crew & Contacts</div>
+            <div className="c-crews__no-data-description">Create a new one to begin</div>
+          </div>
+        }
           <Button floating large className='lightblue' style={{marginTop:10}} waves='light' icon='add'  onClick={(e)=>{this.add();}} />
           
           <a ref="scrollHelperAnchor"></a>

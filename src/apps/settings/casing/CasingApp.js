@@ -53,10 +53,12 @@ class CasingApp extends Component {
           records={this.state.records} 
           onAdd={()=>this.add()}/>
 
-        {this.state.records?
+        {(this.state.records.size > 0 || this.state.preRecords.size > 0)?
+
           <table className="c-casing__casing-table">
             <thead>
               <tr>
+                <th>{this.state.records.size}</th>
                 <th className="c-casing__id-header"> I.D({this.props.convert.getUnitDisplay('shortLength')}) </th>
                 <th className="c-casing__od-header"> O.D({this.props.convert.getUnitDisplay('shortLength')}) </th>
                 <th className="c-casing__td-header hide-on-med-and-down"> Top Depth({this.props.convert.getUnitDisplay('length')}) </th>
@@ -86,7 +88,12 @@ class CasingApp extends Component {
                   onCancel={(preRecord)=>this.cancelAdd(preRecord)} />;
               })}
             </tbody>
-          </table> : '' }
+          </table> :           
+          <div className="c-casing__no-data">            
+            <div>No Existing Casing Items</div>
+            <div className="c-casing__no-data-description">Create a new one to begin</div>
+          </div>
+        }
           <Button floating large className='lightblue' style={{marginTop:10}} waves='light' icon='add'  onClick={(e)=>{this.add();}} />
           
           <a ref="scrollHelperAnchor"></a>
@@ -101,11 +108,11 @@ class CasingApp extends Component {
       _pre_id: new Date().getTime(),
       data: Map({})
     });
-
+    
     this.setState({
       preRecords: this.state.preRecords.push(record)
     });
-
+    
     setTimeout(()=>{
       ReactDOM.findDOMNode(this.refs.scrollHelperAnchor).scrollIntoView({behavior: "smooth"});
     },0);

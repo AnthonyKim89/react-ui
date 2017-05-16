@@ -1,10 +1,10 @@
 import { List } from 'immutable';
 
-import DailyReportsApp from './DailyReportsApp';
+import FilesDocumentsApp from './FilesDocumentsApp';
 import * as constants from './constants';
 
 export default {
-  AppComponent: DailyReportsApp,
+  AppComponent: FilesDocumentsApp,
   settings: List(),
   constants
 };

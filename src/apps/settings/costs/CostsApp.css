@@ -21,6 +21,21 @@
   width: 40%;
 }
 
+.c-costs__no-data {
+  position: absolute;
+  left: 50%;  
+  top: 60%;
+  transform: translate(-50%, -50%);
+}
+
+.c-costs__no-data div {
+  text-align: center;
+}
+ 
+.c-costs__no-data-description {  
+  color:  grey;
+}
+
 @media(max-width: 768px) {
 	.c-costs {
 		padding: 0px;

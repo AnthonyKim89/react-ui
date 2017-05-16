@@ -7,6 +7,7 @@ import './SettingsRecordBrowser.css';
 class SettingsRecordBrowser extends Component {
 
   render() {    
+
     return <div className="c-settings-record-browser">      
       <Row className="c-settings-record-browser__filter">
         <Input m={11}                
@@ -24,7 +25,13 @@ class SettingsRecordBrowser extends Component {
           <Button floating icon="add" onClick={() => this.props.onNewRecord()} />
         </Col>
       </Row>
-      {this.props.displayingRecord &&
+
+      {this.props.records.size<1 &&
+        <div className="c-settings-record-browser__no-data">            
+          <div>No Existing Data</div>
+          <div className="c-settings-record-browser__no-data-description">Create a new one to begin</div>
+        </div> }
+      {this.props.records.size>0 && this.props.displayingRecord &&
         <div>
           <this.props.RecordSummary
             record={this.props.displayingRecord}
@@ -37,7 +44,7 @@ class SettingsRecordBrowser extends Component {
             convert={this.props.convert}
             isEditable={false} 
             onEditRecord={this.props.onEditRecord}/>
-        </div>}
+      </div>}
     </div>;
   }
 

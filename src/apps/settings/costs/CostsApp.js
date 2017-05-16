@@ -51,7 +51,7 @@ class CostsApp extends Component {
           records={this.state.records} 
           onAdd={()=>this.add()}/>
 
-        {this.state.records?
+        {(this.state.records.size > 0 || this.state.preRecords.size > 0)?
           <table className="c-costs__costs-table">
             <thead>
               <tr>
@@ -78,7 +78,12 @@ class CostsApp extends Component {
                   onCancel={(preRecord)=>this.cancelAdd(preRecord)} />;
               })}
             </tbody>
-          </table> : '' }
+          </table> : 
+          <div className="c-costs__no-data">            
+            <div>No Existing Costs Items</div>
+            <div className="c-costs__no-data-description">Create a new one to begin</div>
+          </div>
+        }
           <Button floating large className='lightblue' style={{marginTop:10}} waves='light' icon='add'  onClick={(e)=>{this.add();}} />
           
           <a ref="scrollHelperAnchor"></a>

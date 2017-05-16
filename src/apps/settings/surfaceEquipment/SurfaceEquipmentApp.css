@@ -26,6 +26,21 @@
   width: 20%;
 }
 
+.c-surface-equipment__no-data {
+  position: absolute;
+  left: 50%;  
+  top: 60%;
+  transform: translate(-50%, -50%);
+}
+
+.c-surface-equipment__no-data div {
+  text-align: center;
+}
+ 
+.c-surface-equipment__no-data-description {  
+  color:  grey;
+}
+
 @media(max-width: 768px) {
   .c-surface-equipment {
     padding:0px;

@@ -22,6 +22,21 @@
   width: 8%;
 }
 
+.c-casing__no-data {
+  position: absolute;
+  left: 50%;  
+  top: 60%;
+  transform: translate(-50%, -50%);
+}
+
+.c-casing__no-data div {
+  text-align: center;
+}
+ 
+.c-casing__no-data-description {  
+  color:  grey;
+}
+
 
 @media(max-width: 768px) {
 	.c-casing {

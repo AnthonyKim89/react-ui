@@ -6,9 +6,9 @@ import S3Upload from 'react-s3-uploader/s3upload.js';
 
 import * as api from '../../../api';
 
-import './DailyReportsSummary.css';
+import './FilesDocumentsSummary.css';
 
-class DailyReportsSummary extends Component { 
+class FilesDocumentsSummary extends Component { 
   constructor(props) {
     super(props);
     this.state = {
@@ -25,11 +25,11 @@ class DailyReportsSummary extends Component {
   render() {
     
     return (
-      <div className="c-daily-reports-summary">
+      <div className="c-files-documents-summary">
         <table>
           <tbody>
             <tr>
-              <td className="c-daily-reports-summary-file">
+              <td className="c-files-documents-summary-file">
                 Recent files
                 <table>
                   <tbody>
@@ -49,9 +49,9 @@ class DailyReportsSummary extends Component {
                   </tbody>
                 </table>
               </td>
-              <td className="c-daily-reports-summary-action hide-on-med-and-down">
+              <td className="c-files-documents-summary-action hide-on-med-and-down">
                 <div className="file-field input-field">
-                  <div className="btn-floating btn-large c-daily-reports-summary-action__download-button">
+                  <div className="btn-floating btn-large c-files-documents-summary-action__download-button">
                     <span>
                       <i className="large material-icons">backup</i>
                     </span>
@@ -145,7 +145,7 @@ class DailyReportsSummary extends Component {
 
 }
 
-DailyReportsSummary.propTypes = {    
+FilesDocumentsSummary.propTypes = {    
 };
 
-export default DailyReportsSummary;
+export default FilesDocumentsSummary;
