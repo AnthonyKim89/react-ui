@@ -110,7 +110,12 @@ class Chart extends Component {
       }, false);
       reflow = true;
       redraw = true;
-    } else if (newProps.widthCols !== this.props.widthCols || (this.props.coordinates && (newProps.coordinates !== this.props.coordinates))) {
+    } else if (
+        newProps.widthCols !== this.props.widthCols ||
+        newProps.automaticOrientation !== this.props.automaticOrientation ||
+        newProps.horizontal !== this.props.horizontal ||
+        (this.props.coordinates && !newProps.coordinates.equals(this.props.coordinates))
+        ) {
       const newInverted = this.isInverted(newProps);
       if (chart.inverted !== newInverted) {
         chart.update({chart: {inverted: newInverted}}, false);
