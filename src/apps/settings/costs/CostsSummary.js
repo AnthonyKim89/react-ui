@@ -15,11 +15,11 @@ class CostsSummary extends Component {
     				<tr>
     					<td>
     						Total Costs
-    						<h4>${total}</h4>
+    						<h4>${parseFloat(total).formatNumeral('0,0.00')}</h4>
     					</td>
     					<td>
     						Cost / Day 
-    						<h4>${average}</h4>
+    						<h4>${parseFloat(average).formatNumeral('0,0.00')}</h4>
     					</td>
     					<td>
     						<Button floating large className='lightblue' waves='light' icon='add' onClick={this.props.onAdd} />
@@ -45,6 +45,7 @@ class CostsSummary extends Component {
         return record;
     });
     let average = (days>0) ? (total / days).toFixed(2) : 0;
+    total = total.toFixed(2) || 0;
     return {total,average};
   }
 }

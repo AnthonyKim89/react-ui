@@ -39,7 +39,7 @@ class CostsItem extends Component {
     if (!this.state.editing) return (
       <tr className="c-costs-item">
         <td>{date.format('L')}</td>
-        <td>{cost}</td>
+        <td>{parseFloat(cost).formatNumeral('0,0.0')}</td>
         <td className="hide-on-med-and-down">{description}</td>
         <td className="hide-on-med-and-down">
           <Button floating className='lightblue view-action' waves='light' icon='edit'
