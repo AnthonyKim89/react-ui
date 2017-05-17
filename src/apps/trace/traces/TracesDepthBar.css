@@ -1,0 +1,43 @@
+.c-traces__depth-bar {
+    width: 200px;
+    height: calc(100% - 10px);
+    border: 1px solid #333;
+    position: absolute;
+    top: 0;
+    left: 261px;
+}
+
+.c-traces__depth-bar__chart {
+    height: calc(100% - 201px);
+    background-color: #000;
+}
+
+.c-traces__depth-bar__values {
+    height: 200px;
+    text-align: center;
+    border-top: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+}
+
+.c-traces__depth-bar__values__item {
+    height: calc(200px / 3);
+    border-bottom: 1px solid #333;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.c-traces__depth-bar__values__item:nth-child(3) {
+    border-bottom: none;
+}
+
+.c-traces__depth-bar__values__item__meta-row {
+    line-height: calc(200px / 9);
+    height: calc(200px / 9);
+}
+
+.c-traces__depth-bar__values__item__meta-row div {
+    display: inline-block;
+    width: calc(100% / 3);
+}

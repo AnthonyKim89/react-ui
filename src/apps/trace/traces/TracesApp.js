@@ -12,6 +12,7 @@ import { SUBSCRIPTIONS, DEFAULT_TRACE_GRAPHS } from './constants';
 import { SUPPORTED_TRACES } from '../constants';
 
 import './TracesApp.css';
+import TracesDepthBar from "./TracesDepthBar";
 
 const [ latestSubscription, summarySubscription ] = SUBSCRIPTIONS;
 
@@ -44,6 +45,10 @@ class TracesApp extends Component {
         widthCols={this.props.widthCols}
         ref={c => { this.tracesSlider = c; }}
         onRangeChanged={(start, end) => this.updateFilteredData(start, end)} />
+      <TracesDepthBar
+        convert={this.props.convert}
+        supportedTraces={supportedTraces}
+        data={this.state.filteredData} />
       <TracesChartContainer
         data={this.state.filteredData}
         widthCols={this.props.widthCols}
