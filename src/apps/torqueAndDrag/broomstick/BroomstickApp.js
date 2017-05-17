@@ -53,7 +53,8 @@ class BroomstickApp extends Component {
     return !!(
         (nextProps.data && !nextProps.data.equals(this.props.data)) ||
         (nextProps.coordinates && !nextProps.coordinates.equals(this.props.coordinates)) ||
-        (nextProps.graphColors && !nextProps.graphColors.equals(this.props.graphColors))
+        (nextProps.graphColors && !nextProps.graphColors.equals(this.props.graphColors)) ||
+        (nextProps.orientation !== this.props.orientation)
     );
   }
 
