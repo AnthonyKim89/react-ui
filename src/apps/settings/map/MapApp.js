@@ -75,8 +75,7 @@ class MapApp extends Component {
   async save() {    
     
     let tLatLng = parseLatLng(this.state.top_hole);
-    let bLatLng = parseLatLng(this.state.bottom_hole);
-    if (tLatLng.length===2 && bLatLng.length ===2) {
+    if (tLatLng.length===2) {
       const data = Map({
         top_hole: this.state.top_hole,
         bottom_hole: this.state.bottom_hole
@@ -110,9 +109,8 @@ class MapApp extends Component {
     }
 
     let tLatLng = parseLatLng(this.state.record.getIn(["data","top_hole"]));
-    let bLatLng = parseLatLng(this.state.record.getIn(["data","bottom_hole"]));
 
-    if (tLatLng.length===2 && bLatLng.length ===2) {
+    if (tLatLng.length===2) {
       if (this.marker) {
         this.map.removeLayer(this.marker);
       }
