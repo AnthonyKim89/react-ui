@@ -30,10 +30,9 @@ class SlideSheetApp extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-        
     return  (
-              this.state.data !== nextState.data ||              
-              nextProps.coordinates !== this.props.coordinate
+              this.state.data !== nextState.data ||
+              !nextProps.coordinates.equals(this.props.coordinates)
             );
   }
 

@@ -78,7 +78,7 @@ class AppContainer extends Component {
       return "Rig";
     }
   }
-  
+
   render() {
     const classes = {
       'c-app-container': true,

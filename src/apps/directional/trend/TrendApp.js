@@ -30,7 +30,7 @@ class TrendApp extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return (nextProps.data !== this.props.data || nextProps.coordinates !== this.props.coordinates || nextProps.graphColors !== this.props.graphColors);
+    return (nextProps.data !== this.props.data || !nextProps.coordinates.equals(this.props.coordinates) || nextProps.graphColors !== this.props.graphColors);
   }
 
   getYAxes() {
