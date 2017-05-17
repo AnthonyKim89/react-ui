@@ -30,3 +30,15 @@
 .c-drillstring-component-specific-data .input-field.col label:after{
   top:40px;
 }
+
+.c-drillstring-component-highlight {
+  margin-bottom: 40px;
+}
+
+.c-drillstring-component-highlight .row {
+  margin-bottom: 10px;
+}
+
+.c-drillstring-component-highlight-text-label {
+  opacity: 0.6;
+}
