@@ -27,7 +27,10 @@ class BroomstickApp extends Component {
             xAxisColor="white"
             size={this.props.size}
             coordinates={this.props.coordinates}
-            widthCols={this.props.widthCols}>
+            widthCols={this.props.widthCols}
+            automaticOrientation={this.automaticOrientation}
+            horizontal={this.horizontal}
+            >
             {this.getSeries().map(({renderType, title, type, data}, idx) => (
               <ChartSeries
                 key={title}
@@ -100,6 +103,17 @@ class BroomstickApp extends Component {
     } else {
       return SUPPORTED_CHART_SERIES[seriesType].defaultColor;
     }
+  }
+
+  get automaticOrientation() {
+    return this.props.orientation && this.props.orientation === 'auto';
+  }
+
+  get horizontal() {
+    if (this.props.orientation) {
+      return this.props.orientation === 'horizontal';
+    }
+    return true;
   }
 
 }
