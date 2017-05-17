@@ -31,13 +31,15 @@ class MapApp extends Component {
 
   async loadRecords(asset) {
     const records = await api.getAppStorage(METADATA.recordProvider, METADATA.recordCollection, asset.get('id'), Map({limit: 1}));
+    console.log(records.toJS());
     let record = records.get(0);      
     this.setState({
       record: record,
-      topHole: record?record.getIn(["data","topHole"]):'',
-      bottomHole: record?record.getIn(["data","bottomHole"]):''
+      top_hole: record?record.getIn(["data","top_hole"]):'',
+      bottom_hole: record?record.getIn(["data","bottom_hole"]):''
     });
-    this.updateMap();    
+    console.log(this.state);
+    this.updateMap();        
   }
 
   render() {
@@ -45,22 +47,22 @@ class MapApp extends Component {
       <div className="c-map">
         <h4>{METADATA.title}</h4>
         <div>{METADATA.subtitle}</div> 
-        {this.state.topHole!==undefined && this.state.bottomHole!==undefined ?
+        {this.state.top_hole!==undefined && this.state.bottom_hole!==undefined ?
           <Row className="c-map-latlng">
             <Col m={5} s={12}>
               <Input type="text"
                 s={12}
                 label="Asset Top Hole Location"
-                defaultValue={this.state.topHole}
-                onChange={(e)=>this.setState({topHole:e.target.value})}/>
+                defaultValue={this.state.top_hole}
+                onChange={(e)=>this.setState({top_hole:e.target.value})}/>
             </Col>
 
             <Col m={5} s={12}>            
               <Input type="text"
                 s={12}
                 label="Asset Bottom Hole Location"
-                defaultValue={this.state.bottomHole}
-                onChange={(e)=>this.setState({bottomHole:e.target.value})}/>
+                defaultValue={this.state.bottom_hole}
+                onChange={(e)=>this.setState({bottom_hole:e.target.value})}/>
             </Col>
             <Button waves='light' onClick={()=>this.save()}>save</Button>
           </Row>: '' }
@@ -72,12 +74,12 @@ class MapApp extends Component {
   
   async save() {    
     
-    let tLatLng = parseLatLng(this.state.topHole);
-    let bLatLng = parseLatLng(this.state.bottomHole);
+    let tLatLng = parseLatLng(this.state.top_hole);
+    let bLatLng = parseLatLng(this.state.bottom_hole);
     if (tLatLng.length===2 && bLatLng.length ===2) {
       const data = Map({
-        topHole: this.state.topHole,
-        bottomHole: this.state.bottomHole
+        top_hole: this.state.top_hole,
+        bottom_hole: this.state.bottom_hole
       });
 
       const record = (this.state.record || Map({
@@ -85,6 +87,7 @@ class MapApp extends Component {
         data: Map({})
       })).set("data",data);
       
+      console.log(record.toJS());
       const savedRecord = record.has('_id')? 
         await api.putAppStorage(METADATA.recordProvider, METADATA.recordCollection, record.get('_id') , record) :
         await api.postAppStorage(METADATA.recordProvider, METADATA.recordCollection, record);
@@ -106,8 +109,8 @@ class MapApp extends Component {
       return;
     }
 
-    let tLatLng = parseLatLng(this.state.record.getIn(["data","topHole"]));
-    let bLatLng = parseLatLng(this.state.record.getIn(["data","bottomHole"]));
+    let tLatLng = parseLatLng(this.state.record.getIn(["data","top_hole"]));
+    let bLatLng = parseLatLng(this.state.record.getIn(["data","bottom_hole"]));
 
     if (tLatLng.length===2 && bLatLng.length ===2) {
       if (this.marker) {
