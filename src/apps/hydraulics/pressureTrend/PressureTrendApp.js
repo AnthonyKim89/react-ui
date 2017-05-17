@@ -27,7 +27,6 @@ class PressureTrendApp extends Component {
             coordinates={this.props.coordinates}
             xAxisWidth="2"
             xAxisColor="white"
-            horizontal={true}
             multiAxis={true}
             legendAlign='center'
             legendVerticalAlign='bottom'
@@ -35,7 +34,10 @@ class PressureTrendApp extends Component {
             showLegend={true}
             forceLegend={true}
             size={this.props.size}
-            widthCols={this.props.widthCols}>
+            widthCols={this.props.widthCols}
+            automaticOrientation={this.automaticOrientation}
+            horizontal={this.horizontal}
+            >
             {this.getSeries().map(({renderType, title, type, yAxis, yAxisTitle, yAxisOpposite, yField, data}) => (
               <ChartSeries
                 key={title}
@@ -145,6 +147,17 @@ class PressureTrendApp extends Component {
     } else {
       return SUPPORTED_CHART_SERIES[seriesType].defaultColor;
     }
+  }
+
+  get automaticOrientation() {
+    return this.props.orientation && this.props.orientation === 'auto';
+  }
+
+  get horizontal() {
+    if (this.props.orientation) {
+      return this.props.orientation === 'horizontal';
+    }
+    return true;
   }
 
 }
