@@ -93,6 +93,7 @@ class SingleTraceApp extends Component {
         yAxisOpposite
         xField="timestamp"
         size={this.props.size}
+        coordinates={this.props.coordinates}
         widthCols={this.props.widthCols}
         xAxisLabelFormatter={(...a) => this.formatDate(...a)}
         automaticOrientation={this.automaticOrientation}
