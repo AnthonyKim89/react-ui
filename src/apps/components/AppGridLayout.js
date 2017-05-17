@@ -100,9 +100,11 @@ class AppGridLayout extends Component {
         const id = app.get('id');
         const coordinates = app.get('coordinates')
           .set('isDraggable', !this.props.isNative);
-        return <div key={id} data-grid={coordinates.toJS()}>
-          {this.renderApp(app)}
-        </div>;
+        return (
+          <div key={id} data-grid={coordinates.toJS()}>
+            {this.renderApp(app)}
+          </div>
+        );
       });
   }
 
@@ -120,7 +122,15 @@ class AppGridLayout extends Component {
     const category = app.get('category');
     const name = app.get('name');
     const id = app.get('id');
-    const coordinates = app.get('coordinates');
+    let coordinates = app.get('coordinates');
+    // This an approximation of the pixel height and width of apps.
+    // The actual height and width is calculated in GridItem,
+    // but not possible to extract in a *performant* way.
+    // The magic 10 is the default margin that react-grid-layout adds by default.
+    coordinates = coordinates.merge({
+      pixelHeight: coordinates.get('h') * (GRID_ROW_HEIGHT + 10),
+      pixelWidth: this.props.width * coordinates.get('w') / GRID_COLUMN_SIZES.large
+    });
     const size = this.getAppSize(coordinates, maximized);
     const settings = app.get('settings');
     const appType = appRegistry.uiApps.getIn([category, 'appTypes', name]);
@@ -220,6 +230,10 @@ class AppGridLayout extends Component {
   }
 
 }
+
+// The AppGridLayout needs to know its width so that it can update coordinates
+// with pixel height and width values.
+AppGridLayout = WidthProvider(AppGridLayout);
 
 AppGridLayout.propTypes = {
   apps: ImmutablePropTypes.seq.isRequired,

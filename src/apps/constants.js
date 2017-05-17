@@ -20,3 +20,19 @@ export const GRID_COLUMN_SIZES = {
 // App heights are measured in rows. For height 5, height in pixels
 // is 5 * GRID_ROW_HEIGHT. 
 export const GRID_ROW_HEIGHT = 30;
+
+// Orientation settings options used by a number of apps.
+export const ORIENTATION_SETTINGS = [
+  {
+    label: 'Auto',
+    value: 'auto'
+  },
+  {
+    label: 'Horizontal',
+    value: 'horizontal'
+  },
+  {
+    label: 'Vertical',
+    value: 'vertical'
+  }
+];

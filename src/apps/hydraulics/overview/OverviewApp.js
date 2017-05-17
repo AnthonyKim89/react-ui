@@ -13,7 +13,10 @@ import './OverviewApp.css';
 class OverviewApp extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
-    return (nextProps.data !== this.props.data || nextProps.coordinates !== this.props.coordinates);
+    return !!(
+        (nextProps.data && !nextProps.data.equals(this.props.data)) ||
+        (nextProps.coordinates && !nextProps.coordinates.equals(this.props.coordinates))
+    );
   }
 
   render() {

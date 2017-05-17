@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import { Map, Seq } from 'immutable';
 
 import Convert from '../../common/Convert';
@@ -11,7 +11,9 @@ it('renders a fallback when mismatching app registry state exists', () => {
   const convert = new Convert();
   const fakeCoordinates = Map({
     x: 1,
-    y: 2
+    y: 2,
+    w: 3,
+    h: 4
   });
   const fakeApp = Map({
     id: 1,
@@ -22,7 +24,7 @@ it('renders a fallback when mismatching app registry state exists', () => {
   const emptySeq = Seq([fakeApp]);
   const emptyMap = Map();
   const location = { query: { maximize: 'nope' } };
-  shallow(
+  mount(
     <AppGridLayout
       apps={emptySeq}
       appData={emptyMap}
@@ -37,6 +39,8 @@ it('renders a fallback when mismatching app registry state exists', () => {
       convert={convert}
       isNative={true}
       location={location}
+      measureBeforeMount={false}
+      width={1000}
     />);
   expect(console.log).toBeCalledWith('No UI app found for doesnotexist:sorry.');
 });

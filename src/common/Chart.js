@@ -271,7 +271,7 @@ class Chart extends Component {
    */
   isInverted(props) {
     if (props.automaticOrientation && props.coordinates) {
-      return props.coordinates.get('w') < props.coordinates.get('h');
+      return props.coordinates.get('pixelWidth') < props.coordinates.get('pixelHeight');
     }
 
     // Only flip the axes for a vertical app.
