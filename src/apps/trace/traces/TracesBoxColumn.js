@@ -3,6 +3,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Input, Row, Col, Button, Icon } from 'react-materialize';
 import { find, isEqual } from 'lodash';
 import Modal from 'react-modal';
+import { fromJS } from 'immutable';
 
 import Convert from '../../../common/Convert';
 
@@ -13,26 +14,19 @@ class TracesBoxColumn extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      editDialogOpen: false,
+      addDialogOpen: false,
       deleteDialogOpen: false,
-      traceEditIndex: null,
+      traceDeleteIndex: null,
       updatedUnitType: null,
     };
   }
 
   render() {
-    let shouldDisplayUnitOptions = this.shouldDisplayUnitOptions();
-    
     let applicableUnits = [];
-    if (shouldDisplayUnitOptions) {
-      let defaultUnitType = this.props.traceBoxes.getIn([this.state.traceEditIndex, 'unitType']);
-      if (this.state.updatedUnitType !== null) {
-        applicableUnits = this.props.convert.getUnitsByType(this.state.updatedUnitType);
-      } else if (defaultUnitType !== undefined) {
-        applicableUnits = this.props.convert.getUnitsByType(defaultUnitType);
-      }
+    if (this.state.updatedUnitType !== null) {
+      applicableUnits = this.props.convert.getUnitsByType(this.state.updatedUnitType);
     }
-    
+
     return <div className="c-traces__box-column">
       {this.getBoxData().map((trace, idx) => {
         return <Row key={idx} s={12} className="c-traces__box-column__box-row">
@@ -44,38 +38,36 @@ class TracesBoxColumn extends Component {
           <div className="c-traces__box-column__box-row__x" onClick={() => this.openDeleteDialog(idx)}><Icon>clear</Icon></div>
         </Row>;
       })}
-      <Button className="black white-text" waves='light' onClick={() => this.openEditDialog()}>+</Button>
+      <Button className="black white-text" waves='light' onClick={() => this.openAddDialog()}>+</Button>
 
       <Modal
         width='400px'
-        isOpen={this.state.editDialogOpen}
+        isOpen={this.state.addDialogOpen}
         onRequestClose={() => this.closeDialogs()}
         className="c-traces__box-column__edit-trace"
         overlayClassName='c-traces__box-column__edit-trace__overlay'
-        contentLabel="Trace Graph">
-        {this.state.editDialogOpen && // We don't want to render this at all if it's not even open, especially with all the re-renders happening here.
+        contentLabel="Add Trace Box">
+        {this.state.addDialogOpen && // We don't want to render this at all if it's not even open, especially with all the re-renders happening here.
         <div className="c-traces__box-column__edit-trace__dialog">
           <header>
             <h4 className="c-traces__box-column__edit-trace__dialog__title">
-              Trace Graph
+              Add Trace Box
             </h4>
           </header>
 
           <div className="c-traces__box-column__edit-trace__form">
 
             <Input type='select' label="Trace" s={12}
-                   defaultValue={this.props.traceBoxes.getIn([this.state.traceEditIndex, 'trace'])}
-                   ref={(input) => this.traceEditorGraph = input}>
+                   ref={(input) => this.traceInputChoice = input}>
               <option value="">&nbsp;</option>
               {this.props.supportedTraces.map((trace, idx) => {
                 return <option key={idx} value={trace.trace}>{trace.label}</option>;
               })}
             </Input>
 
-            {shouldDisplayUnitOptions && <Input type='select' label="Unit Type" s={12}
-                   defaultValue={this.props.traceBoxes.getIn([this.state.traceEditIndex, 'unitType'])}
+            <Input type='select' label="Unit Type (optional)" s={12}
                    onChange={(e) => this.setState({updatedUnitType: e.currentTarget.value})}
-                   ref={(input) => this.traceEditorUnitType = input}>
+                   ref={(input) => this.traceInputUnitType = input}>
               <option value="">&nbsp;</option>
               <option value="length">Length</option>
               <option value="mass">Mass</option>
@@ -89,31 +81,29 @@ class TracesBoxColumn extends Component {
               <option value="yp">Yield Point</option>
               <option value="density">Density</option>
               <option value="massPerLength">Mass Per Length</option>
-            </Input>}
+            </Input>
 
-            {shouldDisplayUnitOptions && <Input type='select' label="Convert From" s={12}
-                   defaultValue={this.props.traceBoxes.getIn([this.state.traceEditIndex, 'unitFrom'])}
-                   ref={(input) => this.traceEditorUnitFrom = input}>
+            <Input type='select' label="Convert From (optional)" s={12}
+                   ref={(input) => this.traceInputUnitFrom = input}>
               <option value="">&nbsp;</option>
               {applicableUnits.map((unit, idx) => {
                 return <option key={idx} value={unit.abbr}>{unit.display}</option>;
               })}
-            </Input>}
+            </Input>
 
-            {shouldDisplayUnitOptions && <Input type='select' label="Convert To" s={12}
-                   defaultValue={this.props.traceBoxes.getIn([this.state.traceEditIndex, 'unitTo'])}
-                   ref={(input) => this.traceEditorUnitTo = input}>
+            <Input type='select' label="Convert To (optional)" s={12}
+                   ref={(input) => this.traceInputUnitTo = input}>
               <option value="">&nbsp;</option>
               {applicableUnits.map((unit, idx) => {
                 return <option key={idx} value={unit.abbr}>{unit.display}</option>;
               })}
-            </Input>}
+            </Input>
 
           </div>
 
           <Row className="c-traces__box-column__edit-trace__dialog__button-row">
             <Col s={6}>
-              <Button className="c-traces__box-column__edit-trace__dialog__done" onClick={() => this.deleteTraceBox()}>
+              <Button className="c-traces__box-column__edit-trace__dialog__done" onClick={() => this.saveTraceBox()}>
                 Save
               </Button>
             </Col>
@@ -132,15 +122,14 @@ class TracesBoxColumn extends Component {
         onRequestClose={() => this.closeDialogs()}
         className="c-traces__box-column__edit-trace"
         overlayClassName='c-traces__box-column__edit-trace__overlay'
-        contentLabel="Trace Graph">
+        contentLabel="Delete Trace Box?">
         {this.state.deleteDialogOpen && // We don't want to render this at all if it's not even open, especially with all the re-renders happening here.
         <div className="c-traces__box-column__edit-trace__dialog">
           Are you sure you want to delete this Trace Box?
-
           <Row className="c-traces__box-column__edit-trace__dialog__button-row">
             <Col s={6}>
-              <Button className="c-traces__box-column__edit-trace__dialog__done" onClick={() => this.saveTraceBox()}>
-                Save
+              <Button className="c-traces__box-column__edit-trace__dialog__done" onClick={() => this.deleteTraceBox()}>
+                Delete
               </Button>
             </Col>
             <Col s={6}>
@@ -158,47 +147,61 @@ class TracesBoxColumn extends Component {
     return !nextProps.traceBoxes.equals(this.props.traceBoxes) ||  !isEqual(this.state, nextState);
   }
 
-  shouldDisplayUnitOptions() {
-    let currentTrace = this.props.traceBoxes.getIn([this.state.traceEditIndex, 'trace']);
-    let traceMeta = find(this.props.supportedTraces, {trace: currentTrace});
-    if (!traceMeta) {
-      return false;
-    }
-
-    if (!traceMeta.hasOwnProperty('unitType')) {
-      return true;
-    }
-  }
-
-  openEditDialog(traceEditIndex = null) {
+  openAddDialog() {
     this.setState({
-      editDialogOpen: true,
+      addDialogOpen: true,
       deleteDialogOpen: false,
-      traceEditIndex: traceEditIndex,
+      traceDeleteIndex: null,
       updatedUnitType: null,
     });
   }
 
   closeDialogs() {
     this.setState({
-      editDialogOpen: false,
+      addDialogOpen: false,
       deleteDialogOpen: false,
-      traceEditIndex: null,
+      traceDeleteIndex: null,
       updatedUnitType: null,
     });
   }
-  
-  openDeleteDialog(traceEditIndex) {
+
+  openDeleteDialog(traceDeleteIndex) {
     this.setState({
-      editDialogOpen: false,
+      addDialogOpen: false,
       deleteDialogOpen: true,
-      traceEditIndex: traceEditIndex,
+      traceDeleteIndex: traceDeleteIndex,
       updatedUnitType: null,
     });
   }
 
   deleteTraceBox() {
+    this.props.onSettingChange('traceBoxes', this.props.traceBoxes.delete(this.state.traceDeleteIndex));
+    this.closeDialogs();
+  }
 
+  saveTraceBox() {
+    if (!this.traceInputChoice.selectInput.value) {
+      return;
+    }
+
+    let newTrace = {
+      trace: this.traceInputChoice.selectInput.value,
+    };
+
+    if (this.traceInputUnitType.state.value) {
+      newTrace.unitType = this.traceInputUnitType.state.value;
+    }
+
+    if (this.traceInputUnitFrom.state.value) {
+      newTrace.unitFrom = this.traceInputUnitFrom.state.value;
+    }
+
+    if (this.traceInputUnitTo.state.value) {
+      newTrace.unitTo = this.traceInputUnitTo.state.value;
+    }
+
+    this.props.onSettingChange('traceBoxes', this.props.traceBoxes.push(fromJS(newTrace)));
+    this.closeDialogs();
   }
 
   getBoxData() {
@@ -210,7 +213,7 @@ class TracesBoxColumn extends Component {
 
       let box = {
         label: traceMeta.label,
-        value: this.props.data.getIn(['data', traceEntry.get('trace')]),
+        value: this.props.data.getIn(['data', traceEntry.get('trace')], 0),
         display: "",
       };
 
@@ -225,12 +228,6 @@ class TracesBoxColumn extends Component {
           return box;
         } else {
           return box;
-        }
-      }
-
-      if (unitTo === null) {
-        if (traceMeta.hasOwnProperty('cuit')) {
-          unitTo = traceMeta.cunit;
         }
       }
 

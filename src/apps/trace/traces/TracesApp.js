@@ -125,6 +125,10 @@ class TracesApp extends Component {
       unitFrom = trace.cunit;
     }
 
+    if (!unitFrom) {
+      unitFrom = this.props.convert.getUnitPreference(unitType);
+    }
+
     return this.props.convert.convertImmutables(filteredData, traceKey, unitType, unitFrom, unitTo);
   }
 
