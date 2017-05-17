@@ -72,7 +72,8 @@ class SingleTraceApp extends Component {
   }
 
   renderTraceSummaryGraphArea() {
-    if(this.props.size && this.props.size !== Size.SMALL) {
+    let small = this.props.coordinates.pixelHeight && (this.props.coordinates.pixelHeight || 0) <= 200 && this.props.size === Size.SMALL;
+    if(!small) {
       return this.getTraceSummary(this.props) ? this.renderTraceSummaryGraph() : <LoadingIndicator />;
     }
   }
@@ -87,12 +88,11 @@ class SingleTraceApp extends Component {
       summary = this.props.convert.convertImmutables(summary, this.props.trace, traceSpec.unitType, traceSpec.cunit);
     }
 
-    return <div className="c-trace-single__graph">
+    return <div className={"c-trace-single__graph " + (!this.horizontal && "c-trace-single__graph-vertical") }>
       <Chart
-        xAxisOpposite
-        yAxisOpposite
         xField="timestamp"
         size={this.props.size}
+        yAxisOpposite={true}
         coordinates={this.props.coordinates}
         widthCols={this.props.widthCols}
         xAxisLabelFormatter={(...a) => this.formatDate(...a)}
@@ -133,7 +133,7 @@ class SingleTraceApp extends Component {
       if (spec.hasOwnProperty("unitType")) {
         trace = this.props.convert.convertValue(trace, spec.unitType, spec.cunit);
       }
-      return numeral(trace).format('0.0a');
+      return numeral(trace).format('0,0.0');
     }
     return null;
   }
@@ -170,7 +170,8 @@ SingleTraceApp.propTypes = {
   trace: PropTypes.string.isRequired,
   graphColors: ImmutablePropTypes.map,
   size: PropTypes.string.isRequired,
-  widthCols: PropTypes.number.isRequired
+  widthCols: PropTypes.number.isRequired,
+  coordinates: ImmutablePropTypes.map,
 };
 
 export default SingleTraceApp;
