@@ -1,6 +1,8 @@
 import { List, Map } from 'immutable';
 
+import { ORIENTATION_SETTINGS } from '../../../apps/constants';
 import { chartColorsEditorForDefinitions } from '../../../common/ChartColorsEditor';
+import { radioEditorForDefinitions } from '../../../common/RadioEditor';
 import { SUPPORTED_CHART_SERIES } from './constants';
 import { DEFAULT_TIME_PERIOD } from '../constants';
 import TraceSettingEditor from '../TraceSettingEditor';
@@ -26,5 +28,11 @@ export default List([
     default: DEFAULT_TIME_PERIOD,
     Editor: TraceTimePeriodSettingEditor,
     includeInSubscriptionParams: true
+  }),
+  Map({
+    name: 'orientation',
+    title: 'Orientation',
+    required: false,
+    Editor: radioEditorForDefinitions(ORIENTATION_SETTINGS, ORIENTATION_SETTINGS[0].value)
   })
 ]);

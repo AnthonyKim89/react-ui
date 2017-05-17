@@ -20,11 +20,14 @@ const [ latestSubscription, summarySubscription ] = SUBSCRIPTIONS;
 class SingleTraceApp extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
-    return (this.getTraceSummary(this.props) !== this.getTraceSummary(nextProps) ||
-            nextProps.trace !== this.props.trace ||
-            nextProps.data !== this.props.data ||
-            !nextProps.coordinates.equals(this.props.coordinates) ||
-            nextProps.graphColors !== this.props.graphColors);
+    return (
+      this.getTraceSummary(this.props) !== this.getTraceSummary(nextProps) ||
+      nextProps.trace !== this.props.trace ||
+      nextProps.data !== this.props.data ||
+      (nextProps.coordinates && !nextProps.coordinates.equals(this.props.coordinates)) ||
+      (nextProps.graphColors && !nextProps.graphColors.equals(this.props.graphColors)) ||
+      (nextProps.orientation !== this.props.orientation)
+    );
   }
 
   getSummaryData() {
@@ -86,13 +89,15 @@ class SingleTraceApp extends Component {
 
     return <div className="c-trace-single__graph">
       <Chart
-        horizontal
         xAxisOpposite
         yAxisOpposite
         xField="timestamp"
         size={this.props.size}
         widthCols={this.props.widthCols}
-        xAxisLabelFormatter={(...a) => this.formatDate(...a)}>
+        xAxisLabelFormatter={(...a) => this.formatDate(...a)}
+        automaticOrientation={this.automaticOrientation}
+        horizontal={this.horizontal}
+        >
         <ChartSeries
           dashStyle='Solid'
           lineWidth={1}
@@ -102,7 +107,7 @@ class SingleTraceApp extends Component {
           data={summary}
           yField={this.props.trace}
           color={this.getSeriesColor()} />
-          </Chart>
+      </Chart>
     </div>;
   }
 
@@ -142,6 +147,19 @@ class SingleTraceApp extends Component {
     } else {
       return SUPPORTED_CHART_SERIES['trace'].defaultColor;
     }
+  }
+
+  get automaticOrientation() {
+    return this.props.orientation && this.props.orientation === 'auto';
+  }
+
+  get horizontal() {
+    if (this.props.orientation) {
+      // A weird corner case where coordinates can be undefined creates a scenario
+      // where an auto oriented app should also be considered horizontal.
+      return this.props.orientation === 'horizontal' || this.props.orientation === 'auto';
+    }
+    return true;
   }
 
 }
