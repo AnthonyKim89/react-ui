@@ -6,7 +6,7 @@ export const METADATA = {
   settingsTitle: 'Files & Documents',
   subtitle: 'Files & Documents',
   recordProvider: 'corva',
-  recordCollection:'data.files-documents',
+  recordCollection:'data.files',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',
   publishedAt: '2017-03-21T00:00:00',
