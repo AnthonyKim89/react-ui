@@ -43,7 +43,8 @@ class SettingsRecordBrowser extends Component {
             record={this.props.displayingRecord}
             convert={this.props.convert}
             isEditable={false} 
-            onEditRecord={this.props.onEditRecord}/>
+            onEditRecord={this.props.onEditRecord}
+            onDeleteRecord={this.props.onDeleteRecord}/>
       </div>}
     </div>;
   }
