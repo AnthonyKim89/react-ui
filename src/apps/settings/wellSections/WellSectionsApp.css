@@ -37,6 +37,13 @@
   color:  grey;
 }
 
+.c-wellsections__loading {
+  margin-top: 100px;
+  left: 50%;
+  color: #ffffff;
+  text-align: center;
+}
+
 @media(max-width: 768px) {
   .c-wellsections {
     padding:0px;

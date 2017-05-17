@@ -4,6 +4,7 @@ import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Button } from 'react-materialize';
 import NotificationSystem from 'react-notification-system';
+import LoadingIndicator from '../../../common/LoadingIndicator';
 
 import * as api from '../../../api';
 
@@ -19,7 +20,8 @@ class CasingApp extends Component {
     super(props);
     this.state = {
       records: List(),
-      preRecords: List()
+      preRecords: List(),
+      loading: true
     };
   }
 
@@ -39,7 +41,8 @@ class CasingApp extends Component {
   async loadRecords(asset) {
     const records = await api.getAppStorage(METADATA.recordProvider, METADATA.recordCollection, asset.get('id'), Map({limit: 0}));
     this.setState({
-      records: records.sortBy(r=>r.get("timestamp"))
+      records: records.sortBy(r=>r.get("timestamp")),
+      loading: false
     });
   }
 
@@ -58,7 +61,6 @@ class CasingApp extends Component {
           <table className="c-casing__casing-table">
             <thead>
               <tr>
-                <th>{this.state.records.size}</th>
                 <th className="c-casing__id-header"> I.D({this.props.convert.getUnitDisplay('shortLength')}) </th>
                 <th className="c-casing__od-header"> O.D({this.props.convert.getUnitDisplay('shortLength')}) </th>
                 <th className="c-casing__td-header hide-on-med-and-down"> Top Depth({this.props.convert.getUnitDisplay('length')}) </th>
@@ -89,10 +91,7 @@ class CasingApp extends Component {
               })}
             </tbody>
           </table> :           
-          <div className="c-casing__no-data">            
-            <div>No Existing Casing Items</div>
-            <div className="c-casing__no-data-description">Create a new one to begin</div>
-          </div>
+          this.renderNoRecords()
         }
           <Button floating large className='lightblue' style={{marginTop:10}} waves='light' icon='add'  onClick={(e)=>{this.add();}} />
           
@@ -100,6 +99,21 @@ class CasingApp extends Component {
         <NotificationSystem ref="notificationSystem" noAnimation={true} />
       </div>
     );
+  }
+
+  renderNoRecords() {
+    if(this.state.loading) {
+      return <div className="c-casing__loading">
+              <div>Loading records...</div>
+              <LoadingIndicator fullscreen={false} />
+            </div>;
+    }
+    else {
+      return <div className="c-casing__no-data">            
+            <div>No Existing Casing Strings</div>
+            <div className="c-casing__no-data-description">Create a new one to begin</div>
+          </div>;
+    }
   }
 
   add() {

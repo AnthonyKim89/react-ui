@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import NotificationSystem from 'react-notification-system';
+import LoadingIndicator from '../../../common/LoadingIndicator';
 
 import * as api from '../../../api';
 
@@ -16,6 +17,7 @@ class FilesDocumentsApp extends Component {
     super(props);
     this.state = {
       records: List(),
+      loading: true
     };
   }
 
@@ -35,7 +37,8 @@ class FilesDocumentsApp extends Component {
   async loadRecords(asset) {
     const records = await api.getAppStorage(METADATA.recordProvider, METADATA.recordCollection, asset.get('id'), Map({limit: 0}));    
     this.setState({
-      records: records.sortBy(r=>r.get("timestamp"))
+      records: records.sortBy(r=>r.get("timestamp")),
+      loading: false
     });
   }
 
@@ -87,16 +90,28 @@ class FilesDocumentsApp extends Component {
               })}              
             </tbody>
           </table> : 
-          <div className="c-files-documents__no-data">            
-            <div>No Existing Uploaded files</div>
-            <div className="c-files-documents__no-data-description">Create a new one to begin</div>
-          </div>
+          this.renderNoRecords()
         }
 
         <NotificationSystem ref="notificationSystem" noAnimation={true} />
 
       </div>      
     );
+  }
+
+  renderNoRecords() {
+    if(this.state.loading) {
+      return <div className="c-files-documents__loading">
+              <div>Loading files...</div>
+              <LoadingIndicator fullscreen={false} />
+            </div>;
+    }
+    else {
+      return <div className="c-files-documents__no-data">            
+            <div>No Existing Uploaded files</div>
+            <div className="c-files-documents__no-data-description">Create a new one to begin</div>
+          </div>;
+    }
   }
   
   async saveRecord(record) {

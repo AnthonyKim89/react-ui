@@ -33,6 +33,13 @@
   color:  grey;
 }
 
+.c-formations__loading {
+  margin-top: 100px;
+  left: 50%;
+  color: #ffffff;
+  text-align: center;
+}
+
 @media(max-width: 768px) {
   .c-formations {
     padding:0px;

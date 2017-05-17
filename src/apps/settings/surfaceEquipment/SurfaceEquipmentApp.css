@@ -41,6 +41,13 @@
   color:  grey;
 }
 
+.c-surface-equipment__loading {
+  margin-top: 100px;
+  left: 50%;
+  color: #ffffff;
+  text-align: center;
+}
+
 @media(max-width: 768px) {
   .c-surface-equipment {
     padding:0px;

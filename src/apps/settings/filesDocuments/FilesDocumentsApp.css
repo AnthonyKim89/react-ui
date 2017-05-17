@@ -29,6 +29,13 @@
   color:  grey;
 }
 
+.c-files-documents__loading {
+  margin-top: 100px;
+  left: 50%;
+  color: #ffffff;
+  text-align: center;
+}
+
 .c-files-documents a {
   color: #69bbcd;
   text-decoration: underline;;

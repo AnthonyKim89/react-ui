@@ -4,6 +4,7 @@ import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Button } from 'react-materialize';
 import NotificationSystem from 'react-notification-system';
+import LoadingIndicator from '../../../common/LoadingIndicator';
 
 import * as api from '../../../api';
 
@@ -18,7 +19,8 @@ class FormationsApp extends Component {
     super(props);
     this.state = {
       records: List(),
-      preRecords: List()
+      preRecords: List(),
+      loading: true
     };
   }
   
@@ -38,7 +40,8 @@ class FormationsApp extends Component {
   async loadRecords(asset) {
     const records = await api.getAppStorage(METADATA.recordProvider, METADATA.recordCollection, asset.get('id'), Map({limit: 0}));
     this.setState({
-      records: records.sortBy(r=>r.get("timestamp"))
+      records: records.sortBy(r=>r.get("timestamp")),
+      loading: false
     });
   }
 
@@ -82,16 +85,28 @@ class FormationsApp extends Component {
               })}
             </tbody>
           </table> :  
-          <div className="c-formations__no-data">            
-            <div>No Existing Formation</div>
-            <div className="c-formations__no-data-description">Create a new one to begin</div>
-          </div>
+          this.renderNoRecords()
         }
           <Button floating large className='lightblue' style={{marginTop:10}} waves='light' icon='add' onClick={(e)=>{this.add();}} />
           <a ref="scrollHelperAnchor"></a>
         <NotificationSystem ref="notificationSystem" noAnimation={true} />
       </div>
     );
+  }
+
+  renderNoRecords() {
+    if(this.state.loading) {
+      return <div className="c-formations__loading">
+              <div>Loading records...</div>
+              <LoadingIndicator fullscreen={false} />
+            </div>;
+    }
+    else {
+      return <div className="c-formations__no-data">            
+            <div>No Existing Formations</div>
+            <div className="c-formations__no-data-description">Create a new one to begin</div>
+          </div>;
+    }
   }
 
   add() {
