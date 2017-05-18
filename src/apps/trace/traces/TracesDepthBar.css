@@ -1,5 +1,5 @@
 .c-traces__depth-bar {
-    width: 200px;
+    width: 140px;
     height: calc(100% - 10px);
     border: 1px solid #333;
     position: absolute;
