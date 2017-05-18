@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Button, Row, Col, Input } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Convert from '../../../common/Convert';
+import LoadingIndicator from '../../../common/LoadingIndicator';
 
 import './SettingsRecordBrowser.css';
 class SettingsRecordBrowser extends Component {
@@ -26,11 +27,8 @@ class SettingsRecordBrowser extends Component {
         </Col>
       </Row>
 
-      {this.props.records.size<1 &&
-        <div className="c-settings-record-browser__no-data">            
-          <div>No Existing Data</div>
-          <div className="c-settings-record-browser__no-data-description">Create a new one to begin</div>
-        </div> }
+      {this.props.records.size < 1 &&
+        this.renderNoRecords() }
       {this.props.records.size>0 && this.props.displayingRecord &&
         <div>
           <this.props.RecordSummary
@@ -47,6 +45,20 @@ class SettingsRecordBrowser extends Component {
             onDeleteRecord={this.props.onDeleteRecord}/>
       </div>}
     </div>;
+  }
+
+  renderNoRecords() {
+    if(this.props.loading) {
+      return <div className="c-files-documents__loading">
+              <div>Loading files...</div>
+              <LoadingIndicator fullscreen={false} /> 
+            </div>;
+    } else {
+      return <div className="c-settings-record-browser__no-data">            
+        <div>No Existing Data</div>
+        <div className="c-settings-record-browser__no-data-description">Create a new one to begin</div>
+      </div>;
+    }
   }
 
   onSelectChange(id) {
