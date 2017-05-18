@@ -1,9 +1,9 @@
 .c-app-settings-dialog {
   position: absolute;
-  top: 20%;
+  top: 15%;
   left: 17%;
   right: 17%;
-  bottom: 20%;
+  bottom: 12%;
   border-radius: 0;
   padding: 20px;
   border: 1px solid #ccc;
