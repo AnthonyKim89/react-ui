@@ -13,7 +13,9 @@ class AddAppDialog extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {selectedAppType: null};
+    this.state = {
+      selectedAppType: props.selectedAppType || null
+    };
   }
 
   render() {
@@ -60,6 +62,8 @@ class AddAppDialog extends Component {
 
 AddAppDialog.propTypes = {
   appTypes: ImmutablePropTypes.map.isRequired,
+  // The AddAppDialog can be initialized with a starting app type.
+  selectedAppType: PropTypes.object,
   commonSettingsEditors: ImmutablePropTypes.list,
   onAppAdd: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired
