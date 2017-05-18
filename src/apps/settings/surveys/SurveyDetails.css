@@ -23,3 +23,6 @@
   padding: 0 10px 0 0;
 }
 
+.c-survey-details__actions button.red {
+  margin-left: 10px; 
+}

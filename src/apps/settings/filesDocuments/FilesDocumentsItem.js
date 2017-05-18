@@ -4,15 +4,15 @@ import { Button} from 'react-materialize';
 import moment from 'moment';
 import * as api from '../../../api';
 
-import './DailyReportsItem.css';
-class DailyReportsItem extends Component { 
+import './FilesDocumentsItem.css';
+class FilesDocumentsItem extends Component { 
   
   render() {
 
     let {timestamp,data:{file_name, display_name}} = this.props.record.toJS();
     let url = api.getFileDownloadLink(file_name);
     return (
-      <tr className="c-daily-reports-item">
+      <tr className="c-files-documents-item">
         <td><a href={url} download={display_name}>{display_name}</a></td>
         <td>{moment.unix(timestamp).format('LLL')}</td>
         <td className="hide-on-med-and-down"></td>
@@ -29,8 +29,8 @@ class DailyReportsItem extends Component {
 
 }
 
-DailyReportsItem.propTypes = {  
+FilesDocumentsItem.propTypes = {  
   record: ImmutablePropTypes.map.isRequired
 };
 
-export default DailyReportsItem;
+export default FilesDocumentsItem;
