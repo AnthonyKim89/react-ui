@@ -8,20 +8,21 @@
 }
 
 .c-traces__depth-bar__chart {
-    height: calc(100% - 201px);
+    height: calc(100% - 171px);
     background-color: #000;
 }
 
 .c-traces__depth-bar__values {
-    height: 200px;
+    height: 170px;
     text-align: center;
     border-top: 1px solid #333;
     display: flex;
     flex-direction: column;
+    font-size: 0.85rem;
 }
 
 .c-traces__depth-bar__values__item {
-    height: calc(200px / 3);
+    height: calc(170px / 3);
     border-bottom: 1px solid #333;
     cursor: pointer;
     display: flex;
@@ -33,8 +34,8 @@
 }
 
 .c-traces__depth-bar__values__item__meta-row {
-    line-height: calc(200px / 9);
-    height: calc(200px / 9);
+    line-height: calc(170px / 9);
+    height: calc(170px / 9);
 }
 
 .c-traces__depth-bar__values__item__meta-row div {

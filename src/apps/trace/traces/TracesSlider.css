@@ -62,7 +62,7 @@
 
 .c-traces__slider-interaction__top-info {
   bottom: 0;
-  border-radius: 5px 5px 0 0;
+  border-radius: 3px 3px 0 0;
   border-bottom: 0;
 }
 
@@ -107,5 +107,5 @@
 .c-traces__slider-interaction__bottom-info {
   top: 0;
   border-top: 0;
-  border-radius: 0 0 5px 5px;
+  border-radius: 0 0 3px 3px;
 }
