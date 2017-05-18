@@ -28,10 +28,10 @@ class TracesDepthBar extends Component {
             Hole Depth
           </div>
           <div className="c-traces__depth-bar__values__item__meta-row">
-            --
+            {this.props.convert.convertValue(this.props.latestData.getIn(['data', 'hole_depth'], '--'), 'length', 'ft')}
           </div>
           <div className="c-traces__depth-bar__values__item__meta-row">
-            Unit
+            {this.props.convert.getUnitDisplay('length')}
           </div>
         </div>
         <div className="c-traces__depth-bar__values__item">
@@ -39,10 +39,10 @@ class TracesDepthBar extends Component {
             Bit Depth
           </div>
           <div className="c-traces__depth-bar__values__item__meta-row">
-            --
+            {this.props.convert.convertValue(this.props.latestData.getIn(['data', 'bit_depth'], '--'), 'length', 'ft')}
           </div>
           <div className="c-traces__depth-bar__values__item__meta-row">
-            Unit
+            {this.props.convert.getUnitDisplay('length')}
           </div>
         </div>
       </div>
@@ -51,7 +51,7 @@ class TracesDepthBar extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !nextProps.data.equals(this.props.data) ||  !isEqual(this.state, nextState);
+    return !nextProps.data.equals(this.props.data) || !nextProps.latestData.equals(this.props.latestData) ||  !isEqual(this.state, nextState);
   }
 
 }
@@ -60,6 +60,7 @@ TracesDepthBar.propTypes = {
   convert: React.PropTypes.instanceOf(Convert).isRequired,
   supportedTraces: PropTypes.array.isRequired,
   data: ImmutablePropTypes.list.isRequired,
+  latestData: ImmutablePropTypes.map.isRequired,
 };
 
 export default TracesDepthBar;

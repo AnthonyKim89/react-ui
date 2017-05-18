@@ -48,9 +48,11 @@ class TracesApp extends Component {
       <TracesDepthBar
         convert={this.props.convert}
         supportedTraces={supportedTraces}
-        data={this.state.filteredData} />
+        data={this.state.filteredData}
+        latestData={latestData} />
       <TracesChartContainer
         data={this.state.filteredData}
+        latestData={latestData}
         widthCols={this.props.widthCols}
         onSettingChange={this.props.onSettingChange}
         traceGraphs={this.props.traceGraphs || DEFAULT_TRACE_GRAPHS}

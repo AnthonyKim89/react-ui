@@ -52,7 +52,7 @@ class TracesChartColumn extends Component {
           </Chart>}
       </div>
       <div className="c-traces__chart-column__values">
-        {series.map(({valid, field, title, color, unit}, idx) => (
+        {series.map(({valid, field, title, color, unit, latestValue}, idx) => (
           <div className="c-traces__chart-column__values__item" key={idx} onClick={() => this.props.editTraceGraph(idx + (3 * this.props.columnNumber))}>
             {valid ? <div>
               <div className="c-traces__chart-column__values__item__meta-row">
@@ -60,7 +60,7 @@ class TracesChartColumn extends Component {
                 <div className="c-traces__right" style={{color}}><Icon>network_cell</Icon></div>
               </div>
               <div className="c-traces__chart-column__values__item__meta-row">
-                <div className="c-traces__center">--</div>
+                <div className="c-traces__center">{latestValue}</div>
               </div>
               <div className="c-traces__chart-column__values__item__meta-row">
                 <div className="c-traces__center">{unit}</div>
@@ -96,19 +96,39 @@ class TracesChartColumn extends Component {
           lineWidth: 2,
           minValue: undefined,
           maxValue: undefined,
+          latestValue: '--'
         });
         return;
       }
 
+      // Getting the display unit that will be displayed in the metadata
       let unitType = traceGraph.get('unitType', '');
+      let displayUnit;
       if (unitType) {
-        unitType = this.props.convert.getUnitDisplay(unitType, traceGraph.get('unitTo', null));
+        displayUnit = this.props.convert.getUnitDisplay(unitType, traceGraph.get('unitTo', null));
       } else if (trace.hasOwnProperty("unitType")) {
-        unitType = this.props.convert.getUnitDisplay(trace.unitType);
+        unitType = trace.unitType;
+        displayUnit = this.props.convert.getUnitDisplay(trace.unitType);
       } else if (trace.hasOwnProperty('unit')) {
-        unitType = trace.unit;
+        displayUnit = trace.unit;
       }
 
+      // Converting the unit on the metadata display
+      let latestValue = this.props.latestData.getIn(['data', trace.trace], '');
+      if (unitType) {
+        let unitFrom = traceGraph.get('unitFrom');
+        let unitTo = traceGraph.get('unitTo', null);
+
+        if (!unitFrom && trace.hasOwnProperty('cunit')) {
+          unitFrom = trace.cunit;
+        }
+
+        if (unitFrom) {
+          latestValue = this.props.convert.convertValue(latestValue, unitType, unitFrom, unitTo);
+        }
+      }
+
+      // Getting the min/max values for auto/static scaling.
       let minValue, maxValue;
       if (!traceGraph.get('autoScale')) {
         minValue = traceGraph.get('minValue');
@@ -125,12 +145,13 @@ class TracesChartColumn extends Component {
         field: trace.trace,
         title: trace.label,
         color: traceGraph.get('color'),
-        unit: unitType,
+        unit: displayUnit,
         type: traceGraph.get('type', 'line'), // area or line
         dashStyle: traceGraph.get('dashStyle', 'Solid'), // http://api.highcharts.com/highcharts/plotOptions.line.dashStyle
         lineWidth: traceGraph.get('lineWidth', 2), // 1, 2, or 3
         minValue,
         maxValue,
+        latestValue
       });
     });
 
@@ -143,6 +164,7 @@ TracesChartColumn.propTypes = {
   supportedTraces: PropTypes.array.isRequired,
   traceGraphs: ImmutablePropTypes.list.isRequired,
   data: ImmutablePropTypes.list.isRequired,
+  latestData: ImmutablePropTypes.map.isRequired,
   columnNumber: PropTypes.number.isRequired,
   totalColumns: PropTypes.number.isRequired,
   editTraceGraph: PropTypes.func.isRequired,

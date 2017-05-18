@@ -22,6 +22,7 @@ class TracesChartContainer extends Component {
         <TracesChartColumn
           key={group}
           data={this.props.data}
+          latestData={this.props.latestData}
           traceGraphs={this.getTraceGraphGroup(group)}
           supportedTraces={this.props.supportedTraces}
           convert={this.props.convert}
@@ -55,6 +56,7 @@ TracesChartContainer.propTypes = {
   supportedTraces: PropTypes.array.isRequired,
   traceGraphs: ImmutablePropTypes.list.isRequired,
   data: ImmutablePropTypes.list.isRequired,
+  latestData: ImmutablePropTypes.map.isRequired,
   widthCols: PropTypes.number.isRequired,
   onSettingChange: PropTypes.func.isRequired,
 };
