@@ -49,8 +49,8 @@ class SettingsRecordBrowser extends Component {
 
   renderNoRecords() {
     if(this.props.loading) {
-      return <div className="c-files-documents__loading">
-              <div>Loading files...</div>
+      return <div className="c-settings-record-browser__loading">
+              <div>Loading records...</div>
               <LoadingIndicator fullscreen={false} /> 
             </div>;
     } else {

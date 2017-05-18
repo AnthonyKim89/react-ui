@@ -22,3 +22,10 @@
 .c-settings-record-browser__no-data-description {  
   color:  grey;
 }
+
+.c-settings-record-browser__loading {
+  margin-top: 100px;
+  left: 50%;
+  color: #ffffff;
+  text-align: center;
+}
