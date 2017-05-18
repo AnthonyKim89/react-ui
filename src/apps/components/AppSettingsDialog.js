@@ -8,7 +8,7 @@ import './AppSettingsDialog.css';
 const TABS = {
   SETTINGS: 'settings',
   APP_DETAILS: 'appDetails'
-}
+};
 
 class AppSettingsDialog extends Component {
 
