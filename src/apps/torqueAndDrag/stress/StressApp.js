@@ -78,33 +78,33 @@ class StressApp extends Component {
           fillOpacity: 0.3,
           visible: true
         };
-    case 'yield_stress_80_percent':
-        return {
-          renderType: 'line',
-          title: field,
-          field,
-          data: data,
-          fillOpacity: 0.0,
-          visible: true
-        };
-    case 'yield_stress_60_percent':
-        return {
-          renderType: 'line',
-          title: field,
-          field,
-          data: data,
-          fillOpacity: 0.0,
-          visible: true
-        };
-    case 'von_mises_stress':
-        return {
-          renderType: 'line',
-          title: field,
-          field,
-          data: data,
-          fillOpacity: 0.0,
-          visible: true
-        };
+      case 'yield_stress_80_percent':
+          return {
+            renderType: 'line',
+            title: field,
+            field,
+            data: data,
+            fillOpacity: 0.0,
+            visible: true
+          };
+      case 'yield_stress_60_percent':
+          return {
+            renderType: 'line',
+            title: field,
+            field,
+            data: data,
+            fillOpacity: 0.0,
+            visible: true
+          };
+      case 'von_mises_stress':
+          return {
+            renderType: 'line',
+            title: field,
+            field,
+            data: data,
+            fillOpacity: 0.0,
+            visible: true
+          };
       default:
         return {
           renderType: 'line',

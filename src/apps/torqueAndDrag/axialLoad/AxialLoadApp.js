@@ -75,14 +75,14 @@ class AxialLoadApp extends Component {
           data: data,
           fillOpacity: 0.3
         };
-    case 'sinusoidal_buckling_force':
-        return {
-          renderType: 'line',
-          title: field,
-          field,
-          data: data,
-          fillOpacity: 0.0
-        };
+      case 'sinusoidal_buckling_force':
+          return {
+            renderType: 'line',
+            title: field,
+            field,
+            data: data,
+            fillOpacity: 0.0
+          };
       default:
         return {
           renderType: 'line',
