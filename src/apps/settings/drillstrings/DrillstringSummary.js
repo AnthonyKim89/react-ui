@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { List, Map } from 'immutable';
-import { isNumber } from 'lodash';
+import { isNumber } from 'lodash';
 import { Row, Col, Button } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import moment from 'moment';
@@ -54,7 +54,7 @@ export class DrillstringSummary extends Component {
       {!this.props.isReadOnly &&
         <Row>
           <Col m={2} className="c-drillstring-summary__footer-value">
-            {this.getDepths()}
+            Depth In: {this.getDepths()}
           </Col>
           <Col m={7} className="c-drillstring-summary__footer-value">
             {this.getTimeData()}
@@ -96,9 +96,9 @@ export class DrillstringSummary extends Component {
   }
 
   getDepths() {
-    const start = this.props.convert.convertValue(this.props.record.getIn(['data', 'start_depth']),'length','ft').formatNumeral('0,0');
-    const end = this.props.convert.convertValue(this.props.record.getIn(['data', 'end_depth']),'length','ft').formatNumeral('0,0');
-    return `${start} - ${end} ${this.props.convert.getUnitDisplay('length')}`;
+    const start = this.props.convert.convertValue(this.props.record.getIn(['data', 'start_depth']) || 0,'length','ft').formatNumeral('0,0');
+    const end = this.props.record.getIn(['data', 'end_depth']) ? this.props.convert.convertValue(this.props.record.getIn(['data', 'end_depth']) || 0,'length','ft').formatNumeral('0,0') : "";
+    return `${start} ${end !== "" ? "-" : ""} ${end} ${this.props.convert.getUnitDisplay('length')}`;
   }
 
   getTimeData() {

@@ -15,8 +15,16 @@
   position: absolute;
   left: 225px;
   right: 0;
+  bottom: -10px;
+  top: 25px;
+}
+
+.c-trace-single__graph-vertical {
+  position: absolute;
+  left: 0px;
+  right: 0;
   bottom: 0;
-  top: 0;
+  top: 140px;
 }
 
 .c-trace-single__latest__value {
