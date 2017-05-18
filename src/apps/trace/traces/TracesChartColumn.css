@@ -32,27 +32,22 @@
 }
 
 .c-traces__chart-column__values__item__meta-row {
+  position: relative;
   line-height: calc(200px / 9);
   height: calc(200px / 9);
 }
 
-.c-traces__chart-column__values__item__meta-row div {
-  display: inline-block;
-  width: calc(100% / 3);
-}
-
-.c-traces__left {
-  float: left;
-  text-align: left;
-}
-
 .c-traces__center {
   text-align: center;
+  display: inline-block;
+  width: 100%;
 }
 
 .c-traces__right {
-  float: right;
+  position: absolute;
   text-align: right;
+  right: 0;
+  top: 0;
 }
 
 .c-traces__right i {

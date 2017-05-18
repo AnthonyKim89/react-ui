@@ -56,26 +56,19 @@ class TracesChartColumn extends Component {
           <div className="c-traces__chart-column__values__item" key={idx} onClick={() => this.props.editTraceGraph(idx + (3 * this.props.columnNumber))}>
             {valid ? <div>
               <div className="c-traces__chart-column__values__item__meta-row">
-                <div className="c-traces__left">&nbsp;</div>
                 <div className="c-traces__center"><span>{title}</span></div>
                 <div className="c-traces__right" style={{color}}><Icon>network_cell</Icon></div>
               </div>
               <div className="c-traces__chart-column__values__item__meta-row">
-                <div className="c-traces__left">&nbsp;</div>
                 <div className="c-traces__center">--</div>
-                <div className="c-traces__right">&nbsp;</div>
               </div>
               <div className="c-traces__chart-column__values__item__meta-row">
-                <div className="c-traces__left">&nbsp;</div>
                 <div className="c-traces__center">{unit}</div>
-                <div className="c-traces__right">&nbsp;</div>
               </div>
             </div> : <div>
               <div className="c-traces__chart-column__values__item__meta-row">&nbsp;</div>
               <div className="c-traces__chart-column__values__item__meta-row">
-                <div className="c-traces__left">&nbsp;</div>
                 <div className="c-traces__center"><Icon>add_circle_outline</Icon></div>
-                <div className="c-traces__right">&nbsp;</div>
               </div>
               <div className="c-traces__chart-column__values__item__meta-row">&nbsp;</div>
             </div>}
