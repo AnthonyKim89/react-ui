@@ -18,6 +18,8 @@ class TorqueApp extends Component {
           <Chart
             xField="measured_depth"
             size={this.props.size}
+            automaticOrientation={this.automaticOrientation}
+            horizontal={this.horizontal}
             coordinates={this.props.coordinates}
             widthCols={this.props.widthCols}>
             {this.getSeries().map(({renderType, title, field, data}, idx) => (
@@ -41,7 +43,8 @@ class TorqueApp extends Component {
     return !!(
         (nextProps.data && !nextProps.data.equals(this.props.data)) ||
         (nextProps.coordinates && !nextProps.coordinates.equals(this.props.coordinates)) ||
-        (nextProps.graphColors && !nextProps.graphColors.equals(this.props.graphColors))
+        (nextProps.graphColors && !nextProps.graphColors.equals(this.props.graphColors)) ||
+        (nextProps.orientation !== this.props.orientation)
     );
   }
 
@@ -73,6 +76,17 @@ class TorqueApp extends Component {
     } else {
       return SUPPORTED_CHART_SERIES[field].defaultColor;
     }
+  }
+
+  get automaticOrientation() {
+    return this.props.orientation && this.props.orientation === 'auto';
+  }
+
+  get horizontal() {
+    if (this.props.orientation) {
+      return this.props.orientation === 'horizontal';
+    }
+    return true;
   }
 
 }

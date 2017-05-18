@@ -41,6 +41,9 @@ class Chart extends Component {
         series: {
           turboThreshold: 5000
         },
+        areaspline: {
+          threshold: this.props.areaSplineThreshold  // Fill the outside of the spline
+        }
       },
       xAxis: {
         title: this.isAxisLabelsVisible(this.props) ? this.props.xAxisTitle : {text:null},
@@ -189,7 +192,7 @@ class Chart extends Component {
   }
 
   getSeriesFromChild(child, props) {
-    const {type, title, data, color, id, yField, yAxis, yAxisTitle, yAxisOpposite, minValue, maxValue, dashStyle, lineWidth, pointPadding, groupPadding, borderWidth, marker, fillOpacity, step} = child.props;
+    const {type, title, data, color, id, yField, yAxis, yAxisTitle, yAxisOpposite, minValue, maxValue, dashStyle, lineWidth, pointPadding, groupPadding, borderWidth, marker, visible, fillOpacity, step} = child.props;
     return {
       id,
       name: title,
@@ -202,6 +205,7 @@ class Chart extends Component {
         result.push({id: pointId, x, y, color});
         return result;
       }, []),
+      visible,      
       yAxis: props.multiAxis ? yAxis : 0,
       yAxisTitle: yAxisTitle,
       yAxisOpposite: yAxisOpposite,
@@ -295,7 +299,8 @@ class Chart extends Component {
 Chart.defaultProps = {
   forceLegend: false,
   showLegend: true,
-  automaticOrientation: true
+  automaticOrientation: true,
+  areaSplineThreshold: null
 };
 
 Chart.propTypes = {
@@ -312,7 +317,9 @@ Chart.propTypes = {
   showLegend: PropTypes.bool,
   chartType: PropTypes.string,
   noSpacing: PropTypes.bool,
-  automaticOrientation: PropTypes.bool
+  automaticOrientation: PropTypes.bool,
+  areaSplineThreshold: PropTypes.string,
+  visible: PropTypes.object
 };
 
 export default Chart;
