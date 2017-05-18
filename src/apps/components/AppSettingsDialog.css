@@ -153,3 +153,7 @@ button.c-app-settings__tab-btn {
 .c-app-settings__editor .input-field {
   margin-top: 0;
 }
+
+.c-app-settings__description {
+  padding-top: 10px;
+}
