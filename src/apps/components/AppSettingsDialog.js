@@ -7,7 +7,8 @@ import './AppSettingsDialog.css';
 
 const TABS = {
   SETTINGS: 'settings',
-  APP_DETAILS: 'appDetails'
+  APP_DETAILS: 'appDetails',
+  REMOVE: 'remove'
 };
 
 class AppSettingsDialog extends Component {
@@ -21,6 +22,7 @@ class AppSettingsDialog extends Component {
     this.tabRenderers = {};
     this.tabRenderers[TABS.SETTINGS] = this.renderSettings.bind(this);
     this.tabRenderers[TABS.APP_DETAILS] = this.renderAppDetails.bind(this);
+    this.tabRenderers[TABS.REMOVE] = this.renderRemove.bind(this);
   }
 
   render() {
@@ -54,8 +56,11 @@ class AppSettingsDialog extends Component {
           <li><Button className="c-app-settings__tab-btn btn-flat">View App Page</Button></li>
           <li>
             <Button
-              className="c-app-settings__tab-btn btn-flat red-text"
-              onClick={this.props.onAppRemove}>Remove App</Button>
+              className={this.isActiveTab(TABS.REMOVE) ?
+                "c-app-settings__tab-btn red" :
+                "c-app-settings__tab-btn btn-flat red-text"}
+              onClick={() => this.handleTabClick(TABS.REMOVE)}
+            >Remove App</Button>
           </li>
         </ul>
       </header>
@@ -121,6 +126,18 @@ class AppSettingsDialog extends Component {
     );
   }
 
+  renderRemove() {
+    return (
+      <div className="c-app-settings__description">
+        <h6>Do you want to remove this app?</h6>
+        <Button
+          className="red"
+          onClick={this.props.onAppRemove}>
+          Remove App
+        </Button>
+      </div>
+    );
+  }
 }
 
 AppSettingsDialog.propTypes = {
