@@ -1,8 +1,8 @@
 .c-app-settings-dialog {
   position: absolute;
   top: 20%;
-  left: 30%;
-  right: 30%;
+  left: 17%;
+  right: 17%;
   bottom: 20%;
   border-radius: 0;
   padding: 20px;
@@ -23,14 +23,13 @@
     bottom: 10px;
   }
 }
-  
+
 .c-app-settings {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 .c-app-settings header {
-  padding-bottom: 10px;
   margin-bottom: 10px;
   border-bottom: 1px solid #888;
 }
@@ -42,14 +41,29 @@
 
 .c-app-settings__subtitle {
   font-size: 16px;
+  margin-bottom: 20px;
+  margin-top: 5px;
 }
 
 .c-app-settings__grid {
   width: 100%;
 }
 
-.c-app-settings__title, .c-app-settings__subtitle {
+.c-app-settings__title {
   margin: 0;
+}
+
+.c-app-settings__tabs li {
+  border-right: 1px solid #888;
+  display: inline-block;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.c-app-settings__tabs li:last-child {
+  border-right: 0;
+}
+button.c-app-settings__tab-btn {
+  padding: 2px 6px;
 }
 
 .c-app-settings__done {
@@ -84,6 +98,11 @@
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 4000;
+}
+
+.c-app-settings__editor {
+  clear: both;
+  padding-top: 5px;
 }
 
 .c-app-settings__editor .caret {
@@ -127,7 +146,7 @@
 }
 
 .c-app-settings__editor .c-chart-colors-editor .c-chart-colors-editor__header span.c-chart-colors-editor__color-box {
-  margin: 3px 10px 0 2px;
+  margin: 3px 5px 0 2px;
   vertical-align: top;
 }
 
