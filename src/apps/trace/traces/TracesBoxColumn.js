@@ -14,9 +14,9 @@ class TracesBoxColumn extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      addDialogOpen: false,
+      editDialogOpen: false,
       deleteDialogOpen: false,
-      traceDeleteIndex: null,
+      traceEditIndex: null,
       updatedUnitType: null,
     };
   }
@@ -25,12 +25,14 @@ class TracesBoxColumn extends Component {
     let applicableUnits = [];
     if (this.state.updatedUnitType !== null) {
       applicableUnits = this.props.convert.getUnitsByType(this.state.updatedUnitType);
+    } else if (this.state.traceEditIndex !== null && this.props.traceBoxes.getIn([this.state.traceEditIndex, 'unitType'])) {
+      applicableUnits = this.props.convert.getUnitsByType(this.props.traceBoxes.getIn([this.state.traceEditIndex, 'unitType']));
     }
 
     return <div className="c-traces__box-column">
       {this.getBoxData().map((trace, idx) => {
         return <Row key={idx} s={12} className="c-traces__box-column__box-row">
-          <Col s={12}>
+          <Col s={12} onClick={() => this.openEditDialog(idx)}>
             {trace.label}<br/>
             <span className="c-traces__box-column__box-row__value">{trace.value.formatNumeral("0.0")}</span><br/>
             {trace.display}
@@ -38,16 +40,16 @@ class TracesBoxColumn extends Component {
           <div className="c-traces__box-column__box-row__x" onClick={() => this.openDeleteDialog(idx)}><Icon>clear</Icon></div>
         </Row>;
       })}
-      <Button className="black white-text" waves='light' onClick={() => this.openAddDialog()}>+</Button>
+      <Button className="black white-text" waves='light' onClick={() => this.openEditDialog()}>+</Button>
 
       <Modal
         width='400px'
-        isOpen={this.state.addDialogOpen}
+        isOpen={this.state.editDialogOpen}
         onRequestClose={() => this.closeDialogs()}
         className="c-traces__box-column__edit-trace"
         overlayClassName='c-traces__box-column__edit-trace__overlay'
         contentLabel="Add Trace Box">
-        {this.state.addDialogOpen && // We don't want to render this at all if it's not even open, especially with all the re-renders happening here.
+        {this.state.editDialogOpen && // We don't want to render this at all if it's not even open, especially with all the re-renders happening here.
         <div className="c-traces__box-column__edit-trace__dialog">
           <header>
             <h4 className="c-traces__box-column__edit-trace__dialog__title">
@@ -57,7 +59,10 @@ class TracesBoxColumn extends Component {
 
           <div className="c-traces__box-column__edit-trace__form">
 
-            <Input type='select' label="Trace" s={12}
+            <Input type='select'
+                   label="Trace"
+                   s={12}
+                   defaultValue={this.props.traceBoxes.getIn([this.state.traceEditIndex, 'trace'], null)}
                    ref={(input) => this.traceInputChoice = input}>
               <option value="">&nbsp;</option>
               {this.props.supportedTraces.map((trace, idx) => {
@@ -65,7 +70,10 @@ class TracesBoxColumn extends Component {
               })}
             </Input>
 
-            <Input type='select' label="Unit Type (optional)" s={12}
+            <Input type='select'
+                   label="Unit Type (optional)"
+                   s={12}
+                   defaultValue={this.props.traceBoxes.getIn([this.state.traceEditIndex, 'unitType'], null)}
                    onChange={(e) => this.setState({updatedUnitType: e.currentTarget.value})}
                    ref={(input) => this.traceInputUnitType = input}>
               <option value="">&nbsp;</option>
@@ -83,7 +91,10 @@ class TracesBoxColumn extends Component {
               <option value="massPerLength">Mass Per Length</option>
             </Input>
 
-            <Input type='select' label="Convert From (optional)" s={12}
+            <Input type='select'
+                   label="Convert From (optional)"
+                   s={12}
+                   defaultValue={this.props.traceBoxes.getIn([this.state.traceEditIndex, 'unitFrom'], null)}
                    ref={(input) => this.traceInputUnitFrom = input}>
               <option value="">&nbsp;</option>
               {applicableUnits.map((unit, idx) => {
@@ -91,7 +102,10 @@ class TracesBoxColumn extends Component {
               })}
             </Input>
 
-            <Input type='select' label="Convert To (optional)" s={12}
+            <Input type='select'
+                   label="Convert To (optional)"
+                   s={12}
+                   defaultValue={this.props.traceBoxes.getIn([this.state.traceEditIndex, 'unitTo'], null)}
                    ref={(input) => this.traceInputUnitTo = input}>
               <option value="">&nbsp;</option>
               {applicableUnits.map((unit, idx) => {
@@ -147,35 +161,35 @@ class TracesBoxColumn extends Component {
     return !nextProps.traceBoxes.equals(this.props.traceBoxes) ||  !isEqual(this.state, nextState);
   }
 
-  openAddDialog() {
+  openEditDialog(traceEditIndex=null) {
     this.setState({
-      addDialogOpen: true,
+      editDialogOpen: true,
       deleteDialogOpen: false,
-      traceDeleteIndex: null,
+      traceEditIndex,
       updatedUnitType: null,
     });
   }
 
   closeDialogs() {
     this.setState({
-      addDialogOpen: false,
+      editDialogOpen: false,
       deleteDialogOpen: false,
-      traceDeleteIndex: null,
+      traceEditIndex: null,
       updatedUnitType: null,
     });
   }
 
-  openDeleteDialog(traceDeleteIndex) {
+  openDeleteDialog(traceEditIndex) {
     this.setState({
-      addDialogOpen: false,
+      editDialogOpen: false,
       deleteDialogOpen: true,
-      traceDeleteIndex: traceDeleteIndex,
+      traceEditIndex: traceEditIndex,
       updatedUnitType: null,
     });
   }
 
   deleteTraceBox() {
-    this.props.onSettingChange('traceBoxes', this.props.traceBoxes.delete(this.state.traceDeleteIndex));
+    this.props.onSettingChange('traceBoxes', this.props.traceBoxes.delete(this.state.traceEditIndex));
     this.closeDialogs();
   }
 
@@ -200,7 +214,15 @@ class TracesBoxColumn extends Component {
       newTrace.unitTo = this.traceInputUnitTo.state.value;
     }
 
-    this.props.onSettingChange('traceBoxes', this.props.traceBoxes.push(fromJS(newTrace)));
+    // Adding vs Updating Existing.
+    if (this.state.traceEditIndex) {
+      let traceBoxes = this.props.traceBoxes.set(this.state.traceEditIndex, fromJS(newTrace));
+      this.props.onSettingChange('traceBoxes', traceBoxes);
+    } else {
+      let traceBoxes = this.props.traceBoxes.push(fromJS(newTrace));
+      this.props.onSettingChange('traceBoxes', traceBoxes);
+    }
+
     this.closeDialogs();
   }
 

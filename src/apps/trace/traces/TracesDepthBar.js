@@ -118,7 +118,7 @@ class TracesDepthBar extends Component {
         </div>
         <div className="c-traces__depth-bar__chart__bar">
           {this.props.data.map((point, idx) => {
-            return <div key={idx} className="c-traces__depth-bar__chart__bar__tick" style={{'background-color': this.getTraceColor(point.get('state'))}} >
+            return <div key={idx} className="c-traces__depth-bar__chart__bar__tick" style={{'backgroundColor': this.getTraceColor(point.get('state'))}} >
             </div>;
           })}
         </div>
