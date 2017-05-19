@@ -18,7 +18,7 @@ class TracesChartContainer extends Component {
 
   render() {
     return <Row s={12} className="c-traces__container">
-      {[0,1,2].map((group) => (
+      {[0,1,2, 3].map((group) => (
         <TracesChartColumn
           key={group}
           data={this.props.data}
@@ -27,7 +27,7 @@ class TracesChartContainer extends Component {
           supportedTraces={this.props.supportedTraces}
           convert={this.props.convert}
           columnNumber={group}
-          totalColumns={3}
+          totalColumns={4}
           editTraceGraph={(traceEditIndex) => this.openSettingsDialog(traceEditIndex)}
           widthCols={this.props.widthCols} />
       ))}
