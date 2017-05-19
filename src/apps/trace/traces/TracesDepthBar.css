@@ -10,6 +10,27 @@
 .c-traces__depth-bar__chart {
     height: calc(100% - 171px);
     background-color: #000;
+    display: flex;
+    flex-direction: row;
+}
+
+.c-traces__depth-bar__chart__highchart {
+    height: 100%;
+    width: 80px;
+}
+
+.c-traces__depth-bar__chart__bar {
+    height: 100%;
+    display: flex;
+    width: 40px;
+    margin-left: 10px;
+    flex-direction: column;
+}
+
+.c-traces__depth-bar__chart__bar__tick {
+    display: flex;
+    width: 100%;
+    flex-grow: 1;
 }
 
 .c-traces__depth-bar__values {

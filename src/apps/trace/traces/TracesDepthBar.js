@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Highcharts from 'highcharts';
 import moment from 'moment';
+import { STATE_CATEGORY_MAP, ACTIVITY_COLORS } from './constants';
 
 import Convert from '../../../common/Convert';
 
@@ -12,7 +13,7 @@ class TracesDepthBar extends Component {
   componentDidMount() {
     const chart = Highcharts.chart(this.container, {
       chart: {
-        type: 'column',
+        type: 'scatter',
         backgroundColor: '#000',
         plotBackgroundColor: '#000',
         spacing: [0, 0, 0, 0],
@@ -30,9 +31,9 @@ class TracesDepthBar extends Component {
         }
       },
       xAxis: {
-        categories: ['a', 'b', 'c', 'd', 'e'],
+        categories: ['state'],
         gridLineWidth: 0,
-        lineWidth: 0,
+        lineWidth: 3,
         tickWidth: 0,
         labels: {
           enabled: false,
@@ -79,7 +80,11 @@ class TracesDepthBar extends Component {
       title: {text: null},
       credits: {enabled: false},
       legend: {enabled: false},
-      series: []
+      series: [{
+        id: 'series',
+        data: [],
+        animation: false
+      }]
     });
     this.setState({chart});
   }
@@ -99,42 +104,24 @@ class TracesDepthBar extends Component {
     const minDepth = firstSummary.get('hole_depth');
     const maxDepth = lastSummary.get('hole_depth');
     depthAxis.update({min: minDepth, max: maxDepth});
-
-    // If there was a series previously, remove it.
-    const prevSeries = chart.get('series');
-    if (prevSeries) {
-      prevSeries.remove();
-    }
-
-    // Add the new series. Once there is actual summary data to play with,
-    // this should construct the stack of blocks from it.
-    // console.log(summary.getIn(['data', 'state']));
-
-
-    let data = newProps.data.reduce((result, point) => {
-      result.push({
-        name: "Active",
-        x: 1,
-        y: point.get('timestamp'),
-        color: 'green'
-      });
-      return result;
-    }, []);
-
-    chart.addSeries({
-      id: 'series',
-      data,
-      animation: false
-    });
   }
 
-  updateChart() {
+  getTraceColor(state) {
+    return ACTIVITY_COLORS[STATE_CATEGORY_MAP[state]];
   }
 
   render() {
     return <div className="c-traces__depth-bar">
 
-      <div className="c-traces__depth-bar__chart" ref={container => this.container = container}>
+      <div className="c-traces__depth-bar__chart">
+        <div className="c-traces__depth-bar__chart__highchart" ref={container => this.container = container}>
+        </div>
+        <div className="c-traces__depth-bar__chart__bar">
+          {this.props.data.map((point, idx) => {
+            return <div key={idx} className="c-traces__depth-bar__chart__bar__tick" style={{'background-color': this.getTraceColor(point.get('state'))}} >
+            </div>;
+          })}
+        </div>
       </div>
 
       <div className="c-traces__depth-bar__values">
