@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Link } from 'react-router';
 
-import { SUBSCRIPTIONS } from './constants';
+import { STATE_CATEGORY_MAP, SUBSCRIPTIONS } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
 
@@ -19,13 +19,13 @@ class AssetStatusApp extends Component {
       <div className="c-asset-status">
         {subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS) ?
           <div className="c-asset-status-container">
-            <Link to={`/assets/${this.props.asset.get("id")}/settings`} className="c-asset-status__asset-link">
+            <Link to={`/assets/${this.props.asset.get("id")}/overview`} className="c-asset-status__asset-link">
               View Asset &gt;
             </Link>            
             <div className={"c-asset-status-bar "+this.getAssetStatusColorClass()}></div>
             <div className="c-asset-status-content">
-              <div className="c-asset-status-content__title">Rig ABC 123</div>
-              <div className="c-asset-status-content__subtitle">Well Ranch HG 2</div>
+              <div className="c-asset-status-content__title">{this.props.asset.get("parent_asset_name")}</div>
+              <div className="c-asset-status-content__subtitle">{this.props.asset.get("name")}</div>
               <div className="c-asset-status-content__depth">
                 <span>Depth: </span>
                 <span>{this.getAssetDepth()}</span>
@@ -49,34 +49,46 @@ class AssetStatusApp extends Component {
 
   getAssetStatusColorClass() {    
     const cssPrefix = "asset-status-";
-    const status = subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS).getIn(["data","status"]);
-    return `${cssPrefix}${status.get("state")}`;
+
+    // TODO: Change to poll collections
+    const status = "optimal";
+    return `${cssPrefix}${status}`;
   }
 
   getAssetStatusMessage() {
+    /*
     const status = subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS).getIn(["data","status"]);
     const message = status.get("message");
     if (message && message.length>0) {
       return message;
     }
+    */
     return null;
   }
 
   getAssetSummary() {
-    const summary = subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS).getIn(["data","summary"]);
-    return summary;
+    if(subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[1])) {
+      let data = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[1]).getIn(["data"]);
+      let summary = data.getIn(["summary"]);
+      let timestamp = data.getIn(["date_time"]);
+      // Timestamp greater than now minus 24 hours
+      if(timestamp > (new Date().getTime() - 86400)) {
+        return summary;
+      }
+    }
+    return "-";
   }
 
   getAssetDepth() {
-    const data = subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS).getIn(["data"]);
-    const bitDepth = parseFloat(data.get("bit_depth")).formatNumeral("0,0");
-    const holeDepth = parseFloat(data.get("hole_depth")).formatNumeral("0,0");
+    const data = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[0]).getIn(["data"]);
+    const bitDepth = parseFloat(data.get("bit_depth")).formatNumeral("0,0.0");
+    const holeDepth = parseFloat(data.get("hole_depth")).formatNumeral("0,0.0");
     return `${bitDepth} / ${holeDepth} ${this.props.convert.getUnitDisplay("length")}`;
   }
 
   getAssetGeneralActivity() {
-    const data = subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS).getIn(["data"]);
-    return data.getIn(["activity","general"]);
+    let state = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[0]).getIn(["data", "state"]);
+    return STATE_CATEGORY_MAP[state];
   }
 
 }
