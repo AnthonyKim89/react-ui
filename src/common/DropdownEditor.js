@@ -45,13 +45,14 @@ DropdownEditor.propTypes = {
 DropdownEditor.defaultProps = {
   label: "Choose An Option",
   isLabelVisible: true,
+  currentValue: 0
 };
 
 export default DropdownEditor;
 
 // A Higher-Order Component that allows setting up an editor component
 export const dropdownEditorForDefinitions =
-  listDefinitions => props => 
+  listDefinitions => props =>
     <DropdownEditor
       {...props}
       listDefinitions={List(listDefinitions)} />;
