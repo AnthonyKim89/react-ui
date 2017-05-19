@@ -145,7 +145,7 @@ class AppSettingsDialog extends Component {
   }
 
   get appPageUrl() {
-    return `/apps/${this.props.appType.constants.CATEGORY}/${this.props.appType.constants.NAME}`
+    return `/apps/${this.props.appType.constants.CATEGORY}/${this.props.appType.constants.NAME}`;
   }
 }
 

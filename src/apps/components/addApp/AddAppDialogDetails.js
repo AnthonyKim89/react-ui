@@ -146,6 +146,6 @@ AddAppDialogDetails.propTypes = {
 
 AddAppDialogDetails.defaultProps = {
   showSettings: true
-}
+};
 
 export default AddAppDialogDetails;

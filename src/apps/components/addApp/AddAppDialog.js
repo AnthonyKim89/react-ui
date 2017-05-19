@@ -79,6 +79,6 @@ AddAppDialog.propTypes = {
 AddAppDialog.defaultProps = {
   showCancel: true,
   showSettings: true
-}
+};
 
 export default AddAppDialog;
