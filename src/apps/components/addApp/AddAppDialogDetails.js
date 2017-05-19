@@ -20,11 +20,15 @@ class AddAppDialogDetails extends Component {
       {this.renderBreadcrumbs()}
       <AppIcon title={this.props.appType.constants.METADATA.title || this.props.appType.constants.METADATA.settingsTitle}/>
       {this.renderAppDetails()}
-      <h4>Settings</h4>
-      {this.renderAppActions()}
-      <Button onClick={() => this.props.onAppAdd(this.props.appType, this.state.settings)} disabled={!this.isAllRequiredSettingsFilled()}>
-        Add
-      </Button>
+      {this.props.showSettings &&
+        <div>
+          <h4>Settings</h4>
+          {this.renderAppActions()}
+          <Button onClick={() => this.props.onAppAdd(this.props.appType, this.state.settings)} disabled={!this.isAllRequiredSettingsFilled()}>
+            Add
+          </Button>
+        </div>
+      }
     </div>;
   }
 
@@ -136,7 +140,12 @@ AddAppDialogDetails.propTypes = {
   commonSettingsEditors: ImmutablePropTypes.list,
   appTypeCategory: PropTypes.string.isRequired,
   onAppAdd: PropTypes.func.isRequired,
-  onViewAllApps: PropTypes.func.isRequired
+  onViewAllApps: PropTypes.func.isRequired,
+  showSettings: PropTypes.bool
 };
+
+AddAppDialogDetails.defaultProps = {
+  showSettings: true
+}
 
 export default AddAppDialogDetails;

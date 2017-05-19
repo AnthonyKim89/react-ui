@@ -19,21 +19,26 @@ class AddAppDialog extends Component {
   }
 
   render() {
-    return <div className="c-add-app-dialog">
-      {this.state.selectedAppType ?
-        <AddAppDialogDetails 
-          appType={this.state.selectedAppType}
-          appTypeCategory={this.getSelectedAppTypeCategory()}
-          commonSettingsEditors={this.props.commonSettingsEditors}
-          onAppAdd={this.props.onAppAdd}
-          onViewAllApps={() => this.showAppList()} /> :
-        <AddAppDialogListing
-          appTypes={this.props.appTypes}
-          onSelectType={selectedAppType => this.showAppDetails(selectedAppType)} />}
-      <Button className="c-add-app-dialog__close-button" onClick={this.props.onClose}>
-        <Icon>close</Icon> <span>Cancel</span>
-      </Button>
-    </div>;
+    return (
+      <div className="c-add-app-dialog">
+        {this.state.selectedAppType ?
+          <AddAppDialogDetails 
+            appType={this.state.selectedAppType}
+            appTypeCategory={this.getSelectedAppTypeCategory()}
+            commonSettingsEditors={this.props.commonSettingsEditors}
+            showSettings={this.props.showSettings}
+            onAppAdd={this.props.onAppAdd}
+            onViewAllApps={() => this.showAppList()} /> :
+          <AddAppDialogListing
+            appTypes={this.props.appTypes}
+            onSelectType={selectedAppType => this.showAppDetails(selectedAppType)} />}
+        {this.props.showCancel &&
+          <Button className="c-add-app-dialog__close-button" onClick={this.props.onClose}>
+            <Icon>close</Icon> <span>Cancel</span>
+          </Button>
+        }
+      </div>
+    );
   }
 
   getSelectedAppTypeCategory() {
@@ -66,7 +71,14 @@ AddAppDialog.propTypes = {
   selectedAppType: PropTypes.object,
   commonSettingsEditors: ImmutablePropTypes.list,
   onAppAdd: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
+  showCancel: PropTypes.bool,
+  showSettings: PropTypes.bool
 };
+
+AddAppDialog.defaultProps = {
+  showCancel: true,
+  showSettings: true
+}
 
 export default AddAppDialog;

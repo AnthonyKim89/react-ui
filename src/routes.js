@@ -13,7 +13,7 @@ export const routes =
   <Route path="/" component={App}>
     <Route name="login" path="login" component={Login} />
     <Route path="dashboards/:slug" component={Dashboard} />
-    <Route path="apps" component={AppPage}>
+    <Route path="apps">
       <Route path=":category/:name" component={AppPage} />
     </Route>
     <Route path="assets">
