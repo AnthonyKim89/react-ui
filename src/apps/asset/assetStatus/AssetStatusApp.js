@@ -71,8 +71,9 @@ class AssetStatusApp extends Component {
       let data = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[1]).getIn(["data"]);
       let summary = data.getIn(["summary"]);
       let timestamp = data.getIn(["date_time"]);
+      let min_ts = Math.round((new Date().getTime()) / 1000) - 86400;
       // Timestamp greater than now minus 24 hours
-      if(timestamp > (new Date().getTime() - 86400)) {
+      if(timestamp >= min_ts) {
         return summary;
       }
     }

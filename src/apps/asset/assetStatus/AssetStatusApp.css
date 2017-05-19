@@ -134,6 +134,7 @@
 .c-asset-status-content__summary {  
   font-size: 0.815rem;
   margin-top: 5px;
+  margin-right: 10px;
 }
 
 .c-asset-status__footer {
