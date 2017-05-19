@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Row, Col, Button } from 'react-materialize';
+import { Link } from 'react-router';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { isEqual } from 'lodash';
 
@@ -53,7 +54,11 @@ class AppSettingsDialog extends Component {
               onClick={() => this.handleTabClick(TABS.APP_DETAILS)}
             >App Details</Button>
           </li>
-          <li><Button className="c-app-settings__tab-btn btn-flat">View App Page</Button></li>
+          <li>
+            <Link to={this.appPageUrl}>
+              <Button className="c-app-settings__tab-btn btn-flat">View App Page</Button>
+            </Link>
+          </li>
           <li>
             <Button
               className={this.isActiveTab(TABS.REMOVE) ?
@@ -137,6 +142,10 @@ class AppSettingsDialog extends Component {
         </Button>
       </div>
     );
+  }
+
+  get appPageUrl() {
+    return `/apps/${this.props.appType.constants.CATEGORY}/${this.props.appType.constants.NAME}`;
   }
 }
 
