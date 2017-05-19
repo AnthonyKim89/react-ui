@@ -4,6 +4,7 @@ import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Button } from 'react-materialize';
 import NotificationSystem from 'react-notification-system';
+import LoadingIndicator from '../../../common/LoadingIndicator';
 
 import * as api from '../../../api';
 
@@ -19,7 +20,8 @@ class NPTEventsApp extends Component {
     super(props);
     this.state = {
       records: List(),
-      preRecords: List()
+      preRecords: List(),
+      loading: true
     };
   }
   
@@ -39,7 +41,8 @@ class NPTEventsApp extends Component {
   async loadRecords(asset) {
     const records = await api.getAppStorage(METADATA.recordProvider, METADATA.recordCollection, asset.get('id'), Map({limit: 0}));    
     this.setState({
-      records: records.sortBy(r=>r.get("timestamp"))
+      records: records.sortBy(r=>r.get("timestamp")),
+      loading: false
     });
   }
 
@@ -51,7 +54,7 @@ class NPTEventsApp extends Component {
         <NPTEventsSummary 
           records={this.state.records} 
           onAdd={()=>this.add()}/>
-        {this.state.records?
+        {(this.state.records.size > 0 || this.state.preRecords.size > 0)?
           <table className="c-npt__npt-table">
             <thead>
               <tr>
@@ -82,12 +85,29 @@ class NPTEventsApp extends Component {
                   onCancel={(preRecord)=>this.cancelAdd(preRecord)} />;
               })}
             </tbody>
-          </table> : '' }
+          </table> : 
+          this.renderNoRecords()
+        }
           <Button floating large className='lightblue' style={{marginTop:10}} waves='light' icon='add' onClick={(e)=>{this.add();}} />
           <a ref="scrollHelperAnchor"></a>
         <NotificationSystem ref="notificationSystem" noAnimation={true} />
       </div>
     );
+  }
+
+  renderNoRecords() {
+    if(this.state.loading) {
+      return <div className="c-npt__loading">
+              <div>Loading records...</div>
+              <LoadingIndicator fullscreen={false} />
+            </div>;
+    }
+    else {
+      return <div className="c-npt__no-data">            
+            <div>No Existing NPT Events</div>
+            <div className="c-npt__no-data-description">Create a new one to begin</div>
+          </div>;
+    }
   }
 
   add() {

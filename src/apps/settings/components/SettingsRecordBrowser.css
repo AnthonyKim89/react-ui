@@ -8,3 +8,24 @@
   padding-right: 10px;
 }
 
+.c-settings-record-browser__no-data {
+  position: absolute;
+  left: 50%;  
+  top: 60%;
+  transform: translate(-50%, -50%);
+}
+
+.c-settings-record-browser__no-data div {
+  text-align: center;
+}
+ 
+.c-settings-record-browser__no-data-description {  
+  color:  grey;
+}
+
+.c-settings-record-browser__loading {
+  margin-top: 100px;
+  left: 50%;
+  color: #ffffff;
+  text-align: center;
+}

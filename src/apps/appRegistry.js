@@ -41,7 +41,7 @@ import map from './settings/map';
 import formations from './settings/formations';
 import crewsContact from './settings/crewsContact';
 import nptEvents from './settings/nptEvents';
-import dailyReports from './settings/dailyReports';
+import filesDocuments from './settings/filesDocuments';
 import wellSections from './settings/wellSections';
 import operationSummaries from './settings/operationSummaries';
 import surfaceEquipment from './settings/surfaceEquipment';
@@ -127,7 +127,7 @@ export const uiApps = Map({
       formations,
       crewsContact,
       nptEvents,
-      dailyReports,
+      filesDocuments,
       wellSections,
       operationSummaries,
       surfaceEquipment

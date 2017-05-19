@@ -1,0 +1,46 @@
+.c-files-documents-item:nth-child(even) {
+  background-color: rgb(41,41,41);
+}
+
+.c-files-documents-item:hover {
+  background-color: rgb(96,91,91);
+}
+
+.c-files-documents-item .view-action {
+  width: 30px;
+  height:30px;
+  line-height:30px;
+  display:none;
+}
+
+.c-files-documents-item .view-action i {
+  line-height: 30px;
+}
+
+.c-files-documents-item:hover .view-action {
+  display: inline;  
+}
+
+.c-files-documents-item button {
+  margin-left: 10px;
+}
+
+ .c-files-documents-item .input-field{
+  margin-top: 0px;
+}
+
+.c-files-documents-item .input-field.col label{
+  left: 0;
+  width: 100%;
+}
+
+.c-files-documents-item .input-field.col label:after{
+  top:40px;
+}
+
+.c-files-documents-item td {
+  border-radius: 0px;
+  padding-top:5px;
+  padding-bottom:5px;
+  height:41px;
+}

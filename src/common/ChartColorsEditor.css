@@ -1,5 +1,7 @@
 .c-chart-colors-editor__color {
+  float: left;
   margin-bottom: 10px;
+  margin-right: 20px;
 }
 .c-chart-colors-editor__header {
   cursor: pointer;
