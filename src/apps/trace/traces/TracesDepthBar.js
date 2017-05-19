@@ -33,7 +33,7 @@ class TracesDepthBar extends Component {
       xAxis: {
         categories: ['state'],
         gridLineWidth: 0,
-        lineWidth: 3,
+        lineWidth: 0,
         tickWidth: 0,
         labels: {
           enabled: false,
