@@ -1,0 +1,153 @@
+.c-asset-status {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.c-asset-status-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.c-asset-status__asset-link {
+  border-radius: 10px;
+  background-color: rgb(120,120,120);
+  color: white;
+  font-size: .815rem;
+  line-height: 22px;
+  padding: 0 12px;    
+  position: absolute;
+  right: 10px;
+  top: 15px;
+}
+
+.c-asset-status-bar {   
+  background-color: blue;
+  float:left;
+  width: 40px;
+  height: 100%;
+}
+
+.c-asset-status-bar:after {  
+  content: '✓';  
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: block;
+  margin-top: 10px; 
+  padding-left: 10px;
+}
+
+.c-asset-status-bar.asset-status-optimal {
+  background-color:#20db17;
+}
+
+.c-asset-status-bar.asset-status-warning {
+  background-color: yellow;
+}
+
+.c-asset-status-bar.asset-status-critical {
+  background-color: red;
+}
+
+.c-asset-status-content {
+  float:left;
+  width: calc(100% - 40px);
+  padding: 0 0 0 15px;
+  height: calc(100% - 30px);
+  overflow-y: hidden;
+}
+
+.c-asset-status-content__title {
+  font-size: 1.45rem;
+  font-weight: bold;
+  margin-top: 12px;
+}
+
+.c-asset-status-content__subtitle {
+  font-size: 0.815rem;
+}
+
+.c-asset-status-content__depth {
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+.c-asset-status-content__depth span:nth-child(2) {
+  white-space: nowrap;
+}
+
+.c-asset-status-content__depth span:first-child{
+  display: inline-block;
+  width: 100px;
+}
+
+.c-asset-status-content__general-activity {
+  font-size: 1.2rem;
+}
+
+.c-asset-status-content__general-activity span:first-child{
+  display: inline-block;
+  width: 100px;
+}
+
+.c-asset-status-content__general-activity span:nth-child(2) {
+  white-space: nowrap;
+}
+
+.c-asset-status-content__general-activity span.activity-drilling {
+  font-size: 1.45rem;
+  color: green;
+}
+
+.c-asset-status-content__general-activity span.activity-other {
+  font-size: 1.45rem;
+  color: orange;
+}
+
+.c-asset-status-content__status-message {
+  font-size: 0.815rem;
+  margin-top: 3px;
+}
+
+.c-asset-status-content__status-message.asset-status-optimal {
+  color: green;
+}
+
+.c-asset-status-content__status-message.asset-status-warning {
+  color: yellow;
+}
+
+.c-asset-status-content__status-message.asset-status-critical {
+  color: red;
+}
+
+.c-asset-status-content__when {
+  font-size: 0.815rem;
+  margin-top:3px;
+  opacity: .7;
+  font-style: italic;
+}
+
+.c-asset-status-content__summary {  
+  font-size: 0.815rem;
+  margin-top: 5px;
+}
+
+.c-asset-status__footer {
+  bottom: 10px;
+  color: #999;
+  font-size: 0.7rem;
+  left: 40px;  
+  right: 0px;
+  padding-left: 15px;
+  position: absolute;
+}
+
+@media(max-width: 320px) {
+  .c-asset-status__asset-link { 
+    display: none;    
+  }   
+}

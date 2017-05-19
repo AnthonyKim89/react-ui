@@ -8,35 +8,35 @@ import './OptimizationApp.css';
 
 class OptimizationAppFooter extends Component {
 
-	render() {
+  render() {
 
-		let actualData = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[1]);		
-		if (!actualData) {
-			return null;
-		}
+    let actualData = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[1]);    
+    if (!actualData) {
+      return null;
+    }
 
-		let lastDataUpdate = this.props.lastDataUpdate;
+    let lastDataUpdate = this.props.lastDataUpdate;
 
-		let gamma = actualData.getIn(["data","gamma"]);
+    let gamma = actualData.getIn(["data","gamma"]);
     let bit = this.props.convert.convertValue(actualData.getIn(["data","bit_depth"]), "length", "ft");
     bit = bit.toFixed(2);
     let inc = actualData.getIn(["data","inclination"]);
         
     return (
-			<div className="c-de-optimization__footer">
-				{ lastDataUpdate &&
-					<span>Last update: {this.formatLastDataUpdate(lastDataUpdate)}</span>
-				}
-				
-				<span> Gamma: {gamma} api </span>
-				<span> Bit: {bit} {this.props.convert.getUnitDisplay('length')} </span>
-				<span> Inc: {inc}&deg; </span>
+      <div className="c-de-optimization__footer">
+        { lastDataUpdate &&
+          <span>Last update: {this.formatLastDataUpdate(lastDataUpdate)}</span>
+        }
+        
+        <span> Gamma: {gamma} api </span>
+        <span> Bit: {bit} {this.props.convert.getUnitDisplay('length')} </span>
+        <span> Inc: {inc}&deg; </span>
 
-			</div>
-		);
-	}
+      </div>
+    );
+  }
 
-	formatLastDataUpdate(lastDataUpdate) {
+  formatLastDataUpdate(lastDataUpdate) {
     const date = new Date(lastDataUpdate * 1000);
     return formatDate(date, 'M/D/YYYY h:mm a');
   }

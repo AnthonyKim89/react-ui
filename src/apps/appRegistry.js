@@ -64,6 +64,9 @@ import hydraulicsPressureTrend from './hydraulics/pressureTrend';
 
 
 
+// Asset Status
+import assetStatus from './asset/assetStatus';
+
 // Apps that can be displayed on dashboard / asset pages, keyed by app type
 export const uiApps = Map({
   torqueAndDrag: Map({
@@ -145,6 +148,13 @@ export const uiApps = Map({
     subtitle: '',
     appTypes: Map({
       ropPerformance: raRopPerformance
+    })
+  }),
+  asset: Map({
+    title: 'Asset',
+    subtitle: '',
+    appTypes: Map({
+      assetStatus
     })
   }),
   hydraulics: Map({
