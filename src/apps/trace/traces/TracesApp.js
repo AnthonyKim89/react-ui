@@ -5,6 +5,8 @@ import { List } from 'immutable';
 
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import TracesSlider from './TracesSlider';
+import TracesSettingsBar from "./TracesSettingsBar";
+import TracesDepthBar from "./TracesDepthBar";
 import TracesChartContainer from './TracesChartContainer';
 import TracesBoxColumn from "./TracesBoxColumn";
 import subscriptions from '../../../subscriptions';
@@ -12,7 +14,6 @@ import { SUBSCRIPTIONS, DEFAULT_TRACE_GRAPHS } from './constants';
 import { SUPPORTED_TRACES } from '../constants';
 
 import './TracesApp.css';
-import TracesDepthBar from "./TracesDepthBar";
 
 const [ latestSubscription, summarySubscription ] = SUBSCRIPTIONS;
 
@@ -45,6 +46,7 @@ class TracesApp extends Component {
         widthCols={this.props.widthCols}
         ref={c => { this.tracesSlider = c; }}
         onRangeChanged={(start, end) => this.updateFilteredData(start, end)} />
+      <TracesSettingsBar />
       <TracesDepthBar
         convert={this.props.convert}
         supportedTraces={supportedTraces}
