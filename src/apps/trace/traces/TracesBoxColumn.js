@@ -19,6 +19,7 @@ class TracesBoxColumn extends Component {
       traceEditIndex: null,
       updatedUnitType: null,
     };
+    this.saveTraceBox = this.saveTraceBox.bind(this);
   }
 
   render() {

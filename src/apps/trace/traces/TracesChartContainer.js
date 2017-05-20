@@ -17,17 +17,20 @@ class TracesChartContainer extends Component {
   }
 
   render() {
+    let columnCount = this.props.traceColumnCount !== undefined ? this.props.traceColumnCount : 4;
+    let columns = Array.apply(null, {length: columnCount}).map(Number.call, Number);
     return <Row s={12} className="c-traces__container">
-      {[0,1,2, 3].map((group) => (
+      {columns.map((group) => (
         <TracesChartColumn
           key={group}
           data={this.props.data}
           latestData={this.props.latestData}
           traceGraphs={this.getTraceGraphGroup(group)}
+          traceRowCount={this.props.traceRowCount}
           supportedTraces={this.props.supportedTraces}
           convert={this.props.convert}
           columnNumber={group}
-          totalColumns={4}
+          totalColumns={columnCount}
           editTraceGraph={(traceEditIndex) => this.openSettingsDialog(traceEditIndex)}
           widthCols={this.props.widthCols} />
       ))}
@@ -41,13 +44,22 @@ class TracesChartContainer extends Component {
   }
 
   getTraceGraphGroup(number) {
-    return Range(0, this.props.traceGraphs.size, 3)
-      .map(chunkStart => this.props.traceGraphs.slice(chunkStart, chunkStart + 3))
+    let rowCount = this.props.traceRowCount !== undefined ? this.props.traceRowCount : 3;
+    return Range(0, this.props.traceGraphs.size, rowCount)
+      .map(chunkStart => this.props.traceGraphs.slice(chunkStart, chunkStart + rowCount))
       .get(number, List());
   }
 
   openSettingsDialog(traceEditIndex) {
     this.traceSettingsDialog.openDialog(traceEditIndex);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.props.traceGraphs.equals(nextProps.traceGraphs)
+      || this.props.latestData.equals(nextProps.latestValue)
+      || this.props.data.equals(nextProps.data)
+      || this.props.traceRowCount !== nextProps.traceRowCount
+      || this.props.traceColumnCount !== nextProps.traceColumnCount;
   }
 }
 
@@ -59,6 +71,8 @@ TracesChartContainer.propTypes = {
   latestData: ImmutablePropTypes.map.isRequired,
   widthCols: PropTypes.number.isRequired,
   onSettingChange: PropTypes.func.isRequired,
+  traceColumnCount: PropTypes.number,
+  traceRowCount: PropTypes.number,
 };
 
 export default TracesChartContainer;

@@ -163,6 +163,7 @@ class TracesChartColumn extends Component {
 }
 
 TracesChartColumn.propTypes = {
+  traceRowCount: PropTypes.number,
   convert: React.PropTypes.instanceOf(Convert).isRequired,
   supportedTraces: PropTypes.array.isRequired,
   traceGraphs: ImmutablePropTypes.list.isRequired,

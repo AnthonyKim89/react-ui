@@ -46,7 +46,10 @@ class TracesApp extends Component {
         widthCols={this.props.widthCols}
         ref={c => { this.tracesSlider = c; }}
         onRangeChanged={(start, end) => this.updateFilteredData(start, end)} />
-      <TracesSettingsBar />
+      <TracesSettingsBar
+        traceColumnCount={this.props.traceColumnCount}
+        traceRowCount={this.props.traceRowCount}
+        onSettingChange={this.props.onSettingChange} />
       <TracesDepthBar
         convert={this.props.convert}
         supportedTraces={supportedTraces}
@@ -59,7 +62,9 @@ class TracesApp extends Component {
         onSettingChange={this.props.onSettingChange}
         traceGraphs={this.props.traceGraphs || DEFAULT_TRACE_GRAPHS}
         convert={this.props.convert}
-        supportedTraces={supportedTraces} />
+        supportedTraces={supportedTraces}
+        traceColumnCount={this.props.traceColumnCount}
+        traceRowCount={this.props.traceRowCount} />
       <TracesBoxColumn
         convert={this.props.convert}
         supportedTraces={supportedTraces}
@@ -170,6 +175,8 @@ class TracesApp extends Component {
 TracesApp.propTypes = {
   traceGraphs: ImmutablePropTypes.list,
   traceBoxes: ImmutablePropTypes.list,
+  traceColumnCount: PropTypes.number,
+  traceRowCount: PropTypes.number,
   data: ImmutablePropTypes.map,
   size: PropTypes.string.isRequired,
   widthCols: PropTypes.number.isRequired,
