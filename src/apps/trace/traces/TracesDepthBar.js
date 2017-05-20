@@ -107,10 +107,24 @@ class TracesDepthBar extends Component {
   }
 
   getTraceColor(state) {
-    return ACTIVITY_COLORS[STATE_CATEGORY_MAP[state]];
+    // The try/catch just returns black if the state is incompatible.
+    try {
+      return ACTIVITY_COLORS[STATE_CATEGORY_MAP[state]];
+    } catch (e) {
+      return '#000000';
+    }
   }
 
   render() {
+    let startTime, endTime, duration;
+    if (this.props.data.size > 0) {
+      let startTimeObj = moment.unix(this.props.data.first().get('timestamp'));
+      startTime = startTimeObj.format('MMMM D, YYYY HH:mm') + " -";
+      let endTimeObj = moment.unix(this.props.data.last().get('timestamp'));
+      endTime = endTimeObj.format('MMMM D, YYYY HH:mm');
+      duration = moment.duration(endTimeObj.diff(startTimeObj)).humanize();
+    }
+
     return <div className="c-traces__depth-bar">
 
       <div className="c-traces__depth-bar__chart">
@@ -127,10 +141,13 @@ class TracesDepthBar extends Component {
       <div className="c-traces__depth-bar__values">
         <div className="c-traces__depth-bar__values__item">
           <div className="c-traces__depth-bar__values__item__meta-row">
+            {startTime}
           </div>
           <div className="c-traces__depth-bar__values__item__meta-row">
+            {endTime}
           </div>
           <div className="c-traces__depth-bar__values__item__meta-row">
+            {duration}
           </div>
         </div>
         <div className="c-traces__depth-bar__values__item">
