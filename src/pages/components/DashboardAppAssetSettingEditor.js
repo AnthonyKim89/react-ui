@@ -77,6 +77,7 @@ class DashboardAppAssetSettingEditor extends Component {
 DashboardAppAssetSettingEditor.defaultProps = {
   label: "Choose An Asset",
   isLabelVisible: true,
+  currentValue: 0
 };
 
 DashboardAppAssetSettingEditor.propTypes = {

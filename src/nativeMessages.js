@@ -18,6 +18,9 @@ function notify(message) {
   if (handler) {
     handler.postMessage(message);
   }
+  else if (window.androidInterface != null) {
+      window.androidInterface.notify(message);
+  }
 }
 
 
