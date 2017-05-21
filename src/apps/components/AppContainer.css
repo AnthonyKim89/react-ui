@@ -171,6 +171,8 @@
 
 .c-app-container__error-grid {
     height: 100%;
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
     display: table;
 }
@@ -187,6 +189,12 @@
 .c-app-container__error i {
     font-size: 7rem;
     color: #ff0000;
+    display: block;
+}
+
+.c-app-container__error .c-app-container__error_no-data i {
+    font-size: 7rem;
+    color: #666666;
     display: block;
 }
 

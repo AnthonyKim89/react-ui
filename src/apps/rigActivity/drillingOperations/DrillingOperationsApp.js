@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Input } from 'react-materialize';
+import { Input, Icon } from 'react-materialize';
 import { format as formatDate } from 'date-fns';
 import * as _ from 'lodash';
-import { fromJS, Map } from 'immutable';
+import { fromJS, Map, List } from 'immutable';
 
 import * as api from '../../../api';
 
@@ -43,6 +43,7 @@ class DrillingOperationsApp extends Component {
   render() {
     return (
       this.readyToRender() ?
+        (!this.state.emptyData ? 
         <div className="c-ra-drilling-operations">
           <h4>{this.getOperation().title}</h4>
           <h5>{this.getOperation().description}</h5>
@@ -75,13 +76,29 @@ class DrillingOperationsApp extends Component {
               </span>
             </div>
           </div>
-        </div> :
+        </div> : this.renderEmpty()) :
         <LoadingIndicator />
     );
   }
 
+  // Render Empty Data
+  renderEmpty() {
+    return (
+      <div className="c-app-container__error">
+        <div className="c-app-container__error-grid">
+          <div className="c-app-container__error-inner">
+            <div className="c-app-container__error_no-data">
+              <Icon>info_outline</Icon>
+            </div>
+            <h1>No results found...</h1>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   readyToRender() {
-    return this.state.data && this.state.data.count() > 0;
+    return (this.state.data && this.state.data.count() > 0) || this.state.emptyData;
   }
 
   getOperation() {
@@ -144,11 +161,16 @@ class DrillingOperationsApp extends Component {
       query: `{data.operation#eq#'${operationType || 0}'}`,
       limit: 1
     }));
+    let emptyData = false;   
     if (data) {
+      if(data instanceof List && data.size === 0) {
+        emptyData = true;
+      }
       data = data.get(0);
     }
     this.setState({
-      data: data
+      data: data,
+      emptyData: emptyData
     });
   }
 
