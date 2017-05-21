@@ -5,6 +5,8 @@ export const METADATA = {
   title: 'Friction Factor',
   settingsTitle: 'Friction Factor',
   subtitle: 'Override automatic borehole friction coefficient',
+  recordProvider: 'corva',
+  recordCollection:'torque-and-drag.friction-factor-overrides',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v2.1',
   publishedAt: '2016-07-01T00:00:00'

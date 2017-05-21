@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-
-import { SUBSCRIPTIONS } from './constants';
+import { Map } from 'immutable';
+import { METADATA,SUBSCRIPTIONS } from './constants';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import subscriptions from '../../../subscriptions';
+
+import * as api from '../../../api';
 
 import './FrictionFactorApp.css';
 
@@ -46,10 +48,49 @@ class FrictionFactorApp extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+
+    if (nextProps.data && !nextProps.data.equals(this.props.data)) {      
+      this.saveRecord(subscriptions.selectors.firstSubData(nextProps.data, SUBSCRIPTIONS));
+    }
+    
     return !!(
         (nextProps.data && !nextProps.data.equals(this.props.data)) ||
         (nextProps.coordinates && !nextProps.coordinates.equals(this.props.coordinates))
     );
+  }
+
+  async saveRecord(subscriptionRecord) {
+    const records = await api.getAppStorage(
+        METADATA.recordProvider, 
+        METADATA.recordCollection,this.props.asset.get('id'),  
+        Map({
+          limit: 1,
+          sort: '{timestamp: -1}'
+    }));    
+
+    let record = Map({
+      asset_id: this.props.asset.get('id'),
+      data: subscriptionRecord.get('data'),
+      timestamp: subscriptionRecord.get('timestamp'),
+    });
+    
+    if (typeof(records.get(0)) !== "undefined") {
+      const recentApiRecord = records.get(0);          
+      var difference = subscriptionRecord.get('timestamp') - recentApiRecord.get('timestamp'); 
+      var minutesDifference = Math.floor(difference/1000/60);        
+      if (minutesDifference < 10 ) {                
+        record = record.set('_id', recentApiRecord.get('_id'));        
+      }      
+    }  
+   
+    try {
+      record.has('_id')? 
+        await api.putAppStorage(METADATA.recordProvider, METADATA.recordCollection, record.get('_id') , record) :
+        await api.postAppStorage(METADATA.recordProvider, METADATA.recordCollection, record);
+    }
+    catch(error) {
+      console.log(error);     
+    }
   }
 
 }
