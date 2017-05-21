@@ -44,9 +44,8 @@ class TracesChartContainer extends Component {
   }
 
   getTraceGraphGroup(number) {
-    let rowCount = this.props.traceRowCount !== undefined ? this.props.traceRowCount : 3;
-    return Range(0, this.props.traceGraphs.size, rowCount)
-      .map(chunkStart => this.props.traceGraphs.slice(chunkStart, chunkStart + rowCount))
+    return Range(0, this.props.traceGraphs.size, 3)
+      .map(chunkStart => this.props.traceGraphs.slice(chunkStart, chunkStart + 3))
       .get(number, List());
   }
 

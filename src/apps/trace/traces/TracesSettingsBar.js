@@ -53,7 +53,7 @@ class TracesSettingsBar extends Component {
             label="Rows"
             defaultValue={this.props.traceRowCount !== undefined ? this.props.traceRowCount : 3}
             ref={(input) => this.traceRowCountInput = input}>
-            <option value="0">0</option>
+            <option value="0">Hide</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -79,15 +79,11 @@ class TracesSettingsBar extends Component {
 
   async saveDisplaySettings() {
     let traceColumnCount = parseInt(this.traceColumnCountInput.state.value, 10);
-    if (traceColumnCount !== this.props.traceColumnCount) {
-      await this.props.onSettingChange("traceColumnCount", 0);
-      await this.props.onSettingChange("traceColumnCount", traceColumnCount);
-    }
-
     let traceRowCount = parseInt(this.traceRowCountInput.state.value, 10);
-    if (traceRowCount !== this.props.traceRowCount) {
-      await this.props.onSettingChange("traceRowCount", traceRowCount);
-    }
+
+    await this.props.onSettingChange("traceColumnCount", 0); // We have to clear this first and then reset it to fix highcharts issues
+    await this.props.onSettingChange("traceRowCount", traceRowCount);
+    await this.props.onSettingChange("traceColumnCount", traceColumnCount);
 
     this.closeDialogs();
   }
