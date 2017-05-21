@@ -78,8 +78,17 @@ class TracesSettingsBar extends Component {
   }
 
   async saveDisplaySettings() {
-    await this.props.onSettingChange("traceRowCount", parseInt(this.traceRowCountInput.state.value, 10));
-    await this.props.onSettingChange("traceColumnCount", parseInt(this.traceColumnCountInput.state.value, 10));
+    let traceColumnCount = parseInt(this.traceColumnCountInput.state.value, 10);
+    if (traceColumnCount !== this.props.traceColumnCount) {
+      await this.props.onSettingChange("traceColumnCount", 0);
+      await this.props.onSettingChange("traceColumnCount", traceColumnCount);
+    }
+
+    let traceRowCount = parseInt(this.traceRowCountInput.state.value, 10);
+    if (traceRowCount !== this.props.traceRowCount) {
+      await this.props.onSettingChange("traceRowCount", traceRowCount);
+    }
+
     this.closeDialogs();
   }
 
