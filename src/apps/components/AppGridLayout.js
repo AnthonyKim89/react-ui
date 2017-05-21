@@ -171,6 +171,7 @@ class AppGridLayout extends Component {
         {...this.getPageParams().toJS()}
         {...settings.toObject()}
         size={size}
+        isNative={this.props.isNative}
         coordinates={coordinates}
         widthCols={coordinates.get('w')}
         convert={this.props.convert}

@@ -1,6 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Input } from 'react-materialize';
 import { format as formatDate } from 'date-fns';
@@ -12,7 +10,6 @@ import { ACTIVITY_COLORS, PERIOD_TYPES, DISPLAY_FORMATS, METADATA } from './cons
 import PieChart from '../../../common/PieChart';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import common from '../../../common';
-import { isNative } from '../../../pages/selectors';
 
 import './RigActivityApp.css';
 
@@ -294,8 +291,4 @@ RigActivityApp.defaultProps = {
   displayFormat: DISPLAY_FORMATS[0].value,
 };
 
-export default connect(
-  createStructuredSelector({
-    isNative
-  })
-)(RigActivityApp);
+export default RigActivityApp;
