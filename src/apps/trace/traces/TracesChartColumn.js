@@ -53,7 +53,7 @@ class TracesChartColumn extends Component {
       </div>
       <div className={"c-traces__chart-column__values c-traces__chart-column__values-" + this.props.traceRowCount}>
         {series.slice(0, this.props.traceRowCount !== undefined ? this.props.traceRowCount : 3).map(({valid, field, title, color, unit, latestValue}, idx) => (
-          <div className="c-traces__chart-column__values__item" key={idx} onClick={() => this.props.editTraceGraph(idx + (3 * this.props.columnNumber))}>
+          <div className="c-traces__chart-column__values__item" key={idx} onClick={() => this.props.editTraceGraph(idx + (4 * this.props.columnNumber))}>
             {valid ? <div>
               <div className="c-traces__chart-column__values__item__meta-row">
                 <div className="c-traces__center"><span>{title}</span></div>
