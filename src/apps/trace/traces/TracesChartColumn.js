@@ -18,6 +18,7 @@ class TracesChartColumn extends Component {
       <div className={"c-traces__chart-column__chart c-traces__chart-column__chart-" + this.props.traceRowCount}>
         {find(series, {valid: true}) &&
           <Chart
+            simpleSeriesData={true}
             chartType="area"
             xField="timestamp"
             size="MEDIUM"

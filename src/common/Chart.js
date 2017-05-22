@@ -159,16 +159,22 @@ class Chart extends Component {
       const typeChange = oldVersion.options.type !== newVersion.type;
       const lineWidthChange = oldVersion.options.lineWidth !== newVersion.lineWidth;
       const minmaxValueChange = oldVersion.options.min !== newVersion.min || oldVersion.options.max !== newVersion.max;
-      const addedPoints = differenceBy(newVersion.data, oldVersion.data, p => p.id);
-      const removedPoints = differenceBy(oldVersion.data, newVersion.data, p => p.id);
-      for (const point of removedPoints) {
-        point.remove(false);
-        redraw = true;
+
+      if (this.props.simpleSeriesData) {
+        oldVersion.setData(newVersion.data);
+      } else {
+        const addedPoints = differenceBy(newVersion.data, oldVersion.data, p => p.id);
+        const removedPoints = differenceBy(oldVersion.data, newVersion.data, p => p.id);
+        for (const point of removedPoints) {
+          point.remove(false);
+          redraw = true;
+        }
+        for (const point of addedPoints) {
+          oldVersion.addPoint(point, false);
+          redraw = true;
+        }
       }
-      for (const point of addedPoints) {
-        oldVersion.addPoint(point, false);
-        redraw = true;
-      }
+
       if (colorChange || dashStyleChange || typeChange || lineWidthChange) {
         oldVersion.update({
           color: newVersion.color,
@@ -215,18 +221,29 @@ class Chart extends Component {
 
   getSeriesFromChild(child, props) {
     const {type, title, data, color, id, yField, yAxis, yAxisTitle, yAxisOpposite, minValue, maxValue, dashStyle, lineWidth, pointPadding, groupPadding, borderWidth, marker, visible, fillOpacity, step} = child.props;
-    return {
-      id,
-      name: title,
-      type: type || 'line',
-      data: data.reduce((result, point) => {
+
+    let assembledData;
+    if (this.props.simpleSeriesData) {
+      assembledData = data.reduce((result, point) => {
+        result.push([point.get(props.xField), yField ? point.get(yField) : null]);
+        return result;
+      }, []);
+    } else {
+      assembledData = data.reduce((result, point) => {
         const x = point.get(props.xField);
         const y = yField ? point.get(yField) : null;
         const color = point.get('color');
         const pointId = `${id}-${x}-${y}`;
         result.push({id: pointId, x, y, color});
         return result;
-      }, []),
+      }, []);
+    }
+
+    return {
+      id,
+      name: title,
+      type: type || 'line',
+      data: assembledData,
       visible,      
       yAxis: props.multiAxis ? yAxis : 0,
       yAxisTitle: yAxisTitle,
