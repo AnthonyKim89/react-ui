@@ -161,7 +161,8 @@ class Chart extends Component {
       const minmaxValueChange = oldVersion.options.min !== newVersion.min || oldVersion.options.max !== newVersion.max;
 
       if (this.props.simpleSeriesData) {
-        oldVersion.setData(newVersion.data);
+        oldVersion.setData(newVersion.data, false);
+        redraw = true;
       } else {
         const addedPoints = differenceBy(newVersion.data, oldVersion.data, p => p.id);
         const removedPoints = differenceBy(oldVersion.data, newVersion.data, p => p.id);
