@@ -16,20 +16,7 @@ export const METADATA = {
 export const SUPPORTED_ASSET_TYPES = ['rig'];
 export const INITIAL_SIZE = {w: 5, h: 5};
 
-export const DEFAULT_TRACE_GRAPHS = fromJS([
-  {trace: '', color: '#ffffff'},
-  {trace: '', color: '#ffffff'},
-  {trace: '', color: '#ffffff'},
-  {trace: '', color: '#ffffff'},
-  {trace: '', color: '#ffffff'},
-  {trace: '', color: '#ffffff'},
-  {trace: '', color: '#ffffff'},
-  {trace: '', color: '#ffffff'},
-  {trace: '', color: '#ffffff'},
-  {trace: '', color: '#ffffff'},
-  {trace: '', color: '#ffffff'},
-  {trace: '', color: '#ffffff'},
-]);
+export const DEFAULT_TRACE_GRAPHS = fromJS(new Array(32).fill({trace: '', color: '#ffffff'}));
 
 export const STATE_CATEGORY_MAP = {
   'DrillSlide(Slide mode drilling)': "Drilling Slide",

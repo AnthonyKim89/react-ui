@@ -60,7 +60,7 @@ class TracesApp extends Component {
         latestData={latestData}
         widthCols={this.props.widthCols}
         onSettingChange={this.props.onSettingChange}
-        traceGraphs={this.props.traceGraphs || DEFAULT_TRACE_GRAPHS}
+        traceGraphs={DEFAULT_TRACE_GRAPHS.merge(this.props.traceGraphs)}
         convert={this.props.convert}
         supportedTraces={supportedTraces}
         traceColumnCount={this.props.traceColumnCount}

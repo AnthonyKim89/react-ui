@@ -46,6 +46,10 @@ class TracesSettingsBar extends Component {
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
           </Input>
 
           <Input
@@ -57,6 +61,7 @@ class TracesSettingsBar extends Component {
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
+            <option value="4">4</option>
           </Input>
 
           <Row className="c-traces__settings-bar__display-settings__dialog__button-row">

@@ -6,20 +6,56 @@
   padding: 1px !important;
 }
 
+.c-traces__chart-column__1 {
+  width: 100%;
+}
+
+.c-traces__chart-column__2 {
+  width: calc(100% / 2);
+}
+
+.c-traces__chart-column__3 {
+  width: calc(100% / 3);
+}
+
+.c-traces__chart-column__4 {
+  width: calc(100% / 4);
+}
+
+.c-traces__chart-column__5 {
+  width: calc(100% / 5);
+}
+
+.c-traces__chart-column__6 {
+  width: calc(100% / 6);
+}
+
+.c-traces__chart-column__7 {
+  width: calc(100% / 7);
+}
+
+.c-traces__chart-column__8 {
+  width: calc(100% / 8);
+}
+
 .c-traces__chart-column__chart {
   background-color: #000;
 }
 
+.c-traces__chart-column__chart-4 {
+  height: calc(100% - 227px);
+}
+
 .c-traces__chart-column__chart-3 {
-  height: calc(100% - 171px);
+  height: calc(100% - (227px * (3/4)));
 }
 
 .c-traces__chart-column__chart-2 {
-  height: calc(100% - (170px * (2/3)) + 1px);
+  height: calc(100% - (227px * (2/4)));
 }
 
 .c-traces__chart-column__chart-1 {
-  height: calc(100% - (170px * (1/3)) + 1px);
+  height: calc(100% - (227px * (1/4)));
 }
 
 .c-traces__chart-column__chart-0 {
@@ -27,7 +63,7 @@
 }
 
 .c-traces__chart-column__values {
-  height: 170px;
+  height: 227px;
   text-align: center;
   border-top: 1px solid #333;
   display: flex;
@@ -36,15 +72,19 @@
 }
 
 .c-traces__chart-column__values-3 {
-  height: 170px;
+  height: 227px;
+}
+
+.c-traces__chart-column__values-3 {
+  height: calc(227px * (3/4));
 }
 
 .c-traces__chart-column__values-2 {
-  height: calc(170px * (2/3));
+  height: calc(227px * (2/4));
 }
 
 .c-traces__chart-column__values-1 {
-  height: calc(170px * (1/3));
+  height: calc(227px * (1/4));
 }
 
 .c-traces__chart-column__values-0 {
@@ -52,7 +92,7 @@
 }
 
 .c-traces__chart-column__values__item {
-  height: calc(170px / 3);
+  height: calc(227px / 4);
   border-bottom: 1px solid #333;
   cursor: pointer;
   display: flex;
@@ -77,8 +117,8 @@
 
 .c-traces__chart-column__values__item__meta-row {
   position: relative;
-  line-height: calc(170px / 9);
-  height: calc(170px / 9);
+  line-height: calc(227px / 12);
+  height: calc(227px / 12);
 }
 
 .c-traces__center {
