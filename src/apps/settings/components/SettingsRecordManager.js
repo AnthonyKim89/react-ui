@@ -23,7 +23,8 @@ class SettingsRecordManager extends Component {
     this.state = {
       records: List(),
       displayingRecord: null,
-      editingRecord: null
+      editingRecord: null,
+      loading: true
     };
   }
 
@@ -43,7 +44,8 @@ class SettingsRecordManager extends Component {
     const records = await api.getAppStorage(this.props.recordProvider, this.props.recordCollection, asset.get('id'), Map({limit: 0}));
     this.setState({
       records,
-      displayingRecord: records.first()
+      displayingRecord: records.first(),
+      loading: false
     });
   }
 
@@ -78,7 +80,8 @@ class SettingsRecordManager extends Component {
           onSelectRecord={ds => this.setState({displayingRecord: ds})}
           onNewRecord={() => this.setState({editingRecord: this.makeNewRecord()})}
           onEditRecord={() => this.setState({editingRecord: this.state.displayingRecord})}
-          onDeleteRecord={() => this.deleteRecord()} />}
+          onDeleteRecord={() => this.deleteRecord()} 
+          loading={this.state.loading} />}
     </div>;
   }
 

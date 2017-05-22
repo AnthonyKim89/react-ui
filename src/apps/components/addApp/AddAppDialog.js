@@ -13,25 +13,32 @@ class AddAppDialog extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {selectedAppType: null};
+    this.state = {
+      selectedAppType: props.selectedAppType || null
+    };
   }
 
   render() {
-    return <div className="c-add-app-dialog">
-      {this.state.selectedAppType ?
-        <AddAppDialogDetails 
-          appType={this.state.selectedAppType}
-          appTypeCategory={this.getSelectedAppTypeCategory()}
-          commonSettingsEditors={this.props.commonSettingsEditors}
-          onAppAdd={this.props.onAppAdd}
-          onViewAllApps={() => this.showAppList()} /> :
-        <AddAppDialogListing
-          appTypes={this.props.appTypes}
-          onSelectType={selectedAppType => this.showAppDetails(selectedAppType)} />}
-      <Button className="c-add-app-dialog__close-button" onClick={this.props.onClose}>
-        <Icon>close</Icon> <span>Cancel</span>
-      </Button>
-    </div>;
+    return (
+      <div className="c-add-app-dialog">
+        {this.state.selectedAppType ?
+          <AddAppDialogDetails 
+            appType={this.state.selectedAppType}
+            appTypeCategory={this.getSelectedAppTypeCategory()}
+            commonSettingsEditors={this.props.commonSettingsEditors}
+            showSettings={this.props.showSettings}
+            onAppAdd={this.props.onAppAdd}
+            onViewAllApps={() => this.showAppList()} /> :
+          <AddAppDialogListing
+            appTypes={this.props.appTypes}
+            onSelectType={selectedAppType => this.showAppDetails(selectedAppType)} />}
+        {this.props.showCancel &&
+          <Button className="c-add-app-dialog__close-button" onClick={this.props.onClose}>
+            <Icon>close</Icon> <span>Cancel</span>
+          </Button>
+        }
+      </div>
+    );
   }
 
   getSelectedAppTypeCategory() {
@@ -60,9 +67,18 @@ class AddAppDialog extends Component {
 
 AddAppDialog.propTypes = {
   appTypes: ImmutablePropTypes.map.isRequired,
+  // The AddAppDialog can be initialized with a starting app type.
+  selectedAppType: PropTypes.object,
   commonSettingsEditors: ImmutablePropTypes.list,
   onAppAdd: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
+  showCancel: PropTypes.bool,
+  showSettings: PropTypes.bool
+};
+
+AddAppDialog.defaultProps = {
+  showCancel: true,
+  showSettings: true
 };
 
 export default AddAppDialog;

@@ -127,7 +127,7 @@ class Heatmap extends Component {
 
 Heatmap.propTypes = {
   size: PropTypes.oneOf(values(Size)).isRequired,
-  coordinates: PropTypes.object.isRequired,
+  coordinates: PropTypes.object,
   showLegend: PropTypes.bool,
   series: PropTypes.object.isRequired,
   yAxis: PropTypes.object.isRequired,

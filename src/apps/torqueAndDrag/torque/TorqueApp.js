@@ -18,6 +18,8 @@ class TorqueApp extends Component {
           <Chart
             xField="measured_depth"
             size={this.props.size}
+            automaticOrientation={this.automaticOrientation}
+            horizontal={this.horizontal}
             coordinates={this.props.coordinates}
             widthCols={this.props.widthCols}>
             {this.getSeries().map(({renderType, title, field, data}, idx) => (
@@ -38,12 +40,18 @@ class TorqueApp extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return (nextProps.data !== this.props.data || nextProps.coordinates !== this.props.coordinates || nextProps.graphColors !== this.props.graphColors);
+    return !!(
+        (nextProps.data && !nextProps.data.equals(this.props.data)) ||
+        (nextProps.coordinates && !nextProps.coordinates.equals(this.props.coordinates)) ||
+        (nextProps.graphColors && !nextProps.graphColors.equals(this.props.graphColors)) ||
+        (nextProps.orientation !== this.props.orientation)
+    );
   }
 
   getSeries() {
     let data = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'points']);
-    data = this.props.convert.convertImmutables(data, "measured_depth", "length", 'ft');
+    data = this.props.convert.convertImmutables(data, "measured_depth", "length", 'ft')
+      .sortBy(d => d.get('measured_depth'));
     // Converting y-axis values to their target unit.
     for (let property in SUPPORTED_CHART_SERIES) {
       if (SUPPORTED_CHART_SERIES.hasOwnProperty(property) && SUPPORTED_CHART_SERIES[property].hasOwnProperty("unitType")) {
@@ -68,6 +76,17 @@ class TorqueApp extends Component {
     } else {
       return SUPPORTED_CHART_SERIES[field].defaultColor;
     }
+  }
+
+  get automaticOrientation() {
+    return this.props.orientation && this.props.orientation === 'auto';
+  }
+
+  get horizontal() {
+    if (this.props.orientation) {
+      return this.props.orientation === 'horizontal';
+    }
+    return true;
   }
 
 }

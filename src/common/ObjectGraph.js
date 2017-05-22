@@ -140,7 +140,7 @@ class ObjectGraph extends Component {
 
 ObjectGraph.propTypes = {
   size: PropTypes.string.isRequired,
-  coordinates: PropTypes.object.isRequired,
+  coordinates: PropTypes.object,
   series: PropTypes.array.isRequired,
   xAxisLabelFormat: PropTypes.string,
   yAxisLabelFormat: PropTypes.string,

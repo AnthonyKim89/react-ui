@@ -2,11 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import { Button, Row, Col, Input } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Convert from '../../../common/Convert';
+import LoadingIndicator from '../../../common/LoadingIndicator';
 
 import './SettingsRecordBrowser.css';
 class SettingsRecordBrowser extends Component {
 
   render() {    
+
     return <div className="c-settings-record-browser">      
       <Row className="c-settings-record-browser__filter">
         <Input m={11}                
@@ -24,7 +26,10 @@ class SettingsRecordBrowser extends Component {
           <Button floating icon="add" onClick={() => this.props.onNewRecord()} />
         </Col>
       </Row>
-      {this.props.displayingRecord &&
+
+      {this.props.records.size < 1 &&
+        this.renderNoRecords() }
+      {this.props.records.size>0 && this.props.displayingRecord &&
         <div>
           <this.props.RecordSummary
             record={this.props.displayingRecord}
@@ -36,9 +41,24 @@ class SettingsRecordBrowser extends Component {
             record={this.props.displayingRecord}
             convert={this.props.convert}
             isEditable={false} 
-            onEditRecord={this.props.onEditRecord}/>
-        </div>}
+            onEditRecord={this.props.onEditRecord}
+            onDeleteRecord={this.props.onDeleteRecord}/>
+      </div>}
     </div>;
+  }
+
+  renderNoRecords() {
+    if(this.props.loading) {
+      return <div className="c-settings-record-browser__loading">
+              <div>Loading records...</div>
+              <LoadingIndicator fullscreen={false} /> 
+            </div>;
+    } else {
+      return <div className="c-settings-record-browser__no-data">            
+        <div>No Existing Data</div>
+        <div className="c-settings-record-browser__no-data-description">Create a new one to begin</div>
+      </div>;
+    }
   }
 
   onSelectChange(id) {

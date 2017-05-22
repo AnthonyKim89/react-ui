@@ -14,6 +14,10 @@
 .c-asset-list-page__table td {
   font-size: 1.2em;
 }
+.c-asset-list-page__table span.c-asset-status {
+  position: relative;
+}
+
 .c-asset-list-page__asset-link, .c-asset-list-page__asset-link:hover,  .c-asset-list-page__asset-link:focus,
 .c-asset-list-page__sort-link, .c-asset-list-page__sort-link:hover, .c-asset-list-page__sort-link:focus {
   color: white;

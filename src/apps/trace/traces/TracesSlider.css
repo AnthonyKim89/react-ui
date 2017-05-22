@@ -26,7 +26,7 @@
 
 .c-traces__slider-interaction__info {
   position: absolute;
-  border: 2px solid #f18c21;
+  border: 2px solid #58c9c2;
   height: 24px;
   line-height: 24px;
   width: 84px;
@@ -37,7 +37,7 @@
 
 .c-traces__slider-interaction__info i {
   line-height: 24px;
-  color: #f18c21;
+  color: #58c9c2;
   font-size: 1rem;
   padding-right: 2px;
 }
@@ -50,7 +50,7 @@
 
 .c-traces__slider-interaction__top-slider {
   background-color: rgba(60,60,60,.6);
-  border-bottom: 2px solid #f18c21;
+  border-bottom: 2px solid #58c9c2;
   min-height: 28px;
 }
 
@@ -62,7 +62,7 @@
 
 .c-traces__slider-interaction__top-info {
   bottom: 0;
-  border-radius: 5px 5px 0 0;
+  border-radius: 3px 3px 0 0;
   border-bottom: 0;
 }
 
@@ -77,7 +77,7 @@
 .c-traces__slider-interaction__middle-slider__resizer {
   width: 26px;
   height: 26px;
-  border: 2px solid #f18c21;
+  border: 2px solid #58c9c2;
   background-color: rgba(241,140,33,0.2);
   margin-left: calc(100% - 27px);
   cursor: row-resize;
@@ -85,7 +85,7 @@
 }
 
 .c-traces__slider-interaction__middle-slider__resizer i {
-  color: #f18c21;
+  color: #58c9c2;
   line-height: 23px;
   font-size: 1.1rem;
   margin: 0;
@@ -94,7 +94,7 @@
 
 .c-traces__slider-interaction__bottom-slider {
   background-color: rgba(60,60,60,.6);
-  border-top: 2px solid #f18c21;
+  border-top: 2px solid #58c9c2;
   min-height: 28px;
 }
 
@@ -107,5 +107,5 @@
 .c-traces__slider-interaction__bottom-info {
   top: 0;
   border-top: 0;
-  border-radius: 0 0 5px 5px;
+  border-radius: 0 0 3px 3px;
 }

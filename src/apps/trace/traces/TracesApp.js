@@ -5,7 +5,10 @@ import { List } from 'immutable';
 
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import TracesSlider from './TracesSlider';
+import TracesSettingsBar from "./TracesSettingsBar";
+import TracesDepthBar from "./TracesDepthBar";
 import TracesChartContainer from './TracesChartContainer';
+import TracesBoxColumn from "./TracesBoxColumn";
 import subscriptions from '../../../subscriptions';
 import { SUBSCRIPTIONS, DEFAULT_TRACE_GRAPHS } from './constants';
 import { SUPPORTED_TRACES } from '../constants';
@@ -33,6 +36,9 @@ class TracesApp extends Component {
       return <LoadingIndicator/>;
     }
 
+    let latestData = subscriptions.selectors.getSubData(this.props.data, latestSubscription);
+    let supportedTraces = this.mergeSupportedTraces(latestData);
+
     return <div className="c-traces" onWheel={e => this.tracesSlider.scrollRange(e)}>
       <TracesSlider
         summaryData={this.summaryData}
@@ -40,18 +46,35 @@ class TracesApp extends Component {
         widthCols={this.props.widthCols}
         ref={c => { this.tracesSlider = c; }}
         onRangeChanged={(start, end) => this.updateFilteredData(start, end)} />
+      <TracesSettingsBar
+        traceColumnCount={this.props.traceColumnCount}
+        traceRowCount={this.props.traceRowCount}
+        onSettingChange={this.props.onSettingChange} />
+      <TracesDepthBar
+        convert={this.props.convert}
+        supportedTraces={supportedTraces}
+        data={this.state.filteredData}
+        latestData={latestData} />
       <TracesChartContainer
         data={this.state.filteredData}
+        latestData={latestData}
         widthCols={this.props.widthCols}
         onSettingChange={this.props.onSettingChange}
-        traceGraphs={this.props.traceGraphs || DEFAULT_TRACE_GRAPHS}
+        traceGraphs={DEFAULT_TRACE_GRAPHS.merge(this.props.traceGraphs)}
         convert={this.props.convert}
-        supportedTraces={this.mergeSupportedTraces()} />
+        supportedTraces={supportedTraces}
+        traceColumnCount={this.props.traceColumnCount}
+        traceRowCount={this.props.traceRowCount} />
+      <TracesBoxColumn
+        convert={this.props.convert}
+        supportedTraces={supportedTraces}
+        traceBoxes={this.props.traceBoxes || new List()}
+        data={latestData}
+        onSettingChange={this.props.onSettingChange} />
     </div>;
   }
 
-  mergeSupportedTraces() {
-    let latestData = subscriptions.selectors.getSubData(this.props.data, latestSubscription);
+  mergeSupportedTraces(latestData) {
     let witsSupportedTraces = latestData.get('data').toJS();
 
     for (let property in witsSupportedTraces) {
@@ -78,6 +101,51 @@ class TracesApp extends Component {
     this.summaryData = this.convertUnits(summaryData);
   }
 
+  convertUnits(filteredData) {
+    let traceGraphs = this.props.traceGraphs || DEFAULT_TRACE_GRAPHS;
+
+    traceGraphs.valueSeq().forEach(traceGraph => {
+      filteredData = this.convertUnitField(traceGraph, filteredData);
+    });
+
+    let traceBoxes = this.props.traceBoxes || new List();
+
+    traceBoxes.valueSeq().forEach(traceBox => {
+      if (!traceGraphs.find(value => value.get('trace') === traceBox.get('trace')) ) {
+        filteredData = this.convertUnitField(traceBox, filteredData);
+      }
+    });
+
+    return filteredData;
+  }
+
+  convertUnitField(traceEntry, filteredData) {
+    let traceKey = traceEntry.get('trace');
+    if (!traceKey) {
+      return filteredData;
+    }
+
+    let unitType = traceEntry.get('unitType');
+    let unitFrom = traceEntry.get('unitFrom');
+    let unitTo = traceEntry.get('unitTo', null);
+
+    // Typically we will fall into this if-statement because common selections won't have a unit type chosen.
+    if (!unitType) {
+      let trace = find(SUPPORTED_TRACES, {trace: traceKey});
+      if (!trace || !traceKey.hasOwnProperty('unitType') || !traceKey.hasOwnProperty('cunit')) {
+        return filteredData;
+      }
+      unitType = trace.unitType;
+      unitFrom = trace.cunit;
+    }
+
+    if (!unitFrom) {
+      unitFrom = this.props.convert.getUnitPreference(unitType);
+    }
+
+    return this.props.convert.convertImmutables(filteredData, traceKey, unitType, unitFrom, unitTo);
+  }
+
   updateFilteredData(start=null, end=null) {
     start = start !== null ? start : this.state.start;
     end = end !== null ? end : this.state.end;
@@ -102,39 +170,13 @@ class TracesApp extends Component {
       filteredData
     });
   }
-
-  convertUnits(filteredData) {
-    let traceGraphs = this.props.traceGraphs || DEFAULT_TRACE_GRAPHS;
-
-    traceGraphs.valueSeq().forEach(traceGraph => {
-      let traceKey = traceGraph.get('trace');
-      if (!traceKey) {
-        return;
-      }
-
-      let unitType = traceGraph.get('unitType');
-      let unitFrom = traceGraph.get('unitFrom');
-      let unitTo = traceGraph.get('unitTo', null);
-
-      // Typically we will fall into this if-statement because common selections won't have a unit type chosen.
-      if (!unitType) {
-        let trace = find(SUPPORTED_TRACES, {trace: traceKey});
-        if (!trace || !traceKey.hasOwnProperty('unitType') || !traceKey.hasOwnProperty('cunit')) {
-          return;
-        }
-        unitType = trace.unitType;
-        unitFrom = trace.cunit;
-      }
-
-      filteredData = this.props.convert.convertImmutables(filteredData, traceKey, unitType, unitFrom, unitTo);
-    });
-
-    return filteredData;
-  }
 }
 
 TracesApp.propTypes = {
   traceGraphs: ImmutablePropTypes.list,
+  traceBoxes: ImmutablePropTypes.list,
+  traceColumnCount: PropTypes.number,
+  traceRowCount: PropTypes.number,
   data: ImmutablePropTypes.map,
   size: PropTypes.string.isRequired,
   widthCols: PropTypes.number.isRequired,

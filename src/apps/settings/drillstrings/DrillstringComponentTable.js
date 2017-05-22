@@ -78,56 +78,62 @@ class DrillstringComponentTable extends Component {
 
   renderBitComponentHighlight(bit, idx) {
     return [
+      <div className="c-drillstring-component-highlight">
       <Row key={`bit-${idx}-title`}>
         <Col m={2}></Col>
         <Col m={10}>
           <h5>Bit: {bit.get('name')}</h5>
         </Col>
-      </Row>,
+      </Row>
       <Row key={`bit-${idx}-make`}>
         <Col m={2}></Col>
         {this.renderHighlightTextField(bit, idx, 'make', 'Make', 3)}
         {this.renderHighlightTextField(bit, idx, 'model', 'Model', 3)}
         {this.renderHighlightTextField(bit, idx, 'serial_number', 'Serial number', 3)}
-      </Row>,
+      </Row>
       <Row key={`bit-${idx}-fields`}>
         <Col m={2}></Col>
         {this.renderHighlightNumberField(bit, idx, 'bit_wear', 'Bit wear', 3)}
         {this.renderHighlightNumberField(bit, idx, 'tfa', 'TFA', 3)}
         {this.renderHighlightNumberField(bit, idx, 'size', 'Size', 3,'shortLength','in')}
       </Row>
+      </div>
     ];
   }
 
   renderPDMComponentHighlight(motor, idx) {
     return [
+      <div className="c-drillstring-component-highlight">
       <Row key={`motor-${idx}-title`}>
         <Col m={2}></Col>
         <Col m={10}>
           <h5>Motor: {motor.get('name')}</h5>
         </Col>
-      </Row>,
+      </Row>
       <Row key={`motor-${idx}-fields`}>
         <Col m={2}></Col>
         {this.renderHighlightNumberField(motor, idx, 'number_rotor_lobes', '# of rotor lobes', 3)}
         {this.renderHighlightNumberField(motor, idx, 'number_stator_lobes', '# of stator lobes', 3)}
         {this.renderHighlightNumberField(motor, idx, 'rpg', 'RPG', 3)}
       </Row>
+      </div>
     ];
   }
 
   renderMWDComponentHighlight(pipe, idx) {
     return [
+      <div className="c-drillstring-component-highlight">
       <Row key={`drill-pipe-${idx}-title`}>
         <Col m={2}></Col>
         <Col m={10}>
           <h5>Drill pipe: {pipe.get('name')}</h5>
         </Col>
-      </Row>,
+      </Row>
       <Row key={`pipe-${idx}-fields`}>
         <Col m={2}></Col>
         {this.renderHighlightTextField(pipe, idx, 'sensor_to_bit_distance', 'Sensor to bit distance', 3)}
       </Row>
+      </div>
     ];
   }
 
@@ -141,8 +147,8 @@ class DrillstringComponentTable extends Component {
                     onChange={e => this.onComponentFieldChange(idx, field, e.target.value)} />;
     } else {
       return <Col m={cols}>
-        <div>{label}</div>
-        <div>{component.get(field)}</div>
+        <div className="c-drillstring-component-highlight-text-label">{label}</div>
+        <div>{component.get(field) || "-"}</div>
       </Col>;
     }
   }
@@ -163,8 +169,8 @@ class DrillstringComponentTable extends Component {
                     onChange={e => this.onComponentFieldChange(idx, field, parseFloat(e.target.value))} />;
     } else {
       return <Col m={cols}>
-        <div>{label}</div>
-        <div>{value}</div>
+        <div className="c-drillstring-component-highlight-text-label">{label}</div>
+        <div>{value || "-"}</div>
       </Col>;
     }
   }

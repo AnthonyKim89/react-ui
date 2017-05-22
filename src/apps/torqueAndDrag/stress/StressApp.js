@@ -18,17 +18,23 @@ class StressApp extends Component {
           <Chart
             xField="measured_depth"
             size={this.props.size}
+            automaticOrientation={this.automaticOrientation}
+            areaSplineThreshold={150000}
+            horizontal={this.horizontal}
             coordinates={this.props.coordinates}
             widthCols={this.props.widthCols}>
-            {this.getSeries().map(({renderType, title, field, data}, idx) => (
+            {this.getSeries().map(({renderType, title, field, data, fillOpacity, visible}, idx) => (
               <ChartSeries
                 dashStyle='Solid'
                 lineWidth={2}
                 key={field}
                 id={field}
+                type={renderType}
                 title={SUPPORTED_CHART_SERIES[field].label}
                 data={data}
                 yField={field}
+                fillOpacity={fillOpacity}
+                visible={visible}
                 color={this.getSeriesColor(field)} />
             ))}
           </Chart> :
@@ -39,12 +45,18 @@ class StressApp extends Component {
 
 
   shouldComponentUpdate(nextProps, nextState) {
-    return (nextProps.data !== this.props.data || nextProps.coordinates !== this.props.coordinates || nextProps.graphColors !== this.props.graphColors);
+    return !!(
+        (nextProps.data && !nextProps.data.equals(this.props.data)) ||
+        (nextProps.coordinates && !nextProps.coordinates.equals(this.props.coordinates)) ||
+        (nextProps.graphColors && !nextProps.graphColors.equals(this.props.graphColors)) ||
+        (nextProps.orientation !== this.props.orientation)
+    );
   }
 
   getSeries() {
     let data = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'points']);
-    data = this.props.convert.convertImmutables(data, 'measured_depth', 'length', 'ft');
+    data = this.props.convert.convertImmutables(data, 'measured_depth', 'length', 'ft')
+      .sortBy(d => d.get('measured_depth'));
     // Converting each of our y-axis values to their target unit.
     for (let property in SUPPORTED_CHART_SERIES) {
       if (SUPPORTED_CHART_SERIES.hasOwnProperty(property)) {
@@ -56,12 +68,53 @@ class StressApp extends Component {
   }
 
   getDataSeries(field, data) {
-    return {
-      renderType: 'line',
-      title: field,
-      field,
-      data: data
-    };
+    switch (field) {
+      case 'yield_stress':
+        return {
+          renderType: 'areaspline',
+          title: field,
+          field,
+          data: data,
+          fillOpacity: 0.3,
+          visible: true
+        };
+      case 'yield_stress_80_percent':
+          return {
+            renderType: 'line',
+            title: field,
+            field,
+            data: data,
+            fillOpacity: 0.0,
+            visible: true
+          };
+      case 'yield_stress_60_percent':
+          return {
+            renderType: 'line',
+            title: field,
+            field,
+            data: data,
+            fillOpacity: 0.0,
+            visible: true
+          };
+      case 'von_mises_stress':
+          return {
+            renderType: 'line',
+            title: field,
+            field,
+            data: data,
+            fillOpacity: 0.0,
+            visible: true
+          };
+      default:
+        return {
+          renderType: 'line',
+          title: field,
+          field,
+          data: data,
+          fillOpacity: 0.0,
+          visible: false
+        };
+    }
   }
 
   getSeriesColor(field) {
@@ -70,6 +123,17 @@ class StressApp extends Component {
     } else {
       return SUPPORTED_CHART_SERIES[field].defaultColor;
     }
+  }
+
+  get automaticOrientation() {
+    return this.props.orientation && this.props.orientation === 'auto';
+  }
+
+  get horizontal() {
+    if (this.props.orientation) {
+      return this.props.orientation === 'horizontal';
+    }
+    return true;
   }
 
 }

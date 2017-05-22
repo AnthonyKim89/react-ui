@@ -41,6 +41,9 @@ class Chart extends Component {
         series: {
           turboThreshold: 5000
         },
+        areaspline: {
+          threshold: this.props.areaSplineThreshold  // Fill the outside of the spline
+        }
       },
       xAxis: {
         title: this.isAxisLabelsVisible(this.props) ? this.props.xAxisTitle : {text:null},
@@ -110,7 +113,12 @@ class Chart extends Component {
       }, false);
       reflow = true;
       redraw = true;
-    } else if (newProps.widthCols !== this.props.widthCols || (this.props.coordinates && (newProps.coordinates !== this.props.coordinates))) {
+    } else if (
+        newProps.widthCols !== this.props.widthCols ||
+        newProps.automaticOrientation !== this.props.automaticOrientation ||
+        newProps.horizontal !== this.props.horizontal ||
+        (this.props.coordinates && !newProps.coordinates.equals(this.props.coordinates))
+        ) {
       const newInverted = this.isInverted(newProps);
       if (chart.inverted !== newInverted) {
         chart.update({chart: {inverted: newInverted}}, false);
@@ -150,17 +158,23 @@ class Chart extends Component {
       const dashStyleChange = oldVersion.options.dashStyle !== newVersion.dashStyle;
       const typeChange = oldVersion.options.type !== newVersion.type;
       const lineWidthChange = oldVersion.options.lineWidth !== newVersion.lineWidth;
-      const minmaxValueChange = oldVersion.options.minValue !== newVersion.minValue || oldVersion.options.maxValue !== newVersion.maxValue;
-      const addedPoints = differenceBy(newVersion.data, oldVersion.data, p => p.id);
-      const removedPoints = differenceBy(oldVersion.data, newVersion.data, p => p.id);
-      for (const point of removedPoints) {
-        point.remove(false);
-        redraw = true;
+      const minmaxValueChange = oldVersion.options.min !== newVersion.min || oldVersion.options.max !== newVersion.max;
+
+      if (this.props.simpleSeriesData) {
+        oldVersion.setData(newVersion.data);
+      } else {
+        const addedPoints = differenceBy(newVersion.data, oldVersion.data, p => p.id);
+        const removedPoints = differenceBy(oldVersion.data, newVersion.data, p => p.id);
+        for (const point of removedPoints) {
+          point.remove(false);
+          redraw = true;
+        }
+        for (const point of addedPoints) {
+          oldVersion.addPoint(point, false);
+          redraw = true;
+        }
       }
-      for (const point of addedPoints) {
-        oldVersion.addPoint(point, false);
-        redraw = true;
-      }
+
       if (colorChange || dashStyleChange || typeChange || lineWidthChange) {
         oldVersion.update({
           color: newVersion.color,
@@ -171,9 +185,13 @@ class Chart extends Component {
         redraw = true;
       }
       if (minmaxValueChange) {
+        oldVersion.update({
+          min: newVersion.min,
+          max: newVersion.max,
+        }, false);
         oldVersion.yAxis.update({
-          min: newVersion.minValue,
-          max: newVersion.maxValue,
+          min: newVersion.min,
+          max: newVersion.max,
         }, false);
         redraw = true;
       }
@@ -202,19 +220,31 @@ class Chart extends Component {
   }
 
   getSeriesFromChild(child, props) {
-    const {type, title, data, color, id, yField, yAxis, yAxisTitle, yAxisOpposite, minValue, maxValue, dashStyle, lineWidth, pointPadding, groupPadding, borderWidth, marker, fillOpacity, step} = child.props;
-    return {
-      id,
-      name: title,
-      type: type || 'line',
-      data: data.reduce((result, point) => {
+    const {type, title, data, color, id, yField, yAxis, yAxisTitle, yAxisOpposite, minValue, maxValue, dashStyle, lineWidth, pointPadding, groupPadding, borderWidth, marker, visible, fillOpacity, step} = child.props;
+
+    let assembledData;
+    if (this.props.simpleSeriesData) {
+      assembledData = data.reduce((result, point) => {
+        result.push([point.get(props.xField), yField ? point.get(yField) : null]);
+        return result;
+      }, []);
+    } else {
+      assembledData = data.reduce((result, point) => {
         const x = point.get(props.xField);
         const y = yField ? point.get(yField) : null;
         const color = point.get('color');
         const pointId = `${id}-${x}-${y}`;
         result.push({id: pointId, x, y, color});
         return result;
-      }, []),
+      }, []);
+    }
+
+    return {
+      id,
+      name: title,
+      type: type || 'line',
+      data: assembledData,
+      visible,      
       yAxis: props.multiAxis ? yAxis : 0,
       yAxisTitle: yAxisTitle,
       yAxisOpposite: yAxisOpposite,
@@ -230,8 +260,8 @@ class Chart extends Component {
       step: step || false,
       animation: false,
       showInLegend: this.isLegendVisible(props),
-      minValue,
-      maxValue,
+      min: minValue,
+      max: maxValue,
       pointPadding: typeof pointPadding !== "undefined" ? pointPadding : 0.1,
       groupPadding: typeof groupPadding !== "undefined" ? groupPadding : 0.2,
       borderWidth
@@ -265,8 +295,8 @@ class Chart extends Component {
         reserveSpace: props.reserveYLabelSpace
       },
       opposite: series.yAxisOpposite ? series.yAxisOpposite : props.yAxisOpposite,
-      min: series.minValue !== undefined ? series.minValue : null,
-      max: series.maxValue || null,
+      min: series.min !== undefined ? series.min : null,
+      max: series.max || null,
       lineWidth: props.yAxisWidth || 0,
       lineColor:  props.yAxisColor || '',
       tickPositioner: props.yTickPositioner,
@@ -291,7 +321,7 @@ class Chart extends Component {
    */
   isInverted(props) {
     if (props.automaticOrientation && props.coordinates) {
-      return props.coordinates.get('w') < props.coordinates.get('h');
+      return props.coordinates.get('pixelWidth') < props.coordinates.get('pixelHeight');
     }
 
     // Only flip the axes for a vertical app.
@@ -310,7 +340,8 @@ class Chart extends Component {
 Chart.defaultProps = {
   forceLegend: false,
   showLegend: true,
-  automaticOrientation: true
+  automaticOrientation: true,
+  areaSplineThreshold: null
 };
 
 Chart.propTypes = {
@@ -327,7 +358,9 @@ Chart.propTypes = {
   showLegend: PropTypes.bool,
   chartType: PropTypes.string,
   noSpacing: PropTypes.bool,
-  automaticOrientation: PropTypes.bool
+  automaticOrientation: PropTypes.bool,
+  areaSplineThreshold: PropTypes.string,
+  visible: PropTypes.object
 };
 
 export default Chart;

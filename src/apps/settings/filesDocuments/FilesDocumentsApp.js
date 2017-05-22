@@ -2,20 +2,22 @@ import React, { Component } from 'react';
 import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import NotificationSystem from 'react-notification-system';
+import LoadingIndicator from '../../../common/LoadingIndicator';
 
 import * as api from '../../../api';
 
 import {METADATA} from './constants';
-import DailyReportsSummary from './DailyReportsSummary';
-import DailyReportsItem from './DailyReportsItem';
+import FilesDocumentsSummary from './FilesDocumentsSummary';
+import FilesDocumentsItem from './FilesDocumentsItem';
 
-import './DailyReportsApp.css';
+import './FilesDocumentsApp.css';
 
-class DailyReportsApp extends Component {
+class FilesDocumentsApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
       records: List(),
+      loading: true
     };
   }
 
@@ -35,7 +37,8 @@ class DailyReportsApp extends Component {
   async loadRecords(asset) {
     const records = await api.getAppStorage(METADATA.recordProvider, METADATA.recordCollection, asset.get('id'), Map({limit: 0}));    
     this.setState({
-      records: records.sortBy(r=>r.get("timestamp"))
+      records: records.sortBy(r=>r.get("timestamp")),
+      loading: false
     });
   }
 
@@ -59,40 +62,56 @@ class DailyReportsApp extends Component {
     });
 
     return (
-      <div className="c-daily-reports">
+      <div className="c-files-documents">
         <h4>{METADATA.title}</h4>
         <div>{METADATA.subtitle}</div>
 
-        <DailyReportsSummary
+        <FilesDocumentsSummary
           record={record}
           recentRecords={recentRecords}
           onSave={(record)=>this.saveRecord(record)}
-        />
-
-        {this.state.records?
-          <table className="c-daily-reports__reports-table">
+        />        
+        {(this.state.records.size !== 0) ?          
+          <table className="c-files-documents__reports-table">
             <thead>
               <tr>
-                <th className="c-daily-reports__file-header"> File Name </th>
-                <th className="c-daily-reports__date-header"> Date </th>
-                <th className="c-daily-reports__user-header hide-on-med-and-down"> User </th>
-                <th className="c-daily-reports__action-header hide-on-med-and-down"> </th>
+                <th className="c-files-documents__file-header"> File Name </th>
+                <th className="c-files-documents__date-header"> Date </th>
+                <th className="c-files-documents__user-header hide-on-med-and-down"> User </th>
+                <th className="c-files-documents__action-header hide-on-med-and-down"> </th>
               </tr>
             </thead>
             <tbody>
               {this.state.records.map(record=> {
-                return <DailyReportsItem
+                return <FilesDocumentsItem
                           key={record.get("_id")} 
                           record={record} 
                           onRemove={(record)=>this.removeRecord(record)}/>;
               })}              
             </tbody>
-          </table> : '' }
+          </table> : 
+          this.renderNoRecords()
+        }
 
         <NotificationSystem ref="notificationSystem" noAnimation={true} />
 
       </div>      
     );
+  }
+
+  renderNoRecords() {
+    if(this.state.loading) {
+      return <div className="c-files-documents__loading">
+              <div>Loading files...</div>
+              <LoadingIndicator fullscreen={false} />
+            </div>;
+    }
+    else {
+      return <div className="c-files-documents__no-data">            
+            <div>No Existing Uploaded files</div>
+            <div className="c-files-documents__no-data-description">Create a new one to begin</div>
+          </div>;
+    }
   }
   
   async saveRecord(record) {
@@ -161,8 +180,8 @@ class DailyReportsApp extends Component {
   }
 }
 
-DailyReportsApp.propTypes = {
+FilesDocumentsApp.propTypes = {
   asset: ImmutablePropTypes.map
 };
 
-export default DailyReportsApp;
+export default FilesDocumentsApp;

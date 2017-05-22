@@ -9,7 +9,7 @@ class TextEditor extends Component {
     return <div className="">
         <Input
           className="c-settings-text grey lighten-2 black-text"
-          defaultValue={this.props.currentValue || this.props.defaultValue || ''}
+          defaultValue={this.defaultValue()}
           label={this.props.label || ''}
           onChange={e => this.onChange(e)} />
     </div>;
@@ -17,6 +17,14 @@ class TextEditor extends Component {
 
   onChange(event) {
     this.props.onChange(parseFloat(event.target.value));
+  }
+
+  defaultValue() {
+    if (this.props.currentValue === null || typeof this.props.currentValue === undefined) {
+      return this.props.defaultValue || 0;
+    } else {
+      return this.props.currentValue;
+    }
   }
 
 }

@@ -94,8 +94,9 @@ class SurveyDetails extends Component {
         </tbody>
       </table>
       
-      <div>
+      <div className="c-survey-details__actions">
         <Button floating icon="edit" onClick={() => this.props.onEditRecord()}></Button>
+        <Button floating icon="delete" className="red" onClick={() => this.props.onDeleteRecord()}></Button>
       </div>
     </div>;
   }

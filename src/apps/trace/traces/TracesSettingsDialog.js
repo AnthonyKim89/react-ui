@@ -4,7 +4,7 @@ import { Input, Button, Row, Col } from 'react-materialize';
 import Modal from 'react-modal';
 import { SliderPicker } from 'react-color';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { find } from 'lodash';
+import { find, isEqual } from 'lodash';
 
 import './TracesSettingsDialog.css';
 
@@ -16,6 +16,7 @@ class TracesSettingsDialog extends Component {
       dialogOpen: false,
       traceEditIndex: null,
       updatedUnitType: null,
+      autoScale: null,
     };
     this.updateTraceGraph = this.updateTraceGraph.bind(this);
     this.render = this.render.bind(this);
@@ -23,6 +24,8 @@ class TracesSettingsDialog extends Component {
 
   render() {
     let shouldDisplayUnitOptions = this.shouldDisplayUnitOptions();
+    let shouldDisplayScalingOptions = this.shouldDisplayScalingOptions();
+
     let applicableUnits = [];
     if (shouldDisplayUnitOptions) {
       let defaultUnitType = this.props.traceGraphs.getIn([this.state.traceEditIndex, 'unitType']);
@@ -48,7 +51,7 @@ class TracesSettingsDialog extends Component {
           </h4>
         </header>
 
-        <Row>
+        <Row s={12}>
           <Col s={shouldDisplayUnitOptions ? 6 : 12}>
             <Input type='select' label="Trace" s={12}
                    defaultValue={this.props.traceGraphs.getIn([this.state.traceEditIndex, 'trace'])}
@@ -85,14 +88,49 @@ class TracesSettingsDialog extends Component {
               <option value="5">5</option>
             </Input>
 
-            <Input
-              type="checkbox"
-              label="Fill Graph"
-              className="filled-in"
-              s={12}
-              defaultValue={this.getFillGraphCheckboxValue(this.props.traceGraphs.get(this.state.traceEditIndex), true)}
-              defaultChecked={this.getFillGraphCheckboxValue(this.props.traceGraphs.get(this.state.traceEditIndex))}
-              ref={(input) => this.traceEditorType = input} />
+            <Row s={12} className="c-traces__container__edit-trace__checkboxes">
+              <Col s={6}>
+                <Input
+                  type="checkbox"
+                  label="Fill Graph"
+                  className="filled-in"
+                  s={12}
+                  defaultValue={this.getFillGraphCheckboxValue(this.props.traceGraphs.get(this.state.traceEditIndex), true)}
+                  defaultChecked={this.getFillGraphCheckboxValue(this.props.traceGraphs.get(this.state.traceEditIndex))}
+                  ref={(input) => this.traceEditorType = input} />
+              </Col>
+              <Col s={6}>
+                <Input
+                  type="checkbox"
+                  label="Auto Scale"
+                  className="filled-in"
+                  s={12}
+                  onChange={(e) => this.setState({autoScale: e.currentTarget.checked})}
+                  defaultValue={!shouldDisplayScalingOptions}
+                  defaultChecked={shouldDisplayScalingOptions ? '' : 'checked'}
+                  ref={(input) => this.traceEditorAutoScale = input} />
+              </Col>
+            </Row>
+
+            {shouldDisplayScalingOptions && <Row s={12} className="c-traces__container__edit-trace__scaling-values">
+              <Col s={6}>
+                <Input
+                  type="number"
+                  label="Min Value"
+                  s={12}
+                  defaultValue={this.props.traceGraphs.getIn([this.state.traceEditIndex, 'minValue'], null)}
+                  ref={(input) => this.traceEditorMinValue = input} />
+              </Col>
+              <Col s={6}>
+                <Input
+                  type="number"
+                  label="Max Value"
+                  s={12}
+                  defaultValue={this.props.traceGraphs.getIn([this.state.traceEditIndex, 'maxValue'], null)}
+                  ref={(input) => this.traceEditorMaxValue = input} />
+              </Col>
+            </Row>}
+
           </Col>
 
           {shouldDisplayUnitOptions && <Col s={6}>
@@ -124,7 +162,6 @@ class TracesSettingsDialog extends Component {
                 return <option key={idx} value={unit.abbr}>{unit.display}</option>;
               })}
             </Input>
-
 
             <Input type='select' label="Convert To" s={12}
                    defaultValue={this.props.traceGraphs.getIn([this.state.traceEditIndex, 'unitTo'])}
@@ -170,6 +207,16 @@ class TracesSettingsDialog extends Component {
     }
   }
 
+  shouldDisplayScalingOptions() {
+    if (!this.state.traceEditIndex) {
+      return false;
+    }
+    if (this.state.autoScale === null) {
+      return !this.props.traceGraphs.get(this.state.traceEditIndex).get('autoScale', true);
+    }
+    return !this.state.autoScale;
+  }
+
   getFillGraphCheckboxValue(traceGraph, asBoolean=false) {
     let currentValue = traceGraph.get('type', 'line') === 'area' ? 'checked' : '';
     if (asBoolean) {
@@ -179,7 +226,7 @@ class TracesSettingsDialog extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !nextProps.traceGraphs.equals(this.props.traceGraphs) ||  this.state.dialogOpen !== nextState.dialogOpen ||  this.state.updatedUnitType !== nextState.updatedUnitType;
+    return !nextProps.traceGraphs.equals(this.props.traceGraphs) ||  !isEqual(this.state, nextState);
   }
 
   updateTraceGraph() {
@@ -189,7 +236,19 @@ class TracesSettingsDialog extends Component {
       type: this.traceEditorType.state.value === true ? 'area' : 'line',
       dashStyle: this.traceEditorDashStyle.state.value,
       lineWidth: parseInt(this.traceEditorLineWidth.state.value, 10),
+      autoScale: this.traceEditorAutoScale.state.value === true,
     };
+
+    if (!updatedSettings.autoScale) {
+      let minValue = parseInt(this.traceEditorMinValue.state.value, 10);
+      let maxValue = parseInt(this.traceEditorMaxValue.state.value, 10);
+      if (!Number.isNaN(minValue)) {
+        updatedSettings.minValue = minValue;
+      }
+      if (!Number.isNaN(maxValue)) {
+        updatedSettings.maxValue = maxValue;
+      }
+    }
 
     if (this.shouldDisplayUnitOptions() && updatedSettings.trace !== "") {
       if (this.traceEditorUnitType.state.value !== '' && this.traceEditorUnitFrom.state.value !== '') {
@@ -213,12 +272,17 @@ class TracesSettingsDialog extends Component {
     this.setState({
       dialogOpen: true,
       traceEditIndex: traceEditIndex,
+      updatedUnitType: null,
+      autoScale: null,
     });
   }
 
   closeDialog() {
     this.setState({
-      dialogOpen: false
+      dialogOpen: false,
+      traceEditIndex: null,
+      updatedUnitType: null,
+      autoScale: null,
     });
   }
 }

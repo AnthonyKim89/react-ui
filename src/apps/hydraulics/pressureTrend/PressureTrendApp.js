@@ -15,7 +15,7 @@ class PressureTrendApp extends Component {
   constructor(props) {
     super(props);
     this.state = {series: List()};
-  }  
+  }
 
   render() {
     return (
@@ -27,7 +27,6 @@ class PressureTrendApp extends Component {
             coordinates={this.props.coordinates}
             xAxisWidth="2"
             xAxisColor="white"
-            horizontal={true}
             multiAxis={true}
             legendAlign='center'
             legendVerticalAlign='bottom'
@@ -35,7 +34,10 @@ class PressureTrendApp extends Component {
             showLegend={true}
             forceLegend={true}
             size={this.props.size}
-            widthCols={this.props.widthCols}>
+            widthCols={this.props.widthCols}
+            automaticOrientation={this.automaticOrientation}
+            horizontal={this.horizontal}
+            >
             {this.getSeries().map(({renderType, title, type, yAxis, yAxisTitle, yAxisOpposite, yField, data}) => (
               <ChartSeries
                 key={title}
@@ -56,7 +58,12 @@ class PressureTrendApp extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return (nextProps.data !== this.props.data || nextProps.coordinates !== this.props.coordinates || nextProps.graphColors !== this.props.graphColors);
+    return (
+        (nextProps.data && !nextProps.data.equals(this.props.data)) ||
+        (nextProps.coordinates && !nextProps.coordinates.equals(this.props.coordinates)) ||
+        (nextProps.graphColors && !nextProps.graphColors.equals(this.props.graphColors)) ||
+        (nextProps.orientation !== this.props.orientation)
+    );
   }
 
   getData() {
@@ -74,7 +81,7 @@ class PressureTrendApp extends Component {
         renderType: `${SUPPORTED_CHART_SERIES[type].type}`,
         title: `${SUPPORTED_CHART_SERIES[type].label}`,
         type: type,
-        yAxis: 0,
+        yAxis: '0',
         yField: "mud_weight",
         yAxisOpposite: false,
         yAxisTitle: `Mud Weight (${this.props.convert.getUnitDisplay('density')})`,
@@ -88,7 +95,7 @@ class PressureTrendApp extends Component {
         renderType: `${SUPPORTED_CHART_SERIES[type].type}`,
         title: `${SUPPORTED_CHART_SERIES[type].label}`,
         type: type,
-        yAxis: 2,
+        yAxis: '2',
         yField: "mud_flow_in",
         yAxisOpposite: true,
         yAxisTitle: `Mud Flow In (${this.props.convert.getUnitDisplay('volume')}pm)`,
@@ -102,7 +109,7 @@ class PressureTrendApp extends Component {
         renderType: `${SUPPORTED_CHART_SERIES[type].type}`,
         title: `${SUPPORTED_CHART_SERIES[type].label}`,
         type: type,
-        yAxis: 0,
+        yAxis: '0',
         yField: "ecd",
         yAxisOpposite: false,
         yAxisTitle: `Mud Weight (${this.props.convert.getUnitDisplay('density')})`,
@@ -116,7 +123,7 @@ class PressureTrendApp extends Component {
         renderType: `${SUPPORTED_CHART_SERIES[type].type}`,
         title: `${SUPPORTED_CHART_SERIES[type].label}`,
         type: type,
-        yAxis: 1,
+        yAxis: '1',
         yField: "standpipe_pressure",
         yAxisOpposite: true,
         yAxisTitle: `Pressure (${this.props.convert.getUnitDisplay('pressure')})`,
@@ -141,6 +148,17 @@ class PressureTrendApp extends Component {
     } else {
       return SUPPORTED_CHART_SERIES[seriesType].defaultColor;
     }
+  }
+
+  get automaticOrientation() {
+    return this.props.orientation && this.props.orientation === 'auto';
+  }
+
+  get horizontal() {
+    if (this.props.orientation) {
+      return this.props.orientation === 'horizontal';
+    }
+    return true;
   }
 
 }

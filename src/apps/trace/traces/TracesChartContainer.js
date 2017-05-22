@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { List, Range } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { Row } from 'react-materialize';
 
 import TracesChartColumn from './TracesChartColumn';
 import Convert from '../../../common/Convert';
@@ -16,15 +17,20 @@ class TracesChartContainer extends Component {
   }
 
   render() {
-    return <div className="c-traces__container">
-      {[0,1,2,3].map((group) => (
+    let columnCount = this.props.traceColumnCount !== undefined ? this.props.traceColumnCount : 4;
+    let columns = Array.apply(null, {length: columnCount}).map(Number.call, Number);
+    return <Row s={12} className="c-traces__container">
+      {columns.map((group) => (
         <TracesChartColumn
           key={group}
           data={this.props.data}
+          latestData={this.props.latestData}
           traceGraphs={this.getTraceGraphGroup(group)}
+          traceRowCount={this.props.traceRowCount}
           supportedTraces={this.props.supportedTraces}
           convert={this.props.convert}
           columnNumber={group}
+          totalColumns={columnCount}
           editTraceGraph={(traceEditIndex) => this.openSettingsDialog(traceEditIndex)}
           widthCols={this.props.widthCols} />
       ))}
@@ -34,17 +40,25 @@ class TracesChartContainer extends Component {
         traceGraphs={this.props.traceGraphs}
         convert={this.props.convert}
         onSettingChange={this.props.onSettingChange} />
-    </div>;
+    </Row>;
   }
 
   getTraceGraphGroup(number) {
-    return Range(0, this.props.traceGraphs.size, 3)
-      .map(chunkStart => this.props.traceGraphs.slice(chunkStart, chunkStart + 3))
+    return Range(0, this.props.traceGraphs.size, 4)
+      .map(chunkStart => this.props.traceGraphs.slice(chunkStart, chunkStart + 4))
       .get(number, List());
   }
 
   openSettingsDialog(traceEditIndex) {
     this.traceSettingsDialog.openDialog(traceEditIndex);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.props.traceGraphs.equals(nextProps.traceGraphs)
+      || this.props.latestData.equals(nextProps.latestValue)
+      || this.props.data.equals(nextProps.data)
+      || this.props.traceRowCount !== nextProps.traceRowCount
+      || this.props.traceColumnCount !== nextProps.traceColumnCount;
   }
 }
 
@@ -53,8 +67,11 @@ TracesChartContainer.propTypes = {
   supportedTraces: PropTypes.array.isRequired,
   traceGraphs: ImmutablePropTypes.list.isRequired,
   data: ImmutablePropTypes.list.isRequired,
+  latestData: ImmutablePropTypes.map.isRequired,
   widthCols: PropTypes.number.isRequired,
   onSettingChange: PropTypes.func.isRequired,
+  traceColumnCount: PropTypes.number,
+  traceRowCount: PropTypes.number,
 };
 
 export default TracesChartContainer;

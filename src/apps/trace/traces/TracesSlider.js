@@ -98,13 +98,18 @@ class TracesSlider extends Component {
     </div>;
   }
 
+  // Handles clicking/dragging on the center drag handle
   middleScroll(e) {
+    // TODO: Make sure this doesn't fire off two updates for every resize event.
     this.topSlider.onResizeStart(e, "bottom");
     this.bottomSlider.onResizeStart(e, "top");
   }
 
+  // Handles Mouse wheel scrolling.
   scrollRange(event) {
-    let scrollAmount = (event.deltaY / 10) / 1.5;
+    // Change the scroll divisor to change the mouse scroll speed. Higher = slower.
+    let scrollDivisor = 5;
+    let scrollAmount = (event.deltaY / scrollDivisor) / 1.5;
     scrollAmount = scrollAmount > 0 ? Math.ceil(scrollAmount) : Math.floor(scrollAmount);
     let topHeight = (this.topSlider.resizable.clientHeight + handleBorderWidth) - handleHeight;
     let bottomHeight = (this.bottomSlider.resizable.clientHeight + handleBorderWidth) - handleHeight;

@@ -182,6 +182,7 @@ class CasingItem extends Component {
     if (linear_mass > estimated* 0.7 && linear_mass< estimated*1.3) {
       return true;
     }
+    console.log("value is estimated:", linear_mass);
     return false;
   }
 

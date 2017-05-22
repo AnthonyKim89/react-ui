@@ -37,3 +37,18 @@
   padding-bottom:12px;
   height:65px;
 }
+
+.c-crews__no-data {
+  position: absolute;
+  left: 50%;  
+  top: 60%;
+  transform: translate(-50%, -50%);
+}
+
+.c-crews__no-data div {
+  text-align: center;
+}
+ 
+.c-crews__no-data-description {  
+  color:  grey;
+}

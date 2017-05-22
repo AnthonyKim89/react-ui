@@ -27,7 +27,10 @@ class BroomstickApp extends Component {
             xAxisColor="white"
             size={this.props.size}
             coordinates={this.props.coordinates}
-            widthCols={this.props.widthCols}>
+            widthCols={this.props.widthCols}
+            automaticOrientation={this.automaticOrientation}
+            horizontal={this.horizontal}
+            >
             {this.getSeries().map(({renderType, title, type, data}, idx) => (
               <ChartSeries
                 key={title}
@@ -35,7 +38,7 @@ class BroomstickApp extends Component {
                 type={renderType}
                 title={title}
                 data={data}
-                dashStyle={"ShortDot"}                
+                dashStyle={"ShortDot"}
                 yField="hookload"
                 lineWidth={renderType === 'line' ? 2 : 0}
                 color={this.getSeriesColor(type)} />
@@ -47,7 +50,12 @@ class BroomstickApp extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return (nextProps.data !== this.props.data || nextProps.coordinates !== this.props.coordinates || nextProps.graphColors !== this.props.graphColors);
+    return !!(
+        (nextProps.data && !nextProps.data.equals(this.props.data)) ||
+        (nextProps.coordinates && !nextProps.coordinates.equals(this.props.coordinates)) ||
+        (nextProps.graphColors && !nextProps.graphColors.equals(this.props.graphColors)) ||
+        (nextProps.orientation !== this.props.orientation)
+    );
   }
 
   getData() {
@@ -96,6 +104,17 @@ class BroomstickApp extends Component {
     } else {
       return SUPPORTED_CHART_SERIES[seriesType].defaultColor;
     }
+  }
+
+  get automaticOrientation() {
+    return this.props.orientation && this.props.orientation === 'auto';
+  }
+
+  get horizontal() {
+    if (this.props.orientation) {
+      return this.props.orientation === 'horizontal';
+    }
+    return true;
   }
 
 }

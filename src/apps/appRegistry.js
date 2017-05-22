@@ -41,7 +41,7 @@ import map from './settings/map';
 import formations from './settings/formations';
 import crewsContact from './settings/crewsContact';
 import nptEvents from './settings/nptEvents';
-import dailyReports from './settings/dailyReports';
+import filesDocuments from './settings/filesDocuments';
 import wellSections from './settings/wellSections';
 import operationSummaries from './settings/operationSummaries';
 import surfaceEquipment from './settings/surfaceEquipment';
@@ -64,6 +64,9 @@ import hydraulicsPressureLoss from './hydraulics/pressureLoss';
 import hydraulicsPressureTrend from './hydraulics/pressureTrend';
 
 
+
+// Asset Status
+import assetStatus from './asset/assetStatus';
 
 // Apps that can be displayed on dashboard / asset pages, keyed by app type
 export const uiApps = Map({
@@ -127,7 +130,7 @@ export const uiApps = Map({
       formations,
       crewsContact,
       nptEvents,
-      dailyReports,
+      filesDocuments,
       wellSections,
       operationSummaries,
       surfaceEquipment
@@ -147,6 +150,13 @@ export const uiApps = Map({
     subtitle: '',
     appTypes: Map({
       ropPerformance: raRopPerformance
+    })
+  }),
+  asset: Map({
+    title: 'Asset',
+    subtitle: '',
+    appTypes: Map({
+      assetStatus
     })
   }),
   hydraulics: Map({

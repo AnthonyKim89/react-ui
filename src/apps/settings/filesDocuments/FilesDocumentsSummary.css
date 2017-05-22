@@ -1,0 +1,50 @@
+.c-files-documents-summary {
+  background-color: rgb(42, 41, 41);
+  margin: 10px 0;
+  padding: 10px 0;
+}
+
+.c-files-documents-summary td {
+  border-radius: 0px;
+  padding-top:5px;
+  padding-bottom:5px;
+}
+
+.c-files-documents-summary .btn-action {
+  width: 30px;
+  height:30px;
+  line-height:30px;
+}
+
+.c-files-documents-summary .btn-action i {
+  line-height: 30px;
+}
+
+.c-files-documents-summary-file {
+  width: 90%;
+}
+
+.c-files-documents-summary-action {
+  width: 10%;
+}
+
+.c-files-documents-summary-action .c-files-documents-summary-action__download-button {
+  min-height: 56px;
+  width: 56px;
+} 
+
+.c-files-documents-summary-action i {
+  font-size: 5rem;
+}
+
+
+@media(max-width: 768px) { 
+  .c-files-documents-summary-file {
+    width: 100%;
+  }
+
+  .c-files-documents-summary-action {
+    width: 0%;
+  }
+
+}

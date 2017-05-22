@@ -30,7 +30,7 @@ class OptimizationApp extends Component {
       <div className="c-de-optimization">
         <Row>
             <Col s={12} m={4} className="c-de-optimization__gauge">
-              <div className="c-de-optimization__gauge-title">Drilling Efficiency</div>
+              <div className="c-de-optimization__gauge-title">Drilling Performance</div>
               {gaugeValue !== null ? 
                 <Gauge widthCols={this.props.widthCols}
                      bands={this.getGaugeBands()}
@@ -98,7 +98,7 @@ class OptimizationApp extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return (nextProps.data !== this.props.data || nextProps.coordinates !== this.props.coordinates);
+    return (nextProps.data !== this.props.data || !nextProps.coordinates.equals(this.props.coordinates));
   }
 
   getGaugeBands() {

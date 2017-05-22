@@ -35,13 +35,12 @@ class WellPlanApp extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-        
     return  (
               this.state.actualData !== nextState.actualData ||
               this.state.planData !== nextState.planData ||
               this.props.graphType !== nextProps.graphType ||
               nextProps.autoZoom !== this.props.autoZoom ||
-              nextProps.coordinates !== this.props.coordinates || 
+              !nextProps.coordinates.equals(this.props.coordinates) ||
               nextProps.graphColors !== this.props.graphColors
             );
   }
@@ -99,8 +98,6 @@ class WellPlanApp extends Component {
       </div>
     );
   }
-
-  
 
   getSeries() {
     return Object.keys(SUPPORTED_CHART_SERIES)
