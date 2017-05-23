@@ -144,11 +144,11 @@ class AppGridLayout extends Component {
 
     const appData = this.props.appData.get(id);
     const errorData = subscriptions.selectors.getSubErrors(appData, appType.constants.SUBSCRIPTIONS);
-    const emptyData = subscriptions.selectors.getSubEmptyData(appData, appType.constants.SUBSCRIPTIONS);
+    const isEmptyData = subscriptions.selectors.isSubDataEmpty(appData, appType.constants.SUBSCRIPTIONS);
     const hasAppFooter = !!appType.AppComponentFooter;
     return <AppContainer id={id}
                          errorData={errorData}
-                         emptyData={emptyData}
+                         isEmptyData={isEmptyData}
                          appType={appType}
                          asset={this.props.appAssets.get(id)}
                          lastDataUpdate={subscriptions.selectors.lastDataUpdate(appData)}

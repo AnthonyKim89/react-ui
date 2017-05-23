@@ -55,7 +55,7 @@ export function getSubErrors(data, subscriptions) {
  * @param subscriptions
  * @returns {any|T|*}
  */
-export function getSubEmptyData(data, subscriptions) {
+export function isSubDataEmpty(data, subscriptions) {
   for (let i = 0; i < subscriptions.length; i++) {
     let subData = getSubData(data, subscriptions[i]);
     if (subData === '[]') {

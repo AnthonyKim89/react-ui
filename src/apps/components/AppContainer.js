@@ -97,7 +97,7 @@ class AppContainer extends Component {
         {!this.props.appType.constants.METADATA.multiRig && this.props.availableAssets && !this.props.appType.constants.METADATA.disableDisplayAssetName && this.props.layoutEnvironment && this.props.layoutEnvironment.get("type") === "general" &&
           <div className="c-app-container-asset-name">{this.getAppAssetName()}</div>}
         <div className="c-app-container__content">
-          {this.props.errorData || this.props.emptyData ? this.renderErrorOrEmpty() : this.props.children}
+          {this.props.errorData || this.props.isEmptyData ? this.renderErrorOrEmpty() : this.props.children}
         </div>
         {this.isLastDataUpdateVisible() &&
           <div className="c-app-container__last-update">
@@ -143,7 +143,7 @@ class AppContainer extends Component {
   }
 
   renderErrorOrEmpty() {
-    if(this.errorData) {
+    if(this.props.errorData) {
       return this.renderError();
     }
     else {
@@ -242,7 +242,7 @@ class AppContainer extends Component {
 AppContainer.propTypes = {
   id: PropTypes.number.isRequired,
   errorData: ImmutablePropTypes.map,
-  emptyData: PropTypes.bool,
+  isEmptyData: PropTypes.bool,
   asset: ImmutablePropTypes.map,
   appType: PropTypes.object.isRequired,
   //lastDataUpdate: PropTypes.number,
