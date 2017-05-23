@@ -21,15 +21,23 @@ class FrictionFactorApp extends Component {
     };
   }
 
-  componentDidMount() {    
-    
+  componentDidMount() {        
     this._notificationSystem = this.refs.notificationSystem;
+  }
 
-    // why is it different between this.props.assetId and this.props.asset.get('id')?
-    // this.props.asset.get('id') is not same through the lifecycle of the app
-    if (this.props.assetId) {
-      this.getApiData();
-    }    
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.asset && 
+      ( (this.props.asset && this.props.asset.get("id") !== nextProps.asset.get("id")) || !this.props.asset)) {
+      this.getApiData(nextProps.asset);
+    }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !!(
+        (nextProps.data && !nextProps.data.equals(this.props.data)) ||
+        (nextProps.coordinates && !nextProps.coordinates.equals(this.props.coordinates)) ||
+        (nextState.apiRecordFetched !== this.state.apiRecordFetched)
+    );
   }
 
   render() {
@@ -53,7 +61,6 @@ class FrictionFactorApp extends Component {
     if (this.state.recentApiRecord) {
       let apiTimestamp = this.state.recentApiRecord.get("timestamp");
       let subscriptionTimestamp = this.getData().get("timestamp");
-
       if (apiTimestamp>subscriptionTimestamp) {
         current = this.state.recentApiRecord.getIn(["data",fieldName]);
       }
@@ -67,7 +74,7 @@ class FrictionFactorApp extends Component {
       </Col>
       <Col s={3}>
         <input type="number" className="c-tnd-friction-factor__input"
-               defaultValue={current.formatNumeral("0.00")}
+               defaultValue={parseFloat(current).formatNumeral("0.00")}
                ref={fieldName} 
                onKeyPress={this.handleKeyPress.bind(this)}
                onBlur={this.handleBlur.bind(this)}/>
@@ -82,10 +89,10 @@ class FrictionFactorApp extends Component {
     return subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS);
   }
 
-  async getApiData() {
+  async getApiData(asset) {
     const records = await api.getAppStorage(        
       METADATA.recordProvider, 
-      METADATA.recordCollection,this.props.assetId,  
+      METADATA.recordCollection,asset.get('id'),  
       Map({
         limit: 1,
         sort: '{timestamp: -1}'
@@ -98,20 +105,14 @@ class FrictionFactorApp extends Component {
       });
     }
     else {
-      this.setState({
+      this.setState({        
         apiRecordFetched: true,
         recentApiRecord: null
       });
     }
-
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return !!(
-        (nextProps.data && !nextProps.data.equals(this.props.data)) ||
-        (nextProps.coordinates && !nextProps.coordinates.equals(this.props.coordinates))
-    );
-  }
+
 
   handleKeyPress(e) {
     if (e.key === 'Enter') {
@@ -165,14 +166,14 @@ class FrictionFactorApp extends Component {
   async saveRecord(inputData) {        
     const records = await api.getAppStorage(        
       METADATA.recordProvider, 
-      METADATA.recordCollection,this.props.assetId,  
+      METADATA.recordCollection,this.props.asset.get('id'),  
       Map({
         limit: 1,
         sort: '{timestamp: -1}'
     }));
     
     let record = Map({
-      asset_id: this.props.assetId,
+      asset_id: this.props.asset.get('id'),
       data: inputData
     });
 
