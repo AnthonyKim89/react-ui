@@ -13,14 +13,29 @@ import './FrictionFactorApp.css';
 
 class FrictionFactorApp extends Component {
 
-  componentDidMount() {
+  constructor(props) {
+    super(props);
+    this.state = {
+      apiRecordFetched: false,
+      recentApiRecord: null
+    };
+  }
+
+  componentDidMount() {    
+    
     this._notificationSystem = this.refs.notificationSystem;
+
+    // why is it different between this.props.assetId and this.props.asset.get('id')?
+    // this.props.asset.get('id') is not same through the lifecycle of the app
+    if (this.props.assetId) {
+      this.getApiData();
+    }    
   }
 
   render() {
     return (
       <div className="c-tnd-friction-factor">
-        {this.getData() ?
+        {this.getData() && this.state.apiRecordFetched?
           <div className="c-tnd-friction-factor__factor-box">
             {this.renderFactor('Casing', 'casing')}
             {this.renderFactor('Open Hole Slackoff', 'open_hole_slackoff')}
@@ -33,8 +48,19 @@ class FrictionFactorApp extends Component {
   }
 
   renderFactor(label, fieldName) {
+
     let current = this.getData().getIn(['data', 'current_usage', fieldName]) || 0;
+    if (this.state.recentApiRecord) {
+      let apiTimestamp = this.state.recentApiRecord.get("timestamp");
+      let subscriptionTimestamp = this.getData().get("timestamp");
+
+      if (apiTimestamp>subscriptionTimestamp) {
+        current = this.state.recentApiRecord.getIn(["data",fieldName]);
+      }
+    }
+
     let predicted = this.getData().getIn(['data', 'predicted', fieldName]) || 0;
+
     return <Row className="c-tnd-friction-factor__factor">
       <Col s={5} className="c-tnd-friction-factor__label">
         <label>{label}</label>
@@ -54,6 +80,30 @@ class FrictionFactorApp extends Component {
 
   getData() {
     return subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS);
+  }
+
+  async getApiData() {
+    const records = await api.getAppStorage(        
+      METADATA.recordProvider, 
+      METADATA.recordCollection,this.props.assetId,  
+      Map({
+        limit: 1,
+        sort: '{timestamp: -1}'
+    }));
+
+    if (typeof(records.get(0)) !== "undefined") {
+      this.setState({
+        apiRecordFetched: true,
+        recentApiRecord: records.get(0)
+      });
+    }
+    else {
+      this.setState({
+        apiRecordFetched: true,
+        recentApiRecord: null
+      });
+    }
+
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -90,9 +140,9 @@ class FrictionFactorApp extends Component {
   }
 
   getInputData() {
-    let casingValue = this.refs.casing.value;
-    let slackoffValue = this.refs.open_hole_slackoff.value;
-    let pickupValue = this.refs.open_hole_pickup.value;
+    let casingValue = parseFloat(this.refs.casing.value);
+    let slackoffValue = parseFloat(this.refs.open_hole_slackoff.value);
+    let pickupValue = parseFloat(this.refs.open_hole_pickup.value);
 
     if (this.checkValidity(casingValue,0,1) &&  this.checkValidity(slackoffValue,0,1) && this.checkValidity(pickupValue,0,1)) {
       return Map({
@@ -106,7 +156,7 @@ class FrictionFactorApp extends Component {
   }
 
   checkValidity(val,min,max) {
-    if ( !isNaN(parseFloat(val)) && val < max && val > min) {
+    if ( !isNaN(val) && val < max && val > min) {
       return true;
     }
     return false;
@@ -115,14 +165,14 @@ class FrictionFactorApp extends Component {
   async saveRecord(inputData) {        
     const records = await api.getAppStorage(        
       METADATA.recordProvider, 
-      METADATA.recordCollection,this.props.asset.get('id'),  
+      METADATA.recordCollection,this.props.assetId,  
       Map({
         limit: 1,
         sort: '{timestamp: -1}'
     }));
     
     let record = Map({
-      asset_id: this.props.asset.get('id'),
+      asset_id: this.props.assetId,
       data: inputData
     });
 
@@ -135,9 +185,7 @@ class FrictionFactorApp extends Component {
     } 
 
     try {
-
       const isUpdate = record.has('_id');
-      
       isUpdate ?
         await api.putAppStorage(METADATA.recordProvider, METADATA.recordCollection, record.get('_id') , record) :
         await api.postAppStorage(METADATA.recordProvider, METADATA.recordCollection, record);
