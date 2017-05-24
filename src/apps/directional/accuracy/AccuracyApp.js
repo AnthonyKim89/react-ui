@@ -72,7 +72,7 @@ class AccuracyApp extends Component {
           Left/Right plan <span>{numeral(this.props.convert.convertValue(recommendedData.get('right'), 'length', 'ft')).format("0.0")}{this.props.convert.getUnitDisplay('length')}</span>
         </div>
         <div className="recomm-below">
-          High/Row plan <span>{numeral(this.props.convert.convertValue(recommendedData.get('high'), 'length', 'ft')).format("0.0")}{this.props.convert.getUnitDisplay('length')}</span>
+          High/Low plan <span>{numeral(this.props.convert.convertValue(recommendedData.get('high'), 'length', 'ft')).format("0.0")}{this.props.convert.getUnitDisplay('length')}</span>
         </div>
       </div>
     );
