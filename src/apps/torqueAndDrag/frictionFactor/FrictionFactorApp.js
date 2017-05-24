@@ -17,6 +17,7 @@ class FrictionFactorApp extends Component {
     super(props);
     this.state = {
       apiRecordFetched: false,
+      apiRecordInitialFetch: false,
       recentApiRecord: null
     };
   }
@@ -26,8 +27,11 @@ class FrictionFactorApp extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(this.props.asset.get("id"));
+    console.log(nextProps.asset.get("id"));
     if (nextProps.asset && 
-      ( (this.props.asset && this.props.asset.get("id") !== nextProps.asset.get("id")) || !this.props.asset)) {
+      ( (this.props.asset && this.props.asset.get("id") !== nextProps.asset.get("id")) || !this.props.asset || !this.state.apiRecordInitialFetch)) {
+        console.log("here");
       this.getApiData(nextProps.asset);
     }
   }
@@ -90,9 +94,14 @@ class FrictionFactorApp extends Component {
   }
 
   async getApiData(asset) {
+    this.setState({
+        apiRecordInitialFetch: true
+    });
+
     const records = await api.getAppStorage(        
       METADATA.recordProvider, 
-      METADATA.recordCollection,asset.get('id'),  
+      METADATA.recordCollection,
+      asset.get('id'),  
       Map({
         limit: 1,
         sort: '{timestamp: -1}'
@@ -105,8 +114,8 @@ class FrictionFactorApp extends Component {
       });
     }
     else {
-      this.setState({        
-        apiRecordFetched: true,
+      this.setState({   
+        apiRecordFetched: true,     
         recentApiRecord: null
       });
     }
