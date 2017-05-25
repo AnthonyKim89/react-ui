@@ -7,6 +7,9 @@
   overflow: hidden;
 }
 
+.c-tnd-friction-factor .notifications-tr{
+  width: 150px !important;
+}
 
 .c-tnd-friction-factor__factor-box {
   margin-top: 19px;

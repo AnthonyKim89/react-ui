@@ -97,7 +97,7 @@ class AppContainer extends Component {
         {!this.props.appType.constants.METADATA.multiRig && this.props.availableAssets && !this.props.appType.constants.METADATA.disableDisplayAssetName && this.props.layoutEnvironment && this.props.layoutEnvironment.get("type") === "general" &&
           <div className="c-app-container-asset-name">{this.getAppAssetName()}</div>}
         <div className="c-app-container__content">
-          {this.props.errorData ? this.renderError() : this.props.children}
+          {this.props.errorData || this.props.isEmptyData ? this.renderErrorOrEmpty() : this.props.children}
         </div>
         {this.isLastDataUpdateVisible() &&
           <div className="c-app-container__last-update">
@@ -142,6 +142,15 @@ class AppContainer extends Component {
     );
   }
 
+  renderErrorOrEmpty() {
+    if(this.props.errorData) {
+      return this.renderError();
+    }
+    else {
+      return this.renderEmpty();
+    }
+  }
+
   // Render the Error Message
   renderError() {
     let message = this.props.errorData.get('message');
@@ -174,6 +183,22 @@ class AppContainer extends Component {
     if (text !== "" && url !== "") {
       return <a href={url}>{text}</a>;
     }
+  }
+
+  // Render Empty Data
+  renderEmpty() {
+    return (
+      <div className="c-app-container__error">
+        <div className="c-app-container__error-grid">
+          <div className="c-app-container__error-inner">
+            <div className="c-app-container__error_no-data">
+              <Icon style={this.props.size === common.constants.Size.SMALL ? "font-size: 2rem;" : ""}>info_outline</Icon>
+            </div>
+            <h1>No results found...</h1>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   // Let the component implementation display the date and others info(if necessary)
@@ -217,6 +242,7 @@ class AppContainer extends Component {
 AppContainer.propTypes = {
   id: PropTypes.number.isRequired,
   errorData: ImmutablePropTypes.map,
+  isEmptyData: PropTypes.bool,
   asset: ImmutablePropTypes.map,
   appType: PropTypes.object.isRequired,
   //lastDataUpdate: PropTypes.number,

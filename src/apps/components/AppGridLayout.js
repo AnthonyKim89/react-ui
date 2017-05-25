@@ -144,9 +144,11 @@ class AppGridLayout extends Component {
 
     const appData = this.props.appData.get(id);
     const errorData = subscriptions.selectors.getSubErrors(appData, appType.constants.SUBSCRIPTIONS);
+    const isEmptyData = subscriptions.selectors.isSubDataEmpty(appData, appType.constants.SUBSCRIPTIONS);
     const hasAppFooter = !!appType.AppComponentFooter;
     return <AppContainer id={id}
                          errorData={errorData}
+                         isEmptyData={isEmptyData}
                          appType={appType}
                          asset={this.props.appAssets.get(id)}
                          lastDataUpdate={subscriptions.selectors.lastDataUpdate(appData)}
@@ -171,6 +173,7 @@ class AppGridLayout extends Component {
         {...this.getPageParams().toJS()}
         {...settings.toObject()}
         size={size}
+        isNative={this.props.isNative}
         coordinates={coordinates}
         widthCols={coordinates.get('w')}
         convert={this.props.convert}

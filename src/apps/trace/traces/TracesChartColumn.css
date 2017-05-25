@@ -97,6 +97,7 @@
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  background-color: #191919;
 }
 
 .c-traces__chart-column__values-2 .c-traces__chart-column__values__item:nth-child(3) {
@@ -121,6 +122,27 @@
   height: calc(227px / 12);
 }
 
+.c-traces__chart-column__values__item__meta-row-title {
+font-size: 0.8rem;
+}
+
+.c-traces__chart-column__values__item__meta-row-value {
+  font-size: 1.1rem;
+  font-family: orgonboldregular;
+}
+
+.c-traces__chart-column__values__item__meta-row-unit {
+  font-size: 0.7rem;
+  opacity: 0.6;
+}
+
+.c-traces__chart-column__values__item__meta-row-scale {
+  font-size: 0.7rem;
+  opacity: 0.6;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
 .c-traces__center {
   text-align: center;
   display: inline-block;
@@ -131,6 +153,13 @@
   position: absolute;
   text-align: right;
   right: 0;
+  top: 0;
+}
+
+.c-traces__left {
+  position: absolute;
+  text-align: left;
+  left: 0;
   top: 0;
 }
 

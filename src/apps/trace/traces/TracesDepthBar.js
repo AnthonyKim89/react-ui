@@ -140,35 +140,35 @@ class TracesDepthBar extends Component {
 
       <div className="c-traces__depth-bar__values">
         <div className="c-traces__depth-bar__values__item">
-          <div className="c-traces__depth-bar__values__item__meta-row">
+          <div className="c-traces__depth-bar__values__item__meta-row-date c-traces__depth-bar__values__item__meta-row">
             {startTime}
           </div>
-          <div className="c-traces__depth-bar__values__item__meta-row">
+          <div className="c-traces__depth-bar__values__item__meta-row-date c-traces__depth-bar__values__item__meta-row">
             {endTime}
           </div>
-          <div className="c-traces__depth-bar__values__item__meta-row">
+          <div className="c-traces__depth-bar__values__item__meta-row-unit c-traces__depth-bar__values__item__meta-row">
             {duration}
           </div>
         </div>
         <div className="c-traces__depth-bar__values__item">
-          <div className="c-traces__depth-bar__values__item__meta-row">
+          <div className="c-traces__depth-bar__values__item__meta-row-title c-traces__depth-bar__values__item__meta-row">
             Hole Depth
           </div>
-          <div className="c-traces__depth-bar__values__item__meta-row">
+          <div className="c-traces__depth-bar__values__item__meta-row-value c-traces__depth-bar__values__item__meta-row">
             {this.props.convert.convertValue(this.props.latestData.getIn(['data', 'hole_depth'], '--'), 'length', 'ft')}
           </div>
-          <div className="c-traces__depth-bar__values__item__meta-row">
+          <div className="c-traces__depth-bar__values__item__meta-row-unit c-traces__depth-bar__values__item__meta-row">
             {this.props.convert.getUnitDisplay('length')}
           </div>
         </div>
         <div className="c-traces__depth-bar__values__item">
-          <div className="c-traces__depth-bar__values__item__meta-row">
+          <div className="c-traces__depth-bar__values__item__meta-row-title c-traces__depth-bar__values__item__meta-row">
             Bit Depth
           </div>
-          <div className="c-traces__depth-bar__values__item__meta-row">
+          <div className="c-traces__depth-bar__values__item__meta-row-value c-traces__depth-bar__values__item__meta-row">
             {this.props.convert.convertValue(this.props.latestData.getIn(['data', 'bit_depth'], '--'), 'length', 'ft')}
           </div>
-          <div className="c-traces__depth-bar__values__item__meta-row">
+          <div className="c-traces__depth-bar__values__item__meta-row-unit c-traces__depth-bar__values__item__meta-row">
             {this.props.convert.getUnitDisplay('length')}
           </div>
         </div>

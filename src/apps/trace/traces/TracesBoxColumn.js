@@ -34,14 +34,14 @@ class TracesBoxColumn extends Component {
       {this.getBoxData().map((trace, idx) => {
         return <Row key={idx} s={12} className="c-traces__box-column__box-row">
           <Col s={12} onClick={() => this.openEditDialog(idx)}>
-            {trace.label}<br/>
-            <span className="c-traces__box-column__box-row__value">{trace.value.formatNumeral("0.0")}</span><br/>
-            {trace.display}
+            <span className="c-traces__box-column__box-row-title">{trace.label}</span><br/>
+            <span className="c-traces__box-column__box-row-value">{trace.value.formatNumeral("0,0.00")}</span><br/>
+            <span className="c-traces__box-column__box-row-unit">{trace.display}</span>
           </Col>
           <div className="c-traces__box-column__box-row__x" onClick={() => this.openDeleteDialog(idx)}><Icon>clear</Icon></div>
         </Row>;
       })}
-      <Button className="black white-text" waves='light' onClick={() => this.openEditDialog()}>+</Button>
+      <Button className="c-traces__box-column__box-row-add-button white-text" waves='light' onClick={() => this.openEditDialog()}>+</Button>
 
       <Modal
         width='400px'

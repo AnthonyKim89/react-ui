@@ -50,6 +50,22 @@ export function getSubErrors(data, subscriptions) {
 }
 
 /**
+ * For each subscription, returning an empty data return.
+ * @param data
+ * @param subscriptions
+ * @returns {any|T|*}
+ */
+export function isSubDataEmpty(data, subscriptions) {
+  for (let i = 0; i < subscriptions.length; i++) {
+    let subData = getSubData(data, subscriptions[i]);
+    if (subData === '[]') {
+      return true;
+    }
+    return false;
+  }
+}
+
+/**
  * Given all the data stored for an app, find the timestamp of the latest data
  * appData will be a nested Map in the shape of
  * {appKey1: {collectionId1: {event1: data, event2: data}, collectionId2: {event3: data}}, appKey2: {...}}

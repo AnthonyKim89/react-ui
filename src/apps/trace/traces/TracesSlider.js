@@ -38,9 +38,10 @@ class TracesSlider extends Component {
           marginBottom={0}
           xAxisGridLineDashStyle="longdash"
           yAxisGridLineDashStyle="longdash"
-          xAxisGridLineColor="rgb(70, 70, 70)"
-          yAxisGridLineColor="rgb(70, 70, 70)"
-          xAxisTickInterval={100}
+          xAxisGridLineColor="rgb(40, 40, 40)"
+          yAxisGridLineColor="rgb(40, 40, 40)"
+          xAxisTickInterval={100000}
+          yAxisTickInterval={2000}
           widthCols={this.props.widthCols} >
           <ChartSeries
             type="area"
@@ -74,7 +75,7 @@ class TracesSlider extends Component {
           onResizeStop={this.updateSelectedRange}
           onResize={this.updateSelectedRange}
           ref={c => { this.topSlider = c; }}
-          width={250}
+          width={200}
           height={28}
           enable={{top: false, right: false, bottom: true, left: false}}>
           <div className="c-traces__slider-interaction__top-info c-traces__slider-interaction__info"><Icon>menu</Icon><span>{this.getStartLabel()}</span></div>
@@ -89,7 +90,7 @@ class TracesSlider extends Component {
           onResizeStop={this.updateSelectedRange}
           onResize={this.updateSelectedRange}
           ref={c => { this.bottomSlider = c; }}
-          width={250}
+          width={200}
           height={28}
           enable={{top: true, right: false, bottom: false, left: false}}>
           <div className="c-traces__slider-interaction__bottom-info c-traces__slider-interaction__info"><Icon>menu</Icon><span>{this.getEndLabel()}</span></div>

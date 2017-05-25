@@ -2,6 +2,7 @@
     width: 70px;
     height: calc(100% - 10px);
     border: 1px solid #333;
+    background-color: #191919;
     position: absolute;
     top: 0;
     left: 261px;
