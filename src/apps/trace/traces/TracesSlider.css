@@ -1,12 +1,12 @@
 .c-traces__slider {
   height: 100%;
-  width: 250px;
+  width: 200px;
   display: inline-block;
 }
 
 .c-traces__slider-chart {
   display: inline-block;
-  width: 250px;
+  width: 200px;
   height: calc(100% - 10px);
   padding-top: 21px;
   padding-bottom: 21px;
@@ -14,7 +14,7 @@
 }
 
 .c-traces__slider-interaction {
-  width: 250px;
+  width: 200px;
   height: calc(100% - 10px);
   display: flex;
   flex-direction: column;
