@@ -88,6 +88,7 @@ class AppContainer extends Component {
       'c-app-container--with-subtitle': !this.props.isTitlesDisabled  && this.props.appType.constants.METADATA.subtitle,
       'c-app-container--movable': !this.props.isNative
     };
+    let assetDashboardSlug = this.props.assetDashboards && this.props.assetDashboards.count() > 0 ? this.props.assetDashboards.first().get('slug') : '';
     return (
       <div className={classSet(classes)}>
         {!this.props.isTitlesDisabled && 
@@ -95,7 +96,10 @@ class AppContainer extends Component {
         {!this.props.isTitlesDisabled && this.props.appType.constants.METADATA.subtitle &&
           <h5 className="c-app-container__subtitle">{this.props.appType.constants.METADATA.subtitle}</h5>}
         {!this.props.appType.constants.METADATA.multiRig && this.props.availableAssets && !this.props.appType.constants.METADATA.disableDisplayAssetName && this.props.layoutEnvironment && this.props.layoutEnvironment.get("type") === "general" &&
-          <div className="c-app-container-asset-name">{this.getAppAssetName()}</div>}
+          <Link to={`/assets/${this.props.asset.get("id")}/${assetDashboardSlug}`} className="c-app-container-asset-name">
+             {this.getAppAssetName()}
+           </Link>    
+          }
         <div className="c-app-container__content">
           {this.props.errorData || this.props.isEmptyData ? this.renderErrorOrEmpty() : this.props.children}
         </div>

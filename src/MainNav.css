@@ -29,6 +29,12 @@ nav.c-main-nav ul.c-main-nav span ul.dropdown-content {
   top: 46px !important;
 }
 
+nav.c-main-nav ul.c-main-nav span ul.dropdown-content.c-main-nav__assets {
+  width: 400px !important;
+  top: 46px !important;
+}
+
+
 nav.c-main-nav ul.c-main-nav span ul.dropdown-content li {
   border-bottom: 1px solid #e0e0e0;
 }
@@ -40,6 +46,14 @@ nav.c-main-nav ul.c-main-nav span ul.dropdown-content li:last-child {
 div.c-main-nav__dropdown__spacer {
   width: 38px;
   display: inline-block;
+}
+
+.c-main-nav__dropdown__recent {
+  font-size: 0.7rem;
+  color: #666666;
+  margin-left: 20px;
+  font-style: italic;
+  margin-bottom: 0px;
 }
 
 div.c-main-nav__dropdown__outer-icon-circle {

@@ -13,7 +13,7 @@ export const ASSET_TYPES = fromJS({
     labelSingular: 'Rig',
     labelPlural: 'Rigs',
     parent_type: 'program',
-    hasAssetPage: true,
+    hasAssetPage: false,
     isResolvedToActiveChild: true
   },
   program: {
