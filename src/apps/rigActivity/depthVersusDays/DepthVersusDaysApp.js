@@ -128,7 +128,7 @@ class DepthVersusDaysApp extends Component {
   async getData() {
     let rigs = await api.getAssets(['well']);
     let data = await api.getAppStorage(METADATA.provider, METADATA.collection, null, Map({
-      query: '{asset_id#in#[' + rigs.map(x => x.get('id')).toArray().toString() + ']}',
+      query: '{asset_id#in#[' + rigs.map(x => x.get('id')).toArray().toString() + ']}AND{data.hole_depth#gt#0}',
       limit: 10000
     }));
     // [data, rigs] = this.getFakeData();

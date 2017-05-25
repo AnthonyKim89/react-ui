@@ -137,7 +137,7 @@ class RigActivityApp extends Component {
   }
 
   isExpanded() {
-    return this.props.size === common.constants.Size.XLARGE || this.props.widthCols >= 6;
+    return (this.props.size === common.constants.Size.XLARGE || this.props.widthCols >= 6) && !this.props.isNative;
   }
 
   getFakeData() {
