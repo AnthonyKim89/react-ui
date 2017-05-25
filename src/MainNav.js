@@ -5,10 +5,20 @@ import RoutingNavItem from './common/RoutingNavItem';
 import { assetDashboards } from './pages/selectors';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import * as api from './api';
 
 import './MainNav.css';
 
 class MainNav extends Component {
+
+  constructor(props) {
+    super(props);
+    this.recentAssets = null;
+  }
+
+  async componentDidMount() {
+    this.recentAssets = await api.getCurrentUserRecentAssets();
+  }
 
   render() {
     let assetDashboardSlug = this.props.assetDashboards.count() > 0 ? this.props.assetDashboards.first().get('slug') : '';
@@ -20,7 +30,7 @@ class MainNav extends Component {
         <Dropdown trigger={<NavItem>Assets</NavItem>}>
           <RoutingNavItem to="/assets/well"><Icon left>dashboard</Icon>All Wells</RoutingNavItem>
           <RoutingNavItem to="/assets/rig"><Icon left>dashboard</Icon>All Rigs</RoutingNavItem>
-          {this.props.recentAssets && this.props.recentAssets.map(asset =>
+          {this.recentAssets && this.recentAssets.map(asset =>
             <RoutingNavItem key={asset.get('id')} to={`/assets/${asset.get('id')}/${assetDashboardSlug}`}>
               <div className="c-main-nav__dropdown__outer-icon-circle">
                 {asset.get('status') === 'active' ? <div className="c-main-nav__dropdown__inner-icon-circle-active"></div> : <div className="c-main-nav__dropdown__inner-icon-circle-inactive"></div>}
@@ -64,7 +74,6 @@ class MainNav extends Component {
 
 MainNav.propTypes = {
   dashboards: ImmutablePropTypes.seq.isRequired,
-  recentAssets: ImmutablePropTypes.list.isRequired,
   currentUser: ImmutablePropTypes.map,
   logOut: PropTypes.func.isRequired,
 };

@@ -14,10 +14,8 @@ import './App.css';
 
 class App extends Component {
 
-  componentDidMount() {
+  async componentDidMount() {
     this.props.loginCheck();
-    // TODO: Replace this listAssets with a "get recent assets" call or lookup once that exists.
-    this.props.listAssets('rig');
   }
 
   render() {
@@ -30,7 +28,6 @@ class App extends Component {
         {this.props.currentUser && !this.props.isNative &&
           <MainNav currentUser={this.props.currentUser}
                    dashboards={this.props.dashboards}
-                   recentAssets={this.props.recentAssets}
                    logOut={this.props.logOut} />}
         {this.props.isLoading ?
           <LoadingIndicator /> :
@@ -48,7 +45,6 @@ export default connect(
     isNative: pages.selectors.isNative,
     isLoading: pages.selectors.isLoading,
     dashboards: pages.selectors.dashboards,
-    recentAssets: assets.selectors.recentAssets
   }),
   {
     loginCheck: login.actions.loginCheck,
