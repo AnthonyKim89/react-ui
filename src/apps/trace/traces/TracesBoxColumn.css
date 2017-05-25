@@ -1,5 +1,5 @@
 .c-traces__box-column {
-     width: 170px;
+     width: 120px;
      height: calc(100% - 10px);
      border: 1px solid #333;
      background-color: #333;
@@ -11,7 +11,7 @@
 .c-traces__box-column__box-row {
     cursor: pointer;
     position: relative;
-    background-color: #000;
+    background-color: #191919;
     padding: 5px 8px !important;
     margin: 5px 5px 0 5px !important;
     font-size: 0.9rem;
@@ -22,7 +22,7 @@
     top: 2px;
     right: 2px;
     cursor: pointer;
-    color: #555;
+    color: transparent;
     transition: all 0.2s linear;
 }
 
@@ -30,9 +30,22 @@
     color: #fff;
 }
 
-.c-traces__box-column__box-row__value {
-    font-weight: bold;
-    font-size: 1.25rem;
+.c-traces__box-column__box-row-add-button {
+    background-color: #191919;
+}
+
+.c-traces__box-column__box-row-title {
+font-size: 0.8rem;
+}
+
+.c-traces__box-column__box-row-value {
+  font-size: 1.1rem;
+  font-family: orgonboldregular;
+}
+
+.c-traces__box-column__box-row-unit {
+  font-size: 0.7rem;
+  opacity: 0.6;
 }
 
 .c-traces__box-column__box-row .col {
@@ -43,7 +56,7 @@
     margin: 5px 5px 0 5px !important;
     border-radius: 0;
     color: #fff;
-    background-color: #000;
+    background-color: #191919;
     width: calc(100% - 10px);
 }
 

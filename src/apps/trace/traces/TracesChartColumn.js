@@ -53,18 +53,20 @@ class TracesChartColumn extends Component {
           </Chart>}
       </div>
       <div className={"c-traces__chart-column__values c-traces__chart-column__values-" + this.props.traceRowCount}>
-        {series.slice(0, this.props.traceRowCount !== undefined ? this.props.traceRowCount : 3).map(({valid, field, title, color, unit, latestValue}, idx) => (
+        {series.slice(0, this.props.traceRowCount !== undefined ? this.props.traceRowCount : 3).map(({valid, field, title, color, unit, latestValue, minValue, maxValue}, idx) => (
           <div className="c-traces__chart-column__values__item" key={idx} onClick={() => this.props.editTraceGraph(idx + (4 * this.props.columnNumber))}>
             {valid ? <div>
               <div className="c-traces__chart-column__values__item__meta-row">
-                <div className="c-traces__center"><span>{title}</span></div>
+                <div className="c-traces__chart-column__values__item__meta-row-title c-traces__center"><span>{title}</span></div>
                 <div className="c-traces__right" style={{color}}><Icon>network_cell</Icon></div>
               </div>
               <div className="c-traces__chart-column__values__item__meta-row">
-                <div className="c-traces__center">{latestValue}</div>
+                <div className="c-traces__chart-column__values__item__meta-row-value c-traces__center">{latestValue}</div>
               </div>
               <div className="c-traces__chart-column__values__item__meta-row">
-                <div className="c-traces__center">{unit}</div>
+                <div className="c-traces__chart-column__values__item__meta-row-unit c-traces__center">{unit}</div>
+                <div className="c-traces__chart-column__values__item__meta-row-scale c-traces__left">{minValue}</div>
+                <div className="c-traces__chart-column__values__item__meta-row-scale c-traces__right">{maxValue}</div>
               </div>
             </div> : <div>
               <div className="c-traces__chart-column__values__item__meta-row">&nbsp;</div>
@@ -125,7 +127,7 @@ class TracesChartColumn extends Component {
         }
 
         if (unitFrom) {
-          latestValue = this.props.convert.convertValue(latestValue, unitType, unitFrom, unitTo);
+          latestValue = this.props.convert.convertValue(latestValue, unitType, unitFrom, unitTo).formatNumeral("0,0.00");
         }
       }
 

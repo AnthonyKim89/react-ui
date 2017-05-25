@@ -45,6 +45,7 @@
 .c-traces__depth-bar__values__item {
     height: calc(170px / 3);
     border-bottom: 1px solid #333;
+    background-color: #191919;
     cursor: pointer;
     display: flex;
     flex-direction: column;
@@ -62,4 +63,22 @@
 .c-traces__depth-bar__values__item__meta-row div {
     display: inline-block;
     width: calc(100% / 3);
+}
+
+.c-traces__depth-bar__values__item__meta-row-date {
+font-size: 0.6rem;
+}
+
+.c-traces__depth-bar__values__item__meta-row-title {
+font-size: 0.8rem;
+}
+
+.c-traces__depth-bar__values__item__meta-row-value {
+  font-size: 1.1rem;
+  font-family: orgonboldregular;
+}
+
+.c-traces__depth-bar__values__item__meta-row-unit {
+  font-size: 0.7rem;
+  opacity: 0.6;
 }
