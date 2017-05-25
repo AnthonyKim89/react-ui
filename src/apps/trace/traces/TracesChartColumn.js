@@ -30,9 +30,10 @@ class TracesChartColumn extends Component {
             marginBottom={0}
             xAxisGridLineDashStyle="longdash"
             yAxisGridLineDashStyle="longdash"
-            xAxisGridLineColor="rgb(70, 70, 70)"
-            yAxisGridLineColor="rgb(70, 70, 70)"
-            xAxisTickInterval={100}
+            xAxisGridLineColor="rgb(40, 40, 40)"
+            yAxisGridLineColor="rgb(40, 40, 40)"
+            xAxisTickInterval={200}
+            yAxisTickInterval={200}
             widthCols={this.props.widthCols} >
             {series.filter((value, idx) => value.field !== '').map(({field, title, color, type, dashStyle, lineWidth, minValue, maxValue}, idx) => {
               return <ChartSeries
