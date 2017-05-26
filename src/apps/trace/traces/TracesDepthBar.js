@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import Highcharts from 'highcharts';
+//import Highcharts from 'highcharts';
 import moment from 'moment';
 import { STATE_CATEGORY_MAP, ACTIVITY_COLORS } from './constants';
 
@@ -11,7 +11,7 @@ import './TracesDepthBar.css';
 class TracesDepthBar extends Component {
 
   componentDidMount() {
-    const chart = Highcharts.chart(this.container, {
+    /*const chart = Highcharts.chart(this.container, {
       chart: {
         type: 'scatter',
         backgroundColor: '#000',
@@ -86,11 +86,11 @@ class TracesDepthBar extends Component {
         animation: false
       }]
     });
-    this.setState({chart});
+    this.setState({chart});*/
   }
 
   componentWillReceiveProps(newProps) {
-    const chart = this.state.chart;
+    /*const chart = this.state.chart;
 
     const firstSummary = newProps.data.first();
     const lastSummary = newProps.data.last();
@@ -103,7 +103,7 @@ class TracesDepthBar extends Component {
     const depthAxis = chart.get('depthAxis');
     const minDepth = firstSummary.get('hole_depth');
     const maxDepth = lastSummary.get('hole_depth');
-    depthAxis.update({min: minDepth, max: maxDepth});
+    depthAxis.update({min: minDepth, max: maxDepth});*/
   }
 
   getTraceColor(state) {

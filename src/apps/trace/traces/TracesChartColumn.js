@@ -2,59 +2,86 @@ import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { find } from 'lodash';
 import { Icon, Col } from 'react-materialize';
+import moment from 'moment';
 
-import Chart from '../../../common/Chart';
-import ChartSeries from '../../../common/ChartSeries';
+//import Chart from '../../../common/Chart';
+//import ChartSeries from '../../../common/ChartSeries';
 import Convert from '../../../common/Convert';
+import ReactEcharts from './echarts';
 
 import './TracesChartColumn.css';
 
 class TracesChartColumn extends Component {
 
-  render() {
-    let series = this.getSeries();
+  constructor(props) {
+    super(props);
 
+    let data = this.getSeries(props);
+
+    this.state = {
+      traces: this.getTraces(props),
+      options: {
+        animation: false,
+        toolbox: {
+          show : false,
+        },
+        calculable : true,
+        tooltip : {
+          trigger: 'axis',
+        },
+        xAxis : data.xAxis,
+        yAxis : [
+          {
+            type : 'category',
+            show: false,
+            axisLine : {onZero: false},
+            axisLabel : {
+              formatter: '{value} km'
+            },
+            boundaryGap : false,
+            data : props.data.reduce((result, point) => {
+              result.push(moment.unix(point.get("timestamp")).format('MMMD HH:mm'));
+              return result;
+            }, [])
+          }
+        ],
+        series : data.series,
+        grid: {
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 0,
+        }
+      }
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let opt = this.state.options;
+
+    opt = Object.assign(opt, this.getSeries(nextProps));
+
+    opt.yAxis.data = nextProps.data.reduce((result, point) => {
+      result.push(moment.unix(point.get("timestamp")).format('MMMD HH:mm'));
+      return result;
+    }, []);
+
+    this.setState({
+      traces: this.getTraces(nextProps),
+      options: opt,
+    });
+  }
+
+  render() {
     return <Col className={"c-traces__chart-column c-traces__chart-column__"+this.props.totalColumns}>
       <div className={"c-traces__chart-column__chart c-traces__chart-column__chart-" + this.props.traceRowCount}>
-        {find(series, {valid: true}) &&
-          <Chart
-            simpleSeriesData={true}
-            chartType="area"
-            xField="timestamp"
-            size="MEDIUM"
-            plotBackgroundColor="#000"
-            multiAxis={true}
-            marginLeft={0}
-            marginRight={0}
-            marginTop={0}
-            marginBottom={0}
-            xAxisGridLineDashStyle="longdash"
-            yAxisGridLineDashStyle="longdash"
-            xAxisGridLineColor="rgb(40, 40, 40)"
-            yAxisGridLineColor="rgb(40, 40, 40)"
-            xAxisTickInterval={10000}
-            yAxisTickInterval={200}
-            widthCols={this.props.widthCols} >
-            {series.filter((value, idx) => value.field !== '').map(({field, title, color, type, dashStyle, lineWidth, minValue, maxValue}, idx) => {
-              return <ChartSeries
-                type={type}
-                dashStyle={dashStyle}
-                fillOpacity={0.5}
-                lineWidth={lineWidth}
-                key={field}
-                id={field}
-                title={title}
-                data={this.props.data}
-                yAxis={field + "-axis"}
-                yField={field}
-                color={color}
-                minValue={minValue}
-                maxValue={maxValue} />;
-            })}
-          </Chart>}
+        <ReactEcharts
+          lazyUpdate={true}
+          style={{height: '100%', width: '100%'}}
+          option={this.state.options} />
       </div>
       <div className={"c-traces__chart-column__values c-traces__chart-column__values-" + this.props.traceRowCount}>
-        {series.slice(0, this.props.traceRowCount !== undefined ? this.props.traceRowCount : 3).map(({valid, field, title, color, unit, latestValue, minValue, maxValue}, idx) => (
+        {this.state.traces.slice(0, this.props.traceRowCount !== undefined ? this.props.traceRowCount : 3).map(({valid, field, title, color, unit, latestValue, minValue, maxValue}, idx) => (
           <div className="c-traces__chart-column__values__item" key={idx} onClick={() => this.props.editTraceGraph(idx + (4 * this.props.columnNumber))}>
             {valid ? <div>
               <div className="c-traces__chart-column__values__item__meta-row">
@@ -82,11 +109,54 @@ class TracesChartColumn extends Component {
     </Col>;
   }
 
-  getSeries() {
+  getSeries(props) {
     let series = [];
 
-    this.props.traceGraphs.valueSeq().forEach(traceGraph => {
-      let trace = find(this.props.supportedTraces, {trace: traceGraph.get('trace')}) || null;
+    props.traceGraphs.valueSeq().forEach((traceGraph, idx) => {
+      let trace = find(props.supportedTraces, {trace: traceGraph.get('trace')}) || null;
+
+      if (!trace) {
+        series.push({
+          name: '',
+          type: 'line',
+          smooth: false,
+          xAxisIndex: idx,
+          data: [],
+        });
+        return;
+      }
+
+      series.push({
+        name: trace.label,
+        type: 'line',
+        smooth: false,
+        xAxisIndex: idx,
+        itemStyle: {
+          normal: {
+            color: traceGraph.get('color'),
+          },
+        },
+        data: props.data.reduce((result, point) => {
+          result.push(point.get(trace.trace));
+          return result;
+        }, []),
+      });
+    });
+
+    return {
+      series,
+      xAxis: new Array(series.length).fill({
+        type : 'value',
+        show: false,
+      })
+    };
+  }
+
+  getTraces(props) {
+    let series = [];
+
+    props.traceGraphs.valueSeq().forEach(traceGraph => {
+      let trace = find(props.supportedTraces, {trace: traceGraph.get('trace')}) || null;
 
       if (!trace) {
         series.push({
@@ -109,16 +179,16 @@ class TracesChartColumn extends Component {
       let unitType = traceGraph.get('unitType', '');
       let displayUnit;
       if (unitType) {
-        displayUnit = this.props.convert.getUnitDisplay(unitType, traceGraph.get('unitTo', null));
+        displayUnit = props.convert.getUnitDisplay(unitType, traceGraph.get('unitTo', null));
       } else if (trace.hasOwnProperty("unitType")) {
         unitType = trace.unitType;
-        displayUnit = this.props.convert.getUnitDisplay(trace.unitType);
+        displayUnit = props.convert.getUnitDisplay(trace.unitType);
       } else if (trace.hasOwnProperty('unit')) {
         displayUnit = trace.unit;
       }
 
       // Converting the unit on the metadata display
-      let latestValue = this.props.latestData.getIn(['data', trace.trace], '');
+      let latestValue = props.latestData.getIn(['data', trace.trace], '');
       if (unitType) {
         let unitFrom = traceGraph.get('unitFrom');
         let unitTo = traceGraph.get('unitTo', null);
@@ -128,7 +198,7 @@ class TracesChartColumn extends Component {
         }
 
         if (unitFrom) {
-          latestValue = this.props.convert.convertValue(latestValue, unitType, unitFrom, unitTo).formatNumeral("0,0.00");
+          latestValue = props.convert.convertValue(parseFloat(latestValue), unitType, unitFrom, unitTo).formatNumeral("0,0.00");
         }
       }
 
@@ -143,7 +213,7 @@ class TracesChartColumn extends Component {
       } else if (traceGraph.get('type') === 'area') {
         // If the graph type is area, and the user didn't set a min/max, we need to manually set a min here.
         // If we don't, it will automatically set the min value at 0 instead of auto-calculating it.
-        minValue = (this.props.data.minBy(x => x.get(trace.trace)) || new Map()).get(trace.trace, 0);
+        minValue = (props.data.minBy(x => x.get(trace.trace)) || new Map()).get(trace.trace, 0);
         minValue -= minValue / 1000;
       }
 
