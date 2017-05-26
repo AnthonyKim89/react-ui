@@ -29,6 +29,7 @@ it('renders a fallback when mismatching app registry state exists', () => {
       apps={emptySeq}
       appData={emptyMap}
       appAssets={emptyMap}
+      assetDashboards={emptyMap}
       onAppSubscribe={noop}
       onAppUnsubscribe={noop}
       onAppMove={noop}

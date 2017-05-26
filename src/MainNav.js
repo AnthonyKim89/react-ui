@@ -30,7 +30,7 @@ class MainNav extends Component {
         <Dropdown className="c-main-nav__assets" trigger={<NavItem>Assets</NavItem>}>
           <RoutingNavItem to="/assets/well"><Icon left>dashboard</Icon>All Wells</RoutingNavItem>
           <RoutingNavItem to="/assets/rig"><Icon left>dashboard</Icon>All Rigs</RoutingNavItem>
-          <div className="c-main-nav__dropdown__recent">Recent assets...</div>
+          <div className="c-main-nav__dropdown__recent">Recently viewed assets...</div>
           {this.recentAssets && this.recentAssets.map(asset =>
             <RoutingNavItem key={asset.get('id')} to={`/assets/${asset.get('id')}/${assetDashboardSlug}`}>
               <div className="c-main-nav__dropdown__outer-icon-circle">
