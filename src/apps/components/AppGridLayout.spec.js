@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { Map, Seq } from 'immutable';
 import { Provider } from 'react-redux';
-import { store } from './store';
+import { store } from '../../store';
 
 import Convert from '../../common/Convert';
 import AppGridLayout from './AppGridLayout';
