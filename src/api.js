@@ -94,6 +94,10 @@ export async function getCurrentUser() {
   return fromJS(await get('/v1/users/current'));
 }
 
+export async function getCurrentUserRecentAssets() {
+  return fromJS(await get('/v1/users/current/recent_assets'));
+}
+
 export async function getAppSets(userId) {
   const data = await get(`/v1/users/${userId}/app_sets`);
   return fromJS(data);

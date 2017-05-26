@@ -15,11 +15,12 @@ class AssetStatusApp extends Component {
   }
 
   render() {
+    let assetDashboardSlug = this.props.assetDashboards.count() > 0 ? this.props.assetDashboards.first().get('slug') : '';
     return (
       <div className="c-asset-status">
         {this.props.asset && subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS) ?
           <div className="c-asset-status-container">
-            <Link to={`/assets/${this.props.asset.get("id")}/overview`} className="c-asset-status__asset-link">
+            <Link to={`/assets/${this.props.asset.get("id")}/${assetDashboardSlug}`} className="c-asset-status__asset-link">
               View Asset &gt;
             </Link>            
             <div className={"c-asset-status-bar "+this.getAssetStatusColorClass()}></div>
