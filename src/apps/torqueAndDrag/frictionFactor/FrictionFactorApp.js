@@ -27,8 +27,6 @@ class FrictionFactorApp extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(this.props.asset.get("id"));
-    console.log(nextProps.asset.get("id"));
     if (nextProps.asset && 
       ( (this.props.asset && this.props.asset.get("id") !== nextProps.asset.get("id")) || !this.props.asset || !this.state.apiRecordInitialFetch)) {
         console.log("here");
