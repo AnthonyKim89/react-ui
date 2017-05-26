@@ -1,6 +1,8 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { Map, Seq } from 'immutable';
+import { Provider } from 'react-redux';
+import { store } from './store';
 
 import Convert from '../../common/Convert';
 import AppGridLayout from './AppGridLayout';
@@ -25,23 +27,26 @@ it('renders a fallback when mismatching app registry state exists', () => {
   const emptyMap = Map();
   const location = { query: { maximize: 'nope' } };
   mount(
-    <AppGridLayout
-      apps={emptySeq}
-      appData={emptyMap}
-      appAssets={emptyMap}
-      assetDashboards={emptyMap}
-      onAppSubscribe={noop}
-      onAppUnsubscribe={noop}
-      onAppMove={noop}
-      onAppSettingsUpdate={noop}
-      onAppAdd={noop}
-      onAppRemove={noop}
-      onAssetModified={noop}
-      convert={convert}
-      isNative={true}
-      location={location}
-      measureBeforeMount={false}
-      width={1000}
-    />);
+    <Provider store={store}>
+      <AppGridLayout
+        apps={emptySeq}
+        appData={emptyMap}
+        appAssets={emptyMap}
+        assetDashboards={emptyMap}
+        onAppSubscribe={noop}
+        onAppUnsubscribe={noop}
+        onAppMove={noop}
+        onAppSettingsUpdate={noop}
+        onAppAdd={noop}
+        onAppRemove={noop}
+        onAssetModified={noop}
+        convert={convert}
+        isNative={true}
+        location={location}
+        measureBeforeMount={false}
+        width={1000}
+      />
+    </Provider>
+    );
   expect(console.log).toBeCalledWith('No UI app found for doesnotexist:sorry.');
 });
