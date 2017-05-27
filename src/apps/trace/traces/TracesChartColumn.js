@@ -120,6 +120,7 @@ class TracesChartColumn extends Component {
         series.push({
           name: '',
           type: 'line',
+          symbolSize : '0',
           smooth: false,
           xAxisIndex: idx,
           data: [],
@@ -130,6 +131,7 @@ class TracesChartColumn extends Component {
       series.push({
         name: trace.label,
         type: 'line',
+        symbolSize : '0',
         smooth: false,
         xAxisIndex: idx,
         itemStyle: {
