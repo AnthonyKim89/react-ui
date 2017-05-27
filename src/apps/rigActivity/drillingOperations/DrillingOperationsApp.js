@@ -84,13 +84,17 @@ class DrillingOperationsApp extends Component {
   // Render Empty Data
   renderEmpty() {
     return (
-      <div className="c-app-container__error">
-        <div className="c-app-container__error-grid">
-          <div className="c-app-container__error-inner">
-            <div className="c-app-container__error_no-data">
-              <Icon>info_outline</Icon>
+      <div className="c-ra-drilling-operations">
+        <h4>{this.getOperation().title}</h4>
+        <h5>{this.getOperation().description}</h5>
+        <div className="c-app-container__error">
+          <div className="c-app-container__error-grid">
+            <div className="c-app-container__error-inner">
+              <div className="c-app-container__error_no-data">
+                <Icon>info_outline</Icon>
+              </div>
+              <h1>No results found for '{PERIOD_TYPES[this.props.period].label}'...</h1>
             </div>
-            <h1>No results found...</h1>
           </div>
         </div>
       </div>
@@ -167,6 +171,12 @@ class DrillingOperationsApp extends Component {
         emptyData = true;
       }
       data = data.get(0);
+      if(data) {
+      let operations = data.getIn(['data', 'operations']);
+        if(operations && operations instanceof List && operations.size === 0) {
+          emptyData = true;
+        }
+      }
     }
     this.setState({
       data: data,
