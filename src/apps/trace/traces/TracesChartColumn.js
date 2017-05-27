@@ -73,15 +73,16 @@ class TracesChartColumn extends Component {
   }
 
   render() {
+    let traceRowCount = this.props.traceRowCount !== undefined ? this.props.traceRowCount : 3;    
     return <Col className={"c-traces__chart-column c-traces__chart-column__"+this.props.totalColumns}>
-      <div className={"c-traces__chart-column__chart c-traces__chart-column__chart-" + this.props.traceRowCount}>
+      <div className={"c-traces__chart-column__chart c-traces__chart-column__chart-" + traceRowCount}>
         <ReactEcharts
           lazyUpdate={true}
           style={{height: '100%', width: '100%'}}
           option={this.state.options} />
       </div>
-      <div className={"c-traces__chart-column__values c-traces__chart-column__values-" + this.props.traceRowCount}>
-        {this.state.traces.slice(0, this.props.traceRowCount !== undefined ? this.props.traceRowCount : 3).map(({valid, field, title, color, unit, latestValue, minValue, maxValue}, idx) => (
+      <div className={"c-traces__chart-column__values c-traces__chart-column__values-" + traceRowCount}>
+        {this.state.traces.slice(0, traceRowCount).map(({valid, field, title, color, unit, latestValue, minValue, maxValue}, idx) => (
           <div className="c-traces__chart-column__values__item" key={idx} onClick={() => this.props.editTraceGraph(idx + (4 * this.props.columnNumber))}>
             {valid ? <div>
               <div className="c-traces__chart-column__values__item__meta-row">
