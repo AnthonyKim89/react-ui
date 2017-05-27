@@ -1,8 +1,8 @@
 .c-traces__container {
   height: 100%;
-  width: calc(100% - 670px);
+  width: calc(100% - 560px);
   position: absolute;
   top: 0;
-  left: 490px;
+  left: 440px;
   display: flex;
 }

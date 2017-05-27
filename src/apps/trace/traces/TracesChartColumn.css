@@ -1,5 +1,6 @@
 .c-traces__chart-column {
   height: calc(100% - 10px);
+  margin-right: 10px;
   display: inline-block;
   flex-direction: column;
   border: 1px solid #333;
