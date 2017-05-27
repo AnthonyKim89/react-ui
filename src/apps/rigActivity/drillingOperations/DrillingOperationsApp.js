@@ -171,9 +171,6 @@ class DrillingOperationsApp extends Component {
         emptyData = true;
       }
       data = data.get(0);
-
-      console.log(JSON.stringify(data));
-      console.log(JSON.stringify(data.getIn(['data', 'operations'])));
       if(data) {
       let operations = data.getIn(['data', 'operations']);
         if(operations && operations instanceof List && operations.size === 0) {
