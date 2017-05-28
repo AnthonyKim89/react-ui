@@ -87,10 +87,11 @@
 }
 
 .c-dashboard-tab-bar__edit-dashboard {
-  position: absolute;
+  position: relative;
   top: 30%;
-  left: 40%;
-  right: 40%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 400px;
   border-radius: 0;
   padding: 20px;
   border: 1px solid #ccc;
