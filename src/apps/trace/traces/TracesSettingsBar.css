@@ -13,11 +13,16 @@
     margin-top: 8px;
 }
 .c-traces__settings-bar__setting i {
+    color: #b0b0b0;
     font-size: 2.8rem;
     line-height: 2.8rem;
     cursor: pointer;
 }
+.c-traces__settings-bar__setting i:hover {
+    color: #58c9c2;
+}
 .c-traces__settings-bar__setting__label {
+    color: #666666;
     font-size: 0.8rem;
     margin-top: -8px;
     cursor: pointer;

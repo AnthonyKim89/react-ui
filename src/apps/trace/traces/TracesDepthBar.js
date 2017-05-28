@@ -109,9 +109,14 @@ class TracesDepthBar extends Component {
   getTraceColor(state) {
     // The try/catch just returns black if the state is incompatible.
     try {
-      return ACTIVITY_COLORS[STATE_CATEGORY_MAP[state]];
+      if(state) {
+        return ACTIVITY_COLORS[STATE_CATEGORY_MAP[state]];
+      }
+      else {
+        return ACTIVITY_COLORS['Other'];
+      }
     } catch (e) {
-      return '#000000';
+      return ACTIVITY_COLORS['Other'];
     }
   }
 
@@ -132,7 +137,7 @@ class TracesDepthBar extends Component {
         </div>
         <div className="c-traces__depth-bar__chart__bar">
           {this.props.data.map((point, idx) => {
-            return <div key={idx} className="c-traces__depth-bar__chart__bar__tick" style={{'backgroundColor': this.getTraceColor(point.get('state'))}} >
+            return <div key={idx} className="c-traces__depth-bar__chart__bar__tick" style={{'backgroundColor': this.getTraceColor(point.get('state'))}}  title={point.get('state') || 'Other'}>
             </div>;
           })}
         </div>

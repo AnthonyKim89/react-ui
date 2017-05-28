@@ -21,6 +21,14 @@ class TracesSettingsBar extends Component {
         <div className="c-traces__settings-bar__setting__icon"><Icon>assessment</Icon></div>
         <div className="c-traces__settings-bar__setting__label">Display</div>
       </div>
+      <div className="c-traces__settings-bar__setting" onClick={() => {}}>
+        <div className="c-traces__settings-bar__setting__icon"><Icon>zoom_in</Icon></div>
+        <div className="c-traces__settings-bar__setting__label">Zoom In</div>
+      </div>
+      <div className="c-traces__settings-bar__setting" onClick={() => {}}>
+        <div className="c-traces__settings-bar__setting__icon"><Icon>zoom_out</Icon></div>
+        <div className="c-traces__settings-bar__setting__label">Zoom Out</div>
+      </div>
 
       <Modal
         width='400px'
