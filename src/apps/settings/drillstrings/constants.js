@@ -28,4 +28,20 @@ export const COMPONENT_FAMILIES = [
   {name: 'Tail pipe', type: 'tail_pipe'}
 ];
 
+export const COMPONENT_GRADES = [
+  {name: 'G105', type: 'g105'},
+  {name: 'S135', type: 's135'}
+]
+
+export const COMPONENT_MATERIALS = [
+  {name: 'STEEL', type: 'steel'},
+  {name: 'ALUMINUM', type: 'aluminum'}
+]
+
+export const COMPONENT_CATALOGUE = [
+  {name: 'CATALOGUE1', type: 'catalogue1'},
+  {name: 'CATALOGUE1', type: 'catalogue2'}
+]
+
+
 export const DRILLSTRING_DATA_TEMPLATE = Map({components: List()});

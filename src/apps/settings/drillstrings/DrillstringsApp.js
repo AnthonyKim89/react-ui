@@ -7,7 +7,7 @@ import SettingsRecordManager from '../components/SettingsRecordManager';
 import DrillstringSummary from './DrillstringSummary';
 import DrillstringAttributeForm from './DrillstringAttributeForm';
 import DrillstringComponentTable from './DrillstringComponentTable';
-
+import DrillstringComponent from './DrillstringComponent'
 import { DRILLSTRING_DATA_TEMPLATE, METADATA } from './constants';
 
 const DEF_MIN_ID = 0, DEF_MAX_ID =100, DEF_MIN_OD = 1, DEF_MAX_OD = 100, DEF_MIN_LENGTH = 0 ,DEF_MAX_LENGTH = 1000;
@@ -38,7 +38,7 @@ class DrillstringsApp extends Component {
               recordDataTemplate={DRILLSTRING_DATA_TEMPLATE}
               RecordSummary={DrillstringSummary}
               RecordAttributeForm={DrillstringAttributeForm}
-              RecordDetails={DrillstringComponentTable}
+              RecordDetails={DrillstringComponent}
               renderRecordListItem={r => this.renderDrillstringListItem(r)} />;
   }
 
