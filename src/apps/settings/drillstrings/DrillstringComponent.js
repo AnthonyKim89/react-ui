@@ -4,41 +4,27 @@ import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import uuidV1 from 'uuid/v1';
 
-import DrillstringComponentSchematic from './DrillstringComponentSchematic';
 import DrillstringComponentEditorItem from './DrillstringComponentEditorItem';
-
-import './DrillstringComponentTable.css';
 
 class DrillstringComponent extends Component {
 	render() {
     return <div className="c-drillstring-component">
-      {this.props.isEditable && this.props.errors && this.props.errors["bit_count"] ?
-        <div style={{color:'red'}}>
-          { this.props.errors["bit_count"] }
-        </div> : ''
-      }
-      <Row>
-        <Col m={1}>
-          <DrillstringComponentSchematic
-            drillstring={this.props.record}
-            isEditable={this.props.isEditable}
-            onReorderComponents={this.onReorderComponents.bind(this)} />
-        </Col>
-        <Col m={11}>
-          {this.props.record.getIn(['data', 'components'], List()).map((cmp, idx) => 
-            <DrillstringComponentEditorItem
-              convert={this.props.convert}
-              key={idx}
-              index={idx}
-              component={cmp}
-              errors={this.props.errors && this.props.errors["components"]? this.props.errors["components"][idx]: null}
-              isEditable={this.props.isEditable}
-              onSave={this.props.onSave}
-              onComponentFieldChange={(field, value) => this.onComponentFieldChange(idx, field, value)}/>
-              
-          )}
-        </Col>
-      </Row>
+      {this.props.record.getIn(['data', 'components'], List()).map((cmp, idx) => 
+        <Row>        
+          <Col m={12}>          
+              <DrillstringComponentEditorItem
+                convert={this.props.convert}
+                key={idx}
+                index={idx}
+                component={cmp}
+                errors={this.props.errors && this.props.errors["components"]? this.props.errors["components"][idx]: null}
+                isEditable={this.props.isEditable}
+                onSave={this.props.onSave}
+                onComponentFieldChange={(field, value) => this.onComponentFieldChange(idx, field, value)}/>              
+          </Col>
+        </Row>
+      )}
+
       <Row>
         <Col m={1}></Col>
         <Col m={11}>

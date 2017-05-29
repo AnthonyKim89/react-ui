@@ -38,7 +38,7 @@ export const COMPONENT_MATERIALS = [
   {name: 'ALUMINUM', type: 'aluminum'}
 ]
 
-export const COMPONENT_CATALOGUE = [
+export const COMPONENT_CATALOGUES = [
   {name: 'CATALOGUE1', type: 'catalogue1'},
   {name: 'CATALOGUE1', type: 'catalogue2'}
 ]

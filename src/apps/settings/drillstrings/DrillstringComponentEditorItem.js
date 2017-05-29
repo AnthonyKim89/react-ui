@@ -4,9 +4,15 @@ import { Button, Input, Row, Col } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import numeral from 'numeral';
 
-import { COMPONENT_FAMILIES, COMPONENT_GRADES, COMPONENT_MATERIALS, COMPONENT_CATALOGUE } from './constants';
+import { COMPONENT_FAMILIES, COMPONENT_GRADES, COMPONENT_MATERIALS, COMPONENT_CATALOGUES } from './constants';
 
 import './DrillstringComponentEditorItem.css';
+
+const HWDP_SUB_CATEGORIES = [
+  {name: 'HWDP_SUB_1', type: 'hwdp_sub_1'},
+  {name: 'HWDP_SUB_2', type: 'hwdp_sub_2'},
+  {name: 'HWDP_SUB_3', type: 'hwdp_sub_3'},  
+];
 
 class DrillstringComponentEditorItem extends Component {
   render() {
@@ -64,7 +70,7 @@ class DrillstringComponentEditorItem extends Component {
       <Row key="hwdp-1">
         {this.renderComponentSelectField('family', 1, COMPONENT_FAMILIES)}
         {this.renderComponentTextField("name", "Name", 2)}
-        {this.renderComponentSelectField('sub-category', 1, COMPONENT_FAMILIES)}
+        {this.renderComponentSelectField('sub_category', 1, HWDP_SUB_CATEGORIES)}
         {this.renderComponentTextField("outer_diameter","OD",1)}
         {this.renderComponentTextField("inner_diameter", "ID",1)}
         {this.renderComponentTextField("number_of_joint", "# of Joints", 1)}
@@ -88,7 +94,7 @@ class DrillstringComponentEditorItem extends Component {
 
   renderComponentPDM() {
     return [
-      <Row key="pdm">
+      <Row key="pdm-1">
         {this.renderComponentSelectField('family', 1, COMPONENT_FAMILIES)}
         {this.renderComponentTextField("name", "Name", 2)}
         {this.renderComponentTextField("outer_diameter","OD",1)}
@@ -96,19 +102,13 @@ class DrillstringComponentEditorItem extends Component {
         {this.renderComponentTextField("length", "Component Length", 2)}
         {this.renderComponentTextField("adjust_linear_weight", "Adjust Linear Weight", 2)}
         {this.renderComponentTextField("total_weight", "Total Weight", 2)}
-        {this.renderComponentSelectField('info', 1, COMPONENT_CATALOGUE)}    
+        {this.renderComponentSelectField('info', 1, COMPONENT_CATALOGUES)}
       </Row>,
-      <Row key={`motor-${this.props.index}-title`}>
-        <Col m={2}></Col>
-        <Col m={10}>
-          <h5>Motor: {this.props.component.get('name')}</h5>
-        </Col>
-      </Row>,
-      <Row key={`motor-${this.props.index}-fields`}>
-        <Col m={2}></Col>
-        {this.renderHighlightNumberField(this.props.component, this.props.index, 'number_rotor_lobes', '# of rotor lobes', 3)}
-        {this.renderHighlightNumberField(this.props.component, this.props.index, 'number_stator_lobes', '# of stator lobes', 3)}
-        {this.renderHighlightNumberField(this.props.component, this.props.index, 'rpg', 'RPG', 3)}
+      
+      <Row key="pdm-2">
+        {this.renderComponentTextField('number_rotor_lobes', '# of rotor lobes',4)}
+        {this.renderComponentTextField('number_stator_lobes', '# of stator lobes',4)}
+        {this.renderComponentTextField('rpg', 'RPG',4)}
       </Row>
     ]
   }
@@ -164,27 +164,7 @@ class DrillstringComponentEditorItem extends Component {
     }
   }
 
-  renderHighlightNumberField(component, idx, field, label, cols, unitType,unit) {
-    let errors = this.props.errors;
-    let value = component.get(field, '');
-    if (value!=='' && unitType && unit) {        
-      value = this.props.convert.convertValue(value,unitType,unit).formatNumeral('0.0');
-    }
-    if (this.props.isEditable) {
-      return <Input m={cols}
-                    type="number"
-                    label={label}
-                    error={errors && errors["specificErrors"] && errors["specificErrors"][component.get("id")]? errors["specificErrors"][component.get("id")][field]: null}
-                    defaultValue={value}
-                    onKeyPress={this.handleKeyPress.bind(this)}
-                    onChange={e => this.onComponentFieldChange(idx, field, parseFloat(e.target.value))} />;
-    } else {
-      return <Col m={cols}>
-        <div className="c-drillstring-component-highlight-text-label">{label}</div>
-        <div>{value || "-"}</div>
-      </Col>;
-    }
-  }
+  
 
   handleKeyPress() {
 
