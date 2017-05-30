@@ -20,6 +20,7 @@
     width: 100px;
     flex-direction: column;
     font-size: 0.75rem;
+    cursor: default;
 }
 
 .c-traces__depth-bar__chart__numbers__tick {

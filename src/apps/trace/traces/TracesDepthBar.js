@@ -39,7 +39,7 @@ class TracesDepthBar extends Component {
       <div className="c-traces__depth-bar__chart">
         <div className="c-traces__depth-bar__chart__numbers">
           {this.getDepthDataPoints().map((point, idx) => {
-            return <div key={idx} className="c-traces__depth-bar__chart__numbers__tick">
+            return <div key={idx} className="c-traces__depth-bar__chart__numbers__tick" title={point.fulltime}>
               <div className="c-traces__depth-bar__chart__numbers__tick__time">{point.time}</div>
               <div className="c-traces__depth-bar__chart__numbers__tick__depth">{point.depth}</div>
             </div>;
@@ -100,6 +100,7 @@ class TracesDepthBar extends Component {
 
     let points = [{
       time: moment.unix(this.props.data.first().get("timestamp")).format('H:mm'),
+      fulltime: moment.unix(this.props.data.first().get("timestamp")).format('MMMM D, YYYY HH:mm'),
       depth: this.props.data.first().get('hole_depth').formatNumeral("0,0")
     }];
 
@@ -110,12 +111,14 @@ class TracesDepthBar extends Component {
 
       points.push({
         time: moment.unix(point.get("timestamp")).format('H:mm'),
+        fulltime: moment.unix(point.get("timestamp")).format('MMMM D, YYYY HH:mm'),
         depth: point.get('hole_depth').formatNumeral("0,0")
       });
     }
 
     points.push({
       time: moment.unix(this.props.data.last().get("timestamp")).format('H:mm'),
+      fulltime: moment.unix(this.props.data.last().get("timestamp")).format('MMMM D, YYYY HH:mm'),
       depth: this.props.data.last().get('hole_depth').formatNumeral("0,0")
     });
 
