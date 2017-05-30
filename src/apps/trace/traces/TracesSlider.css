@@ -1,0 +1,111 @@
+.c-traces__slider {
+  height: 100%;
+  width: 200px;
+  display: inline-block;
+}
+
+.c-traces__slider-chart {
+  display: inline-block;
+  width: 200px;
+  height: calc(100% - 10px);
+  padding-top: 21px;
+  padding-bottom: 21px;
+  background-color: #000;
+}
+
+.c-traces__slider-interaction {
+  width: 200px;
+  height: calc(100% - 10px);
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  background: transparent;
+  border: 1px solid #333;
+}
+
+.c-traces__slider-interaction__info {
+  position: absolute;
+  border: 2px solid #58c9c2;
+  height: 24px;
+  line-height: 24px;
+  width: 84px;
+  text-align: center;
+  margin-left: calc(50% - 42px);
+  background-color: #000;
+}
+
+.c-traces__slider-interaction__info i {
+  line-height: 24px;
+  color: #58c9c2;
+  font-size: 1rem;
+  padding-right: 2px;
+}
+
+.c-traces__slider-interaction__info span {
+  vertical-align: top;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.c-traces__slider-interaction__top-slider {
+  background-color: rgba(60,60,60,.6);
+  border-bottom: 2px solid #58c9c2;
+  min-height: 28px;
+}
+
+.c-traces__slider-interaction__top-slider div:last-child {
+  height: 31px !important;
+  width: 84px !important;
+  margin-left: calc(50% - 42px);
+}
+
+.c-traces__slider-interaction__top-info {
+  bottom: 0;
+  border-radius: 3px 3px 0 0;
+  border-bottom: 0;
+}
+
+.c-traces__slider-interaction__middle-slider {
+  flex-grow: 1;
+  min-height: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.c-traces__slider-interaction__middle-slider__resizer {
+  width: 26px;
+  height: 26px;
+  border: 2px solid #58c9c2;
+  background-color: rgba(241,140,33,0.2);
+  margin-left: calc(100% - 27px);
+  cursor: row-resize;
+  text-align: center;
+}
+
+.c-traces__slider-interaction__middle-slider__resizer i {
+  color: #58c9c2;
+  line-height: 23px;
+  font-size: 1.1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.c-traces__slider-interaction__bottom-slider {
+  background-color: rgba(60,60,60,.6);
+  border-top: 2px solid #58c9c2;
+  min-height: 28px;
+}
+
+.c-traces__slider-interaction__bottom-slider div:last-child {
+  height: 31px !important;
+  width: 84px !important;
+  margin-left: calc(50% - 42px);
+}
+
+.c-traces__slider-interaction__bottom-info {
+  top: 0;
+  border-top: 0;
+  border-radius: 0 0 3px 3px;
+}

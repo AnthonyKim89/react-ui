@@ -1,0 +1,175 @@
+.c-traces__chart-column {
+  height: calc(100% - 10px);
+  margin-right: 10px;
+  display: inline-block;
+  flex-direction: column;
+  border: 1px solid #333;
+  padding: 1px !important;
+}
+
+.c-traces__chart-column__1 {
+  width: 100%;
+}
+
+.c-traces__chart-column__2 {
+  width: calc(100% / 2);
+}
+
+.c-traces__chart-column__3 {
+  width: calc(100% / 3);
+}
+
+.c-traces__chart-column__4 {
+  width: calc(100% / 4);
+}
+
+.c-traces__chart-column__5 {
+  width: calc(100% / 5);
+}
+
+.c-traces__chart-column__6 {
+  width: calc(100% / 6);
+}
+
+.c-traces__chart-column__7 {
+  width: calc(100% / 7);
+}
+
+.c-traces__chart-column__8 {
+  width: calc(100% / 8);
+}
+
+.c-traces__chart-column__chart {
+  background-color: #000;
+}
+
+.c-traces__chart-column__chart-4 {
+  height: calc(100% - 227px);
+}
+
+.c-traces__chart-column__chart-3 {
+  height: calc(100% - (227px * (3/4)));
+}
+
+.c-traces__chart-column__chart-2 {
+  height: calc(100% - (227px * (2/4)));
+}
+
+.c-traces__chart-column__chart-1 {
+  height: calc(100% - (227px * (1/4)));
+}
+
+.c-traces__chart-column__chart-0 {
+  height: 100%;
+}
+
+.c-traces__chart-column__values {
+  height: 227px;
+  text-align: center;
+  border-top: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+}
+
+.c-traces__chart-column__values-3 {
+  height: 227px;
+}
+
+.c-traces__chart-column__values-3 {
+  height: calc(227px * (3/4));
+}
+
+.c-traces__chart-column__values-2 {
+  height: calc(227px * (2/4));
+}
+
+.c-traces__chart-column__values-1 {
+  height: calc(227px * (1/4));
+}
+
+.c-traces__chart-column__values-0 {
+  height: 0;
+}
+
+.c-traces__chart-column__values__item {
+  height: calc(227px / 4);
+  border-bottom: 1px solid #333;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  background-color: #191919;
+}
+
+.c-traces__chart-column__values-2 .c-traces__chart-column__values__item:nth-child(3) {
+  display: none;
+}
+
+.c-traces__chart-column__values-1 .c-traces__chart-column__values__item:nth-child(3), .c-traces__chart-column__values-1 .c-traces__chart-column__values__item:nth-child(2) {
+  display: none;
+}
+
+.c-traces__chart-column__values-0 .c-traces__chart-column__values__item {
+  display: none;
+}
+
+.c-traces__chart-column__values__item:last-child {
+  border-bottom: none;
+}
+
+.c-traces__chart-column__values__item__meta-row {
+  position: relative;
+  line-height: calc(227px / 12);
+  height: calc(227px / 12);
+}
+
+.c-traces__chart-column__values__item__meta-row-title {
+font-size: 0.8rem;
+}
+
+.c-traces__chart-column__values__item__meta-row-value {
+  font-size: 1.1rem;
+  font-family: orgonboldregular;
+}
+
+.c-traces__chart-column__values__item__meta-row-unit {
+  font-size: 0.7rem;
+  opacity: 0.6;
+}
+
+.c-traces__chart-column__values__item__meta-row-scale {
+  font-size: 0.7rem;
+  opacity: 0.6;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.c-traces__center {
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+}
+
+.c-traces__right {
+  position: absolute;
+  text-align: right;
+  right: 0;
+  top: 0;
+}
+
+.c-traces__left {
+  position: absolute;
+  text-align: left;
+  left: 0;
+  top: 0;
+}
+
+.c-traces__right i {
+  -ms-transform: rotate(270deg); /* IE 9 */
+  -webkit-transform: rotate(270deg); /* Chrome, Safari, Opera */
+  transform: rotate(270deg);
+  margin: 0;
+  padding: 0;
+  position: relative;
+  right: 0;
+}

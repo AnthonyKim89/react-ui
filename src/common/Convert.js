@@ -107,12 +107,43 @@ class Convert {
   }
 
   /**
+   * Lists all the units of a specific type
+   * @param type
+   * @returns {*}
+   */
+  getUnitsByType(type) {
+    let types = {
+      length: 'length',
+      shortLength: 'length',
+      mass: 'mass',
+      volume: 'volume',
+      pressure: 'pressure',
+      temperature: 'temperature',
+      speed: 'speed',
+      area: 'area',
+      torque: 'energy',
+      force: 'force',
+      oil: 'volume',
+      yp: 'pressure',
+      density: 'density',
+      massPerLength: 'mpl',
+    };
+
+    type = types[type];
+
+    return convert().list(type);
+  }
+
+  /**
    * Retrieves the unit display name for a given unit type
    * @param unitType length, mass, volume, etc
    * @returns string
    */
-  getUnitDisplay(unitType) {
-    return convert().describe(this.getUnitPreference(unitType)).display;
+  getUnitDisplay(unitType, unitTo=null) {
+    if (unitTo === null) {
+      unitTo = this.getUnitPreference(unitType);
+    }
+    return convert().describe(unitTo).display;
   }
 
   /**

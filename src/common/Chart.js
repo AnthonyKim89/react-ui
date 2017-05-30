@@ -18,7 +18,7 @@ class Chart extends Component {
       chart: {
         type: this.props.chartType || 'line',
         inverted: this.isInverted(this.props),
-        backgroundColor: null,
+        backgroundColor: this.props.backgroundColor || null,
         zoomType: 'xy',
         panning: true,
         panKey: 'shift',
@@ -48,7 +48,7 @@ class Chart extends Component {
       xAxis: {
         title: this.isAxisLabelsVisible(this.props) ? this.props.xAxisTitle : {text:null},
         gridLineWidth: this.props.gridLineWidth || 1,
-        gridLineColor: 'rgb(47, 51, 51)',
+        gridLineColor: this.props.xAxisGridLineColor || 'rgb(47, 51, 51)',
         lineWidth: this.props.xAxisWidth || 0,
         lineColor:  this.props.xAxisColor || '',
         tickWidth: 0,
@@ -155,18 +155,47 @@ class Chart extends Component {
       const oldVersion = chart.get(seriesId);
       const newVersion = this.getSeries(newProps, seriesId);
       const colorChange = oldVersion.options.color !== newVersion.color;
-      const addedPoints = differenceBy(newVersion.data, oldVersion.data, p => p.id);
-      const removedPoints = differenceBy(oldVersion.data, newVersion.data, p => p.id);
-      for (const point of removedPoints) {
-        point.remove(false);
+      const dashStyleChange = oldVersion.options.dashStyle !== newVersion.dashStyle;
+      const typeChange = oldVersion.options.type !== newVersion.type;
+      const lineWidthChange = oldVersion.options.lineWidth !== newVersion.lineWidth;
+      const minmaxValueChange = oldVersion.options.min !== newVersion.min || oldVersion.options.max !== newVersion.max;
+
+      if (this.props.simpleSeriesData) {
+        oldVersion.setData(newVersion.data, false);
+        redraw = true;
+      } else {
+        const addedPoints = differenceBy(newVersion.data, oldVersion.data, p => p.id);
+        const removedPoints = differenceBy(oldVersion.data, newVersion.data, p => p.id);
+        for (const point of removedPoints) {
+          point.remove(false);
+          redraw = true;
+        }
+        for (const point of addedPoints) {
+          oldVersion.addPoint(point, false);
+          redraw = true;
+        }
       }
-      for (const point of addedPoints) {
-        oldVersion.addPoint(point, false);
+
+      if (colorChange || dashStyleChange || typeChange || lineWidthChange) {
+        oldVersion.update({
+          color: newVersion.color,
+          dashStyle: newVersion.dashStyle,
+          type: newVersion.type,
+          lineWidth: newVersion.lineWidth,
+        }, false);
+        redraw = true;
       }
-      if (colorChange) {
-        oldVersion.update({color: newVersion.color}, false);
+      if (minmaxValueChange) {
+        oldVersion.update({
+          min: newVersion.min,
+          max: newVersion.max,
+        }, false);
+        oldVersion.yAxis.update({
+          min: newVersion.min,
+          max: newVersion.max,
+        }, false);
+        redraw = true;
       }
-      redraw = redraw || addedPoints.length || removedPoints.length || colorChange;
     }
     return redraw;
   }
@@ -193,18 +222,29 @@ class Chart extends Component {
 
   getSeriesFromChild(child, props) {
     const {type, title, data, color, id, yField, yAxis, yAxisTitle, yAxisOpposite, minValue, maxValue, dashStyle, lineWidth, pointPadding, groupPadding, borderWidth, marker, visible, fillOpacity, step} = child.props;
-    return {
-      id,
-      name: title,
-      type: type || 'line',
-      data: data.reduce((result, point) => {
+
+    let assembledData;
+    if (this.props.simpleSeriesData) {
+      assembledData = data.reduce((result, point) => {
+        result.push([point.get(props.xField), yField ? point.get(yField) : null]);
+        return result;
+      }, []);
+    } else {
+      assembledData = data.reduce((result, point) => {
         const x = point.get(props.xField);
         const y = yField ? point.get(yField) : null;
         const color = point.get('color');
         const pointId = `${id}-${x}-${y}`;
         result.push({id: pointId, x, y, color});
         return result;
-      }, []),
+      }, []);
+    }
+
+    return {
+      id,
+      name: title,
+      type: type || 'line',
+      data: assembledData,
       visible,      
       yAxis: props.multiAxis ? yAxis : 0,
       yAxisTitle: yAxisTitle,
@@ -221,8 +261,8 @@ class Chart extends Component {
       step: step || false,
       animation: false,
       showInLegend: this.isLegendVisible(props),
-      minValue,
-      maxValue,
+      min: minValue,
+      max: maxValue,
       pointPadding: typeof pointPadding !== "undefined" ? pointPadding : 0.1,
       groupPadding: typeof groupPadding !== "undefined" ? groupPadding : 0.2,
       borderWidth
@@ -245,7 +285,8 @@ class Chart extends Component {
       title: series.yAxisTitle || props.yAxisTitle || {text: null},
       visible: this.isAxisLabelsVisible(props),
       gridLineWidth: props.yGridLineWidth || props.gridLineWidth || 1,
-      gridLineColor: 'rgb(47, 51, 51)',
+      gridLineColor: this.props.yAxisGridLineColor || 'rgb(47, 51, 51)',
+      gridLineDashStyle: this.props.yAxisGridLineDashStyle,
       labels: {
         enabled: this.isAxisLabelsVisible(props) && !props.hideYAxis,
         style:  props.yLabelStyle || {color: '#fff'},
@@ -255,8 +296,8 @@ class Chart extends Component {
         reserveSpace: props.reserveYLabelSpace
       },
       opposite: series.yAxisOpposite ? series.yAxisOpposite : props.yAxisOpposite,
-      min: series.minValue !== undefined ? series.minValue : null,
-      max: series.maxValue || null,
+      min: series.min !== undefined ? series.min : null,
+      max: series.max || null,
       lineWidth: props.yAxisWidth || 0,
       lineColor:  props.yAxisColor || '',
       tickPositioner: props.yTickPositioner,
@@ -264,7 +305,8 @@ class Chart extends Component {
       reversed: props.yAxisReversed || false,
       showFirstLabel: props.showFirstYLabel,
       showLastLabel: props.showLastYLabel,
-      type: this.props.yAxisType
+      type: this.props.yAxisType,
+      tickInterval: this.props.yAxisTickInterval,
     };
   }
 

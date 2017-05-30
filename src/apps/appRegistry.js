@@ -27,6 +27,7 @@ import diSurveys from './directional/surveys';
 import singleTrace from './trace/singleTrace';
 import multiTrace from './trace/multiTrace';
 import traceTab from './trace/traceTab';
+import traces from './trace/traces';
 
 // SETTINGS APPS
 import generalInfo from './settings/generalInfo';
@@ -110,7 +111,8 @@ export const uiApps = Map({
     appTypes: Map({
       singleTrace,
       multiTrace,
-      traceTab
+      traceTab,
+      traces
     })
   }),
   settings: Map({

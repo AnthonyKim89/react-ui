@@ -5,7 +5,7 @@ class ChartSeries extends Component {
 }
 
 ChartSeries.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired]),
   type: PropTypes.string,
   data: ImmutablePropTypes.list.isRequired,
   yField: PropTypes.string,
@@ -20,7 +20,7 @@ ChartSeries.propTypes = {
   groupPadding: PropTypes.number,
   borderWidth: PropTypes.number,
   marker: PropTypes.object,
-  yAxis: PropTypes.string,
+  yAxis: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   yAxisOpposite: PropTypes.bool,
   yAxisTitle: PropTypes.object
 };

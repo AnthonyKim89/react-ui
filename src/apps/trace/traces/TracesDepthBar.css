@@ -1,0 +1,106 @@
+.c-traces__depth-bar {
+    width: 140px;
+    height: calc(100% - 10px);
+    border: 1px solid #333;
+    position: absolute;
+    top: 0;
+    left: 290px;
+}
+
+.c-traces__depth-bar__chart {
+    height: calc(100% - 171px);
+    background-color: #000;
+    display: flex;
+    flex-direction: row;
+}
+
+.c-traces__depth-bar__chart__numbers {
+    height: 100%;
+    display: flex;
+    width: 100px;
+    flex-direction: column;
+    font-size: 0.75rem;
+    cursor: default;
+}
+
+.c-traces__depth-bar__chart__numbers__tick {
+    display: flex;
+    width: 100%;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.c-traces__depth-bar__chart__numbers__tick__time {
+    display: inline-block;
+    width: 45%;
+    align-self: center;
+}
+
+.c-traces__depth-bar__chart__numbers__tick__depth {
+    display: inline-block;
+    width: 50%;
+    align-self: center;
+}
+
+.c-traces__depth-bar__chart__bar {
+    height: 100%;
+    display: flex;
+    width: 40px;
+    flex-direction: column;
+}
+
+.c-traces__depth-bar__chart__bar__tick {
+    display: flex;
+    width: 100%;
+    flex-grow: 1;
+}
+
+.c-traces__depth-bar__values {
+    height: 170px;
+    text-align: center;
+    border-top: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    font-size: 0.85rem;
+}
+
+.c-traces__depth-bar__values__item {
+    height: calc(170px / 3);
+    border-bottom: 1px solid #333;
+    background-color: #191919;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.c-traces__depth-bar__values__item:nth-child(3) {
+    border-bottom: none;
+}
+
+.c-traces__depth-bar__values__item__meta-row {
+    line-height: calc(170px / 9);
+    height: calc(170px / 9);
+}
+
+.c-traces__depth-bar__values__item__meta-row div {
+    display: inline-block;
+    width: calc(100% / 3);
+}
+
+.c-traces__depth-bar__values__item__meta-row-date {
+font-size: 0.6rem;
+}
+
+.c-traces__depth-bar__values__item__meta-row-title {
+font-size: 0.8rem;
+}
+
+.c-traces__depth-bar__values__item__meta-row-value {
+  font-size: 1.1rem;
+  font-family: orgonboldregular;
+}
+
+.c-traces__depth-bar__values__item__meta-row-unit {
+  font-size: 0.7rem;
+  opacity: 0.6;
+}

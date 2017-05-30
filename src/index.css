@@ -13,7 +13,11 @@ body {
 }
 
 .u-half-opacity {
-  opacity: 50%;
+  opacity: 0.5;
+}
+
+ul.select-dropdown {
+  z-index: 10000;
 }
 
 /**
