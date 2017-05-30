@@ -10,102 +10,6 @@ import './TracesDepthBar.css';
 
 class TracesDepthBar extends Component {
 
-  componentDidMount() {
-    /*const chart = Highcharts.chart(this.container, {
-      chart: {
-        type: 'scatter',
-        backgroundColor: '#000',
-        plotBackgroundColor: '#000',
-        spacing: [0, 0, 0, 0],
-        style: {overflow: 'visible'},
-        animation: false,
-      },
-      plotOptions: {
-        series: {
-          turboThreshold: 5000,
-          stacking: 'normal'
-        },
-        column: {
-          groupPadding: 0,
-          borderWidth: 0
-        }
-      },
-      xAxis: {
-        categories: ['state'],
-        gridLineWidth: 0,
-        lineWidth: 0,
-        tickWidth: 0,
-        labels: {
-          enabled: false,
-        }
-      },
-      yAxis: [{
-        id: 'depthAxis',
-        type: 'linear',
-        reversed: true,
-        gridLineWidth: 0,
-        title: {enabled: false},
-        labels: {
-          style: {
-            color: '#fff',
-            margin: '10px',
-          },
-          formatter: function() {
-            return parseFloat(this.value).toFixed();
-          }
-        },
-        showFirstLabel: false,
-        showLastLabel: false,
-        // TODO: Figure out a proper tick interval once we get real data
-        tickInterval: 2,
-      }, {
-        id: 'timeAxis',
-        type: 'datetime',
-        gridLineWidth: 0,
-        reversed: true,
-        title: {enabled: false},
-        labels: {
-          style: {
-            color: '#fff',
-            margin: '10px',
-          },
-          formatter: function() {
-            return moment.unix(this.value).format('H:mm');
-          }
-        },
-        showFirstLabel: false,
-        showLastLabel: false,
-        tickInterval: 20,
-      }],
-      title: {text: null},
-      credits: {enabled: false},
-      legend: {enabled: false},
-      series: [{
-        id: 'series',
-        data: [],
-        animation: false
-      }]
-    });
-    this.setState({chart});*/
-  }
-
-  componentWillReceiveProps(newProps) {
-    /*const chart = this.state.chart;
-
-    const firstSummary = newProps.data.first();
-    const lastSummary = newProps.data.last();
-
-    const timeAxis = chart.get('timeAxis');
-    const minTime = firstSummary.get('timestamp');
-    const maxTime = lastSummary.get('timestamp');
-    timeAxis.update({min: minTime, max: maxTime});
-
-    const depthAxis = chart.get('depthAxis');
-    const minDepth = firstSummary.get('hole_depth');
-    const maxDepth = lastSummary.get('hole_depth');
-    depthAxis.update({min: minDepth, max: maxDepth});*/
-  }
-
   getTraceColor(state) {
     // The try/catch just returns black if the state is incompatible.
     try {
@@ -133,10 +37,16 @@ class TracesDepthBar extends Component {
     return <div className="c-traces__depth-bar">
 
       <div className="c-traces__depth-bar__chart">
-        <div className="c-traces__depth-bar__chart__highchart" ref={container => this.container = container}>
+        <div className="c-traces__depth-bar__chart__numbers">
+          {this.getDepthDataPoints().map((point, idx) => {
+            return <div key={idx} className="c-traces__depth-bar__chart__numbers__tick">
+              <div className="c-traces__depth-bar__chart__numbers__tick__time">{point.time}</div>
+              <div className="c-traces__depth-bar__chart__numbers__tick__depth">{point.depth}</div>
+            </div>;
+          })}
         </div>
         <div className="c-traces__depth-bar__chart__bar">
-          {this.props.data.map((point, idx) => {
+          {this.getColorDataPoints().map((point, idx) => {
             return <div key={idx} className="c-traces__depth-bar__chart__bar__tick" style={{'backgroundColor': this.getTraceColor(point.get('state'))}}  title={point.get('state') || 'Other'}>
             </div>;
           })}
@@ -180,6 +90,60 @@ class TracesDepthBar extends Component {
       </div>
 
     </div>;
+  }
+
+  // We limit the data points to 12. First, last, and 10 in between.
+  getDepthDataPoints() {
+    if (this.props.data.size === 0) {
+      return [];
+    }
+
+    let points = [{
+      time: moment.unix(this.props.data.first().get("timestamp")).format('H:mm'),
+      depth: this.props.data.first().get('hole_depth').formatNumeral("0,0")
+    }];
+
+    let pointCount = 10;
+    for (let i = 1; i <= pointCount; i++) {
+      let pointIndex = Math.floor(this.props.data.size * (i/(pointCount+2)));
+      let point = this.props.data.get(pointIndex);
+
+      points.push({
+        time: moment.unix(point.get("timestamp")).format('H:mm'),
+        depth: point.get('hole_depth').formatNumeral("0,0")
+      });
+    }
+
+    points.push({
+      time: moment.unix(this.props.data.last().get("timestamp")).format('H:mm'),
+      depth: this.props.data.last().get('hole_depth').formatNumeral("0,0")
+    });
+
+    return points;
+  }
+
+  // We limit the color data points to 100.
+  getColorDataPoints() {
+    if (this.props.data.size === 0) {
+      return [];
+    }
+
+    // If we have less or equal to the the number of points we want, we just return all the data
+    let pointCount = 98; // The number of points we want to find in the middle of the first and last points.
+    if (this.props.data.size <= (pointCount+2)) {
+      return this.props.data;
+    }
+
+    let points = [this.props.data.first()];
+
+    for (let i = 1; i <= pointCount; i++) {
+      let pointIndex = Math.floor(this.props.data.size * (i/(pointCount+2)));
+      points.push(this.props.data.get(pointIndex));
+    }
+
+    points.push(this.props.data.last());
+
+    return points;
   }
 
   shouldComponentUpdate(nextProps, nextState) {

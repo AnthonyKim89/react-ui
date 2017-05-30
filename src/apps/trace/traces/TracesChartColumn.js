@@ -40,7 +40,7 @@ class TracesChartColumn extends Component {
             },
             boundaryGap : false,
             data : props.data.reduce((result, point) => {
-              result.push(moment.unix(point.get("timestamp")).format('MMMD HH:mm'));
+              result.unshift(moment.unix(point.get("timestamp")).format('MMMD HH:mm'));
               return result;
             }, [])
           }
@@ -62,7 +62,7 @@ class TracesChartColumn extends Component {
     opt = Object.assign(opt, this.getSeries(nextProps));
 
     opt.yAxis.data = nextProps.data.reduce((result, point) => {
-      result.push(moment.unix(point.get("timestamp")).format('MMMD HH:mm'));
+      result.unshift(moment.unix(point.get("timestamp")).format('MMMD HH:mm'));
       return result;
     }, []);
 
@@ -140,7 +140,7 @@ class TracesChartColumn extends Component {
           },
         },
         data: props.data.reduce((result, point) => {
-          result.push(point.get(trace.trace));
+          result.unshift(point.get(trace.trace));
           return result;
         }, []),
       });
