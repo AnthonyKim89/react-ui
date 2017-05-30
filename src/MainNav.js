@@ -5,10 +5,20 @@ import RoutingNavItem from './common/RoutingNavItem';
 import { assetDashboards } from './pages/selectors';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import * as api from './api';
 
 import './MainNav.css';
 
 class MainNav extends Component {
+
+  constructor(props) {
+    super(props);
+    this.recentAssets = null;
+  }
+
+  async componentDidMount() {
+    this.recentAssets = await api.getCurrentUserRecentAssets();
+  }
 
   render() {
     let assetDashboardSlug = this.props.assetDashboards.count() > 0 ? this.props.assetDashboards.first().get('slug') : '';
@@ -17,15 +27,16 @@ class MainNav extends Component {
         <RoutingNavItem className="navbar-brand" to={this.getPathToFirstDashboard()}>Corva</RoutingNavItem>
         {this.hasDashboards() &&
         <RoutingNavItem to={this.getPathToFirstDashboard()}>Dashboards</RoutingNavItem>}
-        <Dropdown trigger={<NavItem>Assets</NavItem>}>
+        <Dropdown className="c-main-nav__assets" trigger={<NavItem>Assets</NavItem>}>
           <RoutingNavItem to="/assets/well"><Icon left>dashboard</Icon>All Wells</RoutingNavItem>
           <RoutingNavItem to="/assets/rig"><Icon left>dashboard</Icon>All Rigs</RoutingNavItem>
-          {this.props.recentAssets && this.props.recentAssets.map(asset =>
+          <div className="c-main-nav__dropdown__recent">Recently viewed assets...</div>
+          {this.recentAssets && this.recentAssets.map(asset =>
             <RoutingNavItem key={asset.get('id')} to={`/assets/${asset.get('id')}/${assetDashboardSlug}`}>
               <div className="c-main-nav__dropdown__outer-icon-circle">
                 {asset.get('status') === 'active' ? <div className="c-main-nav__dropdown__inner-icon-circle-active"></div> : <div className="c-main-nav__dropdown__inner-icon-circle-inactive"></div>}
               </div>
-              <div className="c-main-nav__dropdown__spacer"></div>{asset.get('name')}
+              <div className="c-main-nav__dropdown__spacer"></div>{asset.get('parent_asset_name') + " - " + asset.get('name')}
             </RoutingNavItem>)}
         </Dropdown>
         {this.props.currentUser &&
@@ -64,7 +75,6 @@ class MainNav extends Component {
 
 MainNav.propTypes = {
   dashboards: ImmutablePropTypes.seq.isRequired,
-  recentAssets: ImmutablePropTypes.list.isRequired,
   currentUser: ImmutablePropTypes.map,
   logOut: PropTypes.func.isRequired,
 };

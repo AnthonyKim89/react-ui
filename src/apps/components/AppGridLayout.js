@@ -15,6 +15,10 @@ import * as appRegistry from '../appRegistry';
 import * as api from '../../api';
 import Convert from '../../common/Convert';
 
+import { assetDashboards } from '../../pages/selectors';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import './AppGridLayout.css';
@@ -151,6 +155,7 @@ class AppGridLayout extends Component {
                          isEmptyData={isEmptyData}
                          appType={appType}
                          asset={this.props.appAssets.get(id)}
+                         assetDashboards={this.props.assetDashboards}
                          lastDataUpdate={subscriptions.selectors.lastDataUpdate(appData)}
                          hasAppFooter={hasAppFooter}
                          isNative={this.props.isNative}
@@ -170,6 +175,7 @@ class AppGridLayout extends Component {
       {!errorData && <appType.AppComponent
         data={appData}
         asset={this.props.appAssets.get(id)}
+        assetDashboards={this.props.assetDashboards}
         {...this.getPageParams().toJS()}
         {...settings.toObject()}
         size={size}
@@ -257,4 +263,10 @@ AppGridLayout.propTypes = {
   isNative: PropTypes.bool.isRequired
 };
 
-export default AppGridLayout;
+//export default AppGridLayout;
+
+export default connect(
+  createStructuredSelector({
+    assetDashboards,
+  })
+)(AppGridLayout);

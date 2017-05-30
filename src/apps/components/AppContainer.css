@@ -27,6 +27,7 @@
   border-radius: 10px;
   background-color: rgb(99, 183, 245);
   font-size: .85rem;
+  color: #FFFFFF;
 }
 
 .c-app-container--maximized .c-app-container-asset-name {
