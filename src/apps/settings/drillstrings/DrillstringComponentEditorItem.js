@@ -1,7 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Button, Input, Row, Col } from 'react-materialize';
-import ImmutablePropTypes from 'react-immutable-proptypes';
+import { List, Map } from 'immutable';
 import numeral from 'numeral';
 
 import { COMPONENT_FAMILIES, COMPONENT_GRADES, COMPONENT_MATERIALS, COMPONENT_CATALOGUES } from './constants';
@@ -15,15 +15,35 @@ const HWDP_SUB_CATEGORIES = [
 ];
 
 class DrillstringComponentEditorItem extends Component {
+
+  shouldComponentUpdate(nextProps,nextState) {
+    if (!this.props.item.equals(nextProps.item.equals)) {
+      return true;
+    }
+    return false;
+  }
+
   render() {
-    console.log(this.props.component.get('family'));
     return <div className="c-drillstring-component-editor-item">
-      {this.renderComponent()}        
+      <Row>
+        <Col s={1}>
+          {this.props.dragHandle(this.renderComponentImage())}
+        </Col>
+        <Col s={11}>
+          {this.renderComponent()}
+        </Col>
+      </Row>      
     </div>;
   }
 
+  renderComponentImage() {
+    return <div className={`c-drillstring-component-schematic__component-image                              
+                              c-drillstring-component-schematic__component-image--${this.props.item.get('family')}`}>
+      </div>;    
+  }
+
   renderComponent() {
-    switch(this.props.component.get("family")) {
+    switch(this.props.item.get("family")) {
       case 'dp':
         return this.renderComponentDP();
       case 'hwdp':
@@ -32,8 +52,18 @@ class DrillstringComponentEditorItem extends Component {
         return this.renderComponentPDM();
       case 'bit':
         return this.renderComponentBIT();
+      case 'dc':
+        return this.renderComponentDC();
+      case 'stabilizer':
+        return this.renderComponentStabilizer();
+      case 'sub':
+        return this.renderComponentSub();
+      case 'mwd':
+        return this.renderComponentMWD();
+      case 'jar':
+        return this.renderComponentJar();
       default:
-        return 'aaaa';
+        return "";
     }
   }
 
@@ -42,16 +72,15 @@ class DrillstringComponentEditorItem extends Component {
       <Row key="dp-1">
         {this.renderComponentSelectField('family', 1, COMPONENT_FAMILIES)}
         {this.renderComponentTextField("name", "Name", 2)}
-        {this.renderComponentTextField("outer_diameter","OD",1)}
-        {this.renderComponentTextField("inner_diameter", "ID",1)}
-        {this.renderComponentTextField("number_of_joint", "# of Joints", 1)}
-        {this.renderComponentTextField("length", "Component Length", 1)}
-        {this.renderComponentTextField("total_length", "Total Length", 1)}
-        {this.renderComponentTextField("adjust_linear_weight", "Adjust Linear Weight", 2)}
-        {this.renderComponentTextField("total_weight", "Total Weight", 1)}
+        {this.renderComponentNumberField("outer_diameter","OD",1,'shortLength','in')}
+        {this.renderComponentNumberField("inner_diameter","ID",1,'shortLength','in')}
+        {this.renderComponentNumberField("number_of_joint","# of Joints",1)}        
+        {this.renderComponentNumberField("length", "Component Length", 1,"length","ft")}
+        {this.renderComponentLabelField("total_length", "Total Length", 1,"length","ft")}
+        {this.renderComponentNumberField("adjust_linear_weight", "Adjust Linear Weight", 2,"massPerLength","lb-ft")}
+        {this.renderComponentLabelField("total_weight", "Total Weight", 1, "mass","lb")}
         {this.renderComponentSelectField('grade', 1, COMPONENT_GRADES)}
       </Row>,
-
         
       <Row key="dp-2">
         {this.renderComponentTextField("tool_joint_od", "TJ OD", 1)}
@@ -69,14 +98,16 @@ class DrillstringComponentEditorItem extends Component {
     return [
       <Row key="hwdp-1">
         {this.renderComponentSelectField('family', 1, COMPONENT_FAMILIES)}
-        {this.renderComponentTextField("name", "Name", 2)}
+        {this.renderComponentTextField("name", "Name", 1)}
         {this.renderComponentSelectField('sub_category', 1, HWDP_SUB_CATEGORIES)}
         {this.renderComponentTextField("outer_diameter","OD",1)}
         {this.renderComponentTextField("inner_diameter", "ID",1)}
         {this.renderComponentTextField("number_of_joint", "# of Joints", 1)}
-        {this.renderComponentTextField("length", "Component Length", 2)}
+        {this.renderComponentTextField("length", "Component Length", 1)}
         {this.renderComponentTextField("total_length", "Total Length", 1)}
         {this.renderComponentTextField("adjust_linear_weight", "Adjust Linear Weight", 2)}
+        {this.renderComponentTextField("total_weight", "Total Weight", 1)}
+        {this.renderComponentSelectField('grade', 1, COMPONENT_GRADES)}
       </Row>,
 
       <Row key="hwdp-2">
@@ -88,8 +119,7 @@ class DrillstringComponentEditorItem extends Component {
         {this.renderComponentSelectField('material', 2, COMPONENT_MATERIALS)}
         {this.renderComponentTextField("class", "Class", 2)}
       </Row>   
-    ]
-    
+    ];
   }
 
   renderComponentPDM() {
@@ -99,7 +129,7 @@ class DrillstringComponentEditorItem extends Component {
         {this.renderComponentTextField("name", "Name", 2)}
         {this.renderComponentTextField("outer_diameter","OD",1)}
         {this.renderComponentTextField("inner_diameter", "ID",1)}
-        {this.renderComponentTextField("length", "Component Length", 2)}
+        {this.renderComponentTextField("total_length", "Total Length", 2)}
         {this.renderComponentTextField("adjust_linear_weight", "Adjust Linear Weight", 2)}
         {this.renderComponentTextField("total_weight", "Total Weight", 2)}
         {this.renderComponentSelectField('info', 1, COMPONENT_CATALOGUES)}
@@ -110,61 +140,323 @@ class DrillstringComponentEditorItem extends Component {
         {this.renderComponentTextField('number_stator_lobes', '# of stator lobes',4)}
         {this.renderComponentTextField('rpg', 'RPG',4)}
       </Row>
-    ]
+    ];
   }
 
   renderComponentBIT() {
     return [
-      <Row key="pdm">
+      <Row key="bit-1">
         {this.renderComponentSelectField('family', 2, COMPONENT_FAMILIES)}
-        {this.renderComponentTextField("name", "Name", 2)}
-        {this.renderComponentTextField("outer_diameter","OD",2)}        
+        {this.renderComponentTextField("name", "Name", 4)}
+        {this.renderComponentTextField("outer_diameter","OD",2)}
         {this.renderComponentTextField("length", "Component Length", 2)}
-        {this.renderComponentTextField("weight", "Weight", 2)}        
+        {this.renderComponentTextField("weight", "Weight", 2)}
       </Row>,
-      <Row>
+      <Row key="bit-nozzles">
+        <Col s={2}></Col>
+        <Col s={10}>
+          <h4>Nozzle Sizes</h4>
+          <table>
+            <thead>
+              <tr>
+                <th>Nozzle Size</th>
+                <th> # of this size </th>
+              </tr>
+            </thead>
+            <tbody>
+            {this.props.item.get('nozzle_sizes',List([])).map((nozzle, index)=> {
+              return (
+                <tr key={index}>
+                  <td>
+                  {this.renderNoozleNumberField(index,"size")}
+                  </td>
+                  <td>
+                  {this.renderNoozleNumberField(index,"count")}
+                  </td>
+                </tr>
+              );
+            })}
+            </tbody>
+          </table>
+          <Button floating icon="add" onClick={() => this.onAddNozzle()}></Button>
+        </Col>
+      </Row>,
+      <Row key="bit-3">
         {this.renderComponentTextField("shank_od", "Shank OD", 2)}
         {this.renderComponentTextField("make", "Make", 2)}
         {this.renderComponentTextField("serial_number", "Serrial Number", 2)}
-        {this.renderComponentTextField("model", "Model", 2)}
-        {this.renderComponentTextField("tfa", "TFA", 2)}     
+        {this.renderComponentTextField("model", "Model", 3)}
+        {this.renderComponentTextField("tfa", "TFA", 3)}     
       </Row>
-      
-    ]
+    ];
   }
 
-  renderComponentTextField(field, label="", colSize=2) {
-    if (this.props.isEditable) {
-      return <Input type="text"
-                    label={label}
-                    m={colSize}
-                    s={12}
-                    key={field}
-                    value={this.props.component.get(field, '')}
-                    onKeyPress={this.handleKeyPress.bind(this)}
-                    onChange={e => this.props.onComponentFieldChange(field, e.target.value)} />;
-    } else {
-      return this.props.component.get(field);
+  renderComponentDC() {
+    return [
+      <Row key="dc-1">
+        {this.renderComponentSelectField('family', 1, COMPONENT_FAMILIES)}
+        {this.renderComponentTextField("name", "Name", 3)}
+        {this.renderComponentTextField("outer_diameter","OD",1)}
+        {this.renderComponentTextField("inner_diameter", "ID",1)}
+        {this.renderComponentTextField("number_of_joint", "# of Joints", 2)}
+        {this.renderComponentTextField("length", "Component Length", 2)}
+        {this.renderComponentTextField("total_length", "Total Length", 2)}
+        
+      </Row>,
+
+      <Row key="dc-2">
+        {this.renderComponentTextField("adjust_linear_weight", "Adjust Linear Weight", 3)}
+        {this.renderComponentTextField("total_weight", "Total Weight", 3)}
+        {this.renderComponentTextField("connection_type", "Connection Type", 3)}
+        {this.renderComponentSelectField('material', 3, COMPONENT_MATERIALS)}
+      </Row>   
+    ];
+  }
+
+  renderComponentSub() {
+    return [
+      <Row key="sub-1">
+        {this.renderComponentSelectField('family', 1, COMPONENT_FAMILIES)}
+        {this.renderComponentTextField("name", "Name", 3)}
+        {this.renderComponentTextField("outer_diameter","OD",2)}
+        {this.renderComponentTextField("inner_diameter", "ID",2)}
+        {this.renderComponentTextField("length", "Component Length", 2)}
+        {this.renderComponentTextField("total_length", "Total Length", 2)}
+        
+      </Row>,
+
+      <Row key="sub-2">
+        {this.renderComponentTextField("adjust_linear_weight", "Adjust Linear Weight", 3)}
+        {this.renderComponentTextField("total_weight", "Total Weight", 3)}
+        {this.renderComponentTextField("connection_type", "Connection Type", 3)}
+        {this.renderComponentSelectField('material', 3, COMPONENT_MATERIALS)}
+      </Row>   
+    ];
+  }
+
+  renderComponentStabilizer() {
+    return [
+      <Row key="stabilizer-1">
+        {this.renderComponentSelectField('family', 1, COMPONENT_FAMILIES)}
+        {this.renderComponentTextField("name", "Name", 2)}
+        {this.renderComponentTextField("outer_diameter","OD",1)}
+        {this.renderComponentTextField("inner_diameter", "ID",1)}
+        {this.renderComponentTextField("length", "Component Length", 1)}
+        {this.renderComponentTextField("total_length", "Total Length", 2)}
+        {this.renderComponentTextField("adjust_linear_weight", "Adjust Linear Weight", 2)}
+        {this.renderComponentTextField("total_weight", "Total Weight", 2)}
+      </Row>,
+
+      <Row key="stabilizer-2">
+        {this.renderComponentTextField("gauge_od", "Gauge OD", 2)}
+        {this.renderComponentTextField("gauge_length", "Gauge Length", 2)}
+        {this.renderComponentTextField("no_of_blades", "# of Blades", 2)}
+        {this.renderComponentTextField("blade_width", "Blade Width", 2)}
+        {this.renderComponentTextField("connection_type", "Connection Type", 2)}
+        {this.renderComponentSelectField('material', 2, COMPONENT_MATERIALS)}
+      </Row>   
+    ];
+  }
+
+  renderComponentJar() {
+    return [
+      <Row key="jar-1">
+        {this.renderComponentSelectField('family', 2, COMPONENT_FAMILIES)}
+        {this.renderComponentTextField("name", "Name", 2)}
+        {this.renderComponentSelectField('sub_category', 2, HWDP_SUB_CATEGORIES)}
+        {this.renderComponentTextField("outer_diameter","OD",2)}
+        {this.renderComponentTextField("inner_diameter", "ID",2)}
+        {this.renderComponentTextField("number_of_joint", "# of Joints", 2)}
+        
+      </Row>,
+      <Row key="jar-2">
+        {this.renderComponentTextField("length", "Component Length", 2)}
+        {this.renderComponentTextField("total_length", "Total Length", 2)}
+        {this.renderComponentTextField("adjust_linear_weight", "Adjust Linear Weight", 2)}
+        {this.renderComponentTextField("total_weight", "Total Weight", 2)}
+        {this.renderComponentTextField("connection_type", "Connection Type", 2)}
+        {this.renderComponentSelectField('material', 2, COMPONENT_MATERIALS)}
+      </Row>
+    ];
+  }
+
+  renderComponentMWD() {
+    return [
+      <Row key="mwd-1">
+        {this.renderComponentSelectField('family', 1, COMPONENT_FAMILIES)}
+        {this.renderComponentTextField("name", "Name", 2)}
+        {this.renderComponentTextField("outer_diameter","OD",1)}
+        {this.renderComponentTextField("inner_diameter", "ID",1)}
+        {this.renderComponentTextField("length", "Component Length", 1)}
+        {this.renderComponentTextField("total_length", "Total Length", 1)}
+        {this.renderComponentTextField("adjust_linear_weight", "Adjust Linear Weight", 2)}
+        {this.renderComponentTextField("total_weight", "Total Weight", 1)}
+        {this.renderComponentTextField("connection_type", "Connection Type", 1)}
+        {this.renderComponentSelectField('material', 1, COMPONENT_MATERIALS)}
+      </Row>,
+
+      <Row key="mwd-2">
+        {this.renderComponentTextField("sensor_to_bit_distance","Sensor to bit distance",3)}
+      </Row>   
+    ];
+  }
+
+  renderComponentNumberField(field, label, colSize, unitType=null, unit=null) {
+    let value = this.props.item.get(field, '');
+    if (value!=='' && unitType && unit) {
+      value = this.props.commonProps.convert.convertValue(value,unitType,unit);
     }
+    return <Input type="number"
+                  label={label}
+                  m={colSize}
+                  s={12}
+                  defaultValue={value}
+                  ref={field}
+                  error={this.props.errors? this.props.errors[field]: null}
+                  onKeyPress={this.handleKeyPress.bind(this)}
+                  onChange={e => this.onNumberFieldChange.bind(this)(field,parseFloat(e.target.value))} />;    
   }
 
-  renderComponentSelectField(field, colSize=2, options) {
-    if (this.props.isEditable) {
-      return <Input type="select"
-                    m={colSize}
-                    s={12}
-                    value={this.props.component.get(field, '')}
-                    onKeyPress={this.handleKeyPress.bind(this)}
-                    onChange={e => this.props.onComponentFieldChange(field, e.target.value)}>
-        {options.map(({name, type}) =>
-          <option key={type} value={type}>{name}</option>)}
-      </Input>;
-    } else {
-      return this.props.component.get(field);
+  renderComponentTextField(field, label="", colSize=2) {    
+    return <Input type="text"                  
+                  label={label}
+                  m={colSize}
+                  s={12}
+                  defaultValue={this.props.item.get(field, '')}
+                  onKeyPress={this.handleKeyPress.bind(this)}
+                  onChange={e => this.props.commonProps.onComponentFieldChange(this.props.item.get('id'), field, e.target.value)} />;
+  }
+
+  renderComponentSelectField(field, colSize=2, options) {    
+    return <Input type="select"
+                  m={colSize}
+                  s={12}
+                  defaultValue={this.props.item.get(field, '')}
+                  onChange={e => { setTimeout(_=> {this.props.commonProps.onComponentFieldChange(this.props.item.get('id'), field, e.target.value);}, 0);}}>
+      {options.map(({name, type}) =>
+        <option key={type} value={type}>{name}</option>)}
+    </Input>;
+  }
+
+  renderComponentLabelField(field,label="",colSize=2,unitType,unit) {
+    let value = this.props.item.get(field, '');
+    if (value!=='' && unitType && unit) {
+      value = this.props.commonProps.convert.convertValue(value,unitType,unit).formatNumeral('0.0');
     }
+    return <Col m={colSize} s={12}>
+      <label>{label}</label>
+      <br/>
+      <label>{value}</label>
+    </Col>;
   }
 
-  
+  calcLinearWeight(id,od) {
+    id = parseFloat(id);
+    od = parseFloat(od);
+    if (isNaN(id) || isNaN(od) || od<id) {
+      return;
+    }
+    return 2.673*(od*od-id*id);
+  }
+
+  calcTotalWeight(linearWeight,totalLength) {
+    linearWeight = parseFloat(linearWeight);
+    totalLength = parseFloat(totalLength);
+    if (isNaN(linearWeight) || isNaN(totalLength)) {
+      return;
+    }
+    return linearWeight*totalLength;
+  }
+
+  calcTotalLength(noJoint,length) {
+    noJoint = parseFloat(noJoint);
+    length = parseFloat(length);
+    if (isNaN(noJoint) || isNaN(length)) {
+      return;
+    }
+    return noJoint*length; 
+  }
+
+  onNumberFieldChange(field,value) {
+    const component = this.props.item;
+    let id,od,linearWeight,noJoint,length,totalLength,totalWeight;
+    let nameValuePairs=[];
+    switch(field) {
+      case 'inner_diameter':
+        id = value;
+        od = component.get('outer_diameter');        
+        linearWeight = this.calcLinearWeight(id,od);
+        totalLength = component.get('total_length');
+        totalWeight = this.calcTotalWeight(linearWeight,totalLength);
+        break;
+      case 'outer_diameter':
+        id = component.get('inner_diameter');
+        od = value;
+        linearWeight = this.calcLinearWeight(id,od);
+        totalLength = component.get('total_length');
+        totalWeight = this.calcTotalWeight(linearWeight,totalLength);
+        break;
+      case 'adjust_linear_weight':
+        totalLength = component.get('total_length');
+        totalWeight = this.calcTotalWeight(value,totalLength);
+        break;
+      case 'number_of_joint':
+        length = component.get('length');
+        totalLength = this.calcTotalLength(value,length);
+        linearWeight = component.get('adjust_linear_weight');
+        totalWeight = this.calcTotalWeight(linearWeight,totalLength);
+        break;        
+      case 'length':
+        noJoint = component.get('number_of_joint');
+        totalLength = this.calcTotalLength(noJoint,value);
+        linearWeight = component.get('adjust_linear_weight');
+        totalWeight = this.calcTotalWeight(linearWeight,totalLength);
+        break;
+
+      default:
+        break;        
+    }
+
+    nameValuePairs=[{name:field,value}];
+
+    if (linearWeight>=0) {
+      nameValuePairs.push({name:"adjust_linear_weight", value: linearWeight});
+      ReactDOM.findDOMNode(this.refs.adjust_linear_weight).children[0].value = numeral(linearWeight).format('0.0');
+      ReactDOM.findDOMNode(this.refs.adjust_linear_weight).children[1].className="active";
+    }
+
+    if (totalLength) {
+      nameValuePairs.push({name:"total_length", value: totalLength}); 
+    }
+
+    if (totalWeight) {
+      nameValuePairs.push({name:"total_weight", value: totalWeight}); 
+    }
+    
+    this.props.commonProps.onComponentMultiFieldsChange(component.get('id'),nameValuePairs);
+  }
+
+  renderNoozleNumberField(index,key) {
+      return <Input type="text"                
+                s={12}                
+                defaultValue={this.props.item.getIn(["noozle_sizes",index,key],"")}
+                onChange={e => this.onNoozleValueChange(index, key, e.target.value)} />;
+  }
+
+  onAddNozzle() {
+    let nozzle_sizes = this.props.item.get('nozzle_sizes',List([]));
+
+    this.props.commonProps.onComponentFieldChange(this.props.item.get('id'), "nozzle_sizes", nozzle_sizes.push(Map({
+      size: 0,
+      count: 0
+    })));
+  }
+
+  onNoozleValueChange(index,key,val) {
+    const component = this.props.item;
+    const noozle_sizes = component.get('nozzle_sizes');
+    this.props.commonProps.onComponentFieldChange(component.get('id'), "nozzle_sizes", noozle_sizes.setIn([index,key],val) );
+  }
 
   handleKeyPress() {
 
@@ -172,12 +464,7 @@ class DrillstringComponentEditorItem extends Component {
 
 }
 
-DrillstringComponentEditorItem.propTypes = {
-  index: PropTypes.number.isRequired,
-  component: ImmutablePropTypes.map.isRequired,
-  isEditable: PropTypes.bool.isRequired,
-  onComponentFieldChange: PropTypes.func.isRequired,
-  onDeleteComponent: PropTypes.func.isRequired
+DrillstringComponentEditorItem.propTypes = {  
 };
 
 export default DrillstringComponentEditorItem;

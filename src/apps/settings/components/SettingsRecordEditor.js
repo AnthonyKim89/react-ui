@@ -106,6 +106,7 @@ class SettingsRecordEditor extends Component {
   }
 
   updateRecord(record) {
+    console.log(record.toJS());
     this.setState({record});
   }
 

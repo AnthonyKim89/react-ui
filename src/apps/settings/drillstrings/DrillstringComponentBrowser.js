@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { Button, Row, Col, Input } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Convert from '../../../common/Convert';
-import LoadingIndicator from '../../../common/LoadingIndicator';
 
 import './DrillstringComponentBrowser.css';
 class DrillstringComponentBrowser extends Component {
@@ -11,8 +9,8 @@ class DrillstringComponentBrowser extends Component {
 
     return <div className="c-settings-record-browser">      
       
-      </div>
-    };
+    </div>;
+    
   }
 }
 

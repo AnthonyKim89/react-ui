@@ -55,7 +55,7 @@ class CostsItem extends Component {
           <Datetime 
             defaultValue={date} 
             onChange={this.selectDate} 
-            timeFormat={false}/>
+            dateFormat={false}/>
         </td>
         <td>
           <Input type="number" 
