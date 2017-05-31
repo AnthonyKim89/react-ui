@@ -128,6 +128,7 @@ class TracesChartColumn extends Component {
         return;
       }
 
+      console.log(JSON.stringify(traceGraph));
       series.push({
         name: trace.label,
         type: 'line',
@@ -137,6 +138,24 @@ class TracesChartColumn extends Component {
         itemStyle: {
           normal: {
             color: traceGraph.get('color'),
+            lineStyle: { 
+              width: traceGraph.get('lineWidth'),
+              type: traceGraph.get('dashStyle')
+            },
+            areaStyle: {
+                color : (function (){
+                      if(traceGraph.get('type') === 'area') {
+                          var bigint = parseInt(traceGraph.get('color').replace('#', ''), 16);
+                          var r = (bigint >> 16) & 255;
+                          var g = (bigint >> 8) & 255;
+                          var b = bigint & 255;
+                          return `rgba(${r},${g},${b},0.5)`;
+                      }
+                      else {
+                        return 'transparent';
+                      }
+                  })()
+            }
           },
         },
         data: props.data.reduce((result, point) => {
@@ -227,7 +246,7 @@ class TracesChartColumn extends Component {
         color: traceGraph.get('color'),
         unit: displayUnit,
         type: traceGraph.get('type', 'line'), // area or line
-        dashStyle: traceGraph.get('dashStyle', 'Solid'), // http://api.highcharts.com/highcharts/plotOptions.line.dashStyle
+        dashStyle: traceGraph.get('dashStyle', 'solid'), // http://api.highcharts.com/highcharts/plotOptions.line.dashStyle
         lineWidth: traceGraph.get('lineWidth', 2), // 1, 2, or 3
         minValue,
         maxValue,
