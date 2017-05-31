@@ -38,6 +38,15 @@ class TracesChartColumn extends Component {
             axisLabel : {
               formatter: '{value} km'
             },
+            splitLine: {
+              show: true,
+              onGap: true,
+              lineStyle: {
+                color: '#666666',
+                type: 'dotted',
+                width: 2,
+              }
+            },
             boundaryGap : false,
             data : props.data.reduce((result, point) => {
               result.unshift(moment.unix(point.get("timestamp")).format('MMMD HH:mm'));
@@ -134,9 +143,30 @@ class TracesChartColumn extends Component {
         symbolSize : '0',
         smooth: false,
         xAxisIndex: idx,
+        min: traceGraph.get('minValue'),
+        max: traceGraph.get('maxValue'),
+        scale: traceGraph.get('autoscale'),
         itemStyle: {
           normal: {
             color: traceGraph.get('color'),
+            lineStyle: { 
+              width: traceGraph.get('lineWidth'),
+              type: traceGraph.get('dashStyle')
+            },
+            areaStyle: {
+                color : (function (){
+                      if(traceGraph.get('type') === 'area') {
+                          var bigint = parseInt(traceGraph.get('color').replace('#', ''), 16);
+                          var r = (bigint >> 16) & 255;
+                          var g = (bigint >> 8) & 255;
+                          var b = bigint & 255;
+                          return `rgba(${r},${g},${b},0.5)`;
+                      }
+                      else {
+                        return 'transparent';
+                      }
+                  })()
+            }
           },
         },
         data: props.data.reduce((result, point) => {
@@ -148,10 +178,22 @@ class TracesChartColumn extends Component {
 
     return {
       series,
-      xAxis: new Array(series.length).fill({
-        type : 'value',
-        show: false,
-      })
+      xAxis: series.map(({min, max, scale}, idx) => (
+        {
+          type : 'value',
+          show: false,
+          min: min,
+          max: max,
+          scale: scale,
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: '#666666',
+              type: 'dotted',
+              width: 1,
+            }
+          }
+        }))
     };
   }
 
@@ -227,7 +269,7 @@ class TracesChartColumn extends Component {
         color: traceGraph.get('color'),
         unit: displayUnit,
         type: traceGraph.get('type', 'line'), // area or line
-        dashStyle: traceGraph.get('dashStyle', 'Solid'), // http://api.highcharts.com/highcharts/plotOptions.line.dashStyle
+        dashStyle: traceGraph.get('dashStyle', 'solid'), // http://api.highcharts.com/highcharts/plotOptions.line.dashStyle
         lineWidth: traceGraph.get('lineWidth', 2), // 1, 2, or 3
         minValue,
         maxValue,

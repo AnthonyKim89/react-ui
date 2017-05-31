@@ -65,17 +65,9 @@ class TracesSettingsDialog extends Component {
             <Input type='select' label="Line Style" s={12}
                    defaultValue={this.props.traceGraphs.getIn([this.state.traceEditIndex, 'dashStyle'], 'Solid')}
                    ref={(input) => this.traceEditorDashStyle = input}>
-              <option value="Solid">Solid</option>
-              <option value="ShortDash">Short Dash</option>
-              <option value="ShortDot">Short Dot</option>
-              <option value="ShortDashDot">Short Dash Dot</option>
-              <option value="ShortDashDotDot">Short Dash Dot Dot</option>
-              <option value="Dot">Dot</option>
-              <option value="Dash">Dash</option>
-              <option value="LongDash">Long Dash</option>
-              <option value="DashDot">Dash Dot</option>
-              <option value="LongDashDot">Long Dash Dot</option>
-              <option value="LongDashDotDot">Long Dash Dot Dot</option>
+              <option value="solid">Solid</option>
+              <option value="dotted">Dotted</option>
+              <option value="dashed">Dashed</option>
             </Input>
 
             <Input type='select' label="Line Width" s={12}
