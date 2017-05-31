@@ -95,7 +95,7 @@ class AppContainer extends Component {
           <h4 className="c-app-container__title">{this.props.appType.constants.METADATA.title}</h4>}
         {!this.props.isTitlesDisabled && this.props.appType.constants.METADATA.subtitle &&
           <h5 className="c-app-container__subtitle">{this.props.appType.constants.METADATA.subtitle}</h5>}
-        {!this.props.appType.constants.METADATA.multiRig && this.props.availableAssets && !this.props.appType.constants.METADATA.disableDisplayAssetName && this.props.layoutEnvironment && this.props.layoutEnvironment.get("type") === "general" &&
+        {!this.props.appType.constants.METADATA.multiRig && this.props.availableAssets && !this.props.appType.constants.METADATA.disableDisplayAssetName && this.props.layoutEnvironment && this.props.layoutEnvironment.get("type") === "general" && this.props.asset &&
           <Link to={`/assets/${this.props.asset.get("id")}/${assetDashboardSlug}`} className="c-app-container-asset-name">
              {this.getAppAssetName()}
            </Link>    
