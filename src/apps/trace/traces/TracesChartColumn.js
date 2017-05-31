@@ -38,6 +38,15 @@ class TracesChartColumn extends Component {
             axisLabel : {
               formatter: '{value} km'
             },
+            splitLine: {
+              show: true,
+              onGap: true,
+              lineStyle: {
+                color: '#666666',
+                type: 'dotted',
+                width: 2,
+              }
+            },
             boundaryGap : false,
             data : props.data.reduce((result, point) => {
               result.unshift(moment.unix(point.get("timestamp")).format('MMMD HH:mm'));
@@ -175,7 +184,15 @@ class TracesChartColumn extends Component {
           show: false,
           min: min,
           max: max,
-          scale: scale
+          scale: scale,
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: '#666666',
+              type: 'dotted',
+              width: 1,
+            }
+          }
         }))
     };
   }
