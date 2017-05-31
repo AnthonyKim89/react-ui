@@ -128,13 +128,15 @@ class TracesChartColumn extends Component {
         return;
       }
 
-      console.log(JSON.stringify(traceGraph));
       series.push({
         name: trace.label,
         type: 'line',
         symbolSize : '0',
         smooth: false,
         xAxisIndex: idx,
+        min: traceGraph.get('minValue'),
+        max: traceGraph.get('maxValue'),
+        scale: traceGraph.get('autoscale'),
         itemStyle: {
           normal: {
             color: traceGraph.get('color'),
@@ -167,10 +169,14 @@ class TracesChartColumn extends Component {
 
     return {
       series,
-      xAxis: new Array(series.length).fill({
-        type : 'value',
-        show: false,
-      })
+      xAxis: series.map(({min, max, scale}, idx) => (
+        {
+          type : 'value',
+          show: false,
+          min: min,
+          max: max,
+          scale: scale
+        }))
     };
   }
 
