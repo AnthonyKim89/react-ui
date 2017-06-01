@@ -39,7 +39,7 @@ class TorqueApp extends Component {
                 title={title}
                 data={data}
                 dashStyle={"ShortDot"}
-                yField="hookload"
+                yField="torque"
                 lineWidth={renderType === 'line' ? 2 : 0}
                 color={this.getSeriesColor(type)} />
             )).toJS()}
@@ -73,7 +73,7 @@ class TorqueApp extends Component {
       .flatMap(([curveType, curves]) =>
         curves.map((curve) => {
           let points = curve.get('points');
-          points = this.props.convert.convertImmutables(points, 'hookload', 'mass', 'lb');
+          points = this.props.convert.convertImmutables(points, 'torque', 'torque', 'ft-klbf');
           return {
             renderType: 'line',
             title: `${SUPPORTED_CHART_SERIES[curveType].label} ${curve.get('openhole_friction_factor')}`,
@@ -88,7 +88,7 @@ class TorqueApp extends Component {
     return this.getData().getIn(['data', 'actual'], List())
       .entrySeq()
       .map(([curveType, points]) => {
-        points = this.props.convert.convertImmutables(points, 'hookload', 'mass', 'lb');
+        points = this.props.convert.convertImmutables(points, 'torque', 'torque', 'ft-klbf');
         return {
           renderType: 'scatter',
           title: SUPPORTED_CHART_SERIES[curveType].label,
