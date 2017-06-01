@@ -1,7 +1,7 @@
 export const CATEGORY = 'torqueAndDrag';
 export const NAME = 'torque';
 export const SUBSCRIPTIONS = [
-  {provider: 'corva', collection: 'torque-and-drag.torque'}
+  {provider: 'corva', collection: 'torque-and-drag.torque-trend'}
 ];
 export const METADATA = {
   title: 'Torque Trend',
@@ -13,7 +13,7 @@ export const METADATA = {
 };
 export const SUPPORTED_ASSET_TYPES = ['rig'];
 export const INITIAL_SIZE = {w: 2, h: 10};
+
 export const SUPPORTED_CHART_SERIES = {
-  torsional_yield: {label: 'Torsional Yield', defaultColor: '#f7e47a', unitType: "torque", unit: "ft-klbf"},
-  torque: {label: 'Torque', defaultColor: '#78905f', unitType: "torque", unit: "ft-klbf"}
+  rotary_off_bottom: {label: 'Rotating Torque', defaultColor: '#f7e47a'}
 };
