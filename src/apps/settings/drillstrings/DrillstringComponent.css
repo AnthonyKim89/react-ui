@@ -1,0 +1,48 @@
+.c-drillstring-component-image {
+  width: 48px;
+  background-size: contain;
+}
+.c-drillstring-component-image--bit {
+  height: 61px;
+  background-image: url('../../../images/drillstrings/bit.png');
+}
+.c-drillstring-component-image--dc {
+  height: 55px;
+  background-image: url('../../../images/drillstrings/drill_collar.png');
+}
+.c-drillstring-component-image--dp {
+  height: 56px;
+  background-image: url('../../../images/drillstrings/drill_pipe.png');
+}
+.c-drillstring-component-image--hwdp {
+  height: 56px;
+  background-image: url('../../../images/drillstrings/heavy_weight_drill_pipe.png');
+}
+.c-drillstring-component-image--jar {
+  height: 58px;
+  background-image: url('../../../images/drillstrings/jar.png');
+}
+.c-drillstring-component-image--pdm {
+  height: 56px;
+  background-image: url('../../../images/drillstrings/motor.png');
+}
+.c-drillstring-component-image--mwd {
+  height: 56px;
+  background-image: url('../../../images/drillstrings/mwd.png');
+}
+.c-drillstring-component-image--spiral_drill_collar {
+  height: 56px;
+  background-image: url('../../../images/drillstrings/spiral_drill_collar.png');
+}
+.c-drillstring-component-schematic__component-image--stabilizer {
+  height: 57px;
+  background-image: url('../../../images/drillstrings/stabilizer.png');
+}
+.c-drillstring-component-image--sub {
+  height: 56px;
+  background-image: url('../../../images/drillstrings/sub.png');
+}
+.c-drillstring-component-image--tail_pipe {
+  height: 57px;
+  background-image: url('../../../images/drillstrings/tail_pipe.png');
+}

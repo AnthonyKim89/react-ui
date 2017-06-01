@@ -5,7 +5,9 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import uuidV1 from 'uuid/v1';
 import DraggableList from 'react-draggable-list';
 
+import './DrillstringComponent.css';
 import DrillstringComponentEditorItem from './DrillstringComponentEditorItem';
+import DrillstringComponentBrowserItem from './DrillstringComponentBrowserItem';
 
 class DrillstringComponent extends Component {
 
@@ -43,7 +45,31 @@ class DrillstringComponent extends Component {
       </div>;
     }
 
-    return <div>Coming soon </div>;
+    return <div className="c-drillstring-component">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Category</th>
+            <th>Name</th>            
+            <th>ID ({this.props.convert.getUnitDisplay('shortLength')})</th>
+            <th>OD ({this.props.convert.getUnitDisplay('shortLength')})</th>
+            <th>Linear Weight ({this.props.convert.getUnitDisplay('massPerLength')}) </th>
+            <th>Length ({this.props.convert.getUnitDisplay('length')})</th>
+            <th>Weight ({this.props.convert.getUnitDisplay('mass')})</th>
+            <th>Grade </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {this.props.record.getIn(['data', 'components'], List()).map((cmp, idx)=> 
+            <DrillstringComponentBrowserItem
+              key={idx}
+              convert={this.props.convert}
+              component={cmp} />)}
+        </tbody>
+      </table>
+    </div>;
 	}
 
   getComponentArray() {

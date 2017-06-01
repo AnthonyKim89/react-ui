@@ -37,8 +37,8 @@ class DrillstringComponentEditorItem extends Component {
   }
 
   renderComponentImage() {
-    return <div className={`c-drillstring-component-schematic__component-image                              
-                              c-drillstring-component-schematic__component-image--${this.props.item.get('family')}`}>
+    return <div className={`c-drillstring-component-image                              
+                              c-drillstring-component-image--${this.props.item.get('family')}`}>
       </div>;    
   }
 
