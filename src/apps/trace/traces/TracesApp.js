@@ -79,6 +79,10 @@ class TracesApp extends Component {
   }
 
   mergeSupportedTraces(latestData) {
+    if (!latestData) {
+      return SUPPORTED_TRACES;
+    }
+
     let witsSupportedTraces = latestData.get('data').toJS();
 
     for (let property in witsSupportedTraces) {
