@@ -103,8 +103,8 @@ class TracesChartColumn extends Component {
               </div>
               <div className="c-traces__chart-column__values__item__meta-row">
                 <div className="c-traces__chart-column__values__item__meta-row-unit c-traces__center">{unit}</div>
-                <div className="c-traces__chart-column__values__item__meta-row-scale c-traces__left">{minValue}</div>
-                <div className="c-traces__chart-column__values__item__meta-row-scale c-traces__right">{maxValue}</div>
+                <div className="c-traces__chart-column__values__item__meta-row-scale c-traces__left">{minValue && minValue.formatNumeral("0,0.00")}</div>
+                <div className="c-traces__chart-column__values__item__meta-row-scale c-traces__right">{maxValue && maxValue.formatNumeral("0,0.00")}</div>
               </div>
             </div> : <div>
               <div className="c-traces__chart-column__values__item__meta-row">&nbsp;</div>
@@ -156,10 +156,10 @@ class TracesChartColumn extends Component {
             areaStyle: {
                 color : (function (){
                       if(traceGraph.get('type') === 'area') {
-                          var bigint = parseInt(traceGraph.get('color').replace('#', ''), 16);
-                          var r = (bigint >> 16) & 255;
-                          var g = (bigint >> 8) & 255;
-                          var b = bigint & 255;
+                          let bigint = parseInt(traceGraph.get('color').replace('#', ''), 16);
+                          let r = (bigint >> 16) & 255;
+                          let g = (bigint >> 8) & 255;
+                          let b = bigint & 255;
                           return `rgba(${r},${g},${b},0.5)`;
                       }
                       else {
