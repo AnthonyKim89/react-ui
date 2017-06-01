@@ -33,13 +33,29 @@ class MinimumFlowRateApp extends Component {
               style: {color: '#fff'}
             }}
             size={this.props.size}
+            yPlotLines={[{
+              color: '#FFFFFF', 
+              dashStyle: 'dash', 
+              value: this.getMudFlowIn(), 
+              width: 3,
+              label: { 
+                text: `Actual Flow Rate (${this.props.convert.getUnitDisplay('volume')}pm)`, 
+                align: 'top',
+                verticalAlign: 'middle',
+                style: {
+                  color: "#FFFFFF"
+                },
+                x: -20,
+                y: -20
+              }
+            }]}
             coordinates={this.props.coordinates}
             widthCols={this.props.widthCols}>
             <ChartSeries
               key={title}
               id={title}
               type="area"
-              fillOpacity={0.5}
+              fillOpacity={0.25}
               lineWidth={2.0}
               title={title}
               data={this.getSeriesData()}
@@ -66,6 +82,11 @@ class MinimumFlowRateApp extends Component {
     points = this.props.convert.convertImmutables(points, 'measured_depth', 'length', 'ft');
     points = this.props.convert.convertImmutables(points, 'recommended_minimum_flowrate', 'volume', 'gal');
     return points;
+  }
+
+  getMudFlowIn() {
+    let mud_flow_in = this.getData().getIn(['data', 'mud_flow_in']) || 0;
+    return mud_flow_in;
   }
 
   getSeriesColor(seriesType) {
