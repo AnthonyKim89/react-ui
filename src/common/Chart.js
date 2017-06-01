@@ -360,7 +360,7 @@ Chart.propTypes = {
   chartType: PropTypes.string,
   noSpacing: PropTypes.bool,
   automaticOrientation: PropTypes.bool,
-  areaSplineThreshold: PropTypes.string,
+  areaSplineThreshold: PropTypes.number,
   visible: PropTypes.object
 };
 
