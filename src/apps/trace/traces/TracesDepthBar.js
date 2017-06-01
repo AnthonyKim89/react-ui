@@ -98,10 +98,11 @@ class TracesDepthBar extends Component {
       return [];
     }
 
+    let firstDepth = this.props.data.first().get('hole_depth');
     let points = [{
       time: moment.unix(this.props.data.first().get("timestamp")).format('H:mm'),
       fulltime: moment.unix(this.props.data.first().get("timestamp")).format('MMMM D, YYYY HH:mm'),
-      depth: this.props.data.first().get('hole_depth').formatNumeral("0,0")
+      depth: firstDepth ? firstDepth.formatNumeral("0,0") : (0).formatNumeral("0,0"),
     }];
 
     let pointCount = 10;
@@ -109,17 +110,19 @@ class TracesDepthBar extends Component {
       let pointIndex = Math.floor(this.props.data.size * (i/(pointCount+2)));
       let point = this.props.data.get(pointIndex);
 
+      let depth = point.get('hole_depth');
       points.push({
         time: moment.unix(point.get("timestamp")).format('H:mm'),
         fulltime: moment.unix(point.get("timestamp")).format('MMMM D, YYYY HH:mm'),
-        depth: point.get('hole_depth').formatNumeral("0,0")
+        depth: depth ? depth.formatNumeral("0,0") : (0).formatNumeral("0,0"),
       });
     }
 
+    let lastDepth = this.props.data.last().get('hole_depth');
     points.push({
       time: moment.unix(this.props.data.last().get("timestamp")).format('H:mm'),
       fulltime: moment.unix(this.props.data.last().get("timestamp")).format('MMMM D, YYYY HH:mm'),
-      depth: this.props.data.last().get('hole_depth').formatNumeral("0,0")
+      depth: lastDepth ? lastDepth.formatNumeral("0,0") : (0).formatNumeral("0,0"),
     });
 
     return points;

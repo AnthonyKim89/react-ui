@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { find } from 'lodash';
-import { List } from 'immutable';
+import { List, fromJS } from 'immutable';
 
 import LoadingIndicator from '../../../common/LoadingIndicator';
 import TracesSlider from './TracesSlider';
@@ -12,6 +12,7 @@ import TracesBoxColumn from "./TracesBoxColumn";
 import subscriptions from '../../../subscriptions';
 import { SUBSCRIPTIONS, DEFAULT_TRACE_GRAPHS } from './constants';
 import { SUPPORTED_TRACES } from '../constants';
+import * as api from '../../../api';
 
 import './TracesApp.css';
 
@@ -25,10 +26,12 @@ class TracesApp extends Component {
     this.state = {
       start: 0,
       end: 1,
-      filteredData: new List()
+      filteredData: new List(),
     };
     this.render = this.render.bind(this);
     this.summaryData = new List();
+    this.includeDetailedData = false;
+    this.timerID = null;
   }
 
   render() {
@@ -45,7 +48,7 @@ class TracesApp extends Component {
         filteredData={this.state.filteredData}
         widthCols={this.props.widthCols}
         ref={c => { this.tracesSlider = c; }}
-        onRangeChanged={(start, end) => this.updateFilteredData(start, end)} />
+        onRangeChanged={(start, end, triggered) => this.updateFilteredData(start, end, triggered)} />
       <TracesSettingsBar
         traceColumnCount={this.props.traceColumnCount}
         traceRowCount={this.props.traceRowCount}
@@ -64,7 +67,8 @@ class TracesApp extends Component {
         convert={this.props.convert}
         supportedTraces={supportedTraces}
         traceColumnCount={this.props.traceColumnCount}
-        traceRowCount={this.props.traceRowCount} />
+        traceRowCount={this.props.traceRowCount}
+        includeDetailedData={this.includeDetailedData}/>
       <TracesBoxColumn
         convert={this.props.convert}
         supportedTraces={supportedTraces}
@@ -146,7 +150,19 @@ class TracesApp extends Component {
     return this.props.convert.convertImmutables(filteredData, traceKey, unitType, unitFrom, unitTo);
   }
 
-  updateFilteredData(start=null, end=null) {
+  async updateFilteredData(start=null, end=null, triggeredByUser=false) {
+    if (triggeredByUser) {
+      // We want to clear the detailed data timer if the user is actively scrolling.
+      this.includeDetailedData = false;
+      clearInterval(this.timerID);
+
+      // After 5 seconds of no scrolling, we load detailed data
+      this.timerID = setInterval(() => {
+        this.includeDetailedData = true;
+        this.updateFilteredData();
+      }, 2000);
+    }
+
     start = start !== null ? start : this.state.start;
     end = end !== null ? end : this.state.end;
 
@@ -156,10 +172,13 @@ class TracesApp extends Component {
     let startTS = firstTimestamp + start * (lastTimestamp - firstTimestamp);
     let endTS = firstTimestamp + end * (lastTimestamp - firstTimestamp);
 
-    let filteredData = this.summaryData.filter(point => {
-      let ts = point.get('timestamp');
-      return ts >= Math.round(startTS) && ts <= Math.round(endTS);
-    });
+    // We will load either rough or find data depending on how long the user hasn't changed the slider
+    let filteredData;
+    if (this.includeDetailedData && (endTS - startTS) < 43200 ) { // If the slider is enclosing less than 12 hours, we load fine data.
+      filteredData = await this.loadFineFilteredData(startTS, endTS);
+    } else {
+      filteredData = this.getRoughFilteredData(startTS, endTS);
+    }
 
     // Flattening the data out
     filteredData = filteredData.map(value => value.flatten());
@@ -169,6 +188,23 @@ class TracesApp extends Component {
       end,
       filteredData
     });
+  }
+
+  getRoughFilteredData(startTS, endTS) {
+    return this.summaryData.filter(point => {
+      let ts = point.get('timestamp');
+      return ts >= Math.round(startTS) && ts <= Math.round(endTS);
+    });
+  }
+
+  async loadFineFilteredData(startTS, endTS) {
+    let params = fromJS({
+      'asset_id': 3,
+      'query': `{timestamp#gte#${Math.round(startTS)}}}and{timestamp#lte#${Math.round(endTS)}}`,
+      'limit': 525600, // This is a year's worth of minutes. We're required to include a limit.
+    });
+    let result = await api.getAppStorage('corva', 'wits.summary-1m', this.props.asset.get('id'), params);
+    return result.reverse();
   }
 }
 
@@ -181,6 +217,7 @@ TracesApp.propTypes = {
   size: PropTypes.string.isRequired,
   widthCols: PropTypes.number.isRequired,
   onSettingChange: PropTypes.func.isRequired,
+  asset: ImmutablePropTypes.map,
 };
 
 export default TracesApp;

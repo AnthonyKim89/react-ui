@@ -109,7 +109,7 @@ class TracesSlider extends Component {
   // Handles Mouse wheel scrolling.
   scrollRange(event) {
     // Change the scroll divisor to change the mouse scroll speed. Higher = slower.
-    let scrollDivisor = 5;
+    let scrollDivisor = 10;
     let scrollAmount = (event.deltaY / scrollDivisor) / 1.5;
     scrollAmount = scrollAmount > 0 ? Math.ceil(scrollAmount) : Math.floor(scrollAmount);
     let topHeight = (this.topSlider.resizable.clientHeight + handleBorderWidth) - handleHeight;
@@ -152,17 +152,17 @@ class TracesSlider extends Component {
     this.updateSelectedRange);
   }
 
-  updateSelectedRange() {
+  updateSelectedRange(triggeredByUser=true) {
     let totalHeight = this.getRangeHeight();
     let start = (this.topSlider.resizable.clientHeight - handleHeight)/totalHeight;
     let end = (totalHeight - (this.bottomSlider.resizable.clientHeight - handleHeight))/totalHeight;
 
-    this.props.onRangeChanged(Math.max(start, 0), Math.min(end, 1));
+    this.props.onRangeChanged(Math.max(start, 0), Math.min(end, 1), triggeredByUser);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.summaryData && !this.props.summaryData.equals(nextProps.summaryData)) {
-      this.updateSelectedRange();
+      this.updateSelectedRange(false);
     }
   }
 
