@@ -86,8 +86,9 @@ class SlideSheetApp extends Component {
 
   async getData(asset=this.props.asset) {
     let data = await api.getAppStorage(METADATA.provider, METADATA.collection, asset.get('id'), Map({
-      query: '{data.activity_name#eq#"Drilling Slide"}AND{data.hole_depth_change#gte#1}',
-      sort: '{data.hole_depth:-1}'
+      query: `{data.activity_name#eq#'Drilling Slide'}AND{data.hole_depth_change#gte#1}AND{data.operation_time#gte#300}`,
+      sort: `{data.hole_depth:-1}`,
+      limit: `20`
     }));
 
     //data = this.getFakeData();
