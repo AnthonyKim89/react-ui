@@ -14,5 +14,5 @@ export const METADATA = {
 export const SUPPORTED_ASSET_TYPES = ['rig'];
 export const INITIAL_SIZE = {w: 4, h: 11};
 export const SUPPORTED_CHART_SERIES = {
-  flow_rate: {label: 'Flow Rate', defaultColor: '#add8e6'}
+  flow_rate: {label: 'Flow Rate', defaultColor: '#ff0000'}
 };
