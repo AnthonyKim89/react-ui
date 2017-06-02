@@ -15,7 +15,8 @@ class MinimumFlowRateApp extends Component {
     return !!(
         (nextProps.data && !nextProps.data.equals(this.props.data)) ||
         (nextProps.coordinates && !nextProps.coordinates.equals(this.props.coordinates)) ||
-        (nextProps.graphColors && !nextProps.graphColors.equals(this.props.graphColors))
+        (nextProps.graphColors && !nextProps.graphColors.equals(this.props.graphColors)) ||
+        (nextProps.orientation !== this.props.orientation)
     );
   }
 
@@ -33,13 +34,31 @@ class MinimumFlowRateApp extends Component {
               style: {color: '#fff'}
             }}
             size={this.props.size}
+            yPlotLines={[{
+              color: '#FFFFFF', 
+              dashStyle: 'dash', 
+              value: this.getMudFlowIn(), 
+              width: 3,
+              label: { 
+                text: `Actual Flow Rate (${this.props.convert.getUnitDisplay('volume')}pm)`, 
+                align: 'top',
+                verticalAlign: 'middle',
+                style: {
+                  color: "#FFFFFF"
+                },
+                x: -20,
+                y: -20
+              }
+            }]}
             coordinates={this.props.coordinates}
+            automaticOrientation={this.automaticOrientation}
+            horizontal={this.horizontal}
             widthCols={this.props.widthCols}>
             <ChartSeries
               key={title}
               id={title}
               type="area"
-              fillOpacity={0.5}
+              fillOpacity={0.25}
               lineWidth={2.0}
               title={title}
               data={this.getSeriesData()}
@@ -68,12 +87,28 @@ class MinimumFlowRateApp extends Component {
     return points;
   }
 
+  getMudFlowIn() {
+    let mud_flow_in = this.getData().getIn(['data', 'mud_flow_in']) || 0;
+    return mud_flow_in;
+  }
+
   getSeriesColor(seriesType) {
     if (this.props.graphColors && this.props.graphColors.has(seriesType)) {
       return this.props.graphColors.get(seriesType);
     } else {
       return SUPPORTED_CHART_SERIES[seriesType].defaultColor;
     }
+  }
+
+  get automaticOrientation() {
+    return this.props.orientation && this.props.orientation === 'auto';
+  }
+
+  get horizontal() {
+    if (this.props.orientation) {
+      return this.props.orientation === 'horizontal';
+    }
+    return true;
   }
 
 }

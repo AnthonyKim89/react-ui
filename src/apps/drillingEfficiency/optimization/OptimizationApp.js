@@ -47,10 +47,10 @@ class OptimizationApp extends Component {
                       WOB <sub> k{this.props.convert.getUnitDisplay('mass')}f </sub>
                     </th>
                     <th>
-                      FLOW <sub> {this.props.convert.getUnitDisplay('volume')}pm </sub>
+                      RPM
                     </th>
                     <th>
-                      RPM
+                      Diff Press <sub> {this.props.convert.getUnitDisplay('pressure')} </sub>
                     </th>
                   </tr>
                 </thead>
@@ -58,9 +58,9 @@ class OptimizationApp extends Component {
                   <tr>
                     <td> Actual </td>
                     <td style={this.getStyles(actualData,optimizationData,"wob", activity_state)}> {this.props.convert.convertValue(actualData.getIn([this.getParamKey("actual","wob")]), "force", "klbf").formatNumeral("0.0")}</td>
-                    { /* TODO: Add back in: this.getStyles(actualData,optimizationData,"mud_flow_in") */ }
-                    <td> {this.props.convert.convertValue(parseFloat(actualData.getIn([this.getParamKey("actual","flow")])), "volume", "gal").formatNumeral("0.0")}</td>
                     <td style={this.getStyles(actualData, optimizationData, "rpm", activity_state)}>{numeral(actualData.getIn([this.getParamKey("actual","rpm")])).format("0")}</td>
+                    { /* TODO: Add back in: this.getStyles(actualData,optimizationData,"mud_flow_in") */ }
+                    <td> {this.props.convert.convertValue(parseFloat(actualData.getIn([this.getParamKey("actual","diff_press")])), "pressure", "psi").formatNumeral("0.0")}</td>
                   </tr>
                   {this.renderSection(optimizationData, "Rotary", "recommended_rotary")}
                   {this.renderSection(optimizationData, "Slide", "recommended_slide")}
@@ -84,15 +84,15 @@ class OptimizationApp extends Component {
             : "-"}
         </td>
         <td>
-          { section_present && false ? 
-          (this.props.convert.convertValue(optimizationData.getIn(["data",section, this.getParamKey("optimization","min_flow")]), "volume", "gal").formatNumeral("0.0") -
-          this.props.convert.convertValue(optimizationData.getIn(["data",section, this.getParamKey("optimization","max_flow")]), "volume", "gal").formatNumeral("0.0")) : "-"}
-        </td>
-        <td>
           { 
             section_present ? 
             (numeral(optimizationData.getIn(["data",section, this.getParamKey("optimization","min_rpm")])).format("0") + " - " + numeral(optimizationData.getIn(["data",section,this.getParamKey("optimization","max_rpm")])).format("0"))
             : "-"}
+        </td>
+        <td>
+          { section_present && false ? 
+          (this.props.convert.convertValue(optimizationData.getIn(["data",section, this.getParamKey("optimization","min_diff_press")]), "pressure", "psi").formatNumeral("0.0") -
+          this.props.convert.convertValue(optimizationData.getIn(["data",section, this.getParamKey("optimization","max_diff_press")]), "pressure", "psi").formatNumeral("0.0")) : "-"}
         </td>
     </tr>);
   }
@@ -128,9 +128,11 @@ class OptimizationApp extends Component {
       "optimization": {
         "min_wob" : "min_weight_on_bit",
         "min_flow" : "min_mud_flow_in",
+        "min_diff_press" : "min_diff_press",
         "min_rpm" : "min_rpm",
         "max_wob" : "max_weight_on_bit",
         "max_flow" : "max_mud_flow_in",
+        "max_diff_press" : "max_diff_press",
         "max_rpm" : "max_rpm",
       }
     };
