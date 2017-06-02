@@ -22,10 +22,8 @@ export const COMPONENT_FAMILIES = [
   {name: 'Jar', type: 'jar'},
   {name: 'PDM', type: 'pdm'},
   {name: 'MWD', type: 'mwd'},
-  {name: 'Spiral drill collar', type: 'spiral_drill_collar'},
   {name: 'Stabilizer', type: 'stabilizer'},
   {name: 'Sub', type: 'sub'},
-  {name: 'Tail pipe', type: 'tail_pipe'}
 ];
 
 export const COMPONENT_GRADES = [
@@ -41,6 +39,20 @@ export const COMPONENT_MATERIALS = [
 export const COMPONENT_CATALOGUES = [
   {name: 'CATALOGUE1', type: 'catalogue1'},
   {name: 'CATALOGUE1', type: 'catalogue2'}
+];
+
+export const HWDP_SUB_CATEGORIES = [
+  {name: 'HWDP_SUB_1', type: 'hwdp_sub_1'},
+  {name: 'HWDP_SUB_2', type: 'hwdp_sub_2'},
+  {name: 'HWDP_SUB_3', type: 'hwdp_sub_3'},
+];
+
+export const DC_SUB_CATEGORIES = [
+  {name: 'Spiral DC', type: 'sprial_dc'}  
+];
+
+export const JAR_SUB_CATEGORIES = [
+  {name: 'JAR SUB 1', type: 'jar_sub_1'}  
 ];
 
 

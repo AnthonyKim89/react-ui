@@ -23,10 +23,16 @@ class DrillstringComponent extends Component {
         errors: this.props.errors && this.props.errors["components"]? this.props.errors["components"]: null,
         onSave: this.props.onSave,      
         onComponentFieldChange: this.onComponentFieldChange.bind(this),
-        onComponentMultiFieldsChange: this.onComponentMultiFieldsChange.bind(this)
+        onComponentMultiFieldsChange: this.onComponentMultiFieldsChange.bind(this),
+        onDeleteComponent: this.onDeleteComponent.bind(this)
       };
 
       return <div className="c-drillstring-component">
+        {this.props.errors && this.props.errors["bit_count"] ?
+          <div style={{color:'red'}}>
+            { this.props.errors["bit_count"] }
+          </div> : ''
+        }
         <DraggableList
           list={this.getComponentArray()}
           itemKey={itm => itm.get('id')}
@@ -38,7 +44,7 @@ class DrillstringComponent extends Component {
         
         <Row>
           <Col m={1}></Col>
-          <Col m={11}>          
+          <Col m={11}>
               <Button floating icon="add" onClick={() => this.onAddComponent()}></Button>
           </Col>
         </Row>
@@ -51,9 +57,9 @@ class DrillstringComponent extends Component {
           <tr>
             <th></th>
             <th>Category</th>
-            <th>Name</th>            
-            <th>ID ({this.props.convert.getUnitDisplay('shortLength')})</th>
+            <th>Name</th>
             <th>OD ({this.props.convert.getUnitDisplay('shortLength')})</th>
+            <th>ID ({this.props.convert.getUnitDisplay('shortLength')})</th>
             <th>Linear Weight ({this.props.convert.getUnitDisplay('massPerLength')}) </th>
             <th>Length ({this.props.convert.getUnitDisplay('length')})</th>
             <th>Weight ({this.props.convert.getUnitDisplay('mass')})</th>
@@ -85,6 +91,14 @@ class DrillstringComponent extends Component {
     this.props.onUpdateRecord(this.props.record.updateIn(['data', 'components'], c => c.push(newComponent)));
   }
 
+  onDeleteComponent(id) {
+    const record = this.props.record;
+    let idx = this.props.record.getIn(['data','components']).findIndex(item => {
+      return item.get('id') === id;
+    });
+    this.props.onUpdateRecord(record.deleteIn(['data', 'components', idx]));
+  }
+
   onComponentFieldChange(id, name, value) {
     let idx = this.props.record.getIn(['data','components']).findIndex(item => {
       return item.get('id') === id;
@@ -94,7 +108,6 @@ class DrillstringComponent extends Component {
   }
   
   onComponentMultiFieldsChange(id,nameValuePairs) {
-    console.log(nameValuePairs);
     let record = this.props.record;
     let idx = this.props.record.getIn(['data','components']).findIndex(item => {
       return item.get('id') === id;
