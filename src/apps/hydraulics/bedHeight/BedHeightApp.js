@@ -15,7 +15,8 @@ class BedHeightApp extends Component {
     return !!(
         (nextProps.data && !nextProps.data.equals(this.props.data)) ||
         (nextProps.coordinates && !nextProps.coordinates.equals(this.props.coordinates)) ||
-        (nextProps.graphColors && !nextProps.graphColors.equals(this.props.graphColors))
+        (nextProps.graphColors && !nextProps.graphColors.equals(this.props.graphColors)) ||
+        (nextProps.orientation !== this.props.orientation)
     );
   }
 
@@ -34,6 +35,8 @@ class BedHeightApp extends Component {
             }}
             size={this.props.size}
             coordinates={this.props.coordinates}
+            automaticOrientation={this.automaticOrientation}
+            horizontal={this.horizontal}
             widthCols={this.props.widthCols}>
             <ChartSeries
               key={title}
@@ -76,6 +79,17 @@ class BedHeightApp extends Component {
     } else {
       return SUPPORTED_CHART_SERIES[seriesType].defaultColor;
     }
+  }
+
+  get automaticOrientation() {
+    return this.props.orientation && this.props.orientation === 'auto';
+  }
+
+  get horizontal() {
+    if (this.props.orientation) {
+      return this.props.orientation === 'horizontal';
+    }
+    return true;
   }
 
 }
