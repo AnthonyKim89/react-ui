@@ -16,12 +16,13 @@ class TortuosityIndexApp extends Component {
       <div className="c-di-tortuosity">
         {subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS) ?
           <Chart
-            horizontal={false}
             xField="measured_depth"
             chartType="line"
             size={this.props.size}
             coordinates={this.props.coordinates}
             widthCols={this.props.widthCols}
+            automaticOrientation={this.automaticOrientation}
+            horizontal={this.horizontal}
             gridLineWidth="1"
             xAxisWidth={2}
             xAxisColor="#fff"
@@ -33,8 +34,24 @@ class TortuosityIndexApp extends Component {
                 color: "#fff"
               }
             }}
+            yPlotLines={[{
+              color: '#FF0000', 
+              dashStyle: 'dash', 
+              value: this.props.limit || 15, 
+              width: 3,
+              label: { 
+                text: `Safe Limit`, 
+                align: 'top',
+                verticalAlign: 'middle',
+                style: {
+                  color: "#FFFFFF"
+                },
+                x: 20,
+                y: 20
+              }
+            }]}
             yAxisTitle={{
-              text: "Tortuosity",
+              text: "Dogleg Severity",
               style: {
                 color: "#fff"
               }
@@ -57,13 +74,19 @@ class TortuosityIndexApp extends Component {
       </div>
     );
   }
-
+  
   shouldComponentUpdate(nextProps, nextState) {
-    return (nextProps.data !== this.props.data || !nextProps.coordinates.equals(this.props.coordinates) || nextProps.graphColors !== this.props.graphColors);
+    return !!(
+        (nextProps.data && !nextProps.data.equals(this.props.data)) ||
+        (nextProps.coordinates && !nextProps.coordinates.equals(this.props.coordinates)) ||
+        (nextProps.graphColors && !nextProps.graphColors.equals(this.props.graphColors)) ||
+        (nextProps.limit !== this.props.limit) ||
+        (nextProps.orientation !== this.props.orientation)
+    );
   }
 
   getSeries() {
-    let data = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'points']);
+    let data = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'stations']);
     data = this.props.convert.convertImmutables(data, 'measured_depth', 'length' ,'ft');
     return Object.keys(SUPPORTED_CHART_SERIES)
       	.map(field => this.getDataSeries(field, data));
@@ -84,11 +107,23 @@ class TortuosityIndexApp extends Component {
     }
     return SUPPORTED_CHART_SERIES[field].defaultColor;
   }
+
+  get automaticOrientation() {
+    return this.props.orientation && this.props.orientation === 'auto';
+  }
+
+  get horizontal() {
+    if (this.props.orientation) {
+      return this.props.orientation === 'horizontal';
+    }
+    return true;
+  }
 }
 
 TortuosityIndexApp.propTypes = {
   data: ImmutablePropTypes.map,
   title: PropTypes.string,
+  limit: PropTypes.number,
 };
 
 export default TortuosityIndexApp;
