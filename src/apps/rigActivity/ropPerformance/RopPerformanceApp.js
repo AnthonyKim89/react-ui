@@ -161,9 +161,9 @@ class RopPerformanceApp extends Component {
   }
 
   getSeriesByShift(shift) {     
-    const ropType = this.props.ropType;                                                                                                                                                                                                                                                                  
+    const ropType = this.props.ropType;                                                                                                                                                
     return {
-      renderType: 'line',
+      renderType: this.props.period === PERIOD_TYPES[0].value ? 'line' : 'column',
       key: shift,
       title: SUPPORTED_CHART_SERIES[shift].label,
       data: List(this.state.data.map(record => {
