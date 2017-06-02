@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import { SUBSCRIPTIONS, SUPPORTED_CHART_SERIES } from './constants';
@@ -11,28 +12,37 @@ import './TorqueApp.css';
 
 class TorqueApp extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {series: List()};
+  }
+
   render() {
     return (
       <div className="c-tnd-torque">
-        {subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS) ?
+        {this.getData() ?
           <Chart
             xField="measured_depth"
+            xAxisWidth="2"
+            xAxisColor="white"
             size={this.props.size}
+            coordinates={this.props.coordinates}
+            widthCols={this.props.widthCols}
             automaticOrientation={this.automaticOrientation}
             horizontal={this.horizontal}
-            coordinates={this.props.coordinates}
-            widthCols={this.props.widthCols}>
-            {this.getSeries().map(({renderType, title, field, data}, idx) => (
+            >
+            {this.getSeries().map(({renderType, title, type, data}, idx) => (
               <ChartSeries
-                dashStyle='Solid'
-                lineWidth={2}
-                key={field}
-                id={field}
-                title={SUPPORTED_CHART_SERIES[field].label}
+                key={title}
+                id={title}
+                type={renderType}
+                title={title}
                 data={data}
-                yField={field}
-                color={this.getSeriesColor(field)} />
-            ))}
+                dashStyle={"ShortDot"}
+                yField="torque"
+                lineWidth={renderType === 'line' ? 2 : 0}
+                color={this.getSeriesColor(type)} />
+            )).toJS()}
           </Chart> :
           <LoadingIndicator />}
       </div>
@@ -48,33 +58,51 @@ class TorqueApp extends Component {
     );
   }
 
+  getData() {
+    return subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS);
+  }
+
   getSeries() {
-    let data = subscriptions.selectors.firstSubData(this.props.data, SUBSCRIPTIONS).getIn(['data', 'points']);
-    data = this.props.convert.convertImmutables(data, "measured_depth", "length", 'ft')
-      .sortBy(d => d.get('measured_depth'));
-    // Converting y-axis values to their target unit.
-    for (let property in SUPPORTED_CHART_SERIES) {
-      if (SUPPORTED_CHART_SERIES.hasOwnProperty(property) && SUPPORTED_CHART_SERIES[property].hasOwnProperty("unitType")) {
-        data = this.props.convert.convertImmutables(data, property, SUPPORTED_CHART_SERIES[property].unitType, SUPPORTED_CHART_SERIES[property].unit);
-      }
-    }
-    return Object.keys(SUPPORTED_CHART_SERIES).map(s => this.getDataSeries(s, data));
+    return this.getPredictedCurveSeries()
+      .concat(this.getActualSeries());
   }
 
-  getDataSeries(field, data) {
-    return {
-      renderType: 'line',
-      title: field,
-      field,
-      data: data
-    };
+  getPredictedCurveSeries() {
+    return this.getData().getIn(['data', 'curves'], List())
+      .entrySeq()
+      .flatMap(([curveType, curves]) =>
+        curves.map((curve) => {
+          let points = curve.get('points');
+          points = this.props.convert.convertImmutables(points, 'torque', 'torque', 'ft-klbf');
+          return {
+            renderType: 'line',
+            title: `${SUPPORTED_CHART_SERIES[curveType].label} ${curve.get('openhole_friction_factor')}`,
+            type: curveType,
+            data: points
+          };
+        })
+      );
   }
 
-  getSeriesColor(field) {
-    if (this.props.graphColors && this.props.graphColors.has(field)) {
-      return this.props.graphColors.get(field);
+  getActualSeries() {
+    return this.getData().getIn(['data', 'actual'], List())
+      .entrySeq()
+      .map(([curveType, points]) => {
+        points = this.props.convert.convertImmutables(points, 'torque', 'torque', 'ft-klbf');
+        return {
+          renderType: 'scatter',
+          title: SUPPORTED_CHART_SERIES[curveType].label,
+          type: curveType,
+          data: points
+        };
+      });
+  }
+
+  getSeriesColor(seriesType) {
+    if (this.props.graphColors && this.props.graphColors.has(seriesType)) {
+      return this.props.graphColors.get(seriesType);
     } else {
-      return SUPPORTED_CHART_SERIES[field].defaultColor;
+      return SUPPORTED_CHART_SERIES[seriesType].defaultColor;
     }
   }
 
@@ -88,7 +116,6 @@ class TorqueApp extends Component {
     }
     return true;
   }
-
 }
 
 TorqueApp.propTypes = {
