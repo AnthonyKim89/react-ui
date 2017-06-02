@@ -9,9 +9,9 @@ class AssetStatus extends Component {
   
   render() {
     const status = this.props.asset.get('status');
-    return <span className="c-asset-status">
+    return <span className="c-asset-status-indicator">
       {this.isMarkerSupported() &&
-        <span className={`c-asset-status__marker c-asset-status__marker--${status}`} />}
+        <span className={`c-asset-status-indicator__marker c-asset-status-indicator__marker--${status}`} />}
       {capitalize(status)}
     </span>;
   }
