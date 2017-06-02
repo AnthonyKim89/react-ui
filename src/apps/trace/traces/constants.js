@@ -36,6 +36,7 @@ export const STATE_CATEGORY_MAP = {
   'Unclassified': "Other",
   'UnclassifiedPumpRot': "Other",
   'Static(Off bottom)': "Other",
+  'StaticRot(Off bottom Rot)': "Static Rotating",
   'CasingRunning': "Running Casing",
   'CasingTrippingIn': "Casing Trip In",
   'CementingAndWaiting': "Cementing",
@@ -57,5 +58,6 @@ export const ACTIVITY_COLORS = {
   'Other': '#d2dfd8',
   'Running Casing': '#e837f3',
   'Casing Trip In': '#f8a2fd',
-  'Cementing': '#47c7cf'
+  'Cementing': '#47c7cf',
+  'Static Rotating': '#dd9c10'
 };
