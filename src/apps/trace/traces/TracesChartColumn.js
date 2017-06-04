@@ -4,8 +4,6 @@ import { find } from 'lodash';
 import { Icon, Col } from 'react-materialize';
 import moment from 'moment';
 
-//import Chart from '../../../common/Chart';
-//import ChartSeries from '../../../common/ChartSeries';
 import Convert from '../../../common/Convert';
 import ReactEcharts from './echarts';
 

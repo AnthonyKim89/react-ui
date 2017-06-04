@@ -155,6 +155,17 @@ class TracesApp extends Component {
   }
 
   async updateFilteredData(start=null, end=null, triggeredByUser=false) {
+
+    if (!this.foobar) {
+      let params = fromJS({
+        current: new Date().getTime()/1000,
+        asset_id: 54,
+        limit: 100, // This is a year's worth of minutes. We're required to include a limit.
+      });
+      api.getAppStorage('corva', 'hydraulics.overview', 54, params);
+      this.foobar = true;
+    }
+
     if (triggeredByUser) {
       // We want to clear the detailed data timer if the user is actively scrolling.
       this.includeDetailedData = false;
