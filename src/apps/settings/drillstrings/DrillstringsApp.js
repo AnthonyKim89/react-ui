@@ -169,7 +169,7 @@ class DrillstringsApp extends Component {
           min_tj_od = this.props.convert.convertValue(DP_MIN_TJ_OD,"shortLength","in");
           max_tj_od = this.props.convert.convertValue(DP_MAX_TJ_OD,"shortLength","in");
           min_length = this.props.convert.convertValue(DP_MIN_LENGTH,"length","ft");
-          max_length = this.props.convert.convertValue(DP_MAX_LENGTH,"length","ft");
+          max_length = this.props.convert.convertValue(DP_MAX_LENGTH,"length","ft");          
           break;
 
         case 'hwdp':
@@ -235,7 +235,7 @@ class DrillstringsApp extends Component {
           break;
       }
 
-      if (!this.isValueEmpty(min_id) && min_od) {
+      if (!this.isValueEmpty(min_id) && !this.isValueEmpty(min_od)) {
         if (!this.isValidNumber(comp.inner_diameter,min_id,max_id)) {
           error["inner_diameter"] = `${min_id}~${max_id} (${shortLengthUnitDisplay})`;
           hasFormErrors = true;
@@ -265,7 +265,7 @@ class DrillstringsApp extends Component {
         }
       }
 
-      if (!this.isValueEmpty(min_tj_id) && max_tj_id) {
+      if (!this.isValueEmpty(min_tj_id) && !this.isValueEmpty(min_tj_od)) {
         if (!this.isValidNumber(comp.tool_joint_id,min_tj_id,max_tj_id)) {
           error["tool_joint_id"] = `${min_tj_id}~${max_tj_id} (${shortLengthUnitDisplay})`;
           hasFormErrors = true;
@@ -294,6 +294,12 @@ class DrillstringsApp extends Component {
         }
       }
 
+      if (!this.isValueEmpty(comp.tool_joint_length) && !this.isValueEmpty(comp.length)) {
+        if(comp.tool_joint_length > comp.length) {
+          error["tool_joint_length"] = `Tool Joint Length< Component Length`;
+          hasFormErrors = true;
+        }
+      }
 
       //specificErrors
       if (comp.family === 'bit') {
