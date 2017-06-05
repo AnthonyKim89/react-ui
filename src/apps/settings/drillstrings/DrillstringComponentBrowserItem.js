@@ -18,7 +18,7 @@ class DrillstringComponentBrowserItem extends Component {
       <td>{this.renderComponentLabelField('total_weight')}</td>
       <td>{this.renderComponentLabelField('grade')}</td>
       <td> 
-        <Button floating icon="view_headline" onClick={() => {this.props.viewMore(this.props.component.get('id')) }}></Button>
+        <Button floating icon="view_headline" onClick={() => {this.props.viewMore(this.props.component.get('id')); }}></Button>
       </td>
     </tr>;
 	}

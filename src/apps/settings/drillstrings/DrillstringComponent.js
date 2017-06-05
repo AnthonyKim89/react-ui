@@ -17,7 +17,7 @@ class DrillstringComponent extends Component {
     super(props);
     this.state = {
       viewComponentId: null
-    }
+    };
   }
 
   componentWillMount() {
@@ -84,13 +84,13 @@ class DrillstringComponent extends Component {
               key={idx}
               convert={this.props.convert}
               component={cmp}
-              viewMore={componentId=>{ this.setState({viewComponentId: componentId}) }} />)}
+              viewMore={componentId=>{ this.setState({viewComponentId: componentId}); }} />)}
         </tbody>
       </table>
 
       <Modal
         isOpen={this.state.viewComponentId? true: false}
-        onRequestClose={_=> {this.setState({viewComponentId: null})}}
+        onRequestClose={_=> {this.setState({viewComponentId: null}); }}
         contentLabel="View Component Detail">
         {this.state.viewComponentId &&
           <DrillstringComponentModal
