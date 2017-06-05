@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col } from 'react-materialize';
+import { Button,Col } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import './DrillstringComponentBrowserItem.css';
@@ -17,6 +17,9 @@ class DrillstringComponentBrowserItem extends Component {
       <td>{this.renderComponentLabelField('total_length')}</td>
       <td>{this.renderComponentLabelField('total_weight')}</td>
       <td>{this.renderComponentLabelField('grade')}</td>
+      <td> 
+        <Button floating icon="view_headline" onClick={() => {this.props.viewMore(this.props.component.get('id')) }}></Button>
+      </td>
     </tr>;
 	}
 

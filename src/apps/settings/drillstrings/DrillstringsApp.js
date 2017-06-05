@@ -144,8 +144,7 @@ class DrillstringsApp extends Component {
     let lengthUnitDisplay = this.props.convert.getUnitDisplay('length');
     let hasFormErrors = false;
     let errors = {};
-    let bitFamilyCount = 0;
-    let min_id,min_od,max_id,max_od,min_length,max_length,min_tj_id,max_tj_id,min_tj_od,max_tj_od;
+    let bitFamilyCount = 0;    
     errors["components"] = {};
     errors["specificErrors"] = {};
 
@@ -155,6 +154,7 @@ class DrillstringsApp extends Component {
     }
 
     for (let i=0; i < components.length; i++) {
+      let min_id,min_od,max_id,max_od,min_length,max_length,min_tj_id,max_tj_id,min_tj_od,max_tj_od;
       let comp = components[i];
       let error = {};
       switch(comp.family) {
