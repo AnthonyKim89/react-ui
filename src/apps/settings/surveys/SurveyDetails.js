@@ -3,6 +3,7 @@ import { Input, Button } from 'react-materialize';
 import { List, Map } from 'immutable';
 import numeral from 'numeral';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import uuidV1 from 'uuid/v1';
 
 import './SurveyDetails.css';
 
@@ -22,11 +23,12 @@ class SurveyDetails extends Component {
             <th>Measured Depth</th>
             <th>Inclination</th>
             <th>Azimuth</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {this.props.record.getIn(['data', 'stations'], List()).map((station, index) => 
-            <tr key={index}>
+            <tr key={uuidV1()}>
               <td>
                 <Input type="number" 
                   s={12}
@@ -51,6 +53,9 @@ class SurveyDetails extends Component {
                   defaultValue={numeral(station.get('azimuth')).format('0.0')}
                   onChange={e => this.onValueChange(index,'azimuth', e.target.value,true)}
                 />
+              </td>
+              <td>
+                <Button floating icon="delete" className="red" onClick={() => this.onDeleteSurveyItem(index)}></Button>
               </td>
             </tr>
           )}
@@ -113,6 +118,13 @@ class SurveyDetails extends Component {
       record = this.props.record.update('data', old => old.set('stations', List()));
     }
     this.props.onUpdateRecord(record.updateIn(['data', 'stations'], c => c.push(item)));
+  }
+
+  onDeleteSurveyItem(index) {     
+    
+    let a= this.props.record.deleteIn(['data', 'stations', index]);    
+    this.props.onUpdateRecord(a);
+    
   }
 
   onValueChange(idx,name, value,isNumber) {
