@@ -105,6 +105,16 @@ class TracesApp extends Component {
   }
 
   componentWillUpdate(nextProps) {
+    if(!this.props.data && nextProps.data) {
+      let latestData = subscriptions.selectors.getSubData(nextProps.data, latestSubscription);
+      console.log(JSON.stringify(latestData));
+      if(latestData) {
+        let end = latestData.get('timestamp');
+        let start = end - (60 * 60 * 4);
+        this.updateFilteredData(end - (60 * 60 * 4), end, false);
+      }
+    }
+
     let summaryData = subscriptions.selectors.getSubData(nextProps.data, summarySubscription, false);
     if (!summaryData) {
       return;
@@ -159,9 +169,9 @@ class TracesApp extends Component {
   }
 
   async updateFilteredData(start=null, end=null, triggeredByUser=false) {
-    if(!this.summaryData.size > 0) {
-      return;
-    }
+    //if(!this.summaryData.size > 0) {
+    //  return;
+    //}
 
     if (triggeredByUser) {
       // We want to clear the detailed data timer if the user is actively scrolling.
@@ -178,11 +188,18 @@ class TracesApp extends Component {
     start = start !== null ? start : this.state.start;
     end = end !== null ? end : this.state.end;
 
-    let firstTimestamp = this.summaryData.first().get("timestamp");
-    let lastTimestamp = this.summaryData.last().get("timestamp");
+    let firstTimestamp = 0, lastTimestamp = 0, startTS = 0, endTS = 0;
 
-    let startTS = firstTimestamp + start * (lastTimestamp - firstTimestamp);
-    let endTS = firstTimestamp + end * (lastTimestamp - firstTimestamp);
+    if(this.summaryData && this.summaryData.size > 0) {
+      firstTimestamp = this.summaryData.first().get("timestamp");
+      lastTimestamp = this.summaryData.last().get("timestamp");
+      startTS = firstTimestamp + start * (lastTimestamp - firstTimestamp);
+      endTS = firstTimestamp + end * (lastTimestamp - firstTimestamp);
+    }
+    else {
+      startTS = firstTimestamp = start;
+      endTS = lastTimestamp = end;
+    }
 
     // We will load either rough or find data depending on how long the user hasn't changed the slider
     let filteredData;
