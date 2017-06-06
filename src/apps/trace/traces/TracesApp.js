@@ -156,16 +156,6 @@ class TracesApp extends Component {
 
   async updateFilteredData(start=null, end=null, triggeredByUser=false) {
 
-    if (!this.foobar) {
-      let params = fromJS({
-        current: new Date().getTime()/1000,
-        asset_id: 54,
-        limit: 100, // This is a year's worth of minutes. We're required to include a limit.
-      });
-      api.getAppStorage('corva', 'hydraulics.overview', 54, params);
-      this.foobar = true;
-    }
-
     if (triggeredByUser) {
       // We want to clear the detailed data timer if the user is actively scrolling.
       this.includeDetailedData = false;
@@ -210,6 +200,15 @@ class TracesApp extends Component {
       let ts = point.get('timestamp');
       return ts >= Math.round(startTS) && ts <= Math.round(endTS);
     });
+
+    /*let params = fromJS({
+      asset_id: this.asset.get('id'),
+      sort: '{timestamp:1}',
+      fields: 'timestamp,data.recommended_minimum_flowrate',
+      limit: (endTS - startTS) / 1800, // This is a year's worth of minutes. We're required to include a limit.
+      where: `{(this.timestamp - (this.timestamp % 60)) == (this.timestamp - (this.timestamp % 1800))`
+    });
+    let predicted = await api.getAppStorage('corva', 'hydraulics.overview', 51, params);*/
   }
 
   async loadFineFilteredData(startTS, endTS) {

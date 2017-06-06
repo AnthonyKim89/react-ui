@@ -53,6 +53,9 @@
 .c-traces__container__edit-trace__dialog__title, .c-traces__container__edit-trace__dialog__subtitle {
     margin: 0;
 }
+.c-traces__container__edit-trace__dialog__type-picker {
+    margin-top: 15px;
+}
 .c-traces__container__edit-trace__overlay .slider-picker {
     margin-top: 0;
 }
