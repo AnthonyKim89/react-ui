@@ -236,7 +236,7 @@ class TracesBoxColumn extends Component {
 
       let box = {
         label: traceMeta.label,
-        value: this.props.data.getIn(['data', traceEntry.get('trace')], 0),
+        value: this.props.data ? this.props.data.getIn(['data', traceEntry.get('trace')], 0) : 0,
         display: "",
       };
 
@@ -266,7 +266,7 @@ class TracesBoxColumn extends Component {
 TracesBoxColumn.propTypes = {
   convert: React.PropTypes.instanceOf(Convert).isRequired,
   supportedTraces: PropTypes.array.isRequired,
-  data: ImmutablePropTypes.map.isRequired,
+  data: ImmutablePropTypes.map,
   onSettingChange: PropTypes.func.isRequired,
   traceBoxes: ImmutablePropTypes.list.isRequired,
 };

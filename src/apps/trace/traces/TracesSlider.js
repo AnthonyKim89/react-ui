@@ -24,7 +24,7 @@ class TracesSlider extends Component {
 
   render() {
     let series = this.getSeries();
-    let minValue = Math.min(...[series.minBy(x => x.get('hole_depth')).get('hole_depth'), series.minBy(x => x.get('bit_depth')).get('bit_depth')]) || 0;
+    let minValue = series && series.count > 0 ? Math.min(...[series.minBy(x => x.get('hole_depth')).get('hole_depth'), series.minBy(x => x.get('bit_depth')).get('bit_depth')]) || 0 : 0;
     return <div className="c-traces__slider">
       <div className="c-traces__slider-chart">
         <Chart

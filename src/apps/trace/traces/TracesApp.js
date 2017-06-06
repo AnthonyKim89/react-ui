@@ -35,11 +35,8 @@ class TracesApp extends Component {
   }
 
   render() {
-    if (!this.summaryData.size > 0) {
-      return <LoadingIndicator/>;
-    }
 
-    let latestData = subscriptions.selectors.getSubData(this.props.data, latestSubscription);
+    let latestData = this.props.data ? subscriptions.selectors.getSubData(this.props.data, latestSubscription): null;
     let supportedTraces = this.mergeSupportedTraces(latestData);
 
     return <div className="c-traces" onWheel={e => this.tracesSlider.scrollRange(e)}>
@@ -75,7 +72,14 @@ class TracesApp extends Component {
         traceBoxes={this.props.traceBoxes || new List()}
         data={latestData}
         onSettingChange={this.props.onSettingChange} />
+      {this.renderEmpty()}
     </div>;
+  }
+
+  renderEmpty() {
+    if (!this.summaryData.size > 0) {
+      return <div className="c-traces__loading"><LoadingIndicator/></div>;
+    }
   }
 
   mergeSupportedTraces(latestData) {
@@ -155,6 +159,9 @@ class TracesApp extends Component {
   }
 
   async updateFilteredData(start=null, end=null, triggeredByUser=false) {
+    if(!this.summaryData.size > 0) {
+      return;
+    }
 
     if (triggeredByUser) {
       // We want to clear the detailed data timer if the user is actively scrolling.

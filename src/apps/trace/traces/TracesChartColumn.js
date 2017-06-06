@@ -231,8 +231,8 @@ class TracesChartColumn extends Component {
       }
 
       // Converting the unit on the metadata display
-      let latestValue = props.latestData.getIn(['data', trace.trace], '');
-      if (unitType) {
+      let latestValue = props.latestData ? props.latestData.getIn(['data', trace.trace], '') : null;
+      if (latestValue && unitType) {
         let unitFrom = traceGraph.get('unitFrom');
         let unitTo = traceGraph.get('unitTo', null);
 
@@ -260,6 +260,8 @@ class TracesChartColumn extends Component {
         minValue -= minValue / 1000;
       }
 
+      latestValue = latestValue || '-';
+
       series.push({
         valid: true,
         field: trace.trace,
@@ -284,8 +286,8 @@ TracesChartColumn.propTypes = {
   convert: React.PropTypes.instanceOf(Convert).isRequired,
   supportedTraces: PropTypes.array.isRequired,
   traceGraphs: ImmutablePropTypes.list.isRequired,
-  data: ImmutablePropTypes.list.isRequired,
-  latestData: ImmutablePropTypes.map.isRequired,
+  data: ImmutablePropTypes.list,
+  latestData: ImmutablePropTypes.map,
   columnNumber: PropTypes.number.isRequired,
   totalColumns: PropTypes.number.isRequired,
   editTraceGraph: PropTypes.func.isRequired,
