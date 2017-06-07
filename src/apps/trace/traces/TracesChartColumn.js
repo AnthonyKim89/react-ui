@@ -3,9 +3,12 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { find } from 'lodash';
 import { Icon, Col } from 'react-materialize';
 import moment from 'moment';
+import { fromJS } from 'immutable';
 
 import Convert from '../../../common/Convert';
 import ReactEcharts from './echarts';
+import * as api from '../../../api';
+import { PREDICTED_TRACES } from '../constants';
 
 import './TracesChartColumn.css';
 
@@ -13,10 +16,15 @@ class TracesChartColumn extends Component {
 
   constructor(props) {
     super(props);
+    this.timerID = null;
+    this.predictedDataLoading = false;
 
     let data = this.getSeries(props);
 
     this.state = {
+      predictedData: {},
+      predictedStart: null,
+      predictedEnd: null,
       traces: this.getTraces(props),
       options: {
         animation: false,
@@ -79,6 +87,53 @@ class TracesChartColumn extends Component {
     });
   }
 
+  componentDidUpdate() {
+    clearInterval(this.timerID);
+
+    // We don't want to spam the API, so if all updates are paused for at least a half a second, we will check if we need new data and go get it.
+    this.timerID = setInterval(() => {
+
+      console.log("1");
+      if (this.predictedDataLoading) {
+        return;
+      }
+      console.log("2");
+      this.predictedDataLoading = true;
+      let newPredictedData = {};
+
+      this.props.traceGraphs.valueSeq().forEach((traceGraph, idx) => {
+
+        if (traceGraph.get('source') === 'predicted') {
+          //newPredictedData[traceGraph.get('trace')] = this.loadPredictedData(traceGraph);
+        }
+
+      });
+
+      this.setState({
+        predictedData: Object.assign(this.state.predictedData, newPredictedData),
+      });
+
+      this.predictedDataLoading = false;
+    }, (this.props.includeDetailedData ? 500 : 60000));
+  }
+
+  async loadPredictedData(traceGraph) {
+    let trace = find(PREDICTED_TRACES, {trace: traceGraph.get('trace')}) || null;
+    if (!trace || this.props.data.size === 0) {
+      return;
+    }
+
+    let params = fromJS({
+      asset_id: this.props.asset.get('id'),
+      sort: '{timestamp:1}',
+      fields: 'timestamp,'+trace.path.join('.'),
+      limit: (this.props.data.last().get('timestamp') - this.props.data.first().get('timestamp')) / 1800,
+      where: `{(this.timestamp - (this.timestamp % 60)) == (this.timestamp - (this.timestamp % 1800))}`
+    });
+
+    return await api.getAppStorage('corva', trace.collection, this.props.asset.get('id'), params);
+  }
+
   render() {
     let traceRowCount = this.props.traceRowCount !== undefined ? this.props.traceRowCount : 3;    
     return <Col className={"c-traces__chart-column c-traces__chart-column__"+this.props.totalColumns}>
@@ -123,7 +178,7 @@ class TracesChartColumn extends Component {
     props.traceGraphs.valueSeq().forEach((traceGraph, idx) => {
       let trace = find(props.supportedTraces, {trace: traceGraph.get('trace')}) || null;
 
-      if (!trace) {
+      if (!trace || traceGraph.get('source') === 'predicted') {
         series.push({
           name: '',
           type: 'line',
@@ -282,6 +337,7 @@ class TracesChartColumn extends Component {
 }
 
 TracesChartColumn.propTypes = {
+  asset: ImmutablePropTypes.map,
   traceRowCount: PropTypes.number,
   convert: React.PropTypes.instanceOf(Convert).isRequired,
   supportedTraces: PropTypes.array.isRequired,
@@ -292,6 +348,7 @@ TracesChartColumn.propTypes = {
   totalColumns: PropTypes.number.isRequired,
   editTraceGraph: PropTypes.func.isRequired,
   widthCols: PropTypes.number.isRequired,
+  includeDetailedData: PropTypes.bool,
 };
 
 export default TracesChartColumn;

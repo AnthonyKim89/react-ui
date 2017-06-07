@@ -5,6 +5,7 @@ import Modal from 'react-modal';
 import { SliderPicker } from 'react-color';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { find, isEqual } from 'lodash';
+import { PREDICTED_TRACES } from '../constants';
 
 import './TracesSettingsDialog.css';
 
@@ -81,7 +82,7 @@ class TracesSettingsDialog extends Component {
                    defaultValue={this.props.traceGraphs.getIn([this.state.traceEditIndex, 'trace'])}
                    ref={(input) => this.traceEditorGraph = input}>
               <option value="">&nbsp;</option>
-              {this.props.supportedTraces.map((trace, idx) => {
+              {this.getTraceChoices().map((trace, idx) => {
                 return <option key={idx} value={trace.trace}>{trace.label}</option>;
               })}
             </Input>
@@ -209,6 +210,13 @@ class TracesSettingsDialog extends Component {
         </Row>
       </div>}
     </Modal>;
+  }
+
+  getTraceChoices() {
+    if (this.state.traceSource === 'predicted') {
+      return PREDICTED_TRACES;
+    }
+    return this.props.supportedTraces;
   }
 
   shouldDisplayUnitOptions() {

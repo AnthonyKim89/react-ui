@@ -57,6 +57,7 @@ class TracesApp extends Component {
         latestData={latestData} />
       <TracesChartContainer
         data={this.state.filteredData}
+        asset={this.props.asset}
         latestData={latestData}
         widthCols={this.props.widthCols}
         onSettingChange={this.props.onSettingChange}
@@ -107,10 +108,8 @@ class TracesApp extends Component {
   componentWillUpdate(nextProps) {
     if(!this.props.data && nextProps.data) {
       let latestData = subscriptions.selectors.getSubData(nextProps.data, latestSubscription);
-      console.log(JSON.stringify(latestData));
       if(latestData) {
         let end = latestData.get('timestamp');
-        let start = end - (60 * 60 * 4);
         this.updateFilteredData(end - (60 * 60 * 4), end, false);
       }
     }
@@ -224,15 +223,6 @@ class TracesApp extends Component {
       let ts = point.get('timestamp');
       return ts >= Math.round(startTS) && ts <= Math.round(endTS);
     });
-
-    /*let params = fromJS({
-      asset_id: this.asset.get('id'),
-      sort: '{timestamp:1}',
-      fields: 'timestamp,data.recommended_minimum_flowrate',
-      limit: (endTS - startTS) / 1800, // This is a year's worth of minutes. We're required to include a limit.
-      where: `{(this.timestamp - (this.timestamp % 60)) == (this.timestamp - (this.timestamp % 1800))`
-    });
-    let predicted = await api.getAppStorage('corva', 'hydraulics.overview', 51, params);*/
   }
 
   async loadFineFilteredData(startTS, endTS) {
