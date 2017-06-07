@@ -1,7 +1,8 @@
 export const CATEGORY = 'hydraulics';
 export const NAME = 'overview';
 export const SUBSCRIPTIONS = [
-  {provider: 'corva', collection: 'hydraulics.overview'}
+  {provider: 'corva', collection: 'hydraulics.overview'},
+  {provider: 'corva', collection: 'wits'}
 ];
 export const METADATA = {
   title: 'Hole Cleaning',
