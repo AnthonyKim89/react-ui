@@ -83,7 +83,7 @@ class OperatingConditionApp extends Component {
   get maxVisibleDifferentialPressure() {
     let data = subscriptions.selectors.firstSubData(
       this.props.data, SUBSCRIPTIONS).getIn(['data', 'torque_line']);
-    return data.last().get('differential_pressure');
+    return data ? data.last().get('differential_pressure') : 0;
   }
 
   /**
@@ -108,11 +108,11 @@ class OperatingConditionApp extends Component {
 
   get xPlotBands() {
     let data = subscriptions.selectors.firstSubData(
-      this.props.data, SUBSCRIPTIONS).getIn(['data', 'limits']).toJSON();
-    let transitionalDifferentialPressureLimit = this.props.convert.convertValue(
-        data.transitional_differential_pressure_limit, 'pressure', 'psi');
-    let maxDifferentialPressure = this.props.convert.convertValue(
-        data.max_differential_pressure, 'pressure', 'psi');
+      this.props.data, SUBSCRIPTIONS).getIn(['data', 'limits']);
+    let transitionalDifferentialPressureLimit = data ? this.props.convert.convertValue(
+        data.transitional_differential_pressure_limit, 'pressure', 'psi') : 0;
+    let maxDifferentialPressure = data ? this.props.convert.convertValue(
+        data.max_differential_pressure, 'pressure', 'psi') : 0;
     let transitionalDifferentialPressureLimitBand = {
       color: 'rgba(255, 255, 0, 0.25)',
       from: transitionalDifferentialPressureLimit,
@@ -144,7 +144,7 @@ class OperatingConditionApp extends Component {
       color: 'rgba(0, 0, 0, 0)',
       dashStyle: 'dash',
       label: {text: 'Transitional Differential Pressure Limit', style: {color: 'white'}},
-      value: this.props.convert.convertValue(data.limits.transitional_differential_pressure_limit, 'pressure', 'psi'),
+      value: data && data.limits ? this.props.convert.convertValue(data.limits.transitional_differential_pressure_limit, 'pressure', 'psi') : 0,
       width: 2,
       zIndex: 5
     };
@@ -152,7 +152,7 @@ class OperatingConditionApp extends Component {
       color: 'rgba(0, 0, 0, 0)',
       dashStyle: 'dash',
       label: {text: 'Max ODP', style: {color: 'white'}},
-      value: this.props.convert.convertValue(data.limits.max_differential_pressure, 'pressure', 'psi'),
+      value: data && data.limits ? this.props.convert.convertValue(data.limits.max_differential_pressure, 'pressure', 'psi') : 0,
       width: 2,
       zIndex: 5
     };
@@ -176,7 +176,7 @@ class OperatingConditionApp extends Component {
 
   getTorqueSeries() {
     let data = subscriptions.selectors.firstSubData(
-      this.props.data, SUBSCRIPTIONS).getIn(['data', 'torque_line']).toJSON();
+      this.props.data, SUBSCRIPTIONS).getIn(['data', 'torque_line']);
     return Object.assign(this.torqueAxis, {
       data: List(this.formatSeriesData(data, 'torque', 'torque', 'ft-klbf'))
     });
@@ -197,23 +197,26 @@ class OperatingConditionApp extends Component {
 
   getFlowRateSeries() {
     let data = subscriptions.selectors.firstSubData(
-      this.props.data, SUBSCRIPTIONS).getIn(['data', 'flow_rate_lines']).toJSON();
-    return data.map((flowRateSeries) => {
-      flowRateSeries.curve = this.props.convert.convertArray(
-        flowRateSeries.curve, 'differential_pressure', 'pressure', 'psi');
-      flowRateSeries.curve = flowRateSeries.curve.map((datum) => {
-        return Map({
-          differential_pressure: datum.differential_pressure,
-          value: datum.rpm
+      this.props.data, SUBSCRIPTIONS).getIn(['data', 'flow_rate_lines']);
+    if(data) {
+      return data.map((flowRateSeries) => {
+        flowRateSeries.curve = this.props.convert.convertArray(
+          flowRateSeries.curve, 'differential_pressure', 'pressure', 'psi');
+        flowRateSeries.curve = flowRateSeries.curve.map((datum) => {
+          return Map({
+            differential_pressure: datum.differential_pressure,
+            value: datum.rpm
+          });
+        });
+        let flowRate = this.props.convert.convertValue(flowRateSeries.flow_rate, 'volume', 'gal');
+        let title = `RPM @ ${flowRate} ${this.props.convert.getUnitDisplay('volume')}pm`;
+        return Object.assign(this.flowRateAxis, {
+          data: List(flowRateSeries.curve),
+          title: title
         });
       });
-      let flowRate = this.props.convert.convertValue(flowRateSeries.flow_rate, 'volume', 'gal');
-      let title = `RPM @ ${flowRate} ${this.props.convert.getUnitDisplay('volume')}pm`;
-      return Object.assign(this.flowRateAxis, {
-        data: List(flowRateSeries.curve),
-        title: title
-      });
-    });
+    }
+    return [];
   }
 
   get flowRateAxis() {
@@ -257,12 +260,14 @@ class OperatingConditionApp extends Component {
   formatSeriesData(data, valueName, valueCategory, valueUnit) {
     data = this.props.convert.convertArray(data, 'differential_pressure', 'pressure', 'psi');
     data = this.props.convert.convertArray(data, valueName, valueCategory, valueUnit);
-    data = data.map((datum) => {
-      return Map({
-        differential_pressure: datum.differential_pressure,
-        value: datum[valueName]
+    if(data) {
+      data = data.map((datum) => {
+        return Map({
+          differential_pressure: datum.differential_pressure,
+          value: datum[valueName]
+        });
       });
-    });
+    }
     return data;
   }
 

@@ -44,6 +44,10 @@
   background-color:#20db17;
 }
 
+.c-asset-status-bar.asset-status-idle {
+  background-color:#9a9a9a;
+}
+
 .c-asset-status-bar.asset-status-warning {
   background-color: yellow;
 }

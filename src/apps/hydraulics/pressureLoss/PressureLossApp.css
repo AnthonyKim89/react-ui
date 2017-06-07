@@ -8,10 +8,43 @@
 }
 
 .c-hydraulics-pressure-loss div.row.chart-panel {
-  height: 100%;
+  height: calc(100% - 70px);
   padding-top: 10px;
 }
 
 .c-hydraulics-pressure-loss .chart-panel div.col {
   height: 100%;
+}
+
+.c-hydraulics-pressure-loss-statistics {
+
+}
+
+.c-hydraulics-pressure-loss-statistics__column {
+  display: inline-block;
+  width: 50%;
+  vertical-align: top;
+}
+
+.c-hydraulics-pressure-loss-statistics p {
+  margin-bottom: 0px;
+}
+
+.c-hydraulics-pressure-loss-statistics .value {
+  font-weight: bold;
+  font-size: 4vw;
+  line-height: 1;
+  margin-top: 5px;
+  margin-bottom: -10px;
+}
+
+
+.c-hydraulics-pressure-loss-statistics .value span {
+    font-size: 1rem;
+}
+
+.c-hydraulics-pressure-loss-statistics-difference {
+  line-height: 0px;
+  transform: translate(0px, 25px);
+  color: #9a9a9a;
 }
