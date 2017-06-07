@@ -76,8 +76,7 @@ export function lastDataUpdate(appData) {
   if (!appData) {
     return null;
   }
-
-  return appData
+  let date = appData
     .valueSeq()
     .map(collection => collection.valueSeq())
       .last()
@@ -86,4 +85,20 @@ export function lastDataUpdate(appData) {
     .flatten()
     .filter(identity)
     .max();
+
+    // When there is an array of results we must use a different selector
+    if(!date) {
+      date = appData
+        .valueSeq()
+        .map(collection => collection.valueSeq())
+          .last()
+          .flatten(1)
+          .last()
+          .map(d => d.get('timestamp'))
+        .flatten()
+        .filter(identity)
+        .max();
+    }
+
+  return date;
 }
