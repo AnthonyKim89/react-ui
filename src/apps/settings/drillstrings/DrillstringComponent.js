@@ -28,7 +28,6 @@ class DrillstringComponent extends Component {
 	render() {
 
     if (this.props.isEditable) {
-      console.log(this.props.errors);
       let commonProps = {
         convert: this.props.convert,
         errors: this.props.errors && this.props.errors["components"]? this.props.errors["components"]: null,

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Button, Input, Row, Col } from 'react-materialize';
 import { List, Map } from 'immutable';
 
-import { COMPONENT_FAMILIES, COMPONENT_GRADES, COMPONENT_MATERIALS, COMPONENT_CATALOGUES, HWDP_SUB_CATEGORIES, DC_SUB_CATEGORIES, JAR_SUB_CATEGORIES } from './constants';
+import { COMPONENT_FAMILIES, COMPONENT_GRADES, COMPONENT_MATERIALS, COMPONENT_CATALOGUES, DC_SUB_CATEGORIES, JAR_SUB_CATEGORIES } from './constants';
 
 import './DrillstringComponentEditorItem.css';
 
@@ -21,26 +21,22 @@ class DrillstringComponentEditorItem extends Component {
   render() {
     return <div className="c-drillstring-component-editor-item">
       <Row>
-        <Col s={1}>
+        <Col m={1} s={12}>
           {this.props.dragHandle(this.renderComponentImage())}
+          <div>
+            <br/>
+            <Button floating icon="delete" className="red" onClick={() => this.props.commonProps.onDeleteComponent(this.props.item.get('id'))}></Button>
+          </div>
         </Col>
-        <Col s={11}>
+        <Col m={11} s={12}>
           {this.renderComponent()}
         </Col>
       </Row>
-
-      <Row>
-        <Col s={11}></Col>
-        <Col s={1}>
-          <Button floating icon="delete" className="red" onClick={() => this.props.commonProps.onDeleteComponent(this.props.item.get('id'))}></Button>
-        </Col>
-      </Row>
-      
     </div>;
   }
 
   renderComponentImage() {
-    return <div className={`c-drillstring-component-image                              
+    return <div className={`c-drillstring-component-image
                               c-drillstring-component-image--${this.props.item.get('family')}`}>
       </div>;
   }
@@ -73,23 +69,26 @@ class DrillstringComponentEditorItem extends Component {
   renderComponentDP() {
     return [      
       <Row key="dp-1">
-        {this.renderComponentSelectField('family', 1, COMPONENT_FAMILIES)}
+        {this.renderComponentSelectField('family', 2, COMPONENT_FAMILIES)}
         {this.renderComponentTextField("name", "Name", 2)}
-        {this.renderComponentNumberField("outer_diameter","OD",1,'shortLength','in')}
-        {this.renderComponentNumberField("inner_diameter","ID",1,'shortLength','in')}
-        {this.renderComponentNumberField("number_of_joint","# of Joints",1)}        
-        {this.renderComponentNumberField("length", "Component Length", 1,"length","ft")}
-        {this.renderComponentLabelField("total_length", "Total Length", 1,"length","ft")}
-        {this.renderComponentNumberField("adjust_linear_weight", "Adjust Linear Weight", 2,"massPerLength","lb-ft")}
-        {this.renderComponentLabelField("total_weight", "Total Weight", 1, "mass","lb")}
-        {this.renderComponentSelectField('grade', 1, COMPONENT_GRADES)}
+        {this.renderComponentNumberField("outer_diameter","OD",2,'shortLength','in')}
+        {this.renderComponentNumberField("inner_diameter","ID",2,'shortLength','in')}
+        {this.renderComponentNumberField("number_of_joint","# of Joints",2)}
+        {this.renderComponentNumberField("length", "Component Length", 2,"length","ft")}        
       </Row>,
-        
+      
       <Row key="dp-2">
-        {this.renderComponentNumberField("tool_joint_od", "TJ OD", 1)}
-        {this.renderComponentNumberField("tool_joint_id", "TJ ID", 1)}
-        {this.renderComponentNumberField("tool_joint_length", "TJ Length per Joint", 2)}        
-        {this.renderComponentNumberField("norminal_linear_weigth", "Norminal Linear Weight", 2)}
+        {this.renderComponentLabelField("total_length", "Total Length", 2,"length","ft")}
+        {this.renderComponentNumberField("adjust_linear_weight", "Adjust Linear Weight",2,"massPerLength","lb-ft")}
+        {this.renderComponentLabelField("total_weight", "Total Weight", 2, "mass","lb")}
+        {this.renderComponentSelectField('grade', 2, COMPONENT_GRADES)}
+        {this.renderComponentNumberField("tool_joint_od", "TJ OD", 2)}
+        {this.renderComponentNumberField("tool_joint_id", "TJ ID", 2)}
+      </Row>,
+
+      <Row key="dp-3">      
+        {this.renderComponentNumberField("tool_joint_length", "TJ Length per Joint", 3)}
+        {this.renderComponentNumberField("norminal_linear_weigth", "Norminal Linear Weight", 3)}
         {this.renderComponentTextField("connection_type", "Connection Type", 2)}
         {this.renderComponentSelectField('material', 2, COMPONENT_MATERIALS)}
         {this.renderComponentTextField("class", "Class", 2)}
@@ -100,49 +99,52 @@ class DrillstringComponentEditorItem extends Component {
   renderComponentHWDP() {
     return [
       <Row key="hwdp-1">
-        {this.renderComponentSelectField('family', 1, COMPONENT_FAMILIES)}
-        {this.renderComponentTextField("name", "Name", 1)}
-        {this.renderComponentSelectField('sub_category', 1, HWDP_SUB_CATEGORIES)}
-        {this.renderComponentNumberField("outer_diameter","OD",1,'shortLength','in')}
-        {this.renderComponentNumberField("inner_diameter","ID",1,'shortLength','in')}
-        {this.renderComponentNumberField("number_of_joint","# of Joints",1)}        
-        {this.renderComponentNumberField("length", "Component Length", 1,"length","ft")}
-        {this.renderComponentLabelField("total_length", "Total Length", 1,"length","ft")}
-        {this.renderComponentNumberField("adjust_linear_weight", "Adjust Linear Weight", 2,"massPerLength","lb-ft")}
-        {this.renderComponentLabelField("total_weight", "Total Weight", 1, "mass","lb")}
-        {this.renderComponentSelectField('grade', 1, COMPONENT_GRADES)}
+        {this.renderComponentSelectField('family', 2, COMPONENT_FAMILIES)}
+        {this.renderComponentTextField("name", "Name", 2)}
+        {this.renderComponentNumberField("outer_diameter","OD",2,'shortLength','in')}
+        {this.renderComponentNumberField("inner_diameter","ID",2,'shortLength','in')}
+        {this.renderComponentNumberField("number_of_joint","# of Joints",2)}
+        {this.renderComponentNumberField("length", "Component Length", 2, "length","ft")}
       </Row>,
 
-      <Row key="hwdp-2">
-        {this.renderComponentNumberField("tool_joint_od", "TJ OD", 1)}
-        {this.renderComponentNumberField("tool_joint_id", "TJ ID", 1)}
-        {this.renderComponentNumberField("tool_joint_length", "TJ Length per Joint", 2)}        
+      <Row key="hwdp-2">        
+        {this.renderComponentLabelField("total_length", "Total Length", 2,"length","ft")}
+        {this.renderComponentNumberField("adjust_linear_weight", "Adjust Linear Weight", 2,"massPerLength","lb-ft")}
+        {this.renderComponentLabelField("total_weight", "Total Weight", 2, "mass","lb")}
         {this.renderComponentNumberField("norminal_linear_weigth", "Norminal Linear Weight", 2)}
+        {this.renderComponentSelectField('grade', 2, COMPONENT_GRADES)}
+      </Row>,
+
+      <Row key="hwdp-3">
+        {this.renderComponentNumberField("tool_joint_od", "TJ OD", 2)}
+        {this.renderComponentNumberField("tool_joint_id", "TJ ID", 2)}
+        {this.renderComponentNumberField("tool_joint_length", "TJ Length per Joint", 2)}
         {this.renderComponentTextField("connection_type", "Connection Type", 2)}
         {this.renderComponentSelectField('material', 2, COMPONENT_MATERIALS)}
         {this.renderComponentTextField("class", "Class", 2)}
-      </Row>   
+      </Row>
     ];
   }
 
   renderComponentPDM() {
     return [
       <Row key="pdm-1">
-        {this.renderComponentSelectField('family', 1, COMPONENT_FAMILIES)}
+        {this.renderComponentSelectField('family', 2, COMPONENT_FAMILIES)}
         {this.renderComponentTextField("name", "Name", 2)}
-        {this.renderComponentNumberField("outer_diameter","OD",1,'shortLength','in')}
-        {this.renderComponentNumberField("inner_diameter","ID",1,'shortLength','in')}
+        {this.renderComponentNumberField("outer_diameter","OD",2,'shortLength','in')}
+        {this.renderComponentNumberField("inner_diameter","ID",2,'shortLength','in')}
         {this.renderComponentNumberField("length", "Component Length", 2,"length","ft")}
-        {this.renderComponentLabelField("total_length", "Total Length", 1,"length","ft")}
-        {this.renderComponentNumberField("adjust_linear_weight", "Adjust Linear Weight", 2,"massPerLength","lb-ft")}
-        {this.renderComponentLabelField("total_weight", "Total Weight", 1, "mass","lb")}
-        {this.renderComponentSelectField('info', 1, COMPONENT_CATALOGUES)}
+        {this.renderComponentLabelField("total_length", "Total Length", 1,"length","ft")}        
+        
       </Row>,
       
       <Row key="pdm-2">
-        {this.renderComponentNumberField('number_rotor_lobes', '# of rotor lobes',4)}
-        {this.renderComponentNumberField('number_stator_lobes', '# of stator lobes',4)}
-        {this.renderComponentNumberField('rpg', 'RPG',4)}
+        {this.renderComponentNumberField("adjust_linear_weight", "Adjust Linear Weight", 2,"massPerLength","lb-ft")}
+        {this.renderComponentLabelField("total_weight", "Total Weight", 2, "mass","lb")}
+        {this.renderComponentSelectField('info', 2, COMPONENT_CATALOGUES)}        
+        {this.renderComponentNumberField('number_rotor_lobes', '# of rotor lobes',2)}
+        {this.renderComponentNumberField('number_stator_lobes', '# of stator lobes',2)}
+        {this.renderComponentNumberField('rpg', 'RPG',2)}
       </Row>
     ];
   }
@@ -157,42 +159,47 @@ class DrillstringComponentEditorItem extends Component {
         {this.renderComponentNumberField("total_weight", "Total Weight", 2, "mass","lb")}
       </Row>,
       <Row key="bit-nozzles">        
-        <Col s={10}>
-          <h4>Nozzle Sizes</h4>
-          <table>
-            <thead>
-              <tr>
-                <th>Nozzle Size</th>
-                <th> # of this size </th>
-              </tr>
-            </thead>
-            <tbody>
-            {this.props.item.get('nozzle_sizes',List([])).map((nozzle, index)=> {
-              return (
-                <tr key={index}>
-                  <td>
-                    {this.renderNozzleNumberField(index,"size")}
-                  </td>
-                  <td>
-                    {this.renderNozzleNumberField(index,"count")}
-                  </td>
-                  <td>
-                    <Button floating icon="delete" className="red" onClick={() => this.onDeleteNozzle(index)}></Button>
-                  </td>
+        <Col s={12} m={8} l={4}>
+          <div>
+            <span style={{fontSize:"20px", marginRight: "20px"}}> Nozzle Sizes</span>
+            <Button floating icon="add" onClick={() => this.onAddNozzle()}></Button>
+          </div>
+
+          {this.props.item.get('nozzle_sizes',List([])).size > 0 &&
+            <table className="c-drillstring-component-editor-item__nozzle-table">
+              <thead>
+                <tr>
+                  <th>Nozzle Size</th>
+                  <th> # of this size </th>
                 </tr>
-              );
-            })}
-            </tbody>
-          </table>
-          <Button floating icon="add" onClick={() => this.onAddNozzle()}></Button>
+              </thead>
+              <tbody>
+              {this.props.item.get('nozzle_sizes',List([])).map((nozzle, index)=> {
+                return (
+                  <tr key={index}>
+                    <td>
+                      {this.renderNozzleNumberField(index,"size")}
+                    </td>
+                    <td>
+                      {this.renderNozzleNumberField(index,"count")}
+                    </td>
+                    <td>
+                      <Button floating icon="remove" className="red" onClick={() => this.onDeleteNozzle(index)}></Button>
+                    </td>
+                  </tr>
+                );
+              })}
+              </tbody>
+            </table>
+          }
         </Col>        
       </Row>,
       <Row key="bit-3">
         {this.renderComponentTextField("shank_od", "Shank OD", 2)}
         {this.renderComponentTextField("make", "Make", 2)}
         {this.renderComponentTextField("serial_number", "Serrial Number", 2)}
-        {this.renderComponentTextField("model", "Model", 3)}
-        {this.renderComponentNumberField("tfa", "TFA", 3)}
+        {this.renderComponentTextField("model", "Model", 2)}
+        {this.renderComponentNumberField("tfa", "TFA", 2)}
       </Row>
     ];
   }
@@ -200,21 +207,21 @@ class DrillstringComponentEditorItem extends Component {
   renderComponentDC() {
     return [
       <Row key="dc-1">
-        {this.renderComponentSelectField('family', 1, COMPONENT_FAMILIES)}
+        {this.renderComponentSelectField('family', 2, COMPONENT_FAMILIES)}
         {this.renderComponentTextField("name", "Name", 2)}
-        {this.renderComponentSelectField('sub_category', 1, DC_SUB_CATEGORIES)}
-        {this.renderComponentNumberField("outer_diameter","OD",1,'shortLength','in')}
-        {this.renderComponentNumberField("inner_diameter","ID",1,'shortLength','in')}
+        {this.renderComponentSelectField('sub_category', 2, DC_SUB_CATEGORIES)}
+        {this.renderComponentNumberField("outer_diameter","OD",2,'shortLength','in')}
+        {this.renderComponentNumberField("inner_diameter","ID",2,'shortLength','in')}
         {this.renderComponentNumberField("number_of_joint","# of Joints",2)}
-        {this.renderComponentNumberField("length", "Component Length", 2,"length","ft")}
-        {this.renderComponentLabelField("total_length", "Total Length", 2,"length","ft")}
       </Row>,
 
       <Row key="dc-2">
-        {this.renderComponentNumberField("adjust_linear_weight", "Adjust Linear Weight", 3,"massPerLength","lb-ft")}
-        {this.renderComponentLabelField("total_weight", "Total Weight", 3, "mass","lb")}
-        {this.renderComponentTextField("connection_type", "Connection Type", 3)}
-        {this.renderComponentSelectField('material', 3, COMPONENT_MATERIALS)}
+        {this.renderComponentNumberField("length", "Component Length", 2,"length","ft")}
+        {this.renderComponentLabelField("total_length", "Total Length", 2,"length","ft")}
+        {this.renderComponentNumberField("adjust_linear_weight", "Adjust Linear Weight", 2 ,"massPerLength","lb-ft")}
+        {this.renderComponentLabelField("total_weight", "Total Weight", 2, "mass","lb")}
+        {this.renderComponentTextField("connection_type", "Connection Type", 2)}
+        {this.renderComponentSelectField('material', 2, COMPONENT_MATERIALS)}
       </Row>   
     ];
   }
@@ -243,18 +250,18 @@ class DrillstringComponentEditorItem extends Component {
   renderComponentStabilizer() {
     return [
       <Row key="stabilizer-1">
-        {this.renderComponentSelectField('family', 1, COMPONENT_FAMILIES)}
+        {this.renderComponentSelectField('family', 2 , COMPONENT_FAMILIES)}
         {this.renderComponentTextField("name", "Name", 2)}
         {this.renderComponentNumberField("outer_diameter","OD",1,'shortLength','in')}
         {this.renderComponentNumberField("inner_diameter","ID",1,'shortLength','in')}
-        {this.renderComponentNumberField("length", "Component Length", 1,"length","ft")}
-        {this.renderComponentLabelField("total_length", "Total Length", 2,"length","ft")}
-        {this.renderComponentNumberField("adjust_linear_weight", "Adjust Linear Weight", 2,"massPerLength","lb-ft")}
-        {this.renderComponentLabelField("total_weight", "Total Weight", 2, "mass","lb")}
+        {this.renderComponentNumberField("length", "Component Length", 2, "length","ft")}
+        {this.renderComponentLabelField("total_length", "Total Length", 2, "length","ft")}
+        {this.renderComponentNumberField("adjust_linear_weight", "Adjust Linear Weight",2, "massPerLength","lb-ft")}        
       </Row>,
 
       <Row key="stabilizer-2">
-        {this.renderComponentNumberField("gauge_od", "Gauge OD", 2)}
+        {this.renderComponentLabelField("total_weight", "Total Weight", 1, "mass","lb")}
+        {this.renderComponentNumberField("gauge_od", "Gauge OD", 1)}
         {this.renderComponentNumberField("gauge_length", "Gauge Length", 2)}
         {this.renderComponentNumberField("no_of_blades", "# of Blades", 2)}
         {this.renderComponentNumberField("blade_width", "Blade Width", 2)}
@@ -289,20 +296,19 @@ class DrillstringComponentEditorItem extends Component {
   renderComponentMWD() {
     return [
       <Row key="mwd-1">
-        {this.renderComponentSelectField('family', 1, COMPONENT_FAMILIES)}
+        {this.renderComponentSelectField('family', 2, COMPONENT_FAMILIES)}
         {this.renderComponentTextField("name", "Name", 2)}
-        {this.renderComponentNumberField("outer_diameter","OD",1,'shortLength','in')}
-        {this.renderComponentNumberField("inner_diameter","ID",1,'shortLength','in')}
-        {this.renderComponentNumberField("length", "Component Length", 1,"length","ft")}
-        {this.renderComponentLabelField("total_length", "Total Length", 1,"length","ft")}
-        {this.renderComponentNumberField("adjust_linear_weight", "Adjust Linear Weight", 2,"massPerLength","lb-ft")}
-        {this.renderComponentLabelField("total_weight", "Total Weight", 1, "mass","lb")}
-        {this.renderComponentTextField("connection_type", "Connection Type", 1)}
-        {this.renderComponentSelectField('material', 1, COMPONENT_MATERIALS)}
+        {this.renderComponentNumberField("outer_diameter","OD",2,'shortLength','in')}
+        {this.renderComponentNumberField("inner_diameter","ID",2,'shortLength','in')}
+        {this.renderComponentNumberField("length", "Component Length", 2,"length","ft")}
+        {this.renderComponentLabelField("total_length", "Total Length", 2,"length","ft")}                
       </Row>,
 
       <Row key="mwd-2">
-        {this.renderComponentTextField("sensor_to_bit_distance","Sensor to bit distance",3)}
+        {this.renderComponentNumberField("adjust_linear_weight", "Adjust Linear Weight", 3,"massPerLength","lb-ft")}
+        {this.renderComponentLabelField("total_weight", "Total Weight", 2, "mass","lb")}
+        {this.renderComponentTextField("connection_type", "Connection Type", 2)}
+        {this.renderComponentSelectField('material', 2, COMPONENT_MATERIALS)}
       </Row>   
     ];
   }
@@ -312,12 +318,28 @@ class DrillstringComponentEditorItem extends Component {
     if (field === 'number_of_joint') {
       value = 1;
     }
+
+    let numberFormat;
+
     if (value!=='' && unitType && unit) {
+      numberFormat='0.00';
       value = this.props.commonProps.convert.convertValue(value,unitType,unit);
+    };
+    
+    if (value!=='' && !unitType && !unit) {
+      numberFormat='0';
     }
+
+    if (field === 'tfa')  {
+      numberFormat = '0.00';
+    }
+
+    if (numberFormat) {
+      value = value.formatNumeral(numberFormat);
+    }
+    
     let errors = this.props.commonProps.errors;
     let compId = this.props.item.get('id');
-
     return <Input type="number"
                   label={label}
                   m={colSize}
@@ -351,14 +373,39 @@ class DrillstringComponentEditorItem extends Component {
   }
 
   renderComponentLabelField(field,label="",colSize=2,unitType,unit) {
-    let value = this.props.item.get(field, '');
-    if (value!=='' && unitType && unit) {
-      value = this.props.commonProps.convert.convertValue(value,unitType,unit).formatNumeral('0.0');
+    let value = this.props.item.get(field,'');
+    
+    let numberFormat;
+    if (!isNaN(value)) {
+      if (unitType && unit) {
+        numberFormat='0.00';
+        value = this.props.commonProps.convert.convertValue(value,unitType,unit);
+      };
+      
+      if (!unitType && !unit) {
+        numberFormat='0';
+      }
+
+      if (field === 'tfa')  {
+        numberFormat = '0.00';
+      }
     }
+
+    if (numberFormat && value.formatNumeral) {
+      value = value.formatNumeral(numberFormat);
+    }
+
+    let errors = this.props.commonProps.errors;
+    let compId = this.props.item.get('id');
+
     return <Col m={colSize} s={12}>
-      <label>{label}</label>
-      <br/>
-      <label>{value}</label>
+      {errors && errors[compId] && errors[compId][field]?
+        <label style={{color:"red"}}>{errors[compId][field]}</label>:
+        <label>{label}</label>
+      }
+      <br/>      
+      <label>{value!=='' ? value: "N/A"}</label>
+      
     </Col>;
   }
 
@@ -440,7 +487,7 @@ class DrillstringComponentEditorItem extends Component {
 
     if (linearWeight>=0) {
       nameValuePairs.push({name:"adjust_linear_weight", value: linearWeight});
-      ReactDOM.findDOMNode(this.refs.adjust_linear_weight).children[0].value = linearWeight.formatNumeral('0.0');
+      ReactDOM.findDOMNode(this.refs.adjust_linear_weight).children[0].value = linearWeight.formatNumeral('0.00');
       ReactDOM.findDOMNode(this.refs.adjust_linear_weight).children[1].className="active";
     }
 
@@ -491,7 +538,7 @@ class DrillstringComponentEditorItem extends Component {
 
     this.props.commonProps.onComponentFieldChange(this.props.item.get('id'), "tfa", tfa);
 
-    ReactDOM.findDOMNode(this.refs.tfa).children[0].value = tfa.formatNumeral('0.0');
+    ReactDOM.findDOMNode(this.refs.tfa).children[0].value = tfa.formatNumeral('0.00');
     ReactDOM.findDOMNode(this.refs.tfa).children[1].className="active";
   }
 

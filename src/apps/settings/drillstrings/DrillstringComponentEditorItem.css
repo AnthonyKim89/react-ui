@@ -1,3 +1,32 @@
 .c-drillstring-component-editor-item {
   border-bottom: 1px solid #666666;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  margin-bottom: 10px;
 }
+
+.c-drillstring-component-editor-item .row {
+  margin-bottom: 0px;
+}
+
+.c-drillstring-component-editor-item .input-field.col label{
+  width: 100%;
+}
+
+.c-drillstring-component-editor-item .input-field.col label:after{
+  top:40px;
+}
+
+.c-drillstring-component-editor-item .select-wrapper ul {
+  width: 160px !important;
+}
+
+.c-drillstring-component-editor-item__nozzle-table td {
+  padding: 0px;
+}
+
+.c-drillstring-component-editor-item__nozzle-table .input-field {
+  padding: 0 10px 0 0 !important;
+  margin-top: 0px;
+}
+

@@ -3,17 +3,17 @@ import { Row,Col } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { List } from 'immutable';
 
-import './DrillstringComponentBrowserItem.css';
+import './DrillstringComponentModal.css';
 
 class DrillstringComponentModal extends Component {
 
   render() {
     return <div className="c-drillstring-component-modal">
       <Row>
-        <Col s={1}>
+        <Col s={12} m={1}>
           {this.renderComponentImage()}
         </Col>
-        <Col s={11}>
+        <Col s={12} m={11}>
           {this.renderComponent()}
         </Col>
       </Row>      
@@ -137,14 +137,8 @@ class DrillstringComponentModal extends Component {
 
       <Row key="bit-nozzles">        
         <Col s={12}>
-          <h4>Nozzle Sizes</h4>
-          <table>
-            <thead>
-              <tr>
-                <th>Nozzle Size</th>
-                <th> # of this size </th>
-              </tr>
-            </thead>
+          <h5>Nozzle Sizes</h5>
+          <table>            
             <tbody>              
             {this.props.component.get('nozzle_sizes',List([])).map((nozzle, index)=> {
               return (
@@ -288,9 +282,28 @@ class DrillstringComponentModal extends Component {
 
   renderComponentLabelField(field,label="",colSize=2,unitType,unit) {
     let value = this.props.component.get(field, '');
-    if (value!=='' && unitType && unit) {
-      value = this.props.convert.convertValue(value,unitType,unit).formatNumeral('0.0');
+
+    let numberFormat;
+
+    if (!isNaN(value)) {
+      if (unitType && unit) {
+        numberFormat='0.00';
+        value = this.props.convert.convertValue(value,unitType,unit);
+      };
+      
+      if (!unitType && !unit) {
+        numberFormat='0';
+      }
+
+      if (field === 'tfa')  {
+        numberFormat = '0.00';
+      }
+    }    
+
+    if (numberFormat && value.formatNumeral) {      
+      value = value.formatNumeral(numberFormat);
     }
+
     return <Col m={colSize} s={12}>
       <label>{label}</label>
       <br/>
