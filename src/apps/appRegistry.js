@@ -22,6 +22,7 @@ import diWellPlan from './directional/wellPlan';
 import diToolFaceOrientation from './directional/toolFaceOrientation';
 import diSlideSheet from './directional/slideSheet';
 import diSurveys from './directional/surveys';
+import diTortuosityIndex from './directional/tortuosityIndex';
 
 // TRACE APPS
 import singleTrace from './trace/singleTrace';
@@ -63,6 +64,11 @@ import hydraulicsOverview from './hydraulics/overview';
 import hydraulicsPressureLoss from './hydraulics/pressureLoss';
 import hydraulicsPressureTrend from './hydraulics/pressureTrend';
 
+// PDM
+import pdmOperatingCondition from './pdm/operatingCondition';
+import pdmOverview from './pdm/overview';
+import pdmStallsHistory from './pdm/stallsHistory';
+
 
 
 // Asset Status
@@ -102,7 +108,8 @@ export const uiApps = Map({
       wellPlan: diWellPlan,
       toolFaceOrientation: diToolFaceOrientation,
       slideSheet: diSlideSheet,
-      surveys: diSurveys
+      surveys: diSurveys,
+      tortuosityIndex: diTortuosityIndex
     })
   }),
   trace: Map({
@@ -169,6 +176,15 @@ export const uiApps = Map({
       overview: hydraulicsOverview,
       pressureLoss: hydraulicsPressureLoss,
       pressureTrend: hydraulicsPressureTrend
+    })
+  }),
+  pdm: Map({
+    title: 'PDM',
+    subtitle: '',
+    appTypes: Map({
+      operatingCondition: pdmOperatingCondition,
+      overview: pdmOverview,
+      stallsHistory: pdmStallsHistory
     })
   })
 });

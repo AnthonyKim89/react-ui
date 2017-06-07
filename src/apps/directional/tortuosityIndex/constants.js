@@ -1,11 +1,11 @@
 export const CATEGORY = 'directional';
 export const NAME = 'tortuosityIndex';
 export const SUBSCRIPTIONS = [
-  {provider: 'corva', collection: 'directional.tortuosity'}
+  {provider: 'corva', collection: 'data.actual_survey'}
 ];
 export const METADATA = {
-  title: 'Tortuosity Index',
-  settingsTitle: 'Tortuosity Index',
+  title: 'Dogleg Severity',
+  settingsTitle: 'Dogleg Severity',
   subtitle: 'Dogleg severity over MD indicating tortuous path',
   developer: {name: 'Corva', url: 'http://www.corva.ai/'},
   version: 'v0.1',
@@ -13,6 +13,7 @@ export const METADATA = {
 };
 export const SUPPORTED_ASSET_TYPES = ['rig'];
 export const INITIAL_SIZE = {w: 5, h: 10};
+export const DEFAULT_LIMIT = 15;
 export const SUPPORTED_CHART_SERIES = {
-	 tortuosity: {label:'Tortuosity', defaultColor:'#ee792f'} 
+	 dls: {label:'Dogleg Severity', defaultColor:'#ee792f'} 
 };
