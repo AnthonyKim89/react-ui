@@ -18,7 +18,7 @@ class AssetStatusApp extends Component {
     let assetDashboardSlug = this.props.assetDashboards.count() > 0 ? this.props.assetDashboards.first().get('slug') : '';
     return (
       <div className="c-asset-status">
-        {this.props.asset && subscriptions.selectors.firstSubData(this.props.data,SUBSCRIPTIONS) ?
+        {this.props.asset ?
           <div className="c-asset-status-container">
             <Link to={`/assets/${this.props.asset.get("id")}/${assetDashboardSlug}`} className="c-asset-status__asset-link">
               View Asset &gt;
@@ -82,15 +82,27 @@ class AssetStatusApp extends Component {
   }
 
   getAssetDepth() {
-    const data = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[0]).getIn(["data"]);
-    const bitDepth = parseFloat(data.get("bit_depth")).formatNumeral("0,0.0");
-    const holeDepth = parseFloat(data.get("hole_depth")).formatNumeral("0,0.0");
-    return `${bitDepth} / ${holeDepth} ${this.props.convert.getUnitDisplay("length")}`;
+    let data = subscriptions.selectors.getSubData(this.props.data, SUBSCRIPTIONS[0]);
+    if(data) {
+      data = data.getIn(["data"]);
+      const bitDepth = parseFloat(data.get("bit_depth")).formatNumeral("0,0.0");
+      const holeDepth = parseFloat(data.get("hole_depth")).formatNumeral("0,0.0");
+      return `${bitDepth} / ${holeDepth} ${this.props.convert.getUnitDisplay("length")}`;
+    }
+    else {
+      return '';
+    }
   }
 
   getAssetGeneralActivity() {
-    let state = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[0]).getIn(["data", "state"]);
-    return STATE_CATEGORY_MAP[state];
+    let data = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[0]);
+    if(data) {
+      let state = data.getIn(["data", "state"]);
+      return STATE_CATEGORY_MAP[state];
+    }
+    else {
+      return "-";
+    }
   }
 
 }
