@@ -79,8 +79,12 @@ class OverviewApp extends Component {
   }
 
   renderStatistics() {
+    let witsData = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[1]);
+    let flow_rate = witsData ? witsData.getIn(["data", "mud_flow_in"]) : null;
+    flow_rate = flow_rate ? this.props.convert.convertValue(flow_rate, "volume", "gal").formatNumeral("0,0") : "-";
+
     let recommendedFlowRate = this.data.getIn(["data", "recommended_minimum_flowrate"]);
-    recommendedFlowRate = recommendedFlowRate ? this.props.convert.convertValue(recommendedFlowRate, "volume", "gal").fixFloat(1) : "-";
+    recommendedFlowRate = recommendedFlowRate ? this.props.convert.convertValue(recommendedFlowRate, "volume", "gal").formatNumeral("0,0") : "-";
 
     let flowRateUnit = `${this.props.convert.getUnitDisplay('volume')}pm`;
 
@@ -89,21 +93,21 @@ class OverviewApp extends Component {
     if(staticHoleCleaning) {
       let staticHoleCleaningDuration = this.data.getIn(["data", "static_hole_cleaning", "duration"]);
       let staticHoleCleaningFlowRate = this.data.getIn(["data", "static_hole_cleaning", "mud_flow_rate"]);
-      staticHoleCleaningFlowRate = numeral(this.props.convert.convertValue(
-          staticHoleCleaningFlowRate, "volume", "gal")).format("0.0");
+      staticHoleCleaningFlowRate = this.props.convert.convertValue(
+          staticHoleCleaningFlowRate, "volume", "gal").formatNumeral("0,0");
           statisHoleCleaningHtml = <div>{staticHoleCleaningDuration} min <span>@ {staticHoleCleaningFlowRate} {flowRateUnit}</span></div>;
     }
 
 
     return (
       <div className="c-hydraulics-overview-statistics">
+        <p>Actual Flow Rate</p>
+        <div className="flow-rate">
+          {flow_rate} <span>{flowRateUnit}</span>
+        </div>
         <p>Recommended Min Flow Rate</p>
         <div className="flow-rate">
           {recommendedFlowRate} <span>{flowRateUnit}</span>
-        </div>
-        <p>Recommended Static Circulation</p>
-        <div className="static-circulation">
-          {statisHoleCleaningHtml}
         </div>
       </div>
     );

@@ -16,6 +16,7 @@ class PressureLossApp extends Component {
     return (
       this.data ?
         <div className="c-hydraulics-pressure-loss">
+          {this.renderStatistics()}
           <div className="row chart-panel">
             <div className="col s12">
               <PieChart
@@ -31,6 +32,32 @@ class PressureLossApp extends Component {
           </div>
         </div> :
         <LoadingIndicator />
+    );
+  }
+
+  renderStatistics() {
+    let witsData = subscriptions.selectors.getSubData(this.props.data,SUBSCRIPTIONS[1]);
+    let spp = witsData ? witsData.getIn(["data", "standpipe_pressure"]) : null;
+    spp = spp ? this.props.convert.convertValue(spp, "pressure", "psi").formatNumeral("0,0") : "-";
+
+    let pressureLoss = this.data ? this.data.getIn(["data", "predicted_standpipe_pressure"]) : null;
+    pressureLoss = pressureLoss ? this.props.convert.convertValue(pressureLoss, "pressure", "psi").formatNumeral("0,0") : "-";
+
+    return (
+      <div className="c-hydraulics-pressure-loss-statistics">
+        <div className="c-hydraulics-pressure-loss-statistics__column">
+          <p>SPP</p>
+          <div className="value">
+            {spp} <span>{this.props.convert.getUnitDisplay('pressure')}</span>
+          </div>
+        </div>
+        <div className="c-hydraulics-pressure-loss-statistics__column">
+          <p>Total Pressure Loss</p>
+          <div className="value">
+            {pressureLoss} <span>{this.props.convert.getUnitDisplay('pressure')}</span>
+          </div>
+        </div>
+      </div>
     );
   }
 
