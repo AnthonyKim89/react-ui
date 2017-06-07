@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Row, Col } from 'react-materialize';
-import numeral from 'numeral';
 
 import { SUBSCRIPTIONS } from './constants';
 import Gauge from '../../../common/Gauge';
@@ -87,17 +86,6 @@ class OverviewApp extends Component {
     recommendedFlowRate = recommendedFlowRate ? this.props.convert.convertValue(recommendedFlowRate, "volume", "gal").formatNumeral("0,0") : "-";
 
     let flowRateUnit = `${this.props.convert.getUnitDisplay('volume')}pm`;
-
-    let staticHoleCleaning = this.data.getIn(["data", "static_hole_cleaning"]);
-    let statisHoleCleaningHtml = <div>-</div>;
-    if(staticHoleCleaning) {
-      let staticHoleCleaningDuration = this.data.getIn(["data", "static_hole_cleaning", "duration"]);
-      let staticHoleCleaningFlowRate = this.data.getIn(["data", "static_hole_cleaning", "mud_flow_rate"]);
-      staticHoleCleaningFlowRate = this.props.convert.convertValue(
-          staticHoleCleaningFlowRate, "volume", "gal").formatNumeral("0,0");
-          statisHoleCleaningHtml = <div>{staticHoleCleaningDuration} min <span>@ {staticHoleCleaningFlowRate} {flowRateUnit}</span></div>;
-    }
-
 
     return (
       <div className="c-hydraulics-overview-statistics">

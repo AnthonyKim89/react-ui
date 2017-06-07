@@ -23,6 +23,7 @@
 .c-hydraulics-pressure-loss-statistics__column {
   display: inline-block;
   width: 50%;
+  vertical-align: top;
 }
 
 .c-hydraulics-pressure-loss-statistics p {
@@ -40,4 +41,10 @@
 
 .c-hydraulics-pressure-loss-statistics .value span {
     font-size: 1rem;
+}
+
+.c-hydraulics-pressure-loss-statistics-difference {
+  line-height: 0px;
+  transform: translate(0px, 25px);
+  color: #9a9a9a;
 }
