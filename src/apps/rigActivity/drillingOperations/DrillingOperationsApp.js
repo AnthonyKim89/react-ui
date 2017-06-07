@@ -187,7 +187,7 @@ class DrillingOperationsApp extends Component {
   getGraphData() {
     let keys = [];
     this.state.data.getIn(['data', 'operations']).forEach(h => {
-      _.pull(h.keySeq().toArray(), 'from', 'to', 'shift').forEach(v => {
+      _.pull(h.keySeq().toArray(), 'from', 'to', 'shift', 'activities', 'start_depth', 'end_depth').forEach(v => {
         keys.push(v);
       });
     });
