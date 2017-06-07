@@ -17,6 +17,7 @@ class TracesChartColumn extends Component {
   constructor(props) {
     super(props);
     this.timerID = null;
+    this.lastPredictedDataLoad = null;
     this.predictedDataLoading = false;
 
     let data = this.getSeries(props);
@@ -88,47 +89,57 @@ class TracesChartColumn extends Component {
   }
 
   componentDidUpdate() {
-    clearInterval(this.timerID);
+    // We don't reload predicted data if we're already loading it, or if if hasn't been 1 minute yet.
+    if (this.props.data.size === 0 || this.predictedDataLoading || (this.lastPredictedDataLoad !== null && this.lastPredictedDataLoad > (new Date().getTime() - 60000))) {
+      return;
+    }
+
+    clearTimeout(this.timerID);
 
     // We don't want to spam the API, so if all updates are paused for at least a half a second, we will check if we need new data and go get it.
-    this.timerID = setInterval(() => {
+    this.timerID = setTimeout(() => this.initPredictedDataLoad(), 500);
+  }
 
-      console.log("1");
-      if (this.predictedDataLoading) {
-        return;
+  async initPredictedDataLoad() {
+    this.predictedDataLoading = true;
+    let newPredictedData = {};
+
+    let traceGraphs = this.props.traceGraphs.toJS();
+    for (let tg = 0; tg < traceGraphs.length; tg++) {
+      if (traceGraphs[tg]['source'] === 'predicted') {
+        newPredictedData[traceGraphs[tg]['trace']] = await this.loadPredictedData(traceGraphs[tg]);
       }
-      console.log("2");
-      this.predictedDataLoading = true;
-      let newPredictedData = {};
+    }
 
-      this.props.traceGraphs.valueSeq().forEach((traceGraph, idx) => {
+    this.setState({
+      predictedData: Object.assign(this.state.predictedData, newPredictedData),
+    });
 
-        if (traceGraph.get('source') === 'predicted') {
-          //newPredictedData[traceGraph.get('trace')] = this.loadPredictedData(traceGraph);
-        }
-
-      });
-
-      this.setState({
-        predictedData: Object.assign(this.state.predictedData, newPredictedData),
-      });
-
-      this.predictedDataLoading = false;
-    }, (this.props.includeDetailedData ? 500 : 60000));
+    this.predictedDataLoading = false;
+    this.lastPredictedDataLoad = new Date().getTime();
   }
 
   async loadPredictedData(traceGraph) {
-    let trace = find(PREDICTED_TRACES, {trace: traceGraph.get('trace')}) || null;
+    let trace = find(PREDICTED_TRACES, {trace: traceGraph['trace']}) || null;
     if (!trace || this.props.data.size === 0) {
       return;
+    }
+
+    let where;
+    let startTS = this.props.data.first().get('timestamp');
+    let endTS = this.props.data.last().get('timestamp');
+    if (this.props.includeDetailedData && (endTS - startTS) < 43200) {
+      where = `{(this.timestamp - (this.timestamp % 60)) == (this.timestamp - (this.timestamp % 60)) && this.timestamp >= ${startTS} && this.timestamp <= ${endTS}}`;
+    } else {
+      where = `{(this.timestamp - (this.timestamp % 60)) == (this.timestamp - (this.timestamp % 1800)) && this.timestamp >= ${startTS} && this.timestamp <= ${endTS}}`;
     }
 
     let params = fromJS({
       asset_id: this.props.asset.get('id'),
       sort: '{timestamp:1}',
       fields: 'timestamp,'+trace.path.join('.'),
-      limit: (this.props.data.last().get('timestamp') - this.props.data.first().get('timestamp')) / 1800,
-      where: `{(this.timestamp - (this.timestamp % 60)) == (this.timestamp - (this.timestamp % 1800))}`
+      limit: 100000,
+      where
     });
 
     return await api.getAppStorage('corva', trace.collection, this.props.asset.get('id'), params);

@@ -168,10 +168,6 @@ class TracesApp extends Component {
   }
 
   async updateFilteredData(start=null, end=null, triggeredByUser=false) {
-    //if(!this.summaryData.size > 0) {
-    //  return;
-    //}
-
     if (triggeredByUser) {
       // We want to clear the detailed data timer if the user is actively scrolling.
       this.includeDetailedData = false;
