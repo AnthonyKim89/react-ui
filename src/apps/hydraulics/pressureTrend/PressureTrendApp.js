@@ -38,7 +38,7 @@ class PressureTrendApp extends Component {
             automaticOrientation={this.automaticOrientation}
             horizontal={this.horizontal}
             >
-            {this.getSeries().map(({renderType, title, type, yAxis, yAxisTitle, yAxisOpposite, yField, data}) => (
+            {this.getSeries().map(({renderType, title, type, yAxis, yAxisTitle, yAxisOpposite, yField, data, step}) => (
               <ChartSeries
                 key={title}
                 id={title}
@@ -47,6 +47,7 @@ class PressureTrendApp extends Component {
                 data={data}
                 yField={yField}
                 yAxis={yAxis}
+                step={step}
                 yAxisTitle={{text:yAxisTitle, style: { color: "#fff" }}}
                 yAxisOpposite={yAxisOpposite}
                 color={this.getSeriesColor(type)} />
@@ -84,6 +85,7 @@ class PressureTrendApp extends Component {
         yAxis: '0',
         yField: "mud_weight",
         yAxisOpposite: false,
+        step: true,
         yAxisTitle: `Mud Weight (${this.props.convert.getUnitDisplay('density')})`,
         data: List(this.getSeriesData('mud_weight', 'density', 'ppg'))
     };
@@ -98,6 +100,7 @@ class PressureTrendApp extends Component {
         yAxis: '2',
         yField: "mud_flow_in",
         yAxisOpposite: true,
+        step: false,
         yAxisTitle: `Mud Flow In (${this.props.convert.getUnitDisplay('volume')}pm)`,
         data: List(this.getSeriesData('mud_flow_in', 'volume', 'gal'))
     };
@@ -112,6 +115,7 @@ class PressureTrendApp extends Component {
         yAxis: '0',
         yField: "ecd",
         yAxisOpposite: false,
+        step: false,
         yAxisTitle: `Mud Weight (${this.props.convert.getUnitDisplay('density')})`,
         data: List(this.getSeriesData('ecd', 'density', 'ppg'))
     };
@@ -126,6 +130,7 @@ class PressureTrendApp extends Component {
         yAxis: '1',
         yField: "standpipe_pressure",
         yAxisOpposite: true,
+        step: false,
         yAxisTitle: `Pressure (${this.props.convert.getUnitDisplay('pressure')})`,
         data: List(this.getSeriesData('standpipe_pressure', 'pressure', 'psi'))
     };
