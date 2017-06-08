@@ -31,7 +31,7 @@ export const PREDICTED_TRACES = [
   {trace: 'pdm_rpm', label: 'PDM RPM', collection: 'pdm.operating-condition', path: 'rpm', unit: 'rpm', min: 0, max: 250},
   {trace: 'pdm_torque', label: 'PDM Torque', collection: 'pdm.operating-condition', path: 'pdm_rpm', unit: '{u}', unitType: 'torque', cunit: 'ft-klbf', min: 0, max: 50},
   {trace: 'total_bit_rpm', label: 'Total Bit RPM', collection: 'pdm.operating-condition', path: 'total_bit_rpm', unit: 'rpm', min: 0, max: 250},
-  {trace: 'total_bit_torque', label: 'Total Bit Torque', collection: 'pdm.operating-condition', path: 'total_bit_torque', unit: '{u}', unitType: 'torque', cunit: 'ft-klbf', min: 0, max: 50},
+  {trace: 'total_bit_torque', label: 'Total Bit Torque', collection: 'pdm.operating-condition', path: 'total_bit_torque', unit: '{u}', unitType: 'torque', cunit: 'ft-lbf', min: 0, max: 50},
 ];
 
 export const SUPPORTED_TIME_PERIODS = [

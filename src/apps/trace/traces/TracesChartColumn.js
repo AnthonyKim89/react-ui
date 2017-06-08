@@ -176,13 +176,15 @@ class TracesChartColumn extends Component {
   }
 
   convertPredictedUnitField(traceEntry, filteredData) {
+    let trace = find(PREDICTED_TRACES, {trace: traceEntry.trace});
+    let traceKey = trace.path;
+
     let unitType = traceEntry.unitType || null;
     let unitFrom = traceEntry.unitFrom || null;
     let unitTo = traceEntry.unitTo || null;
 
     // Typically we will fall into this if-statement because common selections won't have a unit type chosen.
     if (!unitType) {
-      let trace = find(PREDICTED_TRACES, {trace: traceEntry.trace});
       if (!trace || !trace.hasOwnProperty('unitType') || !trace.hasOwnProperty('cunit')) {
         return filteredData;
       }
@@ -194,7 +196,7 @@ class TracesChartColumn extends Component {
       unitFrom = this.props.convert.getUnitPreference(unitType);
     }
 
-    return this.props.convert.convertImmutables(filteredData, traceEntry.path, unitType, unitFrom, unitTo);
+    return this.props.convert.convertImmutables(filteredData, traceKey, unitType, unitFrom, unitTo);
   }
 
   async loadPredictedData(traceGraph, startTS, endTS) {
@@ -240,7 +242,7 @@ class TracesChartColumn extends Component {
           <div className="c-traces__chart-column__values__item" key={idx} onClick={() => this.props.editTraceGraph(idx + (4 * this.props.columnNumber))}>
             {valid ? <div title={source === 'predicted' ? 'Predicted' : ''}>
               <div className="c-traces__chart-column__values__item__meta-row">
-                <div className="c-traces__chart-column__values__item__meta-row-title c-traces__center"><span>{title}</span></div>
+                <div className="c-traces__chart-column__values__item__meta-row-title c-traces__center"><span>{title}{source === 'predicted' ? ' (P)' : ''}</span></div>
                 <div className="c-traces__right" style={{color}}><Icon>network_cell</Icon></div>
               </div>
               <div className="c-traces__chart-column__values__item__meta-row">
@@ -448,8 +450,12 @@ class TracesChartColumn extends Component {
           }
         }
       } else {
-        latestValue = 'Predicted';
+        if (this.predictedData[trace.trace]) {
+          latestValue = this.predictedData[trace.trace].last().get(trace.path).formatNumeral("0,0.00");
+        }
       }
+
+      latestValue = latestValue || '-';
 
       // Getting the min/max values for auto/static scaling.
       let minValue, maxValue;
