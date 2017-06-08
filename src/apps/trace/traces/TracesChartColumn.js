@@ -136,10 +136,12 @@ class TracesChartColumn extends Component {
       }
     }
 
-    let traceGraphs = this.props.traceGraphs.toJS();
+    let traceGraphs = this.props.traceGraphs.toJS(); // We can't map/forEach this data because we to await async calls inside the loop
     for (let tg = 0; tg < traceGraphs.length; tg++) {
       if (traceGraphs[tg]['source'] === 'predicted' && traceGraphs[tg]['trace']) {
         let result = await this.loadPredictedData(traceGraphs[tg], startTS, endTS);
+        result = result.map(value => value.flatten());
+        result = this.convertPredictedUnitField(traceGraphs[tg], result);
         
         if (!this.predictedData.hasOwnProperty(traceGraphs[tg]['trace'])) {
           this.predictedData[traceGraphs[tg]['trace']] = new List();
@@ -173,6 +175,28 @@ class TracesChartColumn extends Component {
     });
   }
 
+  convertPredictedUnitField(traceEntry, filteredData) {
+    let unitType = traceEntry.unitType || null;
+    let unitFrom = traceEntry.unitFrom || null;
+    let unitTo = traceEntry.unitTo || null;
+
+    // Typically we will fall into this if-statement because common selections won't have a unit type chosen.
+    if (!unitType) {
+      let trace = find(PREDICTED_TRACES, {trace: traceEntry.trace});
+      if (!trace || !trace.hasOwnProperty('unitType') || !trace.hasOwnProperty('cunit')) {
+        return filteredData;
+      }
+      unitType = trace.unitType;
+      unitFrom = trace.cunit;
+    }
+
+    if (!unitFrom) {
+      unitFrom = this.props.convert.getUnitPreference(unitType);
+    }
+
+    return this.props.convert.convertImmutables(filteredData, traceEntry.path, unitType, unitFrom, unitTo);
+  }
+
   async loadPredictedData(traceGraph, startTS, endTS) {
     let trace = find(PREDICTED_TRACES, {trace: traceGraph['trace']}) || null;
     if (!trace) {
@@ -189,7 +213,7 @@ class TracesChartColumn extends Component {
     let params = fromJS({
       asset_id: this.props.asset.get('id'),
       sort: '{timestamp:1}',
-      fields: 'timestamp,'+trace.path.join('.'),
+      fields: 'timestamp,data.'+trace.path,
       limit: 100000,
       where
     });
@@ -363,7 +387,7 @@ class TracesChartColumn extends Component {
       }
     });
 
-    return curr.getIn(predictedTrace.path);
+    return curr.get(predictedTrace.path);
   }
 
   getTraces(props) {

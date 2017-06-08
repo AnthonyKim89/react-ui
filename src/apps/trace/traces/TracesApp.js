@@ -153,7 +153,7 @@ class TracesApp extends Component {
     // Typically we will fall into this if-statement because common selections won't have a unit type chosen.
     if (!unitType) {
       let trace = find(SUPPORTED_TRACES, {trace: traceKey});
-      if (!trace || !traceKey.hasOwnProperty('unitType') || !traceKey.hasOwnProperty('cunit')) {
+      if (!trace || !trace.hasOwnProperty('unitType') || !trace.hasOwnProperty('cunit')) {
         return filteredData;
       }
       unitType = trace.unitType;
