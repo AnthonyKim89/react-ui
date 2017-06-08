@@ -98,6 +98,11 @@ export async function getCurrentUserRecentAssets() {
   return fromJS(await get('/v1/users/current/recent_assets'));
 }
 
+export async function getAlerts() {
+    const data = await get('/v1/alerts');
+    return fromJS(data);
+}
+
 export async function getAppSets(userId) {
   const data = await get(`/v1/users/${userId}/app_sets`);
   return fromJS(data);
@@ -197,7 +202,7 @@ export async function postAppStorage(provider, collection, item) {
 }
 
 export async function postTaskDocument(provider, collection, data, params = Map()) {
-  const qry = queryString(params.toJS());  
+  const qry = queryString(params.toJS());
   const response = await post(`/v1/tasks/${provider}/${collection}?${qry}`, {data});
   return fromJS(response);
 }
@@ -218,11 +223,11 @@ export async function getWellTimeline(wellId) {
 }
 
 export async function getS3SignedUrl(filename,contentType) {
-  const data = await get(`/v1/file/sign?file_name=${filename}&contentType=${contentType}`);  
+  const data = await get(`/v1/file/sign?file_name=${filename}&contentType=${contentType}`);
   return fromJS(data);
 }
 
 export function getFileDownloadLink(filename) {
   const token = auth.getToken();
-  return `${baseUrl}/v1/file/download?file_name=${filename}&authorization=${token}`;  
+  return `${baseUrl}/v1/file/download?file_name=${filename}&authorization=${token}`;
 }
