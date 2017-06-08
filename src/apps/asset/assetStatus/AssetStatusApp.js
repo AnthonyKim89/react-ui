@@ -52,7 +52,7 @@ class AssetStatusApp extends Component {
     const cssPrefix = "asset-status-";
 
     // TODO: Change to poll collections
-    const status = this.props.asset.get("id") === "active" ? 'optimal' : 'idle';
+    const status = this.props.asset.get("status") === "active" ? 'optimal' : 'idle';
 
     return `${cssPrefix}${status}`;
   }

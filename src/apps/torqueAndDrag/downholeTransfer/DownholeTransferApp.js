@@ -24,7 +24,7 @@ class DownholeTransferApp extends Component {
     const data = this.getSubscriptionData().get('data');
     const downhole = data.get('downhole');
 
-    if(!downhole.get('torque')) {
+    if(downhole.get('torque') === 'undefined') {
       return this.renderOffBottom();
     }
 
