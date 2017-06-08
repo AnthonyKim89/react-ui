@@ -22,6 +22,12 @@ class DownholeTransferApp extends Component {
 
   renderTable() {
     const data = this.getSubscriptionData().get('data');
+    const downhole = data.get('downhole');
+
+    if(!downhole.get('torque')) {
+      return this.renderOffBottom();
+    }
+
     return <table className="c-tnd-downhole-transfer__table">
       <colgroup>
         <col style={{width: '25%'}}></col>
@@ -74,6 +80,23 @@ class DownholeTransferApp extends Component {
         </tr>
       </tbody>
     </table>;
+  }
+
+  renderOffBottom() {
+    return (
+      <div>
+        <div className="c-app-container__error">
+          <div className="c-app-container__error-grid">
+            <div className="c-app-container__error-inner">
+              <div className="c-app-container__error_no-data">
+                <Icon>info_outline</Icon>
+              </div>
+              <h1>Off-Bottom</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   getSubscriptionData() {
