@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import moment from 'moment';
 
-import * as api from '../../api';
 import AlertGroup from '../components/AlertGroup';
-import LoadingIndicator from '../../common/LoadingIndicator';
 
 import './Alerts.css';
 
@@ -11,26 +10,15 @@ class Alerts extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
-  }
 
-  componentDidMount() {
-      this.getAlerts();
-  }
-
-  async getAlerts() {
-      let alerts = await api.getAlerts();
-      alerts = alerts.toJSON();
-      this.setState({ alerts: alerts });
-  }
-
-  readyToRender() {
-    return this.state.alerts;
+    this.state = {
+        now: moment(),
+        dayAgo: moment().subtract(1, 'day')
+    };
   }
 
   render() {
     return (
-        this.readyToRender() ?
         <div className="c-alerts">
             <div className="c-alerts-header clearfix">
                 <h1 className="pull-left">Alerts</h1>
@@ -38,10 +26,9 @@ class Alerts extends Component {
                 <div className="clearfix"></div>
             </div>
 
-            <AlertGroup title="Last 24 Hours" alerts={this.state.alerts} />
-            <AlertGroup title="Older" alerts={this.state.alerts} />
-        </div> :
-        <LoadingIndicator />
+            <AlertGroup title="Last 24 Hours" start={this.state.dayAgo} end={this.state.now} />
+            <AlertGroup title="Older" end={this.state.dayAgo} />
+        </div>
     );
   }
 

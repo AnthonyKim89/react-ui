@@ -12,3 +12,14 @@
     margin: 0;
     padding: 0 0 .75rem 2rem;
 }
+
+.c-alert-none {
+    font-size: 1.3rem;
+    color: #999;
+    padding: .5rem 0 0 2rem;
+}
+
+.c-alert-more {
+    display: block;
+    width: 100%;
+}

@@ -98,8 +98,13 @@ export async function getCurrentUserRecentAssets() {
   return fromJS(await get('/v1/users/current/recent_assets'));
 }
 
-export async function getAlerts() {
-    const data = await get('/v1/alerts');
+export async function getAlerts(start, end, page, size) {
+    page = page || 1;
+    size = size || 20;
+    start = start || '';
+    end = end || '';
+
+    const data = await get(`/v1/alerts?page=${page}&per_page=${size}&start=${start}&end=${end}`);
     return fromJS(data);
 }
 

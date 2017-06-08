@@ -57,6 +57,10 @@
     padding: .5rem 0 .25rem 0;
 }
 
+.c-alert-decision-path-header .material-icons {
+    font-size: 1.2rem;
+}
+
 .c-alert-decision-path {
     font-size: 1rem;
     color: #333;
