@@ -3,7 +3,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { find } from 'lodash';
 import { Icon, Col } from 'react-materialize';
 import moment from 'moment';
-import { fromJS } from 'immutable';
+import { List, fromJS } from 'immutable';
 
 import Convert from '../../../common/Convert';
 import ReactEcharts from './echarts';
@@ -17,16 +17,20 @@ class TracesChartColumn extends Component {
   constructor(props) {
     super(props);
     this.timerID = null;
-    this.lastPredictedDataLoad = null;
     this.predictedDataLoading = false;
+    this.predictedData = {};
+    this.predictedDataRange = [null, null];
+
+    this.yAxisData = props.data.reduce((result, point) => {
+      result.unshift(moment.unix(point.get("timestamp")).format('MMMD HH:mm'));
+      return result;
+    }, []);
 
     let data = this.getSeries(props);
 
     this.state = {
-      predictedData: {},
-      predictedStart: null,
-      predictedEnd: null,
       traces: this.getTraces(props),
+      lastPredictedDataLoad: null,
       options: {
         animation: false,
         toolbox: {
@@ -55,10 +59,7 @@ class TracesChartColumn extends Component {
               }
             },
             boundaryGap : false,
-            data : props.data.reduce((result, point) => {
-              result.unshift(moment.unix(point.get("timestamp")).format('MMMD HH:mm'));
-              return result;
-            }, [])
+            data : this.yAxisData,
           }
         ],
         series : data.series,
@@ -82,52 +83,99 @@ class TracesChartColumn extends Component {
       return result;
     }, []);
 
+    let lastPredictedDataLoad = this.state.lastPredictedDataLoad;
+    if (!this.props.traceGraphs.equals(nextProps.traceGraphs)) {
+      this.predictedDataRange = [null, null];
+      lastPredictedDataLoad = null;
+    }
+
     this.setState({
       traces: this.getTraces(nextProps),
       options: opt,
+      lastPredictedDataLoad,
     });
   }
 
   componentDidUpdate() {
-    // We don't reload predicted data if we're already loading it, or if if hasn't been 1 minute yet.
-    if (this.props.data.size === 0 || this.predictedDataLoading || (this.lastPredictedDataLoad !== null && this.lastPredictedDataLoad > (new Date().getTime() - 60000))) {
+    // We don't reload predicted data if we're already loading it, or if if hasn't been 1/2 second yet.
+    if (this.props.data.size === 0 || this.predictedDataLoading || (this.state.lastPredictedDataLoad !== null && this.state.lastPredictedDataLoad > (new Date().getTime() - 500))) {
       return;
     }
 
     clearTimeout(this.timerID);
 
     // We don't want to spam the API, so if all updates are paused for at least a half a second, we will check if we need new data and go get it.
+    // The state setting at the end of the predicted loading will merge in the new data
     this.timerID = setTimeout(() => this.initPredictedDataLoad(), 500);
   }
 
   async initPredictedDataLoad() {
     this.predictedDataLoading = true;
-    let newPredictedData = {};
+    let startTS = this.props.data.first().get('timestamp');
+    let endTS = this.props.data.last().get('timestamp');
+    let operation = 'replace';
+
+    // Figuring out what kind of partial load, etc, we need to execute here.
+    if (this.predictedDataRange[0] !== null && this.predictedDataRange[1] !== null) {
+      if (startTS >= this.predictedDataRange[0] && endTS <= this.predictedDataRange[1]) {
+        // If the range is the same or smaller than it used to be, we just return. No need to load new data
+        this.predictedDataLoading = false;
+        return;
+      } else if (startTS < this.predictedDataRange[0] && endTS >= this.predictedDataRange[0] && endTS <= this.predictedDataRange[1]) {
+        // If the startTS is before the endTS, and the endTS is still inside the range, we prepend data to the list.
+        operation = 'prepend';
+        endTS = this.predictedDataRange[0];
+      } else if (endTS > this.predictedDataRange[1] && startTS <= this.predictedDataRange[1] && startTS >= this.predictedDataRange[0]) {
+        // If the endTS is after the startTS and the startTS is still inside the range, we append data to the list.
+        operation = 'append';
+        startTS = this.predictedDataRange[1];
+      }
+    }
 
     let traceGraphs = this.props.traceGraphs.toJS();
     for (let tg = 0; tg < traceGraphs.length; tg++) {
       if (traceGraphs[tg]['source'] === 'predicted') {
-        newPredictedData[traceGraphs[tg]['trace']] = await this.loadPredictedData(traceGraphs[tg]);
+        let result = await this.loadPredictedData(traceGraphs[tg], startTS, endTS);
+        
+        if (!this.predictedData.hasOwnProperty(traceGraphs[tg]['trace'])) {
+          this.predictedData[traceGraphs[tg]['trace']] = new List();
+        }
+
+        // Setting our data based on the kind of load operation this is.
+        if (operation === 'replace') {
+          this.predictedData[traceGraphs[tg]['trace']] = result;
+        } else if (operation === 'append') {
+          this.predictedData[traceGraphs[tg]['trace']] = this.predictedData[traceGraphs[tg]['trace']].push(...result);
+        } else if (operation === 'prepend') {
+          this.predictedData[traceGraphs[tg]['trace']] = this.predictedData[traceGraphs[tg]['trace']].unshift(...result);
+        }
       }
     }
 
-    this.setState({
-      predictedData: Object.assign(this.state.predictedData, newPredictedData),
-    });
+    // Updating the current range loaded data.
+    if (operation === 'replace') {
+      this.predictedDataRange = [startTS, endTS];
+    } else if (operation === 'append') {
+      this.predictedDataRange = [this.predictedDataRange[0], endTS];
+    } else if (operation === 'prepend') {
+      this.predictedDataRange = [startTS, this.predictedDataRange[1]];
+    }
 
     this.predictedDataLoading = false;
-    this.lastPredictedDataLoad = new Date().getTime();
+
+    // This will force a refresh, but lastPredictedDataLoad will also prevent an endless loop of data loading.
+    this.setState({
+      lastPredictedDataLoad: new Date().getTime(),
+    });
   }
 
-  async loadPredictedData(traceGraph) {
+  async loadPredictedData(traceGraph, startTS, endTS) {
     let trace = find(PREDICTED_TRACES, {trace: traceGraph['trace']}) || null;
     if (!trace || this.props.data.size === 0) {
       return;
     }
 
     let where;
-    let startTS = this.props.data.first().get('timestamp');
-    let endTS = this.props.data.last().get('timestamp');
     if (this.props.includeDetailedData && (endTS - startTS) < 43200) {
       where = `{(this.timestamp - (this.timestamp % 60)) == (this.timestamp - (this.timestamp % 60)) && this.timestamp >= ${startTS} && this.timestamp <= ${endTS}}`;
     } else {
@@ -184,24 +232,34 @@ class TracesChartColumn extends Component {
   }
 
   getSeries(props) {
-    let series = [];
+    let series = this.state ? this.state.options.series : [];
 
     props.traceGraphs.valueSeq().forEach((traceGraph, idx) => {
       let trace = find(props.supportedTraces, {trace: traceGraph.get('trace')}) || null;
 
-      if (!trace || traceGraph.get('source') === 'predicted') {
-        series.push({
+      if (!trace) {
+        series[idx] = {
           name: '',
           type: 'line',
           symbolSize : '0',
           smooth: false,
           xAxisIndex: idx,
           data: [],
-        });
+        };
         return;
       }
 
-      series.push({
+      let seriesData;
+      if (traceGraph.get('source') === 'predicted') {
+        seriesData = this.getPredictedSeriesData(traceGraph, props.data);
+      } else {
+        seriesData = props.data.reduce((result, point) => {
+          result.unshift(point.get(trace.trace));
+          return result;
+        }, []);
+      }
+
+      series[idx] = {
         name: trace.label,
         type: 'line',
         symbolSize : '0',
@@ -233,11 +291,8 @@ class TracesChartColumn extends Component {
             }
           },
         },
-        data: props.data.reduce((result, point) => {
-          result.unshift(point.get(trace.trace));
-          return result;
-        }, []),
-      });
+        data: seriesData,
+      };
     });
 
     return {
@@ -259,6 +314,42 @@ class TracesChartColumn extends Component {
           }
         }))
     };
+  }
+
+  getPredictedSeriesData(traceGraph, data) {
+    let predictedSeries = [];
+    if (!data.size) {
+      return predictedSeries;
+    }
+
+    let trace = find(PREDICTED_TRACES, {trace: traceGraph.get('trace')}) || null;
+
+    if (!this.predictedData.hasOwnProperty(trace.trace) || this.predictedData[trace.trace].size === 0) {
+      return predictedSeries;
+    }
+    let predictedData = this.predictedData[trace.trace];
+
+    data.valueSeq().forEach((dataElem, idx) => {
+      predictedSeries[idx] = this.findClosestPredictedDataByTimetamp(dataElem.get('timestamp'), predictedData, trace);
+    });
+
+    return predictedSeries.reverse();
+  }
+
+  findClosestPredictedDataByTimetamp(timestamp, data, predictedTrace) {
+    let curr = data.first();
+
+    let diff = Math.abs(timestamp - curr.get('timestamp'));
+
+    data.valueSeq().forEach(dataElem => {
+      let newdiff = Math.abs(timestamp - dataElem.get('timestamp'));
+      if (newdiff < diff) {
+        diff = newdiff;
+        curr = dataElem;
+      }
+    });
+
+    return curr.getIn(predictedTrace.path);
   }
 
   getTraces(props) {
