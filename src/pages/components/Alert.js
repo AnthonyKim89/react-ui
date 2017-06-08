@@ -34,6 +34,15 @@ class Alert extends Component {
     return '';
   }
 
+  getFriendlyValue(alert, data_point) {
+    var value = alert.data[data_point];
+    if (value === undefined || value === null) {
+      return '';
+    }
+
+    return 'of ' + value;
+  }
+
   getFriendlyTiming(definition) {
     return '30 minutes';
   }
@@ -51,11 +60,11 @@ class Alert extends Component {
     let dataPoints = alert.alert_definition.filters.map((filter) => {
       let sampleFunction = filter.sample_function.charAt(0).toUpperCase() + filter.sample_function.slice(1);
       let dataPoint = this.getFriendlyDataPointName(filter.data_point);
-      let value = alert.data[filter.data_point];
+      let value = this.getFriendlyValue(alert, filter.data_point)
       let comparison = this.getFriendlyComparison(filter.operator);
       let threshold = this.getFriendlyThreshold(filter.threshold);
       let timing = this.getFriendlyTiming(filter.period);
-      return `${sampleFunction} ${dataPoint} of ${value} ${comparison} ${threshold} for ${timing}`;
+      return `${sampleFunction} ${dataPoint} ${value} ${comparison} ${threshold} for ${timing}`;
     });
 
     let decision = dataPoints.join(' ' + alert.alert_definition.filter_logic.toLowerCase() + ' ');
