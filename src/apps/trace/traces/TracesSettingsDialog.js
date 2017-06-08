@@ -288,6 +288,8 @@ class TracesSettingsDialog extends Component {
       }
     }
 
+    console.log(updatedSettings);
+
     this.props.onSettingChange(
       'traceGraphs',
       this.props.traceGraphs.set(this.state.traceEditIndex, Map(updatedSettings))

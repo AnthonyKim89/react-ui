@@ -110,6 +110,10 @@ class TracesChartColumn extends Component {
   }
 
   async initPredictedDataLoad() {
+    if (this.props.data.size === 0) {
+      return;
+    }
+
     this.predictedDataLoading = true;
     let startTS = this.props.data.first().get('timestamp');
     let endTS = this.props.data.last().get('timestamp');
@@ -134,7 +138,7 @@ class TracesChartColumn extends Component {
 
     let traceGraphs = this.props.traceGraphs.toJS();
     for (let tg = 0; tg < traceGraphs.length; tg++) {
-      if (traceGraphs[tg]['source'] === 'predicted') {
+      if (traceGraphs[tg]['source'] === 'predicted' && traceGraphs[tg]['trace']) {
         let result = await this.loadPredictedData(traceGraphs[tg], startTS, endTS);
         
         if (!this.predictedData.hasOwnProperty(traceGraphs[tg]['trace'])) {
@@ -171,7 +175,7 @@ class TracesChartColumn extends Component {
 
   async loadPredictedData(traceGraph, startTS, endTS) {
     let trace = find(PREDICTED_TRACES, {trace: traceGraph['trace']}) || null;
-    if (!trace || this.props.data.size === 0) {
+    if (!trace) {
       return;
     }
 
@@ -190,7 +194,11 @@ class TracesChartColumn extends Component {
       where
     });
 
-    return await api.getAppStorage('corva', trace.collection, this.props.asset.get('id'), params);
+    try {
+      return await api.getAppStorage('corva', trace.collection, this.props.asset.get('id'), params);
+    } catch (e) {
+      return new List();
+    }
   }
 
   render() {
@@ -206,9 +214,9 @@ class TracesChartColumn extends Component {
       <div className={"c-traces__chart-column__values c-traces__chart-column__values-" + traceRowCount}>
         {this.state.traces.slice(0, traceRowCount).map(({valid, field, title, color, unit, minValue, maxValue, latestValue, source}, idx) => (
           <div className="c-traces__chart-column__values__item" key={idx} onClick={() => this.props.editTraceGraph(idx + (4 * this.props.columnNumber))}>
-            {valid ? <div>
+            {valid ? <div title={source === 'predicted' ? 'Predicted' : ''}>
               <div className="c-traces__chart-column__values__item__meta-row">
-                <div className="c-traces__chart-column__values__item__meta-row-title c-traces__center" title={source === 'predicted' ? "Predicted" : ""}><span>{title}{source === 'predicted' ? " (P)" : ""}</span></div>
+                <div className="c-traces__chart-column__values__item__meta-row-title c-traces__center"><span>{title}</span></div>
                 <div className="c-traces__right" style={{color}}><Icon>network_cell</Icon></div>
               </div>
               <div className="c-traces__chart-column__values__item__meta-row">
@@ -236,7 +244,12 @@ class TracesChartColumn extends Component {
     let series = this.state ? this.state.options.series : [];
 
     props.traceGraphs.valueSeq().forEach((traceGraph, idx) => {
-      let trace = find(props.supportedTraces, {trace: traceGraph.get('trace')}) || null;
+      let trace;
+      if (traceGraph.get('source') === 'predicted') {
+        trace = find(PREDICTED_TRACES, {trace: traceGraph.get('trace')}) || null;
+      } else {
+        trace = find(props.supportedTraces, {trace: traceGraph.get('trace')}) || null;
+      }
 
       if (!trace) {
         series[idx] = {
@@ -357,7 +370,12 @@ class TracesChartColumn extends Component {
     let series = [];
 
     props.traceGraphs.valueSeq().forEach(traceGraph => {
-      let trace = find(props.supportedTraces, {trace: traceGraph.get('trace')}) || null;
+      let trace;
+      if (traceGraph.get('source') === 'predicted') {
+        trace = find(PREDICTED_TRACES, {trace: traceGraph.get('trace')}) || null;
+      } else {
+        trace = find(props.supportedTraces, {trace: traceGraph.get('trace')}) || null;
+      }
 
       if (!trace) {
         series.push({
@@ -390,18 +408,23 @@ class TracesChartColumn extends Component {
       }
 
       // Converting the unit on the metadata display
-      let latestValue = props.latestData ? props.latestData.getIn(['data', trace.trace], '') : null;
-      if (latestValue && unitType) {
-        let unitFrom = traceGraph.get('unitFrom');
-        let unitTo = traceGraph.get('unitTo', null);
+      let latestValue;
+      if (traceGraph.get('source') !== 'predicted') {
+        latestValue = props.latestData ? props.latestData.getIn(['data', trace.trace], '') : null;
+        if (latestValue && unitType) {
+          let unitFrom = traceGraph.get('unitFrom');
+          let unitTo = traceGraph.get('unitTo', null);
 
-        if (!unitFrom && trace.hasOwnProperty('cunit')) {
-          unitFrom = trace.cunit;
-        }
+          if (!unitFrom && trace.hasOwnProperty('cunit')) {
+            unitFrom = trace.cunit;
+          }
 
-        if (unitFrom) {
-          latestValue = props.convert.convertValue(parseFloat(latestValue), unitType, unitFrom, unitTo).formatNumeral("0,0.00");
+          if (unitFrom) {
+            latestValue = props.convert.convertValue(parseFloat(latestValue), unitType, unitFrom, unitTo).formatNumeral("0,0.00");
+          }
         }
+      } else {
+        latestValue = 'Predicted';
       }
 
       // Getting the min/max values for auto/static scaling.
@@ -418,8 +441,6 @@ class TracesChartColumn extends Component {
         minValue = (props.data.minBy(x => x.get(trace.trace)) || new Map()).get(trace.trace, 0);
         minValue -= minValue / 1000;
       }
-
-      latestValue = latestValue || '-';
 
       series.push({
         valid: true,

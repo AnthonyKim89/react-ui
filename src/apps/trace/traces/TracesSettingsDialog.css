@@ -16,6 +16,7 @@
 }
 
 .c-traces__container__edit-trace.shouldDisplayUnitOptions {
+    max-width: 750px;
 }
 
 @media(max-width: 768px) {
