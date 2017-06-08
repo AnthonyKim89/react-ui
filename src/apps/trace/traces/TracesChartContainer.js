@@ -24,6 +24,7 @@ class TracesChartContainer extends Component {
         <TracesChartColumn
           key={group}
           data={this.props.data}
+          asset={this.props.asset}
           latestData={this.props.latestData}
           traceGraphs={this.getTraceGraphGroup(group)}
           traceRowCount={this.props.traceRowCount}
@@ -31,6 +32,7 @@ class TracesChartContainer extends Component {
           convert={this.props.convert}
           columnNumber={group}
           totalColumns={columnCount}
+          includeDetailedData={this.props.includeDetailedData}
           editTraceGraph={(traceEditIndex) => this.openSettingsDialog(traceEditIndex)}
           widthCols={this.props.widthCols} />
       ))}
@@ -63,15 +65,17 @@ class TracesChartContainer extends Component {
 }
 
 TracesChartContainer.propTypes = {
+  asset: ImmutablePropTypes.map,
   convert: React.PropTypes.instanceOf(Convert).isRequired,
   supportedTraces: PropTypes.array.isRequired,
   traceGraphs: ImmutablePropTypes.list.isRequired,
-  data: ImmutablePropTypes.list.isRequired,
-  latestData: ImmutablePropTypes.map.isRequired,
+  data: ImmutablePropTypes.list,
+  latestData: ImmutablePropTypes.map,
   widthCols: PropTypes.number.isRequired,
   onSettingChange: PropTypes.func.isRequired,
   traceColumnCount: PropTypes.number,
   traceRowCount: PropTypes.number,
+  includeDetailedData: PropTypes.bool,
 };
 
 export default TracesChartContainer;

@@ -35,11 +35,8 @@ class TracesApp extends Component {
   }
 
   render() {
-    if (!this.summaryData.size > 0) {
-      return <LoadingIndicator/>;
-    }
 
-    let latestData = subscriptions.selectors.getSubData(this.props.data, latestSubscription);
+    let latestData = this.props.data ? subscriptions.selectors.getSubData(this.props.data, latestSubscription): null;
     let supportedTraces = this.mergeSupportedTraces(latestData);
 
     return <div className="c-traces" onWheel={e => this.tracesSlider.scrollRange(e)}>
@@ -60,6 +57,7 @@ class TracesApp extends Component {
         latestData={latestData} />
       <TracesChartContainer
         data={this.state.filteredData}
+        asset={this.props.asset}
         latestData={latestData}
         widthCols={this.props.widthCols}
         onSettingChange={this.props.onSettingChange}
@@ -75,10 +73,21 @@ class TracesApp extends Component {
         traceBoxes={this.props.traceBoxes || new List()}
         data={latestData}
         onSettingChange={this.props.onSettingChange} />
+      {this.renderEmpty()}
     </div>;
   }
 
+  renderEmpty() {
+    if (!this.summaryData.size > 0) {
+      return <div className="c-traces__loading"><LoadingIndicator/></div>;
+    }
+  }
+
   mergeSupportedTraces(latestData) {
+    if (!latestData) {
+      return SUPPORTED_TRACES;
+    }
+
     let witsSupportedTraces = latestData.get('data').toJS();
 
     for (let property in witsSupportedTraces) {
@@ -97,6 +106,14 @@ class TracesApp extends Component {
   }
 
   componentWillUpdate(nextProps) {
+    if(!this.props.data && nextProps.data) {
+      let latestData = subscriptions.selectors.getSubData(nextProps.data, latestSubscription);
+      if(latestData) {
+        let end = latestData.get('timestamp');
+        this.updateFilteredData(end - (60 * 60 * 4), end, false);
+      }
+    }
+
     let summaryData = subscriptions.selectors.getSubData(nextProps.data, summarySubscription, false);
     if (!summaryData) {
       return;
@@ -136,7 +153,7 @@ class TracesApp extends Component {
     // Typically we will fall into this if-statement because common selections won't have a unit type chosen.
     if (!unitType) {
       let trace = find(SUPPORTED_TRACES, {trace: traceKey});
-      if (!trace || !traceKey.hasOwnProperty('unitType') || !traceKey.hasOwnProperty('cunit')) {
+      if (!trace || !trace.hasOwnProperty('unitType') || !trace.hasOwnProperty('cunit')) {
         return filteredData;
       }
       unitType = trace.unitType;
@@ -166,11 +183,18 @@ class TracesApp extends Component {
     start = start !== null ? start : this.state.start;
     end = end !== null ? end : this.state.end;
 
-    let firstTimestamp = this.summaryData.first().get("timestamp");
-    let lastTimestamp = this.summaryData.last().get("timestamp");
+    let firstTimestamp = 0, lastTimestamp = 0, startTS = 0, endTS = 0;
 
-    let startTS = firstTimestamp + start * (lastTimestamp - firstTimestamp);
-    let endTS = firstTimestamp + end * (lastTimestamp - firstTimestamp);
+    if(this.summaryData && this.summaryData.size > 0) {
+      firstTimestamp = this.summaryData.first().get("timestamp");
+      lastTimestamp = this.summaryData.last().get("timestamp");
+      startTS = firstTimestamp + start * (lastTimestamp - firstTimestamp);
+      endTS = firstTimestamp + end * (lastTimestamp - firstTimestamp);
+    }
+    else {
+      startTS = firstTimestamp = start;
+      endTS = lastTimestamp = end;
+    }
 
     // We will load either rough or find data depending on how long the user hasn't changed the slider
     let filteredData;

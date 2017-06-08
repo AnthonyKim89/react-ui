@@ -33,6 +33,9 @@ class TracesDepthBar extends Component {
       endTime = endTimeObj.format('MMMM D, YYYY HH:mm');
       duration = moment.duration(endTimeObj.diff(startTimeObj)).humanize();
     }
+    else {
+      return <div/>;
+    }
 
     return <div className="c-traces__depth-bar">
 
@@ -153,7 +156,7 @@ class TracesDepthBar extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !nextProps.data.equals(this.props.data) || !nextProps.latestData.equals(this.props.latestData);
+    return nextProps.data && nextProps.latestData && (!nextProps.data.equals(this.props.data) || !nextProps.latestData.equals(this.props.latestData));
   }
 
 }
@@ -161,8 +164,8 @@ class TracesDepthBar extends Component {
 TracesDepthBar.propTypes = {
   convert: React.PropTypes.instanceOf(Convert).isRequired,
   supportedTraces: PropTypes.array.isRequired,
-  data: ImmutablePropTypes.list.isRequired,
-  latestData: ImmutablePropTypes.map.isRequired,
+  data: ImmutablePropTypes.list,
+  latestData: ImmutablePropTypes.map,
 };
 
 export default TracesDepthBar;

@@ -5,6 +5,7 @@ import Modal from 'react-modal';
 import { SliderPicker } from 'react-color';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { find, isEqual } from 'lodash';
+import { PREDICTED_TRACES } from '../constants';
 
 import './TracesSettingsDialog.css';
 
@@ -17,6 +18,7 @@ class TracesSettingsDialog extends Component {
       traceEditIndex: null,
       updatedUnitType: null,
       autoScale: null,
+      traceSource: null,
     };
     this.updateTraceGraph = this.updateTraceGraph.bind(this);
     this.render = this.render.bind(this);
@@ -53,11 +55,34 @@ class TracesSettingsDialog extends Component {
 
         <Row s={12}>
           <Col s={shouldDisplayUnitOptions ? 6 : 12}>
+            <Row className="c-traces__container__edit-trace__dialog__type-picker">
+              <Col s={4}>
+                <Input name='tracetype' type='radio'  className='with-gap'
+                       value='trace'
+                       label='Trace'
+                       onClick={(e) => this.setState({traceSource: "trace"})}
+                       defaultChecked={this.state.traceSource === "trace" ? 'checked' : ""} />
+              </Col>
+              <Col s={4}>
+                <Input name='tracetype' type='radio' className='with-gap'
+                       value='predicted'
+                       label='Predicted'
+                       onClick={(e) => this.setState({traceSource: "predicted"})}
+                       defaultChecked={this.state.traceSource === "predicted" ? 'checked' : ""} />
+              </Col>
+              <Col s={4}>
+                <Input name='tracetype' type='radio' className='with-gap'
+                       value='offset' label='Offset'
+                       onClick={(e) => this.setState({traceSource: "offset"})}
+                       defaultChecked={this.state.traceSource === "offset" ? 'checked' : ""} />
+              </Col>
+            </Row>
+
             <Input type='select' label="Trace" s={12}
                    defaultValue={this.props.traceGraphs.getIn([this.state.traceEditIndex, 'trace'])}
                    ref={(input) => this.traceEditorGraph = input}>
               <option value="">&nbsp;</option>
-              {this.props.supportedTraces.map((trace, idx) => {
+              {this.getTraceChoices().map((trace, idx) => {
                 return <option key={idx} value={trace.trace}>{trace.label}</option>;
               })}
             </Input>
@@ -187,6 +212,13 @@ class TracesSettingsDialog extends Component {
     </Modal>;
   }
 
+  getTraceChoices() {
+    if (this.state.traceSource === 'predicted') {
+      return PREDICTED_TRACES;
+    }
+    return this.props.supportedTraces;
+  }
+
   shouldDisplayUnitOptions() {
     let currentTrace = this.props.traceGraphs.getIn([this.state.traceEditIndex, 'trace']);
     let traceMeta = find(this.props.supportedTraces, {trace: currentTrace});
@@ -222,6 +254,8 @@ class TracesSettingsDialog extends Component {
   }
 
   updateTraceGraph() {
+    console.log(this.state.traceSource);
+
     let updatedSettings = {
       trace: this.traceEditorGraph.state.value,
       color: this.traceEditorPicker.state.hex,
@@ -229,6 +263,7 @@ class TracesSettingsDialog extends Component {
       dashStyle: this.traceEditorDashStyle.state.value,
       lineWidth: parseInt(this.traceEditorLineWidth.state.value, 10),
       autoScale: this.traceEditorAutoScale.state.value === true,
+      source: this.state.traceSource,
     };
 
     if (!updatedSettings.autoScale) {
@@ -253,6 +288,8 @@ class TracesSettingsDialog extends Component {
       }
     }
 
+    console.log(updatedSettings);
+
     this.props.onSettingChange(
       'traceGraphs',
       this.props.traceGraphs.set(this.state.traceEditIndex, Map(updatedSettings))
@@ -266,6 +303,7 @@ class TracesSettingsDialog extends Component {
       traceEditIndex: traceEditIndex,
       updatedUnitType: null,
       autoScale: null,
+      traceSource: this.props.traceGraphs.getIn([traceEditIndex, 'source'], "trace"),
     });
   }
 
@@ -275,6 +313,7 @@ class TracesSettingsDialog extends Component {
       traceEditIndex: null,
       updatedUnitType: null,
       autoScale: null,
+      traceSource: null,
     });
   }
 }
