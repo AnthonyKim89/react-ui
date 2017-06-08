@@ -194,7 +194,8 @@ class TracesChartColumn extends Component {
   }
 
   render() {
-    let traceRowCount = this.props.traceRowCount !== undefined ? this.props.traceRowCount : 3;    
+    let traceRowCount = this.props.traceRowCount !== undefined ? this.props.traceRowCount : 3;
+
     return <Col className={"c-traces__chart-column c-traces__chart-column__"+this.props.totalColumns}>
       <div className={"c-traces__chart-column__chart c-traces__chart-column__chart-" + traceRowCount}>
         <ReactEcharts
@@ -203,11 +204,11 @@ class TracesChartColumn extends Component {
           option={this.state.options} />
       </div>
       <div className={"c-traces__chart-column__values c-traces__chart-column__values-" + traceRowCount}>
-        {this.state.traces.slice(0, traceRowCount).map(({valid, field, title, color, unit, latestValue, minValue, maxValue}, idx) => (
+        {this.state.traces.slice(0, traceRowCount).map(({valid, field, title, color, unit, minValue, maxValue, latestValue, source}, idx) => (
           <div className="c-traces__chart-column__values__item" key={idx} onClick={() => this.props.editTraceGraph(idx + (4 * this.props.columnNumber))}>
             {valid ? <div>
               <div className="c-traces__chart-column__values__item__meta-row">
-                <div className="c-traces__chart-column__values__item__meta-row-title c-traces__center"><span>{title}</span></div>
+                <div className="c-traces__chart-column__values__item__meta-row-title c-traces__center" title={source === 'predicted' ? "Predicted" : ""}><span>{title}{source === 'predicted' ? " (P)" : ""}</span></div>
                 <div className="c-traces__right" style={{color}}><Icon>network_cell</Icon></div>
               </div>
               <div className="c-traces__chart-column__values__item__meta-row">
@@ -363,14 +364,15 @@ class TracesChartColumn extends Component {
           valid: false,
           field: '',
           title: '',
-          color: traceGraph.get('color'),
+          source: '',
           unit: '',
           type: 'line',
           dashStyle: 'Solid',
           lineWidth: 2,
           minValue: undefined,
           maxValue: undefined,
-          latestValue: '--'
+          latestValue: '--',
+          color: traceGraph.get('color'),
         });
         return;
       }
@@ -430,7 +432,8 @@ class TracesChartColumn extends Component {
         lineWidth: traceGraph.get('lineWidth', 2), // 1, 2, or 3
         minValue,
         maxValue,
-        latestValue
+        latestValue,
+        source: traceGraph.get('source'),
       });
     });
 
