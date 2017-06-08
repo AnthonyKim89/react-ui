@@ -12,7 +12,7 @@ class AlertGroup extends Component {
         <h2 className="c-alert-group-header">{this.props.title}</h2>
 
         {this.props.alerts && this.props.alerts.map((alert) => {
-            return <Alert key={alert.id} alert={alert} />
+            return <Alert key={alert.id} alert={alert} />;
         })}
       </div>
     );
