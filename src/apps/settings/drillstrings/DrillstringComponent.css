@@ -1,3 +1,7 @@
+.c-drillstring-component__view-table th {
+  padding: 0px;
+}
+
 .c-drillstring-component-image {
   width: 48px;
   background-size: contain;

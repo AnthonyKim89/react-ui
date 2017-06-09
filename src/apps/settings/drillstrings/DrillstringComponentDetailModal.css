@@ -1,0 +1,69 @@
+.c-drillstring-component-detail-modal__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 4000;
+}
+
+.c-drillstring-component-detail-modal {
+  position: absolute;
+  top: 15%;
+  left: 17%;
+  right: 17%;
+  bottom: 12%;
+  border-radius: 0;
+  padding: 20px;
+  color: black;
+  overflow: visible;
+  -webkit-overflow-scrolling: touch;
+  outline: none;
+  z-index: 4001;
+}
+
+.c-drillstring-component-detail header {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #888;
+}
+
+.c-drillstring-component-detail__title {
+  color: white;
+  font-weight: bold;
+  font-size: 28px;
+  margin-top: 0px;
+}
+
+.c-drillstring-component-detail__done {
+  float: right;
+}
+
+.c-drillstring-component-detail label {
+  color: white;
+}
+
+.c-drillstring-component-detail label.field-label {
+  color: #ccc;
+  font-size: 0.8rem;
+}
+
+.c-drillstring-component-detail label.field-value {
+  font-size: 1.2rem;
+  line-height: 2rem;
+  font-weight: bold;
+}
+
+.c-drillstring-component-detail thead {
+  border-bottom: 0px;
+}
+.c-drillstring-component-detail th {  
+  color: #ccc;
+  font-size: 0.8rem;
+  padding: 0px;
+}
+.c-drillstring-component-detail td {  
+  color: white;
+  font-size: 1.2rem;
+  padding: 0px;  
+}

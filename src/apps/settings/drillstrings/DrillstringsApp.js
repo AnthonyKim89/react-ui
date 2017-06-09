@@ -252,14 +252,14 @@ class DrillstringsApp extends Component {
         }
 
         //only check validity of linear weight when family is not bit
-        if (!this.isValidNumber(comp.adjust_linear_weight,0)) {
-          error["adjust_linear_weight"] = "Invalid value";
+        if (!this.isValidNumber(comp.linear_weight,0)) {
+          error["linear_weight"] = "Invalid value";
           hasFormErrors = true;
         }
 
-        if (!error["inner_diameter"] && !error["outer_diameter"] && !error["adjust_linear_weight"]) {
-          if (!this.isValidLinearWeight(comp.inner_diameter,comp.outer_diameter,comp.adjust_linear_weight)) {
-            error["adjust_linear_weight"] = "Invalid range";
+        if (!error["inner_diameter"] && !error["outer_diameter"] && !error["linear_weight"]) {
+          if (!this.isValidLinearWeight(comp.inner_diameter,comp.outer_diameter,comp.linear_weight)) {
+            error["linear_weight"] = "Invalid range";
             hasFormErrors = true;
           }
         }
@@ -288,8 +288,8 @@ class DrillstringsApp extends Component {
       }
 
       if (!this.isValueEmpty(min_length) && max_length) {
-        if (!this.isValidNumber(comp.total_length,min_length,max_length)) {
-          error["total_length"] = `${min_length}~${max_length} (${lengthUnitDisplay})`;
+        if (!this.isValidNumber(comp.length,min_length,max_length)) {
+          error["length"] = `${min_length}~${max_length} (${lengthUnitDisplay})`;
           hasFormErrors = true;
         }
       }
@@ -356,16 +356,20 @@ class DrillstringsApp extends Component {
     data.start_depth = convert.convertValue(data.start_depth, "length", convert.getUnitPreference("length"),"ft");
     data.end_depth = convert.convertValue(data.end_depth, "length", convert.getUnitPreference("length"),"ft");
     data.components.map((component)=>{
-      component.inner_diameter = convert.convertValue(component.inner_diameter, "shortLength", convert.getUnitPreference("shortLength"),"in");
-      component.outer_diameter = convert.convertValue(component.outer_diameter, "shortLength", convert.getUnitPreference("shortLength"),"in");
-      if (component.adjust_linear_weight) { // bit family doesn't have linear weight
-        component.adjust_linear_weight = convert.convertValue(component.adjust_linear_weight, "force", convert.getUnitPreference("force"), "klbf");
-      }
-      component.weight = convert.convertValue(component.weight, "mass", convert.getUnitPreference("mass"),"lb");
-      component.length = convert.convertValue(component.length, "length", convert.getUnitPreference("length"),"ft");
-      if (component.family === 'bit') {
-        component.size = convert.convertValue(component.size, "shortLength", convert.getUnitPreference("shortLength"),"in");
-      }
+      component.inner_diameter = component.inner_diameter && convert.convertValue(component.inner_diameter, "shortLength", convert.getUnitPreference("shortLength"),"in");
+      component.outer_diameter = component.outer_diameter && convert.convertValue(component.outer_diameter, "shortLength", convert.getUnitPreference("shortLength"),"in");      
+      component.linear_weight = component.linear_weight && convert.convertValue(component.linear_weight, "force", convert.getUnitPreference("force"), "klbf");
+      component.weight = component.weight && convert.convertValue(component.weight, "mass", convert.getUnitPreference("mass"),"lb");
+      component.length = component.length && convert.convertValue(component.length, "length", convert.getUnitPreference("length"),"ft");
+      component.component_length = component.component_length && convert.convertValue(component.component_length, "length", convert.getUnitPreference("length"),"ft");
+      component.tool_joint_od = component.tool_joint_od && convert.convertValue(component.tool_joint_od, "shortLength", convert.getUnitPreference("shortLength"),"in");
+      component.tool_joint_id = component.tool_joint_id && convert.convertValue(component.tool_joint_id, "shortLength", convert.getUnitPreference("shortLength"),"in");
+      component.tool_joint_length = component.tool_joint_length && convert.convertValue(component.tool_joint_length, "shortLength", convert.getUnitPreference("length"),"ft");
+      component.norminal_linear_weight = component.norminal_linear_weight && convert.convertValue(component.norminal_linear_weight, "force", convert.getUnitPreference("force"), "klbf");
+      component.gauge_od = component.gauge_od && convert.convertValue(component.gauge_od, "shortLength", convert.getUnitPreference("shortLength"),"in");
+      component.gauge_length = component.gauge_length && convert.convertValue(component.gauge_length, "length", convert.getUnitPreference("length"),"ft");
+      component.blade_width = component.blade_width && convert.convertValue(component.blade_width, "length", convert.getUnitPreference("length"),"ft");
+      component.size = component.size && convert.convertValue(component.size, "shortLength", convert.getUnitPreference("shortLength"),"in"); //for bit
       return component;
     });
 

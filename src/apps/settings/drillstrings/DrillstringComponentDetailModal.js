@@ -1,22 +1,25 @@
 import React, { Component } from 'react';
-import { Row,Col } from 'react-materialize';
+import { Row,Col,Button } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { List } from 'immutable';
-
-import './DrillstringComponentModal.css';
 
 class DrillstringComponentModal extends Component {
 
   render() {
-    return <div className="c-drillstring-component-modal">
-      <Row>
-        <Col s={12} m={1}>
-          {this.renderComponentImage()}
-        </Col>
-        <Col s={12} m={11}>
+    return <div className="c-drillstring-component-detail">
+      <header>
+        <Button className="c-drillstring-component-detail__done" onClick={ ()=> this.onDone() }>
+          Close
+        </Button>
+        <h4 className="c-drillstring-component-detail__title">
+          {this.props.component.get('name')} ( {this.props.component.get('family')} )
+        </h4>
+      </header>
+      <Row>        
+        <Col s={12}>
           {this.renderComponent()}
         </Col>
-      </Row>      
+      </Row>
     </div>;
   }
 
@@ -54,18 +57,14 @@ class DrillstringComponentModal extends Component {
   renderComponentDP() {
     return [      
       <Row key="dp-1">
-        {this.renderComponentLabelField("name", "Name", 4)}
         {this.renderComponentLabelField("outer_diameter","OD",4,'shortLength','in')}
         {this.renderComponentLabelField("inner_diameter","ID",4,'shortLength','in')}
         {this.renderComponentLabelField("number_of_joint","# of Joints",4)}
-        {this.renderComponentLabelField("length", "Component Length", 4,"length","ft")}
-        {this.renderComponentLabelField("total_length", "Total Length", 4,"length","ft")}
-        {this.renderComponentLabelField("adjust_linear_weight", "Adjust Linear Weight", 4,"massPerLength","lb-ft")}
-        {this.renderComponentLabelField("total_weight", "Total Weight", 4, "mass","lb")}
-        {this.renderComponentLabelField('grade', 'Grade',4)}
-      </Row>,
-        
-      <Row key="dp-2">
+        {this.renderComponentLabelField("component_length", "Component Length", 4,"length","ft")}
+        {this.renderComponentLabelField("length", "Total Length", 4,"length","ft")}
+        {this.renderComponentLabelField("linear_weight", "Adjust Linear Weight", 4,"massPerLength","lb-ft")}
+        {this.renderComponentLabelField("weight", "Total Weight", 4, "mass","lb")}
+        {this.renderComponentLabelField('grade', 'Grade',4)}      
         {this.renderComponentLabelField("tool_joint_od", "TJ OD", 4)}
         {this.renderComponentLabelField("tool_joint_id", "TJ ID", 4)}
         {this.renderComponentLabelField("tool_joint_length", "TJ Length per Joint", 4)}
@@ -80,19 +79,15 @@ class DrillstringComponentModal extends Component {
   renderComponentHWDP() {
     return [
       <Row key="hwdp-1">
-        {this.renderComponentLabelField("name", "Name", 4)}
         {this.renderComponentLabelField("sub_category", "Sub Category", 4)}
         {this.renderComponentLabelField("outer_diameter","OD",4,'shortLength','in')}
         {this.renderComponentLabelField("inner_diameter","ID",4,'shortLength','in')}
         {this.renderComponentLabelField("number_of_joint","# of Joints",4)}
-        {this.renderComponentLabelField("length", "Component Length", 4,"length","ft")}
-        {this.renderComponentLabelField("total_length", "Total Length", 4,"length","ft")}
-        {this.renderComponentLabelField("adjust_linear_weight", "Adjust Linear Weight", 4,"massPerLength","lb-ft")}
-        {this.renderComponentLabelField("total_weight", "Total Weight", 4, "mass","lb")}
-        {this.renderComponentLabelField('grade', 'Grade',4)}
-      </Row>, 
-
-      <Row key="hwdp-2">
+        {this.renderComponentLabelField("component_length", "Component Length", 4,"length","ft")}
+        {this.renderComponentLabelField("length", "Total Length", 4,"length","ft")}
+        {this.renderComponentLabelField("linear_weight", "Adjust Linear Weight", 4,"massPerLength","lb-ft")}
+        {this.renderComponentLabelField("weight", "Total Weight", 4, "mass","lb")}
+        {this.renderComponentLabelField('grade', 'Grade',4)}      
         {this.renderComponentLabelField("tool_joint_od", "TJ OD", 4)}
         {this.renderComponentLabelField("tool_joint_id", "TJ ID", 4)}
         {this.renderComponentLabelField("tool_joint_length", "TJ Length per Joint", 4)}
@@ -107,14 +102,42 @@ class DrillstringComponentModal extends Component {
   renderComponentPDM() {
     return [
       <Row key="pdm-1">
-        {this.renderComponentLabelField("name", "Name", 4)}
         {this.renderComponentLabelField("outer_diameter","OD",4,'shortLength','in')}
         {this.renderComponentLabelField("inner_diameter","ID",4,'shortLength','in')}        
-        {this.renderComponentLabelField("length", "Component Length", 4,"length","ft")}
-        {this.renderComponentLabelField("total_length", "Total Length", 4,"length","ft")}
-        {this.renderComponentLabelField("adjust_linear_weight", "Adjust Linear Weight", 4,"massPerLength","lb-ft")}
-        {this.renderComponentLabelField("total_weight", "Total Weight", 4, "mass","lb")}
+        {this.renderComponentLabelField("component_length", "Component Length", 4,"length","ft")}
+        {this.renderComponentLabelField("length", "Total Length", 4,"length","ft")}
+        {this.renderComponentLabelField("linear_weight", "Adjust Linear Weight", 4,"massPerLength","lb-ft")}
+        {this.renderComponentLabelField("weight", "Total Weight", 4, "mass","lb")}
         {this.renderComponentLabelField('info', 'Info',4)}
+      </Row>,
+
+      <Row key="pdm-pressure-loss">        
+        <Col s={12}>
+          {this.props.component.get('off_bottom_pressure_loss',List([])).size > 0 &&
+            <table>
+              <thead>
+                <tr>
+                  <th> Flow Rate </th>
+                  <th> Pressure Loss </th>
+                </tr>
+              </thead>
+              <tbody>              
+              {this.props.component.get('off_bottom_pressure_loss',List([])).map((obps, index)=> {
+                return (
+                  <tr key={index}>
+                    <td>
+                      { obps.get("flow_rate") }
+                    </td>
+                    <td>
+                      { obps.get("pressure_loss") }
+                    </td>                  
+                  </tr>
+                );
+              })}
+              </tbody>
+            </table>
+          }
+        </Col>        
       </Row>,
 
       <Row key="pdm-2">
@@ -129,31 +152,37 @@ class DrillstringComponentModal extends Component {
   renderComponentBIT() {
     return [
       <Row key="bit-1">
-        {this.renderComponentLabelField("name", "Name", 3)}
-        {this.renderComponentLabelField("outer_diameter","OD",3,'shortLength','in')}        
-        {this.renderComponentLabelField("total_length", "Total Length", 3,"length","ft")}
-        {this.renderComponentLabelField("total_weight", "Total Weight", 3, "mass","lb")}
+        {this.renderComponentLabelField("outer_diameter","OD", 4, 'shortLength','in')}
+        {this.renderComponentLabelField("length", "Total Length", 4, "length","ft")}
+        {this.renderComponentLabelField("weight", "Total Weight", 4, "mass","lb")}
       </Row>,
 
       <Row key="bit-nozzles">        
         <Col s={12}>
-          <h5>Nozzle Sizes</h5>
-          <table>            
-            <tbody>              
-            {this.props.component.get('nozzle_sizes',List([])).map((nozzle, index)=> {
-              return (
-                <tr key={index}>
-                  <td>
-                    {this.renderNozzleNumberField(index,"size")}
-                  </td>
-                  <td>
-                    {this.renderNozzleNumberField(index,"count")}
-                  </td>                  
+          {this.props.component.get('nozzle_sizes',List([])).size > 0 &&
+            <table>
+              <thead>
+                <tr>
+                  <th> Nozzle Size</th>
+                  <th> # of this size </th>
                 </tr>
-              );
-            })}
-            </tbody>
-          </table>          
+              </thead>
+              <tbody>              
+              {this.props.component.get('nozzle_sizes',List([])).map((nozzle, index)=> {
+                return (
+                  <tr key={index}>
+                    <td>
+                      { this.props.component.getIn(["nozzle_sizes",index,"size"]) }
+                    </td>
+                    <td>
+                      { this.props.component.getIn(["nozzle_sizes",index,"count"]) }
+                    </td>                  
+                  </tr>
+                );
+              })}
+              </tbody>
+            </table>
+          }
         </Col>        
       </Row>,
 
@@ -170,18 +199,14 @@ class DrillstringComponentModal extends Component {
   renderComponentDC() {
     return [
       <Row key="dc-1">
-        {this.renderComponentLabelField("name", "Name", 4)}
         {this.renderComponentLabelField("sub_category", "Sub Category", 4)}
         {this.renderComponentLabelField("outer_diameter","OD",4,'shortLength','in')}
         {this.renderComponentLabelField("inner_diameter","ID",4,'shortLength','in')}
         {this.renderComponentLabelField("number_of_joint","# of Joints",4)}
-        {this.renderComponentLabelField("length", "Component Length", 4,"length","ft")}
-        {this.renderComponentLabelField("total_length", "Total Length", 4,"length","ft")}
-      </Row>,
-
-      <Row key="dc-2">
-        {this.renderComponentLabelField("adjust_linear_weight", "Adjust Linear Weight", 4,"massPerLength","lb-ft")}
-        {this.renderComponentLabelField("total_weight", "Total Weight", 4, "mass","lb")}
+        {this.renderComponentLabelField("component_length", "Component Length", 4,"length","ft")}
+        {this.renderComponentLabelField("length", "Total Length", 4,"length","ft")}
+        {this.renderComponentLabelField("linear_weight", "Adjust Linear Weight", 4,"massPerLength","lb-ft")}
+        {this.renderComponentLabelField("weight", "Total Weight", 4, "mass","lb")}
         {this.renderComponentLabelField("connection_type", "Connection Type", 4)}
         {this.renderComponentLabelField("material", "Material", 4)}
       </Row>
@@ -191,16 +216,12 @@ class DrillstringComponentModal extends Component {
   renderComponentSub() {
     return [
       <Row key="sub-1">
-        {this.renderComponentLabelField("name", "Name", 4)}        
         {this.renderComponentLabelField("outer_diameter","OD",4,'shortLength','in')}
         {this.renderComponentLabelField("inner_diameter","ID",4,'shortLength','in')}
-        {this.renderComponentLabelField("length", "Component Length", 4,"length","ft")}
-        {this.renderComponentLabelField("total_length", "Total Length", 4,"length","ft")}
-      </Row>,
-
-      <Row key="sbu-2">
-        {this.renderComponentLabelField("adjust_linear_weight", "Adjust Linear Weight", 4,"massPerLength","lb-ft")}
-        {this.renderComponentLabelField("total_weight", "Total Weight", 4, "mass","lb")}
+        {this.renderComponentLabelField("component_length", "Component Length", 4,"length","ft")}
+        {this.renderComponentLabelField("length", "Total Length", 4,"length","ft")}
+        {this.renderComponentLabelField("linear_weight", "Adjust Linear Weight", 4,"massPerLength","lb-ft")}
+        {this.renderComponentLabelField("weight", "Total Weight", 4, "mass","lb")}
         {this.renderComponentLabelField("connection_type", "Connection Type", 4)}
         {this.renderComponentLabelField("material", "Material", 4)}
       </Row>
@@ -210,16 +231,12 @@ class DrillstringComponentModal extends Component {
   renderComponentStabilizer() {
     return [
       <Row key="stabilizer-1">
-        {this.renderComponentLabelField("name", "Name", 4)}
         {this.renderComponentLabelField("outer_diameter","OD",4,'shortLength','in')}
         {this.renderComponentLabelField("inner_diameter","ID",4,'shortLength','in')}
-        {this.renderComponentLabelField("length", "Component Length", 4,"length","ft")}
-        {this.renderComponentLabelField("total_length", "Total Length", 4,"length","ft")}
-        {this.renderComponentLabelField("adjust_linear_weight", "Adjust Linear Weight", 4,"massPerLength","lb-ft")}
-        {this.renderComponentLabelField("total_weight", "Total Weight", 4, "mass","lb")}
-      </Row>,
-
-      <Row key="stabilizer-2">
+        {this.renderComponentLabelField("component_length", "Component Length", 4,"length","ft")}
+        {this.renderComponentLabelField("length", "Total Length", 4,"length","ft")}
+        {this.renderComponentLabelField("linear_weight", "Adjust Linear Weight", 4,"massPerLength","lb-ft")}
+        {this.renderComponentLabelField("weight", "Total Weight", 4, "mass","lb")}
         {this.renderComponentLabelField("gauge_od", "Gauge OD", 4)}
         {this.renderComponentLabelField("gauge_length", "Gauge Length", 4)}
         {this.renderComponentLabelField("no_of_blades", "# of Blades", 4)}
@@ -234,18 +251,14 @@ class DrillstringComponentModal extends Component {
   renderComponentJar() {
     return [
       <Row key="jar-1">
-        {this.renderComponentLabelField("name", "Name", 4)}
         {this.renderComponentLabelField("sub_category", "Sub Category", 4)}
         {this.renderComponentLabelField("outer_diameter","OD",4,'shortLength','in')}
         {this.renderComponentLabelField("inner_diameter","ID",4,'shortLength','in')}
         {this.renderComponentLabelField("number_of_joint","# of Joints",4)}
-      </Row>,
-
-      <Row key="jar-2">
-        {this.renderComponentLabelField("length", "Component Length", 4,"length","ft")}
-        {this.renderComponentLabelField("total_length", "Total Length", 4,"length","ft")}
-        {this.renderComponentLabelField("adjust_linear_weight", "Adjust Linear Weight", 4,"massPerLength","lb-ft")}
-        {this.renderComponentLabelField("total_weight", "Total Weight", 4, "mass","lb")}
+        {this.renderComponentLabelField("component_length", "Component Length", 4,"length","ft")}
+        {this.renderComponentLabelField("length", "Total Length", 4,"length","ft")}
+        {this.renderComponentLabelField("linear_weight", "Adjust Linear Weight", 4,"massPerLength","lb-ft")}
+        {this.renderComponentLabelField("weight", "Total Weight", 4, "mass","lb")}
         {this.renderComponentLabelField("connection_type", "Connection Type", 4)}
         {this.renderComponentLabelField("material", "Material", 4)}
       </Row>
@@ -255,33 +268,20 @@ class DrillstringComponentModal extends Component {
   renderComponentMWD() {
     return [
       <Row key="mwd-1">
-        {this.renderComponentLabelField("name", "Name", 4)}        
         {this.renderComponentLabelField("outer_diameter","OD",4,'shortLength','in')}
         {this.renderComponentLabelField("inner_diameter","ID",4,'shortLength','in')}
-        {this.renderComponentLabelField("length", "Component Length", 4,"length","ft")}
-        {this.renderComponentLabelField("total_length", "Total Length", 4,"length","ft")}
-        {this.renderComponentLabelField("adjust_linear_weight", "Adjust Linear Weight", 4,"massPerLength","lb-ft")}
-        {this.renderComponentLabelField("total_weight", "Total Weight", 4, "mass","lb")}
+        {this.renderComponentLabelField("component_length", "Component Length", 4,"length","ft")}
+        {this.renderComponentLabelField("length", "Total Length", 4,"length","ft")}
+        {this.renderComponentLabelField("linear_weight", "Adjust Linear Weight", 4,"massPerLength","lb-ft")}
+        {this.renderComponentLabelField("weight", "Total Weight", 4, "mass","lb")}
         {this.renderComponentLabelField("connection_type", "Connection Type", 4)}
         {this.renderComponentLabelField("material", "Material", 4)}
-      </Row>,
-
-      <Row key="mwd-2">
-        {this.renderComponentLabelField("sensor_to_bit_distance", "Sensor to bit distance", 4)}
       </Row>
     ];
   }
 
-  renderNozzleNumberField(index,key) {
-    return <Col s={12}>
-      <label>{key}</label>
-      <br/>
-      <label>{this.props.component.getIn(["nozzle_sizes",index,key])}</label>
-    </Col>;
-  }
-
   renderComponentLabelField(field,label="",colSize=2,unitType,unit) {
-    let value = this.props.component.get(field, '');
+    let value = this.props.component.get(field) || '';
 
     let numberFormat;
 
@@ -305,10 +305,14 @@ class DrillstringComponentModal extends Component {
     }
 
     return <Col m={colSize} s={12}>
-      <label>{label}</label>
+      <label className="field-label">{label}</label>
       <br/>
-      <label>{value}</label>
+      <label className="field-value">{value!==""? value: "n/a"}</label>
     </Col>;
+  }
+
+  onDone() {
+    this.props.onDone();
   }
 }
 

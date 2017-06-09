@@ -2,7 +2,11 @@
   border-bottom: 1px solid #666666;
   padding-top: 10px;
   padding-bottom: 20px;
-  margin-bottom: 10px;
+  overflow: visible;
+}
+
+.c-drillstring-component-editor-item.even{
+  background-color: rgb(42, 41, 41);
 }
 
 .c-drillstring-component-editor-item .row {
@@ -17,8 +21,13 @@
   top:40px;
 }
 
-.c-drillstring-component-editor-item .select-wrapper ul {
-  width: 160px !important;
+
+/*.c-drillstring-component-editor-item .select-wrapper ul {
+}
+*/
+
+ul.select-dropdown {
+  z-index: 10000;
 }
 
 .c-drillstring-component-editor-item__nozzle-table td {
@@ -30,3 +39,20 @@
   margin-top: 0px;
 }
 
+.c-drillstring-component-editor-item__obps-table td {
+  padding: 0px;
+}
+
+.c-drillstring-component-editor-item__obps-table .input-field {
+  padding: 0 10px 0 0 !important;
+  margin-top: 0px;
+}
+
+.c-drillstring-component-editor-item .disabled-input {
+  color: #fff !important;
+  border-bottom: 1px solid #9e9e9e !important;
+}
+
+.c-drillstring-component-editor-item .disabled-input+label {
+  color: #9e9e9e !important;
+}

@@ -1,4 +1,7 @@
-.c-drillstring-component-browser-item td, th {
-  padding: 5px;
+.c-drillstring-component-browser-item:nth-child(even) {
+  background-color: rgb(42, 41, 41); 
 }
 
+.c-drillstring-component-browser-item td {
+  padding: 0px;
+}

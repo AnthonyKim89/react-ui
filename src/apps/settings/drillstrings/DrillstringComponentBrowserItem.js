@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button,Col } from 'react-materialize';
+import { Button } from 'react-materialize';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import './DrillstringComponentBrowserItem.css';
@@ -11,11 +11,11 @@ class DrillstringComponentBrowserItem extends Component {
       <td>{this.renderComponentImage()}</td>
       <td>{this.renderComponentLabelField('family')}</td>
       <td>{this.renderComponentLabelField('name')}</td>
-      <td>{this.renderComponentLabelField('outer_diameter')}</td>
-      <td>{this.renderComponentLabelField('inner_diameter')}</td>
-      <td>{this.renderComponentLabelField('adjust_linear_weight')}</td>
-      <td>{this.renderComponentLabelField('total_length')}</td>
-      <td>{this.renderComponentLabelField('total_weight')}</td>
+      <td>{this.renderComponentLabelField('outer_diameter','shortLength','in')}</td>
+      <td>{this.renderComponentLabelField('inner_diameter','shortLength','in')}</td>
+      <td>{this.renderComponentLabelField('linear_weight', "massPerLength", "lb-ft")}</td>
+      <td>{this.renderComponentLabelField('length', "length","ft")}</td>
+      <td>{this.renderComponentLabelField('weight', "mass","lb")}</td>
       <td>{this.renderComponentLabelField('grade')}</td>
       <td> 
         <Button floating icon="view_headline" onClick={() => {this.props.viewMore(this.props.component.get('id')); }}></Button>
@@ -25,19 +25,23 @@ class DrillstringComponentBrowserItem extends Component {
 
   renderComponentImage() {
     return <div className={`c-drillstring-component-image                              
-                              c-drillstring-component-image--${this.props.component.get('family')}`}>
+                            c-drillstring-component-image--${this.props.component.get('family')}`}>
       </div>;    
   }
-  renderComponentLabelField(field,label="",colSize=2,unitType,unit) {
-    let value = this.props.component.get(field, '');
+  renderComponentLabelField(field,unitType,unit) {
+    let value = this.props.component.get(field) || '';
+    let numberFormat;
     if (value!=='' && unitType && unit) {
-      value = this.props.convert.convertValue(value,unitType,unit).formatNumeral('0.0');
+      numberFormat='0.00';
+      value = this.props.convert.convertValue(value,unitType,unit);
+    };
+    if (value!=='' && !unitType && !unit) {
+      numberFormat='0';
     }
-    return <Col m={colSize} s={12}>
-      <label>{label}</label>
-      <br/>
-      <label>{value}</label>
-    </Col>;
+    if (numberFormat && value.formatNumeral) {
+      value = value.formatNumeral(numberFormat);
+    }
+    return value;
   }
 }
 

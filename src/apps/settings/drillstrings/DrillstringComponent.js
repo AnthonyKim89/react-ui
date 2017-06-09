@@ -9,8 +9,8 @@ import Modal from 'react-modal';
 import './DrillstringComponent.css';
 import DrillstringComponentEditorItem from './DrillstringComponentEditorItem';
 import DrillstringComponentBrowserItem from './DrillstringComponentBrowserItem';
-import DrillstringComponentModal from './DrillstringComponentModal';
-
+import DrillstringComponentDetailModal from './DrillstringComponentDetailModal';
+import './DrillstringComponentDetailModal.css';
 class DrillstringComponent extends Component {
 
   constructor(props) {
@@ -52,17 +52,18 @@ class DrillstringComponent extends Component {
           container={()=>document.body}
           onMoveEnd={newArr => this.onReorderComponents(List(newArr))} />
         
+        <br/>
         <Row>
           <Col m={1}></Col>
           <Col m={11}>
-              <Button floating icon="add" onClick={() => this.onAddComponent()}></Button>
+            <Button floating icon="add" onClick={() => this.onAddComponent()}></Button>
           </Col>
         </Row>
       </div>;
     }
 
     return <div className="c-drillstring-component">
-      <table>
+      <table className="c-drillstring-component__view-table">
         <thead>
           <tr>
             <th></th>
@@ -90,11 +91,14 @@ class DrillstringComponent extends Component {
       <Modal
         isOpen={this.state.viewComponentId? true: false}
         onRequestClose={_=> {this.setState({viewComponentId: null}); }}
+        className='c-drillstring-component-detail-modal  grey darken-2'
+        overlayClassName='c-drillstring-component-detail-modal__overlay'
         contentLabel="View Component Detail">
         {this.state.viewComponentId &&
-          <DrillstringComponentModal
+          <DrillstringComponentDetailModal
             convert={this.props.convert}
             component={this.getSelectedComponent()}
+            onDone={_=> this.setState({viewComponentId: null}) }
           />
         }
       </Modal>
