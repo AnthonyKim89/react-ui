@@ -34,6 +34,8 @@ class TracesChartContainer extends Component {
           totalColumns={columnCount}
           includeDetailedData={this.props.includeDetailedData}
           editTraceGraph={(traceEditIndex) => this.openSettingsDialog(traceEditIndex)}
+          onAppSubscribe={(...args) => this.props.onAppSubscribe(...args)}
+          onAppUnsubscribe={(...args) => this.props.onAppUnsubscribe(...args)}
           widthCols={this.props.widthCols} />
       ))}
       <TracesSettingsDialog
@@ -72,6 +74,8 @@ TracesChartContainer.propTypes = {
   data: ImmutablePropTypes.list,
   latestData: ImmutablePropTypes.map,
   widthCols: PropTypes.number.isRequired,
+  onAppUnsubscribe: PropTypes.func.isRequired,
+  onAppSettingsUpdate: PropTypes.func.isRequired,
   onSettingChange: PropTypes.func.isRequired,
   traceColumnCount: PropTypes.number,
   traceRowCount: PropTypes.number,

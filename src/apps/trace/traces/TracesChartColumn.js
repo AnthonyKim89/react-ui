@@ -20,6 +20,7 @@ class TracesChartColumn extends Component {
     this.predictedDataLoading = false;
     this.predictedData = {};
     this.predictedDataRange = [null, null];
+    this.activeSubscriptions = {};
 
     this.yAxisData = props.data.reduce((result, point) => {
       result.unshift(moment.unix(point.get("timestamp")).format('MMMD HH:mm'));
@@ -225,6 +226,27 @@ class TracesChartColumn extends Component {
     } catch (e) {
       return new List();
     }
+  }
+
+  subscribe(id, traceIndex, provider, collection, fields) {
+    let sub = {provider, collection, params: {sort: '{timestamp:1}', fields}};
+    let uid = this.props.columnNumber + id + traceIndex;
+
+    this.activeSubscriptions[uid] = sub;
+
+    this.props.onAppSubscribe(
+      uid,
+      [sub],
+      this.props.asset.get('id')
+    );
+  }
+
+  unsubscribe(id, traceIndex) {
+    let uid = this.props.columnNumber + id + traceIndex;
+
+    this.props.onAppUnsubscribe(uid, [this.activeSubscriptions[uid]]);
+
+    delete this.activeSubscriptions[uid];
   }
 
   render() {
@@ -505,6 +527,8 @@ TracesChartColumn.propTypes = {
   editTraceGraph: PropTypes.func.isRequired,
   widthCols: PropTypes.number.isRequired,
   includeDetailedData: PropTypes.bool,
+  onAppUnsubscribe: PropTypes.func.isRequired,
+  onAppSettingsUpdate: PropTypes.func.isRequired,
 };
 
 export default TracesChartColumn;

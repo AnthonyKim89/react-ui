@@ -60,6 +60,8 @@ class TracesApp extends Component {
         asset={this.props.asset}
         latestData={latestData}
         widthCols={this.props.widthCols}
+        onAppSubscribe={(...args) => this.props.onAppSubscribe(...args)}
+        onAppUnsubscribe={(...args) => this.props.onAppUnsubscribe(...args)}
         onSettingChange={this.props.onSettingChange}
         traceGraphs={DEFAULT_TRACE_GRAPHS.merge(this.props.traceGraphs)}
         convert={this.props.convert}
@@ -237,6 +239,8 @@ TracesApp.propTypes = {
   data: ImmutablePropTypes.map,
   size: PropTypes.string.isRequired,
   widthCols: PropTypes.number.isRequired,
+  onAppUnsubscribe: PropTypes.func.isRequired,
+  onAppSettingsUpdate: PropTypes.func.isRequired,
   onSettingChange: PropTypes.func.isRequired,
   asset: ImmutablePropTypes.map,
 };
