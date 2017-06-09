@@ -48,6 +48,7 @@ class DrillstringComponent extends Component {
           itemKey={itm => itm.get('id')}
           template={this.DrillstringComponentEditorItem}
           padding={0}
+          unsetZIndex={true}
           commonProps={commonProps}
           container={()=>document.body}
           onMoveEnd={newArr => this.onReorderComponents(List(newArr))} />

@@ -2,7 +2,6 @@
   border-bottom: 1px solid #666666;
   padding-top: 10px;
   padding-bottom: 20px;
-  overflow: visible;
 }
 
 .c-drillstring-component-editor-item.even{
@@ -19,15 +18,6 @@
 
 .c-drillstring-component-editor-item .input-field.col label:after{
   top:40px;
-}
-
-
-/*.c-drillstring-component-editor-item .select-wrapper ul {
-}
-*/
-
-ul.select-dropdown {
-  z-index: 10000;
 }
 
 .c-drillstring-component-editor-item__nozzle-table td {

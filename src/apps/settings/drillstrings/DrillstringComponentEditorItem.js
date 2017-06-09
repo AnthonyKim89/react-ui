@@ -136,9 +136,18 @@ class DrillstringComponentEditorItem extends Component {
         {this.renderComponentNumberField("outer_diameter","OD",2,'shortLength','in')}
         {this.renderComponentNumberField("inner_diameter","ID",2,'shortLength','in')}
         {this.renderComponentNumberField("component_length", "Component Length", 2,"length","ft")}
-        {this.renderComponentLabelField("length", "Total Length", 1,"length","ft")}                
+        {this.renderComponentLabelField("length", "Total Length", 2,"length","ft")}                
       </Row>,
       
+      <Row key="pdm-2">
+        {this.renderComponentNumberField("linear_weight", "Adjust Linear Weight", 2,"massPerLength","lb-ft")}
+        {this.renderComponentLabelField("weight", "Total Weight", 2, "mass","lb")}
+        {this.renderComponentSelectField('info', "Info", 2, COMPONENT_CATALOGUES)}
+        {this.renderComponentNumberField('number_rotor_lobes', '# of rotor lobes',2)}
+        {this.renderComponentNumberField('number_stator_lobes', '# of stator lobes',2)}
+        {this.renderComponentNumberField('rpg', 'RPG',2)}
+      </Row>,
+
       <Row key="pdm-pressure-loss">
         <Col s={12} m={8} l={4}>
           <div>
@@ -174,15 +183,6 @@ class DrillstringComponentEditorItem extends Component {
             </table>
           }
         </Col>
-      </Row>,
-
-      <Row key="pdm-2">
-        {this.renderComponentNumberField("linear_weight", "Adjust Linear Weight", 2,"massPerLength","lb-ft")}
-        {this.renderComponentLabelField("weight", "Total Weight", 2, "mass","lb")}
-        {this.renderComponentSelectField('info', "Info", 2, COMPONENT_CATALOGUES)}
-        {this.renderComponentNumberField('number_rotor_lobes', '# of rotor lobes',2)}
-        {this.renderComponentNumberField('number_stator_lobes', '# of stator lobes',2)}
-        {this.renderComponentNumberField('rpg', 'RPG',2)}
       </Row>,
 
     ];
