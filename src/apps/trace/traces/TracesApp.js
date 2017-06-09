@@ -183,17 +183,14 @@ class TracesApp extends Component {
     start = start !== null ? start : this.state.start;
     end = end !== null ? end : this.state.end;
 
-    let firstTimestamp = 0, lastTimestamp = 0, startTS = 0, endTS = 0;
+    let startTS = start;
+    let endTS = end;
 
     if(this.summaryData && this.summaryData.size > 0) {
-      firstTimestamp = this.summaryData.first().get("timestamp");
-      lastTimestamp = this.summaryData.last().get("timestamp");
+      let firstTimestamp = this.summaryData.first().get("timestamp");
+      let lastTimestamp = this.summaryData.last().get("timestamp");
       startTS = firstTimestamp + start * (lastTimestamp - firstTimestamp);
       endTS = firstTimestamp + end * (lastTimestamp - firstTimestamp);
-    }
-    else {
-      startTS = firstTimestamp = start;
-      endTS = lastTimestamp = end;
     }
 
     // We will load either rough or find data depending on how long the user hasn't changed the slider
