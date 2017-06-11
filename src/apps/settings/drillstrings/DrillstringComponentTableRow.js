@@ -155,7 +155,7 @@ class DrillstringComponentTableRow extends Component {
   }
 
   handleKeyPress(e) {
-    if (e.key === 'Enter') {      
+    if (e.key === 'Enter') {
       this.props.onSave();
     }
   }

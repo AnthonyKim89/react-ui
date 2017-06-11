@@ -6,23 +6,85 @@ import SettingsRecordManager from '../components/SettingsRecordManager';
 
 import DrillstringSummary from './DrillstringSummary';
 import DrillstringAttributeForm from './DrillstringAttributeForm';
-import DrillstringComponentTable from './DrillstringComponentTable';
-
+import DrillstringComponent from './DrillstringComponent';
 import { DRILLSTRING_DATA_TEMPLATE, METADATA } from './constants';
 
-const DEF_MIN_ID = 0, DEF_MAX_ID =100, DEF_MIN_OD = 1, DEF_MAX_OD = 100, DEF_MIN_LENGTH = 0 ,DEF_MAX_LENGTH = 1000;
-const DP_MIN_ID = 1, DP_MAX_ID =7, DP_MIN_OD = 2, DP_MAX_OD = 8, DP_MIN_LENGTH = 0 ,DP_MAX_LENGTH = 30000;
-const HWDP_MIN_ID = 1, HWDP_MAX_ID =7, HWDP_MIN_OD = 2, HWDP_MAX_OD = 8, HWDP_MIN_LENGTH = 0 ,HWDP_MAX_LENGTH = 5000;
-const DC_MIN_ID = 0.5, DC_MAX_ID =7, DC_MIN_OD = 2, DC_MAX_OD = 13, DC_MIN_LENGTH = 0 ,DC_MAX_LENGTH = 3000;
-const STABLE_MIN_ID = 0, STABLE_MAX_ID =100, STABLE_MIN_OD = 1, STABLE_MAX_OD = 100, STABLE_MIN_LENGTH = 0 ,STABLE_MAX_LENGTH = 100;
-const PDM_MIN_ID = 0, PDM_MAX_ID =12, PDM_MIN_OD = 2, PDM_MAX_OD = 13, PDM_MIN_LENGTH = 4 , PDM_MAX_LENGTH = 50;
-const MWD_MIN_ID = 0, MWD_MAX_ID =12, MWD_MIN_OD = 2, MWD_MAX_OD = 13, MWD_MIN_LENGTH = 1.0 , MWD_MAX_LENGTH = 200;
-const BIT_MIN_TFA = 0, BIT_MAX_TFA = 20, BIT_MIN_SIZE =1, BIT_MAX_SIZE = 100;
-const PDM_MIN_STATOR = 2, PDM_MAX_STATOR = 8, PDM_MIN_ROTOR = 1, PDM_MAX_ROTOR = 7, PDM_MIN_RPG = 0, PDM_MAX_RPG = 10;
+const DEF_MIN_ID = 0,
+      DEF_MAX_ID =100, 
+      DEF_MIN_OD = 1, 
+      DEF_MAX_OD = 100, 
+      DEF_MIN_LENGTH = 0,
+      DEF_MAX_LENGTH = 1000;
+
+const DP_MIN_ID = 1, 
+      DP_MAX_ID =7, 
+      DP_MIN_OD = 2, 
+      DP_MAX_OD = 8, 
+      DP_MIN_TJ_ID = 1,
+      DP_MAX_TJ_ID = 7,
+      DP_MIN_TJ_OD = 2,
+      DP_MAX_TJ_OD = 10,
+      DP_MIN_LENGTH = 0,
+      DP_MAX_LENGTH = 30000;
+
+const HWDP_MIN_ID = 1, 
+      HWDP_MAX_ID =7, 
+      HWDP_MIN_OD = 2, 
+      HWDP_MAX_OD = 8,
+      HWDP_MIN_TJ_ID = 1,
+      HWDP_MAX_TJ_ID = 7,
+      HWDP_MIN_TJ_OD = 2,
+      HWDP_MAX_TJ_OD = 10,
+      HWDP_MIN_LENGTH = 0,
+      HWDP_MAX_LENGTH = 5000;
+
+const DC_MIN_ID = 0.5, 
+      DC_MAX_ID =7, 
+      DC_MIN_OD = 2, 
+      DC_MAX_OD = 13,       
+      DC_MIN_LENGTH = 0,
+      DC_MAX_LENGTH = 3000;
+
+const STABLE_MIN_ID = 0, 
+      STABLE_MAX_ID =100, 
+      STABLE_MIN_OD = 1, 
+      STABLE_MAX_OD = 100, 
+      STABLE_MIN_LENGTH = 0, 
+      STABLE_MAX_LENGTH = 100;
+
+const PDM_MIN_OD = 2, 
+      PDM_MAX_OD = 13, 
+      PDM_MIN_LENGTH = 4, 
+      PDM_MAX_LENGTH = 50,
+
+      PDM_MIN_STATOR = 2,
+      PDM_MAX_STATOR = 8, 
+      PDM_MIN_ROTOR = 1, 
+      PDM_MAX_ROTOR = 7, 
+      PDM_MIN_RPG = 0, 
+      PDM_MAX_RPG = 10,
+      PDM_MIN_WOB = 0,
+      PDM_MAX_WOB = 70,
+      PDM_MIN_FLOW_RANGE = 0,
+      PDM_MAX_FLOW_RANGE = 200,
+      PDM_MIN_MODP = 0,
+      PDM_MAX_MODP = 2000,
+      PDM_MIN_TMODP = 0,
+      PDM_MAX_TMODP = 20;
+
+const MWD_MIN_ID = 0, 
+      MWD_MAX_ID =12, 
+      MWD_MIN_OD = 2, 
+      MWD_MAX_OD = 13, 
+      MWD_MIN_LENGTH = 1.0, 
+      MWD_MAX_LENGTH = 200;
+
+const BIT_MIN_TFA = 0, 
+      BIT_MAX_TFA = 20;
 
 class DrillstringsApp extends Component {
 
-  render() {    
+  render() {
     return <SettingsRecordManager
               asset={this.props.asset}
               convert={this.props.convert}
@@ -30,15 +92,15 @@ class DrillstringsApp extends Component {
               recordCollection="data.drillstring"
               recordNamePlural="Drillstrings"
               recordNameSingular="Drillstring"
-              recordValidator={this.validator.bind(this)}
               convertRecordBackToImperialUnit={this.convertRecordBackToImperialUnit.bind(this)}
               hideRecordSummaryInRecordEditor={false}
               title={METADATA.title}
               subtitle={METADATA.subtitle}
+              recordValidator={this.validator.bind(this)}
               recordDataTemplate={DRILLSTRING_DATA_TEMPLATE}
               RecordSummary={DrillstringSummary}
               RecordAttributeForm={DrillstringAttributeForm}
-              RecordDetails={DrillstringComponentTable}
+              RecordDetails={DrillstringComponent}
               renderRecordListItem={r => this.renderDrillstringListItem(r)} />;
   }
 
@@ -87,10 +149,9 @@ class DrillstringsApp extends Component {
     let shortLengthUnitDisplay = this.props.convert.getUnitDisplay('shortLength');
     let lengthUnitDisplay = this.props.convert.getUnitDisplay('length');
     let hasFormErrors = false;
-    let errors = {};    
-    let bitFamilyCount = 0;
-    let min_id,min_od,max_id,max_od,min_length,max_length;
-    errors["components"] = [];
+    let errors = {};
+    let bitFamilyCount = 0;    
+    errors["components"] = {};
     errors["specificErrors"] = {};
 
     if (this.isValueEmpty(id)) {
@@ -98,7 +159,8 @@ class DrillstringsApp extends Component {
       hasFormErrors = true;
     }
 
-    for (let i=0; i<components.length; i++) {
+    for (let i=0; i < components.length; i++) {
+      let min_id,min_od,max_id,max_od,min_length,max_length,min_tj_id,max_tj_id,min_tj_od,max_tj_od;
       let comp = components[i];
       let error = {};
       switch(comp.family) {
@@ -108,8 +170,12 @@ class DrillstringsApp extends Component {
           max_id = this.props.convert.convertValue(DP_MAX_ID,"shortLength","in");
           min_od = this.props.convert.convertValue(DP_MIN_OD,"shortLength","in");
           max_od = this.props.convert.convertValue(DP_MAX_OD,"shortLength","in");
+          min_tj_id = this.props.convert.convertValue(DP_MIN_TJ_ID,"shortLength","in");
+          max_tj_id = this.props.convert.convertValue(DP_MAX_TJ_ID,"shortLength","in");
+          min_tj_od = this.props.convert.convertValue(DP_MIN_TJ_OD,"shortLength","in");
+          max_tj_od = this.props.convert.convertValue(DP_MAX_TJ_OD,"shortLength","in");
           min_length = this.props.convert.convertValue(DP_MIN_LENGTH,"length","ft");
-          max_length = this.props.convert.convertValue(DP_MAX_LENGTH,"length","ft");
+          max_length = this.props.convert.convertValue(DP_MAX_LENGTH,"length","ft");          
           break;
 
         case 'hwdp':
@@ -117,6 +183,10 @@ class DrillstringsApp extends Component {
           max_id = this.props.convert.convertValue(HWDP_MAX_ID,"shortLength","in");
           min_od = this.props.convert.convertValue(HWDP_MIN_OD,"shortLength","in");
           max_od = this.props.convert.convertValue(HWDP_MAX_OD,"shortLength","in");
+          min_tj_id = this.props.convert.convertValue(HWDP_MIN_TJ_ID,"shortLength","in");
+          max_tj_id = this.props.convert.convertValue(HWDP_MAX_TJ_ID,"shortLength","in");
+          min_tj_od = this.props.convert.convertValue(HWDP_MIN_TJ_OD,"shortLength","in");
+          max_tj_od = this.props.convert.convertValue(HWDP_MAX_TJ_OD,"shortLength","in");
           min_length = this.props.convert.convertValue(HWDP_MIN_LENGTH,"length","ft");
           max_length = this.props.convert.convertValue(HWDP_MAX_LENGTH,"length","ft");
           break;
@@ -140,8 +210,6 @@ class DrillstringsApp extends Component {
           break;
 
         case 'pdm':
-          min_id = this.props.convert.convertValue(PDM_MIN_ID,"shortLength","in");
-          max_id = this.props.convert.convertValue(PDM_MAX_ID,"shortLength","in");
           min_od = this.props.convert.convertValue(PDM_MIN_OD,"shortLength","in");
           max_od = this.props.convert.convertValue(PDM_MAX_OD,"shortLength","in");
           min_length = this.props.convert.convertValue(PDM_MIN_LENGTH,"length","ft");
@@ -159,12 +227,6 @@ class DrillstringsApp extends Component {
 
         case 'bit':          
           bitFamilyCount++;
-          min_id = this.props.convert.convertValue(DEF_MIN_ID,"shortLength","in");
-          max_id = this.props.convert.convertValue(DEF_MAX_ID,"shortLength","in");
-          min_od = this.props.convert.convertValue(DEF_MIN_OD,"shortLength","in");
-          max_od = this.props.convert.convertValue(DEF_MAX_OD,"shortLength","in");
-          min_length = this.props.convert.convertValue(DEF_MIN_LENGTH,"length","ft");
-          max_length = this.props.convert.convertValue(DEF_MAX_LENGTH,"length","ft");
           break;
 
         default:
@@ -177,27 +239,23 @@ class DrillstringsApp extends Component {
           break;
       }
 
-      if (!this.isValidNumber(comp.inner_diameter,min_id,max_id)) {
-        error["inner_diameter"] = `${min_id}~${max_id} (${shortLengthUnitDisplay})`;
-        hasFormErrors = true;
-      }
+      if (!this.isValueEmpty(min_id) && !this.isValueEmpty(min_od)) {
+        if (!this.isValidNumber(comp.inner_diameter,min_id,max_id)) {
+          error["inner_diameter"] = `${min_id}~${max_id} (${shortLengthUnitDisplay})`;
+          hasFormErrors = true;
+        }
 
-      if (!this.isValidNumber(comp.outer_diameter,min_od,max_od)) {
-        error["outer_diameter"] = `${min_od}~${max_od} (${shortLengthUnitDisplay})`;
-        hasFormErrors = true;
-      }
+        if (!this.isValidNumber(comp.outer_diameter,min_od,max_od)) {
+          error["outer_diameter"] = `${min_od}~${max_od} (${shortLengthUnitDisplay})`;
+          hasFormErrors = true;
+        }
 
-      if (this.isValidNumber(comp.inner_diameter,min_id,max_id) && this.isValidNumber(comp.outer_diameter,min_od,max_od) && !this.isValidNumber(comp.inner_diameter,min_id,comp.outer_diameter)) {
-        error["outer_diameter"] = "O.D > I.D";
-        hasFormErrors = true;      
-      }
+        if (this.isValidNumber(comp.inner_diameter,min_id,max_id) && this.isValidNumber(comp.outer_diameter,min_od,max_od) && !this.isValidNumber(comp.inner_diameter,min_id,comp.outer_diameter)) {
+          error["outer_diameter"] = "O.D > I.D";
+          hasFormErrors = true;      
+        }
 
-      if (!this.isValidNumber(comp.length,min_length,max_length)) {
-        error["length"] = `${min_length}~${max_length} (${lengthUnitDisplay})`;
-        hasFormErrors = true;
-      }
-
-      if (comp.family!=='bit') { //only check validity of linear weight when family is not bit
+        //only check validity of linear weight when family is not bit
         if (!this.isValidNumber(comp.linear_weight,0)) {
           error["linear_weight"] = "Invalid value";
           hasFormErrors = true;
@@ -211,44 +269,94 @@ class DrillstringsApp extends Component {
         }
       }
 
-      if (comp.family === 'bit') {
-        let specificError = {};
-        if (!this.isValidNumber(comp.tfa, BIT_MIN_TFA, BIT_MAX_TFA)) {
-          specificError["tfa"] = `TFA must be ${BIT_MIN_TFA}~${BIT_MAX_TFA}`;
-          hasFormErrors = true;      
+      if (!this.isValueEmpty(min_tj_id) && !this.isValueEmpty(min_tj_od)) {
+        if (!this.isValidNumber(comp.tool_joint_id,min_tj_id,max_tj_id)) {
+          error["tool_joint_id"] = `${min_tj_id}~${max_tj_id} (${shortLengthUnitDisplay})`;
+          hasFormErrors = true;
         }
 
-        let bit_min_size = this.props.convert.convertValue(BIT_MIN_SIZE,"shortLength","in");
-        let bit_max_size = this.props.convert.convertValue(BIT_MAX_SIZE,"shortLength","in");
-        if (!this.isValidNumber(comp.size, bit_min_size, bit_max_size)) {
-          specificError["size"] = `Bit size must be ${BIT_MIN_SIZE}~${BIT_MAX_SIZE}`;
-          hasFormErrors = true;      
+        if (!this.isValidNumber(comp.tool_joint_id,0,comp.inner_diameter)) {
+          error["tool_joint_id"] = "Tool Joint I.D <= I.D";
+          hasFormErrors = true;
         }
 
-        errors["specificErrors"][comp.id] = specificError;
+        if (!this.isValidNumber(comp.tool_joint_od,min_tj_od,max_tj_od)) {
+          error["tool_joint_od"] = `${min_tj_od}~${max_tj_od} (${shortLengthUnitDisplay})`;
+          hasFormErrors = true;
+        }
+
+        if (!this.isValidNumber(comp.tool_joint_od,comp.outer_diameter,max_tj_od)) {
+          error["tool_joint_od"] = "Tool Joint O.D >= O.D";
+          hasFormErrors = true;
+        }
       }
 
-      if (comp.family==='pdm') {
-        let specificError = {};
+      if (!this.isValueEmpty(min_length) && max_length) {
+        if (!this.isValidNumber(comp.length,min_length,max_length)) {
+          error["length"] = `${min_length}~${max_length} (${lengthUnitDisplay})`;
+          hasFormErrors = true;
+        }
+      }
+
+      if (!this.isValueEmpty(comp.tool_joint_length) && !this.isValueEmpty(comp.length)) {
+        if(comp.tool_joint_length > comp.length) {
+          error["tool_joint_length"] = `Tool Joint Length< Component Length`;
+          hasFormErrors = true;
+        }
+      }
+
+      //specificErrors
+      if (comp.family === 'bit') {
+        if (!this.isValidNumber(comp.tfa, BIT_MIN_TFA, BIT_MAX_TFA)) {
+          error["tfa"] = `TFA must be ${BIT_MIN_TFA}~${BIT_MAX_TFA}`;
+          hasFormErrors = true;
+        }        
+      }
+
+      if (comp.family==='pdm') {        
         if (!this.isValidNumber(comp.number_rotor_lobes, PDM_MIN_ROTOR, PDM_MAX_ROTOR)) {
-          specificError["number_rotor_lobes"] = `It must be ${PDM_MIN_ROTOR}~${PDM_MAX_ROTOR}`;
+          error["number_rotor_lobes"] = `It must be ${PDM_MIN_ROTOR}~${PDM_MAX_ROTOR}`;
           hasFormErrors = true;      
         }
 
         if (!this.isValidNumber(comp.number_stator_lobes, PDM_MIN_STATOR, PDM_MAX_STATOR)) {
-          specificError["number_stator_lobes"] = `It must be ${PDM_MIN_STATOR}~${PDM_MAX_STATOR}`;
-          hasFormErrors = true;      
+          error["number_stator_lobes"] = `It must be ${PDM_MIN_STATOR}~${PDM_MAX_STATOR}`;
+          hasFormErrors = true;
         }
 
         if (!this.isValidNumber(comp.rpg, PDM_MIN_RPG, PDM_MAX_RPG)) {
-          specificError["rpg"] = `It must be ${PDM_MIN_RPG}~${PDM_MAX_RPG}`;
-          hasFormErrors = true;      
+          error["rpg"] = `It must be ${PDM_MIN_RPG}~${PDM_MAX_RPG}`;
+          hasFormErrors = true;
         }
 
-        errors["specificErrors"][comp.id] = specificError;
+        if (!this.isValidNumber(comp.max_wob, PDM_MIN_WOB, PDM_MAX_WOB)) {
+          error["max_wob"] = `It must be ${PDM_MIN_WOB}~${PDM_MAX_WOB}`;
+          hasFormErrors = true;
+        }
+
+        if (!this.isValidNumber(comp.standard_flow_range_min, PDM_MIN_FLOW_RANGE, PDM_MAX_FLOW_RANGE)) {
+          error["standard_flow_range_min"] = `It must be ${PDM_MIN_FLOW_RANGE}~${PDM_MAX_FLOW_RANGE}`;
+          hasFormErrors = true;
+        }
+
+        if (!this.isValidNumber(comp.standard_flow_range_max, PDM_MIN_FLOW_RANGE, PDM_MAX_FLOW_RANGE)) {
+          error["standard_flow_range_max"] = `It must be ${PDM_MIN_FLOW_RANGE}~${PDM_MAX_FLOW_RANGE}`;
+          hasFormErrors = true;
+        }
+
+        if (!this.isValidNumber(comp.max_op_diff_pressure, PDM_MIN_MODP, PDM_MAX_MODP)) {
+          error["max_op_diff_pressure"] = `It must be ${PDM_MIN_MODP}~${PDM_MAX_MODP}`;
+          hasFormErrors = true;
+        }
+
+        if (!this.isValidNumber(comp.torque_max_op_diff_pressure, PDM_MIN_TMODP, PDM_MAX_TMODP)) {
+          error["torque_max_op_diff_pressure"] = `It must be ${PDM_MIN_TMODP}~${PDM_MAX_TMODP}`;
+          hasFormErrors = true;
+        }
+
       }
 
-      errors["components"][i] = error;
+      errors["components"][comp.id] = error;
     }
 
     if (bitFamilyCount > 1) {
@@ -273,21 +381,28 @@ class DrillstringsApp extends Component {
   }  
 
   convertRecordBackToImperialUnit(record) {
+    // should convert back pdm related units
+    // pdm has nested format and must loop through those and convert back everything
+    // currently almost units required in pdm not supported in conversion.js(gpm,kip, gpm, etc..)
+    
     let convert = this.props.convert;
     let {data} = record.toJS();
     data.start_depth = convert.convertValue(data.start_depth, "length", convert.getUnitPreference("length"),"ft");
     data.end_depth = convert.convertValue(data.end_depth, "length", convert.getUnitPreference("length"),"ft");
     data.components.map((component)=>{
-      component.inner_diameter = convert.convertValue(component.inner_diameter, "shortLength", convert.getUnitPreference("shortLength"),"in");
-      component.outer_diameter = convert.convertValue(component.outer_diameter, "shortLength", convert.getUnitPreference("shortLength"),"in");
-      if (component.linear_weight) { // bit family doesn't have linear weight
-        component.linear_weight = convert.convertValue(component.linear_weight, "force", convert.getUnitPreference("force"), "klbf");
-      }
-      component.weight = convert.convertValue(component.weight, "mass", convert.getUnitPreference("mass"),"lb");
-      component.length = convert.convertValue(component.length, "length", convert.getUnitPreference("length"),"ft");
-      if (component.family === 'bit') {
-        component.size = convert.convertValue(component.size, "shortLength", convert.getUnitPreference("shortLength"),"in");
-      }
+      component.inner_diameter = component.inner_diameter && convert.convertValue(component.inner_diameter, "shortLength", convert.getUnitPreference("shortLength"),"in");
+      component.outer_diameter = component.outer_diameter && convert.convertValue(component.outer_diameter, "shortLength", convert.getUnitPreference("shortLength"),"in");      
+      component.linear_weight = component.linear_weight && convert.convertValue(component.linear_weight, "force", convert.getUnitPreference("force"), "klbf");
+      component.weight = component.weight && convert.convertValue(component.weight, "mass", convert.getUnitPreference("mass"),"lb");
+      component.length = component.length && convert.convertValue(component.length, "length", convert.getUnitPreference("length"),"ft");
+      component.component_length = component.component_length && convert.convertValue(component.component_length, "length", convert.getUnitPreference("length"),"ft");
+      component.tool_joint_od = component.tool_joint_od && convert.convertValue(component.tool_joint_od, "shortLength", convert.getUnitPreference("shortLength"),"in");
+      component.tool_joint_id = component.tool_joint_id && convert.convertValue(component.tool_joint_id, "shortLength", convert.getUnitPreference("shortLength"),"in");
+      component.tool_joint_length = component.tool_joint_length && convert.convertValue(component.tool_joint_length, "shortLength", convert.getUnitPreference("length"),"ft");
+      component.norminal_linear_weight = component.norminal_linear_weight && convert.convertValue(component.norminal_linear_weight, "force", convert.getUnitPreference("force"), "klbf");
+      component.gauge_od = component.gauge_od && convert.convertValue(component.gauge_od, "shortLength", convert.getUnitPreference("shortLength"),"in");
+      component.gauge_length = component.gauge_length && convert.convertValue(component.gauge_length, "length", convert.getUnitPreference("length"),"ft");
+      component.blade_width = component.blade_width && convert.convertValue(component.blade_width, "length", convert.getUnitPreference("length"),"ft");
       return component;
     });
 
