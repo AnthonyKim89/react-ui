@@ -1,3 +1,23 @@
+.c-drillstring-component-editor__btn-sm {
+  width: 32px !important;
+  height: 32px !important;  
+}
+
+.c-drillstring-component-editor__btn-sm i {
+  line-height: 32px !important;
+  font-size: 1.4rem !important;
+}
+
+.c-drillstring-component-editor__btn-xs {
+  width: 28px !important;
+  height: 28px !important;  
+}
+
+.c-drillstring-component-editor__btn-xs i {
+  line-height: 28px !important;
+  font-size: 1.2rem !important;
+}
+
 .c-drillstring-component-editor-item {
   border-bottom: 1px solid #666666;
   padding-top: 10px;
@@ -20,23 +40,54 @@
   top:40px;
 }
 
-.c-drillstring-component-editor-item__nozzle-table td {
-  padding: 0px;
-}
-
 .c-drillstring-component-editor-item__nozzle-table .input-field {
   padding: 0 10px 0 0 !important;
   margin-top: 0px;
 }
 
-.c-drillstring-component-editor-item__obps-table td {
-  padding: 0px;
+.c-drillstring-component-editor-item__nozzle-table input[type=number] {
+  margin: 0px;
+}
+
+.c-drillstring-component-editor-item__nozzle-table button.red {
+  margin-top: 15px;
+}
+
+
+.c-drillstring-component-editor-item__obps-table {
+  margin-top: 10px;
 }
 
 .c-drillstring-component-editor-item__obps-table .input-field {
   padding: 0 10px 0 0 !important;
   margin-top: 0px;
 }
+
+.c-drillstring-component-editor-item__obps-table input[type=number] {
+  margin: 0px;
+}
+
+.c-drillstring-component-editor-item__obps-table button.red {
+  margin-top: 15px;
+}
+
+.c-drillstring-component-editor-item__rpm-table {
+  margin-top: 20px;
+}
+
+.c-drillstring-component-editor-item__rpm-table .input-field {
+  padding: 0 10px 0 0 !important;
+  margin-top: 0px;
+}
+
+.c-drillstring-component-editor-item__rpm-table input[type=number] {
+  margin: 0px;
+}
+
+.c-drillstring-component-editor-item__rpm-table button.red {
+  margin-top: 15px;
+}
+
 
 .c-drillstring-component-editor-item .disabled-input {
   color: #fff !important;

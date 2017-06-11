@@ -20,27 +20,32 @@
   overflow: visible;
   -webkit-overflow-scrolling: touch;
   outline: none;
+  overflow: auto;
   z-index: 4001;
 }
 
+.c-drillstring-component-detail-modal * {
+  color: white;
+}
 .c-drillstring-component-detail header {
   margin-bottom: 10px;
   border-bottom: 1px solid #888;
 }
 
 .c-drillstring-component-detail__title {
-  color: white;
   font-weight: bold;
-  font-size: 28px;
+  font-size: 2rem;
   margin-top: 0px;
+}
+
+.c-drillstring-component-detail__sub-title {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-top: 10px;
 }
 
 .c-drillstring-component-detail__done {
   float: right;
-}
-
-.c-drillstring-component-detail label {
-  color: white;
 }
 
 .c-drillstring-component-detail label.field-label {
@@ -63,7 +68,6 @@
   padding: 0px;
 }
 .c-drillstring-component-detail td {  
-  color: white;
   font-size: 1.2rem;
   padding: 0px;  
 }

@@ -103,15 +103,36 @@ class DrillstringComponentModal extends Component {
     return [
       <Row key="pdm-1">
         {this.renderComponentLabelField("outer_diameter","OD",4,'shortLength','in')}
-        {this.renderComponentLabelField("inner_diameter","ID",4,'shortLength','in')}        
+        {this.renderComponentLabelField("rpg","RPG",4)}
         {this.renderComponentLabelField("component_length", "Component Length", 4,"length","ft")}
         {this.renderComponentLabelField("length", "Total Length", 4,"length","ft")}
-        {this.renderComponentLabelField("linear_weight", "Adjust Linear Weight", 4,"massPerLength","lb-ft")}
         {this.renderComponentLabelField("weight", "Total Weight", 4, "mass","lb")}
-        {this.renderComponentLabelField('info', 'Info',4)}
+        {this.renderComponentLabelField("linear_weight", "Adjust Linear Weight", 4,"massPerLength","lb-ft")}
+        {this.renderComponentLabelField("stages", "Stages", 4)}
+        {this.renderComponentLabelField('number_rotor_lobes', '# of rotor lobes',4)}
+        {this.renderComponentLabelField('number_stator_lobes', '# of stator lobes',4)}
+        {this.renderComponentLabelField("power_unit", "Power Unit", 4)}
+        {this.renderComponentLabelField("blend_range", "Blend Range", 4)}
+        {this.renderComponentLabelField("max_wob", "Max WOB", 4)}
       </Row>,
 
-      <Row key="pdm-pressure-loss">        
+      <Row key="pdm-standard-flow-range">
+        <Col s={12} className="c-drillstring-component-detail__sub-title">
+          Standard Flow Range
+        </Col>
+        {this.renderComponentLabelField('standard_flow_range_min', "Min", 3)}
+        {this.renderComponentLabelField('standard_flow_range_max', 'Max',3)}
+      </Row>,
+
+      <Row key="pdm-op-diff-pressure">
+        {this.renderComponentLabelField('max_op_diff_pressure', 'Max Operating Diff Pressure', 3)}
+        {this.renderComponentLabelField('torque_max_op_diff_pressure', 'Torque at Max Operating Diff Pressure',3)}
+      </Row>,
+
+      <Row key="pdm-pressure-loss">
+        <Col s={12} className="c-drillstring-component-detail__sub-title">
+          Off Bottom Pressure Loss
+        </Col>
         <Col s={12}>
           {this.props.component.get('off_bottom_pressure_loss',List([])).size > 0 &&
             <table>
@@ -122,30 +143,57 @@ class DrillstringComponentModal extends Component {
                 </tr>
               </thead>
               <tbody>              
-              {this.props.component.get('off_bottom_pressure_loss',List([])).map((obps, index)=> {
-                return (
-                  <tr key={index}>
-                    <td>
-                      { obps.get("flow_rate") }
-                    </td>
-                    <td>
-                      { obps.get("pressure_loss") }
-                    </td>                  
-                  </tr>
-                );
-              })}
+              {this.props.component.get('off_bottom_pressure_loss',List([])).map((obps, index)=> 
+                <tr key={index}>
+                  <td>
+                    { obps.get("flow_rate") }
+                  </td>
+                  <td>
+                    { obps.get("pressure_loss") }
+                  </td>                  
+                </tr>
+              )}
               </tbody>
             </table>
           }
         </Col>        
       </Row>,
 
-      <Row key="pdm-2">
-        {this.renderComponentLabelField("number_rotor_lobes", "# of rotor lobes", 4)}
-        {this.renderComponentLabelField("number_stator_lobes", "# of stator lobes", 4)}
-        {this.renderComponentLabelField('rpg', 'RPG', 4)}
-      </Row>
+      <Row key="pdm-rpm-curves">
+        <Col s={12} className="c-drillstring-component-detail__sub-title">
+          RPM Curves
+        </Col>
 
+        {this.props.component.get('rpm_curves',List([])).map((rpmCurve, rpmCurveIndex)=> 
+          <Col s={6} key={rpmCurveIndex}>
+            Flow rate: <span>{rpmCurve.get('flow_rate')}</span>
+            {rpmCurve.get('diff_press_and_rpm',List([])).size > 0 &&
+              <table>
+                <thead>
+                  <tr>
+                    <th> Diff Press </th>
+                    <th> RPM </th>
+                  </tr>
+                </thead>
+                <tbody>              
+                {rpmCurve.get('diff_press_and_rpm',List([])).map((dprpm, dprpmIndex)=> 
+                  <tr key={dprpmIndex}>
+                    <td>
+                      { dprpm.get("dp") }
+                    </td>
+                    <td>
+                      { dprpm.get("rpm") }
+                    </td>                  
+                  </tr>
+                )}
+                </tbody>
+              </table>
+            }            
+          </Col>
+        )}
+
+
+      </Row>
     ];
   }
 

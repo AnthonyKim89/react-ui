@@ -59,6 +59,13 @@ export const COMPONENT_GRADES = [
   {name: 'AISI 1340', type: 'AISI 1340'}  
 ];
 
+export const COMPONENT_CLASSES = [
+  {name: 'New', type: 'New'},
+  {name: 'Premium', type: 'Premium'},
+  {name: 'Class 2', type: 'Class 2'},
+  {name: '10% Wear', type: '10% Wear'}
+];
+
 export const COMPONENT_MATERIALS = [
   {name: 'Steel', type: 'Steel'},
   {name: 'Aluminium', type: 'Aluminium'},

@@ -26,7 +26,6 @@ class DrillstringComponent extends Component {
   }
 
 	render() {
-
     if (this.props.isEditable) {
       let commonProps = {
         convert: this.props.convert,

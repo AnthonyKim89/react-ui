@@ -42,16 +42,7 @@ class DrillstringAttributeForm extends Component {
           ref="bha_number"
           defaultValue={this.getAttr('id', '')}
           onKeyPress={this.handleKeyPress.bind(this)}
-          onChange={e => this.updateAttr('id', e.target.value,true)}/>
-        <Input
-          m={4}
-          type="checkbox"
-          className="drillstring__chk-planning"
-          label="Is for Planning?"
-          checked={this.getAttr('planning', false)}
-          onChange={e => this.updateAttr('planning', e.target.checked)}/>
-      </Row>
-      <Row key="attributes2" className="c-drillstring-editor__attributes">
+          onChange={e => this.updateAttr('id', e.target.value,true)}/>        
         <Input
           label="Depth In"
           m={4}
@@ -62,12 +53,11 @@ class DrillstringAttributeForm extends Component {
           onChange={e => this.updateAttr('start_depth', e.target.value,true)}/>
         <Input
           m={4}
-          label="Depth Out"
-          type="number"
-          ref="end_depth"
-          defaultValue={this.props.convert.convertValue(this.getAttr('end_depth', 0), 'length', 'ft').formatNumeral('0')}
-          onKeyPress={this.handleKeyPress.bind(this)}
-          onChange={e => this.updateAttr('end_depth', e.target.value,true)}/>
+          type="checkbox"
+          className="drillstring__chk-planning"
+          label="Is for Planning?"
+          checked={this.getAttr('planning', false)}
+          onChange={e => this.updateAttr('planning', e.target.checked)}/>
       </Row>
       <Row key="attributes3" className="c-drillstring-editor__attributes">
         <Col m={4}>
@@ -76,15 +66,6 @@ class DrillstringAttributeForm extends Component {
             defaultValue={this.getAttr('start_timestamp')? moment.unix(this.getAttr('start_timestamp')): moment.unix(this.initialDate)} 
             onChange={this.startTimeChanged.bind(this)} />
         </Col>
-
-        <Col m={4}>
-          <label> Time Out </label>
-          <Datetime 
-            defaultValue={this.getAttr('end_timestamp')? moment.unix(this.getAttr('end_timestamp')): moment.unix(this.initialDate)} 
-            onChange={this.endTimeChanged.bind(this)} />
-        </Col>
-
-       
       </Row>
     </div>;
   }

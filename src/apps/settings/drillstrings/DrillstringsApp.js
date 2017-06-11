@@ -52,9 +52,7 @@ const STABLE_MIN_ID = 0,
       STABLE_MIN_LENGTH = 0, 
       STABLE_MAX_LENGTH = 100;
 
-const PDM_MIN_ID = 0, 
-      PDM_MAX_ID =12, 
-      PDM_MIN_OD = 2, 
+const PDM_MIN_OD = 2, 
       PDM_MAX_OD = 13, 
       PDM_MIN_LENGTH = 4, 
       PDM_MAX_LENGTH = 50,
@@ -64,7 +62,15 @@ const PDM_MIN_ID = 0,
       PDM_MIN_ROTOR = 1, 
       PDM_MAX_ROTOR = 7, 
       PDM_MIN_RPG = 0, 
-      PDM_MAX_RPG = 10;
+      PDM_MAX_RPG = 10,
+      PDM_MIN_WOB = 0,
+      PDM_MAX_WOB = 70,
+      PDM_MIN_FLOW_RANGE = 0,
+      PDM_MAX_FLOW_RANGE = 200,
+      PDM_MIN_MODP = 0,
+      PDM_MAX_MODP = 2000,
+      PDM_MIN_TMODP = 0,
+      PDM_MAX_TMODP = 20;
 
 const MWD_MIN_ID = 0, 
       MWD_MAX_ID =12, 
@@ -204,8 +210,6 @@ class DrillstringsApp extends Component {
           break;
 
         case 'pdm':
-          min_id = this.props.convert.convertValue(PDM_MIN_ID,"shortLength","in");
-          max_id = this.props.convert.convertValue(PDM_MAX_ID,"shortLength","in");
           min_od = this.props.convert.convertValue(PDM_MIN_OD,"shortLength","in");
           max_od = this.props.convert.convertValue(PDM_MAX_OD,"shortLength","in");
           min_length = this.props.convert.convertValue(PDM_MIN_LENGTH,"length","ft");
@@ -324,6 +328,32 @@ class DrillstringsApp extends Component {
           error["rpg"] = `It must be ${PDM_MIN_RPG}~${PDM_MAX_RPG}`;
           hasFormErrors = true;
         }
+
+        if (!this.isValidNumber(comp.max_wob, PDM_MIN_WOB, PDM_MAX_WOB)) {
+          error["max_wob"] = `It must be ${PDM_MIN_WOB}~${PDM_MAX_WOB}`;
+          hasFormErrors = true;
+        }
+
+        if (!this.isValidNumber(comp.standard_flow_range_min, PDM_MIN_FLOW_RANGE, PDM_MAX_FLOW_RANGE)) {
+          error["standard_flow_range_min"] = `It must be ${PDM_MIN_FLOW_RANGE}~${PDM_MAX_FLOW_RANGE}`;
+          hasFormErrors = true;
+        }
+
+        if (!this.isValidNumber(comp.standard_flow_range_max, PDM_MIN_FLOW_RANGE, PDM_MAX_FLOW_RANGE)) {
+          error["standard_flow_range_max"] = `It must be ${PDM_MIN_FLOW_RANGE}~${PDM_MAX_FLOW_RANGE}`;
+          hasFormErrors = true;
+        }
+
+        if (!this.isValidNumber(comp.max_op_diff_pressure, PDM_MIN_MODP, PDM_MAX_MODP)) {
+          error["max_op_diff_pressure"] = `It must be ${PDM_MIN_MODP}~${PDM_MAX_MODP}`;
+          hasFormErrors = true;
+        }
+
+        if (!this.isValidNumber(comp.torque_max_op_diff_pressure, PDM_MIN_TMODP, PDM_MAX_TMODP)) {
+          error["torque_max_op_diff_pressure"] = `It must be ${PDM_MIN_TMODP}~${PDM_MAX_TMODP}`;
+          hasFormErrors = true;
+        }
+
       }
 
       errors["components"][comp.id] = error;
@@ -351,6 +381,10 @@ class DrillstringsApp extends Component {
   }  
 
   convertRecordBackToImperialUnit(record) {
+    // should convert back pdm related units
+    // pdm has nested format and must loop through those and convert back everything
+    // currently almost units required in pdm not supported in conversion.js(gpm,kip, gpm, etc..)
+    
     let convert = this.props.convert;
     let {data} = record.toJS();
     data.start_depth = convert.convertValue(data.start_depth, "length", convert.getUnitPreference("length"),"ft");
@@ -369,7 +403,6 @@ class DrillstringsApp extends Component {
       component.gauge_od = component.gauge_od && convert.convertValue(component.gauge_od, "shortLength", convert.getUnitPreference("shortLength"),"in");
       component.gauge_length = component.gauge_length && convert.convertValue(component.gauge_length, "length", convert.getUnitPreference("length"),"ft");
       component.blade_width = component.blade_width && convert.convertValue(component.blade_width, "length", convert.getUnitPreference("length"),"ft");
-      component.size = component.size && convert.convertValue(component.size, "shortLength", convert.getUnitPreference("shortLength"),"in"); //for bit
       return component;
     });
 
