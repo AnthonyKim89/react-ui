@@ -14,7 +14,8 @@ class DrillstringComponentEditorItem extends Component {
   }
 
   shouldComponentUpdate(nextProps,nextState) {
-    if (this.props.item!==nextProps.item) {
+    if (this.props.item!==nextProps.item || 
+        JSON.stringify(this.props.commonProps.errors)!==JSON.stringify(nextProps.commonProps.errors)) {
       return true;
     }
     return false;
@@ -69,28 +70,27 @@ class DrillstringComponentEditorItem extends Component {
   }
 
   renderComponentDP() {
-    return [      
+    return [
       <Row key="dp-1">
         {this.renderComponentSelectField('family', "Category", 2, COMPONENT_FAMILIES)}
         {this.renderComponentTextField("name", "Name", 2)}
         {this.renderComponentNumberField("outer_diameter","OD",2,'shortLength', 'in')}
         {this.renderComponentNumberField("inner_diameter","ID",2,'shortLength', 'in')}
-        {this.renderComponentNumberField("number_of_joint", "# of Joints", 2)}
+        {this.renderComponentNumberField("number_of_joints", "# of Joints", 2)}
         {this.renderComponentNumberField("component_length", "Component Length", 2, "length", "ft")}
       </Row>,
       
       <Row key="dp-2">
         {this.renderComponentLabelField("length", "Total Length", 2, "length","ft")}
-        {this.renderComponentNumberField("linear_weight", "Adjust Linear Weight", 2, "massPerLength", "lb-ft")}
+        {this.renderComponentNumberField("linear_weight", "Adjusted Linear Weight", 2, "massPerLength", "lb-ft")}
         {this.renderComponentLabelField("weight", "Total Weight", 2, "mass","lb")}
         {this.renderComponentSelectField('grade', "Grade", 2, COMPONENT_GRADES)}
-        {this.renderComponentNumberField("tool_joint_od", "TJ OD", 2, 'shortLength', 'in')}
-        {this.renderComponentNumberField("tool_joint_id", "TJ ID", 2, 'shortLength', 'in')}
+        {this.renderComponentNumberField("outer_diameter_tooljoint", "TJ OD", 2, 'shortLength', 'in')}
+        {this.renderComponentNumberField("inner_diameter_tooljoint", "TJ ID", 2, 'shortLength', 'in')}
       </Row>,
 
       <Row key="dp-3">      
-        {this.renderComponentNumberField("tool_joint_length", "TJ Length per Joint", 3, "length", "ft")}
-        {this.renderComponentNumberField("norminal_linear_weight", "Norminal Linear Weight", 3, "massPerLength", "lb-ft")}
+        {this.renderComponentNumberField("length_tooljoint", "TJ Length per Joint", 2, "length", "ft")}
         {this.renderComponentTextField("connection_type", "Connection Type", 2)}
         {this.renderComponentSelectField('material', "Material", 2, COMPONENT_MATERIALS)}
         {this.renderComponentSelectField("class", "Class", 2,COMPONENT_CLASSES)}
@@ -105,22 +105,21 @@ class DrillstringComponentEditorItem extends Component {
         {this.renderComponentTextField("name", "Name", 2)}
         {this.renderComponentNumberField("outer_diameter","OD",2,'shortLength','in')}
         {this.renderComponentNumberField("inner_diameter","ID",2,'shortLength','in')}
-        {this.renderComponentNumberField("number_of_joint","# of Joints",2)}
+        {this.renderComponentNumberField("number_of_joints","# of Joints",2)}
         {this.renderComponentNumberField("component_length", "Component Length", 2, "length","ft")}
       </Row>,
 
       <Row key="hwdp-2">        
         {this.renderComponentLabelField("length", "Total Length", 2,"length","ft")}
-        {this.renderComponentNumberField("linear_weight", "Adjust Linear Weight", 2,"massPerLength","lb-ft")}
+        {this.renderComponentNumberField("linear_weight", "Adjusted Linear Weight", 2,"massPerLength","lb-ft")}
         {this.renderComponentLabelField("weight", "Total Weight", 2, "mass","lb")}
-        {this.renderComponentNumberField("norminal_linear_weight", "Norminal Linear Weight", 2, "massPerLength", "lb-ft")}
         {this.renderComponentSelectField('grade', "Grade", 2, COMPONENT_GRADES)}
+        {this.renderComponentNumberField("outer_diameter_tooljoint", "TJ OD", 2, 'shortLength', 'in')}
+        {this.renderComponentNumberField("inner_diameter_tooljoint", "TJ ID", 2, 'shortLength', 'in')}
       </Row>,
 
-      <Row key="hwdp-3">
-        {this.renderComponentNumberField("tool_joint_od", "TJ OD", 2, 'shortLength', 'in')}
-        {this.renderComponentNumberField("tool_joint_id", "TJ ID", 2, 'shortLength', 'in')}
-        {this.renderComponentNumberField("tool_joint_length", "TJ Length per Joint", 2, "length", "ft")}
+      <Row key="hwdp-3">        
+        {this.renderComponentNumberField("length_tooljoint", "TJ Length per Joint", 2, "length", "ft")}
         {this.renderComponentTextField("connection_type", "Connection Type", 2)}
         {this.renderComponentSelectField('material', "Material", 2, COMPONENT_MATERIALS)}
         {this.renderComponentSelectField("class", "Class", 2, COMPONENT_CLASSES)}
@@ -130,9 +129,9 @@ class DrillstringComponentEditorItem extends Component {
 
   renderComponentPDM() {
     // should come back and add units conversion(currently unsupported by conversion.js)
-    // standard_flow_range_min(max), max_wob, off_bottom_pressure_loss array
-    // max_op_diff_pressure, torque_max_op_diff_pressure
-    // rpm_curves-> flow rate, rpm_curves->diff_press_and_rpm-> dp 
+    // min_standard_flowrate(max), max_weight_on_bit, off_bottom_pressure_loss array
+    // max_operating_differential_pressure, torque_at_max_operating_differential_pressure
+    // rpm_curves-> flow rate, rpm_curves->curve-> dp 
     // rpg, kip, gpm (not supported in conversion.js), psi supported 
     return [
       <Row key="pdm-1">
@@ -142,29 +141,28 @@ class DrillstringComponentEditorItem extends Component {
         {this.renderComponentNumberField("rpg","RPG",1)}
         {this.renderComponentNumberField("length", "Total Length", 2,"length","ft")}
         {this.renderComponentNumberField("weight", "Total Weight", 2, "mass","lb")}
-        {this.renderComponentNumberField("linear_weight", "Adjust Linear Weight", 2,"massPerLength","lb-ft")}
+        {this.renderComponentNumberField("linear_weight", "Adjusted Linear Weight", 2,"massPerLength","lb-ft")}
       </Row>,
       
       <Row key="pdm-2">        
-        {this.renderComponentNumberField("stages", "Stages", 2)}
+        {this.renderComponentNumberField("stages", "# of stages", 2)}
         {this.renderComponentNumberField('number_rotor_lobes', '# of rotor lobes',2)}
         {this.renderComponentNumberField('number_stator_lobes', '# of stator lobes',2)}
-        {this.renderComponentTextField("power_unit", "Power Unit", 2)}
-        {this.renderComponentTextField("blend_range", "Blend Range", 2)}
-        {this.renderComponentNumberField("max_wob", "Max WOB", 2)}
+        {this.renderComponentTextField("bend_range", "Bend Range", 2)}
+        {this.renderComponentNumberField("max_weight_on_bit", "Max Weight On Bit", 2)}
       </Row>,
 
       <Row key="pdm-3">
         <Col s={12}>
           <span style={{fontSize:"20px"}}> Standard Flow Range </span>          
         </Col>
-        {this.renderComponentNumberField('standard_flow_range_min', "Min", 3)}
-        {this.renderComponentNumberField('standard_flow_range_max', 'Max',3)}
+        {this.renderComponentNumberField('min_standard_flowrate', "Min", 3)}
+        {this.renderComponentNumberField('max_standard_flowrate', 'Max',3)}
       </Row>,
       
       <Row key="pdm-4">
-        {this.renderComponentNumberField('max_op_diff_pressure','Max Operating Diff Pressure', 5)}
-        {this.renderComponentNumberField('torque_max_op_diff_pressure', 'Torque at Max Operating Diff Pressure',5)}
+        {this.renderComponentNumberField('max_operating_differential_pressure','Max Operating Diff Pressure', 5)}
+        {this.renderComponentNumberField('torque_at_max_operating_differential_pressure', 'Torque at Max Operating Diff Pressure',5)}
       </Row>,
 
       <Row key="pdm-pressure-loss" className="c-drillstring-component-editor-item__obps-table">
@@ -193,19 +191,18 @@ class DrillstringComponentEditorItem extends Component {
             </Row>
           )}
         </Col>
-      </Row>,
-
-      <Row key="rpm-curves" className="c-drillstring-component-editor-item__rpm-table">
-        <Col s={12}>
-          <span style={{fontSize:"20px", marginRight: "20px"}}> RPM Curves </span>
-          <Button floating icon="add" className="c-drillstring-component-editor__btn-sm" onClick={() => this.onAddRpmCurve()}></Button>
-        </Col>
-        {this.props.item.get('rpm_curves',List([])).map((rpmCurve, rpmCurveIndex)=> 
-          this.renderRpmCurve(rpmCurve,rpmCurveIndex)
-        )}
-      </Row>
-
+      </Row>,      
     ];
+
+    /*<Row key="rpm-curves" className="c-drillstring-component-editor-item__rpm-table">
+      <Col s={12}>
+        <span style={{fontSize:"20px", marginRight: "20px"}}> RPM Curves </span>
+        <Button floating icon="add" className="c-drillstring-component-editor__btn-sm" onClick={() => this.onAddRpmCurve()}></Button>
+      </Col>
+      {this.props.item.get('rpm_curves',List([])).map((rpmCurve, rpmCurveIndex)=> 
+        this.renderRpmCurve(rpmCurve,rpmCurveIndex)
+      )}
+    </Row>*/
   }
 
   renderComponentBIT() {
@@ -249,7 +246,7 @@ class DrillstringComponentEditorItem extends Component {
       <Row key="bit-3">
         {this.renderComponentTextField("shank_od", "Shank OD", 2)}
         {this.renderComponentTextField("make", "Make", 2)}
-        {this.renderComponentTextField("serial_number", "Serrial Number", 2)}
+        {this.renderComponentTextField("serial_number", "Serial Number", 2)}
         {this.renderComponentTextField("model", "Model", 2)}
         {this.renderComponentNumberField("tfa", "TFA", 2)}
       </Row>
@@ -264,13 +261,13 @@ class DrillstringComponentEditorItem extends Component {
         {this.renderComponentSelectField('sub_category', "Sub Category", 2, DC_SUB_CATEGORIES)}
         {this.renderComponentNumberField("outer_diameter","OD",2,'shortLength','in')}
         {this.renderComponentNumberField("inner_diameter","ID",2,'shortLength','in')}
-        {this.renderComponentNumberField("number_of_joint","# of Joints",2)}
+        {this.renderComponentNumberField("number_of_joints","# of Joints",2)}
       </Row>,
 
       <Row key="dc-2">
         {this.renderComponentNumberField("component_length", "Component Length", 2,"length","ft")}
         {this.renderComponentLabelField("length", "Total Length", 2,"length","ft")}
-        {this.renderComponentNumberField("linear_weight", "Adjust Linear Weight", 2 ,"massPerLength","lb-ft")}
+        {this.renderComponentNumberField("linear_weight", "Adjusted Linear Weight", 2 ,"massPerLength","lb-ft")}
         {this.renderComponentLabelField("weight", "Total Weight", 2, "mass","lb")}
         {this.renderComponentTextField("connection_type", "Connection Type", 2)}
         {this.renderComponentSelectField('material', "Material", 2, COMPONENT_MATERIALS)}
@@ -291,7 +288,7 @@ class DrillstringComponentEditorItem extends Component {
       </Row>,
 
       <Row key="sub-2">
-        {this.renderComponentNumberField("linear_weight", "Adjust Linear Weight", 3,"massPerLength","lb-ft")}
+        {this.renderComponentNumberField("linear_weight", "Adjusted Linear Weight", 3,"massPerLength","lb-ft")}
         {this.renderComponentLabelField("weight", "Total Weight", 3, "mass","lb")}
         {this.renderComponentTextField("connection_type", "Connection Type", 3)}
         {this.renderComponentSelectField('material', "Material", 3, COMPONENT_MATERIALS)}
@@ -308,7 +305,7 @@ class DrillstringComponentEditorItem extends Component {
         {this.renderComponentNumberField("inner_diameter","ID",1,'shortLength','in')}
         {this.renderComponentNumberField("component_length", "Component Length", 2, "length","ft")}
         {this.renderComponentLabelField("length", "Total Length", 2, "length","ft")}
-        {this.renderComponentNumberField("linear_weight", "Adjust Linear Weight",2, "massPerLength","lb-ft")}        
+        {this.renderComponentNumberField("linear_weight", "Adjusted Linear Weight",2, "massPerLength","lb-ft")}        
       </Row>,
 
       <Row key="stabilizer-2">
@@ -331,13 +328,13 @@ class DrillstringComponentEditorItem extends Component {
         {this.renderComponentSelectField('sub_category', "Sub Category", 2, JAR_SUB_CATEGORIES)}
         {this.renderComponentNumberField("outer_diameter","OD",2,'shortLength','in')}
         {this.renderComponentNumberField("inner_diameter","ID",2,'shortLength','in')}
-        {this.renderComponentNumberField("number_of_joint", "# of Joints", 2)}
+        {this.renderComponentNumberField("number_of_joints", "# of Joints", 2)}
         
       </Row>,
       <Row key="jar-2">
         {this.renderComponentNumberField("component_length", "Component Length", 2,"length","ft")}
         {this.renderComponentLabelField("length", "Total Length", 2,"length","ft")}
-        {this.renderComponentNumberField("linear_weight", "Adjust Linear Weight", 2,"massPerLength","lb-ft")}
+        {this.renderComponentNumberField("linear_weight", "Adjusted Linear Weight", 2,"massPerLength","lb-ft")}
         {this.renderComponentLabelField("weight", "Total Weight", 2, "mass","lb")}
         {this.renderComponentTextField("connection_type", "Connection Type", 2)}
         {this.renderComponentSelectField('material', "Material", 2, COMPONENT_MATERIALS)}
@@ -357,7 +354,7 @@ class DrillstringComponentEditorItem extends Component {
       </Row>,
 
       <Row key="mwd-2">
-        {this.renderComponentNumberField("linear_weight", "Adjust Linear Weight", 3,"massPerLength","lb-ft")}
+        {this.renderComponentNumberField("linear_weight", "Adjusted Linear Weight", 3,"massPerLength","lb-ft")}
         {this.renderComponentLabelField("weight", "Total Weight", 2, "mass","lb")}
         {this.renderComponentTextField("connection_type", "Connection Type", 2)}
         {this.renderComponentSelectField('material', "Material", 2, COMPONENT_MATERIALS)}
@@ -367,7 +364,7 @@ class DrillstringComponentEditorItem extends Component {
 
   renderComponentNumberField(field, label, colSize, unitType=null, unit=null) {
     let value = this.props.item.get(field) || '';
-    if (field === 'number_of_joint') {
+    if (field === 'number_of_joints') {
       value = 1;
     }
 
@@ -504,13 +501,13 @@ class DrillstringComponentEditorItem extends Component {
         <Col s={5}> RPM </Col>
         <Col s={2}> <Button floating icon="add" className="c-drillstring-component-editor__btn-sm" onClick={() => this.onAddDPRPM(rpmCurve,rpmCurveIndex)}></Button> </Col>
       </Row>
-      {rpmCurve.get('diff_press_and_rpm',List([])).map((dprpm, dprpmIndex)=> 
+      {rpmCurve.get('curve',List([])).map((dprpm, dprpmIndex)=> 
         <Row key={dprpmIndex}>
           <Col s={5}>
             <Input type="number"
               m={12}
-              defaultValue={dprpm.get('dp')}
-              onChange={e => this.onDPRPMChange(rpmCurve,rpmCurveIndex, dprpmIndex, "dp", parseFloat(e.target.value))} />
+              defaultValue={dprpm.get('differential_pressure')}
+              onChange={e => this.onDPRPMChange(rpmCurve,rpmCurveIndex, dprpmIndex, "differential_pressure", parseFloat(e.target.value))} />
           </Col>
           <Col s={5}>
             <Input type="number"
@@ -582,7 +579,7 @@ class DrillstringComponentEditorItem extends Component {
         length = component.get('length');
         weight = this.calcWeight(value,length);
         break;
-      case 'number_of_joint':
+      case 'number_of_joints':
         if (family === 'bit' || family==='pdm') 
           break;
         componentLength = component.get('component_length');
@@ -593,7 +590,7 @@ class DrillstringComponentEditorItem extends Component {
       case 'component_length':
         if (family === 'bit' || family==='pdm') 
           break;
-        noJoint = component.get('number_of_joint',1);
+        noJoint = component.get('number_of_joints',1);
         length = this.calcLength(noJoint,value);
         linearWeight = component.get('linear_weight');
         weight = this.calcWeight(linearWeight,length);
@@ -705,7 +702,7 @@ class DrillstringComponentEditorItem extends Component {
     if (rpm_curves.size<4) { // no more than 5 rpm curves
       this.props.commonProps.onComponentFieldChange(this.props.item.get('id'), "rpm_curves", rpm_curves.push(Map({
         flow_rate: '',
-        diff_press_and_rpm: List([])
+        curve: List([])
       })));
     }
   }
@@ -722,8 +719,8 @@ class DrillstringComponentEditorItem extends Component {
   }
 
   onAddDPRPM(rpmCurve,rpmCurveIndex) {
-      let newRpmCurve = rpmCurve.set("diff_press_and_rpm", rpmCurve.get("diff_press_and_rpm").push(Map({
-        dp: '',
+      let newRpmCurve = rpmCurve.set("curve", rpmCurve.get("curve").push(Map({
+        differential_pressure: '',
         rpm: ''
       })));
 
@@ -732,13 +729,13 @@ class DrillstringComponentEditorItem extends Component {
   }
 
   onDPRPMChange(rpmCurve, rpmCurveIndex, dprpmIndex, key, val) {
-    let newRpmCurve = rpmCurve.setIn(["diff_press_and_rpm",dprpmIndex,key],val);
+    let newRpmCurve = rpmCurve.setIn(["curve",dprpmIndex,key],val);
     let rpm_curves = this.props.item.get('rpm_curves').setIn([rpmCurveIndex], newRpmCurve);
     this.props.commonProps.onComponentFieldChange(this.props.item.get('id'), "rpm_curves", rpm_curves);
   }
 
   onRemoveDPRPM(rpmCurve, rpmCurveIndex, dprpmIndex) {
-    let newRpmCurve = rpmCurve.deleteIn(["diff_press_and_rpm",dprpmIndex]);
+    let newRpmCurve = rpmCurve.deleteIn(["curve",dprpmIndex]);
     let rpm_curves = this.props.item.get('rpm_curves').setIn([rpmCurveIndex], newRpmCurve);
     this.props.commonProps.onComponentFieldChange(this.props.item.get('id'), "rpm_curves", rpm_curves); 
   }

@@ -66,7 +66,7 @@ const PDM_MIN_OD = 2,
       PDM_MIN_WOB = 0,
       PDM_MAX_WOB = 70,
       PDM_MIN_FLOW_RANGE = 0,
-      PDM_MAX_FLOW_RANGE = 200,
+      PDM_MAX_FLOW_RANGE = 2000,
       PDM_MIN_MODP = 0,
       PDM_MAX_MODP = 2000,
       PDM_MIN_TMODP = 0,
@@ -270,23 +270,23 @@ class DrillstringsApp extends Component {
       }
 
       if (!this.isValueEmpty(min_tj_id) && !this.isValueEmpty(min_tj_od)) {
-        if (!this.isValidNumber(comp.tool_joint_id,min_tj_id,max_tj_id)) {
-          error["tool_joint_id"] = `${min_tj_id}~${max_tj_id} (${shortLengthUnitDisplay})`;
+        if (!this.isValidNumber(comp.inner_diameter_tooljoint,min_tj_id,max_tj_id)) {
+          error["inner_diameter_tooljoint"] = `${min_tj_id}~${max_tj_id} (${shortLengthUnitDisplay})`;
           hasFormErrors = true;
         }
 
-        if (!this.isValidNumber(comp.tool_joint_id,0,comp.inner_diameter)) {
-          error["tool_joint_id"] = "Tool Joint I.D <= I.D";
+        if (!this.isValidNumber(comp.inner_diameter_tooljoint,0,comp.inner_diameter)) {
+          error["inner_diameter_tooljoint"] = "Tool Joint I.D <= I.D";
           hasFormErrors = true;
         }
 
-        if (!this.isValidNumber(comp.tool_joint_od,min_tj_od,max_tj_od)) {
-          error["tool_joint_od"] = `${min_tj_od}~${max_tj_od} (${shortLengthUnitDisplay})`;
+        if (!this.isValidNumber(comp.outer_diameter_tooljoint,min_tj_od,max_tj_od)) {
+          error["outer_diameter_tooljoint"] = `${min_tj_od}~${max_tj_od} (${shortLengthUnitDisplay})`;
           hasFormErrors = true;
         }
 
-        if (!this.isValidNumber(comp.tool_joint_od,comp.outer_diameter,max_tj_od)) {
-          error["tool_joint_od"] = "Tool Joint O.D >= O.D";
+        if (!this.isValidNumber(comp.outer_diameter_tooljoint,comp.outer_diameter,max_tj_od)) {
+          error["outer_diameter_tooljoint"] = "Tool Joint O.D >= O.D";
           hasFormErrors = true;
         }
       }
@@ -298,9 +298,9 @@ class DrillstringsApp extends Component {
         }
       }
 
-      if (!this.isValueEmpty(comp.tool_joint_length) && !this.isValueEmpty(comp.length)) {
-        if(comp.tool_joint_length > comp.length) {
-          error["tool_joint_length"] = `Tool Joint Length< Component Length`;
+      if (!this.isValueEmpty(comp.length_tooljoint) && !this.isValueEmpty(comp.length)) {
+        if(comp.length_tooljoint > comp.length) {
+          error["length_tooljoint"] = `Tool Joint Length< Component Length`;
           hasFormErrors = true;
         }
       }
@@ -329,28 +329,28 @@ class DrillstringsApp extends Component {
           hasFormErrors = true;
         }
 
-        if (!this.isValidNumber(comp.max_wob, PDM_MIN_WOB, PDM_MAX_WOB)) {
-          error["max_wob"] = `It must be ${PDM_MIN_WOB}~${PDM_MAX_WOB}`;
+        if (!this.isValidNumber(comp.max_weight_on_bit, PDM_MIN_WOB, PDM_MAX_WOB)) {
+          error["max_weight_on_bit"] = `It must be ${PDM_MIN_WOB}~${PDM_MAX_WOB}`;
           hasFormErrors = true;
         }
 
-        if (!this.isValidNumber(comp.standard_flow_range_min, PDM_MIN_FLOW_RANGE, PDM_MAX_FLOW_RANGE)) {
-          error["standard_flow_range_min"] = `It must be ${PDM_MIN_FLOW_RANGE}~${PDM_MAX_FLOW_RANGE}`;
+        if (!this.isValidNumber(comp.min_standard_flowrate, PDM_MIN_FLOW_RANGE, PDM_MAX_FLOW_RANGE)) {
+          error["min_standard_flowrate"] = `It must be ${PDM_MIN_FLOW_RANGE}~${PDM_MAX_FLOW_RANGE}`;
           hasFormErrors = true;
         }
 
-        if (!this.isValidNumber(comp.standard_flow_range_max, PDM_MIN_FLOW_RANGE, PDM_MAX_FLOW_RANGE)) {
-          error["standard_flow_range_max"] = `It must be ${PDM_MIN_FLOW_RANGE}~${PDM_MAX_FLOW_RANGE}`;
+        if (!this.isValidNumber(comp.max_standard_flowrate, PDM_MIN_FLOW_RANGE, PDM_MAX_FLOW_RANGE)) {
+          error["max_standard_flowrate"] = `It must be ${PDM_MIN_FLOW_RANGE}~${PDM_MAX_FLOW_RANGE}`;
           hasFormErrors = true;
         }
 
-        if (!this.isValidNumber(comp.max_op_diff_pressure, PDM_MIN_MODP, PDM_MAX_MODP)) {
-          error["max_op_diff_pressure"] = `It must be ${PDM_MIN_MODP}~${PDM_MAX_MODP}`;
+        if (!this.isValidNumber(comp.max_operating_differential_pressure, PDM_MIN_MODP, PDM_MAX_MODP)) {
+          error["max_operating_differential_pressure"] = `It must be ${PDM_MIN_MODP}~${PDM_MAX_MODP}`;
           hasFormErrors = true;
         }
 
-        if (!this.isValidNumber(comp.torque_max_op_diff_pressure, PDM_MIN_TMODP, PDM_MAX_TMODP)) {
-          error["torque_max_op_diff_pressure"] = `It must be ${PDM_MIN_TMODP}~${PDM_MAX_TMODP}`;
+        if (!this.isValidNumber(comp.torque_at_max_operating_differential_pressure, PDM_MIN_TMODP, PDM_MAX_TMODP)) {
+          error["torque_at_max_operating_differential_pressure"] = `It must be ${PDM_MIN_TMODP}~${PDM_MAX_TMODP}`;
           hasFormErrors = true;
         }
 
@@ -396,10 +396,9 @@ class DrillstringsApp extends Component {
       component.weight = component.weight && convert.convertValue(component.weight, "mass", convert.getUnitPreference("mass"),"lb");
       component.length = component.length && convert.convertValue(component.length, "length", convert.getUnitPreference("length"),"ft");
       component.component_length = component.component_length && convert.convertValue(component.component_length, "length", convert.getUnitPreference("length"),"ft");
-      component.tool_joint_od = component.tool_joint_od && convert.convertValue(component.tool_joint_od, "shortLength", convert.getUnitPreference("shortLength"),"in");
-      component.tool_joint_id = component.tool_joint_id && convert.convertValue(component.tool_joint_id, "shortLength", convert.getUnitPreference("shortLength"),"in");
-      component.tool_joint_length = component.tool_joint_length && convert.convertValue(component.tool_joint_length, "shortLength", convert.getUnitPreference("length"),"ft");
-      component.norminal_linear_weight = component.norminal_linear_weight && convert.convertValue(component.norminal_linear_weight, "force", convert.getUnitPreference("force"), "klbf");
+      component.outer_diameter_tooljoint = component.outer_diameter_tooljoint && convert.convertValue(component.outer_diameter_tooljoint, "shortLength", convert.getUnitPreference("shortLength"),"in");
+      component.inner_diameter_tooljoint = component.inner_diameter_tooljoint && convert.convertValue(component.inner_diameter_tooljoint, "shortLength", convert.getUnitPreference("shortLength"),"in");
+      component.length_tooljoint = component.length_tooljoint && convert.convertValue(component.length_tooljoint, "shortLength", convert.getUnitPreference("length"),"ft");
       component.gauge_od = component.gauge_od && convert.convertValue(component.gauge_od, "shortLength", convert.getUnitPreference("shortLength"),"in");
       component.gauge_length = component.gauge_length && convert.convertValue(component.gauge_length, "length", convert.getUnitPreference("length"),"ft");
       component.blade_width = component.blade_width && convert.convertValue(component.blade_width, "length", convert.getUnitPreference("length"),"ft");
