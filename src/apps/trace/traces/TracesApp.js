@@ -240,7 +240,7 @@ TracesApp.propTypes = {
   size: PropTypes.string.isRequired,
   widthCols: PropTypes.number.isRequired,
   onAppUnsubscribe: PropTypes.func.isRequired,
-  onAppSettingsUpdate: PropTypes.func.isRequired,
+  onAppSubscribe: PropTypes.func.isRequired,
   onSettingChange: PropTypes.func.isRequired,
   asset: ImmutablePropTypes.map,
 };

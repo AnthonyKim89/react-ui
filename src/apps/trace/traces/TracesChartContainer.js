@@ -75,7 +75,7 @@ TracesChartContainer.propTypes = {
   latestData: ImmutablePropTypes.map,
   widthCols: PropTypes.number.isRequired,
   onAppUnsubscribe: PropTypes.func.isRequired,
-  onAppSettingsUpdate: PropTypes.func.isRequired,
+  onAppSubscribe: PropTypes.func.isRequired,
   onSettingChange: PropTypes.func.isRequired,
   traceColumnCount: PropTypes.number,
   traceRowCount: PropTypes.number,

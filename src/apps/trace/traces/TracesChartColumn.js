@@ -528,7 +528,7 @@ TracesChartColumn.propTypes = {
   widthCols: PropTypes.number.isRequired,
   includeDetailedData: PropTypes.bool,
   onAppUnsubscribe: PropTypes.func.isRequired,
-  onAppSettingsUpdate: PropTypes.func.isRequired,
+  onAppSubscribe: PropTypes.func.isRequired,
 };
 
 export default TracesChartColumn;
