@@ -29,7 +29,7 @@ class FluidCheckAttributeForm extends Component {
     
   }
   render() {
-    return <div>
+    return <div className="c-fluid-checks-editor__top">
       <Row key="attributes1" className="c-fluid-checks-editor__attributes">
         <Input type="select"
           m={4}          
