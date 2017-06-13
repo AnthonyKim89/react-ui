@@ -124,6 +124,10 @@ class TracesApp extends Component {
     this.summaryData = this.convertUnits(summaryData);
   }
 
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
   convertUnits(filteredData) {
     let traceGraphs = this.props.traceGraphs || DEFAULT_TRACE_GRAPHS;
 

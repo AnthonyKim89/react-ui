@@ -110,6 +110,10 @@ class TracesChartColumn extends Component {
     this.timerID = setTimeout(() => this.initPredictedDataLoad(), 500);
   }
 
+  componentWillUnmount() {
+    clearTimeout(this.timerID);
+  }
+
   async initPredictedDataLoad() {
     if (this.props.data.size === 0) {
       return;
