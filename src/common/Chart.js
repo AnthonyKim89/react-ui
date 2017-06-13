@@ -98,6 +98,9 @@ class Chart extends Component {
   }
 
   componentWillReceiveProps(newProps) {
+    if(!this.state) {
+      return;
+    }
     const chart = this.state.chart;
     let redraw = false, reflow = false;
     if (newProps.size !== this.props.size) {

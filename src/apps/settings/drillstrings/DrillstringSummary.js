@@ -70,7 +70,7 @@ export class DrillstringSummary extends Component {
   getBitSize() {
     return this.getComponents()
       .find(c => c.get('family') === 'bit', null, Map())
-      .get('size');
+      .get('outer_diameter');
   }
 
   getComponentCount() {
@@ -96,15 +96,13 @@ export class DrillstringSummary extends Component {
   }
 
   getDepths() {
-    const start = this.props.convert.convertValue(this.props.record.getIn(['data', 'start_depth']) || 0,'length','ft').formatNumeral('0,0');
-    const end = this.props.record.getIn(['data', 'end_depth']) ? this.props.convert.convertValue(this.props.record.getIn(['data', 'end_depth']) || 0,'length','ft').formatNumeral('0,0') : "";
-    return `${start} ${end !== "" ? "-" : ""} ${end} ${this.props.convert.getUnitDisplay('length')}`;
+    const start = this.props.convert.convertValue(this.props.record.getIn(['data', 'start_depth']) || 0,'length','ft').formatNumeral('0');
+    return `${start} ${this.props.convert.getUnitDisplay('length')}`;
   }
 
   getTimeData() {
     let start = moment.unix(this.props.record.getIn(["data","start_timestamp"])).format('LL');
-    let end = moment.unix(this.props.record.getIn(["data","end_timestamp"])).format('LL');
-    return `${start} - ${end}`;
+    return `${start}`;
   }
 
   getEndDepth() {
