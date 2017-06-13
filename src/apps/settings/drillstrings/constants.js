@@ -69,7 +69,8 @@ export const COMPONENT_CLASSES = [
 export const COMPONENT_MATERIALS = [
   {name: 'Steel', type: 'Steel'},
   {name: 'Aluminium', type: 'Aluminium'},
-  {name: 'Titanium', type: 'Titanium'}
+  {name: 'Titanium', type: 'Titanium'},
+  {name: 'Non Magnetic', type: 'Non Magnetic'}
 ];
 
 export const COMPONENT_CATALOGUES = [
