@@ -6,6 +6,8 @@ import { Row } from 'react-materialize';
 import TracesChartColumn from './TracesChartColumn';
 import Convert from '../../../common/Convert';
 import TracesSettingsDialog from './TracesSettingsDialog';
+import * as api from '../../../api';
+import { isEqual } from 'lodash';
 
 import './TracesChartContainer.css';
 
@@ -14,6 +16,15 @@ class TracesChartContainer extends Component {
   constructor(props) {
     super(props);
     this.openSettingsDialog = this.openSettingsDialog.bind(this);
+    this.state = {
+      assetList: new List(),
+    };
+  }
+
+  async componentDidMount() {
+    this.setState({
+      assetList: await api.getAssets(),
+    });
   }
 
   render() {
@@ -43,6 +54,10 @@ class TracesChartContainer extends Component {
         supportedTraces={this.props.supportedTraces}
         traceGraphs={this.props.traceGraphs}
         convert={this.props.convert}
+        asset={this.props.asset}
+        assetList={this.state.assetList}
+        params={{assetType: 'rig'}}
+        location={{query: {}}}
         onSettingChange={this.props.onSettingChange} />
     </Row>;
   }
@@ -58,11 +73,12 @@ class TracesChartContainer extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return this.props.traceGraphs.equals(nextProps.traceGraphs)
-      || this.props.latestData.equals(nextProps.latestValue)
-      || this.props.data.equals(nextProps.data)
+    return !this.props.traceGraphs.equals(nextProps.traceGraphs)
+      || (this.props.latestData && !this.props.latestData.equals(nextProps.latestValue))
+      || !this.props.data.equals(nextProps.data)
       || this.props.traceRowCount !== nextProps.traceRowCount
-      || this.props.traceColumnCount !== nextProps.traceColumnCount;
+      || this.props.traceColumnCount !== nextProps.traceColumnCount
+      || !isEqual(this.state, nextState);
   }
 }
 

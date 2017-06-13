@@ -5,6 +5,7 @@ import Modal from 'react-modal';
 import { SliderPicker } from 'react-color';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { find, isEqual } from 'lodash';
+
 import { PREDICTED_TRACES } from '../constants';
 
 import './TracesSettingsDialog.css';
@@ -77,6 +78,16 @@ class TracesSettingsDialog extends Component {
                        defaultChecked={this.state.traceSource === "offset" ? 'checked' : ""} />
               </Col>
             </Row>
+
+            {this.state.traceSource === 'offset' &&
+              <Input type='select' label="Offset Asset" s={12}
+                     defaultValue={this.props.traceGraphs.getIn([this.state.traceEditIndex, 'offsetId'])}
+                     ref={(input) => this.traceEditorOffset = input}>
+                <option value="">&nbsp;</option>
+                {this.props.assetList.filter(x => x.get('asset_type') === 'rig').map((asset, idx) => {
+                  return <option key={idx} value={asset.get('id')}>{asset.get('name')}</option>;
+                })}
+              </Input>}
 
             <Input type='select' label="Trace" s={12}
                    defaultValue={this.props.traceGraphs.getIn([this.state.traceEditIndex, 'trace'])}
@@ -250,14 +261,16 @@ class TracesSettingsDialog extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !nextProps.traceGraphs.equals(this.props.traceGraphs) ||  !isEqual(this.state, nextState);
+    return !nextProps.traceGraphs.equals(this.props.traceGraphs)
+      || !nextProps.assetList.equals(this.props.assetList)
+      || !isEqual(this.state, nextState);
   }
 
   updateTraceGraph() {
-    console.log(this.state.traceSource);
-
+    console.log(this.traceEditorOffset);
     let updatedSettings = {
       trace: this.traceEditorGraph.state.value,
+      offsetId: this.traceEditorOffset ? this.traceEditorOffset.state.value : null,
       color: this.traceEditorPicker.state.hex,
       type: this.traceEditorType.state.value === true ? 'area' : 'line',
       dashStyle: this.traceEditorDashStyle.state.value,
@@ -288,8 +301,6 @@ class TracesSettingsDialog extends Component {
       }
     }
 
-    console.log(updatedSettings);
-
     this.props.onSettingChange(
       'traceGraphs',
       this.props.traceGraphs.set(this.state.traceEditIndex, Map(updatedSettings))
@@ -319,9 +330,11 @@ class TracesSettingsDialog extends Component {
 }
 
 TracesSettingsDialog.propTypes = {
+  asset: ImmutablePropTypes.map,
   supportedTraces: PropTypes.array.isRequired,
   traceGraphs: ImmutablePropTypes.list.isRequired,
   onSettingChange: PropTypes.func.isRequired,
+  assetList: ImmutablePropTypes.list.isRequired,
 };
 
 export default TracesSettingsDialog;
