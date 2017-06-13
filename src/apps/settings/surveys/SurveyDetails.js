@@ -9,6 +9,17 @@ import './SurveyDetails.css';
 
 class SurveyDetails extends Component {
 
+  constructor(props) {
+    super(props);
+    this._internalKeys = [];
+    this.props.record.getIn(['data', 'stations'], List()).map((station, index) => {
+      if (!this._internalKeys[index]) {
+        this._internalKeys[index] = uuidV1();
+      }
+      return null;
+    });
+  }
+  
   render() {
     return <div className="c-survey-details">
       { this.props.isEditable ? this.renderEditable() : this.renderDetailed()}
@@ -28,7 +39,7 @@ class SurveyDetails extends Component {
         </thead>
         <tbody>
           {this.props.record.getIn(['data', 'stations'], List()).map((station, index) => 
-            <tr key={uuidV1()}>
+            <tr key={this._internalKeys[index]}>
               <td>
                 <Input type="number" 
                   s={12}
@@ -117,13 +128,16 @@ class SurveyDetails extends Component {
     if (!record.getIn(['data','stations'])) {
       record = this.props.record.update('data', old => old.set('stations', List()));
     }
+
+    this._internalKeys[record.getIn(['data','stations']).size] = uuidV1();
     this.props.onUpdateRecord(record.updateIn(['data', 'stations'], c => c.push(item)));
   }
 
   onDeleteSurveyItem(index) {     
     
-    let a= this.props.record.deleteIn(['data', 'stations', index]);    
-    this.props.onUpdateRecord(a);
+    let record = this.props.record.deleteIn(['data', 'stations', index]);
+    this._internalKeys.splice(index,1);
+    this.props.onUpdateRecord(record);
     
   }
 
