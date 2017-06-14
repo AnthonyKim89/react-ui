@@ -1,0 +1,80 @@
+.c-alerts-manager {
+    font-family: 'Open Sans';
+    padding: 1rem 0 0 0;
+}
+
+.c-alerts-manager-header {
+    margin-bottom: 1rem;
+    padding-left: 2rem;
+}
+
+.c-alerts-manager-header h1 {
+    color: #FFF;
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+    padding: .5rem 0;
+}
+
+.c-alert-editor {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  width: 30rem;
+  margin-left: -15rem;
+  border-radius: 0;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background: white;
+  color: black;
+  overflow: visible;
+  -webkit-overflow-scrolling: touch;
+  outline: none;
+  z-index: 4001;
+}
+
+.c-alert-dialog-filters-header {
+    font-size: 1.5rem;
+}
+
+.c-alert-dialog-filter {
+    margin-bottom: 1rem;
+    line-height: 2rem;
+}
+
+.c-alert-dialog-filter div {
+    display: inline-block;
+    margin: 0 .25rem;
+}
+
+.c-alert-dialog-filter .select-wrapper input.select-dropdown,
+.c-alert-dialog-filter .input-field input {
+    line-height: 1;
+    height: 2rem;
+    margin-bottom: 0;
+}
+
+.c-alert-dialog-filter-sample-function {
+    max-width: 6rem;
+}
+
+.c-alert-dialog-filter-sample-interval,
+.c-alert-dialog-filter-period {
+    max-width: 4rem;
+}
+
+.c-alert-dialog-filter-operator {
+    max-width: 2rem;
+}
+
+.c-alert-delete-filter {
+    float: right;
+}
+
+.c-alert-dialog-actions {
+    margin-top: 1rem;
+}
+
+.c-alert-cancel {
+    margin-left: 1rem;
+}

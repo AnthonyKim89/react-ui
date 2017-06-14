@@ -11,6 +11,11 @@ class Alert extends Component {
       dataPoint = dataPoint.split('.').pop();
     }
     dataPoint = dataPoint.replace(/_/g, ' ');
+
+    if (dataPoint === dataPoint.toUpperCase()) {
+      return dataPoint;
+    }
+
     dataPoint = dataPoint.replace(/\b\w/g, w => w.toUpperCase());
     return dataPoint;
   }
@@ -60,7 +65,7 @@ class Alert extends Component {
     let dataPoints = alert.alert_definition.filters.map((filter) => {
       let sampleFunction = filter.sample_function.charAt(0).toUpperCase() + filter.sample_function.slice(1);
       let dataPoint = this.getFriendlyDataPointName(filter.data_point);
-      let value = this.getFriendlyValue(alert, filter.data_point)
+      let value = this.getFriendlyValue(alert, filter.data_point);
       let comparison = this.getFriendlyComparison(filter.operator);
       let threshold = this.getFriendlyThreshold(filter.threshold);
       let timing = this.getFriendlyTiming(filter.period);

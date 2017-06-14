@@ -12,7 +12,6 @@ class AlertGroup extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {more: true, page: 1};
   }
 
@@ -33,8 +32,8 @@ class AlertGroup extends Component {
           freshAlerts = this.state.alerts.concat(freshAlerts);
       }
 
-      this.setState({ alerts: freshAlerts });
-      this.state.page += 1;
+      this.setState({alerts: freshAlerts});
+      this.setState({page: this.state.page + 1});
   }
 
   readyToRender() {

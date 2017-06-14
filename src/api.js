@@ -108,6 +108,24 @@ export async function getAlerts(start, end, page, size) {
     return fromJS(data);
 }
 
+export async function getAlertDefinitions() {
+    const data = await get('/v1/alerts/definitions');
+    return fromJS(data);
+}
+
+export async function postAlertDefinition(definition) {
+  const data = await post('/v1/alerts/definitions', definition);
+  return fromJS(data);
+}
+
+export async function putAlertDefinition(id, definition) {
+  definition.company_id = definition.company.id;
+  delete definition.company;
+  delete definition.id;
+  const data = await put(`/v1/alerts/definitions/${id}`, definition);
+  return fromJS(data);
+}
+
 export async function getAppSets(userId) {
   const data = await get(`/v1/users/${userId}/app_sets`);
   return fromJS(data);
