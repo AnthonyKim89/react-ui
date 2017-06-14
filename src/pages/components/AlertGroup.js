@@ -12,7 +12,7 @@ class AlertGroup extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {more: true, page: 1};
+    this.setState({more: true, page: 1});
   }
 
   componentDidMount() {
@@ -25,7 +25,7 @@ class AlertGroup extends Component {
 
       // 20 is the page size. If the API returned fewer than 20 results, that means it's reached the end of the line.
       if (freshAlerts.length < 20) {
-          this.state.more = false;
+        this.state.setState({more: false});
       }
 
       if (this.state.alerts) {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from 'react-materialize';
+import { Button, Input } from 'react-materialize';
 
 import './AlertDefinition.css';
 
@@ -18,14 +18,21 @@ class AlertDefinition extends Component {
     return dataPoint;
   }
 
+  handleClick(event) {
+    if (event.target.getAttribute('name') !== 'active') {
+      this.props.onClick(event);
+    }
+  }
+
   render() {
 
     return (
-      <div className="c-alert-definition" onClick={this.props.onClick}>
+      <div className="c-alert-definition" onClick={this.handleClick.bind(this)}>
         { this.props.alert &&
           <div className="c-alert-definition-contents">
             <h2 className="c-alert-definition-name">{this.props.alert.name}</h2>
             <p className="c-alert-definition-description">{this.props.alert.description}</p>
+            <Input name="active" type="switch" value="true" checked={this.props.alert.active} onChange={this.props.onToggle} />
             <div className="c-alert-definition-filters">
               <h3 className="c-alert-definition-filters-header">Filters</h3>
               <ol>

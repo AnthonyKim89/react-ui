@@ -32,11 +32,14 @@ class AlertsManager extends Component {
     this.setState({alerts: definitions});
   }
 
+  toggle(alert, event) {
+  }
+
   edit(mode='Add', alert=null) {
     if (mode === 'Add') {
       alert = {
         filters: [this.getSampleFilter()]
-      }
+      };
     }
 
     this.setState({
@@ -74,7 +77,7 @@ class AlertsManager extends Component {
     var key = event.target.getAttribute("name");
     var alert = this.state.alert;
     alert[key] = event.target.value;
-    this.setState({alert: alert})
+    this.setState({alert: alert});
   }
 
   updateAlertFilter(index, event) {
@@ -100,7 +103,7 @@ class AlertsManager extends Component {
   }
 
   cancel() {
-    this.setState({editing: false})
+    this.setState({editing: false});
   }
 
   readyToRender() {
@@ -119,10 +122,10 @@ class AlertsManager extends Component {
             <div className="c-alert-none">No Alerts Found</div>}
 
           {this.state.alerts && this.state.alerts.map((alert) => {
-            return <AlertDefinition key={alert.id} alert={alert} onClick={() => this.edit('Edit', alert)}/>
+            return <AlertDefinition key={alert.id} alert={alert} onClick={() => this.edit('Edit', alert)} onToggle={() => this.toggle(alert)} />;
           })}
 
-          <AlertDefinition onClick={() => this.edit('Add')}/>
+          <AlertDefinition onClick={() => this.edit('Add')} />
 
           <div className="clearfix"></div>
         </div>
@@ -142,14 +145,14 @@ class AlertsManager extends Component {
             <div className="c-alert-dialog-alert-editor">
               <Input label="Name" name="name"
                      defaultValue={this.state.alert && this.state.alert['name']} onChange={this.updateAlert} />
-              <Input label="Description"
+              <Input label="Description" name="description"
                      defaultValue={this.state.alert && this.state.alert['description']} onChange={this.updateAlert} />
-              <Input type='select' label="Level" defaultValue={this.state.alert ? this.state.alert['level'] : 'INFO'} onChange={this.updateAlert}>
+              <Input type='select' name="level" label="Level" defaultValue={this.state.alert ? this.state.alert['level'] : 'INFO'} onChange={this.updateAlert}>
                 <option value='INFO'>Info</option>
                 <option value='WARNING'>Warning</option>
                 <option value='ERROR'>Error</option>
               </Input>
-              <Input type='select' label="Filter Logic" defaultValue={this.state.alert ? this.state.alert['filter_logic'] : 'AND'} onChange={this.updateAlert}>
+              <Input type='select' name="filter_logic" label="Filter Logic" defaultValue={this.state.alert ? this.state.alert['filter_logic'] : 'AND'} onChange={this.updateAlert}>
                 <option value='AND'>AND</option>
                 <option value='OR'>OR</option>
               </Input>
