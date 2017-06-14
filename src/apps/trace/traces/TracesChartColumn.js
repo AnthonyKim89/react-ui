@@ -476,7 +476,7 @@ class TracesChartColumn extends Component {
           }
         }
       } else {
-        if (this.predictedData[trace.trace]) {
+        if (this.predictedData[trace.trace] && this.predictedData[trace.trace].last()) {
           latestValue = this.predictedData[trace.trace].last().get(trace.path).formatNumeral("0,0.00");
         }
       }

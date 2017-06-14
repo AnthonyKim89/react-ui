@@ -108,7 +108,7 @@ class TracesApp extends Component {
   }
 
   componentWillUpdate(nextProps) {
-    if(!this.props.data && nextProps.data) {
+    if(!this.props.data && nextProps.data && this.props.asset) {
       let latestData = subscriptions.selectors.getSubData(nextProps.data, latestSubscription);
       if(latestData) {
         let end = latestData.get('timestamp');
@@ -230,8 +230,13 @@ class TracesApp extends Component {
       'query': `{timestamp#gte#${Math.round(startTS)}}}and{timestamp#lte#${Math.round(endTS)}}`,
       'limit': 525600, // This is a year's worth of minutes. We're required to include a limit.
     });
-    let result = await api.getAppStorage('corva', 'wits.summary-1m', this.props.asset.get('id'), params);
-    return result.reverse();
+    if(this.props.asset) {
+      let result = await api.getAppStorage('corva', 'wits.summary-1m', this.props.asset.get('id'), params);
+      return result.reverse();
+    }
+    else {
+      return [];
+    }
   }
 }
 
