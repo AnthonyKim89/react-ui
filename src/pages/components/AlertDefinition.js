@@ -19,7 +19,7 @@ class AlertDefinition extends Component {
   }
 
   handleClick(event) {
-    if (event.target.getAttribute('name') !== 'active') {
+    if (event.target.getAttribute('name') !== 'active' && event.target.getAttribute('class') !== 'lever') {
       this.props.onClick(event);
     }
   }
@@ -32,7 +32,7 @@ class AlertDefinition extends Component {
           <div className="c-alert-definition-contents">
             <h2 className="c-alert-definition-name">{this.props.alert.name}</h2>
             <p className="c-alert-definition-description">{this.props.alert.description}</p>
-            <Input name="active" type="switch" value="true" checked={this.props.alert.active} onChange={this.props.onToggle} />
+            <Input name="active" type="switch" value="true" defaultChecked={this.props.alert.active} onChange={this.props.onToggle} />
             <div className="c-alert-definition-filters">
               <h3 className="c-alert-definition-filters-header">Filters</h3>
               <ol>

@@ -33,6 +33,8 @@ class AlertsManager extends Component {
   }
 
   toggle(alert, event) {
+    alert.active = !alert.active;
+    this.saveAlert(alert, 'Edit');
   }
 
   edit(mode='Add', alert=null) {
@@ -88,11 +90,12 @@ class AlertsManager extends Component {
     this.setState({alert: alert});
   }
 
-  async saveAlert() {
-    let alert = this.state.alert;
+  async saveAlert(alert, mode) {
+    alert = alert || this.state.alert;
+    mode = mode || this.state.mode;
 
-    if (this.state.mode === 'Edit') {
-      let alertId = this.state.alert["id"];
+    if (mode === 'Edit') {
+      let alertId = alert.id;
       await api.putAlertDefinition(alertId, alert);
     } else {
       await api.postAlertDefinition(alert);
