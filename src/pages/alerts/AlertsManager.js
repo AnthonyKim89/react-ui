@@ -143,13 +143,13 @@ class AlertsManager extends Component {
               <Input label="Name" name="name"
                      defaultValue={this.state.alert && this.state.alert['name']} onChange={this.updateAlert} />
               <Input label="Description"
-                     defaultValue={this.state.alert && this.state.alert['description']} />
-              <Input type='select' label="Level" defaultValue={this.state.alert ? this.state.alert['level'] : 'INFO'}>
+                     defaultValue={this.state.alert && this.state.alert['description']} onChange={this.updateAlert} />
+              <Input type='select' label="Level" defaultValue={this.state.alert ? this.state.alert['level'] : 'INFO'} onChange={this.updateAlert}>
                 <option value='INFO'>Info</option>
                 <option value='WARNING'>Warning</option>
                 <option value='ERROR'>Error</option>
               </Input>
-              <Input type='select' label="Filter Logic" defaultValue={this.state.alert ? this.state.alert['filter_logic'] : 'AND'}>
+              <Input type='select' label="Filter Logic" defaultValue={this.state.alert ? this.state.alert['filter_logic'] : 'AND'} onChange={this.updateAlert}>
                 <option value='AND'>AND</option>
                 <option value='OR'>OR</option>
               </Input>
