@@ -88,15 +88,15 @@ class AlertsManager extends Component {
   async saveAlert() {
     let alert = this.state.alert;
 
-    let response = null;
     if (this.state.mode === 'Edit') {
       let alertId = this.state.alert["id"];
-      response = await api.putAlertDefinition(alertId, alert);
+      await api.putAlertDefinition(alertId, alert);
     } else {
-      response = await api.postAlertDefinition(alert);
+      await api.postAlertDefinition(alert);
     }
 
     this.setState({editing: false});
+    this.getAlertDefinitions();
   }
 
   cancel() {
