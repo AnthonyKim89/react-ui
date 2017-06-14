@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { Map } from 'immutable';
 import { Input, Button, Row, Col } from 'react-materialize';
 import Modal from 'react-modal';
-import { SliderPicker } from 'react-color';
+import reactCSS from 'reactcss';
+import { SketchPicker } from 'react-color';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { find, isEqual } from 'lodash';
 
@@ -20,10 +21,29 @@ class TracesSettingsDialog extends Component {
       updatedUnitType: null,
       autoScale: null,
       traceSource: null,
+      displayColorPicker: false,
+      color: {
+        r: '241',
+        g: '112',
+        b: '19',
+        a: '1',
+      }
     };
     this.updateTraceGraph = this.updateTraceGraph.bind(this);
     this.render = this.render.bind(this);
   }
+
+  handleClick = () => {
+    this.setState({ displayColorPicker: !this.state.displayColorPicker });
+  };
+
+  handleClose = () => {
+    this.setState({ displayColorPicker: false });
+  };
+
+  handleChange = (color) => {
+    this.setState({ color: color.rgb });
+  };
 
   render() {
     let shouldDisplayUnitOptions = this.shouldDisplayUnitOptions();
@@ -203,9 +223,7 @@ class TracesSettingsDialog extends Component {
           </Col>}
         </Row>
 
-        <SliderPicker
-          ref={(input) => this.traceEditorPicker = input}
-          color={this.props.traceGraphs.getIn([this.state.traceEditIndex, 'color'])} />
+        {this.renderColorPicker()}
 
         <Row className="c-traces__container__edit-trace__dialog__button-row">
           <Col s={6}>
@@ -221,6 +239,54 @@ class TracesSettingsDialog extends Component {
         </Row>
       </div>}
     </Modal>;
+  }
+
+  renderColorPicker() {
+    const styles = reactCSS({
+      'default': {
+        color: {
+          width: '36px',
+          height: '14px',
+          borderRadius: '2px',
+          background: `rgba(${ this.state.color.r }, ${ this.state.color.g }, ${ this.state.color.b }, ${ this.state.color.a })`,
+        },
+        swatch: {
+          marginLeft: '20px',
+          padding: '5px',
+          background: '#fff',
+          borderRadius: '1px',
+          boxShadow: '0 0 0 1px rgba(0,0,0,.1)',
+          display: 'inline-block',
+          cursor: 'pointer',
+        },
+        popover: {
+          position: 'absolute',
+          zIndex: '2000',
+          marginLeft: '100px',
+          marginTop: '-350px'
+        },
+        cover: {
+          position: 'fixed',
+          top: '0px',
+          right: '0px',
+          bottom: '0px',
+          left: '0px',
+        },
+      },
+    });
+
+      return <div>
+        <div style={ styles.swatch } onClick={ this.handleClick }>
+          <div style={ styles.color } />
+        </div>
+        { this.state.displayColorPicker ? <div style={ styles.popover }>
+          <div style={ styles.cover } onClick={ this.handleClose }/>
+          <SketchPicker 
+            ref={(input) => this.traceEditorPicker = input}
+            color={this.props.traceGraphs.getIn([this.state.traceEditIndex, 'color'])} 
+            onChange={ this.handleChange } />
+        </div> : null }
+      </div>;
   }
 
   getTraceChoices() {
