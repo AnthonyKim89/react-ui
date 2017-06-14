@@ -22,28 +22,40 @@ class TracesSettingsDialog extends Component {
       autoScale: null,
       traceSource: null,
       displayColorPicker: false,
-      color: {
-        r: '241',
-        g: '112',
-        b: '19',
-        a: '1',
-      }
+      color: "#ffffff"
     };
     this.updateTraceGraph = this.updateTraceGraph.bind(this);
     this.render = this.render.bind(this);
   }
 
-  handleClick = () => {
+  openColorPicker = () => {
     this.setState({ displayColorPicker: !this.state.displayColorPicker });
   };
 
-  handleClose = () => {
+  closeColorPicker = () => {
     this.setState({ displayColorPicker: false });
   };
 
-  handleChange = (color) => {
-    this.setState({ color: color.rgb });
+  changeSelectedColor = (color) => {
+    let hexColor = "#" + ((1 << 24) + (color.rgb.r << 16) + (color.rgb.g << 8) + color.rgb.b).toString(16).slice(1);
+    this.setState({ color: hexColor });
   };
+
+  hexToRgb(hex) {
+    // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+    let shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+      return r + r + g + g + b + b;
+    });
+
+    let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16),
+      a: 1
+    } : null;
+  }
 
   render() {
     let shouldDisplayUnitOptions = this.shouldDisplayUnitOptions();
@@ -242,13 +254,15 @@ class TracesSettingsDialog extends Component {
   }
 
   renderColorPicker() {
+    let color = this.hexToRgb(this.state.color);
+
     const styles = reactCSS({
       'default': {
         color: {
           width: '36px',
           height: '14px',
           borderRadius: '2px',
-          background: `rgba(${ this.state.color.r }, ${ this.state.color.g }, ${ this.state.color.b }, ${ this.state.color.a })`,
+          background: `rgba(${ color.r }, ${ color.g }, ${ color.b }, ${ color.a })`,
         },
         swatch: {
           marginLeft: '20px',
@@ -275,18 +289,18 @@ class TracesSettingsDialog extends Component {
       },
     });
 
-      return <div>
-        <div style={ styles.swatch } onClick={ this.handleClick }>
-          <div style={ styles.color } />
-        </div>
-        { this.state.displayColorPicker ? <div style={ styles.popover }>
-          <div style={ styles.cover } onClick={ this.handleClose }/>
-          <SketchPicker 
-            ref={(input) => this.traceEditorPicker = input}
-            color={this.props.traceGraphs.getIn([this.state.traceEditIndex, 'color'])} 
-            onChange={ this.handleChange } />
-        </div> : null }
-      </div>;
+    return <div>
+      <div style={ styles.swatch } onClick={ this.openColorPicker }>
+        <div style={ styles.color } />
+      </div>
+      { this.state.displayColorPicker ? <div style={ styles.popover }>
+        <div style={ styles.cover } onClick={ this.closeColorPicker }/>
+        <SketchPicker
+          ref={(input) => this.traceEditorPicker = input}
+          color={this.props.traceGraphs.getIn([this.state.traceEditIndex, 'color'])}
+          onChange={ this.changeSelectedColor } />
+      </div> : null }
+    </div>;
   }
 
   getTraceChoices() {
@@ -333,11 +347,11 @@ class TracesSettingsDialog extends Component {
   }
 
   updateTraceGraph() {
-    console.log(this.traceEditorOffset);
+    console.log(this.traceEditorPicker);
     let updatedSettings = {
       trace: this.traceEditorGraph.state.value,
       offsetId: this.traceEditorOffset ? this.traceEditorOffset.state.value : null,
-      color: this.traceEditorPicker.state.hex,
+      color: this.state.color,
       type: this.traceEditorType.state.value === true ? 'area' : 'line',
       dashStyle: this.traceEditorDashStyle.state.value,
       lineWidth: parseInt(this.traceEditorLineWidth.state.value, 10),
@@ -381,6 +395,7 @@ class TracesSettingsDialog extends Component {
       updatedUnitType: null,
       autoScale: null,
       traceSource: this.props.traceGraphs.getIn([traceEditIndex, 'source'], "trace"),
+      color: this.props.traceGraphs.getIn([traceEditIndex, 'color'], "#ffffff"),
     });
   }
 
@@ -391,6 +406,7 @@ class TracesSettingsDialog extends Component {
       updatedUnitType: null,
       autoScale: null,
       traceSource: null,
+      color: "#ffffff",
     });
   }
 }
