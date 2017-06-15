@@ -1,0 +1,134 @@
+.c-ra-operation-summary {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding-top: 20px;
+}
+
+.c-ra-operation-summary .chart-panel .s1 {
+	font-size: 9px;
+	line-height: 20px;
+	overflow: hidden;
+	text-align: right;
+}
+
+.c-ra-operation-summary .chart-operations { 
+	margin: 1px 0 0 0;
+	padding: 0;
+}
+
+.c-ra-operation-summary__activity-Drilling_Slide {
+	background-color: #0085e3;
+}
+
+.c-ra-operation-summary__activity-Drilling_Rotary {
+	background-color: #4840d1;
+}
+
+.c-ra-operation-summary__activity-Connection {
+	background-color: #909f98;
+}
+
+.c-ra-operation-summary__activity-Circulating {
+	background-color: #9500b7;
+}
+
+.c-ra-operation-summary__activity-Run_in_Hole {
+	background-color: #f70000;
+}
+
+.c-ra-operation-summary__activity-Run_out_of_Hole {
+	background-color: #940000;
+}
+
+.c-ra-operation-summary__activity-Washing_Upwards {
+	background-color: #efd34b;
+}
+
+.c-ra-operation-summary__activity-Washing_Downwards {
+	background-color: #e99100;
+}
+
+.c-ra-operation-summary__activity-Reaming_Upwards {
+	background-color: #38732e;
+}
+
+.c-ra-operation-summary__activity-Reaming_Downwards {
+	background-color: #5dd94b;
+}
+
+.c-ra-operation-summary__activity-Running_Casing {
+	background-color: #e837f3;
+}
+
+.c-ra-operation-summary__activity-Other {
+	background-color: #d2dfd8;
+}
+
+.c-ra-operation-summary__activity-Casing_Trip_In {
+	background-color: #f8a2fd;
+}
+
+.c-ra-operation-summary__activity-Cementing {
+	background-color: #47c7cf;
+}
+
+.c-ra-operation-summary div.action-panel {
+	position: absolute;
+	bottom: 0;
+	margin: 0;
+}
+
+.c-ra-operation-summary .action-panel .select-period input {
+	height: 30px;
+	width: 200px;
+	margin: 0;
+	border: none;
+	font-weight: bold;
+}
+
+.c-ra-operation-summary .action-panel .select-period .caret {
+	color: #bbb;
+}
+
+.c-ra-operation-summary .action-panel .text-info {
+	color: #bbb;
+	line-height: 40px;
+	font-size: 0.815rem;
+	float: left;
+}
+
+.c-ra-operation-summary__group-Out_of_Hole{
+	background-color: #940000;
+}
+
+.c-ra-operation-summary__group-Tripping_in{
+	background-color: #e99100;
+}
+
+.c-ra-operation-summary__group-Tripping_out{
+	background-color: #efd34b;
+}
+
+.c-ra-operation-summary__group-Drilling{
+	background-color: #0085e3;
+}
+
+.c-ra-operation-summary__group-Other{
+	background-color: #d2dfd8;
+}
+
+.c-ra-operation-summary__group-Circulation{
+	background-color: #9500b7;
+}
+
+.c-ra-operation-summary__group-Running_Casing{
+	background-color: #e837f3;
+}
+
+.c-ra-operation-summary__group-Cementing{
+	background-color: #47c7cf;
+}
+
