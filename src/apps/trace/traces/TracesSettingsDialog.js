@@ -116,7 +116,7 @@ class TracesSettingsDialog extends Component {
                      defaultValue={this.props.traceGraphs.getIn([this.state.traceEditIndex, 'offsetId'])}
                      ref={(input) => this.traceEditorOffset = input}>
                 <option value="">&nbsp;</option>
-                {this.props.assetList.filter(x => x.get('asset_type') === 'rig').map((asset, idx) => {
+                {this.props.assetList.filter(x => x.get('asset_type') === 'well').map((asset, idx) => {
                   return <option key={idx} value={asset.get('id')}>{asset.get('name')}</option>;
                 })}
               </Input>}
@@ -347,7 +347,6 @@ class TracesSettingsDialog extends Component {
   }
 
   updateTraceGraph() {
-    console.log(this.traceEditorPicker);
     let updatedSettings = {
       trace: this.traceEditorGraph.state.value,
       offsetId: this.traceEditorOffset ? this.traceEditorOffset.state.value : null,
