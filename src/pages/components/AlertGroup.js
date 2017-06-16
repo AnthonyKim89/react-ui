@@ -16,28 +16,33 @@ class AlertGroup extends Component {
   }
 
   componentDidMount() {
-      this.getAlerts(this.props.start, this.props.end);
+    this.getAlerts(this.props.start, this.props.end);
   }
 
   async getAlerts(start, end) {
-      let freshAlerts = await api.getAlerts(start, end, this.state.page);
-      freshAlerts = freshAlerts.toJSON();
+    var page = 1;
+    if (this.state) {
+      page = this.state.page || page;
+    }
 
-      // 20 is the page size. If the API returned fewer than 20 results, that means it's reached the end of the line.
-      if (freshAlerts.length < 20) {
-        this.state.setState({more: false});
-      }
+    let freshAlerts = await api.getAlerts(start, end, page);
+    freshAlerts = freshAlerts.toJSON();
 
-      if (this.state.alerts) {
-          freshAlerts = this.state.alerts.concat(freshAlerts);
-      }
+    // 20 is the page size. If the API returned fewer than 20 results, that means it's reached the end of the line.
+    if (freshAlerts.length < 20) {
+      this.state.setState({more: false});
+    }
 
-      this.setState({alerts: freshAlerts});
-      this.setState({page: this.state.page + 1});
+    if (this.state.alerts) {
+        freshAlerts = this.state.alerts.concat(freshAlerts);
+    }
+
+    this.setState({alerts: freshAlerts});
+    this.setState({page: page + 1});
   }
 
   readyToRender() {
-      return this.state && this.state.alerts;
+    return this.state && this.state.alerts;
   }
 
   render() {
