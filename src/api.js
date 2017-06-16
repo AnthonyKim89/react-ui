@@ -98,6 +98,34 @@ export async function getCurrentUserRecentAssets() {
   return fromJS(await get('/v1/users/current/recent_assets'));
 }
 
+export async function getAlerts(start, end, page, size) {
+    page = page || 1;
+    size = size || 20;
+    start = start || '';
+    end = end || '';
+
+    const data = await get(`/v1/alerts?page=${page}&per_page=${size}&start=${start}&end=${end}`);
+    return fromJS(data);
+}
+
+export async function getAlertDefinitions() {
+    const data = await get('/v1/alerts/definitions');
+    return fromJS(data);
+}
+
+export async function postAlertDefinition(definition) {
+  const data = await post('/v1/alerts/definitions', definition);
+  return fromJS(data);
+}
+
+export async function putAlertDefinition(id, definition) {
+  definition.company_id = definition.company.id;
+  delete definition.company;
+  delete definition.id;
+  const data = await put(`/v1/alerts/definitions/${id}`, definition);
+  return fromJS(data);
+}
+
 export async function getAppSets(userId) {
   const data = await get(`/v1/users/${userId}/app_sets`);
   return fromJS(data);
@@ -197,7 +225,7 @@ export async function postAppStorage(provider, collection, item) {
 }
 
 export async function postTaskDocument(provider, collection, data, params = Map()) {
-  const qry = queryString(params.toJS());  
+  const qry = queryString(params.toJS());
   const response = await post(`/v1/tasks/${provider}/${collection}?${qry}`, {data});
   return fromJS(response);
 }
@@ -218,11 +246,11 @@ export async function getWellTimeline(wellId) {
 }
 
 export async function getS3SignedUrl(filename,contentType) {
-  const data = await get(`/v1/file/sign?file_name=${filename}&contentType=${contentType}`);  
+  const data = await get(`/v1/file/sign?file_name=${filename}&contentType=${contentType}`);
   return fromJS(data);
 }
 
 export function getFileDownloadLink(filename) {
   const token = auth.getToken();
-  return `${baseUrl}/v1/file/download?file_name=${filename}&authorization=${token}`;  
+  return `${baseUrl}/v1/file/download?file_name=${filename}&authorization=${token}`;
 }

@@ -1,0 +1,59 @@
+.c-alert-definition {
+    background-color: rgb(79, 187, 244);
+    float: left;
+    padding: 1rem;
+    margin: .5rem;
+    min-height: 20rem;
+    width: 20rem;
+    cursor: pointer;
+    position: relative;
+}
+
+.c-alert-definition-name {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin: 0;
+    padding: .25rem 0;
+}
+
+.c-alert-definition-description {
+    font-size: .9rem;
+    font-weight: normal;
+    margin: 0;
+    padding: .25rem 0;
+}
+
+
+.c-alert-definition-contents .switch label {
+    color: #FFF;
+}
+
+.c-alert-definition-filters-header {
+    font-size: .9rem;
+    font-weight: bold;
+    margin: .5rem 0 0 0;
+    padding: .25rem 0;
+}
+
+.c-alert-definition-filters ol {
+    margin: 0;
+    padding: 0 0 0 1rem;
+    font-size: .85rem;
+    font-weight: bold;
+}
+
+.c-alert-definition-new button {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -5rem;
+    margin-top: -5rem;
+    width: 10rem;
+    height: 10rem;
+}
+
+
+.c-alert-definition-new button i {
+    font-size: 10rem;
+    line-height: 10rem;
+}
