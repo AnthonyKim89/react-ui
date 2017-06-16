@@ -37,7 +37,7 @@ class AlertGroup extends Component {
   }
 
   readyToRender() {
-      return this.state.alerts;
+      return this.state && this.state.alerts;
   }
 
   render() {
