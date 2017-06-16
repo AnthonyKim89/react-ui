@@ -30,10 +30,10 @@ class AlertGroup extends Component {
 
     // 20 is the page size. If the API returned fewer than 20 results, that means it's reached the end of the line.
     if (freshAlerts.length < 20) {
-      this.state.setState({more: false});
+      this.setState({more: false});
     }
 
-    if (this.state.alerts) {
+    if (this.state && this.state.alerts) {
         freshAlerts = this.state.alerts.concat(freshAlerts);
     }
 
