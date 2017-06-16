@@ -64,6 +64,8 @@ class DrillstringComponentEditorItem extends Component {
         return this.renderComponentMWD();
       case 'jar':
         return this.renderComponentJar();
+      case 'rss':
+        return this.renderComponentRSS();
       default:
         return "";
     }
@@ -138,31 +140,32 @@ class DrillstringComponentEditorItem extends Component {
         {this.renderComponentSelectField('family', "Category", 2, COMPONENT_FAMILIES)}
         {this.renderComponentTextField("name", "Name", 2)}
         {this.renderComponentNumberField("outer_diameter","OD",1,'shortLength','in')}
-        {this.renderComponentNumberField("rpg","RPG",1)}
+        {this.renderComponentNumberField("inner_diameter","ID",1,'shortLength','in')}
+        {this.renderComponentNumberField("rpg","RPG",2,null,"rpg")}
         {this.renderComponentNumberField("length", "Total Length", 2,"length","ft")}
-        {this.renderComponentNumberField("weight", "Total Weight", 2, "mass","lb")}
-        {this.renderComponentNumberField("linear_weight", "Adjusted Linear Weight", 2,"massPerLength","lb-ft")}
+        {this.renderComponentNumberField("weight", "Total Weight", 2, "mass","lb")}        
       </Row>,
       
-      <Row key="pdm-2">        
+      <Row key="pdm-2">
+        {this.renderComponentNumberField("linear_weight", "Adjusted Linear Weight", 2,"massPerLength","lb-ft")}
         {this.renderComponentNumberField("stages", "# of stages", 2)}
         {this.renderComponentNumberField('number_rotor_lobes', '# of rotor lobes',2)}
         {this.renderComponentNumberField('number_stator_lobes', '# of stator lobes',2)}
         {this.renderComponentTextField("bend_range", "Bend Range", 2)}
-        {this.renderComponentNumberField("max_weight_on_bit", "Max Weight On Bit", 2)}
+        {this.renderComponentNumberField("max_weight_on_bit", "Max Weight On Bit", 2, null, "kip")}
       </Row>,
 
       <Row key="pdm-3">
         <Col s={12}>
           <span style={{fontSize:"20px"}}> Standard Flow Range </span>          
         </Col>
-        {this.renderComponentNumberField('min_standard_flowrate', "Min", 3)}
-        {this.renderComponentNumberField('max_standard_flowrate', 'Max',3)}
+        {this.renderComponentNumberField('min_standard_flowrate', "Min", 3, null, "gpm")}
+        {this.renderComponentNumberField('max_standard_flowrate', 'Max',3, null, "gpm")}
       </Row>,
       
       <Row key="pdm-4">
-        {this.renderComponentNumberField('max_operating_differential_pressure','Max Operating Diff Pressure', 5)}
-        {this.renderComponentNumberField('torque_at_max_operating_differential_pressure', 'Torque at Max Operating Diff Pressure',5)}
+        {this.renderComponentNumberField('max_operating_differential_pressure','Max Operating Diff Pressure', 5, null, "psi")}
+        {this.renderComponentNumberField('torque_at_max_operating_differential_pressure', 'Torque at Max Operating Diff Pressure',5, null, "klbf-ft")}
       </Row>,
 
       <Row key="pdm-pressure-loss" className="c-drillstring-component-editor-item__obps-table">
@@ -170,14 +173,14 @@ class DrillstringComponentEditorItem extends Component {
           <span style={{fontSize:"20px", marginRight: "20px"}}> Off Bottom Pressure Loss </span>
           <Button floating icon="add" className="c-drillstring-component-editor__btn-sm" onClick={() => this.onAddOBPS() }></Button>
         </Col>
-        <Col s={12} m={5} style={{marginTop: "10px"}}>          
+        <Col s={12} m={5} style={{marginTop: "10px"}}>
           {this.props.item.get('off_bottom_pressure_loss',List([])).size > 0 &&
             <Row>
               <Col s={5}> Flow Rate(gpm) </Col>
               <Col s={5}> Pressure Loss(psi) </Col>
             </Row>
           }
-          {this.props.item.get('off_bottom_pressure_loss',List([])).map((obps, index)=>            
+          {this.props.item.get('off_bottom_pressure_loss',List([])).map((obps, index)=>
             <Row key={index}>
               <Col s={5}>
                 {this.renderOBPSNumberField(index,"flow_rate")}
@@ -191,7 +194,7 @@ class DrillstringComponentEditorItem extends Component {
             </Row>
           )}
         </Col>
-      </Row>,      
+      </Row>,
     ];
 
     /*<Row key="rpm-curves" className="c-drillstring-component-editor-item__rpm-table">
@@ -248,7 +251,7 @@ class DrillstringComponentEditorItem extends Component {
         {this.renderComponentTextField("make", "Make", 2)}
         {this.renderComponentTextField("serial_number", "Serial Number", 2)}
         {this.renderComponentTextField("model", "Model", 2)}
-        {this.renderComponentNumberField("tfa", "TFA", 2)}
+        {this.renderComponentNumberField("tfa", "TFA", 2, null, "in^2")}
       </Row>
     ];
   }
@@ -309,13 +312,13 @@ class DrillstringComponentEditorItem extends Component {
       </Row>,
 
       <Row key="stabilizer-2">
-        {this.renderComponentLabelField("weight", "Total Weight", 1, "mass","lb")}
+        {this.renderComponentLabelField("weight", "Total Weight", 2, "mass","lb")}
         {this.renderComponentNumberField("gauge_od", "Gauge OD", 1, "shortLength", "in")}
         {this.renderComponentNumberField("gauge_length", "Gauge Length", 2, "length", "ft")}
         {this.renderComponentNumberField("no_of_blades", "# of Blades", 2)}
         {this.renderComponentNumberField("blade_width", "Blade Width", 2, "length", "ft")}
         {this.renderComponentTextField("connection_type", "Connection Type", 2)}
-        {this.renderComponentSelectField('material', "Material", 2, COMPONENT_MATERIALS)}
+        {this.renderComponentSelectField('material', "Material", 1, COMPONENT_MATERIALS)}
       </Row>   
     ];
   }
@@ -349,16 +352,90 @@ class DrillstringComponentEditorItem extends Component {
         {this.renderComponentTextField("name", "Name", 2)}
         {this.renderComponentNumberField("outer_diameter","OD",2,'shortLength','in')}
         {this.renderComponentNumberField("inner_diameter","ID",2,'shortLength','in')}
-        {this.renderComponentNumberField("component_length", "Component Length", 2,"length","ft")}
-        {this.renderComponentLabelField("length", "Total Length", 2,"length","ft")}                
+        {this.renderComponentNumberField("length", "Total Length", 2,"length","ft")}
+        {this.renderComponentNumberField("weight", "Total Weight", 2, "mass","lb")}        
       </Row>,
 
       <Row key="mwd-2">
-        {this.renderComponentNumberField("linear_weight", "Adjusted Linear Weight", 3,"massPerLength","lb-ft")}
-        {this.renderComponentLabelField("weight", "Total Weight", 2, "mass","lb")}
+        {this.renderComponentNumberField("linear_weight", "Adjusted Linear Weight", 2,"massPerLength","lb-ft")}        
         {this.renderComponentTextField("connection_type", "Connection Type", 2)}
         {this.renderComponentSelectField('material', "Material", 2, COMPONENT_MATERIALS)}
-      </Row>   
+      </Row>,
+
+      <Row key="mwd-pressure-loss" className="c-drillstring-component-editor-item__obps-table">
+        <Col s={12}>
+          <span style={{fontSize:"20px", marginRight: "20px"}}> Pressure Loss </span>
+          <Button floating icon="add" className="c-drillstring-component-editor__btn-sm" onClick={() => this.onAddPressureLoss() }></Button>
+        </Col>
+        <Col s={12} m={5} style={{marginTop: "10px"}}>
+          {this.props.item.get('pressure_loss',List([])).size > 0 &&
+            <Row>
+              <Col s={5}> Flow Rate(gpm) </Col>
+              <Col s={5}> Pressure Loss(psi) </Col>
+            </Row>
+          }
+          {this.props.item.get('pressure_loss',List([])).map((pl, index)=>
+            <Row key={index}>
+              <Col s={5}>
+                {this.renderPressureLossNumberField(index,"flow_rate")}
+              </Col>
+              <Col s={5}>
+                {this.renderPressureLossNumberField(index,"pressure_loss")}                  
+              </Col>
+              <Col s={2}>
+                <Button floating icon="remove" className="red c-drillstring-component-editor__btn-sm" onClick={() => this.onDeletePressureLoss(index)}></Button>
+              </Col>
+            </Row>
+          )}
+        </Col>
+      </Row>,
+    ];
+  }
+
+  renderComponentRSS() {
+    return [
+      <Row key="rss-1">
+        {this.renderComponentSelectField('family', "Category", 2, COMPONENT_FAMILIES)}
+        {this.renderComponentTextField("name", "Name", 2)}
+        {this.renderComponentNumberField("outer_diameter","OD",2,'shortLength','in')}
+        {this.renderComponentNumberField("inner_diameter","ID",2,'shortLength','in')}
+        {this.renderComponentNumberField("length", "Total Length", 2,"length","ft")}
+        {this.renderComponentNumberField("weight", "Total Weight", 2, "mass","lb")}        
+      </Row>,
+
+      <Row key="rss-2">
+        {this.renderComponentNumberField("linear_weight", "Adjusted Linear Weight", 2,"massPerLength","lb-ft")}        
+        {this.renderComponentTextField("connection_type", "Connection Type", 2)}
+        {this.renderComponentSelectField('material', "Material", 2, COMPONENT_MATERIALS)}
+      </Row>,
+
+      <Row key="rss-pressure-loss" className="c-drillstring-component-editor-item__obps-table">
+        <Col s={12}>
+          <span style={{fontSize:"20px", marginRight: "20px"}}> Pressure Loss </span>
+          <Button floating icon="add" className="c-drillstring-component-editor__btn-sm" onClick={() => this.onAddPressureLoss() }></Button>
+        </Col>
+        <Col s={12} m={5} style={{marginTop: "10px"}}>
+          {this.props.item.get('pressure_loss',List([])).size > 0 &&
+            <Row>
+              <Col s={5}> Flow Rate(gpm) </Col>
+              <Col s={5}> Pressure Loss(psi) </Col>
+            </Row>
+          }
+          {this.props.item.get('pressure_loss',List([])).map((pl, index)=>
+            <Row key={index}>
+              <Col s={5}>
+                {this.renderPressureLossNumberField(index,"flow_rate")}
+              </Col>
+              <Col s={5}>
+                {this.renderPressureLossNumberField(index,"pressure_loss")}                  
+              </Col>
+              <Col s={2}>
+                <Button floating icon="remove" className="red c-drillstring-component-editor__btn-sm" onClick={() => this.onDeletePressureLoss(index)}></Button>
+              </Col>
+            </Row>
+          )}
+        </Col>
+      </Row>,
     ];
   }
 
@@ -390,7 +467,7 @@ class DrillstringComponentEditorItem extends Component {
     let errors = this.props.commonProps.errors;
     let compId = this.props.item.get('id');
     return <Input type="number"
-                  label={label}
+                  label={label+(unit?`(${unit})`:"")}
                   m={colSize}
                   s={12}                  
                   defaultValue={value}
@@ -449,7 +526,7 @@ class DrillstringComponentEditorItem extends Component {
     let compId = this.props.item.get('id');
 
     return <Input type="number"
-                  label={label}
+                  label={label+(unit?`(${unit})`:"")}
                   m={colSize}
                   s={12}
                   value={value}
@@ -483,12 +560,19 @@ class DrillstringComponentEditorItem extends Component {
                 onChange={e => this.onOBPSValueChange(index, key, parseFloat(e.target.value))} />;
   }
 
+  renderPressureLossNumberField(index,key) {
+    return <Input type="number"
+              s={12}
+              defaultValue={this.props.item.getIn(["pressure_loss",index,key])}
+              onChange={e => this.onPressureLossValueChange(index, key, parseFloat(e.target.value))} />;
+  }
+
   renderRpmCurve(rpmCurve,rpmCurveIndex) {
     return <Col m={6} l={3} key={rpmCurveIndex}>
       <Row>
         <Input type="number"
           s={10}
-          label="Flow rate"
+          label="Flow rate(gpm)"
           defaultValue={rpmCurve.get('flow_rate')}
           onChange={e => this.onRpmCurveFlowRateChange(rpmCurveIndex, "flow_rate", parseFloat(e.target.value))} />
         <Col s={2}>
@@ -497,8 +581,8 @@ class DrillstringComponentEditorItem extends Component {
       </Row>
       <br/>
       <Row>
-        <Col s={5}> Diff Press </Col>
-        <Col s={5}> RPM </Col>
+        <Col s={5}> Diff Press (psi) </Col>
+        <Col s={5}> RPM (rpm)</Col>
         <Col s={2}> <Button floating icon="add" className="c-drillstring-component-editor__btn-sm" onClick={() => this.onAddDPRPM(rpmCurve,rpmCurveIndex)}></Button> </Col>
       </Row>
       {rpmCurve.get('curve',List([])).map((dprpm, dprpmIndex)=> 
@@ -558,7 +642,7 @@ class DrillstringComponentEditorItem extends Component {
     let nameValuePairs=[];
     switch(field) {
       case 'inner_diameter':
-        if (family === 'bit' || family==='pdm') 
+        if (family === 'bit' || family==='pdm' || family==='mwd' || family==='rss') 
           break;
         id = value;
         od = component.get('outer_diameter');        
@@ -567,7 +651,7 @@ class DrillstringComponentEditorItem extends Component {
         weight = this.calcWeight(linearWeight,length);
         break;
       case 'outer_diameter':
-        if (family === 'bit' || family==='pdm')
+        if (family === 'bit' || family==='pdm' || family==='mwd' || family==='rss') 
           break;
         id = component.get('inner_diameter');
         od = value;
@@ -580,7 +664,7 @@ class DrillstringComponentEditorItem extends Component {
         weight = this.calcWeight(value,length);
         break;
       case 'number_of_joints':
-        if (family === 'bit' || family==='pdm') 
+        if (family === 'bit' || family==='pdm' || family==='mwd' || family==='rss') 
           break;
         componentLength = component.get('component_length');
         length = this.calcLength(value,componentLength);
@@ -588,7 +672,7 @@ class DrillstringComponentEditorItem extends Component {
         weight = this.calcWeight(linearWeight,length);
         break;
       case 'component_length':
-        if (family === 'bit' || family==='pdm') 
+        if (family === 'bit' || family==='pdm' || family==='mwd' || family==='rss') 
           break;
         noJoint = component.get('number_of_joints',1);
         length = this.calcLength(noJoint,value);
@@ -596,15 +680,15 @@ class DrillstringComponentEditorItem extends Component {
         weight = this.calcWeight(linearWeight,length);
         break;
       case 'length':
-        if (family !== 'pdm') 
+        if (family !== 'pdm' && family!=='mwd' && family!=='rss') 
           break;
         weight = component.get('weight');
         if (weight && !isNaN(weight)) {
           linearWeight = weight / value;
         }
         break;
-      case 'weight':
-        if (family !== 'pdm') 
+      case 'weight':        
+        if (family !== 'pdm' && family!=='mwd' && family!=='rss')
           break;
         length = component.get('length');
         if (length && !isNaN(length)) {
@@ -688,13 +772,34 @@ class DrillstringComponentEditorItem extends Component {
   onDeleteOBPS(index) {
     const component = this.props.item;
     let off_bottom_pressure_loss = component.get('off_bottom_pressure_loss',List([]));
-    this.props.commonProps.onComponentFieldChange(component.get('id'), "off_bottom_pressure_loss", off_bottom_pressure_loss.delete(index));    
+    this.props.commonProps.onComponentFieldChange(component.get('id'), "off_bottom_pressure_loss", off_bottom_pressure_loss.delete(index));
   }
 
   onOBPSValueChange(index,key,val) {
     const component = this.props.item;
     const off_bottom_pressure_loss = component.get('off_bottom_pressure_loss');
     this.props.commonProps.onComponentFieldChange(component.get('id'), "off_bottom_pressure_loss", off_bottom_pressure_loss.setIn([index,key],val) );    
+  }
+
+  onAddPressureLoss() {
+    let pressure_loss = this.props.item.get('pressure_loss',List([]));
+
+    this.props.commonProps.onComponentFieldChange(this.props.item.get('id'), "pressure_loss", pressure_loss.push(Map({
+      flow_rate: '',
+      pressure_loss: ''
+    })));
+  }
+
+  onPressureLossValueChange(index,key,val) {
+    const component = this.props.item;
+    const pressure_loss = component.get('pressure_loss');
+    this.props.commonProps.onComponentFieldChange(component.get('id'), "pressure_loss", pressure_loss.setIn([index,key],val) );
+  }
+
+  onDeletePressureLoss(index) {
+    const component = this.props.item;
+    let pressure_loss = component.get('pressure_loss',List([]));
+    this.props.commonProps.onComponentFieldChange(component.get('id'), "pressure_loss", pressure_loss.delete(index));
   }
 
   onAddRpmCurve() {

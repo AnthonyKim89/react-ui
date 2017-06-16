@@ -34,6 +34,10 @@
   height: 56px;
   background-image: url('../../../images/drillstrings/mwd.png');
 }
+.c-drillstring-component-image--rss {
+  height: 56px;
+  background-image: url('../../../images/drillstrings/mwd.png');
+}
 .c-drillstring-component-image--spiral_drill_collar {
   height: 56px;
   background-image: url('../../../images/drillstrings/spiral_drill_collar.png');

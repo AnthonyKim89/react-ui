@@ -47,6 +47,8 @@ class DrillstringComponentModal extends Component {
         return this.renderComponentSub();
       case 'mwd':
         return this.renderComponentMWD();
+      case 'rss':
+        return this.renderComponentRSS();
       case 'jar':
         return this.renderComponentJar();
       default:
@@ -102,7 +104,6 @@ class DrillstringComponentModal extends Component {
       <Row key="pdm-1">
         {this.renderComponentLabelField("outer_diameter","OD",4,'shortLength','in')}
         {this.renderComponentLabelField("rpg","RPG",4)}
-        {this.renderComponentLabelField("component_length", "Component Length", 4,"length","ft")}
         {this.renderComponentLabelField("length", "Total Length", 4,"length","ft")}
         {this.renderComponentLabelField("weight", "Total Weight", 4, "mass","lb")}
         {this.renderComponentLabelField("linear_weight", "Adjusted Linear Weight", 4,"massPerLength","lb-ft")}
@@ -313,13 +314,86 @@ class DrillstringComponentModal extends Component {
       <Row key="mwd-1">
         {this.renderComponentLabelField("outer_diameter","OD",4,'shortLength','in')}
         {this.renderComponentLabelField("inner_diameter","ID",4,'shortLength','in')}
-        {this.renderComponentLabelField("component_length", "Component Length", 4,"length","ft")}
         {this.renderComponentLabelField("length", "Total Length", 4,"length","ft")}
-        {this.renderComponentLabelField("linear_weight", "Adjusted Linear Weight", 4,"massPerLength","lb-ft")}
         {this.renderComponentLabelField("weight", "Total Weight", 4, "mass","lb")}
+        {this.renderComponentLabelField("linear_weight", "Adjusted Linear Weight", 4,"massPerLength","lb-ft")}
         {this.renderComponentLabelField("connection_type", "Connection Type", 4)}
         {this.renderComponentLabelField("material", "Material", 4)}
-      </Row>
+      </Row>,
+
+      <Row key="mwd-pressure-loss">
+        <Col s={12} className="c-drillstring-component-detail__sub-title">
+          Pressure Loss
+        </Col>
+        <Col s={12}>
+          {this.props.component.get('pressure_loss',List([])).size > 0 &&
+            <table>
+              <thead>
+                <tr>
+                  <th> Flow Rate </th>
+                  <th> Pressure Loss </th>
+                </tr>
+              </thead>
+              <tbody>              
+              {this.props.component.get('pressure_loss',List([])).map((pl, index)=> 
+                <tr key={index}>
+                  <td>
+                    { pl.get("flow_rate") }
+                  </td>
+                  <td>
+                    { pl.get("pressure_loss") }
+                  </td>                  
+                </tr>
+              )}
+              </tbody>
+            </table>
+          }
+        </Col>
+      </Row>,
+    ];
+  }
+
+  renderComponentRSS() {
+    return [
+      <Row key="rss-1">
+        {this.renderComponentLabelField("outer_diameter","OD",4,'shortLength','in')}
+        {this.renderComponentLabelField("inner_diameter","ID",4,'shortLength','in')}
+        {this.renderComponentLabelField("length", "Total Length", 4,"length","ft")}
+        {this.renderComponentLabelField("weight", "Total Weight", 4, "mass","lb")}
+        {this.renderComponentLabelField("linear_weight", "Adjusted Linear Weight", 4,"massPerLength","lb-ft")}
+        {this.renderComponentLabelField("connection_type", "Connection Type", 4)}
+        {this.renderComponentLabelField("material", "Material", 4)}
+      </Row>,
+
+      <Row key="rss-pressure-loss">
+        <Col s={12} className="c-drillstring-component-detail__sub-title">
+          Pressure Loss
+        </Col>
+        <Col s={12}>
+          {this.props.component.get('pressure_loss',List([])).size > 0 &&
+            <table>
+              <thead>
+                <tr>
+                  <th> Flow Rate </th>
+                  <th> Pressure Loss </th>
+                </tr>
+              </thead>
+              <tbody>              
+              {this.props.component.get('pressure_loss',List([])).map((pl, index)=> 
+                <tr key={index}>
+                  <td>
+                    { pl.get("flow_rate") }
+                  </td>
+                  <td>
+                    { pl.get("pressure_loss") }
+                  </td>                  
+                </tr>
+              )}
+              </tbody>
+            </table>
+          }
+        </Col>
+      </Row>,
     ];
   }
 
