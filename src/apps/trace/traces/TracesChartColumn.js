@@ -9,6 +9,7 @@ import Convert from '../../../common/Convert';
 import ReactEcharts from './echarts';
 import * as api from '../../../api';
 import { PREDICTED_TRACES } from '../constants';
+import { store } from '../../../store';
 
 import './TracesChartColumn.css';
 
@@ -119,6 +120,34 @@ class TracesChartColumn extends Component {
 
   componentWillUnmount() {
     clearTimeout(this.timerID);
+    this.unsubscribeAll();
+  }
+
+  subscribe(uid, provider, collection, fields) {
+    let sub = {provider, collection, params: {fields}};
+
+    this.activeSubscriptions[uid] = sub;
+
+    this.props.onAppSubscribe(
+      uid,
+      [sub],
+      this.props.asset.get('id')
+    );
+  }
+
+  unsubscribe(uid) {
+    this.props.onAppUnsubscribe(uid, [this.activeSubscriptions[uid]]);
+
+    delete this.activeSubscriptions[uid];
+  }
+
+  unsubscribeAll() {
+    for (let uid in this.activeSubscriptions) {
+      if (this.activeSubscriptions.hasOwnProperty(uid)) {
+        this.props.onAppUnsubscribe(uid, [this.activeSubscriptions[uid]]);
+      }
+    }
+    this.activeSubscriptions = {};
   }
 
   async initAPIDataLoad() {
@@ -148,6 +177,7 @@ class TracesChartColumn extends Component {
       }
     }
 
+    let subscriptionUIDs = [];
     let traceGraphs = this.props.traceGraphs.toJS(); // We can't map/forEach this data because we to await async calls inside the loop
     for (let tg = 0; tg < traceGraphs.length; tg++) {
       if ((traceGraphs[tg]['source'] === 'predicted' || traceGraphs[tg]['source'] === 'offset') && traceGraphs[tg]['trace']) {
@@ -162,6 +192,16 @@ class TracesChartColumn extends Component {
         // If this is an offset load, and we have already loaded the offset data, we can just continue. One time load.
         if (traceGraphs[tg]['source'] === 'offset' && this.apiData[traceSource].hasOwnProperty(sourceKey)) {
           continue;
+        }
+
+        // If this is predicted, we create a subscription to its data stream for the latest one.
+        if (traceGraphs[tg]['source'] === 'predicted') {
+          let uid = this.props.columnNumber + traceGraphs[tg]['trace'] + tg;
+          subscriptionUIDs.push(uid);
+          if (!this.activeSubscriptions.hasOwnProperty(uid)) {
+            let trace = find(PREDICTED_TRACES, {trace: traceGraphs[tg]['trace']}) || null;
+            this.subscribe(uid, 'corva', trace.collection, 'timestamp,data.'+trace.path);
+          }
         }
 
         let result = await this.loadAPIData(traceGraphs[tg], startTS, endTS);
@@ -198,6 +238,14 @@ class TracesChartColumn extends Component {
     this.setState({
       lastPredictedDataLoad: new Date().getTime(),
     });
+
+    for (let uid in this.activeSubscriptions) {
+      if (this.activeSubscriptions.hasOwnProperty(uid)) {
+        if (!subscriptionUIDs.includes(uid)) {
+          this.unsubscribe(uid);
+        }
+      }
+    }
   }
 
   async loadAPIData(traceGraph, startTS, endTS) {
@@ -269,27 +317,6 @@ class TracesChartColumn extends Component {
     }
 
     return this.props.convert.convertImmutables(filteredData, traceKey, unitType, unitFrom, unitTo);
-  }
-
-  subscribe(id, traceIndex, provider, collection, fields) {
-    let sub = {provider, collection, params: {sort: '{timestamp:1}', fields}};
-    let uid = this.props.columnNumber + id + traceIndex;
-
-    this.activeSubscriptions[uid] = sub;
-
-    this.props.onAppSubscribe(
-      uid,
-      [sub],
-      this.props.asset.get('id')
-    );
-  }
-
-  unsubscribe(id, traceIndex) {
-    let uid = this.props.columnNumber + id + traceIndex;
-
-    this.props.onAppUnsubscribe(uid, [this.activeSubscriptions[uid]]);
-
-    delete this.activeSubscriptions[uid];
   }
 
   render() {
@@ -487,7 +514,7 @@ class TracesChartColumn extends Component {
   getTraces(props) {
     let series = [];
 
-    props.traceGraphs.valueSeq().forEach(traceGraph => {
+    props.traceGraphs.valueSeq().forEach((traceGraph, idx) => {
       let trace;
       if (traceGraph.get('source') === 'predicted') {
         trace = find(PREDICTED_TRACES, {trace: traceGraph.get('trace')}) || null;
@@ -527,8 +554,14 @@ class TracesChartColumn extends Component {
 
       // Converting the unit on the metadata display
       let latestValue;
-      if (traceGraph.get('source') !== 'predicted' && traceGraph.get('source') !== 'offset') {
-        latestValue = props.latestData ? props.latestData.getIn(['data', trace.trace], '') : null;
+      if (traceGraph.get('source') !== 'offset') {
+        if (traceGraph.get('source') !== 'predicted') {
+          latestValue = props.latestData ? props.latestData.getIn(['data', trace.trace], '') : null;
+        } else { // predicted data
+          let uid = this.props.columnNumber + traceGraph.get('trace') + idx;
+          latestValue = store.getState().subscriptions.get('appData').getIn([uid, 'corva', trace.collection, '', 'data', trace.path], null);
+        }
+
         if (latestValue && unitType) {
           let unitFrom = traceGraph.get('unitFrom');
           let unitTo = traceGraph.get('unitTo', null);
