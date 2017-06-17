@@ -39,7 +39,6 @@ class MainNav extends Component {
               <div className="c-main-nav__dropdown__spacer"></div>{asset.get('parent_asset_name') + " - " + asset.get('name')}
             </RoutingNavItem>)}
         </Dropdown>
-        <RoutingNavItem to='/alerts'>Alerts</RoutingNavItem>
         {this.props.currentUser &&
           <Dropdown trigger={<NavItem className="c-user-menu"><Icon className="c-user-menu">perm_identity</Icon></NavItem>} className="c-user-menu">
             <NavItem onClick={() => this.logOut()}>Sign Out</NavItem>
