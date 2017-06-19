@@ -35,7 +35,6 @@ class TracesApp extends Component {
   }
 
   render() {
-
     let latestData = this.props.data ? subscriptions.selectors.getSubData(this.props.data, latestSubscription): null;
     let supportedTraces = this.mergeSupportedTraces(latestData);
 
@@ -49,7 +48,9 @@ class TracesApp extends Component {
       <TracesSettingsBar
         traceColumnCount={this.props.traceColumnCount}
         traceRowCount={this.props.traceRowCount}
-        onSettingChange={this.props.onSettingChange} />
+        onSettingChange={this.props.onSettingChange}
+        onZoomIn={() => this.tracesSlider.zoomIn()}
+        onZoomOut={() => this.tracesSlider.zoomOut()} />
       <TracesDepthBar
         convert={this.props.convert}
         supportedTraces={supportedTraces}

@@ -68,7 +68,7 @@
 
 .c-traces__slider-interaction__middle-slider {
   flex-grow: 1;
-  min-height: 5px;
+  min-height: 6px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -82,6 +82,7 @@
   margin-left: calc(100% - 27px);
   cursor: row-resize;
   text-align: center;
+  position: absolute;
 }
 
 .c-traces__slider-interaction__middle-slider__resizer i {

@@ -21,11 +21,11 @@ class TracesSettingsBar extends Component {
         <div className="c-traces__settings-bar__setting__icon"><Icon>assessment</Icon></div>
         <div className="c-traces__settings-bar__setting__label">Display</div>
       </div>
-      <div className="c-traces__settings-bar__setting" onClick={() => {}}>
+      <div className="c-traces__settings-bar__setting" onClick={this.props.onZoomIn}>
         <div className="c-traces__settings-bar__setting__icon"><Icon>zoom_in</Icon></div>
         <div className="c-traces__settings-bar__setting__label">Zoom In</div>
       </div>
-      <div className="c-traces__settings-bar__setting" onClick={() => {}}>
+      <div className="c-traces__settings-bar__setting" onClick={this.props.onZoomOut}>
         <div className="c-traces__settings-bar__setting__icon"><Icon>zoom_out</Icon></div>
         <div className="c-traces__settings-bar__setting__label">Zoom Out</div>
       </div>
@@ -124,6 +124,8 @@ TracesSettingsBar.propTypes = {
   traceColumnCount: PropTypes.number,
   traceRowCount: PropTypes.number,
   onSettingChange: PropTypes.func.isRequired,
+  onZoomIn: PropTypes.func.isRequired,
+  onZoomOut: PropTypes.func.isRequired,
 };
 
 export default TracesSettingsBar;

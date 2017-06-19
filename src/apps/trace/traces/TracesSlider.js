@@ -80,7 +80,7 @@ class TracesSlider extends Component {
           enable={{top: false, right: false, bottom: true, left: false}}>
           <div className="c-traces__slider-interaction__top-info c-traces__slider-interaction__info"><Icon>menu</Icon><span>{this.getStartLabel()}</span></div>
         </Resizable>
-        <div className="c-traces__slider-interaction__middle-slider">
+        <div className="c-traces__slider-interaction__middle-slider" ref={c => { this.middleSlider = c; }}>
           <div className="c-traces__slider-interaction__middle-slider__resizer" onMouseDown={e => this.middleScroll(e)}>
             <Icon>format_line_spacing</Icon>
           </div>
@@ -132,13 +132,54 @@ class TracesSlider extends Component {
 
     this.topSlider.setState({
       height: newTopHeight,
-    },
-    this.updateSelectedRange);
+    }, () => this.bottomSlider.setState({
+        height: newBottomHeight,
+      },
+      this.updateSelectedRange));
+  }
 
-    this.bottomSlider.setState({
-      height: newBottomHeight,
-    },
-    this.updateSelectedRange);
+  zoomIn() {
+    // Minimum zoom.
+    if (this.middleSlider.clientHeight < 26) {
+      return;
+    }
+
+    let topHeight = this.topSlider.resizable.clientHeight + 10;
+    let bottomHeight = this.bottomSlider.resizable.clientHeight + 10;
+
+    this.topSlider.setState({
+      height: topHeight,
+    }, () => this.bottomSlider.setState({
+        height: bottomHeight,
+      },
+      this.updateSelectedRange));
+  }
+
+  zoomOut() {
+    let topHeight = (this.topSlider.resizable.clientHeight + handleBorderWidth) - handleHeight;
+    let bottomHeight = (this.bottomSlider.resizable.clientHeight + handleBorderWidth) - handleHeight;
+
+    let topScroll = -10;
+    let bottomScroll = 10;
+
+    topScroll = topHeight < Math.abs(topScroll) ? -topHeight : topScroll;
+    bottomScroll = bottomHeight < bottomScroll ? bottomHeight : bottomScroll;
+
+    if (topScroll === 0 && bottomScroll === 0) return;
+
+    /*
+     We have to add the handle border to these measurements because the Resizable component gets confused
+     about the 2px border. It sets it to the height we specify and then subtracts the size of the border.
+     */
+    let newTopHeight = this.topSlider.resizable.clientHeight + topScroll + handleBorderWidth;
+    let newBottomHeight = this.bottomSlider.resizable.clientHeight - bottomScroll + handleBorderWidth;
+
+    this.topSlider.setState({
+      height: newTopHeight,
+    }, () => this.bottomSlider.setState({
+        height: newBottomHeight,
+      },
+      this.updateSelectedRange));
   }
 
   getRangeHeight() {
@@ -154,8 +195,9 @@ class TracesSlider extends Component {
 
   updateSelectedRange(triggeredByUser=true) {
     let totalHeight = this.getRangeHeight();
-    let start = (this.topSlider.resizable.clientHeight - handleHeight)/totalHeight;
-    let end = (totalHeight - (this.bottomSlider.resizable.clientHeight - handleHeight))/totalHeight;
+    let tweak = 3;
+    let start = (this.topSlider.resizable.clientHeight - handleHeight - tweak)/totalHeight;
+    let end = (totalHeight - (this.bottomSlider.resizable.clientHeight - handleHeight - tweak))/totalHeight;
 
     this.props.onRangeChanged(Math.max(start, 0), Math.min(end, 1), triggeredByUser);
   }
