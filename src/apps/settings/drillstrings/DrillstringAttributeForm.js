@@ -44,7 +44,7 @@ class DrillstringAttributeForm extends Component {
           onKeyPress={this.handleKeyPress.bind(this)}
           onChange={e => this.updateAttr('id', e.target.value,true)}/>        
         <Input
-          label="Depth In"
+          label="Hole Depth In"
           m={4}
           type="number"
           ref="start_depth"          

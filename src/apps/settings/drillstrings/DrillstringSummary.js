@@ -54,7 +54,7 @@ export class DrillstringSummary extends Component {
       {!this.props.isReadOnly &&
         <Row>
           <Col m={2} className="c-drillstring-summary__footer-value">
-            Depth In: {this.getDepths()}
+            Hole Depth In: {this.getDepths()}
           </Col>
           <Col m={7} className="c-drillstring-summary__footer-value">
             {this.getTimeData()}
@@ -70,7 +70,7 @@ export class DrillstringSummary extends Component {
   getBitSize() {
     return this.getComponents()
       .find(c => c.get('family') === 'bit', null, Map())
-      .get('outer_diameter');
+      .get('size');
   }
 
   getComponentCount() {
