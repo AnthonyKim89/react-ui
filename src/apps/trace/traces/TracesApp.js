@@ -227,8 +227,8 @@ class TracesApp extends Component {
 
   async loadFineFilteredData(startTS, endTS) {
     let params = fromJS({
-      'asset_id': 3,
-      'query': `{timestamp#gte#${Math.round(startTS)}}}and{timestamp#lte#${Math.round(endTS)}}`,
+      'asset_id': this.props.asset.get('id'),
+      'where': `{this.timestamp >= ${Math.round(startTS)} && this.timestamp <= ${Math.round(endTS)}}`,
       'limit': 525600, // This is a year's worth of minutes. We're required to include a limit.
     });
     if(this.props.asset) {
