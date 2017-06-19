@@ -1,0 +1,22 @@
+.c-alerts {
+    background-color: #FFF;
+    font-family: 'Open Sans';
+    padding: 1rem 0 0 0;
+}
+
+.c-alerts-header {
+    margin-bottom: 1rem;
+    padding-left: 2rem;
+}
+
+.c-alerts-header h1 {
+    color: #333;
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+    padding: .5rem 0;
+}
+
+.c-alerts-header .btn {
+    margin-right: 1rem;
+}

@@ -307,7 +307,7 @@ class OperationSummaryApp extends Component {
     // {data.activity#eq#${operationType || 0}}AND
     let operations = await api.getAppStorage(METADATA.provider, 'operations', asset.get('id'), Map({
       limit: 9999,
-      aggregate: `[ {"$match": {"$and": [{"data.start_timestamp": {"$lt": ${end_timestamp}}}, {"data.end_timestamp": {"$gt": ${start_timestamp}}}]}}, { "$group" : { "_id" : "$data.operation_name", "operations": { "$push": "$$ROOT" } } } ]`
+      aggregate: `[ {"$match": {"$and": [{"asset_id": ${asset.get('id')}}, {"data.start_timestamp": {"$lt": ${end_timestamp}}}, {"data.end_timestamp": {"$gt": ${start_timestamp}}}]}}, { "$group" : { "_id" : "$data.operation_name", "operations": { "$push": "$$ROOT" } } } ]`
     }));
     operations = operations.map(o => {
       let trimmed = o.get('operations').map(h => {
@@ -338,8 +338,7 @@ class OperationSummaryApp extends Component {
 OperationSummaryApp.propTypes = {
   data: ImmutablePropTypes.map,
   size: PropTypes.string.isRequired,
-  widthCols: PropTypes.number.isRequired,
-  operationType: PropTypes.number.isRequired
+  widthCols: PropTypes.number.isRequired
 };
 
 export default OperationSummaryApp;

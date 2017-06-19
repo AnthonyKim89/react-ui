@@ -8,6 +8,8 @@ import Dashboard from './pages/components/Dashboard';
 import AppPage from './pages/components/AppPage';
 import AssetListPage from './pages/components/AssetListPage';
 import AssetPage from './pages/components/AssetPage';
+import Alerts from './pages/alerts/Alerts';
+import AlertsManager from './pages/alerts/AlertsManager';
 
 export const routes =
   <Route path="/" component={App}>
@@ -21,4 +23,6 @@ export const routes =
       <Route path=":assetType" component={AssetListPage} />
       <Route path=":assetId/:slug(/:subSlug)" component={AssetPage} />
     </Route>
+    <Route path="alerts" component={Alerts} />
+    <Route path="alerts/configure" component={AlertsManager} />
   </Route>;

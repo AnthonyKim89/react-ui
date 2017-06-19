@@ -24,6 +24,7 @@ export const COMPONENT_FAMILIES = [
   {name: 'MWD', type: 'mwd'},
   {name: 'Stabilizer', type: 'stabilizer'},
   {name: 'Sub', type: 'sub'},
+  {name: 'RSS', type: 'rss'},
 ];
 
 export const COMPONENT_GRADES = [
