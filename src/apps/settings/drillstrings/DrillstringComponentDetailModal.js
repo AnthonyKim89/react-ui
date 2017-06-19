@@ -196,7 +196,6 @@ class DrillstringComponentModal extends Component {
   renderComponentBIT() {
     return [
       <Row key="bit-1">
-        {this.renderComponentLabelField("outer_diameter","OD", 4, 'shortLength','in')}
         {this.renderComponentLabelField("length", "Total Length", 4, "length","ft")}
         {this.renderComponentLabelField("weight", "Total Weight", 4, "mass","lb")}
       </Row>,
@@ -234,8 +233,9 @@ class DrillstringComponentModal extends Component {
         {this.renderComponentLabelField("shank_od", "Shank OD", 2)}
         {this.renderComponentLabelField("make", "Make", 2)}
         {this.renderComponentLabelField("serial_number", "Serial Number", 2)}
-        {this.renderComponentLabelField("model", "Model", 3)}
-        {this.renderComponentLabelField("tfa", "TFA", 3)}
+        {this.renderComponentLabelField("model", "Model", 2)}
+        {this.renderComponentLabelField("size", "Size", 2)}
+        {this.renderComponentLabelField("tfa", "TFA", 2)}
       </Row>
     ];
   }
@@ -262,7 +262,6 @@ class DrillstringComponentModal extends Component {
       <Row key="sub-1">
         {this.renderComponentLabelField("outer_diameter","OD",4,'shortLength','in')}
         {this.renderComponentLabelField("inner_diameter","ID",4,'shortLength','in')}
-        {this.renderComponentLabelField("component_length", "Component Length", 4,"length","ft")}
         {this.renderComponentLabelField("length", "Total Length", 4,"length","ft")}
         {this.renderComponentLabelField("linear_weight", "Adjusted Linear Weight", 4,"massPerLength","lb-ft")}
         {this.renderComponentLabelField("weight", "Total Weight", 4, "mass","lb")}
@@ -277,7 +276,6 @@ class DrillstringComponentModal extends Component {
       <Row key="stabilizer-1">
         {this.renderComponentLabelField("outer_diameter","OD",4,'shortLength','in')}
         {this.renderComponentLabelField("inner_diameter","ID",4,'shortLength','in')}
-        {this.renderComponentLabelField("component_length", "Component Length", 4,"length","ft")}
         {this.renderComponentLabelField("length", "Total Length", 4,"length","ft")}
         {this.renderComponentLabelField("linear_weight", "Adjusted Linear Weight", 4,"massPerLength","lb-ft")}
         {this.renderComponentLabelField("weight", "Total Weight", 4, "mass","lb")}
@@ -298,8 +296,6 @@ class DrillstringComponentModal extends Component {
         {this.renderComponentLabelField("sub_category", "Sub Category", 4)}
         {this.renderComponentLabelField("outer_diameter","OD",4,'shortLength','in')}
         {this.renderComponentLabelField("inner_diameter","ID",4,'shortLength','in')}
-        {this.renderComponentLabelField("number_of_joints","# of Joints",4)}
-        {this.renderComponentLabelField("component_length", "Component Length", 4,"length","ft")}
         {this.renderComponentLabelField("length", "Total Length", 4,"length","ft")}
         {this.renderComponentLabelField("linear_weight", "Adjusted Linear Weight", 4,"massPerLength","lb-ft")}
         {this.renderComponentLabelField("weight", "Total Weight", 4, "mass","lb")}

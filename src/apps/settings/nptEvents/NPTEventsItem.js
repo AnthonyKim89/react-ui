@@ -80,7 +80,7 @@ class NPTEventsItem extends Component {
             ref="depth"
             defaultValue={depth? this.props.convert.convertValue(parseFloat(depth), "length", "ft").formatNumeral('0.00') : depth}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{depth: e.target.value})} )} />
+            onChange={e => this.setState({data: Object.assign({},this.state.data,{depth: parseFloat(e.target.value)})} )} />
         </td>
 
         <td>

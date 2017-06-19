@@ -1,46 +1,46 @@
-.c-fluid-check-viscocity h5 {
+.c-fluid-check-viscosity h5 {
   margin-bottom: 5px;
   margin-top: 5px;
   font-size: 1.4rem;
 }
-.c-fluid-check-viscocity .row {
+.c-fluid-check-viscosity .row {
   margin-bottom: 0px;
 }
 
-.c-fluid-check-viscocity .input-field.col label{
+.c-fluid-check-viscosity .input-field.col label{
   width: 100%;
 }
 
-.c-fluid-check-viscocity .input-field.col label:after{
+.c-fluid-check-viscosity .input-field.col label:after{
   top:40px;
 }
 
-.c-fluid-check-viscocity hr {
+.c-fluid-check-viscosity hr {
   margin: 15px 0px;
   opacity: .2;
 }
 
-.c-fluid-check-viscocity__rpm-readings table thead{
+.c-fluid-check-viscosity__rpm-readings table thead{
   border: none;
 }
 
-.c-fluid-check-viscocity__rpm-readings table tr {
+.c-fluid-check-viscosity__rpm-readings table tr {
   padding: 0px;
 }
 
-.c-fluid-check-viscocity__rpm-readings table th {
+.c-fluid-check-viscosity__rpm-readings table th {
   padding: 0px;
 }
 
-.c-fluid-check-viscocity__rpm-readings table td {
+.c-fluid-check-viscosity__rpm-readings table td {
   padding: 0px;
 }
 
-.c-fluid-check-viscocity__rpm-readings-header {
+.c-fluid-check-viscosity__rpm-readings-header {
   margin-top: 15px;
 }
 
-.c-fluid-check-viscocity__rpm-readings-header .col {
+.c-fluid-check-viscosity__rpm-readings-header .col {
   opacity: 0.5;
   font-style: italic;
 }

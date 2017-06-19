@@ -54,6 +54,8 @@ const STABLE_MIN_ID = 0,
 
 const PDM_MIN_OD = 2, 
       PDM_MAX_OD = 13, 
+      PDM_MIN_ID = 0,
+      PDM_MAX_ID = 12,
       PDM_MIN_LENGTH = 4, 
       PDM_MAX_LENGTH = 50,
 
@@ -72,15 +74,15 @@ const PDM_MIN_OD = 2,
       PDM_MIN_TMODP = 0,
       PDM_MAX_TMODP = 20;
 
-const //MWD_MIN_ID = 0, 
-      //MWD_MAX_ID =12, 
+const MWD_MIN_ID = 0, 
+      MWD_MAX_ID =12, 
       MWD_MIN_OD = 2, 
       MWD_MAX_OD = 13, 
       MWD_MIN_LENGTH = 1.0, 
       MWD_MAX_LENGTH = 200;
 
-const //RSS_MIN_ID = 0, 
-      //RSS_MAX_ID =12, 
+const RSS_MIN_ID = 0, 
+      RSS_MAX_ID =12, 
       RSS_MIN_OD = 2, 
       RSS_MAX_OD = 13, 
       RSS_MIN_LENGTH = 1.0, 
@@ -219,6 +221,8 @@ class DrillstringsApp extends Component {
         case 'pdm':
           min_od = this.props.convert.convertValue(PDM_MIN_OD,"shortLength","in");
           max_od = this.props.convert.convertValue(PDM_MAX_OD,"shortLength","in");
+          min_id = this.props.convert.convertValue(PDM_MIN_ID,"shortLength","in");
+          max_id = this.props.convert.convertValue(PDM_MAX_ID,"shortLength","in");
           min_length = this.props.convert.convertValue(PDM_MIN_LENGTH,"length","ft");
           max_length = this.props.convert.convertValue(PDM_MAX_LENGTH,"length","ft");
           break;
@@ -226,6 +230,8 @@ class DrillstringsApp extends Component {
         case 'mwd':
           min_od = this.props.convert.convertValue(MWD_MIN_OD,"shortLength","in");
           max_od = this.props.convert.convertValue(MWD_MAX_OD,"shortLength","in");
+          min_id = this.props.convert.convertValue(MWD_MIN_ID,"shortLength","in");
+          max_id = this.props.convert.convertValue(MWD_MAX_ID,"shortLength","in");
           min_length = this.props.convert.convertValue(MWD_MIN_LENGTH,"length","ft");
           max_length = this.props.convert.convertValue(MWD_MAX_LENGTH,"length","ft");
           break;
@@ -237,6 +243,8 @@ class DrillstringsApp extends Component {
         case 'rss':
           min_od = this.props.convert.convertValue(RSS_MIN_OD,"shortLength","in");
           max_od = this.props.convert.convertValue(RSS_MAX_OD,"shortLength","in");
+          min_id = this.props.convert.convertValue(RSS_MIN_ID,"shortLength","in");
+          max_id = this.props.convert.convertValue(RSS_MAX_ID,"shortLength","in");          
           min_length = this.props.convert.convertValue(RSS_MIN_LENGTH,"length","ft");
           max_length = this.props.convert.convertValue(RSS_MAX_LENGTH,"length","ft");
           break;
@@ -273,10 +281,12 @@ class DrillstringsApp extends Component {
           hasFormErrors = true;
         }
 
-        if (!error["inner_diameter"] && !error["outer_diameter"] && !error["linear_weight"]) {
-          if (!this.isValidLinearWeight(comp.inner_diameter,comp.outer_diameter,comp.linear_weight)) {
-            error["linear_weight"] = "Invalid range";
-            hasFormErrors = true;
+        if (comp.family === 'dp' || comp.family === 'hwdp' || comp.family === 'dc' ) {
+          if (!error["inner_diameter"] && !error["outer_diameter"] && !error["linear_weight"]) {
+            if (!this.isValidLinearWeight(comp.inner_diameter,comp.outer_diameter,comp.linear_weight)) {
+              error["linear_weight"] = "Invalid range";
+              hasFormErrors = true;
+            }
           }
         }
       }
@@ -341,7 +351,7 @@ class DrillstringsApp extends Component {
           hasFormErrors = true;
         }
 
-        if (!this.isValidNumber(comp.max_weight_on_bit, PDM_MIN_WOB, PDM_MAX_WOB)) {
+        if (!this.isValueEmpty(comp.max_weight_on_bit) && !this.isValidNumber(comp.max_weight_on_bit, PDM_MIN_WOB, PDM_MAX_WOB)) {
           error["max_weight_on_bit"] = `It must be ${PDM_MIN_WOB}~${PDM_MAX_WOB}`;
           hasFormErrors = true;
         }
