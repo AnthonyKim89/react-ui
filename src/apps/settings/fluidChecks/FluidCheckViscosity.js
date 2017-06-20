@@ -14,8 +14,8 @@ class FluidCheckViscosity extends Component {
     this.fixPlaceholderIssue();
   }
   render() {
-    return <div className="c-fluid-check-viscocity">
-      <h5>Viscocity</h5>
+    return <div className="c-fluid-check-viscosity">
+      <h5>Viscosity</h5>
       {this.props.isEditable && this.props.errors["rpm_readings_required"]?
         <div style={{color:'red'}}>
           Please input PV and YP or at least 2 pairs of rpm and dial_readings, which are required.
@@ -85,15 +85,15 @@ class FluidCheckViscosity extends Component {
 
   renderRpmReadingTable() {
     return (      
-      <div className="c-fluid-check-viscocity__rpm-readings">
+      <div className="c-fluid-check-viscosity__rpm-readings">
         <hr/>
         <h6>Rheometer Readings</h6>
-        { this.props.record.getIn(['data','viscocity','rpm_readings'],List()).size>0 ? 
+        { this.props.record.getIn(['data','viscosity','rpm_readings'],List()).size>0 ? 
         <table>
           <thead>
             <tr> 
               <th>
-                <Row className="c-fluid-check-viscocity__rpm-readings-header">
+                <Row className="c-fluid-check-viscosity__rpm-readings-header">
                   <Col l={4} m={5} s={12}>RPM</Col>
                   <Col l={4} m={5} s={12}>Dial Reading</Col>
                 </Row>
@@ -101,7 +101,7 @@ class FluidCheckViscosity extends Component {
             </tr>
           </thead>        
           <tbody>
-            {this.props.record.getIn(['data','viscocity','rpm_readings'],List()).map((r,idx)=> {
+            {this.props.record.getIn(['data','viscosity','rpm_readings'],List()).map((r,idx)=> {
               return (                
                 <tr key={r.get("id")}>
                   { this.props.isEditable?
@@ -173,36 +173,36 @@ class FluidCheckViscosity extends Component {
       rpm: '',
       id: uuidV1(),
       dial_reading:'',
-      order: this.props.record.getIn(['data', 'viscocity','rpm_readings']).size
+      order: this.props.record.getIn(['data', 'viscosity','rpm_readings']).size
     });
 
-    this.props.onUpdateRecord(this.props.record.updateIn(['data', 'viscocity','rpm_readings'], c => c.push(newRpmReading)));
+    this.props.onUpdateRecord(this.props.record.updateIn(['data', 'viscosity','rpm_readings'], c => c.push(newRpmReading)));
   }
 
   onDeleteComponent(index) {  
-    this.props.onUpdateRecord(this.props.record.deleteIn(['data', 'viscocity', 'rpm_readings', index]));
+    this.props.onUpdateRecord(this.props.record.deleteIn(['data', 'viscosity', 'rpm_readings', index]));
   }
 
   getValue(name, notSetValue) {
-    return this.props.record.getIn(['data', 'viscocity', name], notSetValue);
+    return this.props.record.getIn(['data', 'viscosity', name], notSetValue);
   }
 
   onValueChange(name, value,isNumber) {
     if (isNumber) {
       value = isNaN(parseFloat(value))? value: parseFloat(value);
     }
-    this.props.onUpdateRecord(this.props.record.setIn(['data', 'viscocity', name], value));
+    this.props.onUpdateRecord(this.props.record.setIn(['data', 'viscosity', name], value));
   }
 
   getReadingValue(idx,name,noSetValue) {
-    return this.props.record.getIn(['data', 'viscocity', 'rpm_readings', idx, name], noSetValue);
+    return this.props.record.getIn(['data', 'viscosity', 'rpm_readings', idx, name], noSetValue);
   }
 
   onReadingValueChange(idx,name, value,isNumber) {
     if (isNumber) {
       value = isNaN(parseFloat(value))? value: parseFloat(value);
     }
-    this.props.onUpdateRecord(this.props.record.setIn(['data', 'viscocity', 'rpm_readings', idx, name], value));
+    this.props.onUpdateRecord(this.props.record.setIn(['data', 'viscosity', 'rpm_readings', idx, name], value));
   }
 
 }

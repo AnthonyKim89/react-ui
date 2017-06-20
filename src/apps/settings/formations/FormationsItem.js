@@ -55,7 +55,7 @@ class FormationsItem extends Component {
             defaultValue={td? this.props.convert.convertValue(parseFloat(td), "length", "ft").formatNumeral('0.00') : td}
             ref="td"
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{td:e.target.value})} )} />
+            onChange={e => this.setState({data: Object.assign({},this.state.data,{td: parseFloat(e.target.value)})} )} />
         </td>
 
         <td className="hide-on-med-and-down">
@@ -65,7 +65,7 @@ class FormationsItem extends Component {
             error={this.state.errors.md}
             defaultValue={md? this.props.convert.convertValue(parseFloat(md), "length", "ft").formatNumeral('0.00'): md}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{md:e.target.value})} )} />
+            onChange={e => this.setState({data: Object.assign({},this.state.data,{md: parseFloat(e.target.value)})} )} />
         </td>
 
         <td>

@@ -32,7 +32,7 @@ class FluidChecksApp extends Component {
   }
 
   validator(recordData) {
-    let {data: {mud_density, mud_cake_thickness, filterate, ph, viscocity:{pv,yp,marsh_funnel,rpm_readings}}} = recordData.toJS();
+    let {data: {mud_density, mud_cake_thickness, filterate, ph, viscosity:{pv,yp,marsh_funnel,rpm_readings}}} = recordData.toJS();
     let hasFormErrors = false;
     let errors = {};
     if (!this.isValueValid(mud_density,5,20,false)) {

@@ -61,12 +61,12 @@ class CasingApp extends Component {
           <table className="c-casing__casing-table">
             <thead>
               <tr>
-                <th className="c-casing__id-header"> I.D({this.props.convert.getUnitDisplay('shortLength')}) </th>
-                <th className="c-casing__od-header"> O.D({this.props.convert.getUnitDisplay('shortLength')}) </th>
+                <th className="c-casing__id-header"> Inner Diameter({this.props.convert.getUnitDisplay('shortLength')}) </th>
+                <th className="c-casing__od-header"> Outer Diameter({this.props.convert.getUnitDisplay('shortLength')}) </th>
                 <th className="c-casing__td-header hide-on-med-and-down"> Top Depth({this.props.convert.getUnitDisplay('length')}) </th>
                 <th className="c-casing__bd-header hide-on-med-and-down"> Bottom Depth({this.props.convert.getUnitDisplay('length')}) </th>
                 <th className="c-casing__length-header"> Length({this.props.convert.getUnitDisplay('length')}) </th>
-                <th className="c-casing__lm-header hide-on-med-and-down"> Linear Mass({this.props.convert.getUnitDisplay('mass')}/{this.props.convert.getUnitDisplay('length')}) </th>
+                <th className="c-casing__lm-header hide-on-med-and-down"> Linear Weight({this.props.convert.getUnitDisplay('mass')}/{this.props.convert.getUnitDisplay('length')}) </th>
                 <th className="c-casing__grade-header hide-on-med-and-down"> Grade </th>
                 <th className="c-casing__action-header hide-on-med-and-down"> </th>
               </tr>

@@ -13,4 +13,4 @@ export const METADATA = {
   isHiddenFromAddApp: true
 };
 export const SUPPORTED_ASSET_TYPES = ['well'];
-export const FLUID_CHECK_DATA_TEMPLATE = Map({viscocity: Map({rpm_readings: List()})});
+export const FLUID_CHECK_DATA_TEMPLATE = Map({viscosity: Map({rpm_readings: List()})});

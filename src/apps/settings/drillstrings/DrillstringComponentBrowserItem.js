@@ -11,7 +11,10 @@ class DrillstringComponentBrowserItem extends Component {
       <td>{this.renderComponentImage()}</td>
       <td>{this.renderComponentLabelField('family')}</td>
       <td>{this.renderComponentLabelField('name')}</td>
-      <td>{this.renderComponentLabelField('outer_diameter','shortLength','in')}</td>
+      <td>
+        {this.props.component.get('family') === "bit" &&  this.renderComponentLabelField('size','shortLength','in')}
+        {this.props.component.get('family') !== "bit" &&  this.renderComponentLabelField('outer_diameter','shortLength','in')}        
+      </td>
       <td>{this.renderComponentLabelField('inner_diameter','shortLength','in')}</td>
       <td>{this.renderComponentLabelField('linear_weight', "massPerLength", "lb-ft")}</td>
       <td>{this.renderComponentLabelField('length', "length","ft")}</td>
