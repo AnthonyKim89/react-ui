@@ -170,7 +170,7 @@ class TracesBoxColumn extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !nextProps.traceBoxes.equals(this.props.traceBoxes) ||  !isEqual(this.state, nextState);
+    return !nextProps.traceBoxes.equals(this.props.traceBoxes) || (nextProps.data && !nextProps.data.equals(this.props.data)) ||  !isEqual(this.state, nextState);
   }
 
   openEditDialog(traceEditIndex=null) {
