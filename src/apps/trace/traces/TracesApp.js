@@ -247,7 +247,6 @@ class TracesApp extends Component {
     // If we're loading for the same range as a previous load, we just return the data from the previous load.
     if (this.fineData.data !== null) {
       if (this.fineData.start === startTS && this.fineData.end === endTS) {
-        console.log("using existing data");
         return this.fineData.data;
       }
     }
