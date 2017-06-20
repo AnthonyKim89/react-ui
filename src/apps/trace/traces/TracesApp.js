@@ -27,11 +27,18 @@ class TracesApp extends Component {
       start: 0,
       end: 1,
       filteredData: new List(),
+      assetList: new List(),
     };
     this.render = this.render.bind(this);
     this.summaryData = new List();
     this.includeDetailedData = false;
     this.timerID = null;
+  }
+
+  async componentDidMount() {
+    this.setState({
+      assetList: await api.getAssets(),
+    });
   }
 
   render() {
@@ -61,6 +68,7 @@ class TracesApp extends Component {
         asset={this.props.asset}
         latestData={latestData}
         widthCols={this.props.widthCols}
+        assetList={this.state.assetList}
         onAppSubscribe={(...args) => this.props.onAppSubscribe(...args)}
         onAppUnsubscribe={(...args) => this.props.onAppUnsubscribe(...args)}
         onSettingChange={this.props.onSettingChange}
@@ -71,10 +79,13 @@ class TracesApp extends Component {
         traceRowCount={this.props.traceRowCount}
         includeDetailedData={this.includeDetailedData}/>
       <TracesBoxColumn
+        assetList={this.state.assetList}
         convert={this.props.convert}
         supportedTraces={supportedTraces}
         traceBoxes={this.props.traceBoxes || new List()}
         data={latestData}
+        onAppSubscribe={(...args) => this.props.onAppSubscribe(...args)}
+        onAppUnsubscribe={(...args) => this.props.onAppUnsubscribe(...args)}
         onSettingChange={this.props.onSettingChange} />
       {this.renderEmpty()}
     </div>;

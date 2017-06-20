@@ -6,6 +6,7 @@ import Modal from 'react-modal';
 import { fromJS } from 'immutable';
 
 import Convert from '../../../common/Convert';
+import { store } from '../../../store';
 
 import './TracesBoxColumn.css';
 
@@ -20,6 +21,7 @@ class TracesBoxColumn extends Component {
       updatedUnitType: null,
     };
     this.saveTraceBox = this.saveTraceBox.bind(this);
+    this.activeSubscriptions = {};
   }
 
   render() {
@@ -59,6 +61,15 @@ class TracesBoxColumn extends Component {
           </header>
 
           <div className="c-traces__box-column__edit-trace__form">
+
+            <Input type='select' label="Offset Asset" s={12}
+                   defaultValue={this.props.traceBoxes.getIn([this.state.traceEditIndex, 'offsetId'])}
+                   ref={(input) => this.traceInputOffset = input}>
+              <option value=""> - None - </option>
+              {this.props.assetList.filter(x => x.get('asset_type') === 'well').map((asset, idx) => {
+                return <option key={idx} value={asset.get('id')}>{asset.get('name')}</option>;
+              })}
+            </Input>
 
             <Input type='select'
                    label="Trace"
@@ -194,6 +205,24 @@ class TracesBoxColumn extends Component {
     this.closeDialogs();
   }
 
+  subscribe(uid, provider, collection, fields, assetId) {
+    let sub = {provider, collection, params: {fields}};
+
+    this.activeSubscriptions[uid] = sub;
+
+    this.props.onAppSubscribe(
+      uid,
+      [sub],
+      assetId
+    );
+  }
+
+  unsubscribe(uid) {
+    this.props.onAppUnsubscribe(uid, [this.activeSubscriptions[uid]]);
+
+    delete this.activeSubscriptions[uid];
+  }
+
   saveTraceBox() {
     if (!this.traceInputChoice.selectInput.value) {
       return;
@@ -202,6 +231,10 @@ class TracesBoxColumn extends Component {
     let newTrace = {
       trace: this.traceInputChoice.selectInput.value,
     };
+
+    if (this.traceInputOffset.selectInput.value !== "") {
+      newTrace.offsetId = this.traceInputOffset.selectInput.value;
+    }
 
     if (this.traceInputUnitType.state.value) {
       newTrace.unitType = this.traceInputUnitType.state.value;
@@ -216,19 +249,44 @@ class TracesBoxColumn extends Component {
     }
 
     // Adding vs Updating Existing.
+    let uid;
     if (this.state.traceEditIndex) {
+      uid = 'boxes' + newTrace.trace + this.state.traceEditIndex;
       let traceBoxes = this.props.traceBoxes.set(this.state.traceEditIndex, fromJS(newTrace));
       this.props.onSettingChange('traceBoxes', traceBoxes);
     } else {
+      uid = 'boxes' + newTrace.trace + this.props.traceBoxes.size;
       let traceBoxes = this.props.traceBoxes.push(fromJS(newTrace));
       this.props.onSettingChange('traceBoxes', traceBoxes);
+    }
+
+    if (newTrace.offsetId) {
+      if (!this.activeSubscriptions.hasOwnProperty(uid)) {
+        this.subscribe(uid, 'corva', 'wits', 'timestamp,data.'+newTrace.trace, newTrace.offsetId);
+      }
+
+      // Cleaning up expired subscriptions
+      let subscriptionUIDs = this.props.traceBoxes.reduce((result, box, idx) => {
+        if (box.get('offsetId')) {
+          result.push('boxes' + box.get('trace') + idx);
+        }
+        return result;
+      }, []);
+      for (let uid in this.activeSubscriptions) {
+        if (this.activeSubscriptions.hasOwnProperty(uid)) {
+          if (!subscriptionUIDs.includes(uid)) {
+            this.unsubscribe(uid);
+          }
+        }
+      }
     }
 
     this.closeDialogs();
   }
 
   getBoxData() {
-    let boxes = this.props.traceBoxes.map(traceEntry => {
+    let boxes = this.props.traceBoxes.map((traceEntry, idx) => {
+
       let traceMeta = find(this.props.supportedTraces, {trace: traceEntry.get("trace")});
       if (!traceMeta) {
         return null;
@@ -236,9 +294,16 @@ class TracesBoxColumn extends Component {
 
       let box = {
         label: traceMeta.label,
-        value: this.props.data ? this.props.data.getIn(['data', traceEntry.get('trace')], 0) : 0,
         display: "",
+        offset: traceEntry.has('offsetId'),
       };
+
+      if (!traceEntry.has('offsetId')) {
+        box.value = this.props.data ? this.props.data.getIn(['data', traceEntry.get('trace')], 0) : 0;
+      } else {
+        let uid = 'boxes' + traceEntry.get('trace') + idx;
+        box.value = store.getState().subscriptions.get('appData').getIn([uid, 'corva', 'wits', '', 'data', traceEntry.get('trace')], 0);
+      }
 
       let unitType = traceEntry.get('unitType');
       let unitTo = traceEntry.get('unitTo', null);
@@ -267,8 +332,11 @@ TracesBoxColumn.propTypes = {
   convert: React.PropTypes.instanceOf(Convert).isRequired,
   supportedTraces: PropTypes.array.isRequired,
   data: ImmutablePropTypes.map,
+  onAppUnsubscribe: PropTypes.func.isRequired,
+  onAppSubscribe: PropTypes.func.isRequired,
   onSettingChange: PropTypes.func.isRequired,
   traceBoxes: ImmutablePropTypes.list.isRequired,
+  assetList: ImmutablePropTypes.list.isRequired,
 };
 
 export default TracesBoxColumn;

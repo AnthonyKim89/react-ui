@@ -6,7 +6,6 @@ import { Row } from 'react-materialize';
 import TracesChartColumn from './TracesChartColumn';
 import Convert from '../../../common/Convert';
 import TracesSettingsDialog from './TracesSettingsDialog';
-import * as api from '../../../api';
 import { isEqual } from 'lodash';
 
 import './TracesChartContainer.css';
@@ -16,15 +15,6 @@ class TracesChartContainer extends Component {
   constructor(props) {
     super(props);
     this.openSettingsDialog = this.openSettingsDialog.bind(this);
-    this.state = {
-      assetList: new List(),
-    };
-  }
-
-  async componentDidMount() {
-    this.setState({
-      assetList: await api.getAssets(),
-    });
   }
 
   render() {
@@ -55,7 +45,7 @@ class TracesChartContainer extends Component {
         traceGraphs={this.props.traceGraphs}
         convert={this.props.convert}
         asset={this.props.asset}
-        assetList={this.state.assetList}
+        assetList={this.props.assetList}
         params={{assetType: 'rig'}}
         location={{query: {}}}
         onSettingChange={this.props.onSettingChange} />
@@ -96,6 +86,7 @@ TracesChartContainer.propTypes = {
   traceColumnCount: PropTypes.number,
   traceRowCount: PropTypes.number,
   includeDetailedData: PropTypes.bool,
+  assetList: ImmutablePropTypes.list.isRequired,
 };
 
 export default TracesChartContainer;
