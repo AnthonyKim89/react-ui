@@ -29,10 +29,17 @@ class TracesApp extends Component {
       filteredData: new List(),
       assetList: new List(),
     };
+
     this.render = this.render.bind(this);
     this.summaryData = new List();
     this.includeDetailedData = false;
     this.timerID = null;
+
+    this.fineData = {
+      start: null,
+      end: null,
+      data: null,
+    };
   }
 
   async componentDidMount() {
@@ -237,6 +244,17 @@ class TracesApp extends Component {
   }
 
   async loadFineFilteredData(startTS, endTS) {
+    // If we're loading for the same range as a previous load, we just return the data from the previous load.
+    if (this.fineData.data !== null) {
+      if (this.fineData.start === startTS && this.fineData.end === endTS) {
+        console.log("using existing data");
+        return this.fineData.data;
+      }
+    }
+
+    this.fineData.start = startTS;
+    this.fineData.end = endTS;
+
     let params = fromJS({
       'asset_id': this.props.asset.get('id'),
       'where': `{this.timestamp >= ${Math.round(startTS)} && this.timestamp <= ${Math.round(endTS)}}`,
@@ -244,7 +262,8 @@ class TracesApp extends Component {
     });
     if(this.props.asset) {
       let result = await api.getAppStorage('corva', 'wits.summary-1m', this.props.asset.get('id'), params);
-      return result.reverse();
+      this.fineData.data = result.reverse();
+      return this.fineData.data;
     }
     else {
       return [];
