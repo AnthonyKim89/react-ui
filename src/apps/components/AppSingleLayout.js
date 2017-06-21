@@ -60,6 +60,8 @@ class AppSingleLayout extends Component {
         widthCols={12}
         convert={this.props.convert}
         onAssetModified={asset => this.props.onAssetModified(asset)}
+        onAppSubscribe={(...args) => this.props.onAppSubscribe(...args)}
+        onAppUnsubscribe={(...args) => this.props.onAppUnsubscribe(...args)}
         onSettingChange={(key, value) => this.props.onAppSettingsUpdate(id, settings.set(key, value))} />}
     </AppContainer>;
   }

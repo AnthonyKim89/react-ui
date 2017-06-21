@@ -6,6 +6,7 @@ import { Row } from 'react-materialize';
 import TracesChartColumn from './TracesChartColumn';
 import Convert from '../../../common/Convert';
 import TracesSettingsDialog from './TracesSettingsDialog';
+import { isEqual } from 'lodash';
 
 import './TracesChartContainer.css';
 
@@ -34,6 +35,8 @@ class TracesChartContainer extends Component {
           totalColumns={columnCount}
           includeDetailedData={this.props.includeDetailedData}
           editTraceGraph={(traceEditIndex) => this.openSettingsDialog(traceEditIndex)}
+          onAppSubscribe={(...args) => this.props.onAppSubscribe(...args)}
+          onAppUnsubscribe={(...args) => this.props.onAppUnsubscribe(...args)}
           widthCols={this.props.widthCols} />
       ))}
       <TracesSettingsDialog
@@ -41,6 +44,10 @@ class TracesChartContainer extends Component {
         supportedTraces={this.props.supportedTraces}
         traceGraphs={this.props.traceGraphs}
         convert={this.props.convert}
+        asset={this.props.asset}
+        assetList={this.props.assetList}
+        params={{assetType: 'rig'}}
+        location={{query: {}}}
         onSettingChange={this.props.onSettingChange} />
     </Row>;
   }
@@ -56,11 +63,12 @@ class TracesChartContainer extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return this.props.traceGraphs.equals(nextProps.traceGraphs)
-      || this.props.latestData.equals(nextProps.latestValue)
-      || this.props.data.equals(nextProps.data)
+    return !this.props.traceGraphs.equals(nextProps.traceGraphs)
+      || (this.props.latestData && !this.props.latestData.equals(nextProps.latestValue))
+      || !this.props.data.equals(nextProps.data)
       || this.props.traceRowCount !== nextProps.traceRowCount
-      || this.props.traceColumnCount !== nextProps.traceColumnCount;
+      || this.props.traceColumnCount !== nextProps.traceColumnCount
+      || !isEqual(this.state, nextState);
   }
 }
 
@@ -72,10 +80,13 @@ TracesChartContainer.propTypes = {
   data: ImmutablePropTypes.list,
   latestData: ImmutablePropTypes.map,
   widthCols: PropTypes.number.isRequired,
+  onAppUnsubscribe: PropTypes.func.isRequired,
+  onAppSubscribe: PropTypes.func.isRequired,
   onSettingChange: PropTypes.func.isRequired,
   traceColumnCount: PropTypes.number,
   traceRowCount: PropTypes.number,
   includeDetailedData: PropTypes.bool,
+  assetList: ImmutablePropTypes.list.isRequired,
 };
 
 export default TracesChartContainer;

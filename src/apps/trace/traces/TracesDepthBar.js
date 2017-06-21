@@ -156,7 +156,11 @@ class TracesDepthBar extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.data && nextProps.latestData && (!nextProps.data.equals(this.props.data) || !nextProps.latestData.equals(this.props.latestData));
+    if (nextProps.data && nextProps.latestData) {
+      return !nextProps.data.equals(this.props.data) || !nextProps.latestData.equals(this.props.latestData);
+    } else {
+      return true;
+    }
   }
 
 }

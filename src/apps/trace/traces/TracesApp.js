@@ -27,15 +27,28 @@ class TracesApp extends Component {
       start: 0,
       end: 1,
       filteredData: new List(),
+      assetList: new List(),
     };
+
     this.render = this.render.bind(this);
     this.summaryData = new List();
     this.includeDetailedData = false;
     this.timerID = null;
+
+    this.fineData = {
+      start: null,
+      end: null,
+      data: null,
+    };
+  }
+
+  async componentDidMount() {
+    this.setState({
+      assetList: await api.getAssets(),
+    });
   }
 
   render() {
-
     let latestData = this.props.data ? subscriptions.selectors.getSubData(this.props.data, latestSubscription): null;
     let supportedTraces = this.mergeSupportedTraces(latestData);
 
@@ -49,7 +62,9 @@ class TracesApp extends Component {
       <TracesSettingsBar
         traceColumnCount={this.props.traceColumnCount}
         traceRowCount={this.props.traceRowCount}
-        onSettingChange={this.props.onSettingChange} />
+        onSettingChange={this.props.onSettingChange}
+        onZoomIn={() => this.tracesSlider.zoomIn()}
+        onZoomOut={() => this.tracesSlider.zoomOut()} />
       <TracesDepthBar
         convert={this.props.convert}
         supportedTraces={supportedTraces}
@@ -60,6 +75,9 @@ class TracesApp extends Component {
         asset={this.props.asset}
         latestData={latestData}
         widthCols={this.props.widthCols}
+        assetList={this.state.assetList}
+        onAppSubscribe={(...args) => this.props.onAppSubscribe(...args)}
+        onAppUnsubscribe={(...args) => this.props.onAppUnsubscribe(...args)}
         onSettingChange={this.props.onSettingChange}
         traceGraphs={DEFAULT_TRACE_GRAPHS.merge(this.props.traceGraphs)}
         convert={this.props.convert}
@@ -68,10 +86,13 @@ class TracesApp extends Component {
         traceRowCount={this.props.traceRowCount}
         includeDetailedData={this.includeDetailedData}/>
       <TracesBoxColumn
+        assetList={this.state.assetList}
         convert={this.props.convert}
         supportedTraces={supportedTraces}
         traceBoxes={this.props.traceBoxes || new List()}
         data={latestData}
+        onAppSubscribe={(...args) => this.props.onAppSubscribe(...args)}
+        onAppUnsubscribe={(...args) => this.props.onAppUnsubscribe(...args)}
         onSettingChange={this.props.onSettingChange} />
       {this.renderEmpty()}
     </div>;
@@ -106,7 +127,7 @@ class TracesApp extends Component {
   }
 
   componentWillUpdate(nextProps) {
-    if(!this.props.data && nextProps.data) {
+    if(!this.props.data && nextProps.data && this.props.asset) {
       let latestData = subscriptions.selectors.getSubData(nextProps.data, latestSubscription);
       if(latestData) {
         let end = latestData.get('timestamp');
@@ -120,6 +141,10 @@ class TracesApp extends Component {
     }
 
     this.summaryData = this.convertUnits(summaryData);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
   }
 
   convertUnits(filteredData) {
@@ -183,17 +208,14 @@ class TracesApp extends Component {
     start = start !== null ? start : this.state.start;
     end = end !== null ? end : this.state.end;
 
-    let firstTimestamp = 0, lastTimestamp = 0, startTS = 0, endTS = 0;
+    let startTS = start;
+    let endTS = end;
 
     if(this.summaryData && this.summaryData.size > 0) {
-      firstTimestamp = this.summaryData.first().get("timestamp");
-      lastTimestamp = this.summaryData.last().get("timestamp");
+      let firstTimestamp = this.summaryData.first().get("timestamp");
+      let lastTimestamp = this.summaryData.last().get("timestamp");
       startTS = firstTimestamp + start * (lastTimestamp - firstTimestamp);
       endTS = firstTimestamp + end * (lastTimestamp - firstTimestamp);
-    }
-    else {
-      startTS = firstTimestamp = start;
-      endTS = lastTimestamp = end;
     }
 
     // We will load either rough or find data depending on how long the user hasn't changed the slider
@@ -222,13 +244,29 @@ class TracesApp extends Component {
   }
 
   async loadFineFilteredData(startTS, endTS) {
+    // If we're loading for the same range as a previous load, we just return the data from the previous load.
+    if (this.fineData.data !== null) {
+      if (this.fineData.start === startTS && this.fineData.end === endTS) {
+        return this.fineData.data;
+      }
+    }
+
+    this.fineData.start = startTS;
+    this.fineData.end = endTS;
+
     let params = fromJS({
-      'asset_id': 3,
-      'query': `{timestamp#gte#${Math.round(startTS)}}}and{timestamp#lte#${Math.round(endTS)}}`,
+      'asset_id': this.props.asset.get('id'),
+      'where': `{this.timestamp >= ${Math.round(startTS)} && this.timestamp <= ${Math.round(endTS)}}`,
       'limit': 525600, // This is a year's worth of minutes. We're required to include a limit.
     });
-    let result = await api.getAppStorage('corva', 'wits.summary-1m', this.props.asset.get('id'), params);
-    return result.reverse();
+    if(this.props.asset) {
+      let result = await api.getAppStorage('corva', 'wits.summary-1m', this.props.asset.get('id'), params);
+      this.fineData.data = result.reverse();
+      return this.fineData.data;
+    }
+    else {
+      return [];
+    }
   }
 }
 
@@ -240,6 +278,8 @@ TracesApp.propTypes = {
   data: ImmutablePropTypes.map,
   size: PropTypes.string.isRequired,
   widthCols: PropTypes.number.isRequired,
+  onAppUnsubscribe: PropTypes.func.isRequired,
+  onAppSubscribe: PropTypes.func.isRequired,
   onSettingChange: PropTypes.func.isRequired,
   asset: ImmutablePropTypes.map,
 };
