@@ -26,7 +26,7 @@ class Alerts extends Component {
                 <div className="clearfix"></div>
             </div>
 
-            <AlertGroup title="Last 24 Hours" start={this.state.dayAgo} end={this.state.now} />
+            <AlertGroup title="Last 24 Hours" start={this.state.dayAgo} end={this.state.now} refresh={60} />
             <AlertGroup title="Older" end={this.state.dayAgo} />
         </div>
     );

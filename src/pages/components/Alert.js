@@ -48,8 +48,39 @@ class Alert extends Component {
     return 'of ' + value;
   }
 
-  getFriendlyTiming(definition) {
-    return '30 minutes';
+  getFriendlyTiming(seconds) {
+    var hours = Math.floor(seconds / 3600);
+    var minutes = Math.floor((seconds % 3600) / 60);
+    seconds = (seconds % 3600) % 60;
+
+    var timing = [];
+
+    if (hours) {
+      hours = hours + ' ' + ((hours > 1) ? 'hours': 'hour');
+      timing.push(hours);
+    }
+
+    if (minutes) {
+      minutes = minutes + ' ' + ((minutes > 1) ? 'minutes': 'minute');
+      timing.push(minutes);
+    }
+
+    if (seconds) {
+      seconds = seconds + ' ' + ((seconds > 1) ? 'seconds': 'second');
+      timing.push(seconds);
+    }
+
+    var output = '';
+
+    if (timing.length === 1) {
+      output = timing[0];
+    } else if (timing.length === 2) {
+      output = timing.join(' and ');
+    } else if (timing.length === 3) {
+      output = timing[0] + ', ' + timing[1] + ', and ' + timing[2];
+    }
+
+    return output;
   }
 
   getFriendlyThreshold(threshold) {
@@ -91,7 +122,7 @@ class Alert extends Component {
                 <h3 className="pull-left">{this.props.alert.alert_definition.name}</h3>
                 <div className="pull-right">
                     <span className="c-alert-asset">{this.props.alert.asset.name}</span>
-                    <span className="c-alert-timestamp">{this.formatDate(this.props.alert.created_at)}</span>
+                    <span className="c-alert-timestamp">{this.formatDate(this.props.alert.alert_at)}</span>
                 </div>
                 <div className="clearfix"></div>
             </div>
