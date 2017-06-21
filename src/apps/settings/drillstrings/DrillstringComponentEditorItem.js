@@ -745,7 +745,7 @@ class DrillstringComponentEditorItem extends Component {
   onCalcTFA() {
     const component = this.props.item;
     let nozzle_sizes = component.get('nozzle_sizes',List([]));
-    let tfa = 4/Math.PI*nozzle_sizes.reduce((acc,nozzle)=> {
+    let tfa = Math.PI/4*nozzle_sizes.reduce((acc,nozzle)=> {
       return acc+nozzle.get('count',0)* Math.pow(nozzle.get('size',0)/32,2);      
     },0);
 
