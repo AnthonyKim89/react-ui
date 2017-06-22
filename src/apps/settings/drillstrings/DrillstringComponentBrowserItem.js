@@ -33,15 +33,11 @@ class DrillstringComponentBrowserItem extends Component {
   }
   renderComponentLabelField(field,unitType,unit) {
     let value = this.props.component.get(field) || '';
-    let numberFormat;
+    let numberFormat = '0.00';
     if (value!=='' && unitType && unit) {
-      numberFormat='0.00';
       value = this.props.convert.convertValue(value,unitType,unit);
-    };
-    if (value!=='' && !unitType && !unit) {
-      numberFormat='0';
-    }
-    if (numberFormat && value.formatNumeral) {
+    };    
+    if (value.formatNumeral) {
       value = value.formatNumeral(numberFormat);
     }
     return value;
