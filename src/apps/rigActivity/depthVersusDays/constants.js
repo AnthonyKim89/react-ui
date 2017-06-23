@@ -10,6 +10,7 @@ export const METADATA = {
   publishedAt: '2016-07-01T00:00:00',
   provider: 'corva',
   collection: 'wits.summary-6h',
+  collectionFrequency: 21600,
   multiRig: true
 };
 export const SUPPORTED_ASSET_TYPES = [];
