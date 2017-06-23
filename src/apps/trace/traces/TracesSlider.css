@@ -68,7 +68,7 @@
 
 .c-traces__slider-interaction__middle-slider {
   flex-grow: 1;
-  min-height: 6px;
+  min-height: 1px;
   display: flex;
   flex-direction: column;
   justify-content: center;

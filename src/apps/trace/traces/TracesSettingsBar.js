@@ -94,7 +94,6 @@ class TracesSettingsBar extends Component {
     let traceColumnCount = parseInt(this.traceColumnCountInput.state.value, 10);
     let traceRowCount = parseInt(this.traceRowCountInput.state.value, 10);
 
-    await this.props.onSettingChange("traceColumnCount", 0); // We have to clear this first and then reset it to fix highcharts issues
     await this.props.onSettingChange("traceRowCount", traceRowCount);
     await this.props.onSettingChange("traceColumnCount", traceColumnCount);
 

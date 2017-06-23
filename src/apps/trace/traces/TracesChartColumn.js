@@ -26,11 +26,6 @@ class TracesChartColumn extends Component {
     };
     this.activeSubscriptions = {};
 
-    this.yAxisData = props.data.reduce((result, point) => {
-      result.unshift(moment.unix(point.get("timestamp")).format('MMMD HH:mm'));
-      return result;
-    }, []);
-
     let data = this.getSeries(props);
 
     this.state = {
@@ -65,7 +60,7 @@ class TracesChartColumn extends Component {
               }
             },
             boundaryGap : false,
-            data : this.yAxisData,
+            data : [],
           }
         ],
         series : data.series,
