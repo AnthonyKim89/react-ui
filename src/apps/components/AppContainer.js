@@ -207,7 +207,7 @@ class AppContainer extends Component {
 
   // Let the component implementation display the date and others info(if necessary)
   isLastDataUpdateVisible() {
-    return this.props.lastDataUpdate && !this.props.hasAppFooter && this.props.size !== common.constants.Size.SMALL;
+    return this.props.lastDataUpdate && !this.props.hasAppFooter;
   }
 
   formatLastDataUpdate() {
