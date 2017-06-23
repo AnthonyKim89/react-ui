@@ -126,6 +126,16 @@ export async function putAlertDefinition(id, definition) {
   return fromJS(data);
 }
 
+export async function setAlertSubscription(id, subscription, value) {
+  let dataset = {
+    'subscription': subscription,
+    'enabled': value
+  };
+
+  const data = await post(`/v1/alerts/definitions/${id}/subscribe`, dataset);
+  return fromJS(data);
+}
+
 export async function getAppSets(userId) {
   const data = await get(`/v1/users/${userId}/app_sets`);
   return fromJS(data);

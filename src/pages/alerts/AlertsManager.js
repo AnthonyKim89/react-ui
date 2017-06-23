@@ -37,6 +37,10 @@ class AlertsManager extends Component {
     this.saveAlert(alert, 'Edit');
   }
 
+  async subscribe(alert, event) {
+    await api.setAlertSubscription(alert.id, event.target.value, event.target.checked);
+  }
+
   edit(mode='Add', alert=null) {
     if (mode === 'Add') {
       alert = {
@@ -125,7 +129,7 @@ class AlertsManager extends Component {
             <div className="c-alert-none">No Alerts Found</div>}
 
           {this.state.alerts && this.state.alerts.map((alert) => {
-            return <AlertDefinition key={alert.id} alert={alert} onClick={() => this.edit('Edit', alert)} onToggle={() => this.toggle(alert)} />;
+            return <AlertDefinition key={alert.id} alert={alert} onClick={() => this.edit('Edit', alert)} onToggle={(event) => this.toggle(alert, event)} onSubscribe={(event) => this.subscribe(alert, event)} />;
           })}
 
           <AlertDefinition onClick={() => this.edit('Add')} />
