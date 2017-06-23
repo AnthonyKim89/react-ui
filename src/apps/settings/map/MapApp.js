@@ -31,14 +31,12 @@ class MapApp extends Component {
 
   async loadRecords(asset) {
     const records = await api.getAppStorage(METADATA.recordProvider, METADATA.recordCollection, asset.get('id'), Map({limit: 1}));
-    console.log(records.toJS());
     let record = records.get(0);      
     this.setState({
       record: record,
       top_hole: record?record.getIn(["data","top_hole"]):'',
       bottom_hole: record?record.getIn(["data","bottom_hole"]):''
     });
-    console.log(this.state);
     this.updateMap();        
   }
 
@@ -78,7 +76,8 @@ class MapApp extends Component {
     if (tLatLng.length===2) {
       const data = Map({
         top_hole: this.state.top_hole,
-        bottom_hole: this.state.bottom_hole
+        bottom_hole: this.state.bottom_hole,
+        coordinate: tLatLng
       });
 
       const record = (this.state.record || Map({
@@ -86,7 +85,6 @@ class MapApp extends Component {
         data: Map({})
       })).set("data",data);
       
-      console.log(record.toJS());
       const savedRecord = record.has('_id')? 
         await api.putAppStorage(METADATA.recordProvider, METADATA.recordCollection, record.get('_id') , record) :
         await api.postAppStorage(METADATA.recordProvider, METADATA.recordCollection, record);
