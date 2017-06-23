@@ -49,7 +49,7 @@ class AlertDefinition extends Component {
                     <h4 className="c-alert-definition-notification-type-header">{alert_notification_type.name}</h4>
                     <Input name="active" type="switch" onLabel="&#8203;" offLabel="&#8203;" value={alert_notification_type.identifier} defaultChecked={alert_notification_type.enabled} onChange={this.props.onSubscribe} />
                   </div>
-                )
+                );
               })}
             </div>
           </div>
