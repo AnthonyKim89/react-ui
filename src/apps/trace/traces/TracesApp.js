@@ -32,6 +32,7 @@ class TracesApp extends Component {
 
     this.render = this.render.bind(this);
     this.summaryData = new List();
+    this.sliderData = new List();
     this.includeDetailedData = false;
     this.timerID = null;
 
@@ -43,8 +44,28 @@ class TracesApp extends Component {
   }
 
   async componentDidMount() {
-    this.setState({
-      assetList: await api.getAssets(),
+    api.getAssets().then((assetList) => {
+      this.setState({
+        assetList,
+      });
+    });
+
+    this.preloadInitialSliderData();
+  }
+
+  preloadInitialSliderData() {
+    let params = fromJS({
+      asset_id: this.props.asset.get('id'),
+      sort: '{timestamp:1}',
+      limit: 5000,
+      fields: 'timestamp,data.hole_depth,data.bit_depth',
+    });
+
+    api.getAppStorage('corva', 'wits.summary-30m', this.props.asset.get('id'), params).then((result) => {
+      if (this.summaryData.size === 0) {
+        this.sliderData = result;
+        this.forceUpdate();
+      }
     });
   }
 
@@ -54,7 +75,7 @@ class TracesApp extends Component {
 
     return <div className="c-traces" onWheel={e => this.tracesSlider.scrollRange(e)}>
       <TracesSlider
-        summaryData={this.summaryData}
+        summaryData={this.summaryData.size > 0 ? this.summaryData : this.sliderData}
         filteredData={this.state.filteredData}
         widthCols={this.props.widthCols}
         ref={c => { this.tracesSlider = c; }}
@@ -99,7 +120,7 @@ class TracesApp extends Component {
   }
 
   renderEmpty() {
-    if (!this.summaryData.size > 0) {
+    if (this.summaryData.size === 0 && this.sliderData.size === 0) {
       return <div className="c-traces__loading"><LoadingIndicator/></div>;
     }
   }
@@ -193,7 +214,9 @@ class TracesApp extends Component {
       // After 5 seconds of no scrolling, we load detailed data
       this.timerID = setInterval(() => {
         this.includeDetailedData = true;
-        this.updateFilteredData();
+        if(this.summaryData && this.summaryData.size > 0) {
+          this.updateFilteredData();
+        }
       }, 2000);
     }
 
