@@ -270,7 +270,7 @@ class TracesApp extends Component {
           return;
         }
 
-        if (filteredData.size === 0 && value.get('timestamp') <= startTS) {
+        if (filteredData.size <= 1 && value.get('timestamp') <= startTS) {
           filteredData = filteredData.set(0, value);
         } else if (filteredData.size === 1 && value.get('timestamp') > startTS && value.get('timestamp') < endTS) {
           filteredData = filteredData.push(value);
@@ -279,6 +279,10 @@ class TracesApp extends Component {
           done = true;
         }
       });
+
+      if (filteredData.size === 1) {
+        filteredData = filteredData.push(filteredData.first());
+      }
     }
 
     return filteredData;
@@ -307,6 +311,11 @@ class TracesApp extends Component {
 
     let result = await api.getAppStorage('corva', 'wits.summary-1m', this.props.asset.get('id'), params);
     this.fineData.data = result.reverse();
+
+    if (this.fineData.data.size === 0) {
+      this.fineData.data = this.getRoughFilteredData(startTS, endTS);
+    }
+
     return this.fineData.data;
   }
 }
