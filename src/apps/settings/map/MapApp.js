@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Button, Input, Row, Col} from 'react-materialize';
-import { Map } from 'immutable';
+import { Map,List } from 'immutable';
 import NotificationSystem from 'react-notification-system';
 import L from 'mapbox.js';
 import 'mapbox.js/theme/style.css';
@@ -77,7 +77,7 @@ class MapApp extends Component {
       const data = Map({
         top_hole: this.state.top_hole,
         bottom_hole: this.state.bottom_hole,
-        coordinate: tLatLng
+        coordinate: List(tLatLng)
       });
 
       const record = (this.state.record || Map({
