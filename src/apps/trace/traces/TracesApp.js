@@ -127,14 +127,6 @@ class TracesApp extends Component {
   }
 
   componentWillUpdate(nextProps) {
-    if(!this.props.data && nextProps.data && this.props.asset) {
-      let latestData = subscriptions.selectors.getSubData(nextProps.data, latestSubscription);
-      if(latestData) {
-        let end = latestData.get('timestamp');
-        this.updateFilteredData(end - (60 * 60 * 4), end, false);
-      }
-    }
-
     let summaryData = subscriptions.selectors.getSubData(nextProps.data, summarySubscription, false);
     if (!summaryData) {
       return;
