@@ -60,7 +60,6 @@ class WellTimelineScrollBar extends Component {
             marginTop={0}
             xAxisType="datetime"
             tooltipFormatter={function() {
-              console.log(this);
               return `<span style="color:${this.series.color}">\u25CF</span> ${this.series.name}: <b>${this.y}</b><br/>`;
             }}
             tooltipValueSuffix={" " + this.props.convert.getUnitDisplay("length")}
