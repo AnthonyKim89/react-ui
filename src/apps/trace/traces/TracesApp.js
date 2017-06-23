@@ -154,7 +154,8 @@ class TracesApp extends Component {
     }
 
     this.summaryData = this.convertUnits(summaryData);
-  }
+    this.sliderData = null;
+}
 
   componentWillUnmount() {
     clearInterval(this.timerID);
