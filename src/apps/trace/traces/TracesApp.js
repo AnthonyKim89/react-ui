@@ -252,10 +252,36 @@ class TracesApp extends Component {
   }
 
   getRoughFilteredData(startTS, endTS) {
-    return this.summaryData.filter(point => {
+    startTS = Math.round(startTS);
+    endTS = Math.round(endTS);
+
+    let filteredData = this.summaryData.filter(point => {
       let ts = point.get('timestamp');
-      return ts >= Math.round(startTS) && ts <= Math.round(endTS);
+      return ts >= startTS && ts <= endTS;
     });
+
+    // If we have less than 2 items, we force at least 3 into the list.
+    if (filteredData.size < 2) {
+      filteredData = new List();
+      let done = false;
+
+      this.summaryData.valueSeq().forEach((value) => {
+        if (done) {
+          return;
+        }
+
+        if (filteredData.size === 0 && value.get('timestamp') <= startTS) {
+          filteredData = filteredData.set(0, value);
+        } else if (filteredData.size === 1 && value.get('timestamp') > startTS && value.get('timestamp') < endTS) {
+          filteredData = filteredData.push(value);
+        } else if (filteredData.size <= 2 && value.get('timestamp') >= endTS) {
+          filteredData = filteredData.push(value);
+          done = true;
+        }
+      });
+    }
+
+    return filteredData;
   }
 
   async loadFineFilteredData(startTS, endTS) {
@@ -274,14 +300,14 @@ class TracesApp extends Component {
       'where': `{this.timestamp >= ${Math.round(startTS)} && this.timestamp <= ${Math.round(endTS)}}`,
       'limit': 525600, // This is a year's worth of minutes. We're required to include a limit.
     });
-    if(this.props.asset) {
-      let result = await api.getAppStorage('corva', 'wits.summary-1m', this.props.asset.get('id'), params);
-      this.fineData.data = result.reverse();
-      return this.fineData.data;
-    }
-    else {
+
+    if(!this.props.asset) {
       return [];
     }
+
+    let result = await api.getAppStorage('corva', 'wits.summary-1m', this.props.asset.get('id'), params);
+    this.fineData.data = result.reverse();
+    return this.fineData.data;
   }
 }
 
