@@ -196,6 +196,7 @@ class DrillstringComponentModal extends Component {
   renderComponentBIT() {
     return [
       <Row key="bit-1">
+        {this.renderComponentLabelField("size", "Size", 4)}
         {this.renderComponentLabelField("length", "Total Length", 4, "length","ft")}
         {this.renderComponentLabelField("weight", "Total Weight", 4, "mass","lb")}
       </Row>,
@@ -233,8 +234,7 @@ class DrillstringComponentModal extends Component {
         {this.renderComponentLabelField("shank_od", "Shank OD", 2)}
         {this.renderComponentLabelField("make", "Make", 2)}
         {this.renderComponentLabelField("serial_number", "Serial Number", 2)}
-        {this.renderComponentLabelField("model", "Model", 2)}
-        {this.renderComponentLabelField("size", "Size", 2)}
+        {this.renderComponentLabelField("model", "Model", 2)}        
         {this.renderComponentLabelField("tfa", "TFA", 2)}
       </Row>
     ];
@@ -396,24 +396,13 @@ class DrillstringComponentModal extends Component {
   renderComponentLabelField(field,label="",colSize=2,unitType,unit) {
     let value = this.props.component.get(field) || '';
 
-    let numberFormat;
+    let numberFormat='0.00';
 
     if (!isNaN(value)) {
-      if (unitType && unit) {
-        numberFormat='0.00';
-        value = this.props.convert.convertValue(value,unitType,unit);
-      };
-      
-      if (!unitType && !unit) {
-        numberFormat='0';
-      }
-
-      if (field === 'tfa')  {
-        numberFormat = '0.00';
-      }
+      value = this.props.convert.convertValue(value,unitType,unit);
     }    
 
-    if (numberFormat && value.formatNumeral) {      
+    if (value.formatNumeral) {      
       value = value.formatNumeral(numberFormat);
     }
 

@@ -49,6 +49,7 @@ class FrictionFactorApp extends Component {
             {this.renderFactor('Casing', 'casing')}
             {this.renderFactor('Open Hole Slackoff', 'open_hole_slackoff')}
             {this.renderFactor('Open Hole Pickup', 'open_hole_pickup')}
+            {this.renderFactor('Open Hole Rotating', 'open_hole_rotating')}
           </div> :
           <LoadingIndicator />}
         <NotificationSystem ref="notificationSystem" noAnimation={true} />
@@ -118,14 +119,12 @@ class FrictionFactorApp extends Component {
     }
   }
 
-
-
   handleKeyPress(e) {
     if (e.key === 'Enter') {
-      const inputData = this.getInputData();      
+      const inputData = this.getInputData();
       if (!inputData) {
         this._notificationSystem.addNotification({
-          message: 'All values should be between 0 and 1.',
+          message: 'Value is in wrong range.',
           level: 'error'
         });
         return;
@@ -138,7 +137,7 @@ class FrictionFactorApp extends Component {
     const inputData = this.getInputData();
     if (!inputData) {
       this._notificationSystem.addNotification({
-          message: 'Value should be 0~1',
+          message: 'Value is in wrong range.',
           level: 'error'
         });
       return;      
@@ -150,20 +149,24 @@ class FrictionFactorApp extends Component {
     let casingValue = parseFloat(this.refs.casing.value);
     let slackoffValue = parseFloat(this.refs.open_hole_slackoff.value);
     let pickupValue = parseFloat(this.refs.open_hole_pickup.value);
-
-    if (this.checkValidity(casingValue,0,1) &&  this.checkValidity(slackoffValue,0,1) && this.checkValidity(pickupValue,0,1)) {
+    let rotatingValue = parseFloat(this.refs.open_hole_rotating.value);
+    if (this.checkValidity(casingValue,0,1) &&
+        this.checkValidity(slackoffValue,0,1) && 
+        this.checkValidity(pickupValue,0,1) &&
+        this.checkValidity(rotatingValue,0.1,0.5)) {
       return Map({
         casing: casingValue,
         open_hole_slackoff: slackoffValue,
-        open_hole_pickup: pickupValue
+        open_hole_pickup: pickupValue,
+        open_hole_rotating: rotatingValue
       });
     }
 
-    return null;    
+    return null;
   }
 
   checkValidity(val,min,max) {
-    if ( !isNaN(val) && val < max && val > min) {
+    if ( !isNaN(val) && val <= max && val >= min) {
       return true;
     }
     return false;

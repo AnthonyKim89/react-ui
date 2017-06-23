@@ -212,7 +212,8 @@ class DrillstringComponentEditorItem extends Component {
     return [
       <Row key="bit-1">
         {this.renderComponentSelectField('family', "Category", 2, COMPONENT_FAMILIES)}
-        {this.renderComponentTextField("name", "Name", 2)}        
+        {this.renderComponentTextField("name", "Name", 2)}
+        {this.renderComponentNumberField("size","Bit Size",2,'shortLength','in')}
         {this.renderComponentNumberField("length", "Total Length", 2,"length","ft")}
         {this.renderComponentNumberField("weight", "Total Weight", 2, "mass","lb")}
       </Row>,
@@ -249,8 +250,7 @@ class DrillstringComponentEditorItem extends Component {
         {this.renderComponentTextField("shank_od", "Shank OD", 2)}
         {this.renderComponentTextField("make", "Make", 2)}
         {this.renderComponentTextField("serial_number", "Serial Number", 2)}
-        {this.renderComponentTextField("model", "Model", 2)}
-        {this.renderComponentNumberField("size","Bit Size",2,'shortLength','in')}
+        {this.renderComponentTextField("model", "Model", 2)}        
         {this.renderComponentNumberField("tfa", "TFA", 2, null, "in^2")}
       </Row>
     ];
@@ -435,26 +435,17 @@ class DrillstringComponentEditorItem extends Component {
   }
 
   renderComponentNumberField(field, label, colSize, unitType=null, unit=null) {
-    let numberFormat;
+    let numberFormat = '0.00';
     let value = this.props.item.get(field) || '';
     if (field === 'number_of_joints' && value==='') {
       value = 1;
     }    
 
     if (value!=='' && unitType && unit) {
-      numberFormat='0.00';
       value = this.props.commonProps.convert.convertValue(value,unitType,unit);
     };
     
-    if (value!=='' && !unitType && !unit) {
-      numberFormat='0';
-    }
-
-    if (field === 'tfa')  {
-      numberFormat = '0.00';
-    }
-
-    if (numberFormat && value.formatNumeral) {
+    if (value.formatNumeral) {
       value = value.formatNumeral(numberFormat);
     }
     
