@@ -5,7 +5,10 @@ function parseLatLng( input ) {
 
   if( input.indexOf( 'N' ) === -1 && input.indexOf( 'S' ) === -1 &&
       input.indexOf( 'W' ) === -1 && input.indexOf( 'E' ) === -1 ) {
-      return input.split(',');
+      let coords = input.split(',');
+      coords[0] = parseFloat(coords[0]);
+      coords[1] = parseFloat(coords[1]);
+      return coords;
   }
 
   let parts = input.split(/[°'"]+/).join(' ').split(/[^\w\S]+/);
