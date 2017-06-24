@@ -37,9 +37,20 @@ class AlertDefinition extends Component {
               <h3 className="c-alert-definition-filters-header">Filters</h3>
               <ol>
                 {this.props.alert.filters && this.props.alert.filters.map((filter) => {
-                      return <li key={filter.id}>{this.getFriendlyDataPointName(filter.data_point)} {filter.operator} {filter.threshold} {this.props.alert.filters.length > 1 ? this.props.alert.filter_logic.toLowerCase() : ''}</li>;
+                  return <li key={filter.id}>{this.getFriendlyDataPointName(filter.data_point)} {filter.operator} {filter.threshold} {this.props.alert.filters.length > 1 ? this.props.alert.filter_logic.toLowerCase() : ''}</li>;
                 })}
               </ol>
+            </div>
+            <div className="c-alert-definition-notifications">
+              <h3 className="c-alert-definition-notifications-header">Subscribe</h3>
+              {this.props.alert.alert_notification_types.map((alert_notification_type) => {
+                return (
+                  <div key={alert_notification_type.id} className="c-alert-definition-notification-toggle">
+                    <h4 className="c-alert-definition-notification-type-header">{alert_notification_type.name}</h4>
+                    <Input name="active" type="switch" onLabel="&#8203;" offLabel="&#8203;" value={alert_notification_type.identifier} defaultChecked={alert_notification_type.enabled} onChange={this.props.onSubscribe} />
+                  </div>
+                );
+              })}
             </div>
           </div>
         }
