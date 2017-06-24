@@ -7,7 +7,7 @@ it('initializes to empty pages and not loading', () => {
   expect(initialState.get('isLoading')).toBe(false);
 });
 
-it('maps app sets and apps by id when loaded', () => {
+it('maps dashboards and apps by id when loaded', () => {
   const resultData = fromJS([{
     id: 'ws1',
     apps: [{id: 'w1'}, {id: 'w2'}]
@@ -17,10 +17,10 @@ it('maps app sets and apps by id when loaded', () => {
   }]);
   const state = pagesReducer(
     fromJS({isLoading: true}),
-    {type: actions.FINISH_LOAD, appSets: resultData}
+    {type: actions.FINISH_LOAD, dashboards: resultData}
   );
 
-  expect(state.get('appSets').toJS()).toEqual({
+  expect(state.get('dashboards').toJS()).toEqual({
     ws1: {
       id: 'ws1',
       apps: {w1: {id: 'w1'}, w2: {id: 'w2'}}
