@@ -5,7 +5,7 @@ import * as t from './actions';
 const initialState = Map({
   isNative: false,
   isLoading: false,
-  appSets: Map(),
+  dashboards: Map(),
   pageParams: Map()
 });
 
@@ -16,8 +16,8 @@ function appsById(apps) {
   );
 }
 
-function appSetsById(appSets) {
-  return appSets.reduce(
+function dashboardsById(dashboards) {
+  return dashboards.reduce(
     (res, w) => res.set(w.get('id'), w.update('apps', appsById)),
     Map()
   );
@@ -51,12 +51,12 @@ export default function(state = initialState, action) {
     case t.FINISH_LOAD:
       return state.merge({
         isLoading: false,
-        appSets: appSetsById(action.appSets)
+        dashboards: dashboardsById(action.dashboardsList)
       });
     case t.FINISH_RELOAD:
       return state.merge({
         isLoading: false,
-        appSets: appSetsById(action.appSets)
+        dashboards: dashboardsById(action.dashboardsList)
       });
     case t.SET_PAGE_PARAMS:
       return state.setIn(
@@ -65,28 +65,28 @@ export default function(state = initialState, action) {
       );
     case t.MOVE_APP:
       return state.setIn(
-        ['appSets', action.appSet.get('id'), 'apps', action.id, 'coordinates'],
+        ['dashboards', action.dashboard.get('id'), 'apps', action.id, 'coordinates'],
         Map(action.coordinates)
       );
     case t.UPDATE_APP_SETTINGS:
       return state.setIn(
-        ['appSets', action.appSet.get('id'), 'apps', action.id, 'settings'],
+        ['dashboards', action.dashboard.get('id'), 'apps', action.id, 'settings'],
         action.settings
       );
     case t.ADD_NEW_APP:
       return state.setIn(
-        ['appSets', action.appSet.get('id'), 'newApp'],
-        createApp(action.appType, action.settings, state.getIn(['appSets', action.appSet.get('id')]))
+        ['dashboards', action.dashboard.get('id'), 'newApp'],
+        createApp(action.appType, action.settings, state.getIn(['dashboards', action.dashboard.get('id')]))
       );
     case t.PERSIST_NEW_APP:
       return state
         .setIn(
-          ['appSets', action.appSet.get('id'), 'apps', action.app.get('id')],
+          ['dashboards', action.dashboard.get('id'), 'apps', action.app.get('id')],
           action.app
         )
-        .deleteIn(['appSets', action.appSet.get('id'), 'newApp']);
+        .deleteIn(['dashboards', action.dashboard.get('id'), 'newApp']);
     case t.REMOVE_APP:
-      return state.deleteIn(['appSets', action.appSet.get('id'), 'apps', action.id]);
+      return state.deleteIn(['dashboards', action.dashboard.get('id'), 'apps', action.id]);
     default:
       return state;
   }
