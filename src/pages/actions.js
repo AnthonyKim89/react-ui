@@ -77,7 +77,7 @@ export function updateDashboards(dashboard=null, assetId=null) {
 }
 
 export const UPDATE_APP_SETTINGS = 'UPDATE_APP_SETTINGS';
-export function updatedashboardtings(dashboard, id, settings) {
+export function updateAppSettings(dashboard, id, settings) {
   return (dispatch, getState) => {
     dispatch({type: UPDATE_APP_SETTINGS, dashboard, id, settings});
     const user = login.selectors.currentUser(getState());
@@ -88,9 +88,9 @@ export function updatedashboardtings(dashboard, id, settings) {
 
 export const ADD_NEW_APP = 'ADD_NEW_APP';
 export const PERSIST_NEW_APP = 'PERSIST_NEW_APP';
-export function addApp(dashboard, appType, dashboardtings) {
+export function addApp(dashboard, appType, appSettings) {
   return async (dispatch, getState) => {
-    dispatch({type: ADD_NEW_APP, dashboard, appType, settings: dashboardtings});
+    dispatch({type: ADD_NEW_APP, dashboard, appType, settings: appSettings});
     const user = login.selectors.currentUser(getState());
     const newApp = allDashboards(getState()).getIn([dashboard.get('id'), 'newApp']);
     const persistedApp = await api.createApp(user.get('id'), dashboard.get('id'), newApp);

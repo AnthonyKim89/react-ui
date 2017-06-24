@@ -17,7 +17,7 @@ it('maps dashboards and apps by id when loaded', () => {
   }]);
   const state = pagesReducer(
     fromJS({isLoading: true}),
-    {type: actions.FINISH_LOAD, dashboards: resultData}
+    {type: actions.FINISH_LOAD, dashboardsList: resultData}
   );
 
   expect(state.get('dashboards').toJS()).toEqual({
