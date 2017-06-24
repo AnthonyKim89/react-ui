@@ -115,9 +115,9 @@ class WellTimelineScrollBar extends Component {
   getSeries() {
     let series = [];
     const data = this.props.data.valueSeq().sortBy(x => x.get('timestamp'));
-    data.forEach((value, i) => {
+    data.forEach((value, index) => {
       let point = {
-        timestamp: (i * 21600),//value.get('timestamp')*1000,
+        timestamp: (index * 21600),//value.get('timestamp')*1000,
         actual_timestamp: value.get('timestamp')*1000,
         time: value.get('data').get('time')
       };
