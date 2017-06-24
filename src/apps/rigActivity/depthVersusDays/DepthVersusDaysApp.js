@@ -151,7 +151,7 @@ class DepthVersusDaysApp extends Component {
           depth: point.getIn(['data', 'hole_depth'])
         })
       ));
-      graph_data.splice(0, 0, Map({
+      graph_data.unshift(Map({
           day: 0,
           depth: 0
         }));      
