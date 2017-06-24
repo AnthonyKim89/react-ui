@@ -1,7 +1,7 @@
 import { push } from 'react-router-redux';
 
 import * as api from '../api';
-import { dashboards, allAppSets } from './selectors';
+import { dashboards, allDashboards } from './selectors';
 import login from '../login';
 import subscriptions from '../subscriptions';
 import * as nativeMessages from '../nativeMessages';
@@ -52,7 +52,7 @@ export function start(isNative) {
     dispatch(startLoad(isNative));
     dispatch(subscriptions.actions.connect());
     const user = login.selectors.currentUser(getState());
-    const appSets = await api.getAppSets(user.get('id'));
+    const appSets = await api.getDashboards(user.get('id'));
     dispatch(finishLoad(appSets));
   };
 }
@@ -62,7 +62,7 @@ export function moveApp(appSet, id, coordinates) {
   return (dispatch, getState) => {
     dispatch({type: MOVE_APP, appSet, id, coordinates});
     const user = login.selectors.currentUser(getState());
-    const app = allAppSets(getState()).getIn([appSet.get('id'), 'apps', id]);
+    const app = allDashboards(getState()).getIn([appSet.get('id'), 'apps', id]);
     api.updateApp(user.get('id'), appSet.get('id'), app);
   };
 }
@@ -71,7 +71,7 @@ export const UPDATE_DASHBOARDS = 'UPDATE_DASHBOARDS';
 export function updateDashboards(dashboard=null, assetId=null) {
   return async (dispatch, getState) => {
     const user = login.selectors.currentUser(getState());
-    const appSets = await api.getAppSets(user.get('id'));
+    const appSets = await api.getDashboards(user.get('id'));
     dispatch(finishReload(appSets, dashboard, assetId));
   };
 }
@@ -81,7 +81,7 @@ export function updateAppSettings(appSet, id, settings) {
   return (dispatch, getState) => {
     dispatch({type: UPDATE_APP_SETTINGS, appSet, id, settings});
     const user = login.selectors.currentUser(getState());
-    const app = allAppSets(getState()).getIn([appSet.get('id'), 'apps', id]);
+    const app = allDashboards(getState()).getIn([appSet.get('id'), 'apps', id]);
     api.updateApp(user.get('id'), appSet.get('id'), app);
   };
 }
@@ -92,7 +92,7 @@ export function addApp(appSet, appType, appSettings) {
   return async (dispatch, getState) => {
     dispatch({type: ADD_NEW_APP, appSet, appType, settings: appSettings});
     const user = login.selectors.currentUser(getState());
-    const newApp = allAppSets(getState()).getIn([appSet.get('id'), 'newApp']);
+    const newApp = allDashboards(getState()).getIn([appSet.get('id'), 'newApp']);
     const persistedApp = await api.createApp(user.get('id'), appSet.get('id'), newApp);
     dispatch({type: PERSIST_NEW_APP, appSet, app: persistedApp});
   };

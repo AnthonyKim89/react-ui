@@ -6,7 +6,7 @@ import assets from '../assets';
 
 const stateSelector = state => state[NAME];
 
-export const allAppSets = createSelector(
+export const allDashboards = createSelector(
   stateSelector,
   state => state.get('appSets')
 );

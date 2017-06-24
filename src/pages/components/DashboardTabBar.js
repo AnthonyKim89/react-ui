@@ -132,7 +132,7 @@ class DashboardTabBar extends Component {
         order: i
       };
 
-      await api.putAppSet(userId, dashboardId, dashboard);
+      await api.putDashboard(userId, dashboardId, dashboard);
     }
 
     this.closeSortDialog();
@@ -176,7 +176,7 @@ class DashboardTabBar extends Component {
       let dashboard = {
         name: this.dashboardNameInput.state.value ? this.dashboardNameInput.state.value.trim() : "",
       };
-      response = await api.putAppSet(userId, this.props.currentDashboard.get('id'), dashboard);
+      response = await api.putDashboard(userId, this.props.currentDashboard.get('id'), dashboard);
 
     } else {
       let dashboard = {
@@ -184,8 +184,8 @@ class DashboardTabBar extends Component {
         type: 'dashboard',
         layout: 'grid',
         settings: {},
-        app_set_owner_id: userId,
-        app_set_owner_type: 'User',
+        dashboard_owner_id: userId,
+        dashboard_owner_type: 'User',
         order: this.getNextOrder(),
       };
 
@@ -198,7 +198,7 @@ class DashboardTabBar extends Component {
       }
 
       dashboard.slug = this.getUniqueSlug(dashboard.name);
-      response = await api.postAppSet(userId, dashboard);
+      response = await api.postDashboard(userId, dashboard);
     }
 
     this.closeDashboardDialog();
@@ -208,7 +208,7 @@ class DashboardTabBar extends Component {
   async deleteDashboard() {
     let userId = this.props.currentUser.get('id');
     let dashboardId = this.props.currentDashboard.get('id');
-    await api.deleteAppSet(userId, dashboardId);
+    await api.deleteDashboard(userId, dashboardId);
 
     this.closeDeleteDialog();
     this.props.updateDashboards();
