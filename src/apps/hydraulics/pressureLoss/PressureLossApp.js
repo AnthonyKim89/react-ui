@@ -26,6 +26,7 @@ class PressureLossApp extends Component {
                 pieOptions={this.pieOptions}
                 size={this.props.size}
                 showLegend={true}
+                forceLegend={true}
                 name='Pressure Loss'>
               </PieChart>
             </div>

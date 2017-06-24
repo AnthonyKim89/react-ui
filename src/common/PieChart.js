@@ -43,9 +43,9 @@ class PieChart extends Component {
         }, this.props.pieOptions)
       },
       legend: {
-        align: 'right',
-        verticalAlign: 'top',
-        layout: 'vertical',
+        align: this.props.legendAlign || 'right',
+        verticalAlign: this.props.legendVerticalAlign || 'middle',
+        layout: this.props.legendLayout || 'vertical',
         itemStyle: {color: '#fff'},
         itemHoverStyle:{
           color:'#58c9c2',
@@ -88,10 +88,15 @@ class PieChart extends Component {
   }
 
   isLegendVisible(props) {
-    return props.showLegend && (props.size === Size.LARGE || props.size === Size.XLARGE);
+    return props.forceLegend || (props.showLegend && (props.size === Size.XLARGE));
   }
 
 }
+
+PieChart.defaultProps = {
+  forceLegend: false,
+  showLegend: true
+};
 
 PieChart.propTypes = {
   size: PropTypes.oneOf(values(Size)).isRequired,
@@ -103,6 +108,7 @@ PieChart.propTypes = {
   name: PropTypes.string,
   showTooltipInPercentage: PropTypes.bool,
   showLegend: PropTypes.bool,
+  forceLegend: PropTypes.bool,
   unit: PropTypes.string
 };
 

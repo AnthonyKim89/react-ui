@@ -28,6 +28,8 @@ export const LABELS = {
   bit: 'Bit',
   inside_drillstring: 'Inside Drillstring',
   pdm: 'PDM',
+  pdm_differential_pressure: 'PDM Diff Press',
+  pdm_no_load_pressure_loss: 'PDM No-load Press Loss',
   surface_tools: 'Surface Tools'
 };
 
@@ -37,6 +39,8 @@ export const COLORS = {
   bit: '#909f98',
   inside_drillstring: '#9500b7',
   pdm: '#f70000',
+  pdm_differential_pressure: '#f06246',
+  pdm_no_load_pressure_loss: '#bb3e00',
   surface_tools: '#940000'
 };
 
