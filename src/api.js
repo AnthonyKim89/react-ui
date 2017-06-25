@@ -136,54 +136,54 @@ export async function setAlertSubscription(id, subscription, value) {
   return fromJS(data);
 }
 
-export async function getAppSets(userId) {
-  const data = await get(`/v1/users/${userId}/app_sets`);
+export async function getDashboards(userId) {
+  const data = await get(`/v1/users/${userId}/dashboards`);
   return fromJS(data);
 }
 
-export async function getAppSet(userId, id) {
-  const data = await get(`/v1/users/${userId}/app_sets/${id}`);
+export async function getDashoard(userId, id) {
+  const data = await get(`/v1/users/${userId}/dashboards/${id}`);
   return fromJS(data);
 }
 
-export async function postAppSet(userId, app_set) {
-  if (Map.isMap(app_set)) {
-    app_set = app_set.toJS();
+export async function postDashboard(userId, dashboard) {
+  if (Map.isMap(dashboard)) {
+    dashboard = dashboard.toJS();
   }
-  const data = await post(`/v1/users/${userId}/app_sets`, app_set);
+  const data = await post(`/v1/users/${userId}/dashboards`, dashboard);
   return fromJS(data);
 }
 
-export async function putAppSet(userId, id, app_set) {
-  if (Map.isMap(app_set)) {
-    app_set = app_set.toJS();
+export async function putDashoard(userId, id, dashboard) {
+  if (Map.isMap(dashboard)) {
+    dashboard = dashboard.toJS();
   }
-  const data = await put(`/v1/users/${userId}/app_sets/${id}`, app_set);
+  const data = await put(`/v1/users/${userId}/dashboards/${id}`, dashboard);
   return fromJS(data);
 }
 
-export async function deleteAppSet(userId, id) {
-  const data = await del(`/v1/users/${userId}/app_sets/${id}`);
+export async function deleteDashboard(userId, id) {
+  const data = await del(`/v1/users/${userId}/dashboards/${id}`);
   return fromJS(data);
 }
 
 
 export async function createApp(userId, appSetId, app) {
   return await post(
-    `/v1/users/${userId}/app_sets/${appSetId}/apps`,
+    `/v1/users/${userId}/dashboards/${appSetId}/apps`,
     app.toJS()
   );
 }
 
 export async function updateApp(userId, appSetId, app) {
   return await put(
-    `/v1/users/${userId}/app_sets/${appSetId}/apps/${app.get('id')}`,
+    `/v1/users/${userId}/dashboards/${appSetId}/apps/${app.get('id')}`,
     app.toJS()
   );
 }
 
 export async function deleteApp(userId, appSetId, appId) {
-  return await del(`/v1/users/${userId}/app_sets/${appSetId}/apps/${appId}`);
+  return await del(`/v1/users/${userId}/dashboards/${appSetId}/apps/${appId}`);
 }
 
 export async function getAssets(types = []) {

@@ -6,14 +6,14 @@ import assets from '../assets';
 
 const stateSelector = state => state[NAME];
 
-export const allAppSets = createSelector(
+export const allDashboards = createSelector(
   stateSelector,
-  state => state.get('appSets')
+  state => state.get('dashboards')
 );
 
 export const dashboards = createSelector(
   stateSelector,
-  state => state.get('appSets')
+  state => state.get('dashboards')
     .valueSeq()
     .filter(w => w.get('type') === 'dashboard').sort((a, b) => {
       let ao = a.get("order");
@@ -36,7 +36,7 @@ export const isNative = createSelector(
 
 export const assetDashboards = createSelector(
   stateSelector,
-  state => state.get('appSets')
+  state => state.get('dashboards')
     .valueSeq()
     .filter(w => w.get('type') === 'asset_dashboard').sort((a, b) => {
       let ao = a.get("order");
