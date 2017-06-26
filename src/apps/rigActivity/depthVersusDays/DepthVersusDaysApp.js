@@ -140,22 +140,21 @@ class DepthVersusDaysApp extends Component {
     this.state.rigs.forEach(rig => {
       const asset_id = rig.get('id');
       const title = rig.get('name');
-      const asset_data = this.state.data.filter(x => x.get('asset_id') === asset_id);
+      const asset_data = this.state.data.filter(x => x.get('asset_id') === asset_id).sortBy(x => x.get('timestamp'));
       const first_data = asset_data.sortBy(x => x.get('timestamp')).first();
       if (!first_data) return;
       const start_date = first_data.get('timestamp') - 6*60*60;
-      let graph_data = asset_data.map(x => (
+      let graph_data = asset_data.map((point, index) => (
         Map({
-          day: ((x.get('timestamp') - start_date) / 86400).fixFloat(1),
-          depth: x.getIn(['data', 'hole_depth'])
+          day: ((index * METADATA.collectionFrequency) / 86400).fixFloat(1),
+          actual_day: ((point.get('timestamp') - start_date) / 86400).fixFloat(1),
+          depth: point.getIn(['data', 'hole_depth'])
         })
       ));
-      graph_data = graph_data.push(
-        Map({
+      graph_data.unshift(Map({
           day: 0,
           depth: 0
-        })
-      );
+        }));      
       series.push({
         renderType: 'line',
         key: 'rig' + asset_id,

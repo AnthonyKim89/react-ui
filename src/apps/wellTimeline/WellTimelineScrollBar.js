@@ -59,6 +59,9 @@ class WellTimelineScrollBar extends Component {
             marginRight={20}
             marginTop={0}
             xAxisType="datetime"
+            tooltipFormatter={function() {
+              return `<span style="color:${this.series.color}">\u25CF</span> ${this.series.name}: <b>${this.y}</b><br/>`;
+            }}
             tooltipValueSuffix={" " + this.props.convert.getUnitDisplay("length")}
             yAxisLabelFormatter={this.yAxisLabelFormatter}>
             {Object.keys(SUPPORTED_CHART_SERIES).map(field => (
@@ -111,9 +114,11 @@ class WellTimelineScrollBar extends Component {
 
   getSeries() {
     let series = [];
-    this.props.data.valueSeq().forEach((value) => {
+    const data = this.props.data.valueSeq().sortBy(x => x.get('timestamp'));
+    data.forEach((value, index) => {
       let point = {
-        timestamp: value.get('timestamp')*1000,
+        timestamp: (index * 21600),//value.get('timestamp')*1000,
+        actual_timestamp: value.get('timestamp')*1000,
         time: value.get('data').get('time')
       };
       Object.keys(SUPPORTED_CHART_SERIES).map(field => (
@@ -193,7 +198,7 @@ class WellTimelineScrollBar extends Component {
   getLegendDays(series) {
     let days = [];
     series.valueSeq().forEach((value) => {
-      let date = new Date(value.get('timestamp'));
+      let date = new Date(value.get('actual_timestamp'));
       let day = date.getDate();
       if (!days.includes(day)) {
         days.push(day);
