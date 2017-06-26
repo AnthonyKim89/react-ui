@@ -181,6 +181,7 @@ class AppGridLayout extends Component {
         size={size}
         isNative={this.props.isNative}
         coordinates={coordinates}
+        theme={"black"}
         widthCols={coordinates.get('w')}
         convert={this.props.convert}
         onAssetModified={asset => this.props.onAssetModified(asset)}

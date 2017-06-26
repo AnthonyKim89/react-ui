@@ -30,7 +30,9 @@ export const LABELS = {
   pdm: 'PDM',
   pdm_differential_pressure: 'PDM Diff Press',
   pdm_no_load_pressure_loss: 'PDM No-load Press Loss',
-  surface_tools: 'Surface Tools'
+  surface_tools: 'Surface Tools',
+  mwd: 'MWD',
+  rss: "RSS"
 };
 
 export const COLORS = {
@@ -41,7 +43,9 @@ export const COLORS = {
   pdm: '#f70000',
   pdm_differential_pressure: '#f06246',
   pdm_no_load_pressure_loss: '#bb3e00',
-  surface_tools: '#940000'
+  surface_tools: '#940000',
+  mwd: '#2daf8f',
+  rss: "#e90eb8"
 };
 
 export const DISPLAY_FORMATS = [
