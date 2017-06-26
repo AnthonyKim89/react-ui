@@ -87,9 +87,9 @@ export function lastDataUpdate(appData) {
         return d.get('timestamp');
       } else if (List.isList(d)) {
         if (d.first().get('timestamp') > d.last().get('timestamp')) {
-          return d.first().get('timestamp')
+          return d.first().get('timestamp');
         } else {
-          return d.last().get('timestamp')
+          return d.last().get('timestamp');
         }
       }
       return null;
