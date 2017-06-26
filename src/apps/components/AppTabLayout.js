@@ -86,6 +86,7 @@ class AppTabLayout extends Component {
                          onAppSettingsUpdate={(settings) => this.props.onAppSettingsUpdate(id, settings)}>
       {!errorData && <appType.AppComponent
         data={appData}
+        params={this.props.params}
         asset={this.props.appAssets.get(id)}
         {...this.getPageParams().toJS()}
         {...settings.toObject()}

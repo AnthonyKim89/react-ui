@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { identity } from 'lodash';
 import { NAME } from './constants';
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 
 const stateSelector = state => state[NAME];
 
@@ -76,29 +76,25 @@ export function lastDataUpdate(appData) {
   if (!appData) {
     return null;
   }
-  let date = appData
+
+  return appData
     .valueSeq()
     .map(collection => collection.valueSeq())
-      .last()
-      .flatten(1)
-      .map(d => d.get('timestamp'))
+    .last()
+    .flatten(1)
+    .map((d) => {
+      if (Map.isMap(d)) {
+        return d.get('timestamp');
+      } else if (List.isList(d)) {
+        if (d.first().get('timestamp') > d.last().get('timestamp')) {
+          return d.first().get('timestamp');
+        } else {
+          return d.last().get('timestamp');
+        }
+      }
+      return null;
+    })
     .flatten()
     .filter(identity)
     .max();
-
-    // When there is an array of results we must use a different selector
-    if(!date) {
-      date = appData
-        .valueSeq()
-        .map(collection => collection.valueSeq())
-          .last()
-          .flatten(1)
-          .last()
-          .map(d => d.get('timestamp'))
-        .flatten()
-        .filter(identity)
-        .max();
-    }
-
-  return date;
 }

@@ -174,6 +174,7 @@ class AppGridLayout extends Component {
                          onAppSettingsUpdate={(settings) => this.props.onAppSettingsUpdate(id, settings)}>
       {!errorData && <appType.AppComponent
         data={appData}
+        params={this.props.params}
         asset={this.props.appAssets.get(id)}
         assetDashboards={this.props.assetDashboards}
         {...this.getPageParams().toJS()}
