@@ -55,13 +55,13 @@ class TracesApp extends Component {
 
   preloadInitialSliderData() {
     let params = fromJS({
-      asset_id: this.props.asset.get('id'),
+      asset_id: this.props.params.assetId,
       sort: '{timestamp:1}',
       limit: 5000,
       fields: 'timestamp,data.hole_depth,data.bit_depth',
     });
 
-    api.getAppStorage('corva', 'wits.summary-30m', this.props.asset.get('id'), params).then((result) => {
+    api.getAppStorage('corva', 'wits.summary-30m', this.props.params.assetId, params).then((result) => {
       if (this.summaryData.size === 0) {
         this.sliderData = result;
         this.forceUpdate();
@@ -301,7 +301,7 @@ class TracesApp extends Component {
     this.fineData.end = endTS;
 
     let params = fromJS({
-      'asset_id': this.props.asset.get('id'),
+      'asset_id': this.props.params.assetId,
       'where': `{this.timestamp >= ${Math.round(startTS)} && this.timestamp <= ${Math.round(endTS)}}`,
       'limit': 525600, // This is a year's worth of minutes. We're required to include a limit.
     });
@@ -310,7 +310,7 @@ class TracesApp extends Component {
       return [];
     }
 
-    let result = await api.getAppStorage('corva', 'wits.summary-1m', this.props.asset.get('id'), params);
+    let result = await api.getAppStorage('corva', 'wits.summary-1m', this.props.params.assetId, params);
     this.fineData.data = result.reverse();
 
     if (this.fineData.data.size === 0) {
