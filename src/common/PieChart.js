@@ -88,7 +88,7 @@ class PieChart extends Component {
   }
 
   isLegendVisible(props) {
-    return props.forceLegend || (props.showLegend && (props.size === Size.XLARGE));
+    return props.forceLegend || (props.showLegend && props.size === Size.XLARGE);
   }
 
 }
