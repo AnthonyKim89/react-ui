@@ -9,14 +9,21 @@ import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 import ContentSave from 'material-ui/svg-icons/content/save';
 import ContentClear from 'material-ui/svg-icons/content/clear';
+import { DateTimePicker } from 'react-widgets';
 import moment from 'moment';
+import momentLocalizer from 'react-widgets/lib/localizers/moment';
 
+import 'react-widgets/dist/css/react-widgets.css';
 import './CostsItem.css';
+
+momentLocalizer(moment);
 
 class CostsItem extends Component { 
   constructor(props) {
     super(props);
+
     const record = props.record;
+    
     this.state = {
       data: {
         date: record.getIn(["data","date"])? moment.unix(record.getIn(["data","date"])) : moment(),
@@ -39,31 +46,34 @@ class CostsItem extends Component {
   render() {
 
     let {date,cost,description} = this.state.data;
-    const today = new Date();
+    let objDate = moment(date, 'MM/DD/YYYY').toDate();
+
     const objTableRowStyle = {height: '70px'};
 
-    if (!this.state.editing) return (
-      <TableRow className="c-costs-item" style={objTableRowStyle}>
-        <TableRowColumn className="c-costs__date-column">{date.format('L')}</TableRowColumn>
-        <TableRowColumn className="c-costs__cost-column">{parseFloat(cost).formatNumeral('0,0.00')}</TableRowColumn>
-        <TableRowColumn className="c-costs__description-column hide-on-med-and-down">{description}</TableRowColumn>
-        <TableRowColumn className="c-costs__action-column hide-on-med-and-down">
-          <FloatingActionButton className="view-action" mini={true} onClick={() => this.setState({editing: true})}>
-            <EditorModeEdit />
-          </FloatingActionButton>
-          <FloatingActionButton className="view-action" mini={true} secondary={true} onClick={() => this.remove()}>
-            <ContentRemove />
-          </FloatingActionButton>
-        </TableRowColumn>
-      </TableRow>
-    );
+    if (!this.state.editing) {
+      return (
+        <TableRow className="c-costs-item" style={objTableRowStyle}>
+          <TableRowColumn className="c-costs__date-column">{date.format('L')}</TableRowColumn>
+          <TableRowColumn className="c-costs__cost-column">{parseFloat(cost).formatNumeral('0,0.00')}</TableRowColumn>
+          <TableRowColumn className="c-costs__description-column hide-on-med-and-down">{description}</TableRowColumn>
+          <TableRowColumn className="c-costs__action-column hide-on-med-and-down">
+            <FloatingActionButton className="view-action" mini={true} onClick={() => this.setState({editing: true})}>
+              <EditorModeEdit />
+            </FloatingActionButton>
+            <FloatingActionButton className="view-action" mini={true} secondary={true} onClick={() => this.remove()}>
+              <ContentRemove />
+            </FloatingActionButton>
+          </TableRowColumn>
+        </TableRow>
+      );
+    }
 
     return (
       <TableRow className="c-costs-item" style={objTableRowStyle}>
-        <TableRowColumn className="c-costs__date-column">
-          <DatePicker name="costs_date" value={today} onChange={this.selectDate}/>
+        <TableRowColumn className="c-costs__date-column c-costs__item-editing">
+          <DateTimePicker name="costs_date" className="c-costs__date-picker" time={false} defaultValue={objDate} onChange={this.selectDate}/>
         </TableRowColumn>
-        <TableRowColumn className="c-costs__cost-column">
+        <TableRowColumn className="c-costs__cost-column c-costs__item-editing">
           <TextField type="number" 
             hintText="cost"
             floatingLabelText="cost"
@@ -73,7 +83,7 @@ class CostsItem extends Component {
             onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{cost:e.target.value})} )} />
         </TableRowColumn>
-        <TableRowColumn className="c-costs__description-column hide-on-med-and-down">
+        <TableRowColumn className="c-costs__description-column c-costs__item-editing hide-on-med-and-down">
           <TextField type="text" 
             hintText="description"
             floatingLabelText="description"
@@ -82,7 +92,7 @@ class CostsItem extends Component {
             onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{description: e.target.value})} )} />
         </TableRowColumn>
-        <TableRowColumn className="c-costs__action-column hide-on-med-and-down">
+        <TableRowColumn className="c-costs__action-column c-costs__item-editing hide-on-med-and-down">
           <FloatingActionButton className="view-action" mini={true} onClick={()=>this.save()}>
             <ContentSave />
           </FloatingActionButton>

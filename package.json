@@ -51,6 +51,7 @@
     "react-router-redux": "^4.0.8",
     "react-s3-uploader": "^4.0.3",
     "react-sortable-hoc": "^0.6.2",
+    "react-widgets": "^3.4.8",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
     "reselect": "^2.5.4",

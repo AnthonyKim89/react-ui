@@ -14,23 +14,35 @@
   margin-top: 0px;
 }
 
-.c-costs table th {
+.c-costs .c-costs__costs-table > thead > tr > th {
   color: white !important;
   font-weight: bold !important;
   font-size: 14px !important;
 }
 
-.c-costs table th,
-.c-costs table td {
+.c-costs .c-costs__costs-table > thead > tr >  th,
+.c-costs table.c-costs__costs-table > tbody > tr >  td:not(.c-costs__item-editing) {
   margin: 0px;
   padding: 15px 5px !important;
 }
 
-.c-costs__date-column, .c-costs__cost-column, .c-costs__action-column {
+.c-costs table.c-costs__costs-table > tbody > tr >  td.c-costs__item-editing {
+  margin: 0px;
+  padding: 0px 5px 5px 5px !important;
+}
+
+.c-costs .c-costs__costs-table .c-costs__date-column,
+.c-costs .c-costs__costs-table .c-costs__cost-column,
+.c-costs .c-costs__costs-table .c-costs__action-column {
   width: 20%;
 }
-.c-costs__description-column {
+
+.c-costs .c-costs__costs-table .c-costs__description-column {
   width: 40%;
+}
+
+.c-costs .c-costs__costs-table .c-costs__date-column {
+  overflow: visible !important;
 }
 
 .c-costs__no-data {

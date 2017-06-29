@@ -27,3 +27,16 @@
 .c-costs-item .input-field.col label:after{
   top:40px;
 }
+
+.c-costs__date-picker {
+  margin-top: 30px;
+}
+
+.c-costs__date-picker td,
+.c-costs__date-picker th {
+  padding: 0px;
+}
+
+.c-costs__date-picker input.rw-input {
+  margin: 0px;
+}
