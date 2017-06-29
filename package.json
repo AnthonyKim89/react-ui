@@ -24,6 +24,7 @@
     "immutable": "^3.8.1",
     "lodash": "^4.17.4",
     "mapbox.js": "^3.0.1",
+    "material-ui": "^0.18.4",
     "materialize-css": "0.98.0",
     "moment": "^2.18.1",
     "moment-timezone": "^0.5.13",

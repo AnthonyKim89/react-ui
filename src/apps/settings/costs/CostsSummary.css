@@ -1,9 +1,15 @@
 .c-costs-summary {
-  background-color: rgb(42, 41, 41);
+  /*background-color: rgb(42, 41, 41);*/
   margin: 10px 0;
   padding: 10px 0;
 }
 
-.c-costs-summary table {
-	overflow-x: visible;
+.c-costs-summary table tr td {
+	/*overflow-x: visible;*/
+	padding: 10px 0px 20px;
+}
+
+.c-costs-summary table tr td p,
+.c-costs-summary table tr td h4 {
+	text-align: center;
 }

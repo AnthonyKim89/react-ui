@@ -7,18 +7,15 @@
 }
 
 .c-costs-item .view-action {
-  display:none;
+  display: none !important;
+  margin: 0px 5px;
 }
 
 .c-costs-item:hover .view-action {
-  display: inline;  
+  display: inline !important;  
 }
 
-.c-costs-item button {
-  margin-left: 10px;
-}
-
- .c-costs-item .input-field{
+.c-costs-item .input-field{
   margin-top: 0px;
 }
 
@@ -29,11 +26,4 @@
 
 .c-costs-item .input-field.col label:after{
   top:40px;
-}
-
-.c-costs-item td {
-  border-radius: 0px;
-  padding-top:12px;
-  padding-bottom:12px;
-  height:65px;
 }

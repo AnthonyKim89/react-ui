@@ -1,11 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Input, Button} from 'react-materialize';
+import DatePicker from 'material-ui/DatePicker';
+import TextField from 'material-ui/TextField';
+import { TableRow, TableRowColumn } from 'material-ui/Table';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
+import ContentRemove from 'material-ui/svg-icons/content/remove';
+import ContentSave from 'material-ui/svg-icons/content/save';
+import ContentClear from 'material-ui/svg-icons/content/clear';
 import moment from 'moment';
-
-import Datetime from 'react-datetime';
-import 'react-datetime/css/react-datetime.css';
 
 import './CostsItem.css';
 
@@ -35,52 +39,58 @@ class CostsItem extends Component {
   render() {
 
     let {date,cost,description} = this.state.data;
+    const today = new Date();
+    const objTableRowStyle = {height: '70px'};
 
     if (!this.state.editing) return (
-      <tr className="c-costs-item">
-        <td>{date.format('L')}</td>
-        <td>{parseFloat(cost).formatNumeral('0,0.00')}</td>
-        <td className="hide-on-med-and-down">{description}</td>
-        <td className="hide-on-med-and-down">
-          <Button floating className='lightblue view-action' waves='light' icon='edit'
-                  onClick={() => this.setState({editing: true})}/>
-          <Button floating className='red view-action' waves='light' icon='remove' onClick={() => this.remove()}/>
-        </td>
-      </tr>
+      <TableRow className="c-costs-item" style={objTableRowStyle}>
+        <TableRowColumn className="c-costs__date-column">{date.format('L')}</TableRowColumn>
+        <TableRowColumn className="c-costs__cost-column">{parseFloat(cost).formatNumeral('0,0.00')}</TableRowColumn>
+        <TableRowColumn className="c-costs__description-column hide-on-med-and-down">{description}</TableRowColumn>
+        <TableRowColumn className="c-costs__action-column hide-on-med-and-down">
+          <FloatingActionButton className="view-action" mini={true} onClick={() => this.setState({editing: true})}>
+            <EditorModeEdit />
+          </FloatingActionButton>
+          <FloatingActionButton className="view-action" mini={true} secondary={true} onClick={() => this.remove()}>
+            <ContentRemove />
+          </FloatingActionButton>
+        </TableRowColumn>
+      </TableRow>
     );
 
     return (
-      <tr className="c-costs-item">
-        <td>
-          <Datetime 
-            defaultValue={date} 
-            onChange={this.selectDate} 
-            timeFormat={false}/>
-        </td>
-        <td>
-          <Input type="number" 
-            s={12}
-            label="cost"
-            error={this.state.errors.cost}
+      <TableRow className="c-costs-item" style={objTableRowStyle}>
+        <TableRowColumn className="c-costs__date-column">
+          <DatePicker name="costs_date" value={today} onChange={this.selectDate}/>
+        </TableRowColumn>
+        <TableRowColumn className="c-costs__cost-column">
+          <TextField type="number" 
+            hintText="cost"
+            floatingLabelText="cost"
+            errorText={this.state.errors.cost}
             ref="cost"
             defaultValue={cost}
             onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{cost:e.target.value})} )} />
-        </td>
-        <td className="hide-on-med-and-down">
-          <Input type="text" 
-            s={12}
-            label="description"
+        </TableRowColumn>
+        <TableRowColumn className="c-costs__description-column hide-on-med-and-down">
+          <TextField type="text" 
+            hintText="description"
+            floatingLabelText="description"
             ref="description"
             defaultValue={description}
             onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{description: e.target.value})} )} />
-        </td>
-        <td className="hide-on-med-and-down">
-          <Button floating className='lightblue' waves='light' icon='save' onClick={()=>this.save()} />
-          <Button floating className='red' waves='light' icon='cancel' onClick={()=>this.cancelEdit()} />
-        </td>
-      </tr>
+        </TableRowColumn>
+        <TableRowColumn className="c-costs__action-column hide-on-med-and-down">
+          <FloatingActionButton className="view-action" mini={true} onClick={()=>this.save()}>
+            <ContentSave />
+          </FloatingActionButton>
+          <FloatingActionButton className="view-action" mini={true} secondary={true} onClick={()=>this.cancelEdit()}>
+            <ContentClear />
+          </FloatingActionButton>
+        </TableRowColumn>
+      </TableRow>
     );
   }
 
@@ -88,8 +98,18 @@ class CostsItem extends Component {
   handleKeyPress(e) {
     if (e.key === 'Enter') {
       this.save(true);
-    }
+    } 
   }
+
+  /*handleKeyDown(e) {
+    var nKeyCode = e.keyCode || e.charCode;
+    var strCurrentValue = e.target.value;
+
+    if( nKeyCode == 8 && strCurrentValue.indexOf('.') !== -1 && strCurrentValue.indexOf('.') === strCurrentValue.length - 2) {
+      e.preventDefault();
+      e.target.value = strCurrentValue.slice(0, -2);
+    }
+  }*/
 
   save(byKeyBoard) {
     let {date,cost,description} = this.state.data;
