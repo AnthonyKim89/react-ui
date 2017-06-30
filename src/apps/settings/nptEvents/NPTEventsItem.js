@@ -45,7 +45,6 @@ class NPTEventsItem extends Component {
     let {start_time, end_time, depth, type, comment} = this.state.data;
     
     const objStartDateTime = moment(start_time, "YYYY-MM-DDTHH:mm");
-    const objEndDateTime = moment(end_time, "YYYY-MM-DDTHH:mm");
 
     const objTableRowStyle = {height: '70px'};
 
@@ -75,7 +74,8 @@ class NPTEventsItem extends Component {
           <TextField type="datetime-local" 
             floatingLabelText="Start Time"
             errorText={this.state.errors["start_time"]}
-            defaultValue={start_time}
+            value={start_time}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={this.startTimeChanged} />
         </TableRowColumn>
 
@@ -83,17 +83,10 @@ class NPTEventsItem extends Component {
           <TextField type="datetime-local" 
             floatingLabelText="End Time"
             errorText={this.state.errors["end_time"]}
-            defaultValue={end_time}
+            value={end_time}
+            onKeyPress={this.handleKeyPress.bind(this)}
             onChange={this.endTimeChanged} />
-          {
-            // this.state.errors["date range"] ? 
-            // <div className='c-npt-item__error-wrapper'>
-            //   <Datetime defaultValue={end_time} onChange={this.endTimeChanged} />
-            //     <label> {this.state.errors["date range"]} </label> 
-            // </div> :
-
-            // <Datetime defaultValue={end_time} onChange={this.endTimeChanged} />
-          }
+         
         </TableRowColumn>
 
         <TableRowColumn className="c-npt__depth-column hide-on-med-and-down">
@@ -102,7 +95,7 @@ class NPTEventsItem extends Component {
             floatingLabelText="Depth"
             errorText={this.state.errors.depth}
             ref="depth"
-            defaultValue={depth? this.props.convert.convertValue(parseFloat(depth), "length", "ft").formatNumeral('0.00') : depth}
+            value={depth? this.props.convert.convertValue(parseFloat(depth), "length", "ft").formatNumeral('0.00') : depth}
             onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{depth:e.target.value})} )} />
         </TableRowColumn>
@@ -110,7 +103,7 @@ class NPTEventsItem extends Component {
         <TableRowColumn className="c-npt__comment-column c-npt__type-column">
           <SelectField
             floatingLabelText="Type"
-            defaultValue={type}
+            value={type}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{type: e.target.value})} )}
           >
             <MenuItem value="" primaryText="Select Type"/>
@@ -165,13 +158,13 @@ class NPTEventsItem extends Component {
     let errors = {};
     let strToday = moment(new Date()).format("YYYY-MM-DDTHH:mm");
 
-    let matches = start_time.match(/^(\d{4})\-(\d{2})\-(\d{2})T(\d{2}):(\d{2})$/);
+    let matches = start_time.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/g);
     if (!matches) {
       errors["start_time"] = "e.g. " + strToday;
       hasErrors = true;
     }
 
-    matches = end_time.match(/^(\d{4})\-(\d{2})\-(\d{2})T(\d{2}):(\d{2})$/);
+    matches = end_time.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/g);
     if (!matches) {
       errors["end_time"] = "e.g. " + strToday;
       hasErrors = true;
@@ -185,7 +178,7 @@ class NPTEventsItem extends Component {
       hasErrors = true;
     }
 
-    if (isNaN(parseFloat(depth)) || parseFloat(depth) <=0 ) {
+    if (isNaN(parseFloat(depth)) || parseFloat(depth) <= 0 ) {
       errors["depth"] = "Invalid number.";
       hasErrors = true;
     }
