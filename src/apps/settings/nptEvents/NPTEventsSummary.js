@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Table, Button } from 'react-materialize';
+import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 import moment from 'moment';
 
 import './NPTEventsSummary.css';
@@ -10,21 +12,23 @@ class NPTEventsSummary extends Component {
     return (
       <div className="c-npt-summary">
         <Table centered={true} responsive={true}>
-          <tbody>
-            <tr>
-              <td>
-                Events
+          <TableBody displayRowCheckbox={false}>
+            <TableRow>
+              <TableRowColumn>
+                <p>Events</p>
                 <h4>{this.props.records.size}</h4>
-              </td>
-              <td>
-                NPT Time 
+              </TableRowColumn>
+              <TableRowColumn>
+                <p>NPT Time</p>
                 <h4>{this.getTotalNPTTime()}</h4>
-              </td>
-              <td>
-                <Button floating large className='lightblue' waves='light' icon='add' onClick={this.props.onAdd} />
-              </td>
-            </tr>
-          </tbody>
+              </TableRowColumn>
+              <TableRowColumn style={{textAlign: 'center'}}>
+                <FloatingActionButton onClick={this.props.onAdd}>
+                  <ContentAdd />
+                </FloatingActionButton>
+              </TableRowColumn>
+            </TableRow>
+          </TableBody>
         </Table>
       </div>
     );    

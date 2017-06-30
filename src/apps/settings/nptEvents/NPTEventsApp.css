@@ -14,12 +14,28 @@
   margin-bottom:0px;
 }
 
+.c-npt .c-npt__npt-table > thead > tr > th {
+  color: white !important;
+  font-weight: bold !important;
+  font-size: 14px !important;
+}
 
-.c-npt__comment-header, .c-npt__action-header ,.c-npt__depth-header , .c-npt__type-header{
+.c-npt .c-npt__npt-table > thead > tr >  th,
+.c-npt .c-npt__npt-table > tbody > tr >  td:not(.c-npt__item-editing) {
+  margin: 0px;
+  padding: 15px 5px !important;
+}
+
+.c-npt .c-npt__npt-table > tbody > tr >  td.c-npt__item-editing {
+  margin: 0px;
+  padding: 0px 5px 5px 5px !important;
+}
+
+.c-npt__comment-column, .c-npt__action-column ,.c-npt__depth-column , .c-npt__type-column{
   width: 15%;
 }
 
-.c-npt__starttime-header, .c-npt__endtime-header{
+.c-npt__starttime-column, .c-npt__endtime-column{
   width: 20%;
 }
 
@@ -45,12 +61,16 @@
   text-align: center;
 }
 
+.c-npt__btn-add {
+  margin: 15px 5px;
+}
+
 @media(max-width: 768px) {
   .c-npt {
     padding:0px;
   }
 
-  .c-npt__endtime-header, .c-npt__type-header {
+  .c-npt__endtime-column, .c-npt__type-column {
     width: 50%;
   }
   

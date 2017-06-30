@@ -7,11 +7,12 @@
 }
 
 .c-npt-item .view-action {
-  display:none;
+  display: none !important;
+  margin: 0px 5px;
 }
 
 .c-npt-item:hover .view-action {
-  display: inline;  
+  display: inline !important;
 }
 
 .c-npt-item button {

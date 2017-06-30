@@ -1,10 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Input, Button} from 'react-materialize';
+import TextField from 'material-ui/TextField';
+import { TableRow, TableRowColumn } from 'material-ui/Table';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
+import ContentRemove from 'material-ui/svg-icons/content/remove';
+import ContentSave from 'material-ui/svg-icons/content/save';
+import ContentClear from 'material-ui/svg-icons/content/clear';
 import moment from 'moment';
-import Datetime from 'react-datetime';
-import 'react-datetime/css/react-datetime.css';
 
 import './NPTEventsItem.css';
 
@@ -12,10 +18,11 @@ class NPTEventsItem extends Component {
   constructor(props) {
     super(props);
     const record = props.record;
+    console.log('record', record.getIn(["data","end_time"]));
     this.state = {
       data: {
-        start_time: record.getIn(["data","start_time"])? moment.unix(record.getIn(["data","start_time"])): moment(),
-        end_time: record.getIn(["data","end_time"])? moment.unix(record.getIn(["data","end_time"])): moment(),
+        start_time: record.getIn(["data","start_time"])? moment.unix(record.getIn(["data","start_time"])).format("YYYY-MM-DDTHH:mm") : moment().format("YYYY-MM-DDTHH:mm"),
+        end_time: record.getIn(["data","end_time"])? moment.unix(record.getIn(["data","end_time"])).format("YYYY-MM-DDTHH:mm") : moment().format("YYYY-MM-DDTHH:mm"),
         depth: record.getIn(["data","depth"]),
         type: record.getIn(["data","type"]) || "",
         comment: record.getIn(["data","comment"]) || ""
@@ -35,91 +42,114 @@ class NPTEventsItem extends Component {
   }
 
   render() {
+    let {start_time, end_time, depth, type, comment} = this.state.data;
+    
+    const objStartDateTime = moment(start_time, "YYYY-MM-DDTHH:mm");
+    const objEndDateTime = moment(end_time, "YYYY-MM-DDTHH:mm");
 
-    let {start_time,end_time,depth,type,comment} = this.state.data;
+    const objTableRowStyle = {height: '70px'};
 
     if (!this.state.editing) return (
-      <tr className="c-npt-item">
-        <td className="hide-on-med-and-down">{start_time.format('LLL')}</td>
-        <td>
+      <TableRow className="c-npt-item" style={objTableRowStyle}>
+        <TableRowColumn className="c-npt__starttime-column hide-on-med-and-down">{objStartDateTime.format('LLL')}</TableRowColumn>
+        <TableRowColumn className="c-npt__endtime-column">
           {this.getTimeDiff()}
-        </td>
-        <td className="hide-on-med-and-down">{this.props.convert.convertValue(parseFloat(depth), "length", "ft").formatNumeral('0,0.00')}</td>
-        <td>{type}</td>
-        <td className="hide-on-med-and-down">{comment}</td>
-        <td className="hide-on-med-and-down">
-          <Button floating className='lightblue view-action' waves='light' icon='edit'
-                  onClick={() => this.setState({editing: true})}/>
-          <Button floating className='red view-action' waves='light' icon='remove' onClick={() => this.remove()}/>
-        </td>
-      </tr>
+        </TableRowColumn>
+        <TableRowColumn className="c-npt__depth-column hide-on-med-and-down">{this.props.convert.convertValue(parseFloat(depth), "length", "ft").formatNumeral('0,0.00')}</TableRowColumn>
+        <TableRowColumn className="c-npt__type-column">{type}</TableRowColumn>
+        <TableRowColumn className="c-npt__comment-column hide-on-med-and-down">{comment}</TableRowColumn>
+        <TableRowColumn className="c-npt__action-column hide-on-med-and-down">
+          <FloatingActionButton className="view-action" mini={true} onClick={() => this.setState({editing: true})}>
+            <EditorModeEdit />
+          </FloatingActionButton>
+          <FloatingActionButton className="view-action" mini={true} secondary={true} onClick={() => this.remove()}>
+            <ContentRemove />
+          </FloatingActionButton>
+        </TableRowColumn>
+      </TableRow>
     );
 
     return (
-      <tr className="c-npt-item">
-        <td className="hide-on-med-and-down">
-           <Datetime defaultValue={start_time} onChange={this.startTimeChanged} />
-        </td>
+      <TableRow className="c-npt-item">
+        <TableRowColumn className="c-npt__starttime-column hide-on-med-and-down">
+          <TextField type="datetime-local" 
+            floatingLabelText="Start Time"
+            errorText={this.state.errors["start_time"]}
+            defaultValue={start_time}
+            onChange={this.startTimeChanged} />
+        </TableRowColumn>
 
-        <td>
-          {this.state.errors["date range"]? 
-            <div className='c-npt-item__error-wrapper'>
-              <Datetime defaultValue={end_time} onChange={this.endTimeChanged} />
-                <label> {this.state.errors["date range"]} </label> 
-            </div> :
+        <TableRowColumn className="c-npt__endtime-column">
+          <TextField type="datetime-local" 
+            floatingLabelText="End Time"
+            errorText={this.state.errors["end_time"]}
+            defaultValue={end_time}
+            onChange={this.endTimeChanged} />
+          {
+            // this.state.errors["date range"] ? 
+            // <div className='c-npt-item__error-wrapper'>
+            //   <Datetime defaultValue={end_time} onChange={this.endTimeChanged} />
+            //     <label> {this.state.errors["date range"]} </label> 
+            // </div> :
 
-            <Datetime defaultValue={end_time} onChange={this.endTimeChanged} />
+            // <Datetime defaultValue={end_time} onChange={this.endTimeChanged} />
           }
-        </td>
+        </TableRowColumn>
 
-        <td className="hide-on-med-and-down">          
-          <Input type="number" 
-            s={12}
-            label="Depth"
-            error={this.state.errors.depth}
+        <TableRowColumn className="c-npt__depth-column hide-on-med-and-down">
+          <TextField type="number" 
+            hintText="Depth"
+            floatingLabelText="Depth"
+            errorText={this.state.errors.depth}
             ref="depth"
             defaultValue={depth? this.props.convert.convertValue(parseFloat(depth), "length", "ft").formatNumeral('0.00') : depth}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{depth: parseFloat(e.target.value)})} )} />
-        </td>
+            onChange={e => this.setState({data: Object.assign({},this.state.data,{depth:e.target.value})} )} />
+        </TableRowColumn>
 
-        <td>
-          <Input type="select" 
-            s={12}
+        <TableRowColumn className="c-npt__comment-column c-npt__type-column">
+          <SelectField
+            floatingLabelText="Type"
             defaultValue={type}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{type: e.target.value})} )} >
-            <option value="">Select Type</option>
-            <option value="bit failure">bit failure</option>
-            <option value="motor failure">motor failure</option>
-            <option value="top drive failure">top drive failure</option>
-            <option value="pump failure">pump failure</option>
-            <option value="stuck drill pipe">stuck drill pipe</option>
-            <option value="stuck casing">stuck casing</option>
-            <option value="packoff">packoff</option>
-            <option value="washout">washout</option>
-            <option value="failed to reach build rate">failed to reach build rate</option>
-            <option value="MWD failure">MWD failure</option>
-            <option value="BOP issue">BOP issue</option>
-            <option value="weather delay">weather delay</option>
-            <option value="rig service">rig service</option>
-            <option value="geological sidetrack">geological sidetrack</option>
-            <option value="other">other</option>
-          </Input>
-        </td>
+            onChange={e => this.setState({data: Object.assign({},this.state.data,{type: e.target.value})} )}
+          >
+            <MenuItem value="" primaryText="Select Type"/>
+            <MenuItem value="bit failure" primaryText="bit failure"/>
+            <MenuItem value="motor failure" primaryText="motor failure"/>
+            <MenuItem value="top drive failure" primaryText="top drive failure"/>
+            <MenuItem value="pump failure" primaryText="pump failure"/>
+            <MenuItem value="stuck drill pipe" primaryText="stuck drill pipe"/>
+            <MenuItem value="stuck casing" primaryText="stuck casing"/>
+            <MenuItem value="packoff" primaryText="packoff"/>
+            <MenuItem value="washout" primaryText="washout"/>
+            <MenuItem value="failed to reach build rate" primaryText="failed to reach build rate"/>
+            <MenuItem value="MWD failure" primaryText="MWD failure"/>
+            <MenuItem value="BOP issue" primaryText="BOP issue"/>
+            <MenuItem value="weather delay" primaryText="weather delay"/>
+            <MenuItem value="rig service" primaryText="rig service"/>
+            <MenuItem value="geological sidetrack" primaryText="geological sidetrack"/>
+            <MenuItem value="other" primaryText="other"/>
+          </SelectField>
+        </TableRowColumn>
 
-        <td className="hide-on-med-and-down">
-          <Input type="text" 
-            s={12}
+        <TableRowColumn className="c-npt__comment-column hide-on-med-and-down">
+          <TextField type="text" 
+            hintText="comment"
+            floatingLabelText="comment"
             defaultValue={comment}
             onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{comment: e.target.value})} )} />
-        </td>
+        </TableRowColumn>
 
-        <td className="hide-on-med-and-down">
-          <Button floating className='lightblue' waves='light' icon='save' onClick={()=>this.save()} />
-          <Button floating className='red' waves='light' icon='cancel' onClick={()=>this.cancelEdit()} />
-        </td>
-      </tr>
+        <TableRowColumn className="c-npt__action-column hide-on-med-and-down">
+          <FloatingActionButton className="view-action" mini={true} onClick={()=>this.save()}>
+            <ContentSave />
+          </FloatingActionButton>
+          <FloatingActionButton className="view-action" mini={true} secondary={true} onClick={()=>this.cancelEdit()}>
+            <ContentClear />
+          </FloatingActionButton>
+        </TableRowColumn>
+      </TableRow>
     );
   }
 
@@ -130,11 +160,28 @@ class NPTEventsItem extends Component {
   }
 
   save(byKeyBoard) {
-    let {start_time,end_time,depth,type,comment} = this.state.data;
+    let {start_time, end_time, depth, type, comment} = this.state.data;
     let hasErrors = false;
     let errors = {};
-    if (start_time.unix() > end_time.unix()) {
-      errors["date range"] = "Invalid end time.";
+    let strToday = moment(new Date()).format("YYYY-MM-DDTHH:mm");
+
+    let matches = start_time.match(/^(\d{4})\-(\d{2})\-(\d{2})T(\d{2}):(\d{2})$/);
+    if (!matches) {
+      errors["start_time"] = "e.g. " + strToday;
+      hasErrors = true;
+    }
+
+    matches = end_time.match(/^(\d{4})\-(\d{2})\-(\d{2})T(\d{2}):(\d{2})$/);
+    if (!matches) {
+      errors["end_time"] = "e.g. " + strToday;
+      hasErrors = true;
+    }
+
+    const objStartDateTime = moment(start_time, "YYYY-MM-DDTHH:mm");
+    const objEndDateTime = moment(end_time, "YYYY-MM-DDTHH:mm");
+
+    if (!hasErrors && objStartDateTime.unix() > objEndDateTime.unix()) {
+      errors["end_time"] = "Invalid end time.";
       hasErrors = true;
     }
 
@@ -152,11 +199,11 @@ class NPTEventsItem extends Component {
     }
 
     const record = this.props.record.update('data',(oldMap) => {
-      return oldMap.set("start_time",start_time.unix())
-        .set("end_time",end_time.unix())
-        .set("type",type)
-        .set("comment",comment)
-        .set("depth",this.props.convert.convertValue(depth, "length", this.props.convert.getUnitPreference("length"), "ft"));
+      return oldMap.set("start_time", objStartDateTime.unix())
+        .set("end_time", objEndDateTime.unix())
+        .set("type", type)
+        .set("comment", comment)
+        .set("depth", this.props.convert.convertValue(depth, "length", this.props.convert.getUnitPreference("length"), "ft"));
     });
 
     this.props.onSave(record, (!this.props.record.has("_id") && byKeyBoard));
@@ -180,17 +227,25 @@ class NPTEventsItem extends Component {
     }
   }
 
-  startTimeChanged(newDateTime) {    
-    this.setState({data: Object.assign({},this.state.data,{start_time:newDateTime})});
+  startTimeChanged(e) {
+    this.setState({
+      data: Object.assign({}, this.state.data, {start_time: e.target.value})
+    });
   }
 
-  endTimeChanged(newDateTime) {    
-    this.setState({data: Object.assign({},this.state.data,{end_time:newDateTime})});
+  endTimeChanged(e) {
+    this.setState({
+      data: Object.assign({}, this.state.data, {end_time: e.target.value})
+    });
   }
 
   getTimeDiff() {
-    let {start_time,end_time} = this.state.data;
-    let diff = end_time.diff(start_time);
+    let {start_time, end_time} = this.state.data;
+    
+    const objStartDateTime = moment(start_time, "YYYY-MM-DDTHH:mm");
+    const objEndDateTime = moment(end_time, "YYYY-MM-DDTHH:mm");
+
+    let diff = objEndDateTime.diff(objStartDateTime);
     let duration = moment.duration(diff);
     let h = Math.floor(duration.asHours());
     let m = moment.utc(diff).format("m");

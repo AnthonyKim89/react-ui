@@ -4,6 +4,12 @@
   padding: 10px 0;
 }
 
-.c-npt-summary table {
-	overflow-x: visible;
+.c-npt-summary table tr td {
+	/*overflow-x: visible;*/
+	padding: 10px 0px 20px;
+}
+
+.c-npt-summary table tr td p,
+.c-npt-summary table tr td h4 {
+	text-align: center;
 }

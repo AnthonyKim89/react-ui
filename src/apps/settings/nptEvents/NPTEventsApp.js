@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Button } from 'react-materialize';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import {MuiThemeProvider, getMuiTheme} from 'material-ui/styles';
+import { Table, TableHeader, TableHeaderColumn, TableBody, TableRow } from 'material-ui/Table';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 import NotificationSystem from 'react-notification-system';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 
@@ -48,6 +52,7 @@ class NPTEventsApp extends Component {
 
   render() {
     return (
+    <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
       <div className="c-npt">
         <h4>{METADATA.title}</h4>
         <div>{METADATA.subtitle}</div>
@@ -55,18 +60,18 @@ class NPTEventsApp extends Component {
           records={this.state.records} 
           onAdd={()=>this.add()}/>
         {(this.state.records.size > 0 || this.state.preRecords.size > 0)?
-          <table className="c-npt__npt-table">
-            <thead>
-              <tr>
-                <th className="c-npt__starttime-header hide-on-med-and-down"> Start Time </th>
-                <th className="c-npt__endtime-header"> End Time </th>
-                <th className="c-npt__depth-header hide-on-med-and-down"> Depth({this.props.convert.getUnitDisplay('length')}) </th>
-                <th className="c-npt__type-header"> Type</th>
-                <th className="c-npt__comment-header hide-on-med-and-down"> Comments</th>
-                <th className="c-npt__action-header hide-on-med-and-down"> </th>
-              </tr>
-            </thead>
-            <tbody>
+          <Table className="c-npt__npt-table">
+            <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+              <TableRow>
+                <TableHeaderColumn className="c-npt__starttime-column hide-on-med-and-down"> Start Time </TableHeaderColumn>
+                <TableHeaderColumn className="c-npt__endtime-column"> End Time </TableHeaderColumn>
+                <TableHeaderColumn className="c-npt__depth-column hide-on-med-and-down"> Depth({this.props.convert.getUnitDisplay('length')}) </TableHeaderColumn>
+                <TableHeaderColumn className="c-npt__type-column"> Type</TableHeaderColumn>
+                <TableHeaderColumn className="c-npt__comment-column hide-on-med-and-down"> Comments</TableHeaderColumn>
+                <TableHeaderColumn className="c-npt__action-column hide-on-med-and-down"> </TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody stripedRows={true}>
               {this.state.records.map(record=> {
                 return <NPTEventsItem
                           key={record.get("_id")} 
@@ -84,14 +89,17 @@ class NPTEventsApp extends Component {
                   onSave={(record,continuousAdd)=>this.saveRecord(record,continuousAdd)}
                   onCancel={(preRecord)=>this.cancelAdd(preRecord)} />;
               })}
-            </tbody>
-          </table> : 
+            </TableBody>
+          </Table> : 
           this.renderNoRecords()
         }
-          <Button floating large className='lightblue' style={{marginTop:10}} waves='light' icon='add' onClick={(e)=>{this.add();}} />
+          <FloatingActionButton className="c-npt__btn-add" onClick={(e)=>{this.add();}}>
+            <ContentAdd />
+          </FloatingActionButton>
           <a ref="scrollHelperAnchor"></a>
         <NotificationSystem ref="notificationSystem" noAnimation={true} />
       </div>
+    </MuiThemeProvider>
     );
   }
 
