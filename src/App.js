@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import classSet from 'react-classset';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import MainNav from './MainNav';
 import LoadingIndicator from './common/LoadingIndicator';
@@ -11,6 +12,8 @@ import pages from './pages';
 import assets from './assets';
 
 import './App.css';
+
+injectTapEventPlugin();
 
 class App extends Component {
 

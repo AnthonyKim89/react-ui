@@ -9,14 +9,9 @@ import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 import ContentSave from 'material-ui/svg-icons/content/save';
 import ContentClear from 'material-ui/svg-icons/content/clear';
-import { DateTimePicker } from 'react-widgets';
 import moment from 'moment';
-import momentLocalizer from 'react-widgets/lib/localizers/moment';
 
-import 'react-widgets/dist/css/react-widgets.css';
 import './CostsItem.css';
-
-momentLocalizer(moment);
 
 class CostsItem extends Component { 
   constructor(props) {
@@ -71,7 +66,7 @@ class CostsItem extends Component {
     return (
       <TableRow className="c-costs-item" style={objTableRowStyle}>
         <TableRowColumn className="c-costs__date-column c-costs__item-editing">
-          <DateTimePicker name="costs_date" className="c-costs__date-picker" time={false} defaultValue={objDate} onChange={this.selectDate}/>
+          <DatePicker name="costs_date" style={{marginTop: '24px'}} mode="landscape" value={objDate} onChange={this.selectDate}/>
         </TableRowColumn>
         <TableRowColumn className="c-costs__cost-column c-costs__item-editing">
           <TextField type="number" 
