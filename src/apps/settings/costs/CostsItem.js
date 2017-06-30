@@ -74,7 +74,7 @@ class CostsItem extends Component {
             floatingLabelText="cost"
             errorText={this.state.errors.cost}
             ref="cost"
-            defaultValue={cost}
+            value={cost}
             onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({},this.state.data,{cost:e.target.value})} )} />
         </TableRowColumn>
