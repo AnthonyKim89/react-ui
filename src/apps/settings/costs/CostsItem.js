@@ -40,8 +40,8 @@ class CostsItem extends Component {
   
   render() {
 
-    let {date,cost,description} = this.state.data;
-    let objDate = moment(date, 'MM/DD/YYYY').toDate();
+    let {date, cost, description} = this.state.data;
+    let objDate = date.toDate();
 
     const objTableRowStyle = {height: '70px'};
 
@@ -106,16 +106,6 @@ class CostsItem extends Component {
     } 
   }
 
-  /*handleKeyDown(e) {
-    var nKeyCode = e.keyCode || e.charCode;
-    var strCurrentValue = e.target.value;
-
-    if( nKeyCode == 8 && strCurrentValue.indexOf('.') !== -1 && strCurrentValue.indexOf('.') === strCurrentValue.length - 2) {
-      e.preventDefault();
-      e.target.value = strCurrentValue.slice(0, -2);
-    }
-  }*/
-
   save(byKeyBoard) {
     let {date,cost,description} = this.state.data;
     
@@ -127,9 +117,9 @@ class CostsItem extends Component {
     this.setState({errors:{}});
 
     const record = this.props.record.update('data',(oldMap) => {
-      return oldMap.set("date",date.unix())
-        .set("cost",parseFloat(cost))
-        .set("description",description);
+      return oldMap.set("date", date.unix())
+        .set("cost", parseFloat(cost))
+        .set("description", description);
     });
 
     this.props.onSave(record, (!this.props.record.has("_id") && byKeyBoard));
@@ -146,14 +136,13 @@ class CostsItem extends Component {
   cancelEdit() {
     if (this.props.record.has("_id")) {
       this.setState({editing:false});
-    }
-    else {
+    } else {
       this.props.onCancel(this.props.record);
     }
   }
 
-  selectDate(newDate) {
-    this.setState({data: Object.assign({},this.state.data,{date:newDate})});
+  selectDate(event, date) {
+    this.setState({data: Object.assign({}, this.state.data, {date: moment(date) })});
   }
 
 }
