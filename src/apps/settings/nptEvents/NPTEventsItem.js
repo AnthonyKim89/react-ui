@@ -94,8 +94,9 @@ class NPTEventsItem extends Component {
             ref="depth"
             floatingLabelText="Depth"
             errorText={this.state.errors.depth}
-            defaultValue={depth? this.props.convert.convertValue(parseFloat(depth), "length", "ft").formatNumeral('0.00') : depth}
-            onKeyPress={this.handleKeyPress.bind(this)} />
+            value={depth}
+            onKeyPress={this.handleKeyPress.bind(this)}
+            onChange={e => this.setState({data: Object.assign({},this.state.data,{depth:e.target.value})} )} />
         </TableRowColumn>
 
         <TableRowColumn className="c-npt__comment-column c-npt__type-column">
@@ -129,8 +130,9 @@ class NPTEventsItem extends Component {
           <TextField type="text" 
             ref="comment"
             floatingLabelText="comment"
-            defaultValue={comment}
-            onKeyPress={this.handleKeyPress.bind(this)} />
+            value={comment}
+            onKeyPress={this.handleKeyPress.bind(this)}
+            onChange={e => this.setState({data: Object.assign({},this.state.data,{comment:e.target.value})} )} />
         </TableRowColumn>
 
         <TableRowColumn className="c-npt__action-column hide-on-med-and-down">
@@ -154,9 +156,9 @@ class NPTEventsItem extends Component {
   save(byKeyBoard) {
     const start_time = this.refs.start_time.input.value;
     const end_time = this.refs.end_time.input.value;
-    const depth = this.refs.depth.input.value;
+    const depth = this.state.data.depth;
     const type = this.state.data.type;
-    const comment = this.refs.comment.input.value;
+    const comment = this.state.data.comment;
 
     const objStartDateTime = moment(new Date(start_time));
     const objEndDateTime = moment(new Date(end_time));
