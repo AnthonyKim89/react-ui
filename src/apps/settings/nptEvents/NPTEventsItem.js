@@ -17,22 +17,20 @@ import './NPTEventsItem.css';
 class NPTEventsItem extends Component { 
   constructor(props) {
     super(props);
+    
     const record = props.record;
-    console.log('record', record.getIn(["data","end_time"]));
+    
     this.state = {
       data: {
-        start_time: record.getIn(["data","start_time"])? moment.unix(record.getIn(["data","start_time"])).format("YYYY-MM-DDTHH:mm") : moment().format("YYYY-MM-DDTHH:mm"),
-        end_time: record.getIn(["data","end_time"])? moment.unix(record.getIn(["data","end_time"])).format("YYYY-MM-DDTHH:mm") : moment().format("YYYY-MM-DDTHH:mm"),
-        depth: record.getIn(["data","depth"]),
-        type: record.getIn(["data","type"]) || "",
-        comment: record.getIn(["data","comment"]) || ""
+        start_time: record.getIn(["data", "start_time"])? moment.unix(record.getIn(["data", "start_time"])).format("YYYY-MM-DD HH:mm") : moment().format("YYYY-MM-DD HH:mm"),
+        end_time: record.getIn(["data", "end_time"])? moment.unix(record.getIn(["data", "end_time"])).format("YYYY-MM-DD HH:mm") : moment().format("YYYY-MM-DD HH:mm"),
+        depth: record.getIn(["data", "depth"]),
+        type: record.getIn(["data", "type"]) || "",
+        comment: record.getIn(["data", "comment"]) || ""
       },
       editing: record.has("_id")? false : true,
       errors:{}
     };
-    
-    this.startTimeChanged = this.startTimeChanged.bind(this); 
-    this.endTimeChanged = this.endTimeChanged.bind(this); 
   }
   
   componentDidMount() {
@@ -68,70 +66,71 @@ class NPTEventsItem extends Component {
       </TableRow>
     );
 
+    if (!type)
+      type = "__none__";
+
     return (
       <TableRow className="c-npt-item">
         <TableRowColumn className="c-npt__starttime-column hide-on-med-and-down">
-          <TextField type="datetime-local" 
+          <TextField type="text" 
+            ref="start_time"
             floatingLabelText="Start Time"
             errorText={this.state.errors["start_time"]}
-            value={start_time}
-            onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={this.startTimeChanged} />
+            defaultValue={start_time}
+            onKeyPress={this.handleKeyPress.bind(this)} />
         </TableRowColumn>
 
         <TableRowColumn className="c-npt__endtime-column">
-          <TextField type="datetime-local" 
+          <TextField type="text" 
+            ref="end_time"
             floatingLabelText="End Time"
             errorText={this.state.errors["end_time"]}
-            value={end_time}
-            onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={this.endTimeChanged} />
-         
+            defaultValue={end_time}
+            onKeyPress={this.handleKeyPress.bind(this)} />
         </TableRowColumn>
 
         <TableRowColumn className="c-npt__depth-column hide-on-med-and-down">
           <TextField type="number" 
-            hintText="Depth"
+            ref="depth"
             floatingLabelText="Depth"
             errorText={this.state.errors.depth}
-            ref="depth"
-            value={depth? this.props.convert.convertValue(parseFloat(depth), "length", "ft").formatNumeral('0.00') : depth}
-            onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{depth:e.target.value})} )} />
+            defaultValue={depth? this.props.convert.convertValue(parseFloat(depth), "length", "ft").formatNumeral('0.00') : depth}
+            onKeyPress={this.handleKeyPress.bind(this)} />
         </TableRowColumn>
 
         <TableRowColumn className="c-npt__comment-column c-npt__type-column">
           <SelectField
             floatingLabelText="Type"
+            ref="type"
             value={type}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{type: e.target.value})} )}
-          >
-            <MenuItem value="" primaryText="Select Type"/>
-            <MenuItem value="bit failure" primaryText="bit failure"/>
-            <MenuItem value="motor failure" primaryText="motor failure"/>
-            <MenuItem value="top drive failure" primaryText="top drive failure"/>
-            <MenuItem value="pump failure" primaryText="pump failure"/>
-            <MenuItem value="stuck drill pipe" primaryText="stuck drill pipe"/>
-            <MenuItem value="stuck casing" primaryText="stuck casing"/>
-            <MenuItem value="packoff" primaryText="packoff"/>
-            <MenuItem value="washout" primaryText="washout"/>
-            <MenuItem value="failed to reach build rate" primaryText="failed to reach build rate"/>
-            <MenuItem value="MWD failure" primaryText="MWD failure"/>
-            <MenuItem value="BOP issue" primaryText="BOP issue"/>
-            <MenuItem value="weather delay" primaryText="weather delay"/>
-            <MenuItem value="rig service" primaryText="rig service"/>
-            <MenuItem value="geological sidetrack" primaryText="geological sidetrack"/>
-            <MenuItem value="other" primaryText="other"/>
+            maxHeight={150}
+            onChange={ (event, index, value) => this.setState({data: Object.assign({}, this.state.data, {type: value})} )}
+            >
+            <MenuItem value={"__none__"} primaryText="Select Type"/>
+            <MenuItem value={"bit failure"} primaryText="bit failure"/>
+            <MenuItem value={"motor failure"} primaryText="motor failure"/>
+            <MenuItem value={"top drive failure"} primaryText="top drive failure"/>
+            <MenuItem value={"pump failure"} primaryText="pump failure"/>
+            <MenuItem value={"stuck drill pipe"} primaryText="stuck drill pipe"/>
+            <MenuItem value={"stuck casing"} primaryText="stuck casing"/>
+            <MenuItem value={"packoff"} primaryText="packoff"/>
+            <MenuItem value={"washout"} primaryText="washout"/>
+            <MenuItem value={"failed to reach build rate"} primaryText="failed to reach build rate"/>
+            <MenuItem value={"MWD failure"} primaryText="MWD failure"/>
+            <MenuItem value={"BOP issue"} primaryText="BOP issue"/>
+            <MenuItem value={"weather delay"} primaryText="weather delay"/>
+            <MenuItem value={"rig service"} primaryText="rig service"/>
+            <MenuItem value={"geological sidetrack"} primaryText="geological sidetrack"/>
+            <MenuItem value={"other"} primaryText="other"/>
           </SelectField>
         </TableRowColumn>
 
         <TableRowColumn className="c-npt__comment-column hide-on-med-and-down">
           <TextField type="text" 
-            hintText="comment"
+            ref="comment"
             floatingLabelText="comment"
             defaultValue={comment}
-            onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{comment: e.target.value})} )} />
+            onKeyPress={this.handleKeyPress.bind(this)} />
         </TableRowColumn>
 
         <TableRowColumn className="c-npt__action-column hide-on-med-and-down">
@@ -153,25 +152,27 @@ class NPTEventsItem extends Component {
   }
 
   save(byKeyBoard) {
-    let {start_time, end_time, depth, type, comment} = this.state.data;
+    const start_time = this.refs.start_time.input.value;
+    const end_time = this.refs.end_time.input.value;
+    const depth = this.refs.depth.input.value;
+    const type = this.state.data.type;
+    const comment = this.refs.comment.input.value;
+
+    const objStartDateTime = moment(new Date(start_time));
+    const objEndDateTime = moment(new Date(end_time));
+    
     let hasErrors = false;
     let errors = {};
-    let strToday = moment(new Date()).format("YYYY-MM-DDTHH:mm");
 
-    let matches = start_time.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/g);
-    if (!matches) {
-      errors["start_time"] = "e.g. " + strToday;
+    if (!objStartDateTime.isValid()) {
+      errors["start_time"] = "Couldn't parse the date time.";
       hasErrors = true;
     }
 
-    matches = end_time.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/g);
-    if (!matches) {
-      errors["end_time"] = "e.g. " + strToday;
+    if (!objEndDateTime.isValid()) {
+      errors["end_time"] = "Couldn't parse the date time.";
       hasErrors = true;
     }
-
-    const objStartDateTime = moment(start_time, "YYYY-MM-DDTHH:mm");
-    const objEndDateTime = moment(end_time, "YYYY-MM-DDTHH:mm");
 
     if (!hasErrors && objStartDateTime.unix() > objEndDateTime.unix()) {
       errors["end_time"] = "Invalid end time.";
@@ -188,13 +189,16 @@ class NPTEventsItem extends Component {
       return;    
     }
     else {
-      this.setState({errors:{}});
+      this.setState({
+        errors:{},
+        data: Object.assign({}, this.state.data, {start_time: objStartDateTime.format("YYYY-MM-DDTHH:mm"), end_time: objEndDateTime.format("YYYY-MM-DDTHH:mm")})
+      });
     }
 
-    const record = this.props.record.update('data',(oldMap) => {
+    const record = this.props.record.update('data', (oldMap) => {
       return oldMap.set("start_time", objStartDateTime.unix())
         .set("end_time", objEndDateTime.unix())
-        .set("type", type)
+        .set("type", type === "__none__" ? "" : type)
         .set("comment", comment)
         .set("depth", this.props.convert.convertValue(depth, "length", this.props.convert.getUnitPreference("length"), "ft"));
     });
@@ -218,18 +222,6 @@ class NPTEventsItem extends Component {
     else {
       this.props.onCancel(this.props.record);
     }
-  }
-
-  startTimeChanged(e) {
-    this.setState({
-      data: Object.assign({}, this.state.data, {start_time: e.target.value})
-    });
-  }
-
-  endTimeChanged(e) {
-    this.setState({
-      data: Object.assign({}, this.state.data, {end_time: e.target.value})
-    });
   }
 
   getTimeDiff() {
