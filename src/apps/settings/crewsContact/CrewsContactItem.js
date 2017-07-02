@@ -10,7 +10,6 @@ import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 import ContentSave from 'material-ui/svg-icons/content/save';
 import ContentClear from 'material-ui/svg-icons/content/clear';
-import { Map } from 'immutable';
 
 import './CrewsContactItem.css';
 

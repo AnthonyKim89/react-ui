@@ -1,6 +1,5 @@
 import React, { Component} from 'react';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import FileCloudUpload from 'material-ui/svg-icons/file/cloud-upload';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
 import LinearProgress from 'material-ui/LinearProgress';
