@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Button} from 'react-materialize';
+import { TableRow, TableRowColumn } from 'material-ui/Table';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentRemove from 'material-ui/svg-icons/content/remove';
 import moment from 'moment';
 import * as api from '../../../api';
 
@@ -11,15 +13,19 @@ class FilesDocumentsItem extends Component {
 
     let {timestamp,data:{file_name, display_name}} = this.props.record.toJS();
     let url = api.getFileDownloadLink(file_name);
+    const objTableRowStyle = {height: '70px'};
+
     return (
-      <tr className="c-files-documents-item">
-        <td><a href={url} download={display_name}>{display_name}</a></td>
-        <td>{moment.unix(timestamp).format('LLL')}</td>
-        <td className="hide-on-med-and-down"></td>
-        <td className="hide-on-med-and-down">
-          <Button floating className='red view-action' waves='light' icon='remove' onClick={() => this.remove()}/>
-        </td>
-      </tr>
+      <TableRow className="c-files-documents-item" style={objTableRowStyle}>
+        <TableRowColumn className="c-files-documents__file-column"><a href={url} download={display_name}>{display_name}</a></TableRowColumn>
+        <TableRowColumn className="c-files-documents__date-column">{moment.unix(timestamp).format('LLL')}</TableRowColumn>
+        <TableRowColumn className="c-files-documents__user-column hide-on-med-and-down"></TableRowColumn>
+        <TableRowColumn className="c-files-documents__action-column hide-on-med-and-down">
+          <FloatingActionButton className="view-action" mini={true} secondary={true} onClick={() => this.remove()}>
+            <ContentRemove />
+          </FloatingActionButton>
+        </TableRowColumn>
+      </TableRow>
     );   
   }
 

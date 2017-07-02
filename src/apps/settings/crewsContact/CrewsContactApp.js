@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Button } from 'react-materialize';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import {MuiThemeProvider, getMuiTheme} from 'material-ui/styles';
+import { Table, TableHeader, TableHeaderColumn, TableBody, TableRow } from 'material-ui/Table';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 import NotificationSystem from 'react-notification-system';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 
@@ -48,6 +52,7 @@ class CrewsContactApp extends Component {
 
   render() {
     return (
+    <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
       <div className="c-crews">
         <h4>{METADATA.title}</h4>
         <div>{METADATA.subtitle}</div>
@@ -57,18 +62,18 @@ class CrewsContactApp extends Component {
           onAdd={()=>this.add()}/>
 
         {(this.state.records.size > 0 || this.state.preRecords.size > 0)?
-          <table className="c-crews__crews-table">
-            <thead>
-              <tr>
-                <th className="c-crews__name-header"> Name </th>
-                <th className="c-crews__phone-header"> Phone </th>
-                <th className="c-crews__shift-header hide-on-med-and-down"> Shift </th>
-                <th className="c-crews__rotation-header hide-on-med-and-down"> Rotation </th>
-                <th className="c-crews__position-header hide-on-med-and-down"> Position </th>
-                <th className="c-crews__action-header hide-on-med-and-down"> </th>
-              </tr>
-            </thead>
-            <tbody>
+          <Table className="c-crews__crews-table">
+            <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+              <TableRow>
+                <TableHeaderColumn className="c-crews__name-column"> Name </TableHeaderColumn>
+                <TableHeaderColumn className="c-crews__phone-column"> Phone </TableHeaderColumn>
+                <TableHeaderColumn className="c-crews__shift-column hide-on-med-and-down"> Shift </TableHeaderColumn>
+                <TableHeaderColumn className="c-crews__rotation-column hide-on-med-and-down"> Rotation </TableHeaderColumn>
+                <TableHeaderColumn className="c-crews__position-column hide-on-med-and-down"> Position </TableHeaderColumn>
+                <TableHeaderColumn className="c-crews__action-column hide-on-med-and-down"> </TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody stripedRows={true}>
               {this.state.records.map(record=> {
                 return <CrewsContactItem 
                           key={record.get("_id")} 
@@ -84,15 +89,18 @@ class CrewsContactApp extends Component {
                   onSave={(record,continuousAdd)=>this.saveRecord(record,continuousAdd)}
                   onCancel={(preRecord)=>this.cancelAdd(preRecord)} />;
               })}
-            </tbody>
-          </table> : 
+            </TableBody>
+          </Table> : 
           this.renderNoRecords()
         }
-          <Button floating large className='lightblue' style={{marginTop:10}} waves='light' icon='add'  onClick={(e)=>{this.add();}} />
+          <FloatingActionButton className="c-costs__btn-add" onClick={(e)=>{this.add();}}>
+            <ContentAdd />
+          </FloatingActionButton>
           
           <a ref="scrollHelperAnchor"></a>
         <NotificationSystem ref="notificationSystem" noAnimation={true} />
       </div>
+    </MuiThemeProvider>
     );
   }
 

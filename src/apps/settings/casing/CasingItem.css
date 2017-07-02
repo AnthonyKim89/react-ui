@@ -7,11 +7,12 @@
 }
 
 .c-casing-item .view-action {
-  display:none;
+  display: none !important;
+  margin: 0px 5px;
 }
 
 .c-casing-item:hover .view-action {
-  display: inline;  
+  display: inline !important;
 }
 
 .c-casing-item button {
@@ -36,4 +37,8 @@
   padding-top:12px;
   padding-bottom:12px;
   height:65px;
+}
+
+.c-casing__length-column > p {
+  padding-top: 30px;
 }

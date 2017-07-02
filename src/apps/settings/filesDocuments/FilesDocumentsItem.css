@@ -10,7 +10,7 @@
   width: 30px;
   height:30px;
   line-height:30px;
-  display:none;
+  display:none !important;
 }
 
 .c-files-documents-item .view-action i {
@@ -18,7 +18,7 @@
 }
 
 .c-files-documents-item:hover .view-action {
-  display: inline;  
+  display: inline !important;
 }
 
 .c-files-documents-item button {

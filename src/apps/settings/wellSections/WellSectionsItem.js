@@ -63,7 +63,7 @@ class WellSectionsItem extends Component {
           <TextField type="text" 
             floatingLabelText="Name"
             ref="name"
-            defaultValue={name}
+            value={name}
             onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({}, this.state.data, {name: e.target.value})} )} />
         </TableRowColumn> 

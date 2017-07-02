@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Button, Input, Row, Col} from 'react-materialize';
-import { Map,List } from 'immutable';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import {MuiThemeProvider, getMuiTheme} from 'material-ui/styles';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+import { Map, List } from 'immutable';
 import NotificationSystem from 'react-notification-system';
 import L from 'mapbox.js';
 import 'mapbox.js/theme/style.css';
@@ -24,6 +27,7 @@ class MapApp extends Component {
     this.map = L.mapbox.map(this.mapContainer).setView([40, -74.50], 8);
     L.mapbox.styleLayer('mapbox://styles/mapbox/dark-v9').addTo(this.map);
     this._notificationSystem = this.refs.notificationSystem;
+    
     if (this.props.asset) {
       this.loadRecords(this.props.asset);
     }
@@ -34,39 +38,42 @@ class MapApp extends Component {
     let record = records.get(0);      
     this.setState({
       record: record,
-      top_hole: record?record.getIn(["data","top_hole"]):'',
-      bottom_hole: record?record.getIn(["data","bottom_hole"]):''
+      top_hole: record ? record.getIn(["data", "top_hole"]) : '',
+      bottom_hole: record ? record.getIn(["data", "bottom_hole"]) : ''
     });
     this.updateMap();        
   }
 
   render() {
-    return (      
-      <div className="c-map">
-        <h4>{METADATA.title}</h4>
-        <div>{METADATA.subtitle}</div> 
-        {this.state.top_hole!==undefined && this.state.bottom_hole!==undefined ?
-          <Row className="c-map-latlng">
-            <Col m={5} s={12}>
-              <Input type="text"
-                s={12}
-                label="Asset Top Hole Location"
-                defaultValue={this.state.top_hole}
-                onChange={(e)=>this.setState({top_hole:e.target.value})}/>
-            </Col>
+    return (
+      <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+        <div className="c-map container">
+          <h4>{METADATA.title}</h4>
+          <div>{METADATA.subtitle}</div> 
+          {this.state.top_hole!==undefined && this.state.bottom_hole!==undefined ?
+            <div className="c-map-latlng row">
+              <div className="col-md-5 col-xs-12 col-sm-12">
+                <TextField type="text" 
+                  floatingLabelText="Asset Top Hole Location"
+                  value={this.state.top_hole}
+                  onChange={(e)=>this.setState({top_hole: e.target.value})} />
+              </div>
 
-            <Col m={5} s={12}>            
-              <Input type="text"
-                s={12}
-                label="Asset Bottom Hole Location"
-                defaultValue={this.state.bottom_hole}
-                onChange={(e)=>this.setState({bottom_hole:e.target.value})}/>
-            </Col>
-            <Button waves='light' onClick={()=>this.save()}>save</Button>
-          </Row>: '' }
-        <NotificationSystem ref="notificationSystem"/>
-        <div id="map" ref={(mapContainer)=>this.mapContainer=mapContainer}></div>        
-      </div>
+              <div className="col-md-5 col-xs-12 col-sm-12">
+                <TextField type="text" 
+                  floatingLabelText="Asset Top Hole Location"
+                  value={this.state.bottom_hole}
+                  onChange={(e)=>this.setState({bottom_hole: e.target.value})} />
+              </div>
+
+              <div className="col-md-2 col-xs-12 col-sm-12">
+                <RaisedButton label="Save Changes" primary={true} onClick={() => this.save()}/>
+              </div>
+            </div>: '' }
+          <NotificationSystem ref="notificationSystem"/>
+          <div id="map" ref={(mapContainer)=>this.mapContainer=mapContainer}></div>        
+        </div>
+      </MuiThemeProvider>
     );
   }
   

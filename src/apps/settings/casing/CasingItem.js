@@ -1,7 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Input, Button} from 'react-materialize';
+import TextField from 'material-ui/TextField';
+import { TableRow, TableRowColumn } from 'material-ui/Table';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
+import ContentRemove from 'material-ui/svg-icons/content/remove';
+import ContentSave from 'material-ui/svg-icons/content/save';
+import ContentClear from 'material-ui/svg-icons/content/clear';
 
 import './CasingItem.css';
 
@@ -49,105 +55,107 @@ class CasingItem extends Component {
   
   componentDidMount() {
     if (this.state.editing) {
-      ReactDOM.findDOMNode(this.refs["i_d"]).children[0].focus();
+      ReactDOM.findDOMNode(this.refs["inner_diameter"]).children[0].focus();
     }
   }
 
   render() {
-
-    let {inner_diameter,outer_diameter,top_depth,bottom_depth,length,linear_weight,grade} = this.state.data;
+    const objTableRowStyle = {height: '70px'};
+    let {inner_diameter, outer_diameter, top_depth, bottom_depth, length, linear_weight, grade} = this.state.data;
     
     if (!this.state.editing) return (
-      <tr className="c-casing-item">
-        <td>{this.props.convert.convertValue(parseFloat(inner_diameter), "shortLength", "in").formatNumeral('0,0.00')}</td>
-        <td>{this.props.convert.convertValue(parseFloat(outer_diameter), "shortLength", "in").formatNumeral('0,0.00')}</td>
-        <td className="hide-on-med-and-down">{this.props.convert.convertValue(parseFloat(top_depth), "length", "ft").formatNumeral('0,0.00')}</td>
-        <td className="hide-on-med-and-down">{this.props.convert.convertValue(parseFloat(bottom_depth), "length", "ft").formatNumeral('0,0.00')}</td>
-        <td>{this.props.convert.convertValue(parseFloat(length), "length", "ft").formatNumeral('0,0.00')}</td>
-        <td className="hide-on-med-and-down">{this.props.convert.convertValue(parseFloat(linear_weight), "force", "klbf").formatNumeral('0,0.00')}</td>
-        <td className="hide-on-med-and-down">{grade}</td>
-        <td className="hide-on-med-and-down">
-          <Button floating className='lightblue view-action' waves='light' icon='edit'
-                  onClick={() => this.setState({editing: true})}/>
-          <Button floating className='red view-action' waves='light' icon='remove' onClick={() => this.remove()}/>
-        </td>
-      </tr>
+      <TableRow className="c-casing-item" style={objTableRowStyle}>
+        <TableRowColumn className="c-casing__id-column">{this.props.convert.convertValue(parseFloat(inner_diameter), "shortLength", "in").formatNumeral('0,0.00')}</TableRowColumn>
+        <TableRowColumn className="c-casing__od-column">{this.props.convert.convertValue(parseFloat(outer_diameter), "shortLength", "in").formatNumeral('0,0.00')}</TableRowColumn>
+        <TableRowColumn className="c-casing__td-column hide-on-med-and-down">{this.props.convert.convertValue(parseFloat(top_depth), "length", "ft").formatNumeral('0,0.00')}</TableRowColumn>
+        <TableRowColumn className="c-casing__bd-column hide-on-med-and-down">{this.props.convert.convertValue(parseFloat(bottom_depth), "length", "ft").formatNumeral('0,0.00')}</TableRowColumn>
+        <TableRowColumn className="c-casing__length-column">{this.props.convert.convertValue(parseFloat(length), "length", "ft").formatNumeral('0,0.00')}</TableRowColumn>
+        <TableRowColumn className="c-casing__lm-column hide-on-med-and-down">{this.props.convert.convertValue(parseFloat(linear_weight), "force", "klbf").formatNumeral('0,0.00')}</TableRowColumn>
+        <TableRowColumn className="c-casing__grade-column hide-on-med-and-down">{grade}</TableRowColumn>
+        <TableRowColumn className="c-casing__action-column hide-on-med-and-down">
+          <FloatingActionButton className="view-action" mini={true} onClick={() => this.setState({editing: true})}>
+            <EditorModeEdit />
+          </FloatingActionButton>
+          <FloatingActionButton className="view-action" mini={true} secondary={true} onClick={() => this.remove()}>
+            <ContentRemove />
+          </FloatingActionButton>
+        </TableRowColumn>
+      </TableRow>
     );
 
     return (
-      <tr className="c-casing-item">
-        <td>
-          <Input type="number"
-            s={12}
-            label="Inner Diameter"
-            defaultValue={inner_diameter? this.props.convert.convertValue(parseFloat(inner_diameter), "shortLength", "in").formatNumeral('0.00'): inner_diameter}
-            ref="i_d"
-            error={this.state.errors.inner_diameter}
+      <TableRow className="c-casing-item" style={objTableRowStyle}>
+        <TableRowColumn className="c-casing__id-column">
+          <TextField type="number" 
+            floatingLabelText="Inner Diameter"
+            errorText={this.state.errors.inner_diameter}
+            ref="inner_diameter"
+            value={inner_diameter}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{inner_diameter: parseFloat(e.target.value)})}, this.onCalcLinearMass )} 
-            />
-        </td>
+            onChange={e => this.setState({data: Object.assign({}, this.state.data, {inner_diameter: parseFloat(e.target.value)})}, this.onCalcLinearMass )}  />
+        </TableRowColumn>
 
-        <td>
-          <Input type="number"
-            s={12}
-            label="Outer Diameter"
-            defaultValue={outer_diameter? this.props.convert.convertValue(parseFloat(outer_diameter), "shortLength", "in").formatNumeral('0.00'): outer_diameter}
-            error={this.state.errors.outer_diameter}
+        <TableRowColumn className="c-casing__od-column">
+          <TextField type="number" 
+            floatingLabelText="Outer Diameter"
+            errorText={this.state.errors.outer_diameter}
+            value={outer_diameter}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{outer_diameter: parseFloat(e.target.value)})}, this.onCalcLinearMass )} 
-            />
-        </td>
+            onChange={e => this.setState({data: Object.assign({}, this.state.data, {outer_diameter: parseFloat(e.target.value)})}, this.onCalcLinearMass )}  />
+        </TableRowColumn>
 
-        <td className="hide-on-med-and-down">
-          <Input type="number"
-            s={12}
-            label="Top Depth"
-            defaultValue={top_depth? this.props.convert.convertValue(parseFloat(top_depth), "length", "ft").formatNumeral('0.00') : top_depth}
-            error={this.state.errors.top_depth}
+        <TableRowColumn className="c-casing__td-column hide-on-med-and-down">
+          <TextField type="number" 
+            floatingLabelText="Top Depth"
+            errorText={this.state.errors.top_depth}
+            value={top_depth}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{top_depth: parseFloat(e.target.value)})}, this.onCalcLength) } 
-            />
-        </td>
+            onChange={e => this.setState({data: Object.assign({}, this.state.data, {top_depth: parseFloat(e.target.value)})}, this.onCalcLength )}  />
+        </TableRowColumn>
 
-        <td className="hide-on-med-and-down">
-          <Input type="number"
-            s={12}
-            label="Bottom Depth"
-            defaultValue={bottom_depth? this.props.convert.convertValue(parseFloat(bottom_depth), "length", "ft").formatNumeral('0.00'): bottom_depth}
-            error={this.state.errors.bottom_depth}
+        <TableRowColumn className="c-casing__bd-column hide-on-med-and-down">
+          <TextField type="number" 
+            floatingLabelText="Bottom Depth"
+            errorText={this.state.errors.bottom_depth}
+            value={bottom_depth}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{bottom_depth: parseFloat(e.target.value)})}, this.onCalcLength )} 
-            />
-        </td>
+            onChange={e => this.setState({data: Object.assign({}, this.state.data, {bottom_depth: parseFloat(e.target.value)})}, this.onCalcLength )}  />
+        </TableRowColumn>
 
-        <td>{length? this.props.convert.convertValue(parseFloat(length), "length", "ft").formatNumeral('0,0.00'): length}</td>
+        <TableRowColumn className="c-casing__length-column">
+          <p>
+            {length? this.props.convert.convertValue(parseFloat(length), "length", "ft").formatNumeral('0,0.00'): length}
+          </p>
+        </TableRowColumn>
 
-        <td className="hide-on-med-and-down">
-          <Input type="number"
-            s={12}
-            label="Linear Weight"
-            defaultValue={linear_weight? this.props.convert.convertValue(parseFloat(linear_weight), "force", "klbf").formatNumeral('0.00'): linear_weight}
+        <TableRowColumn className="c-casing__lm-column hide-on-med-and-down">
+          <TextField type="number" 
+            floatingLabelText="Linear Weight"
+            errorText={this.state.errors.linear_weight}
+            value={linear_weight}
             ref="linearMassInput"
-            error={this.state.errors.linear_weight}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{linear_weight: parseFloat(e.target.value)})})} />
-        </td>
+            onChange={e => this.setState({data: Object.assign({}, this.state.data, {linear_weight: parseFloat(e.target.value)})})}  />
+        </TableRowColumn>
 
-        <td className="hide-on-med-and-down">
-          <Input type="text" 
-            s={12}
-            label="Grade"            
-            defaultValue={grade}
+        <TableRowColumn className="c-casing__grade-column hide-on-med-and-down">
+          <TextField type="text" 
+            floatingLabelText="Grade"
+            errorText={this.state.errors.grade}
+            value={grade}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{grade: e.target.value})} )} />
-        </td>
+            onChange={e => this.setState({data: Object.assign({}, this.state.data, {grade: e.target.value})} )} />
+        </TableRowColumn>
         
-        <td className="hide-on-med-and-down">
-          <Button floating className='lightblue' waves='light' icon='save' onClick={()=>this.save()} />
-          <Button floating className='red' waves='light' icon='cancel' onClick={()=>this.cancelEdit()} />
-        </td>
-      </tr>
+        <TableRowColumn className="c-casing__action-column hide-on-med-and-down">
+          <FloatingActionButton className="view-action" mini={true} onClick={()=>this.save()}>
+            <ContentSave />
+          </FloatingActionButton>
+          <FloatingActionButton className="view-action" mini={true} secondary={true} onClick={()=>this.cancelEdit()}>
+            <ContentClear />
+          </FloatingActionButton>
+        </TableRowColumn>
+      </TableRow>
     );
   }
 
@@ -186,20 +194,20 @@ class CasingItem extends Component {
   }
 
   onCalcLinearMass() {
-    let {inner_diameter,outer_diameter} = this.state.data;
+    let {inner_diameter, outer_diameter} = this.state.data;
 
     if (this.isValidNumber(inner_diameter,this.U_MIN_ID,this.U_MAX_ID) && 
         this.isValidNumber(outer_diameter,this.U_MIN_OD,this.U_MAX_OD) && 
         this.isValidNumber(inner_diameter,this.U_MIN_ID,outer_diameter)) {
-          let calLW = this.deriveLinearMass(inner_diameter,outer_diameter);
-          this.setState({data: Object.assign({},this.state.data,{linear_weight: calLW})});
+          let calLW = this.deriveLinearMass(inner_diameter, outer_diameter);
+          this.setState({data: Object.assign({}, this.state.data, {linear_weight: parseFloat(calLW).formatNumeral('0,0.00')})});
           ReactDOM.findDOMNode(this.refs.linearMassInput).children[0].value = calLW.formatNumeral('0.00');
           ReactDOM.findDOMNode(this.refs.linearMassInput).children[1].className="active";
     }
     else {
       ReactDOM.findDOMNode(this.refs.linearMassInput).children[0].value = "";
       ReactDOM.findDOMNode(this.refs.linearMassInput).children[1].className="";
-      this.setState({data: Object.assign({},this.state.data,{linear_weight: null})});
+      this.setState({data: Object.assign({}, this.state.data, {linear_weight: ""})});
     }
     
   }

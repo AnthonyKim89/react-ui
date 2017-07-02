@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Button } from 'react-materialize';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import {MuiThemeProvider, getMuiTheme} from 'material-ui/styles';
+import { Table, TableHeader, TableHeaderColumn, TableBody, TableRow } from 'material-ui/Table';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 import NotificationSystem from 'react-notification-system';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 
@@ -48,6 +52,7 @@ class CasingApp extends Component {
 
   render() {
     return (
+    <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
       <div className="c-casing">
         <h4>{METADATA.title}</h4>
         <div>{METADATA.subtitle}</div>
@@ -58,20 +63,20 @@ class CasingApp extends Component {
 
         {(this.state.records.size > 0 || this.state.preRecords.size > 0)?
 
-          <table className="c-casing__casing-table">
-            <thead>
-              <tr>
-                <th className="c-casing__id-header"> Inner Diameter({this.props.convert.getUnitDisplay('shortLength')}) </th>
-                <th className="c-casing__od-header"> Outer Diameter({this.props.convert.getUnitDisplay('shortLength')}) </th>
-                <th className="c-casing__td-header hide-on-med-and-down"> Top Depth({this.props.convert.getUnitDisplay('length')}) </th>
-                <th className="c-casing__bd-header hide-on-med-and-down"> Bottom Depth({this.props.convert.getUnitDisplay('length')}) </th>
-                <th className="c-casing__length-header"> Length({this.props.convert.getUnitDisplay('length')}) </th>
-                <th className="c-casing__lm-header hide-on-med-and-down"> Linear Weight({this.props.convert.getUnitDisplay('mass')}/{this.props.convert.getUnitDisplay('length')}) </th>
-                <th className="c-casing__grade-header hide-on-med-and-down"> Grade </th>
-                <th className="c-casing__action-header hide-on-med-and-down"> </th>
-              </tr>
-            </thead>
-            <tbody>
+          <Table className="c-casing__casing-table">
+            <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+              <TableRow>
+                <TableHeaderColumn className="c-casing__id-column"> Inner Diameter({this.props.convert.getUnitDisplay('shortLength')}) </TableHeaderColumn>
+                <TableHeaderColumn className="c-casing__od-column"> Outer Diameter({this.props.convert.getUnitDisplay('shortLength')}) </TableHeaderColumn>
+                <TableHeaderColumn className="c-casing__td-column hide-on-med-and-down"> Top Depth({this.props.convert.getUnitDisplay('length')}) </TableHeaderColumn>
+                <TableHeaderColumn className="c-casing__bd-column hide-on-med-and-down"> Bottom Depth({this.props.convert.getUnitDisplay('length')}) </TableHeaderColumn>
+                <TableHeaderColumn className="c-casing__length-column"> Length({this.props.convert.getUnitDisplay('length')}) </TableHeaderColumn>
+                <TableHeaderColumn className="c-casing__lm-column hide-on-med-and-down"> Linear Weight({this.props.convert.getUnitDisplay('mass')}/{this.props.convert.getUnitDisplay('length')}) </TableHeaderColumn>
+                <TableHeaderColumn className="c-casing__grade-column hide-on-med-and-down"> Grade </TableHeaderColumn>
+                <TableHeaderColumn className="c-casing__action-column hide-on-med-and-down"> </TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {this.state.records.map(record=> {
                 return <CasingItem
                           key={record.get("_id")} 
@@ -89,15 +94,18 @@ class CasingApp extends Component {
                   onSave={(record,continuousAdd)=>this.saveRecord(record,continuousAdd)}                  
                   onCancel={(preRecord)=>this.cancelAdd(preRecord)} />;
               })}
-            </tbody>
-          </table> :           
+            </TableBody>
+          </Table> :           
           this.renderNoRecords()
         }
-          <Button floating large className='lightblue' style={{marginTop:10}} waves='light' icon='add'  onClick={(e)=>{this.add();}} />
+          <FloatingActionButton className="c-costs__btn-add" onClick={(e)=>{this.add();}}>
+            <ContentAdd />
+          </FloatingActionButton>
           
           <a ref="scrollHelperAnchor"></a>
         <NotificationSystem ref="notificationSystem" noAnimation={true} />
       </div>
+    </MuiThemeProvider>
     );
   }
 

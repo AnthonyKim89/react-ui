@@ -1,5 +1,9 @@
 import React, { Component} from 'react';
-import { Button,ProgressBar } from 'react-materialize';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import FileCloudUpload from 'material-ui/svg-icons/file/cloud-upload';
+import ContentRemove from 'material-ui/svg-icons/content/remove';
+import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
+import LinearProgress from 'material-ui/LinearProgress';
 import moment from 'moment';
 
 import S3Upload from 'react-s3-uploader/s3upload.js';
@@ -26,30 +30,32 @@ class FilesDocumentsSummary extends Component {
     
     return (
       <div className="c-files-documents-summary">
-        <table>
-          <tbody>
-            <tr>
-              <td className="c-files-documents-summary-file">
-                Recent files
-                <table>
-                  <tbody>
+        <Table selectable={false}>
+          <TableBody displayRowCheckbox={false} stripedRows={false}>
+            <TableRow displayBorder={false}>
+              <TableRowColumn className="c-files-documents-summary-file">
+                <p>
+                  Recent files
+                </p>
+                <Table selectable={false}>
+                  <TableBody displayRowCheckbox={false} stripedRows={false}>
                     {this.props.recentRecords.map(record=> {
 
                       let {_id,timestamp,data:{file_name, display_name}} = record.toJS();
                       let url = api.getFileDownloadLink(file_name);
                       return (
-                        <tr key={_id}>
-                          <td style={{width: '55%'}}>
+                        <TableRow key={_id} displayBorder={false}>
+                          <TableRowColumn style={{width: '55%'}}>
                             <a href={url} download={display_name}>{display_name}</a>
-                          </td>
-                          <td style={{width:'45%'}}>{moment.unix(timestamp).format('LLL')}</td>
-                        </tr>
+                          </TableRowColumn>
+                          <TableRowColumn style={{width:'45%'}}>{moment.unix(timestamp).format('LLL')}</TableRowColumn>
+                        </TableRow>
                       );
                     })}              
-                  </tbody>
-                </table>
-              </td>
-              <td className="c-files-documents-summary-action hide-on-med-and-down">
+                  </TableBody>
+                </Table>
+              </TableRowColumn>
+              <TableRowColumn className="c-files-documents-summary-action hide-on-med-and-down">
                 <div className="file-field input-field">
                   <div className="btn-floating btn-large c-files-documents-summary-action__download-button">
                     <span>
@@ -61,25 +67,27 @@ class FilesDocumentsSummary extends Component {
                     <input className="file-path validate" type="text"/>
                   </div>
                 </div>
-              </td>
-            </tr>
-            {this.state.currentUpload?
-            <tr>
-              <td>
-                <div>
-                  <span>{this.state.currentUpload.progressMessage}</span>
-                  {this.state.currentUpload.percent?
-                  <span>-{this.state.currentUpload.percent}%</span> : ""}
-                </div>
-                <ProgressBar progress={this.state.currentUpload.percent}/>
-              </td>
-              <td>
-                <Button floating className='btn-action red' waves='light' icon='remove' onClick={this.onAbort} />
-              </td>            
-            </tr> : <tr></tr>
+              </TableRowColumn>
+            </TableRow>
+            {this.state.currentUpload ?
+              <TableRow>
+                <TableRowColumn>
+                  <div>
+                    <span>{this.state.currentUpload.progressMessage}</span>
+                    {this.state.currentUpload.percent?
+                    <span>-{this.state.currentUpload.percent}%</span> : ""}
+                  </div>
+                  <LinearProgress mode="determinate" value={this.state.completed} />
+                </TableRowColumn>
+                <TableRowColumn>
+                  <FloatingActionButton className="view-action" mini={true} secondary={true} onClick={()=>this.onAbort()}>
+                    <ContentRemove />
+                  </FloatingActionButton>
+                </TableRowColumn>            
+              </TableRow> : <TableRow></TableRow>
             }
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
     );
   }

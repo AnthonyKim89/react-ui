@@ -14,6 +14,23 @@
   margin-bottom:0px;
 }
 
+.c-crews .c-crews__crews-table > thead > tr > th {
+  color: white !important;
+  font-weight: bold !important;
+  font-size: 14px !important;
+}
+
+.c-crews .c-crews__crews-table > thead > tr >  th,
+.c-crews .c-crews__crews-table > tbody > tr >  td:not(.c-crews__item-editing) {
+  margin: 0px;
+  padding: 15px 5px !important;
+}
+
+.c-crews .c-crews__crews-table > tbody > tr >  td.c-crews__item-editing {
+  margin: 0px;
+  padding: 0px 5px 5px 5px !important;
+}
+
 .c-crews__name-header, .c-crews__phone-header, .c-crews__position-header, .c-crews__action-header {
   width: 20%;
 }
@@ -42,6 +59,10 @@
   left: 50%;
   color: #ffffff;
   text-align: center;
+}
+
+.c-crews__btn-add {
+  margin: 15px 5px;
 }
 
 @media(max-width: 768px) {

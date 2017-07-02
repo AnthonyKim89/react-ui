@@ -8,7 +8,8 @@
 	overflow-x: visible;
 }
 
-.c-casing-summary__layers{	
+.c-casing-summary__layers p,
+.c-casing-summary__layers h4{
 	text-align: left;
 	padding-left: 15%;
 }

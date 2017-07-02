@@ -14,6 +14,23 @@
   margin-top: 0px;
 }
 
+.c-files-documents .c-files-documents__files-documents-table > thead > tr > th {
+  color: white !important;
+  font-weight: bold !important;
+  font-size: 14px !important;
+}
+
+.c-files-documents .c-files-documents__files-documents-table > thead > tr >  th,
+.c-files-documents .c-files-documents__files-documents-table > tbody > tr >  td:not(.c-files-documents__item-editing) {
+  margin: 0px;
+  padding: 15px 5px !important;
+}
+
+.c-files-documents .c-files-documents__files-documents-table > tbody > tr >  td.c-files-documents__item-editing {
+  margin: 0px;
+  padding: 0px 5px 5px 5px !important;
+}
+
 .c-files-documents__no-data {
   position: absolute;
   left: 50%;  
@@ -41,15 +58,15 @@
   text-decoration: underline;;
 }
 
-.c-files-documents__file-header{
+.c-files-documents__file-column{
   width: 50%;
 }
 
-.c-files-documents__date-header {
+.c-files-documents__date-column {
   width: 30%;
 }
 
-.c-files-documents__user-header, .c-files-documents__action-header {
+.c-files-documents__user-column, .c-files-documents__action-column {
   width: 10%;
 }
 
@@ -59,11 +76,11 @@
   }
   
 
-  .c-files-documents__file-header{
+  .c-files-documents__file-column{
     width: 55%;
   }
 
-  .c-files-documents__date-header {
+  .c-files-documents__date-column {
     width: 45%;
   }
 }

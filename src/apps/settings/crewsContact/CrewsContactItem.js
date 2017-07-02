@@ -1,7 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Input, Button} from 'react-materialize';
+import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+import { TableRow, TableRowColumn } from 'material-ui/Table';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
+import ContentRemove from 'material-ui/svg-icons/content/remove';
+import ContentSave from 'material-ui/svg-icons/content/save';
+import ContentClear from 'material-ui/svg-icons/content/clear';
 import { Map } from 'immutable';
 
 import './CrewsContactItem.css';
@@ -30,81 +38,89 @@ class CrewsContactItem extends Component {
   }
 
   render() {
-
-    let {name,phone,shift,rotation,position} = this.state.data;
+    let {name, phone, shift, rotation, position} = this.state.data;
+    const objTableRowStyle = {height: '70px'};
 
     if (!this.state.editing) return (
-      <tr className="c-crews-item">
-        <td>{name}</td>
-        <td>{phone}</td>
-        <td className="hide-on-med-and-down">{shift}</td>
-        <td className="hide-on-med-and-down">{rotation}</td>
-        <td className="hide-on-med-and-down">{position}</td>        
-        <td className="hide-on-med-and-down">
-          <Button floating className='lightblue view-action' waves='light' icon='edit'
-                  onClick={() => this.setState({editing: true})}/>
-          <Button floating className='red view-action' waves='light' icon='remove' onClick={() => this.remove()}/>
-        </td>
-      </tr>
+      <TableRow className="c-crews-item" style={objTableRowStyle}>
+        <TableRowColumn>{name}</TableRowColumn>
+        <TableRowColumn>{phone}</TableRowColumn>
+        <TableRowColumn className="hide-on-med-and-down">{shift}</TableRowColumn>
+        <TableRowColumn className="hide-on-med-and-down">{rotation}</TableRowColumn>
+        <TableRowColumn className="hide-on-med-and-down">{position}</TableRowColumn>        
+        <TableRowColumn className="hide-on-med-and-down">
+          <FloatingActionButton className="view-action" mini={true} onClick={() => this.setState({editing: true})}>
+            <EditorModeEdit />
+          </FloatingActionButton>
+          <FloatingActionButton className="view-action" mini={true} secondary={true} onClick={() => this.remove()}>
+            <ContentRemove />
+          </FloatingActionButton>
+        </TableRowColumn>
+      </TableRow>
     );
 
+    if (!shift)
+      shift = "__none__";
+
     return (
-      <tr className="c-crews-item">
-        <td>
-          <Input type="text"
-            s={12}
-            label="Name"
-            defaultValue={name}
+      <TableRow className="c-crews-item" style={objTableRowStyle}>
+        <TableRowColumn>
+          <TextField type="text" 
+            floatingLabelText="name"
             ref="name"
-            error={this.state.errors.name}
+            value={name}
+            errorText={this.state.errors.name}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{name: e.target.value})} )} />
-        </td>
+            onChange={e => this.setState({data: Object.assign({}, this.state.data, {name: e.target.value})} )} />
+        </TableRowColumn>
 
-        <td>
-          <Input type="text"
-            s={12}
-            label="Phone"
-            defaultValue={phone}
+        <TableRowColumn>
+          <TextField type="text" 
+            floatingLabelText="Phone"
+            value={phone}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{phone: e.target.value})} )} />
-        </td>
+            onChange={e => this.setState({data: Object.assign({}, this.state.data, {phone: e.target.value})} )} />
+        </TableRowColumn>
 
-        <td className="hide-on-med-and-down">
-          <Input 
-            s={12} 
-            type='select' 
-            defaultValue={shift}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{shift: e.target.value})} )}>
-              <option value=''>Select Shift</option>
-              <option value='Day'>Day</option>
-              <option value='Night'>Night</option>
-          </Input>
-        </td>
+        <TableRowColumn className="hide-on-med-and-down">
+          <SelectField
+            floatingLabelText="Shift"
+            value={shift}
+            maxHeight={150}
+            onChange={ (event, index, value) => this.setState({data: Object.assign({}, this.state.data, {shift: value})} )}
+            >
+            <MenuItem value={"__none__"} primaryText="Select Shift"/>
+            <MenuItem value={"Day"} primaryText="Day"/>
+            <MenuItem value={"Night"} primaryText="Night"/>
+          </SelectField>
+        </TableRowColumn>
 
-        <td className="hide-on-med-and-down">
-          <Input type="text"
-            s={12}
-            label="Rotation"
-            defaultValue={rotation}
+        <TableRowColumn className="hide-on-med-and-down">
+          <TextField type="text" 
+            floatingLabelText="Rotation"
+            value={rotation}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{rotation: e.target.value})} )} />
-        </td>
+            onChange={e => this.setState({data: Object.assign({}, this.state.data, {rotation: e.target.value})} )} />
+        </TableRowColumn>
 
-        <td className="hide-on-med-and-down">
-          <Input type="text" 
-            s={12}
-            label="Position"            
-            defaultValue={position}
+        <TableRowColumn className="hide-on-med-and-down">
+          <TextField type="text" 
+            floatingLabelText="Position"
+            ref="position"
+            value={position}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{position: e.target.value})} )} />
-        </td>
+            onChange={e => this.setState({data: Object.assign({}, this.state.data, {position: e.target.value})} )} />
+        </TableRowColumn>
         
-        <td className="hide-on-med-and-down">
-          <Button floating className='lightblue' waves='light' icon='save' onClick={()=>this.save()} />
-          <Button floating className='red' waves='light' icon='cancel' onClick={()=>this.cancelEdit()} />
-        </td>
-      </tr>
+        <TableRowColumn className="hide-on-med-and-down">
+          <FloatingActionButton className="view-action" mini={true} onClick={()=>this.save()}>
+            <ContentSave />
+          </FloatingActionButton>
+          <FloatingActionButton className="view-action" mini={true} secondary={true} onClick={()=>this.cancelEdit()}>
+            <ContentClear />
+          </FloatingActionButton>
+        </TableRowColumn>
+      </TableRow>
     );
   }
 
@@ -115,7 +131,7 @@ class CrewsContactItem extends Component {
   }
 
   save(byKeyBoard) {
-    let {name} = this.state.data;
+    let {name, phone, shift, rotation, position} = this.state.data;
     let hasErrors = false;
     let errors = {};
     if (name.length<1) {
@@ -132,7 +148,11 @@ class CrewsContactItem extends Component {
     }
 
     const record = this.props.record.update('data', (oldMap) => {
-      return Map(this.state.data);
+      return oldMap.set('name', name)
+        .set('phone', phone)
+        .set('shift', shift === "__none__" ? "" : shift)
+        .set('rotation', rotation)
+        .set('position', position);
     });
 
     this.props.onSave(record, (!this.props.record.has("_id") && byKeyBoard));

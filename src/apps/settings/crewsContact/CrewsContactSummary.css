@@ -8,7 +8,8 @@
 	overflow-x: visible;
 }
 
-.c-crews-summary__layers{	
+.c-crews-summary__layers p,
+.c-crews-summary__layers h4{
 	text-align: left;
 	padding-left: 15%;
 }

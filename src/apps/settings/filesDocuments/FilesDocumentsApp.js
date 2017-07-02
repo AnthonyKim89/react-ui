@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import {MuiThemeProvider, getMuiTheme} from 'material-ui/styles';
+import { Table, TableHeader, TableHeaderColumn, TableBody, TableRow } from 'material-ui/Table';
 import NotificationSystem from 'react-notification-system';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 
@@ -62,6 +65,7 @@ class FilesDocumentsApp extends Component {
     });
 
     return (
+    <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
       <div className="c-files-documents">
         <h4>{METADATA.title}</h4>
         <div>{METADATA.subtitle}</div>
@@ -72,30 +76,31 @@ class FilesDocumentsApp extends Component {
           onSave={(record)=>this.saveRecord(record)}
         />        
         {(this.state.records.size !== 0) ?          
-          <table className="c-files-documents__reports-table">
-            <thead>
-              <tr>
-                <th className="c-files-documents__file-header"> File Name </th>
-                <th className="c-files-documents__date-header"> Date </th>
-                <th className="c-files-documents__user-header hide-on-med-and-down"> User </th>
-                <th className="c-files-documents__action-header hide-on-med-and-down"> </th>
-              </tr>
-            </thead>
-            <tbody>
+          <Table className="c-files-documents__files-documents-table">
+            <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+              <TableRow>
+                <TableHeaderColumn className="c-files-documents__file-column"> File Name </TableHeaderColumn>
+                <TableHeaderColumn className="c-files-documents__date-column"> Date </TableHeaderColumn>
+                <TableHeaderColumn className="c-files-documents__user-column hide-on-med-and-down"> User </TableHeaderColumn>
+                <TableHeaderColumn className="c-files-documents__action-column hide-on-med-and-down"> </TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody stripedRows={true}>
               {this.state.records.map(record=> {
                 return <FilesDocumentsItem
                           key={record.get("_id")} 
                           record={record} 
                           onRemove={(record)=>this.removeRecord(record)}/>;
               })}              
-            </tbody>
-          </table> : 
+            </TableBody>
+          </Table> : 
           this.renderNoRecords()
         }
 
         <NotificationSystem ref="notificationSystem" noAnimation={true} />
 
-      </div>      
+      </div>
+    </MuiThemeProvider>
     );
   }
 

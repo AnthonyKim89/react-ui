@@ -14,11 +14,28 @@
   margin-top: 0px;
 }
 
-.c-casing__id-header, .c-casing__od-header, .c-casing__td-header,.c-casing__bd-header, .c-casing__lm-header, .c-casing__action-header {
+.c-casing .c-casing__casing-table > thead > tr > th {
+  color: white !important;
+  font-weight: bold !important;
+  font-size: 14px !important;
+}
+
+.c-casing .c-casing__casing-table > thead > tr >  th,
+.c-casing .c-casing__casing-table > tbody > tr >  td:not(.c-casing__item-editing) {
+  margin: 0px;
+  padding: 15px 5px !important;
+}
+
+.c-casing .c-casing__casing-table > tbody > tr >  td.c-casing__item-editing {
+  margin: 0px;
+  padding: 0px 5px 5px 5px !important;
+}
+
+.c-casing__id-column, .c-casing__od-column, .c-casing__td-column,.c-casing__bd-column, .c-casing__lm-column, .c-casing__action-column {
   width: 14%;
 }
 
-.c-casing__length-header, .c-casing__grade-header {
+.c-casing__length-column, .c-casing__grade-column {
   width: 8%;
 }
 
@@ -44,13 +61,16 @@
   text-align: center;
 }
 
+.c-casing__btn-add {
+  margin: 15px 5px;
+}
 
 @media(max-width: 768px) {
 	.c-casing {
 		padding: 0px;
 	}
 
-  .c-casing__id-header, .c-casing__od-header, .c-casing__length-header{
+  .c-casing__id-column, .c-casing__od-column, .c-casing__length-column{
     width: 33%;
   }
    

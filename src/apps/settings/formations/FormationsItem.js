@@ -84,7 +84,7 @@ class FormationsItem extends Component {
           <TextField type="text" 
             floatingLabelText="Formation Name"
             ref="formation_name"
-            defaultValue={formation_name}
+            value={formation_name}
             onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({}, this.state.data, {formation_name: e.target.value})} )} />
         </TableRowColumn>
@@ -93,7 +93,7 @@ class FormationsItem extends Component {
           <TextField type="text" 
             floatingLabelText="Lithology"
             ref="lithology"
-            defaultValue={lithology}
+            value={lithology}
             onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({}, this.state.data, {lithology: e.target.value})} )} />
         </TableRowColumn>

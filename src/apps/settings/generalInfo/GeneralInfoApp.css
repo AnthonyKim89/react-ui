@@ -17,3 +17,7 @@
 .c-general-info__info-block {
   margin-top: 20px;
 }
+
+.c-general-info__info-block > div {
+  margin-bottom: 20px;
+}

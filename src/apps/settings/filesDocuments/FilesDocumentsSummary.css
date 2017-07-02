@@ -5,9 +5,8 @@
 }
 
 .c-files-documents-summary td {
-  border-radius: 0px;
-  padding-top:5px;
-  padding-bottom:5px;
+  border-radius: 0px !important;
+  padding: 5px !important;
 }
 
 .c-files-documents-summary .btn-action {
@@ -22,6 +21,12 @@
 
 .c-files-documents-summary-file {
   width: 90%;
+}
+
+.c-files-documents-summary-file p {
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
 }
 
 .c-files-documents-summary-action {

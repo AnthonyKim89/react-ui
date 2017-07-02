@@ -81,7 +81,7 @@ class CostsItem extends Component {
           <TextField type="text" 
             floatingLabelText="description"
             ref="description"
-            defaultValue={description}
+            value={description}
             onKeyPress={this.handleKeyPress.bind(this)}
             onChange={e => this.setState({data: Object.assign({}, this.state.data, {description: e.target.value})} )} />
         </TableRowColumn>
