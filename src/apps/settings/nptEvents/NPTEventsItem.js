@@ -41,9 +41,7 @@ class NPTEventsItem extends Component {
 
   render() {
     let {start_time, end_time, depth, type, comment} = this.state.data;
-    
     const objStartDateTime = moment(start_time, "YYYY-MM-DDTHH:mm");
-
     const objTableRowStyle = {height: '70px'};
 
     if (!this.state.editing) return (
@@ -129,10 +127,10 @@ class NPTEventsItem extends Component {
         <TableRowColumn className="c-npt__comment-column hide-on-med-and-down">
           <TextField type="text" 
             ref="comment"
-            floatingLabelText="comment"
+            floatingLabelText="Comment"
             value={comment}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{comment:e.target.value})} )} />
+            onChange={e => this.setState({data: Object.assign({}, this.state.data, {comment: e.target.value})} )} />
         </TableRowColumn>
 
         <TableRowColumn className="c-npt__action-column hide-on-med-and-down">

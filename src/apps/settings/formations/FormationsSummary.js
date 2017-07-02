@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Table, Button } from 'react-materialize';
+import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import './FormationsSummary.css';
 
@@ -9,18 +11,20 @@ class FormationsSummary extends Component {
     
     return (
     	<div className="c-formations-summary">
-    		<Table responsive={true}>
-    			<tbody>
-            <tr>
-              <td className="c-formations-summary__layers">
-                Layers
+    		<Table>
+    			<TableBody displayRowCheckbox={false}>
+            <TableRow>
+              <TableRowColumn className="c-formations-summary__layers">
+                <p>Layers</p>
                 <h4>{this.props.records.size}</h4>
-              </td>              
-              <td className="c-formations-summary__action">
-                <Button floating large className='lightblue' waves='light' icon='add' onClick={this.props.onAdd} />
-              </td>
-            </tr>
-          </tbody>
+              </TableRowColumn>              
+              <TableRowColumn className="c-formations-summary__action">
+                <FloatingActionButton onClick={this.props.onAdd}>
+                  <ContentAdd />
+                </FloatingActionButton>
+              </TableRowColumn>
+            </TableRow>
+          </TableBody>
     		</Table>
       </div>
     );

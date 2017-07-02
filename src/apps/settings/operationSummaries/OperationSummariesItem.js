@@ -1,11 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Input, Button} from 'react-materialize';
+import TextField from 'material-ui/TextField';
+import { TableRow, TableRowColumn } from 'material-ui/Table';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
+import ContentRemove from 'material-ui/svg-icons/content/remove';
+import ContentSave from 'material-ui/svg-icons/content/save';
+import ContentClear from 'material-ui/svg-icons/content/clear';
 import moment from 'moment';
-
-import Datetime from 'react-datetime';
-import 'react-datetime/css/react-datetime.css';
 
 import './OperationSummariesItem.css';
 
@@ -15,15 +18,13 @@ class OperationSummariesItem extends Component {
     const record = props.record;
     this.state = {
       data: {
-        date_time: record.getIn(["data","date_time"])? moment.unix(record.getIn(["data","date_time"])): moment(),
+        date_time: record.getIn(["data", "date_time"])? moment.unix(record.getIn(["data", "date_time"])).format("YYYY-MM-DD HH:mm") : moment().format("YYYY-MM-DD HH:mm"),
         user: record.getIn(["data","user"]),
         summary: record.getIn(["data","summary"]) || ""
       },
       editing: record.has("_id")? false : true,
       errors:{}
     };
-    
-    this.dateTimeChanged = this.dateTimeChanged.bind(this);
   }
   
   componentDidMount() {
@@ -33,44 +34,55 @@ class OperationSummariesItem extends Component {
   }
 
   render() {
-
-    let {date_time,summary} = this.state.data;
+    let {date_time, summary} = this.state.data;
+    const objDateTime = moment(date_time, "YYYY-MM-DDTHH:mm");
+    const objTableRowStyle = {height: '70px'};
 
     if (!this.state.editing) return (
-      <tr className="c-op-summaries-item">
-        <td>{date_time.format('LLL')}</td>
-        <td className="hide-on-med-and-down"></td>        
-        <td>{summary}</td>
-        <td className="hide-on-med-and-down">
-          <Button floating className='lightblue view-action' waves='light' icon='edit'
-                  onClick={() => this.setState({editing: true})}/>
-          <Button floating className='red view-action' waves='light' icon='remove' onClick={() => this.remove()}/>
-        </td>
-      </tr>
+      <TableRow className="c-op-summaries-item" style={objTableRowStyle}>
+        <TableRowColumn>{objDateTime.format('LLL')}</TableRowColumn>
+        <TableRowColumn className="hide-on-med-and-down"></TableRowColumn>        
+        <TableRowColumn>{summary}</TableRowColumn>
+        <TableRowColumn className="hide-on-med-and-down">
+          <FloatingActionButton className="view-action" mini={true} onClick={() => this.setState({editing: true})}>
+            <EditorModeEdit />
+          </FloatingActionButton>
+          <FloatingActionButton className="view-action" mini={true} secondary={true} onClick={() => this.remove()}>
+            <ContentRemove />
+          </FloatingActionButton>
+        </TableRowColumn>
+      </TableRow>
     );
 
     return (
-      <tr className="c-op-summaries-item">
-        <td>
-           <Datetime defaultValue={date_time} onChange={this.dateTimeChanged} />
-        </td>
-        <td className="hide-on-med-and-down"></td>
-        <td>
-          <Input type="text" 
-            s={12}
-            label="Summary"
-            defaultValue={summary}
-            ref="summary"            
-            error={this.state.errors.summary}
+      <TableRow className="c-op-summaries-item" style={objTableRowStyle}>
+        <TableRowColumn className="c-op-summaries__item-editing">
+           <TextField type="text" 
+            ref="date_time"
+            floatingLabelText="Date Time"
+            errorText={this.state.errors["date_time"]}
+            defaultValue={date_time}
+            onKeyPress={this.handleKeyPress.bind(this)} />
+        </TableRowColumn>
+        <TableRowColumn className="hide-on-med-and-down c-op-summaries__item-editing"></TableRowColumn>
+        <TableRowColumn className="c-op-summaries__item-editing">
+          <TextField type="text" 
+            ref="summary"
+            floatingLabelText="Summary"
+            value={summary}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{summary: e.target.value})} )} />
-        </td>
+            onChange={e => this.setState({data: Object.assign({}, this.state.data, {summary: e.target.value})} )} />
+        </TableRowColumn>
 
-        <td className="hide-on-med-and-down">
-          <Button floating className='lightblue' waves='light' icon='save' onClick={()=>this.save()} />
-          <Button floating className='red' waves='light' icon='cancel' onClick={()=>this.cancelEdit()} />
-        </td>
-      </tr>
+        <TableRowColumn className="hide-on-med-and-down c-op-summaries__item-editing">
+          <FloatingActionButton className="view-action" mini={true} onClick={()=>this.save()}>
+            <ContentSave />
+          </FloatingActionButton>
+          <FloatingActionButton className="view-action" mini={true} secondary={true} onClick={()=>this.cancelEdit()}>
+            <ContentClear />
+          </FloatingActionButton>
+        </TableRowColumn>
+      </TableRow>
     );
   } 
 
@@ -81,11 +93,18 @@ class OperationSummariesItem extends Component {
   }
 
   save(byKeyBoard) {
-    let {date_time, summary} = this.state.data;
+    const date_time = this.refs.date_time.input.value;
+    const summary = this.state.data.summary;
+    const objDateTime = moment(new Date(date_time));
     let hasErrors = false;
     let errors = {};
-   
-    if (summary.length<1) {
+
+    if (!objDateTime.isValid()) {
+      errors["date_time"] = "Couldn't parse the date time.";
+      hasErrors = true;
+    }
+
+    if (summary.length < 1) {
       errors["summary"] = "It should not be empty.";
       hasErrors = true;
     }
@@ -95,12 +114,15 @@ class OperationSummariesItem extends Component {
       return;    
     }
     else {
-      this.setState({errors:{}});
+      this.setState({
+        errors: {},
+        data: Object.assign({}, this.state.data, {date_time: objDateTime.format("YYYY-MM-DDTHH:mm")})
+      });
     }
 
     const record = this.props.record.update('data',(oldMap) => {
-      return oldMap.set("date_time",date_time.unix())
-        .set("summary",summary);
+      return oldMap.set("date_time", objDateTime.unix())
+        .set("summary", summary);
     });
 
     this.props.onSave(record, (!this.props.record.has("_id") && byKeyBoard));
@@ -122,10 +144,6 @@ class OperationSummariesItem extends Component {
     else {
       this.props.onCancel(this.props.record);
     }
-  }
-
-  dateTimeChanged(newDateTime) {    
-    this.setState({data: Object.assign({},this.state.data,{date_time:newDateTime})});
   }
 
 }

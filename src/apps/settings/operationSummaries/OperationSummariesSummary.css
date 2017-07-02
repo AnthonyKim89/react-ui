@@ -8,7 +8,8 @@
   overflow-x: visible;
 }
 
-.c-op-summaries-summary__layers { 
+.c-op-summaries-summary__layers p,
+.c-op-summaries-summary__layers h4{ 
   text-align: left;
   padding-left: 15%;
 }

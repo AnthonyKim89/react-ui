@@ -7,11 +7,12 @@
 }
 
 .c-formations-item .view-action {
-  display:none;
+  display: none !important;
+  margin: 0px 5px;
 }
 
 .c-formations-item:hover .view-action {
-  display: inline;  
+  display: inline !important;  
 }
 
 .c-formations-item button {

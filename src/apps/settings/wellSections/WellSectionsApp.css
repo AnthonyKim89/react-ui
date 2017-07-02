@@ -14,11 +14,23 @@
   margin-bottom:0px;
 }
 
-.c-wellsections__name-header,
-.c-wellsections__td-header ,
-.c-wellsections__bd-header,
-.c-wellsections__diameter-header,
-.c-wellsections__action-header {
+.c-wellsections .c-wellsections__wellsections-table > thead > tr > th {
+  color: white !important;
+  font-weight: bold !important;
+  font-size: 14px !important;
+}
+
+.c-wellsections .c-wellsections__wellsections-table > thead > tr >  th,
+.c-wellsections .c-wellsections__wellsections-table > tbody > tr >  td {
+  margin: 0px;
+  padding: 15px 5px !important;
+}
+
+.c-wellsections__name-column,
+.c-wellsections__td-column ,
+.c-wellsections__bd-column,
+.c-wellsections__diameter-column,
+.c-wellsections__action-column {
   width: 20%;
 }
 
@@ -44,12 +56,16 @@
   text-align: center;
 }
 
+.c-wellsections__btn-add {
+  margin: 15px 5px;
+}
+
 @media(max-width: 768px) {
   .c-wellsections {
     padding:0px;
   }
 
-  .c-wellsections__name-header, .c-wellsections__td-header, .c-wellsections__bd-header {
+  .c-wellsections__name-column, .c-wellsections__td-column, .c-wellsections__bd-column {
     width: 33.3%;
   }
   

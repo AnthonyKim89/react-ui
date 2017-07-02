@@ -8,7 +8,8 @@
 	overflow-x: visible;
 }
 
-.c-formations-summary__layers {	
+.c-formations-summary__layers p,
+.c-formations-summary__layers h4{	
 	text-align: left;
 	padding-left: 15%;
 }

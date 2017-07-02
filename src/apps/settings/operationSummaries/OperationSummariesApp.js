@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Button } from 'react-materialize';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import {MuiThemeProvider, getMuiTheme} from 'material-ui/styles';
+import { Table, TableHeader, TableHeaderColumn, TableBody, TableRow } from 'material-ui/Table';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 import NotificationSystem from 'react-notification-system';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 
@@ -47,6 +51,7 @@ class OperationSummariesApp extends Component {
 
   render() {
     return (
+    <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
       <div className="c-op-summaries">
         <h4>{METADATA.title}</h4>
         <div>{METADATA.subtitle}</div>
@@ -56,16 +61,16 @@ class OperationSummariesApp extends Component {
           onAdd={()=>this.add()}/>
 
         {(this.state.records.size > 0 || this.state.preRecords.size > 0)?
-          <table className="c-op-summaries__op-summaries-table">
-            <thead>
-              <tr>
-                <th className="c-op-summaries__date-header"> DateTime </th>
-                <th className="c-op-summaries__user-header hide-on-med-and-down"> User </th>
-                <th className="c-op-summaries__summary-header"> Summary </th>
-                <th className="c-op-summaries__action-header hide-on-med-and-down"> </th>
-              </tr>
-            </thead>
-            <tbody>
+          <Table className="c-op-summaries__op-summaries-table">
+            <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+              <TableRow>
+                <TableHeaderColumn className="c-op-summaries__date-header"> DateTime </TableHeaderColumn>
+                <TableHeaderColumn className="c-op-summaries__user-header hide-on-med-and-down"> User </TableHeaderColumn>
+                <TableHeaderColumn className="c-op-summaries__summary-header"> Summary </TableHeaderColumn>
+                <TableHeaderColumn className="c-op-summaries__action-header hide-on-med-and-down"> </TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody stripedRows={true}>
               {this.state.records.map(record=> {
                 return <OperationSummariesItem 
                           key={record.get("_id")} 
@@ -81,15 +86,18 @@ class OperationSummariesApp extends Component {
                   onSave={(record,continuousAdd)=>this.saveRecord(record,continuousAdd)}
                   onCancel={(preRecord)=>this.cancelAdd(preRecord)} />;
               })}
-            </tbody>
-          </table> :
+            </TableBody>
+          </Table> :
           this.renderNoRecords()
         }
-          <Button floating large className='lightblue' style={{marginTop:10}} waves='light' icon='add'  onClick={(e)=>{this.add();}} />
+          <FloatingActionButton className="c-npt__btn-add" onClick={(e) => {this.add();}}>
+            <ContentAdd />
+          </FloatingActionButton>
           
           <a ref="scrollHelperAnchor"></a>
         <NotificationSystem ref="notificationSystem" noAnimation={true} />
       </div>
+    </MuiThemeProvider>
     );
   }
 

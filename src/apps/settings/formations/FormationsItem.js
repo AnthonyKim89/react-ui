@@ -1,20 +1,28 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Input, Button} from 'react-materialize';
+import TextField from 'material-ui/TextField';
+import { TableRow, TableRowColumn } from 'material-ui/Table';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
+import ContentRemove from 'material-ui/svg-icons/content/remove';
+import ContentSave from 'material-ui/svg-icons/content/save';
+import ContentClear from 'material-ui/svg-icons/content/clear';
 
 import './FormationsItem.css';
 
 class FormationsItem extends Component { 
   constructor(props) {
     super(props);
+    
     const record = props.record;
+
     this.state = {
       data: {
-        td: record.getIn(["data","td"]),
-        md: record.getIn(["data","md"]) ,
-        formation_name: record.getIn(["data","formation_name"]) || "",
-        lithology: record.getIn(["data","lithology"]) || ""
+        true_vertical_depth: record.getIn(["data", "td"]),
+        measured_depth: record.getIn(["data", "md"]) ,
+        formation_name: record.getIn(["data", "formation_name"]) || "",
+        lithology: record.getIn(["data", "lithology"]) || ""
       },
       editing: record.has("_id")? false : true,
       errors:{}
@@ -23,74 +31,82 @@ class FormationsItem extends Component {
   
   componentDidMount() {
     if (this.state.editing) {
-      ReactDOM.findDOMNode(this.refs["td"]).children[0].focus();
+      ReactDOM.findDOMNode(this.refs["true_vertical_depth"]).children[0].focus();
     }
   }
 
   render() {
 
-    let {td,md,formation_name,lithology} = this.state.data;
+    let {true_vertical_depth, measured_depth, formation_name, lithology} = this.state.data;
+
+    const objTableRowStyle = {height: '70px'};
 
     if (!this.state.editing) return (
-      <tr className="c-formations-item">
-        <td>{this.props.convert.convertValue(parseFloat(td), "length", "ft").formatNumeral('0,0.00')}</td>
-        <td className="hide-on-med-and-down">{this.props.convert.convertValue(parseFloat(md), "length", "ft").formatNumeral('0,0.00')}</td>
-        <td>{formation_name}</td>
-        <td className="hide-on-med-and-down">{lithology}</td>
-        <td className="hide-on-med-and-down">
-          <Button floating className='lightblue view-action' waves='light' icon='edit'
-                  onClick={() => this.setState({editing: true})}/>
-          <Button floating className='red view-action' waves='light' icon='remove' onClick={() => this.remove()}/>
-        </td>
-      </tr>
+      <TableRow className="c-formations-item" style={objTableRowStyle}>
+        <TableRowColumn>{this.props.convert.convertValue(parseFloat(true_vertical_depth), "length", "ft").formatNumeral('0,0.00')}</TableRowColumn>
+        <TableRowColumn className="hide-on-med-and-down">{this.props.convert.convertValue(parseFloat(measured_depth), "length", "ft").formatNumeral('0,0.00')}</TableRowColumn>
+        <TableRowColumn>{formation_name}</TableRowColumn>
+        <TableRowColumn className="hide-on-med-and-down">{lithology}</TableRowColumn>
+        <TableRowColumn className="hide-on-med-and-down">
+          <FloatingActionButton className="view-action" mini={true} onClick={() => this.setState({editing: true})}>
+            <EditorModeEdit />
+          </FloatingActionButton>
+          <FloatingActionButton className="view-action" mini={true} secondary={true} onClick={() => this.remove()}>
+            <ContentRemove />
+          </FloatingActionButton>
+        </TableRowColumn>
+      </TableRow>
     );
 
     return (
-      <tr className="c-formations-item">
-        <td>
-          <Input type="number" 
-            s={12}
-            label="True Vertical Depth"
-            error={this.state.errors.td}
-            defaultValue={td? this.props.convert.convertValue(parseFloat(td), "length", "ft").formatNumeral('0.00') : td}
-            ref="td"
+      <TableRow className="c-formations-item" style={objTableRowStyle}>
+        <TableRowColumn>
+          <TextField type="number" 
+            floatingLabelText="True Vertical Depth"
+            errorText={this.state.errors.true_vertical_depth}
+            ref="true_vertical_depth"
+            value={true_vertical_depth}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{td: parseFloat(e.target.value)})} )} />
-        </td>
+            onChange={e => this.setState({data: Object.assign({}, this.state.data, {true_vertical_depth: e.target.value})} )} />
+        </TableRowColumn>
 
-        <td className="hide-on-med-and-down">
-          <Input type="number"
-            s={12}
-            label="Measured Depth (ft)"
-            error={this.state.errors.md}
-            defaultValue={md? this.props.convert.convertValue(parseFloat(md), "length", "ft").formatNumeral('0.00'): md}
+        <TableRowColumn className="hide-on-med-and-down">
+          <TextField type="number" 
+            floatingLabelText="Measured Depth"
+            errorText={this.state.errors.measured_depth}
+            ref="measured_depth"
+            value={measured_depth}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{md: parseFloat(e.target.value)})} )} />
-        </td>
+            onChange={e => this.setState({data: Object.assign({}, this.state.data, {measured_depth: e.target.value})} )} />/>
+        </TableRowColumn>
 
-        <td>
-          <Input type="text"
-            s={12}
-            label="Formation Name"
+        <TableRowColumn>
+          <TextField type="text" 
+            floatingLabelText="Formation Name"
+            ref="formation_name"
             defaultValue={formation_name}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{formation_name:e.target.value})} )} />
-        </td>
+            onChange={e => this.setState({data: Object.assign({}, this.state.data, {formation_name: e.target.value})} )} />
+        </TableRowColumn>
 
-        <td className="hide-on-med-and-down">
-          <Input type="text" 
-            s={12}
-            label="Lithology"
+        <TableRowColumn className="hide-on-med-and-down">
+          <TextField type="text" 
+            floatingLabelText="Lithology"
+            ref="lithology"
             defaultValue={lithology}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{lithology:e.target.value})} )} />
-        </td>
+            onChange={e => this.setState({data: Object.assign({}, this.state.data, {lithology: e.target.value})} )} />
+        </TableRowColumn>
         
-        <td className="hide-on-med-and-down">
-          <Button floating className='lightblue' waves='light' icon='save' onClick={()=>this.save()} />
-          <Button floating className='red' waves='light' icon='cancel' onClick={()=>this.cancelEdit()} />
-        </td>
-      </tr>
+        <TableRowColumn className="hide-on-med-and-down">
+          <FloatingActionButton className="view-action" mini={true} onClick={() => this.save()}>
+            <ContentSave />
+          </FloatingActionButton>
+          <FloatingActionButton className="view-action" mini={true} secondary={true} onClick={() => this.cancelEdit()}>
+            <ContentClear />
+          </FloatingActionButton>
+        </TableRowColumn>
+      </TableRow>
     );
   }
 
@@ -101,16 +117,16 @@ class FormationsItem extends Component {
   }
 
   save(byKeyBoard) {
-    let {td,md,formation_name,lithology} = this.state.data;
+    let {true_vertical_depth, measured_depth, formation_name, lithology} = this.state.data;
     let hasErrors = false;
     let errors = {};
-    if (isNaN(parseFloat(td)) || parseFloat(td) <0 ) {
-      errors["td"] = "Invalid Number";
+    if (isNaN(parseFloat(true_vertical_depth)) || parseFloat(true_vertical_depth) <0 ) {
+      errors["true_vertical_depth"] = "Invalid Number";
       hasErrors = true;
     }
 
-    if (isNaN(parseFloat(md)) || parseFloat(md) <0 ) {
-      errors["md"] = "Invalid Number";
+    if (isNaN(parseFloat(measured_depth)) || parseFloat(measured_depth) <0 ) {
+      errors["measured_depth"] = "Invalid Number";
       hasErrors = true;
     }
     
@@ -123,8 +139,8 @@ class FormationsItem extends Component {
     }
 
     const record = this.props.record.update('data', (oldMap) => {
-      return oldMap.set("td",this.props.convert.convertValue(td, "length", this.props.convert.getUnitPreference("length"), "ft"))
-        .set("md",this.props.convert.convertValue(md, "length", this.props.convert.getUnitPreference("length"), "ft"))
+      return oldMap.set("td",this.props.convert.convertValue(true_vertical_depth, "length", this.props.convert.getUnitPreference("length"), "ft"))
+        .set("md",this.props.convert.convertValue(measured_depth, "length", this.props.convert.getUnitPreference("length"), "ft"))
         .set("formation_name", formation_name)
         .set("lithology", lithology);
     });

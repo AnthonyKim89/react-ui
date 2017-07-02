@@ -14,8 +14,16 @@
   margin-bottom:0px;
 }
 
+.c-formations .c-formations__formations-table > thead > tr > th {
+  color: white !important;
+  font-weight: bold !important;
+  font-size: 14px !important;
+}
+
 .c-formations__formations-table th{
-  width:20%;
+  margin: 0px;
+  width: 20%;
+  padding: 15px 5px !important;
 }
 
 .c-formations__no-data {

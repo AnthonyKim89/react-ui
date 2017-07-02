@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Button } from 'react-materialize';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import {MuiThemeProvider, getMuiTheme} from 'material-ui/styles';
+import { Table, TableHeader, TableHeaderColumn, TableBody, TableRow } from 'material-ui/Table';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 import NotificationSystem from 'react-notification-system';
 import LoadingIndicator from '../../../common/LoadingIndicator';
 
@@ -47,6 +51,7 @@ class FormationsApp extends Component {
 
   render() {
     return (
+    <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
       <div className="c-formations">
         <h4>{METADATA.title}</h4>
         <div>{METADATA.subtitle}</div>
@@ -55,17 +60,17 @@ class FormationsApp extends Component {
           onAdd={()=>this.add()}/>
 
         {(this.state.records.size > 0 || this.state.preRecords.size > 0)?
-          <table className="c-formations__formations-table">
-            <thead>
-              <tr>
-                <th className="c-formations__tvd-header"> True Vertical Depth({this.props.convert.getUnitDisplay('length')}) </th>
-                <th className="c-formations__md-header hide-on-med-and-down"> Measured Depth({this.props.convert.getUnitDisplay('length')}) </th>
-                <th className="c-formations__fm-header"> Formation Name </th>
-                <th className="c-formations__lithology-header hide-on-med-and-down"> Lithology</th>
-                <th className="c-formations__action-header hide-on-med-and-down"> </th>
-              </tr>
-            </thead>
-            <tbody>
+          <Table className="c-formations__formations-table">
+            <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+              <TableRow>
+                <TableHeaderColumn className="c-formations__tvd-column"> True Vertical Depth({this.props.convert.getUnitDisplay('length')}) </TableHeaderColumn>
+                <TableHeaderColumn className="c-formations__md-column hide-on-med-and-down"> Measured Depth({this.props.convert.getUnitDisplay('length')}) </TableHeaderColumn>
+                <TableHeaderColumn className="c-formations__fm-column"> Formation Name </TableHeaderColumn>
+                <TableHeaderColumn className="c-formations__lithology-column hide-on-med-and-down"> Lithology</TableHeaderColumn>
+                <TableHeaderColumn className="c-formations__action-column hide-on-med-and-down"> </TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody stripedRows={true}>
               {this.state.records.map(record=> {
                 return <FormationsItem
                           key={record.get("_id")} 
@@ -83,14 +88,18 @@ class FormationsApp extends Component {
                   onSave={(record,continuousAdd)=>this.saveRecord(record,continuousAdd)}
                   onCancel={(preRecord)=>this.cancelAdd(preRecord)} />;
               })}
-            </tbody>
-          </table> :  
+            </TableBody>
+          </Table> :  
           this.renderNoRecords()
         }
-          <Button floating large className='lightblue' style={{marginTop:10}} waves='light' icon='add' onClick={(e)=>{this.add();}} />
+          <FloatingActionButton className="c-costs__btn-add" onClick={(e)=>{this.add();}}>
+            <ContentAdd />
+          </FloatingActionButton>
+            
           <a ref="scrollHelperAnchor"></a>
         <NotificationSystem ref="notificationSystem" noAnimation={true} />
       </div>
+    </MuiThemeProvider>
     );
   }
 

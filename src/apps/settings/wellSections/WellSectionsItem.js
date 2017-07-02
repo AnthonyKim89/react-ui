@@ -1,7 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Input, Button} from 'react-materialize';
+import TextField from 'material-ui/TextField';
+import { TableRow, TableRowColumn } from 'material-ui/Table';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
+import ContentRemove from 'material-ui/svg-icons/content/remove';
+import ContentSave from 'material-ui/svg-icons/content/save';
+import ContentClear from 'material-ui/svg-icons/content/clear';
 
 import './WellSectionsItem.css';
 
@@ -32,70 +38,75 @@ class WellSectionsItem extends Component {
 
     let {name, top_depth, bottom_depth, diameter} = this.state.data;
 
+    const objTableRowStyle = {height: '70px'};
+
     if (!this.state.editing) return (
-      <tr className="c-wellsections-item">
-        <td>{name}</td>
-        <td>{this.props.convert.convertValue(parseFloat(top_depth), "length", "ft").formatNumeral('0,0.00')}</td>
-        <td>{this.props.convert.convertValue(parseFloat(bottom_depth), "length", "ft").formatNumeral('0,0.00')}</td>
-        <td>{this.props.convert.convertValue(parseFloat(diameter), "shortLength", "in").formatNumeral('0,0.00')}</td>
-        <td className="hide-on-med-and-down">
-          <Button floating className='lightblue view-action' waves='light' icon='edit'
-                  onClick={() => this.setState({editing: true})}/>
-          <Button floating className='red view-action' waves='light' icon='remove' onClick={() => this.remove()}/>
-        </td>
-      </tr>
+      <TableRow className="c-wellsections-item" style={objTableRowStyle}>
+        <TableRowColumn>{name}</TableRowColumn>
+        <TableRowColumn>{this.props.convert.convertValue(parseFloat(top_depth), "length", "ft").formatNumeral('0,0.00')}</TableRowColumn>
+        <TableRowColumn>{this.props.convert.convertValue(parseFloat(bottom_depth), "length", "ft").formatNumeral('0,0.00')}</TableRowColumn>
+        <TableRowColumn>{this.props.convert.convertValue(parseFloat(diameter), "shortLength", "in").formatNumeral('0,0.00')}</TableRowColumn>
+        <TableRowColumn className="hide-on-med-and-down">
+          <FloatingActionButton className="view-action" mini={true} onClick={() => this.setState({editing: true})}>
+            <EditorModeEdit />
+          </FloatingActionButton>
+          <FloatingActionButton className="view-action" mini={true} secondary={true} onClick={() => this.remove()}>
+            <ContentRemove />
+          </FloatingActionButton>
+        </TableRowColumn>
+      </TableRow>
     );
 
     return (
-      <tr className="c-wellsections-item">
-        <td>
-          <Input type="text"
-            s={12}
-            label="Name"
-            defaultValue={name}
+      <TableRow className="c-wellsections-item" style={objTableRowStyle}>
+        <TableRowColumn>
+          <TextField type="text" 
+            floatingLabelText="Name"
             ref="name"
+            defaultValue={name}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{name:e.target.value})} )} />
-        </td> 
+            onChange={e => this.setState({data: Object.assign({}, this.state.data, {name: e.target.value})} )} />
+        </TableRowColumn> 
 
-        <td>
-          <Input type="number" 
-            s={12}
-            label="Top Depth"
-            error={this.state.errors.top_depth}
-            defaultValue={top_depth? this.props.convert.convertValue(parseFloat(top_depth), "length", "ft").formatNumeral('0,0.00') : top_depth}
+        <TableRowColumn>
+          <TextField type="number" 
+            floatingLabelText="Top Depth"
+            errorText={this.state.errors.top_depth}
             ref="top_depth"
+            value={top_depth}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{top_depth:e.target.value})} )} />
-        </td>
+            onChange={e => this.setState({data: Object.assign({}, this.state.data, {top_depth: e.target.value})} )} />
+        </TableRowColumn>
 
-        <td>
-          <Input type="number"
-            s={12}
-            label="Bottom Depth"
-            error={this.state.errors.bottom_depth}
-            defaultValue={bottom_depth? this.props.convert.convertValue(parseFloat(bottom_depth), "length", "ft").formatNumeral('0,0.00'): bottom_depth}
+        <TableRowColumn>
+          <TextField type="number" 
+            floatingLabelText="Bottom Depth"
+            errorText={this.state.errors.bottom_depth}
             ref="bottom_depth"
+            value={bottom_depth}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{bottom_depth:e.target.value})} )} />
-        </td>
+            onChange={e => this.setState({data: Object.assign({}, this.state.data, {bottom_depth: e.target.value})} )} />
+        </TableRowColumn>
 
-        <td>
-          <Input type="number"
-            s={12}
-            label="Diameter"
-            error={this.state.errors.diameter}
-            defaultValue={diameter? this.props.convert.convertValue(parseFloat(diameter), "shortLength", "in").formatNumeral('0,0.00'): diameter}
+        <TableRowColumn>
+          <TextField type="number" 
+            floatingLabelText="Diameter"
+            errorText={this.state.errors.diameter}
             ref="diameter"
+            value={diameter}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{diameter:e.target.value})} )} />
-        </td>
+            onChange={e => this.setState({data: Object.assign({}, this.state.data, {diameter: e.target.value})} )} />
+        </TableRowColumn>
             
-        <td className="hide-on-med-and-down">
-          <Button floating className='lightblue' waves='light' icon='save' onClick={()=>this.save()} />
-          <Button floating className='red' waves='light' icon='cancel' onClick={()=>this.cancelEdit()} />
-        </td>
-      </tr>
+        <TableRowColumn className="hide-on-med-and-down">
+          <FloatingActionButton className="view-action" mini={true} onClick={() => this.save()}>
+            <ContentSave />
+          </FloatingActionButton>
+          <FloatingActionButton className="view-action" mini={true} secondary={true} onClick={() => this.cancelEdit()}>
+            <ContentClear />
+          </FloatingActionButton>
+        </TableRowColumn>
+      </TableRow>
     );
   }
 
@@ -143,9 +154,9 @@ class WellSectionsItem extends Component {
     }
 
     const record = this.props.record.update('data', (oldMap) => {
-      return oldMap.set("top_depth",this.props.convert.convertValue(top_depth, "length", this.props.convert.getUnitPreference("length"), "ft"))
-        .set("bottom_depth",this.props.convert.convertValue(bottom_depth, "length", this.props.convert.getUnitPreference("length"), "ft"))
-        .set("diameter",this.props.convert.convertValue(diameter, "shortLength", this.props.convert.getUnitPreference("shortLength"), "in"))
+      return oldMap.set("top_depth", this.props.convert.convertValue(top_depth, "length", this.props.convert.getUnitPreference("length"), "ft"))
+        .set("bottom_depth", this.props.convert.convertValue(bottom_depth, "length", this.props.convert.getUnitPreference("length"), "ft"))
+        .set("diameter", this.props.convert.convertValue(diameter, "shortLength", this.props.convert.getUnitPreference("shortLength"), "in"))
         .set("name", name);
     });
 

@@ -93,9 +93,10 @@ class NPTEventsApp extends Component {
           </Table> : 
           this.renderNoRecords()
         }
-          <FloatingActionButton className="c-npt__btn-add" onClick={(e)=>{this.add();}}>
+          <FloatingActionButton className="c-npt__btn-add" onClick={(e) => {this.add();}}>
             <ContentAdd />
           </FloatingActionButton>
+
           <a ref="scrollHelperAnchor"></a>
         <NotificationSystem ref="notificationSystem" noAnimation={true} />
       </div>

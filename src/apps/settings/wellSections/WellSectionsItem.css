@@ -7,11 +7,12 @@
 }
 
 .c-wellsections-item .view-action {
-  display:none;
+  display:none !important;
+  margin: 0px 5px;
 }
 
 .c-wellsections-item:hover .view-action {
-  display: inline;  
+  display: inline !important;
 }
 
 .c-wellsections-item button {

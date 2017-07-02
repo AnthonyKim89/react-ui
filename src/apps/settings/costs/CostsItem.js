@@ -70,22 +70,20 @@ class CostsItem extends Component {
         </TableRowColumn>
         <TableRowColumn className="c-costs__cost-column c-costs__item-editing">
           <TextField type="number" 
-            hintText="cost"
             floatingLabelText="cost"
             errorText={this.state.errors.cost}
             ref="cost"
             value={cost}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{cost:e.target.value})} )} />
+            onChange={e => this.setState({data: Object.assign({}, this.state.data, {cost: e.target.value})} )} />
         </TableRowColumn>
         <TableRowColumn className="c-costs__description-column c-costs__item-editing hide-on-med-and-down">
           <TextField type="text" 
-            hintText="description"
             floatingLabelText="description"
             ref="description"
             defaultValue={description}
             onKeyPress={this.handleKeyPress.bind(this)}
-            onChange={e => this.setState({data: Object.assign({},this.state.data,{description: e.target.value})} )} />
+            onChange={e => this.setState({data: Object.assign({}, this.state.data, {description: e.target.value})} )} />
         </TableRowColumn>
         <TableRowColumn className="c-costs__action-column c-costs__item-editing hide-on-med-and-down">
           <FloatingActionButton className="view-action" mini={true} onClick={()=>this.save()}>

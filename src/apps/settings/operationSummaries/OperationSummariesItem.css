@@ -7,11 +7,12 @@
 }
 
 .c-op-summaries-item .view-action {
-  display:none;
+  display: none !important;
+  margin: 0px 5px;
 }
 
 .c-op-summaries-item:hover .view-action {
-  display: inline;  
+  display: inline !important;
 }
 
 .c-op-summaries-item button {
