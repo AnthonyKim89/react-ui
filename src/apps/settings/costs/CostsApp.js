@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import {MuiThemeProvider, getMuiTheme} from 'material-ui/styles';
 import { Table, TableHeader, TableHeaderColumn, TableBody, TableRow } from 'material-ui/Table';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -51,52 +49,50 @@ class CostsApp extends Component {
 
   render() {
     return (
-      <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-        <div className="c-costs">
-          <h4>{METADATA.title}</h4>
-          <div>{METADATA.subtitle}</div>
-          <CostsSummary 
-            records={this.state.records} 
-            onAdd={()=>this.add()}/>
+      <div className="c-costs">
+        <h4>{METADATA.title}</h4>
+        <div>{METADATA.subtitle}</div>
+        <CostsSummary 
+          records={this.state.records} 
+          onAdd={()=>this.add()}/>
 
-          {(this.state.records.size > 0 || this.state.preRecords.size > 0)?
-            <Table className="c-costs__costs-table">
-              <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-                <TableRow>
-                  <TableHeaderColumn className="c-costs__date-column"> Date </TableHeaderColumn>
-                  <TableHeaderColumn className="c-costs__cost-column"> Cost </TableHeaderColumn>
-                  <TableHeaderColumn className="c-costs__description-column hide-on-med-and-down"> Description </TableHeaderColumn>
-                  <TableHeaderColumn className="c-costs__action-column hide-on-med-and-down"/>
-                </TableRow>
-              </TableHeader>
-              <TableBody stripedRows={true}>
-                {this.state.records.map(record=> {
-                  return <CostsItem 
-                            key={record.get("_id")} 
-                            record={record} 
-                            onSave={(record)=>this.saveRecord(record)} 
-                            onRemove={(record)=>this.removeRecord(record)}/>;
-                })}
+        {(this.state.records.size > 0 || this.state.preRecords.size > 0)?
+          <Table className="c-costs__costs-table">
+            <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+              <TableRow>
+                <TableHeaderColumn className="c-costs__date-column"> Date </TableHeaderColumn>
+                <TableHeaderColumn className="c-costs__cost-column"> Cost </TableHeaderColumn>
+                <TableHeaderColumn className="c-costs__description-column hide-on-med-and-down"> Description </TableHeaderColumn>
+                <TableHeaderColumn className="c-costs__action-column hide-on-med-and-down"/>
+              </TableRow>
+            </TableHeader>
+            <TableBody stripedRows={true}>
+              {this.state.records.map(record=> {
+                return <CostsItem 
+                          key={record.get("_id")} 
+                          record={record} 
+                          onSave={(record)=>this.saveRecord(record)} 
+                          onRemove={(record)=>this.removeRecord(record)}/>;
+              })}
 
-                {this.state.preRecords.map((record)=> {
-                  return <CostsItem 
-                    key={record.get("_pre_id")}
-                    record={record}
-                    onSave={(record,continuousAdd)=>this.saveRecord(record,continuousAdd)}
-                    onCancel={(preRecord)=>this.cancelAdd(preRecord)} />;
-                })}
-              </TableBody>
-            </Table> : 
-            this.renderNoRecords()
-          }
-            <FloatingActionButton className="c-costs__btn-add" onClick={(e)=>{this.add();}}>
-              <ContentAdd />
-            </FloatingActionButton>
-            
-            <a ref="scrollHelperAnchor"></a>
-          <NotificationSystem ref="notificationSystem" noAnimation={true} />
-        </div>
-      </MuiThemeProvider>
+              {this.state.preRecords.map((record)=> {
+                return <CostsItem 
+                  key={record.get("_pre_id")}
+                  record={record}
+                  onSave={(record,continuousAdd)=>this.saveRecord(record,continuousAdd)}
+                  onCancel={(preRecord)=>this.cancelAdd(preRecord)} />;
+              })}
+            </TableBody>
+          </Table> : 
+          this.renderNoRecords()
+        }
+          <FloatingActionButton className="c-costs__btn-add" onClick={(e)=>{this.add();}}>
+            <ContentAdd />
+          </FloatingActionButton>
+          
+          <a ref="scrollHelperAnchor"></a>
+        <NotificationSystem ref="notificationSystem" noAnimation={true} />
+      </div>
     );
   }
 

@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import classSet from 'react-classset';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import { MuiThemeProvider, getMuiTheme } from 'material-ui/styles';
 
 import MainNav from './MainNav';
 import LoadingIndicator from './common/LoadingIndicator';
@@ -27,16 +29,18 @@ class App extends Component {
       'c-app--native': this.props.isNative
     };
     return (
-      <div className={classSet(classes)}>
-        {this.props.currentUser && !this.props.isNative &&
-          <MainNav currentUser={this.props.currentUser}
-                   dashboards={this.props.dashboards}
-                   logOut={this.props.logOut} />}
-        {this.props.isLoading ?
-          <LoadingIndicator /> :
-          this.props.children
-        }
-      </div>
+      <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+        <div className={classSet(classes)}>
+          {this.props.currentUser && !this.props.isNative &&
+            <MainNav currentUser={this.props.currentUser}
+                     dashboards={this.props.dashboards}
+                     logOut={this.props.logOut} />}
+          {this.props.isLoading ?
+            <LoadingIndicator /> :
+            this.props.children
+          }
+        </div>
+      </MuiThemeProvider>
     );
   }
 

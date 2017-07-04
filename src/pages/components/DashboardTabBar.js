@@ -5,7 +5,6 @@ import { createStructuredSelector } from 'reselect';
 import Modal from 'react-modal';
 import NotificationSystem from 'react-notification-system';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import { MuiThemeProvider, getMuiTheme } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
@@ -40,102 +39,100 @@ class DashboardTabBar extends Component {
 
   render() {
     return (
-      <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-        <div>
-          <ul className="c-dashboard-tab-bar">
-            {this.props.dashboards.map(dashboard =>
-              <li key={dashboard.get('id')}>
-                <Link to={`/dashboards/${dashboard.get('slug')}`} className="c-dashboard-tab-bar__dashboard-link" activeClassName="is-active">
-                  {dashboard.get('name')}
-                </Link>
-              </li>)}
-            <li>
-              <FlatButton className="c-dashboard-tab-bar__add-dashboard" icon={<ContentAddCircleOutline />}
-                style={{height: '100%', minWidth: '50px'}}
-                onClick={() => this.openDashboardDialog()} />
-            </li>
-            <li className="c-dashboard-tab-bar__settings-menu">
-              <IconMenu
-                iconButtonElement={<IconButton><ActionSettings /></IconButton>}
-                anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
-                targetOrigin={{horizontal: 'right', vertical: 'top'}}
-              >
-                <MenuItem primaryText="Edit" onClick={() => this.openDashboardDialog('Edit')} />
-                <MenuItem primaryText="Delete" onClick={() => this.openDeleteDialog()} />
-                <MenuItem primaryText="Sort" onClick={() => this.openSortDialog()} />
-              </IconMenu>
-            </li>
-          </ul>
-          <Modal
-            isOpen={this.state.dashboardDialogOpen}
-            onRequestClose={() => this.closeDashboardDialog()}
-            className='c-dashboard-tab-bar__edit-dashboard'
-            overlayClassName='c-dashboard-tab-bar__edit-dashboard__overlay'
-            contentLabel={this.state.dashboardDialogMode.toUpperCase() + " Dashboard"}>
-            <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-              <div className="c-dashboard-tab-bar__edit-dashboard__dialog">
-                <header>
-                  <h4 className="c-dashboard-tab-bar__edit-dashboard__dialog__title">
-                    {this.state.dashboardDialogMode + " Dashboard"}
-                  </h4>
-                </header>
-                <TextField type="text" 
-                  ref={(input) => this.dashboardNameInput = input}
-                  floatingLabelText="Dashboard Name"
-                  fullWidth={true}
-                  defaultValue={this.props.currentDashboard && this.state.dashboardDialogMode === 'Edit' ? this.props.currentDashboard.get('name') : ""} />
-                <RaisedButton label="Save" primary={true} onClick={() => this.saveDashboard()} />
-              </div>
-            </MuiThemeProvider>
-          </Modal>
-          <Modal
-            isOpen={this.state.sortDialogOpen}
-            onRequestClose={() => this.closeSortDialog()}
-            className='c-dashboard-tab-bar__edit-dashboard'
-            overlayClassName='c-dashboard-tab-bar__edit-dashboard__overlay'
-            contentLabel="Sort Dashboards">
-            <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-              <div className="c-dashboard-tab-bar__edit-dashboard__dialog">
-                <header>
-                  <h4 className="c-dashboard-tab-bar__edit-dashboard__dialog__title">
-                    Sort Dashboards
-                  </h4>
-                </header>
-                <SortableComponent ref={(input) => this.dashboardList = input} items={this.props.dashboards} />
-                <RaisedButton label="Save" primary={true} onClick={() => this.saveOrdering()} />
-              </div>
-            </MuiThemeProvider>
-          </Modal>
-          <Modal
-            isOpen={this.state.deleteDialogOpen}
-            onRequestClose={() => this.closeDeleteDialog()}
-            className='c-dashboard-tab-bar__edit-dashboard'
-            overlayClassName='c-dashboard-tab-bar__edit-dashboard__overlay'
-            contentLabel="Delete Dashboard?">
-            <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-              <div className="c-dashboard-tab-bar__edit-dashboard__dialog">
-                <header>
-                  <h4 className="c-dashboard-tab-bar__edit-dashboard__dialog__title">
-                    Delete Dashboard?
-                  </h4>
-                </header>
-                <h5>Do you wish to delete this dashboard?</h5>
-                <h5>Name: <span className="c-dashboard-tab-bar__edit-dashboard__bold">{this.props.currentDashboard && this.props.currentDashboard.get("name")}</span></h5>
-                <div className="c-dashboard-tab-bar__edit-dashboard__dialog__button-row">
-                  <div className="c-dashboard-tab-bar__edit-dashboard__dialog__button-col">
-                    <RaisedButton label="Delete" fullWidth={true} primary={true} onClick={() => this.deleteDashboard()} />
-                  </div>
-                  <div className="c-dashboard-tab-bar__edit-dashboard__dialog__button-col">
-                    <RaisedButton label="Cancel" fullWidth={true} onClick={() => this.closeDeleteDialog()} className="c-dashboard-tab-bar__edit-dashboard__dialog__cancel" />
-                  </div>
-                  <div className="clear-float" />
+      <div>
+        <ul className="c-dashboard-tab-bar">
+          {this.props.dashboards.map(dashboard =>
+            <li key={dashboard.get('id')}>
+              <Link to={`/dashboards/${dashboard.get('slug')}`} className="c-dashboard-tab-bar__dashboard-link" activeClassName="is-active">
+                {dashboard.get('name')}
+              </Link>
+            </li>)}
+          <li>
+            <FlatButton className="c-dashboard-tab-bar__add-dashboard" icon={<ContentAddCircleOutline />}
+              style={{height: '100%', minWidth: '50px'}}
+              onClick={() => this.openDashboardDialog()} />
+          </li>
+          <li className="c-dashboard-tab-bar__settings-menu">
+            <IconMenu
+              iconButtonElement={<IconButton><ActionSettings /></IconButton>}
+              anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+              targetOrigin={{horizontal: 'right', vertical: 'top'}}
+            >
+              <MenuItem primaryText="Edit" onClick={() => this.openDashboardDialog('Edit')} />
+              <MenuItem primaryText="Delete" onClick={() => this.openDeleteDialog()} />
+              <MenuItem primaryText="Sort" onClick={() => this.openSortDialog()} />
+            </IconMenu>
+          </li>
+        </ul>
+        <Modal
+          isOpen={this.state.dashboardDialogOpen}
+          onRequestClose={() => this.closeDashboardDialog()}
+          className='c-dashboard-tab-bar__edit-dashboard'
+          overlayClassName='c-dashboard-tab-bar__edit-dashboard__overlay'
+          contentLabel={this.state.dashboardDialogMode.toUpperCase() + " Dashboard"}>
+          <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+            <div className="c-dashboard-tab-bar__edit-dashboard__dialog">
+              <header>
+                <h4 className="c-dashboard-tab-bar__edit-dashboard__dialog__title">
+                  {this.state.dashboardDialogMode + " Dashboard"}
+                </h4>
+              </header>
+              <TextField type="text" 
+                ref={(input) => this.dashboardNameInput = input}
+                floatingLabelText="Dashboard Name"
+                fullWidth={true}
+                defaultValue={this.props.currentDashboard && this.state.dashboardDialogMode === 'Edit' ? this.props.currentDashboard.get('name') : ""} />
+              <RaisedButton label="Save" primary={true} onClick={() => this.saveDashboard()} />
+            </div>
+          </MuiThemeProvider>
+        </Modal>
+        <Modal
+          isOpen={this.state.sortDialogOpen}
+          onRequestClose={() => this.closeSortDialog()}
+          className='c-dashboard-tab-bar__edit-dashboard'
+          overlayClassName='c-dashboard-tab-bar__edit-dashboard__overlay'
+          contentLabel="Sort Dashboards">
+          <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+            <div className="c-dashboard-tab-bar__edit-dashboard__dialog">
+              <header>
+                <h4 className="c-dashboard-tab-bar__edit-dashboard__dialog__title">
+                  Sort Dashboards
+                </h4>
+              </header>
+              <SortableComponent ref={(input) => this.dashboardList = input} items={this.props.dashboards} />
+              <RaisedButton label="Save" primary={true} onClick={() => this.saveOrdering()} />
+            </div>
+          </MuiThemeProvider>
+        </Modal>
+        <Modal
+          isOpen={this.state.deleteDialogOpen}
+          onRequestClose={() => this.closeDeleteDialog()}
+          className='c-dashboard-tab-bar__edit-dashboard'
+          overlayClassName='c-dashboard-tab-bar__edit-dashboard__overlay'
+          contentLabel="Delete Dashboard?">
+          <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+            <div className="c-dashboard-tab-bar__edit-dashboard__dialog">
+              <header>
+                <h4 className="c-dashboard-tab-bar__edit-dashboard__dialog__title">
+                  Delete Dashboard?
+                </h4>
+              </header>
+              <h5>Do you wish to delete this dashboard?</h5>
+              <h5>Name: <span className="c-dashboard-tab-bar__edit-dashboard__bold">{this.props.currentDashboard && this.props.currentDashboard.get("name")}</span></h5>
+              <div className="c-dashboard-tab-bar__edit-dashboard__dialog__button-row">
+                <div className="c-dashboard-tab-bar__edit-dashboard__dialog__button-col">
+                  <RaisedButton label="Delete" fullWidth={true} primary={true} onClick={() => this.deleteDashboard()} />
                 </div>
+                <div className="c-dashboard-tab-bar__edit-dashboard__dialog__button-col">
+                  <RaisedButton label="Cancel" fullWidth={true} onClick={() => this.closeDeleteDialog()} className="c-dashboard-tab-bar__edit-dashboard__dialog__cancel" />
+                </div>
+                <div className="clear-float" />
               </div>
-            </MuiThemeProvider>
-          </Modal>
-          <NotificationSystem ref="notificationSystem" noAnimation={true} />
-        </div>
-      </MuiThemeProvider>
+            </div>
+          </MuiThemeProvider>
+        </Modal>
+        <NotificationSystem ref="notificationSystem" noAnimation={true} />
+      </div>
     );
   }
 

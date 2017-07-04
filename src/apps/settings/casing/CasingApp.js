@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import {MuiThemeProvider, getMuiTheme} from 'material-ui/styles';
 import { Table, TableHeader, TableHeaderColumn, TableBody, TableRow } from 'material-ui/Table';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -52,7 +50,6 @@ class CasingApp extends Component {
 
   render() {
     return (
-    <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
       <div className="c-casing">
         <h4>{METADATA.title}</h4>
         <div>{METADATA.subtitle}</div>
@@ -105,7 +102,6 @@ class CasingApp extends Component {
           <a ref="scrollHelperAnchor"></a>
         <NotificationSystem ref="notificationSystem" noAnimation={true} />
       </div>
-    </MuiThemeProvider>
     );
   }
 

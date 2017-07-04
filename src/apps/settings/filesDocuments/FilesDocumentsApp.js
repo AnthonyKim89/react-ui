@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { List, Map } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import {MuiThemeProvider, getMuiTheme} from 'material-ui/styles';
 import { Table, TableHeader, TableHeaderColumn, TableBody, TableRow } from 'material-ui/Table';
 import NotificationSystem from 'react-notification-system';
 import LoadingIndicator from '../../../common/LoadingIndicator';
@@ -65,7 +63,6 @@ class FilesDocumentsApp extends Component {
     });
 
     return (
-    <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
       <div className="c-files-documents">
         <h4>{METADATA.title}</h4>
         <div>{METADATA.subtitle}</div>
@@ -100,7 +97,6 @@ class FilesDocumentsApp extends Component {
         <NotificationSystem ref="notificationSystem" noAnimation={true} />
 
       </div>
-    </MuiThemeProvider>
     );
   }
 

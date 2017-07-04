@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import {MuiThemeProvider, getMuiTheme} from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Map, List } from 'immutable';
@@ -46,34 +44,32 @@ class MapApp extends Component {
 
   render() {
     return (
-      <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-        <div className="c-map container">
-          <h4>{METADATA.title}</h4>
-          <div>{METADATA.subtitle}</div> 
-          {this.state.top_hole!==undefined && this.state.bottom_hole!==undefined ?
-            <div className="c-map-latlng row">
-              <div className="col-md-5 col-xs-12 col-sm-12">
-                <TextField type="text" 
-                  floatingLabelText="Asset Top Hole Location"
-                  value={this.state.top_hole}
-                  onChange={(e)=>this.setState({top_hole: e.target.value})} />
-              </div>
+      <div className="c-map container">
+        <h4>{METADATA.title}</h4>
+        <div>{METADATA.subtitle}</div> 
+        {this.state.top_hole!==undefined && this.state.bottom_hole!==undefined ?
+          <div className="c-map-latlng row">
+            <div className="col-md-5 col-xs-12 col-sm-12">
+              <TextField type="text" 
+                floatingLabelText="Asset Top Hole Location"
+                value={this.state.top_hole}
+                onChange={(e)=>this.setState({top_hole: e.target.value})} />
+            </div>
 
-              <div className="col-md-5 col-xs-12 col-sm-12">
-                <TextField type="text" 
-                  floatingLabelText="Asset Top Hole Location"
-                  value={this.state.bottom_hole}
-                  onChange={(e)=>this.setState({bottom_hole: e.target.value})} />
-              </div>
+            <div className="col-md-5 col-xs-12 col-sm-12">
+              <TextField type="text" 
+                floatingLabelText="Asset Top Hole Location"
+                value={this.state.bottom_hole}
+                onChange={(e)=>this.setState({bottom_hole: e.target.value})} />
+            </div>
 
-              <div className="col-md-2 col-xs-12 col-sm-12">
-                <RaisedButton label="Save Changes" primary={true} onClick={() => this.save()}/>
-              </div>
-            </div>: '' }
-          <NotificationSystem ref="notificationSystem"/>
-          <div id="map" ref={(mapContainer)=>this.mapContainer=mapContainer}></div>        
-        </div>
-      </MuiThemeProvider>
+            <div className="col-md-2 col-xs-12 col-sm-12">
+              <RaisedButton label="Save Changes" primary={true} onClick={() => this.save()}/>
+            </div>
+          </div>: '' }
+        <NotificationSystem ref="notificationSystem"/>
+        <div id="map" ref={(mapContainer)=>this.mapContainer=mapContainer}></div>        
+      </div>
     );
   }
   
