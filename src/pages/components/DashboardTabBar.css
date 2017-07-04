@@ -13,6 +13,12 @@
   width: auto;
   height: 60px;
 }
+.c-dashboard-tab-bar li .c-dashboard-tab-bar__add-dashboard{
+  opacity: 0.6;
+}
+.c-dashboard-tab-bar li .c-dashboard-tab-bar__add-dashboard:hover {
+  opacity: 1;
+}
 .c-dashboard-tab-bar a.c-dashboard-tab-bar__dashboard-link,
 .c-dashboard-tab-bar li.c-dashboard-tab-bar__dashboard-link a {
   display: list-item;
@@ -26,16 +32,20 @@
   color: white;
   transition: all 0.2s linear;
 }
-.c-dashboard-tab-bar li.c-dashboard-tab-bar__add-dashboard a {
-  opacity: 0.6;
-}
-.c-dashboard-tab-bar li.c-dashboard-tab-bar__add-dashboard a:hover {
-  opacity: 1;
-}
-.c-dashboard-tab-bar__settings-menu {
+.c-dashboard-tab-bar .c-dashboard-tab-bar__settings-menu {
   float: right !important;
 }
-.c-dashboard-tab-bar .c-dashboard-tab-bar__settings-menu ul li.dropdown-button a {
+.c-dashboard-tab-bar .c-dashboard-tab-bar__settings-menu > div {
+  height: 100% !important;
+}
+.c-dashboard-tab-bar .c-dashboard-tab-bar__settings-menu > div > button {
+  height: 100% !important;
+  opacity: 0.6;
+}
+.c-dashboard-tab-bar .c-dashboard-tab-bar__settings-menu > div > button:hover {
+  opacity: 1;
+}
+/*.c-dashboard-tab-bar .c-dashboard-tab-bar__settings-menu ul li.dropdown-button a {
   display: block;
   padding: 0 15px;
   width: auto;
@@ -66,7 +76,7 @@
 }
 .c-dashboard-tab-bar .c-dashboard-tab-bar__settings-menu ul ul.dropdown-content li a:hover {
   color: white;
-}
+}*/
 .c-dashboard-tab-bar i {
   line-height: inherit !important;
   cursor: pointer;
@@ -138,25 +148,33 @@
 .c-dashboard-tab-bar__edit-dashboard__dialog__title, .c-dashboard-tab-bar__edit-dashboard__dialog__subtitle {
   margin: 0;
 }
-.c-dashboard-tab-bar__edit-dashboard__dialog__done {
+/*.c-dashboard-tab-bar__edit-dashboard__dialog__done {
   float: right;
   border-radius: 0 !important;
   width: 100%;
   height: 40px;
   margin-top: 5px;
   vertical-align: bottom;
-}
-.c-dashboard-tab-bar__edit-dashboard__dialog__cancel {
-  float: right;
+}*/
+.c-dashboard-tab-bar__edit-dashboard__dialog__cancel button{
+  /*float: right;
   border-radius: 0 !important;
   width: 100%;
   height: 40px;
   margin-top: 5px;
-  vertical-align: bottom;
+  vertical-align: bottom;*/
   background-color: #888 !important;
+}
+.c-dashboard-tab-bar__edit-dashboard__dialog__cancel button span{
+  color: white !important;
 }
 .c-dashboard-tab-bar__edit-dashboard__dialog__button-row {
   margin: 5px 0 0 0 !important;
+}
+.c-dashboard-tab-bar__edit-dashboard__dialog__button-col {
+  width: 50%;
+  float: left;
+  padding: 5px 10px;
 }
 .c-dashboard-tab-bar__edit-dashboard__bold {
   font-weight: bold;

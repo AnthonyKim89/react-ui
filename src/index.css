@@ -45,3 +45,7 @@ ul.select-dropdown {
 .rdtPicker thead tr {  
   line-height: 10px;
 }
+
+.clear-float {
+  clear: both;
+}
