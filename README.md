@@ -1,21 +1,19 @@
-# Corva Web Frontend
-A React UI for the Corva app
-
-[![CircleCI](https://circleci.com/bb/corva-ai/corva-web-frontend.svg?style=shield&circle-token=157bc597386336266688bfd36597406d6573a078)](https://circleci.com/bb/corva-ai/corva-web-frontend)
+# Corova Web Frontend
+A React UI for the Corova app
 
 ## Prerequisites
 
 * A recent Node.js - current standard is Node v6.9.1
 * The [Yarn](https://yarnpkg.com/) package manager: `npm install -g yarn`
-* [corva-api](https://bitbucket.org/corva-ai/corva-api) running at [http://api.local.corva.ai](http://api.local.corva.ai)
-* [corva-subscriptions](https://bitbucket.org/corva-ai/corva-subscriptions) running at [http://subscriptions.local.corva.ai](http://subscriptions.local.corva.ai)
+* [corova-api] running at [http://api.local.corova.ai](http://api.local.corova.ai)
+* [corova-subscriptions] running at [http://subscriptions.local.corova.ai](http://subscriptions.local.corova.ai)
 
 ## Running locally
 
 Update your hosts file (/etc/hosts on Mac OS/Linux, c:\Windows\System32\Drivers\etc\hosts on Windows) and add the following line:
 
 ```
-127.0.0.1 app.local.corva.ai
+127.0.0.1 app.local.corova.ai
 ```
 
 Next, install project dependencies:
@@ -27,7 +25,7 @@ yarn
 Then copy .env.sample to .env and change any settings you need to:
 
 ```
-HOST=app.local.corva.ai
+HOST=app.local.corova.ai
 PORT=80
 ```
 
@@ -42,8 +40,8 @@ The app will automatically launch in a browser. Code changes are picked up autom
 ## Login Information
 The local development version of the API automatically seeds a database with a standard user and an admin user:
 
-* Standard User: U: user@corva.ai P: password
-* Admin User: U: admin@corva.ai P: password
+* Standard User: U: user@corova.ai P: password
+* Admin User: U: admin@corova.ai P: password
 
 
 ## Adding Dependencies
@@ -66,9 +64,9 @@ Generally speaking, we follow git-flow, except that we use `master` as our integ
 ## How to Deploy
 Deployments are automated via CircleCI based on the branch or tag
 
-* `master` - The master branch always deploys automatically to the QA environment, http://app.qa.corva.ai
-* `release/X.X.X` - The most recently-created branch in this format automatically deploys to the Staging environment, http://app.staging.corva.ai
-* `tag:vX.X.X` - The most recently-created tag in this format, which should correspond with a release branch, automatically deploys to the Production environment, http://app.corva.ai
+* `master` - The master branch always deploys automatically to the QA environment, http://app.qa.corova.ai
+* `release/X.X.X` - The most recently-created branch in this format automatically deploys to the Staging environment, http://app.staging.corova.ai
+* `tag:vX.X.X` - The most recently-created tag in this format, which should correspond with a release branch, automatically deploys to the Production environment, http://app.corova.ai
 
 **End-to-end Example:**
 
